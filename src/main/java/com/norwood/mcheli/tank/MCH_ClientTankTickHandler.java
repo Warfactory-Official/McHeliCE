@@ -7,9 +7,10 @@ import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_AircraftClientTickHandler;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
-import com.norwood.mcheli.networking.packet.MCH_TankPacketPlayerControl;
+import com.norwood.mcheli.networking.handlers.DataPlayerControlAircraft;
+import com.norwood.mcheli.networking.handlers.DataPlayerControlVehicle;
+import com.norwood.mcheli.networking.packet.PacketPlayerControlTank;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
-import com.norwood.mcheli.wrapper.W_Network;
 import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -134,11 +135,11 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityTank tank, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, tank, isPilot, new MCH_TankPacketPlayerControl());
+        this.commonPlayerControlInGUI(player, tank, isPilot, new PacketPlayerControlTank(new DataPlayerControlAircraft()));
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityTank tank, boolean isPilot) {
-        MCH_TankPacketPlayerControl pc = new MCH_TankPacketPlayerControl();
+        DataPlayerControlAircraft pc = new DataPlayerControlVehicle();
         boolean send;
         send = this.commonPlayerControl(player, tank, isPilot, pc);
         if (tank.getAcInfo().defaultFreelook && pc.switchFreeLook > 0) {
@@ -148,7 +149,7 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
         if (isPilot) {
             if (this.KeySwitchMode.isKeyDown()) {
                 if (tank.getIsGunnerMode(player) && tank.canSwitchCameraPos()) {
-                    pc.switchMode = 0;
+                    pc.switchMode = DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF;
                     tank.switchGunnerMode(false);
                     send = true;
                     tank.setCameraId(1);
@@ -158,7 +159,7 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
                         tank.setCameraId(0);
                     }
                 } else if (tank.canSwitchGunnerMode()) {
-                    pc.switchMode = (byte) (tank.getIsGunnerMode(player) ? 0 : 1);
+                    pc.switchMode = tank.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF : DataPlayerControlAircraft.ModeSwitch.GUNNER_ON;
                     tank.switchGunnerMode(!tank.getIsGunnerMode(player));
                     send = true;
                     tank.setCameraId(0);
@@ -184,17 +185,17 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
                 playSound("zoom", 0.5F, 1.0F);
             } else if (isPilot && tank.getAcInfo().haveHatch()) {
                 if (tank.canFoldHatch()) {
-                    pc.switchHatch = 2;
+                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.FOLD);
                     send = true;
                 } else if (tank.canUnfoldHatch()) {
-                    pc.switchHatch = 1;
+                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                     send = true;
                 }
             }
         }
 
         if (send) {
-            W_Network.sendToServer(pc);
+            new PacketPlayerControlTank(pc).sendToServer();
         }
     }
 }

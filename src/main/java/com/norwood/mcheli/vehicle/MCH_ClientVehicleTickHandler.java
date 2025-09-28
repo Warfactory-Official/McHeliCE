@@ -6,9 +6,10 @@ import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_AircraftClientTickHandler;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.networking.packet.MCH_PacketVehiclePlayerControl;
+import com.norwood.mcheli.networking.handlers.DataPlayerControlAircraft;
+import com.norwood.mcheli.networking.handlers.DataPlayerControlVehicle;
+import com.norwood.mcheli.networking.packet.PacketPlayerControlVehicle;
 import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_Network;
 import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -112,11 +113,11 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityVehicle vehicle, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, vehicle, isPilot, new MCH_PacketVehiclePlayerControl());
+        this.commonPlayerControlInGUI(player, vehicle, isPilot, new PacketPlayerControlVehicle(new DataPlayerControlVehicle()));
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityVehicle vehicle, boolean isPilot) {
-        MCH_PacketVehiclePlayerControl pc = new MCH_PacketVehiclePlayerControl();
+        DataPlayerControlVehicle pc = new DataPlayerControlVehicle();
         boolean send;
         send = this.commonPlayerControl(player, vehicle, isPilot, pc);
         if (this.KeyExtra.isKeyDown()) {
@@ -129,8 +130,10 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
             }
         }
 
-        if (!this.KeySwitchHovering.isKeyDown() && this.KeySwitchMode.isKeyDown()) {
-        }
+        //FIXME: Why is it like that?
+//        if (!this.KeySwitchHovering.isKeyDown() && this.KeySwitchMode.isKeyDown()) {
+//        }
+
 
         if (this.KeyZoom.isKeyDown()) {
             if (vehicle.canZoom()) {
@@ -138,10 +141,10 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
                 playSound("zoom", 0.5F, 1.0F);
             } else if (vehicle.getAcInfo().haveHatch()) {
                 if (vehicle.canFoldHatch()) {
-                    pc.switchHatch = 2;
+                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.FOLD);
                     send = true;
                 } else if (vehicle.canUnfoldHatch()) {
-                    pc.switchHatch = 1;
+                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                     send = true;
                 } else {
                     playSoundNG();
@@ -150,7 +153,7 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
         }
 
         if (send) {
-            W_Network.sendToServer(pc);
+            new PacketPlayerControlVehicle(pc).sendToServer();
         }
     }
 }

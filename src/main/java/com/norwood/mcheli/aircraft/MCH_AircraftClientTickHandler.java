@@ -3,9 +3,8 @@ package com.norwood.mcheli.aircraft;
 import com.norwood.mcheli.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
-import com.norwood.mcheli.networking.handlers.PlayerControlBaseData;
+import com.norwood.mcheli.networking.handlers.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.PacketIndOpenScreen;
-import com.norwood.mcheli.networking.packet.MCH_PacketPlayerControlBase;
 import com.norwood.mcheli.networking.packet.PacketPlayerControlBase;
 import com.norwood.mcheli.networking.packet.PacketSeatPlayerControl;
 import net.minecraft.client.Minecraft;
@@ -65,13 +64,10 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         this.KeyBrake = new MCH_Key(MCH_Config.KeySwitchHovering.prmInt);
     }
 
-    protected void commonPlayerControlInGUI(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, MCH_PacketPlayerControlBase pc) {
-    }
-
     protected void commonPlayerControlInGUI(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, PacketPlayerControlBase pc) {
     }
 
-    public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, PlayerControlBaseData pc) {
+    public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, DataPlayerControlAircraft pc) {
         if (Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
             if (this.KeyGUI.isKeyDown() || this.KeyExtra.isKeyDown()) {
                 PacketSeatPlayerControl psc = new PacketSeatPlayerControl();
@@ -134,35 +130,35 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
 
         if (isPilot) {
             if (this.KeyUnmount.isKeyDown()) {
-                pc.isUnmount = PlayerControlBaseData.UnmountAction.UNMOUNT_SELF;
+                pc.isUnmount = DataPlayerControlAircraft.UnmountAction.UNMOUNT_SELF;
                 send = true;
             }
 
             if (this.KeyPutToRack.isKeyDown()) {
                 ac.checkRideRack();
                 if (ac.canRideRack()) {
-                    pc.putDownRack = PlayerControlBaseData.RackAction.RIDE;
+                    pc.putDownRack = DataPlayerControlAircraft.RackAction.RIDE;
                     send = true;
                 } else if (ac.canPutToRack()) {
-                    pc.putDownRack = PlayerControlBaseData.RackAction.MOUNT;
+                    pc.putDownRack = DataPlayerControlAircraft.RackAction.MOUNT;
                     send = true;
                 }
             } else if (this.KeyDownFromRack.isKeyDown()) {
                 if (ac.getRidingEntity() != null) {
-                    pc.isUnmount = PlayerControlBaseData.UnmountAction.UNMOUNT_AIRCRAFT;
+                    pc.isUnmount = DataPlayerControlAircraft.UnmountAction.UNMOUNT_AIRCRAFT;
                     send = true;
                 } else if (ac.canDownFromRack()) {
-                    pc.putDownRack = PlayerControlBaseData.RackAction.UNMOUNT;
+                    pc.putDownRack = DataPlayerControlAircraft.RackAction.UNMOUNT;
                     send = true;
                 }
             }
 
             if (this.KeyGearUpDown.isKeyDown() && ac.getAcInfo().haveLandingGear()) {
                 if (ac.canFoldLandingGear()) {
-                    pc.switchGear = PlayerControlBaseData.GearSwitch.FOLD;
+                    pc.switchGear = DataPlayerControlAircraft.GearSwitch.FOLD;
                     send = true;
                 } else if (ac.canUnfoldLandingGear()) {
-                    pc.switchGear = PlayerControlBaseData.GearSwitch.UNFOLD;
+                    pc.switchGear = DataPlayerControlAircraft.GearSwitch.UNFOLD;
                     send = true;
                 }
             }
@@ -256,185 +252,4 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
 
     }
 
-    @Deprecated//TODO: DIE DIE DIE DIE DIE
-    public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, MCH_PacketPlayerControlBase pc) {
-        if (Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
-            if (this.KeyGUI.isKeyDown() || this.KeyExtra.isKeyDown()) {
-                PacketSeatPlayerControl psc = new PacketSeatPlayerControl();
-                if (isPilot) {
-                    psc.switchSeat = this.KeyGUI.isKeyDown() ? PlayerControlState.NEXT : PlayerControlState.PREV;
-                } else {
-                    ac.keepOnRideRotation = true;
-                    psc.switchSeat = PlayerControlState.DISMOUNT;
-                }
-
-                psc.sendToServer();
-                return false;
-            }
-        } else if (!isPilot && ac.getSeatNum() > 1) {
-            PacketSeatPlayerControl playerControl = new PacketSeatPlayerControl();
-            if (this.KeyGUI.isKeyDown()) {
-                playerControl.switchSeat = PlayerControlState.NEXT;
-                playerControl.sendToServer();
-                return false;
-            }
-
-            if (this.KeyExtra.isKeyDown()) {
-                playerControl.switchSeat = PlayerControlState.PREV;
-                playerControl.sendToServer();
-                return false;
-            }
-        }
-
-        boolean send = false;
-        if (Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
-            if (this.KeyCameraMode.isKeyDown()) {
-                pc.switchGunnerStatus = true;
-                playSoundOK();
-                send = true;
-            }
-        } else if (this.KeyCameraMode.isKeyDown()) {
-            if (ac.haveSearchLight()) {
-                if (ac.canSwitchSearchLight(player)) {
-                    pc.switchSearchLight = true;
-                    playSoundOK();
-                    send = true;
-                }
-            } else if (ac.canSwitchCameraMode()) {
-                int beforeMode = ac.getCameraMode(player);
-                ac.switchCameraMode(player);
-                int mode = ac.getCameraMode(player);
-                if (mode != beforeMode) {
-                    pc.switchCameraMode = (byte) (mode + 1);
-                    playSoundOK();
-                    send = true;
-                }
-            } else {
-                playSoundNG();
-            }
-        }
-
-        if (this.KeyUnmount.isKeyDown() && !ac.isDestroyed() && ac.getSizeInventory() > 0 && !isPilot) {
-            PacketIndOpenScreen.send(3);
-        }
-
-        if (isPilot) {
-            if (this.KeyUnmount.isKeyDown()) {
-                pc.isUnmount = 2;
-                send = true;
-            }
-
-            if (this.KeyPutToRack.isKeyDown()) {
-                ac.checkRideRack();
-                if (ac.canRideRack()) {
-                    pc.putDownRack = 3;
-                    send = true;
-                } else if (ac.canPutToRack()) {
-                    pc.putDownRack = 1;
-                    send = true;
-                }
-            } else if (this.KeyDownFromRack.isKeyDown()) {
-                if (ac.getRidingEntity() != null) {
-                    pc.isUnmount = 3;
-                    send = true;
-                } else if (ac.canDownFromRack()) {
-                    pc.putDownRack = 2;
-                    send = true;
-                }
-            }
-
-            if (this.KeyGearUpDown.isKeyDown() && ac.getAcInfo().haveLandingGear()) {
-                if (ac.canFoldLandingGear()) {
-                    pc.switchGear = 1;
-                    send = true;
-                } else if (ac.canUnfoldLandingGear()) {
-                    pc.switchGear = 2;
-                    send = true;
-                }
-            }
-
-            if (this.KeyFreeLook.isKeyDown() && ac.canSwitchFreeLook()) {
-                pc.switchFreeLook = (byte) (ac.isFreeLookMode() ? 2 : 1);
-                send = true;
-            }
-
-            if (this.KeyGUI.isKeyDown()) {
-                pc.openGui = true;
-                send = true;
-            }
-
-            if (ac.isRepelling()) {
-                pc.throttleDown = ac.throttleDown = false;
-                pc.throttleUp = ac.throttleUp = false;
-                pc.moveRight = ac.moveRight = false;
-                pc.moveLeft = ac.moveLeft = false;
-            } else if (ac.hasBrake() && this.KeyBrake.isKeyPress()) {
-                send |= this.KeyBrake.isKeyDown();
-                pc.throttleDown = ac.throttleDown = false;
-                pc.throttleUp = ac.throttleUp = false;
-                double dx = ac.posX - ac.prevPosX;
-                double dz = ac.posZ - ac.prevPosZ;
-                double dist = dx * dx + dz * dz;
-                if (ac.getCurrentThrottle() <= 0.03 && dist < 0.01) {
-                    pc.moveRight = ac.moveRight = false;
-                    pc.moveLeft = ac.moveLeft = false;
-                }
-
-                pc.useBrake = true;
-            } else {
-                send |= this.KeyBrake.isKeyUp();
-                MCH_Key[] dKey = new MCH_Key[]{this.KeyUp, this.KeyDown, this.KeyRight, this.KeyLeft};
-
-                for (MCH_Key k : dKey) {
-                    if (k.isKeyDown() || k.isKeyUp()) {
-                        send = true;
-                        break;
-                    }
-                }
-
-                pc.throttleDown = ac.throttleDown = this.KeyDown.isKeyPress();
-                pc.throttleUp = ac.throttleUp = this.KeyUp.isKeyPress();
-                pc.moveRight = ac.moveRight = this.KeyRight.isKeyPress();
-                pc.moveLeft = ac.moveLeft = this.KeyLeft.isKeyPress();
-            }
-        }
-
-        if (!ac.isDestroyed() && this.KeyFlare.isKeyDown() && ac.getSeatIdByEntity(player) <= 1) {
-            if (ac.canUseFlare() && ac.useFlare(ac.getCurrentFlareType())) {
-                pc.useFlareType = (byte) ac.getCurrentFlareType();
-                ac.nextFlareType();
-                send = true;
-            } else {
-                playSoundNG();
-            }
-        }
-
-        if (!ac.isDestroyed() && !ac.isPilotReloading()) {
-            if (!this.KeySwitchWeapon1.isKeyDown() && !this.KeySwitchWeapon2.isKeyDown() && getMouseWheel() == 0) {
-                if (this.KeySwWeaponMode.isKeyDown()) {
-                    ac.switchCurrentWeaponMode(player);
-                } else if (this.KeyUseWeapon.isKeyPress() && ac.useCurrentWeapon(player)) {
-                    pc.useWeapon = true;
-                    pc.useWeaponOption1 = ac.getCurrentWeapon(player).getLastUsedOptionParameter1();
-                    pc.useWeaponOption2 = ac.getCurrentWeapon(player).getLastUsedOptionParameter2();
-                    pc.useWeaponPosX = ac.prevPosX;
-                    pc.useWeaponPosY = ac.prevPosY;
-                    pc.useWeaponPosZ = ac.prevPosZ;
-                    send = true;
-                }
-            } else {
-                if (getMouseWheel() > 0) {
-                    pc.switchWeapon = (byte) ac.getNextWeaponID(player, -1);
-                } else {
-                    pc.switchWeapon = (byte) ac.getNextWeaponID(player, 1);
-                }
-
-                setMouseWheel(0);
-                ac.switchWeapon(player, pc.switchWeapon);
-                send = true;
-            }
-        }
-
-        return send || player.ticksExisted % 100 == 0;
-    }
 }

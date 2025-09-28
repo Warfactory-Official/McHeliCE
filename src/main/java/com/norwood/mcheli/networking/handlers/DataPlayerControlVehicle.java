@@ -1,24 +1,23 @@
 package com.norwood.mcheli.networking.handlers;
 
-import com.hbm.tileentity.IBufPacketReceiver;
-import hohserg.elegant.networking.api.IByteBufSerializable;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter@Setter
+@Getter
+@Setter
 @NoArgsConstructor
-public class DataPlayerControlHeli extends PlayerControlBaseData {
+public class DataPlayerControlVehicle extends DataPlayerControlAircraft {
     public int unhitchChainId = -1;
     public BladeStatus bladeStatus = BladeStatus.NONE;
 
 
     @SuppressWarnings("unused")
-    public DataPlayerControlHeli(ByteBuf buf) {
+    public DataPlayerControlVehicle(ByteBuf buf) {
         super(buf);
         this.unhitchChainId = buf.readInt();
-        this.bladeStatus    = BladeStatus.values()[buf.readByte()];
+        this.bladeStatus = BladeStatus.values()[buf.readByte()];
     }
 
     @Override
@@ -30,8 +29,7 @@ public class DataPlayerControlHeli extends PlayerControlBaseData {
     }
 
 
-
-    public static enum BladeStatus{
-        NONE,UNFOLD,FOLD
+    public static enum BladeStatus {
+        NONE, UNFOLD, FOLD
     }
 }

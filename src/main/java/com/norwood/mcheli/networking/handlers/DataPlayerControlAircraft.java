@@ -9,7 +9,7 @@ import lombok.experimental.Delegate;
 
 @Getter
 @Setter
-public class PlayerControlBaseData implements IByteBufSerializable {
+public class DataPlayerControlAircraft implements IByteBufSerializable {
     public UnmountAction isUnmount = UnmountAction.NONE;
     public VtolSwitch switchVtol = VtolSwitch.NONE;
     public ModeSwitch switchMode = ModeSwitch.NONE;
@@ -29,7 +29,7 @@ public class PlayerControlBaseData implements IByteBufSerializable {
     public double useWeaponPosZ = 0.0;
     public byte switchFreeLook = 0;
 
-    public PlayerControlBaseData() {
+    public DataPlayerControlAircraft() {
         switches = new PlayerControlSwitches();
     }
 
@@ -59,7 +59,7 @@ public class PlayerControlBaseData implements IByteBufSerializable {
     }
 
     @SuppressWarnings("unused")
-    public PlayerControlBaseData(ByteBuf buf) {
+    public DataPlayerControlAircraft(ByteBuf buf) {
         this.isUnmount   = UnmountAction.values()[buf.readByte()];
         this.switchVtol  = VtolSwitch.values()[buf.readByte()];
         this.switchMode  = ModeSwitch.values()[buf.readByte()];

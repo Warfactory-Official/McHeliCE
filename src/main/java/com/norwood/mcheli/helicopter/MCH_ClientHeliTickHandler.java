@@ -7,8 +7,8 @@ import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_AircraftClientTickHandler;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
-import com.norwood.mcheli.networking.handlers.DataPlayerControlHeli;
-import com.norwood.mcheli.networking.handlers.PlayerControlBaseData;
+import com.norwood.mcheli.networking.handlers.DataPlayerControlAircraft;
+import com.norwood.mcheli.networking.handlers.DataPlayerControlVehicle;
 import com.norwood.mcheli.networking.packet.PacketPlayerControlHeli;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.wrapper.W_Entity;
@@ -137,11 +137,11 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityHeli heli, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, heli, isPilot, new PacketPlayerControlHeli(new DataPlayerControlHeli()));
+        this.commonPlayerControlInGUI(player, heli, isPilot, new PacketPlayerControlHeli(new DataPlayerControlVehicle()));
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityHeli heli, boolean isPilot) {
-        var pc = new DataPlayerControlHeli();
+        var pc = new DataPlayerControlVehicle();
         boolean send;
         send = this.commonPlayerControl(player, heli, isPilot, pc);
         if (isPilot) {
@@ -153,10 +153,10 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
                 } else if (heli.canSwitchFoldBlades()) {
                     if (heli.isFoldBlades()) {
                         heli.unfoldBlades();
-                        pc.setBladeStatus(DataPlayerControlHeli.BladeStatus.UNFOLD);
+                        pc.setBladeStatus(DataPlayerControlVehicle.BladeStatus.UNFOLD);
                     } else {
                         heli.foldBlades();
-                        pc.setBladeStatus(DataPlayerControlHeli.BladeStatus.FOLD);
+                        pc.setBladeStatus(DataPlayerControlVehicle.BladeStatus.FOLD);
                     }
 
                     send = true;
@@ -168,7 +168,7 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
 
             if (this.KeySwitchHovering.isKeyDown()) {
                 if (heli.canSwitchHoveringMode()) {
-                    pc.switchMode = (heli.isHoveringMode() ? PlayerControlBaseData.ModeSwitch.HOVERING_OFF : PlayerControlBaseData.ModeSwitch.HOVERING_ON);
+                    pc.switchMode = (heli.isHoveringMode() ? DataPlayerControlAircraft.ModeSwitch.HOVERING_OFF : DataPlayerControlAircraft.ModeSwitch.HOVERING_ON);
                     heli.switchHoveringMode(!heli.isHoveringMode());
                     send = true;
                 } else {
@@ -176,7 +176,7 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
                 }
             } else if (this.KeySwitchMode.isKeyDown()) {
                 if (heli.canSwitchGunnerMode()) {
-                    pc.setSwitchMode(heli.getIsGunnerMode(player) ? PlayerControlBaseData.ModeSwitch.GUNNER_OFF : PlayerControlBaseData.ModeSwitch.GUNNER_ON);
+                    pc.setSwitchMode(heli.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF : DataPlayerControlAircraft.ModeSwitch.GUNNER_ON);
                     heli.switchGunnerMode(!heli.getIsGunnerMode(player));
                     send = true;
                 } else {
@@ -199,11 +199,11 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
                 playSound("zoom", 0.5F, 1.0F);
             } else if (isPilot && heli.getAcInfo().haveHatch()) {
                 if (heli.canFoldHatch()) {
-                    pc.setSwitchHatch(PlayerControlBaseData.HatchSwitch.FOLD);
+                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.FOLD);
                     send = true;
                 } else if (heli.canUnfoldHatch()) {
 
-                    pc.setSwitchHatch(PlayerControlBaseData.HatchSwitch.UNFOLD);
+                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                     send = true;
                 } else {
                     playSoundNG();
