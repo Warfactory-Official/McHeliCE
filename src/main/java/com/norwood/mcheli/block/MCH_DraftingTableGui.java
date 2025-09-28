@@ -7,7 +7,7 @@ import com.norwood.mcheli.helper.MCH_Recipes;
 import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
 import com.norwood.mcheli.gui.MCH_GuiSliderVertical;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
-import com.norwood.mcheli.networking.packet.MCH_DraftingTableCreatePacket;
+import com.norwood.mcheli.networking.packet.PacketDrafttingTableCreate;
 import com.norwood.mcheli.plane.MCP_PlaneInfoManager;
 import com.norwood.mcheli.ship.MCH_ShipInfoManager;
 import com.norwood.mcheli.tank.MCH_TankInfoManager;
@@ -355,7 +355,7 @@ public class MCH_DraftingTableGui extends W_GuiContainer {
                         this.setCurrentRecipe(new MCH_CurrentRecipe(this.getCurrentList(), index));
                         this.current.setDescCurrentPage(page);
                     }
-                    case 30 -> MCH_DraftingTableCreatePacket.send(this.current.recipe);
+                    case 30 -> PacketDrafttingTableCreate.send(this.current.recipe);
                     case 40, 41, 42, 43, 44, 45 -> {
                         int index = (int) this.listSlider.getSliderValue() * 2 + (button.id - 40);
                         if (index < this.getCurrentList().getRecipeListSize()) {

@@ -4,7 +4,7 @@ import com.norwood.mcheli.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.networking.handlers.PlayerControlBaseData;
-import com.norwood.mcheli.networking.packet.MCH_PacketIndOpenScreen;
+import com.norwood.mcheli.networking.packet.PacketIndOpenScreen;
 import com.norwood.mcheli.networking.packet.MCH_PacketPlayerControlBase;
 import com.norwood.mcheli.networking.packet.PacketPlayerControlBase;
 import com.norwood.mcheli.networking.packet.PacketSeatPlayerControl;
@@ -129,7 +129,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         }
 
         if (this.KeyUnmount.isKeyDown() && !ac.isDestroyed() && ac.getSizeInventory() > 0 && !isPilot) {
-            MCH_PacketIndOpenScreen.send(3);
+            PacketIndOpenScreen.send(3);
         }
 
         if (isPilot) {
@@ -315,7 +315,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         }
 
         if (this.KeyUnmount.isKeyDown() && !ac.isDestroyed() && ac.getSizeInventory() > 0 && !isPilot) {
-            MCH_PacketIndOpenScreen.send(3);
+            PacketIndOpenScreen.send(3);
         }
 
         if (isPilot) {

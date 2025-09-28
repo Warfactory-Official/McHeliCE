@@ -16,7 +16,7 @@ import com.norwood.mcheli.mob.MCH_GuiSpawnGunner;
 import com.norwood.mcheli.multiplay.MCH_GuiScoreboard;
 import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
-import com.norwood.mcheli.networking.packet.MCH_PacketIndOpenScreen;
+import com.norwood.mcheli.networking.packet.PacketIndOpenScreen;
 import com.norwood.mcheli.plane.MCP_ClientPlaneTickHandler;
 import com.norwood.mcheli.plane.MCP_EntityPlane;
 import com.norwood.mcheli.plane.MCP_GuiPlane;
@@ -203,7 +203,7 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
             if (this.mc.currentScreen == null && (!this.mc.isSingleplayer() || MCH_Config.DebugLog)) {
                 isDrawScoreboard = this.KeyScoreboard.isKeyPress();
                 if (!isDrawScoreboard && this.KeyMultiplayManager.isKeyDown()) {
-                    MCH_PacketIndOpenScreen.send(5);
+                    PacketIndOpenScreen.send(5);
                 }
             }
         }
@@ -288,7 +288,7 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
      *
      *                isDrawScoreboard = this.KeyScoreboard.isKeyPress();
      *                if(!isDrawScoreboard && this.KeyMultiplayManager.isKeyDown()) {
-     *                   MCH_PacketIndOpenScreen.send(5);
+     *                   PacketIndOpenScreen.send(5);
      *                }
      *             }
      *          }

@@ -9,7 +9,6 @@ import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
 import com.norwood.mcheli.networking.handlers.DataPlayerControlHeli;
 import com.norwood.mcheli.networking.handlers.PlayerControlBaseData;
-import com.norwood.mcheli.networking.packet.MCH_HeliPacketPlayerControl;
 import com.norwood.mcheli.networking.packet.PacketPlayerControlHeli;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.wrapper.W_Entity;
@@ -138,7 +137,7 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityHeli heli, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, heli, isPilot,new PacketPlayerControlHeli(new DataPlayerControlHeli()));
+        this.commonPlayerControlInGUI(player, heli, isPilot, new PacketPlayerControlHeli(new DataPlayerControlHeli()));
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityHeli heli, boolean isPilot) {

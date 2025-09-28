@@ -2,12 +2,9 @@ package com.norwood.mcheli.networking.handlers;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helper.network.HandleSide;
 import com.norwood.mcheli.helper.world.MCH_ExplosionV2;
 import com.norwood.mcheli.networking.packet.MCH_PacketEffectExplosion;
-import com.norwood.mcheli.networking.packet.MCH_PacketIndOpenScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IThreadListener;
@@ -37,28 +34,6 @@ public class MCH_CommonPacketHandler {
                             } else {
                                 MCH_ExplosionV2.effectExplosionInWater(player.world, pkt.prm.posX, pkt.prm.posY, pkt.prm.posZ, pkt.prm.size);
                             }
-                        }
-                    }
-            );
-        }
-    }
-
-    @HandleSide({Side.SERVER})
-    public static void onPacketIndOpenScreen(EntityPlayer player, ByteArrayDataInput data, IThreadListener scheduler) {
-        if (!player.world.isRemote) {
-            MCH_PacketIndOpenScreen pkt = new MCH_PacketIndOpenScreen();
-            pkt.readData(data);
-            scheduler.addScheduledTask(
-                    () -> {
-                        if (pkt.guiID == 3) {
-                            MCH_EntityAircraft ac = MCH_EntityAircraft.getAircraft_RiddenOrControl(player);
-                            if (ac != null) {
-                                ac.displayInventory(player);
-                            }
-                        } else {
-                            player.openGui(
-                                    MCH_MOD.instance, pkt.guiID, player.world, (int) player.posX, (int) player.posY, (int) player.posZ
-                            );
                         }
                     }
             );

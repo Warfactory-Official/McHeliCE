@@ -2,9 +2,10 @@ package com.norwood.mcheli.networking.packet;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.network.PacketHelper;
 import com.norwood.mcheli.wrapper.W_Network;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class MCH_DraftingTableCreatePacket extends MCH_Packet {
     @Override
     public void readData(ByteArrayDataInput data) {
         try {
-            this.recipe = PacketHelper.readRecipe(data);
+            this.recipe = ForgeRegistries.RECIPES.getValue(new ResourceLocation(data.readUTF()));
         } catch (Exception var3) {
         }
     }
@@ -37,7 +38,7 @@ public class MCH_DraftingTableCreatePacket extends MCH_Packet {
     @Override
     public void writeData(DataOutputStream dos) {
         try {
-            PacketHelper.writeRecipe(dos, this.recipe);
+            dos.writeUTF(this.recipe.getRegistryName().toString());
         } catch (IOException var3) {
             var3.printStackTrace();
         }
