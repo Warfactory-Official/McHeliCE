@@ -28,7 +28,6 @@ public class MCH_PacketHandler extends W_PacketHandler {
             case 536936464 -> MCH_LightWeaponPacketHandler.onPacket_PlayerControl(entityPlayer, data, handler);
             case 537002000 -> MCH_VehiclePacketHandler.onPacket_PlayerControl(entityPlayer, data, handler);
             case 537919504 -> MCH_TankPacketHandler.onPacket_PlayerControl(entityPlayer, data, handler);
-            case 536903698 -> MCH_ShipPacketHandler.onPacket_PlayerControl(entityPlayer, data, handler);
             default ->
                     MCH_Lib.DbgLog(entityPlayer.world, "MCH_PacketHandler.onPacket invalid MSGID=0x%X(%d)", msgid, msgid);
         }
