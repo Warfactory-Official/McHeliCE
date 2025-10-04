@@ -21,7 +21,10 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class YamlParser implements IParser {
@@ -200,42 +203,87 @@ public class YamlParser implements IParser {
     }
 
     private Object parseRacks(Map<String, Object> map) {
-        if(map.containsKey("type")){
-            RACK_TYPE type  = RACK_TYPE.valueOf((String)map.get("type"));
-            return switch (type){
-                case NORMAL -> parseRack(map);
+        if (map.containsKey("type")) {
+            RACK_TYPE type = RACK_TYPE.valueOf((String) map.get("type"));
+            return switch (type) {
+                case NORMAL -> parseSeatRackInfo(map);
                 case RIDING -> parseRidingRack(map);
                 default -> throw new UnsupportedOperationException();
             };
 
         } else {
-            return parseRack(map);
+            return parseSeatRackInfo(map);
         }
     }
 
-    private MCH_SeatRackInfo parseRack(Map<String, Object> map){
+    private MCH_SeatRackInfo parseSeatRackInfo(Map<String, Object> map) {
+        Vec3d position = null;
+        MCH_AircraftInfo.CameraPosition cameraPos = null;
+        String[] entityNames = new String[0];
+        float range = 0f;
+        float openParaAlt = 0f;
+        float yaw = 0f;
+        float pitch = 0f;
+        boolean rotSeat = false;
 
-        String[] names;
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "pos" -> position = parseVector((Object[]) entry.getValue());
+                case "camera", "cam" -> cameraPos = parseCamera((Map<String, Object>) entry.getValue());
+                case "names", "name" -> {
+                    Object values  = entry.getValue();
+                    if(values instanceof List<?> list)
+                        entityNames = list.toArray(new String[0]);
+                    else if(values instanceof String[] array)
+                        entityNames =  array;
+                    else if(values instanceof String name)
+                        entityNames = new String[]{name}  ;
+                    else throw new IllegalArgumentException("Rack name must be a string, array or list!");
+                }
+                case "range" -> range = ((Number) entry.getValue()).floatValue();
+                case "openParaAlt" -> openParaAlt = ((Number) entry.getValue()).floatValue();
+                case "yaw" -> yaw = ((Number) entry.getValue()).floatValue();
+                case "pitch" -> pitch = ((Number) entry.getValue()).floatValue();
+                case "rotSeat" -> rotSeat = (Boolean) entry.getValue();
+            }
+        }
 
+        if (position == null) {
+            throw new IllegalArgumentException("Seat rack must have a position!");
+        }
+        if (cameraPos == null) {
+            throw new IllegalArgumentException("Seat rack must have a camera position!");
+        }
 
-        return null;
+        return new MCH_SeatRackInfo(
+                entityNames,
+                position.x, position.y, position.z,
+                cameraPos,
+                range,
+                openParaAlt,
+                yaw,
+                pitch,
+                rotSeat
+        );
     }
 
-    private MCH_AircraftInfo.RideRack parseRidingRack(Map<String, Object> map){
+
+
+    private MCH_AircraftInfo.RideRack parseRidingRack(Map<String, Object> map) {
         int rackID = -1;//FUCK IDs
         String name = "";
 
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "id" ->  rackID = getClamped(1,10_000, (Number) entry.getValue());
-                case "name" ->  name = ((String)entry.getValue()).toLowerCase(Locale.ROOT).trim();
+                case "id" -> rackID = getClamped(1, 10_000, (Number) entry.getValue());
+                case "name" -> name = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
             }
         }
-        if(rackID == -1 || name.isEmpty())
+        if (rackID == -1 || name.isEmpty())
             throw new IllegalArgumentException("Name nor ID can be empty!");
 
-        return new MCH_AircraftInfo.RideRack(name,rackID);
+        return new MCH_AircraftInfo.RideRack(name, rackID);
     }
 
     private MCH_AircraftInfo.SearchLight parseSearchLights(Map<String, Object> map) {
@@ -396,7 +444,7 @@ public class YamlParser implements IParser {
                 case "maxPitch" -> maxPitch = ((Number) entry.getValue()).floatValue();
                 case "rotSeat" -> rotatableSeat = (Boolean) entry.getValue();
                 case "invCamPos" -> invertCameraPos = (Boolean) entry.getValue();
-                case "camera" -> cameraPos = parseCamera((Map<String, Object>) entry.getValue());
+                case "camera", "cam" -> cameraPos = parseCamera((Map<String, Object>) entry.getValue());
             }
         }
 
