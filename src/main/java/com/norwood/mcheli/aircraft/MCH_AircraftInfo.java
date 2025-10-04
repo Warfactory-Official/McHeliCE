@@ -1129,9 +1129,10 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
     }
 
+    @AllArgsConstructor
     public static class Wheel {
-        public final float size;
         public final Vec3d pos;
+        public final float size;
 
         public Wheel(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d v, float sz) {
             this.pos = v;

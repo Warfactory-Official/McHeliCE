@@ -4,6 +4,7 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
 import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.item.MCH_ItemInfo;
@@ -191,15 +192,39 @@ public class YamlParser implements IParser {
                             info.entityRackList.add(r);
                         else
                             info.rideRacks.add((MCH_AircraftInfo.RideRack) rack);
-
-
                     });
+                }
+                case "Wheels" -> {
+                    List<Map<String, Object>> wheel = (List<Map<String, Object>>) entry.getValue();
+                    info.wheels.addAll(wheel.stream()
+                            .map(this::parseWheel)
+                            .sorted((o1, o2) -> o1.pos.z > o2.pos.z ? -1 : 1)
+                            .collect(Collectors.toList()));
                 }
 
 
+                default -> logUnkownEntry(entry, "AircraftInfo");
             }
         }
 
+    }
+
+    private MCH_AircraftInfo.Wheel parseWheel(Map<String, Object> map) {
+        Vec3d wheelPos = null;
+        float scale = 1;
+
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "pos" -> wheelPos = parseVector((Object[]) entry.getValue());
+                case "scale" -> scale = ((Number) entry.getValue()).floatValue();
+                default -> logUnkownEntry(entry, "Wheels");
+            }
+        }
+
+
+        if (wheelPos == null) throw new IllegalArgumentException("Wheel must have a position!");
+        return new MCH_AircraftInfo.Wheel(wheelPos, scale);
     }
 
     private Object parseRacks(Map<String, Object> map) {
@@ -231,13 +256,13 @@ public class YamlParser implements IParser {
                 case "pos" -> position = parseVector((Object[]) entry.getValue());
                 case "camera", "cam" -> cameraPos = parseCamera((Map<String, Object>) entry.getValue());
                 case "names", "name" -> {
-                    Object values  = entry.getValue();
-                    if(values instanceof List<?> list)
+                    Object values = entry.getValue();
+                    if (values instanceof List<?> list)
                         entityNames = list.toArray(new String[0]);
-                    else if(values instanceof String[] array)
-                        entityNames =  array;
-                    else if(values instanceof String name)
-                        entityNames = new String[]{name}  ;
+                    else if (values instanceof String[] array)
+                        entityNames = array;
+                    else if (values instanceof String name)
+                        entityNames = new String[]{name};
                     else throw new IllegalArgumentException("Rack name must be a string, array or list!");
                 }
                 case "range" -> range = ((Number) entry.getValue()).floatValue();
@@ -245,6 +270,7 @@ public class YamlParser implements IParser {
                 case "yaw" -> yaw = ((Number) entry.getValue()).floatValue();
                 case "pitch" -> pitch = ((Number) entry.getValue()).floatValue();
                 case "rotSeat" -> rotSeat = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "Racks");
             }
         }
 
@@ -267,6 +293,9 @@ public class YamlParser implements IParser {
         );
     }
 
+    private void logUnkownEntry(Map.Entry<String, Object> entry, String caller) {
+        MCH_Logger.get().warn("Uknown argument:" + entry.getKey() + " for " + caller);
+    }
 
 
     private MCH_AircraftInfo.RideRack parseRidingRack(Map<String, Object> map) {
@@ -314,6 +343,7 @@ public class YamlParser implements IParser {
                 case "yaw" -> yaw = ((Number) entry.getValue()).floatValue();
                 case "pitch" -> pitch = ((Number) entry.getValue()).floatValue();
                 case "stRot" -> stRot = ((Number) entry.getValue()).floatValue();
+                default -> logUnkownEntry(entry, "SearchLights");
             }
         }
 
@@ -338,6 +368,7 @@ public class YamlParser implements IParser {
             switch (entry.getKey()) {
                 case "pos" -> pos = parseVector((Object[]) entry.getValue());
                 case "interval" -> interval = ((Number) entry.getValue()).intValue();
+                default -> logUnkownEntry(entry, "RepellingHooks");
             }
         }
 
@@ -393,6 +424,7 @@ public class YamlParser implements IParser {
                 case "age" -> age = getClamped(1, 100_000, (Number) entry.getValue());
                 case "motion" -> motionY = ((Number) entry.getValue()).floatValue();
                 case "gravity" -> gravity = ((Number) entry.getValue()).floatValue();
+                default -> logUnkownEntry(entry, "SplashParticles");
             }
         }
 
@@ -413,6 +445,7 @@ public class YamlParser implements IParser {
                 case "fixedRot" -> fixRot = (boolean) entry.getValue();
                 case "yaw" -> yaw = ((Number) entry.getValue()).floatValue();
                 case "pitch" -> pitch = ((Number) entry.getValue()).floatValue();
+                default -> logUnkownEntry(entry, "CameraPosition");
             }
         }
 
@@ -445,6 +478,7 @@ public class YamlParser implements IParser {
                 case "rotSeat" -> rotatableSeat = (Boolean) entry.getValue();
                 case "invCamPos" -> invertCameraPos = (Boolean) entry.getValue();
                 case "camera", "cam" -> cameraPos = parseCamera((Map<String, Object>) entry.getValue());
+                default -> logUnkownEntry(entry, "Seats");
             }
         }
 
@@ -491,6 +525,7 @@ public class YamlParser implements IParser {
                 case "rot" -> rotation = parseVector((Object[]) entry.getValue());
                 case "name" -> partName = (String) entry.getValue();
                 case "isSliding" -> isSliding = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "Hatches");
             }
         }
 
