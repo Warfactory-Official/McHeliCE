@@ -18,11 +18,39 @@ import java.util.List;
 
 public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemContent {
     public final String name;
+    public final List<IRecipe> recipe;
+    public final MCH_AircraftInfo.Flare flare;
+    public final List<MCH_AircraftInfo.WeaponSet> weaponSetList;
+    public final List<MCH_SeatInfo> seatList;
+    public final List<Integer[]> exclusionSeatList;
+    public final List<MCH_Hud> hudList;
+    public final List<MCH_BoundingBox> extraBoundingBox;
+    public final List<MCH_AircraftInfo.Wheel> wheels;
+    public final List<MCH_SeatRackInfo> entityRackList;
+    public final MCH_MobDropOption mobDropOption;
+    public final List<MCH_AircraftInfo.RepellingHook> repellingHooks;
+    public final List<MCH_AircraftInfo.RideRack> rideRacks;
+    public final List<MCH_AircraftInfo.ParticleSplash> particleSplashs;
+    public final List<MCH_AircraftInfo.SearchLight> searchLights;
+    public final List<MCH_AircraftInfo.CameraPosition> cameraPosition;
+    public final List<MCH_AircraftInfo.Hatch> hatchList;
+    public final List<MCH_AircraftInfo.Camera> cameraList;
+    public final List<MCH_AircraftInfo.PartWeapon> partWeapon;
+    public final List<MCH_AircraftInfo.WeaponBay> partWeaponBay;
+    public final List<MCH_AircraftInfo.Canopy> canopyList;
+    public final List<MCH_AircraftInfo.LandingGear> landingGear;
+    public final List<MCH_AircraftInfo.Throttle> partThrottle;
+    public final List<MCH_AircraftInfo.RotPart> partRotPart;
+    public final List<MCH_AircraftInfo.CrawlerTrack> partCrawlerTrack;
+    public final List<MCH_AircraftInfo.TrackRoller> partTrackRoller;
+    public final List<MCH_AircraftInfo.PartWheel> partWheel;
+    public final List<MCH_AircraftInfo.PartWheel> partSteeringWheel;
+    public final List<MCH_AircraftInfo.Hatch> lightHatchList;
+    private final List<String> textureNameList;
     public String displayName;
     public HashMap<String, String> displayNameLang;
     public int itemID;
     public List<String> recipeString;
-    public final List<IRecipe> recipe;
     public boolean isShapedRecipe;
     public String category;
     public boolean creativeOnly;
@@ -34,7 +62,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public boolean isEnableEntityRadar;
     public boolean isEnableEjectionSeat;
     public boolean isEnableParachuting;
-    public final MCH_AircraftInfo.Flare flare;
     public float bodyHeight;
     public float bodyWidth;
     public boolean isFloat;
@@ -55,16 +82,10 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float onGroundPitch;
     public boolean canMoveOnGround;
     public boolean canRotOnGround;
-    public final List<MCH_AircraftInfo.WeaponSet> weaponSetList;
-    public final List<MCH_SeatInfo> seatList;
-    public final List<Integer[]> exclusionSeatList;
-    public final List<MCH_Hud> hudList;
     public MCH_Hud hudTvMissile;
     public float damageFactor;
     public float submergedDamageHeight;
     public boolean regeneration;
-    public final List<MCH_BoundingBox> extraBoundingBox;
-    public final List<MCH_AircraftInfo.Wheel> wheels;
     public int maxFuel;
     public float fuelConsumption;
     public float fuelSupplyRange;
@@ -78,14 +99,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float entityPitch;
     public float entityRoll;
     public float stepHeight;
-    public final List<MCH_SeatRackInfo> entityRackList;
     public int mobSeatNum;
     public int entityRackNum;
-    public final MCH_MobDropOption mobDropOption;
-    public final List<MCH_AircraftInfo.RepellingHook> repellingHooks;
-    public final List<MCH_AircraftInfo.RideRack> rideRacks;
-    public final List<MCH_AircraftInfo.ParticleSplash> particleSplashs;
-    public final List<MCH_AircraftInfo.SearchLight> searchLights;
     public float rotorSpeed;
     public boolean enableSeaSurfaceParticle;
     public float pivotTurnThrottle;
@@ -103,7 +118,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float bbZmax;
     public float bbZ;
     public boolean alwaysCameraView;
-    public final List<MCH_AircraftInfo.CameraPosition> cameraPosition;
     public float cameraRotationSpeed;
     public float speed;
     public float motionFactor;
@@ -127,35 +141,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float soundVolume;
     public float soundPitch;
     public _IModelCustom model;
-    public final List<MCH_AircraftInfo.Hatch> hatchList;
-    public final List<MCH_AircraftInfo.Camera> cameraList;
-    public final List<MCH_AircraftInfo.PartWeapon> partWeapon;
-    public final List<MCH_AircraftInfo.WeaponBay> partWeaponBay;
-    public final List<MCH_AircraftInfo.Canopy> canopyList;
-    public final List<MCH_AircraftInfo.LandingGear> landingGear;
-    public final List<MCH_AircraftInfo.Throttle> partThrottle;
-    public final List<MCH_AircraftInfo.RotPart> partRotPart;
-    public final List<MCH_AircraftInfo.CrawlerTrack> partCrawlerTrack;
-    public final List<MCH_AircraftInfo.TrackRoller> partTrackRoller;
-    public final List<MCH_AircraftInfo.PartWheel> partWheel;
-    public final List<MCH_AircraftInfo.PartWheel> partSteeringWheel;
-    public final List<MCH_AircraftInfo.Hatch> lightHatchList;
-    private final List<String> textureNameList;
-    private String lastWeaponType = "";
-    private int lastWeaponIndex = -1;
-    private MCH_AircraftInfo.PartWeapon lastWeaponPart;
-
-
-    /**
-     * 雷达种类
-     */
-    //public EnumRadarType radarType = EnumRadarType.EARLY_AA;
-
-    /**
-     * RWR种类
-     */
-    //public EnumRWRType rwrType = EnumRWRType.DIGITAL;
-
     /**
      * 当前载具在现代对空雷达中显示的名字
      */
@@ -168,6 +153,17 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      * 当前载具在现代对地雷达中显示的名字
      */
     public String nameOnModernASRadar = "?";
+
+
+    /**
+     * 雷达种类
+     */
+    //public EnumRadarType radarType = EnumRadarType.EARLY_AA;
+
+    /**
+     * RWR种类
+     */
+    //public EnumRWRType rwrType = EnumRWRType.DIGITAL;
     /**
      * 当前载具在早期对地雷达中显示的名字
      */
@@ -180,32 +176,26 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      * 倒车速度倍率，默认1
      */
     public float throttleDownFactor = 1;
-
     /**
      * 箔条生效时长
      */
     public int chaffUseTime = 100;
-
     /**
      * 箔条冷却时长
      */
     public int chaffWaitTime = 400;
-
     /**
      * 维修系统生效时长 （时长即为回血百分比）
      */
     public int maintenanceUseTime = 20;
-
     /**
      * 维修系统冷却时长
      */
     public int maintenanceWaitTime = 300;
-
     /**
      * 载具瘫痪阈值，血量低于此百分比将关闭载具引擎
      */
     public int engineShutdownThreshold = 20;
-
     /**
      * APS生效时长
      */
@@ -214,11 +204,13 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      * APS冷却时长
      */
     public int apsWaitTime = 400;
-
     /**
      * APS范围
      */
     public int apsRange = 8;
+    private String lastWeaponType = "";
+    private int lastWeaponIndex = -1;
+    private MCH_AircraftInfo.PartWeapon lastWeaponPart;
 
 
     public MCH_AircraftInfo(AddonResourceLocation location, String path) {
@@ -585,6 +577,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public void setLastWeaponPart(PartWeapon part) {
         this.lastWeaponPart = part;
     }
+
     public int getWeaponCount() {
         return this.weaponSetList.size();
     }
@@ -766,6 +759,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.modelName = name;
             this.model = null;
         }
+
+        public DrawnPart(Vec3d pos, Vec3d rot, String modelName) {
+            this.pos = pos;
+            this.rot = rot;
+            this.modelName = modelName;
+        }
     }
 
     public static class Flare {
@@ -780,6 +779,13 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final float maxRotFactor;
         public final float maxRot;
         public final boolean isSlide;
+
+        public Hatch(Vec3d pos, Vec3d rot, String modelName, float maxRot, boolean isSlide) {
+            super(pos, rot, modelName);
+            this.maxRot = maxRot;
+            this.maxRotFactor = this.maxRot / 90.0F;
+            this.isSlide = isSlide;
+        }
 
         public Hatch(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name, boolean slide) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
@@ -940,6 +946,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
     }
 
+    @AllArgsConstructor
     public static class RepellingHook {
         final Vec3d pos;
         final int interval;
@@ -972,9 +979,9 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class SearchLight {
+        public final Vec3d pos;
         public final int colorStart;
         public final int colorEnd;
-        public final Vec3d pos;
         public final float height;
         public final float width;
         public final float angle;
@@ -983,6 +990,22 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final float pitch;
         public final boolean steering;
         public final float stRot;
+
+        public SearchLight(
+                Vec3d pos, int cs, int ce, float h, float w, boolean fix, float y, float p, boolean st, float stRot
+        ) {
+            this.colorStart = cs;
+            this.colorEnd = ce;
+            this.pos = pos;
+            this.height = h;
+            this.width = w;
+            this.angle = (float) (Math.atan2(w / 2.0F, h) * 180.0 / Math.PI);
+            this.fixDir = fix;
+            this.steering = st;
+            this.yaw = y;
+            this.pitch = p;
+            this.stRot = stRot;
+        }
 
         public SearchLight(
                 MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d pos, int cs, int ce, float h, float w, boolean fix, float y, float p, boolean st, float stRot
@@ -1063,7 +1086,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                 float mxp,
                 boolean turret
         ) {
-            this.pos = new Vec3d(x, y+W_Entity.GLOBAL_Y_OFFSET, z);
+            this.pos = new Vec3d(x, y + W_Entity.GLOBAL_Y_OFFSET, z);
             this.yaw = yaw;
             this.pitch = pitch;
             this.canUsePilot = canPirot;

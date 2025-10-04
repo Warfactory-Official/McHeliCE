@@ -43,6 +43,7 @@ public class YamlParser implements IParser {
         Map<String, Object> root = YAML_INSTANCE.load(input);
 
 
+        return null;
     }
 
     @Override
@@ -169,11 +170,91 @@ public class YamlParser implements IParser {
                     List<Map<String, Object>> splashParticles = (List<Map<String, Object>>) entry.getValue();
                     splashParticles.stream().map((this::parseParticleSplash)).forEach(info.particleSplashs::add);
                 }
+                case "SearchLights" -> {
+                    List<Map<String, Object>> searchLights = (List<Map<String, Object>>) entry.getValue();
+                    searchLights.stream().map((this::parseSearchLights)).forEach(info.searchLights::add);
+                }
+                case "LightHatch" -> {
+                    List<Map<String, Object>> lightHatchEntries = (List<Map<String, Object>>) entry.getValue();
+                    lightHatchEntries.stream().map((hatchEntry) -> parseHatch(info, hatchEntry)).forEach(info.lightHatchList::add);
+                }
+                case "RepellingHooks" -> {
+                    List<Map<String, Object>> repellingHooks = (List<Map<String, Object>>) entry.getValue();
+                    repellingHooks.stream().map(this::parseHook).forEach(info.repellingHooks::add);
+                }
+                case "Racks" -> {
+
+                }
+
+
 
 
             }
         }
 
+    }
+
+    private MCH_AircraftInfo.SearchLight parseSearchLights(Map<String, Object> map) {
+        Vec3d pos = null;
+        int colorStart = 0xFFFFFF; // default white
+        int colorEnd = 0xFFFFFF;
+        float height = 1.0f;
+        float width = 1.0f;
+        float yaw = 0.0f;
+        float pitch = 0.0f;
+        float stRot = 0.0f;
+
+        boolean fixedDirection = false;
+        boolean steering = false;
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "type" -> {
+
+                }
+                case "fixedDirection" -> fixedDirection = (boolean) entry.getValue();
+                case "steering" -> steering = (boolean) entry.getValue();
+                case "pos" -> pos = parseVector((Object[]) entry.getValue());
+                case "colorStart" -> colorStart = hex2dec((String) entry.getValue());
+                case "colorEnd" -> colorEnd = hex2dec((String) entry.getValue());
+                case "height" -> height = ((Number) entry.getValue()).floatValue();
+                case "width" -> width = ((Number) entry.getValue()).floatValue();
+                case "yaw" -> yaw = ((Number) entry.getValue()).floatValue();
+                case "pitch" -> pitch = ((Number) entry.getValue()).floatValue();
+                case "stRot" -> stRot = ((Number) entry.getValue()).floatValue();
+            }
+        }
+
+        if (pos == null) {
+            throw new IllegalArgumentException("SearchLight must have a position!");
+        }
+
+        return new MCH_AircraftInfo.SearchLight(
+                pos, colorStart, colorEnd, height, width,
+                fixedDirection, yaw, pitch, steering, stRot
+        );
+
+
+    }
+
+    private MCH_AircraftInfo.RepellingHook parseHook(Map<String, Object> map){
+        Vec3d pos = null;
+        int interval = 0;
+
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "pos" -> pos = parseVector((Object[]) entry.getValue());
+                case "interval" -> interval = ((Number) entry.getValue()).intValue();
+            }
+        }
+
+        if (pos == null) throw new IllegalArgumentException("Repelling hook must have a position!");
+       return new MCH_AircraftInfo.RepellingHook(pos, interval);
+    }
+
+    public int hex2dec(String s) {
+        return !s.startsWith("0x") && !s.startsWith("0X") && s.indexOf(0) != 35 ? (int) (Long.decode("0x" + s).longValue()) : (int) (Long.decode(s).longValue());
     }
 
     private float getClamped(float min, float max, Number value) {
@@ -207,27 +288,27 @@ public class YamlParser implements IParser {
 
     private MCH_AircraftInfo.ParticleSplash parseParticleSplash(Map<String, Object> map) {
 
-         Vec3d pos = null;
-         int num = 2;
-         float acceleration = 1f;
-         float size = 2f;
-         int age = 80;
-         float motionY = 0.01f;
-         float gravity = 0;
+        Vec3d pos = null;
+        int num = 2;
+        float acceleration = 1f;
+        float size = 2f;
+        int age = 80;
+        float motionY = 0.01f;
+        float gravity = 0;
 
-        for(Map.Entry<String,Object> entry : map.entrySet()){
-            switch (entry.getKey()){
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
                 case "pos" -> pos = parseVector((Object[]) entry.getValue());
-                case "count" -> num = getClamped(1,100, (Number) entry.getValue());
+                case "count" -> num = getClamped(1, 100, (Number) entry.getValue());
                 case "size" -> size = ((Number) entry.getValue()).floatValue();
-                case "accel" -> acceleration  = ((Number) entry.getValue()).floatValue();
+                case "accel" -> acceleration = ((Number) entry.getValue()).floatValue();
                 case "age" -> age = getClamped(1, 100_000, (Number) entry.getValue());
                 case "motion" -> motionY = ((Number) entry.getValue()).floatValue();
                 case "gravity" -> gravity = ((Number) entry.getValue()).floatValue();
             }
         }
 
-        if(pos == null) throw new IllegalArgumentException("Splash particle must have a position!");
+        if (pos == null) throw new IllegalArgumentException("Splash particle must have a position!");
 
         return new MCH_AircraftInfo.ParticleSplash(num, size, acceleration, pos, age, motionY, gravity);
     }
@@ -240,5 +321,41 @@ public class YamlParser implements IParser {
         } else throw new IllegalArgumentException("Vector must be an array of Numbers!");
 
 
+    }
+    private MCH_AircraftInfo.Hatch parseHatch( MCH_AircraftInfo data, Map<String, Object> map) {
+        Vec3d position = null;
+        Vec3d rotation = null;
+        float maxRotation = 0f;
+        String partName = "light_hatch"+ data.lightHatchList.size();
+        boolean isSliding = false;
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "pos" -> position = parseVector((Object[]) entry.getValue());
+                case "rot" -> rotation = parseVector((Object[]) entry.getValue());
+                case "name" -> partName = (String) entry.getValue();
+                case "isSliding" -> isSliding = (Boolean) entry.getValue();
+            }
+        }
+
+        if (position == null) {
+            throw new IllegalArgumentException("Hatch must have a position!");
+        }
+        if (rotation == null) {
+            throw new IllegalArgumentException("Hatch must have a rotation!");
+        }
+
+        return new MCH_AircraftInfo.Hatch(
+                position, rotation,
+                partName,
+                maxRotation,
+                isSliding
+        );
+    }
+
+
+
+    public static enum SEARCH_LIGHT {
+        NORMAL, FIXED, STEERING
     }
 }
