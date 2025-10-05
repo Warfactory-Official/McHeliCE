@@ -933,6 +933,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         final float rotDir;
         final Vec3d pos2;
 
+        public PartWheel(DrawnPart other, float rotDir, Vec3d pos2) {
+            super(other);
+            this.rotDir = rotDir;
+            this.pos2 = pos2;
+        }
+
         public PartWheel(
                 MCH_AircraftInfo paramMCH_AircraftInfo,
                 float px,
@@ -1008,6 +1014,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
             this.rotSpeed = mr;
             this.rotAlways = a;
+        }
+
+        public RotPart(DrawnPart other, float rotSpeed, boolean rotAlways) {
+            super(other);
+            this.rotSpeed = rotSpeed;
+            this.rotAlways = rotAlways;
         }
     }
 

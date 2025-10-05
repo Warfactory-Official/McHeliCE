@@ -243,7 +243,7 @@ public class YamlParser implements IParser {
                         part,
                         (drawnPart) -> new Camera(
                                 drawnPart,
-                                (Boolean) part.getOrDefault("yawSync", false),
+                                (Boolean) part.getOrDefault("yawSync", true),
                                 (Boolean) part.getOrDefault("pitchSync", false)
                         ),
                         info.cameraList
@@ -268,7 +268,36 @@ public class YamlParser implements IParser {
                         ),
                         info.hatchList
                 );
+                case "WeaponBay" -> parseDrawnPart(
+                        "wb",
+                        part,
+                        (drawnPart) -> new Hatch(
+                                drawnPart,
+                                getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)),
+                                (Boolean) part.getOrDefault("isSliding", false)
+                        ),
+                        info.hatchList
+                );
+                case "Rotation" -> parseDrawnPart(
+                        RotPart.class,
+                        part,
+                        drawnPart -> new RotPart(
+                                drawnPart,
+                                ((Number) part.getOrDefault("Speed", 0)).floatValue(),
+                                ((Boolean) part.getOrDefault("AlwaysRotate", false)).booleanValue()
+                        ),
+                        info.partRotPart
+                        );
 
+
+//                case "Wheel" -> parseDrawnPart("wheel",
+//                        part,
+//                        drawnPart -> new PartWheel(
+//                                drawnPart,
+//
+//                                )
+//                        );
+//
             }
 
 
@@ -276,14 +305,14 @@ public class YamlParser implements IParser {
     }
 
     private <Y extends DrawnPart> void parseDrawnPart(
-            Class<? extends DrawnPart> clazz,
+            String defaultName,
             Map<String, Object> map,
             Function<DrawnPart, Y> fillChildFields, List<Y> partList) {
 
         Vec3d pos = map.containsKey("Position") ? parseVector((Object[]) map.get("Position")) : null;
         Vec3d rot = map.containsKey("Rotation") ? parseVector((Object[]) map.get("Rotation")) : null;
 
-        String modelName = (String) map.getOrDefault("PartName", clazz.getSimpleName().toLowerCase(Locale.ROOT) + partList.size());
+        String modelName = (String) map.getOrDefault("PartName", defaultName + partList.size());
         if (pos == null || rot == null) throw new IllegalArgumentException("Part Rotation and Position must be set!");
 
         var base = new DrawnPart(pos, rot, modelName);
@@ -291,23 +320,13 @@ public class YamlParser implements IParser {
         partList.add(fillChildFields.apply(base));
     }
 
+    private <Y extends DrawnPart> void parseDrawnPart(
+            Class<? extends DrawnPart> clazz,
+            Map<String, Object> map,
+            Function<DrawnPart, Y> fillChildFields, List<Y> partList) {
+       parseDrawnPart(clazz.getSimpleName().toLowerCase(Locale.ROOT).trim(), map,fillChildFields,partList);
+    }
 
-//    private <T extends MCH_AircraftInfo.DrawnPart> T parsePart(
-//            Map<String,Object> map,
-//            Class<T> clazz,
-//            Function<T, T> fillChildFields
-//    ) {
-//        try {
-//
-//            T part = clazz.getDeclaredConstructor().newInstance();
-//
-//            part = fillChildFields.apply(part);
-//
-//            return part;
-//        } catch (Exception e) {
-//            throw new RuntimeException("Failed to parse part: " + clazz.getName(), e);
-//        }
-//    }
 
 
     private void parseRender(Map<String, Object> renderProperties, MCH_AircraftInfo info) {
