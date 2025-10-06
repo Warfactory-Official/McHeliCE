@@ -444,7 +444,7 @@ public class YamlParser implements IParser {
                 );
 
                 case "TrackRoller" -> parseDrawnPart(
-                        "crawler_track",
+                        "track_roller",
                         part,
                         TrackRoller::new,
                         info.partTrackRoller,
@@ -455,15 +455,16 @@ public class YamlParser implements IParser {
                         part,
                         drawnPart -> {
                             Vec3d slidePos = part.containsKey("SlidePos") ? parseVector((Object[]) part.get("SlidePos")) : Vec3d.ZERO;
-                            float animAngle = part.containsKey("AnimationRot")
-                                    ? ((Number) part.get("AnimationRot")).floatValue()
+                            float animAngle = part.containsKey("MaxAngle")
+                                    ? ((Number) part.get("MaxAngle")).floatValue()
                                     : 0.0F;
 
                             return new Throttle(drawnPart, slidePos, animAngle);
                         },
                         info.partThrottle,
-                        new HashSet<>(Arrays.asList("AnimationRot,SlidePos"))
+                        new HashSet<>(Arrays.asList("MaxAngle","SlidePos"))
                 );
+
 
 
             }
