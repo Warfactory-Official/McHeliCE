@@ -1,4 +1,4 @@
-package com.norwood.mcheli.helper.info;
+package com.norwood.mcheli.helper.info.parsers.txt;
 
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Color;
@@ -12,6 +12,9 @@ import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import com.norwood.mcheli.helper.info.ContentParseException;
+import com.norwood.mcheli.helper.info.ContentParsers;
+import com.norwood.mcheli.helper.info.parsers.IParser;
 import com.norwood.mcheli.hud.*;
 import com.norwood.mcheli.item.MCH_ItemInfo;
 import com.norwood.mcheli.plane.MCP_EntityPlane;

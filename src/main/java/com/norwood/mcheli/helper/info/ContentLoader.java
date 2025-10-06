@@ -8,6 +8,7 @@ import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import com.norwood.mcheli.helper.info.parsers.IParser;
 
 import javax.annotation.Nullable;
 import java.io.*;

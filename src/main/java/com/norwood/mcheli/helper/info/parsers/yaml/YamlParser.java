@@ -1,4 +1,4 @@
-package com.norwood.mcheli.helper.info;
+package com.norwood.mcheli.helper.info.parsers.yaml;
 
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
@@ -6,6 +6,8 @@ import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import com.norwood.mcheli.helper.info.ContentParsers;
+import com.norwood.mcheli.helper.info.parsers.IParser;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.item.MCH_ItemInfo;
 import com.norwood.mcheli.plane.MCP_PlaneInfo;
@@ -23,7 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.norwood.mcheli.aircraft.MCH_AircraftInfo.*;
@@ -34,8 +35,10 @@ public class YamlParser implements IParser {
     public static final Yaml YAML_INSTANCE = new Yaml();
     public static final YamlParser INSTANCE = new YamlParser();
     public static final Set<String> DRAWN_PART_ARGS = new HashSet<>(Arrays.asList("Type", "Position", "Rotation", "PartName"));
+    public final ComponentParser componentParser;
 
     private YamlParser() {
+        componentParser = new ComponentParser();
     }
 
     public static void register() {
@@ -186,18 +189,7 @@ public class YamlParser implements IParser {
                     Map<String, Object> armorSettings = (Map<String, Object>) entry.getValue();
                     armorSettings.entrySet().stream().forEach((armorEntry) -> parseArmor(armorEntry, info));
                 }
-                case "SearchLights" -> {
-                    List<Map<String, Object>> searchLights = (List<Map<String, Object>>) entry.getValue();
-                    searchLights.stream().map((this::parseSearchLights)).forEach(info.searchLights::add);
-                }
-                case "LightHatch" -> {
-                    List<Map<String, Object>> lightHatchEntries = (List<Map<String, Object>>) entry.getValue();
-                    lightHatchEntries.stream().map((hatchEntry) -> parseHatch(info, hatchEntry)).forEach(info.lightHatchList::add);
-                }
-                case "RepellingHooks" -> {
-                    List<Map<String, Object>> repellingHooks = (List<Map<String, Object>>) entry.getValue();
-                    repellingHooks.stream().map(this::parseHook).forEach(info.repellingHooks::add);
-                }
+
                 case "Camera" -> {
                     Map<String, Object> cameraSettings = (Map<String, Object>) entry.getValue();
                     cameraSettings.entrySet().stream().forEach(((camEntry) -> parseGlobalCamera(info, camEntry)));
@@ -218,9 +210,9 @@ public class YamlParser implements IParser {
                     List<Map<String, Object>> wheel = (List<Map<String, Object>>) entry.getValue();
                     info.wheels.addAll(wheel.stream().map(this::parseWheel).sorted((o1, o2) -> o1.pos.z > o2.pos.z ? -1 : 1).collect(Collectors.toList()));
                 }
-                case "Parts" -> {
-                    List<Map<String, Object>> parts = (List<Map<String, Object>>) entry.getValue();
-                    parseParts(parts, info);
+                case "Components" -> {
+                    List<Map<String, Object>> components = (List<Map<String, Object>>) entry.getValue();
+                    componentParser.parseComponents(components, info);
                 }
 
                 case "Seats" -> {
@@ -232,381 +224,6 @@ public class YamlParser implements IParser {
             }
         }
 
-    }
-
-    //TODO: add the whole default handling thing into it
-    private void parseParts(List<Map<String, Object>> parts, MCH_AircraftInfo info) {
-        for (Map<String, Object> part : parts) {
-            if (!part.containsKey("Type") || !(part.get("Type") instanceof String))
-                throw new IllegalArgumentException("Part must contain a Type string!");
-
-            String type = ((String) part.get("Type")).trim();
-            switch (type) {
-                case "Camera" -> parseDrawnPart(
-                        Camera.class,
-                        part,
-                        drawnPart -> new Camera(
-                                drawnPart,
-                                (Boolean) part.getOrDefault("yawSync", true),
-                                (Boolean) part.getOrDefault("pitchSync", false)
-                        ),
-                        info.cameraList,
-                        new HashSet<>(Arrays.asList("yawSync", "pitchSync"))
-                );
-
-                case "Canopy" -> parseDrawnPart(
-                        Canopy.class,
-                        part,
-                        drawnPart -> new Canopy(
-                                drawnPart,
-                                getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)),
-                                (Boolean) part.getOrDefault("isSliding", false)
-                        ),
-                        info.canopyList,
-                        new HashSet<>(Arrays.asList("maxRotation", "isSliding"))
-                );
-
-                case "Hatch" -> parseDrawnPart(
-                        Hatch.class,
-                        part,
-                        drawnPart -> new Hatch(
-                                drawnPart,
-                                getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)),
-                                (Boolean) part.getOrDefault("isSliding", false)
-                        ),
-                        info.hatchList,
-                        new HashSet<>(Arrays.asList("maxRotation", "isSliding"))
-                );
-
-                case "WeaponBay" -> {
-                    String weaponName = part.containsKey("WeaponName")
-                            ? ((String) part.get("WeaponName")).trim()
-                            : null;
-                    if (weaponName == null)
-                        throw new IllegalArgumentException("WeaponName is required!");
-                    parseDrawnPart(
-                            "wb",
-                            part,
-                            drawnPart -> new WeaponBay(
-                                    drawnPart,
-                                    getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)),
-                                    (Boolean) part.getOrDefault("isSliding", false),
-                                    weaponName
-                            ),
-                            info.partWeaponBay,
-                            new HashSet<>(Arrays.asList("maxRotation", "isSliding", "WeaponName"))
-                    );
-                }
-
-                case "Rotation" -> parseDrawnPart(
-                        RotPart.class,
-                        part,
-                        drawnPart -> new RotPart(
-                                drawnPart,
-                                ((Number) part.getOrDefault("Speed", 0)).floatValue(),
-                                ((Boolean) part.getOrDefault("AlwaysRotate", false))
-                        ),
-                        info.partRotPart,
-                        new HashSet<>(Arrays.asList("Speed", "AlwaysRotate"))
-                );
-
-                case "SteeringWheel" -> parseDrawnPart(
-                        "steering_wheel",
-                        part,
-                        drawnPart -> new PartWheel(
-                                drawnPart,
-                                ((Number) part.getOrDefault("Direction", 0F)).floatValue(),
-                                part.containsKey("Pivot") ? parseVector((Object[]) part.get("Pivot")) : Vec3d.ZERO
-                        ),
-                        info.partSteeringWheel,
-                        new HashSet<>(Arrays.asList("Direction", "Pivot"))
-                );
-
-                case "Wheel" -> {
-                    Vec3d pos = null;
-                    Vec3d rot = new Vec3d(0, 1, 0);
-                    Vec3d pivot = Vec3d.ZERO;
-                    String name = "wheel" + info.partWheel.size();
-                    float dir = 0;
-
-                    for (Map.Entry<String, Object> entry : part.entrySet()) {
-                        switch (entry.getKey()) {
-                            case "Position" -> pos = parseVector((Object[]) entry.getValue());
-                            case "Rotation" -> rot = parseVector((Object[]) entry.getValue());
-                            case "Direction" -> dir = getClamped(-1800.0F, 1800.0F, (Number) entry.getValue());
-                            case "Pivot" -> pivot = parseVector((Object[]) entry.getValue());
-                            case "PartName" -> name = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
-                            case "Type" -> {
-                            }
-                            default -> logUnkownEntry(entry, "PartWheel");
-                        }
-                    }
-                    if (pos == null)
-                        throw new IllegalArgumentException("Part wheel must have a Position!");
-                    info.partWheel.add(new PartWheel(new DrawnPart(pos, rot, name), dir, pivot));
-                }
-
-                case "LandingGear" -> parseDrawnPart(
-                        "lg",
-                        part,
-                        drawnPart -> {
-                            float maxRot = getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)) / 90F;
-                            boolean reverse = (Boolean) part.getOrDefault("isReverse", false);
-                            boolean hatch = (Boolean) part.getOrDefault("isHatch", false);
-                            LandingGear gear = new LandingGear(drawnPart, maxRot, reverse, hatch);
-
-                            if (part.containsKey("ArticulatedRotation")) {
-                                gear.enableRot2 = true;
-                                gear.rot2 = parseVector((Object[]) part.get("ArticulatedRotation"));
-                                gear.maxRotFactor2 = getClamped(
-                                        -180F, 180F, (Number) part.getOrDefault("MaxArticulatedRotation", 90F)
-                                ) / 90F;
-                            }
-
-                            if (part.containsKey("SlideVec")) {
-                                gear.slide = parseVector((Object[]) part.get("SlideVec"));
-                            }
-
-                            return gear;
-                        },
-                        info.landingGear,
-                        new HashSet<>(Arrays.asList("maxRotation", "isReverse", "isHatch", "ArticulatedRotation", "MaxArticulatedRotation", "SlideVec"))
-                );
-
-                case "Weapon" -> parseDrawnPart(
-                        "weapon",
-                        part,
-                        drawnPart -> {
-                            String[] weaponNames = part.containsKey("WeaponNames")
-                                    ? info.splitParamSlash(((String) part.get("WeaponNames")).toLowerCase().trim())
-                                    : new String[]{"unnamed"};
-
-                            boolean isRotatingWeapon = (Boolean) part.getOrDefault("BarrelRot", false);
-                            boolean isMissile = (Boolean) (part.getOrDefault("IsMissile", false));
-                            boolean hideGM = (Boolean) (part.getOrDefault("hideGM", false));
-                            boolean yaw = (Boolean) (part.getOrDefault("Yaw", false));
-                            boolean pitch = (Boolean) (part.getOrDefault("Pitch", false));
-                            float recoilBuf = part.containsKey("RecoilBuf") ? ((Number) part.get("RecoilBuf")).floatValue() : 0.0F;
-                            boolean turret = (Boolean) (part.getOrDefault("Turret", false));
-
-                            PartWeapon weapon = new PartWeapon(
-                                    drawnPart,
-                                    weaponNames,
-                                    isRotatingWeapon,
-                                    isMissile,
-                                    hideGM,
-                                    yaw,
-                                    pitch,
-                                    recoilBuf,
-                                    turret
-                            );
-
-                            // Parse child weapons if present
-                            if (part.containsKey("Children") && part.get("Children") instanceof List) {
-                                List<Map<String, Object>> children = (List<Map<String, Object>>) part.get("Children");
-                                for (Map<String, Object> childPart : children) {
-                                    boolean childYaw = Boolean.TRUE.equals(childPart.getOrDefault("Yaw", false));
-                                    boolean childPitch = Boolean.TRUE.equals(childPart.getOrDefault("Pitch", false));
-                                    Vec3d childPos = childPart.containsKey("Position")
-                                            ? parseVector((Object[]) childPart.get("Position"))
-                                            : Vec3d.ZERO;
-
-                                    Vec3d childRot = childPart.containsKey("Rotation")
-                                            ? parseVector((Object[]) childPart.get("Rotation"))
-                                            : Vec3d.ZERO;
-                                    float childRecoil = childPart.containsKey("RecoilBuf")
-                                            ? ((Number) childPart.get("RecoilBuf")).floatValue()
-                                            : 0.0F;
-
-                                    PartWeaponChild child = new PartWeaponChild(
-                                            childPos,
-                                            childRot,
-                                            weapon.modelName,
-                                            weapon.name,
-                                            childYaw,
-                                            childPitch,
-                                            childRecoil
-                                    );
-                                    weapon.child.add(child);
-
-                                    for (Map.Entry<String, Object> entry : childPart.entrySet()) {
-                                        if (!Arrays.asList("Position", "Yaw", "Pitch", "RecoilBuf").contains(entry.getKey())) {
-                                            logUnkownEntry(entry, "PartWeaponChild");
-                                        }
-                                    }
-                                }
-                            }
-
-                            return weapon;
-                        },
-                        info.partWeapon,
-                        new HashSet<>(Arrays.asList("WeaponNames", "RotBarrel", "IsMissile", "Yaw", "Pitch", "RecoilBuf", "Turret", "Children"))
-                );
-
-                case "TrackRoller" -> parseDrawnPart(
-                        "track_roller",
-                        part,
-                        TrackRoller::new,
-                        info.partTrackRoller,
-                        new HashSet<>()
-                );
-                case "Throttle" -> parseDrawnPart(
-                        Throttle.class,
-                        part,
-                        drawnPart -> {
-                            Vec3d slidePos = part.containsKey("SlidePos") ? parseVector((Object[]) part.get("SlidePos")) : Vec3d.ZERO;
-                            float animAngle = part.containsKey("MaxAngle")
-                                    ? ((Number) part.get("MaxAngle")).floatValue()
-                                    : 0.0F;
-
-                            return new Throttle(drawnPart, slidePos, animAngle);
-                        },
-                        info.partThrottle,
-                        new HashSet<>(Arrays.asList("MaxAngle", "SlidePos"))
-                );
-                //TODO:Extract to its own method and document, holy shit it's weird
-                case "CrawlerTrack" -> {
-
-
-                    for (Map.Entry<String, Object> entry : part.entrySet()) {
-                        boolean isReverse = false;//Controls whenever vertex order is reversed
-                        float segmentLenght = 1F;
-                        float zOffset = 0F;
-                        List<float[]> trackList = new ArrayList<>();
-
-
-                        switch (entry.getKey()) {
-                            case "IsReverse" -> isReverse = (Boolean) entry.getValue();
-                            case "SegmentLength" -> segmentLenght = getClamped(0.001F, 1000.0F, (Number) entry.getValue());
-                            case "ZOffset" -> zOffset = ((Number) entry.getValue()).floatValue();
-                            case "TrackList" -> {
-                                Object raw = entry.getValue();
-                                if (!(raw instanceof List<?> list))
-                                    throw new IllegalArgumentException("TrackList must be a list of coordinate pairs!");
-
-                                for (Object elem : list) {
-                                    if (!(elem instanceof List<?> pair) || pair.size() != 2)
-                                        throw new IllegalArgumentException("Each TrackList entry must be a 2-element list!");
-
-                                    float x = ((Number) pair.get(0)).floatValue();
-                                    float y = ((Number) pair.get(1)).floatValue();
-
-                                    trackList.add(new float[]{x, y});
-                                }
-                            }
-                            case "Type" -> {
-                            }
-                            default -> logUnkownEntry(entry, "CrawlerTrack");
-                        }
-
-                        int trackCount = trackList.size();
-                        float length = segmentLenght * 0.9F;
-                        if (trackCount < 4)
-                            throw new IllegalArgumentException("CrawlerTrack must have at least 4 track list coordinates");
-
-                        // Prepare ordered coordinate arrays
-                        double[] cx = new double[trackCount];
-                        double[] cy = new double[trackCount];
-                        for (int i = 0; i < trackCount; i++) {
-                            int idx = !isReverse ? i : trackCount - i - 1;
-                            float[] pair = trackList.get(idx);
-                            cx[i] = pair[0];
-                            cy[i] = pair[1];
-                        }
-
-                        // Build interpolated track parameter list
-                        List<MCH_AircraftInfo.CrawlerTrackPrm> trackParams = new ArrayList<>();
-                        trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm((float) cx[0], (float) cy[0]));
-
-                        double accLen = 0.0D;
-                        for (int i = 0; i < trackCount; i++) {
-                            double dx = cx[(i + 1) % trackCount] - cx[i];
-                            double dy = cy[(i + 1) % trackCount] - cy[i];
-                            double dist = Math.sqrt(dx * dx + dy * dy);
-                            accLen += dist;
-
-                            while (accLen >= length) {
-                                trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm(
-                                        (float) (cx[i] + dx * (length / dist)),
-                                        (float) (cy[i] + dy * (length / dist))
-                                ));
-                                accLen -= length;
-                            }
-                        }
-
-                        // Compute rotation between adjacent track points
-                        int n = trackParams.size();
-                        for (int i = 0; i < n; i++) {
-                            var prev = trackParams.get((i + n - 1) % n);
-                            var curr = trackParams.get(i);
-                            var next = trackParams.get((i + 1) % n);
-
-                            float rotPrev = (float) Math.toDegrees(Math.atan2(prev.x - curr.x, prev.y - curr.y));
-                            float rotNext = (float) Math.toDegrees(Math.atan2(next.x - curr.x, next.y - curr.y));
-                            float ppr = (rotPrev + 360.0F) % 360.0F;
-                            float nextAdj = rotNext + 180.0F;
-
-                            if ((nextAdj < ppr - 0.3F || nextAdj > ppr + 0.3F) && nextAdj - ppr < 100.0F && nextAdj - ppr > -100.0F)
-                                nextAdj = (nextAdj + ppr) / 2.0F;
-
-                            curr.r = nextAdj;
-                        }
-
-                        // Construct and add final track
-                        MCH_AircraftInfo.CrawlerTrack crawlerTrack = new MCH_AircraftInfo.CrawlerTrack(
-                                "crawler_track" + info.partCrawlerTrack.size()
-                        );
-                        crawlerTrack.len = length;
-                        crawlerTrack.cx = cx;
-                        crawlerTrack.cy = cy;
-                        crawlerTrack.lp = trackParams;
-                        crawlerTrack.z = zOffset;
-                        crawlerTrack.side = zOffset >= 0.0F ? 1 : 0;
-
-                        info.partCrawlerTrack.add(crawlerTrack);
-
-
-                    }
-                }
-
-
-            }
-        }
-    }
-
-    private <Y extends DrawnPart> void parseDrawnPart(
-            String defaultName,
-            Map<String, Object> map,
-            Function<DrawnPart, Y> fillChildFields,
-            List<Y> partList,
-            Set<String> knownKeys) {
-
-        Vec3d pos = map.containsKey("Position") ? parseVector((Object[]) map.get("Position")) : null;
-        Vec3d rot = map.containsKey("Rotation") ? parseVector((Object[]) map.get("Rotation")) : Vec3d.ZERO;
-
-        String modelName = (String) map.getOrDefault("PartName", defaultName + partList.size());
-        if (pos == null)
-            throw new IllegalArgumentException("Part Position must be set!");
-
-        var base = new DrawnPart(pos, rot, modelName);
-        var built = fillChildFields.apply(base);
-        partList.add(built);
-
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = entry.getKey();
-            if (!knownKeys.contains(key) && !DRAWN_PART_ARGS.contains(key))
-                logUnkownEntry(entry, built.getClass().getSimpleName());
-
-        }
-    }
-
-    private <Y extends DrawnPart> void parseDrawnPart(
-            Class<? extends DrawnPart> clazz,
-            Map<String, Object> map,
-            Function<DrawnPart, Y> fillChildFields,
-            List<Y> partList,
-            Set<String> knownKeys) {
-        parseDrawnPart(clazz.getSimpleName().toLowerCase(Locale.ROOT).trim(), map, fillChildFields, partList, knownKeys);
     }
 
 
@@ -781,8 +398,8 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "pos", "position" -> wheelPos = parseVector((Object[]) entry.getValue());
-                case "scale" -> scale = ((Number) entry.getValue()).floatValue();
+                case "Pos", "Position" -> wheelPos = parseVector((Object[]) entry.getValue());
+                case "Scale" -> scale = ((Number) entry.getValue()).floatValue();
                 default -> logUnkownEntry(entry, "Wheels");
             }
         }
@@ -793,8 +410,8 @@ public class YamlParser implements IParser {
     }
 
     private Object parseRacks(Map<String, Object> map) {
-        if (map.containsKey("type")) {
-            RACK_TYPE type = RACK_TYPE.valueOf((String) map.get("type"));
+        if (map.containsKey("Type")) {
+            RACK_TYPE type = RACK_TYPE.valueOf((String) map.get("Type"));
             return switch (type) {
                 case NORMAL -> parseSeatRackInfo(map);
                 case RIDING -> parseRidingRack(map);
@@ -847,7 +464,7 @@ public class YamlParser implements IParser {
         return new MCH_SeatRackInfo(entityNames, position.x, position.y, position.z, cameraPos, range, openParaAlt, yaw, pitch, rotSeat);
     }
 
-    private void logUnkownEntry(Map.Entry<String, Object> entry, String caller) {
+    public static void logUnkownEntry(Map.Entry<String, Object> entry, String caller) {
         MCH_Logger.get().warn("Uknown argument:" + entry.getKey() + " for " + caller);
     }
 
@@ -868,89 +485,35 @@ public class YamlParser implements IParser {
         return new RideRack(name, rackID);
     }
 
-    private SearchLight parseSearchLights(Map<String, Object> map) {
-        Vec3d pos = null;
-        int colorStart = 0xFFFFFF; // default white
-        int colorEnd = 0xFFFFFF;
-        float height = 1.0f;
-        float width = 1.0f;
-        float yaw = 0.0f;
-        float pitch = 0.0f;
-        float stRot = 0.0f;
-
-        boolean fixedDirection = false;
-        boolean steering = false;
-
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            switch (entry.getKey()) {
-                case "type" -> {
-
-                }
-                case "FixedDirection" -> fixedDirection = ((Boolean) entry.getValue()).booleanValue();
-                case "Steering" -> steering = ((Boolean) entry.getValue()).booleanValue();
-                case "Pos", "Position" -> pos = parseVector((Object[]) entry.getValue());
-                case "ColorStart" -> colorStart = parseHexColor((String) entry.getValue());
-                case "ColorEnd" -> colorEnd = parseHexColor((String) entry.getValue());
-                case "Height" -> height = ((Number) entry.getValue()).floatValue();
-                case "Width" -> width = ((Number) entry.getValue()).floatValue();
-                case "Yaw" -> yaw = ((Number) entry.getValue()).floatValue();
-                case "Pitch" -> pitch = ((Number) entry.getValue()).floatValue();
-                case "StRot" -> stRot = ((Number) entry.getValue()).floatValue();
-                default -> logUnkownEntry(entry, "SearchLights");
-            }
-        }
-
-        if (pos == null) {
-            throw new IllegalArgumentException("SearchLight must have a position!");
-        }
-
-        return new SearchLight(pos, colorStart, colorEnd, height, width, fixedDirection, yaw, pitch, steering, stRot);
 
 
-    }
-
-    private RepellingHook parseHook(Map<String, Object> map) {
-        Vec3d pos = null;
-        int interval = 0;
 
 
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            switch (entry.getKey()) {
-                case "pos" -> pos = parseVector((Object[]) entry.getValue());
-                case "interval" -> interval = ((Number) entry.getValue()).intValue();
-                default -> logUnkownEntry(entry, "RepellingHooks");
-            }
-        }
-
-        if (pos == null) throw new IllegalArgumentException("Repelling hook must have a position!");
-        return new RepellingHook(pos, interval);
-    }
-
-    public int parseHexColor(String s) {
+    public static int  parseHexColor(String s) {
         return !s.startsWith("0x") && !s.startsWith("0X") && s.indexOf(0) != 35 ? (int) (Long.decode("0x" + s).longValue()) : (int) (Long.decode(s).longValue());
     }
 
-    private float getClamped(float min, float max, Number value) {
+    public static float getClamped(float min, float max, Number value) {
         return Math.max(min, Math.min(max, value.floatValue()));
     }
 
-    private int getClamped(int min, int max, Number value) {
+    public static int getClamped(int min, int max, Number value) {
         return Math.max(min, Math.min(max, value.intValue()));
     }
 
-    private double getClamped(double min, double max, Number value) {
+    public static double getClamped(double min, double max, Number value) {
         return Math.max(min, Math.min(max, value.doubleValue()));
     }
 
-    private float getClamped(float max, Number value) {
+    public static float getClamped(float max, Number value) {
         return getClamped(0, max, value);
     }
 
-    private int getClamped(int max, Number value) {
+    public static int getClamped(int max, Number value) {
         return getClamped(0, max, value);
     }
 
-    private double getClamped(double max, Number value) {
+    public static double getClamped(double max, Number value) {
         return getClamped(0, max, value);
     }
 
@@ -1041,7 +604,7 @@ public class YamlParser implements IParser {
     }
 
 
-    private Vec3d parseVector(Object[] vector) {
+    public static Vec3d parseVector(Object[] vector) {
         if (vector instanceof Number[] numbers) {
             if (numbers.length != 3)
                 throw new IllegalArgumentException("The vector array must contain princely 3 numbers!");

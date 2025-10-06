@@ -1,4 +1,4 @@
-package com.norwood.mcheli.helper.info;
+package com.norwood.mcheli.helper.info.parsers;
 
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;

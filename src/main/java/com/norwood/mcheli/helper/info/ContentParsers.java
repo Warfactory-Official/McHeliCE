@@ -1,6 +1,7 @@
 package com.norwood.mcheli.helper.info;
 
 import com.google.common.collect.Maps;
+import com.norwood.mcheli.helper.info.parsers.IParser;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
