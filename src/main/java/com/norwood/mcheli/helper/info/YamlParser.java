@@ -238,37 +238,45 @@ public class YamlParser implements IParser {
         for (Map<String, Object> part : parts) {
             if (!part.containsKey("Type") || !(part.get("Type") instanceof String))
                 throw new IllegalArgumentException("Part must contain a Type string!");
-            switch ((String) part.get("Type")) {
+
+            String type = ((String) part.get("Type")).trim();
+            switch (type) {
                 case "Camera" -> parseDrawnPart(
                         Camera.class,
                         part,
-                        (drawnPart) -> new Camera(
+                        drawnPart -> new Camera(
                                 drawnPart,
                                 (Boolean) part.getOrDefault("yawSync", true),
                                 (Boolean) part.getOrDefault("pitchSync", false)
                         ),
-                        info.cameraList
+                        info.cameraList,
+                        new HashSet<>(Arrays.asList("yawSync", "pitchSync"))
                 );
+
                 case "Canopy" -> parseDrawnPart(
                         Canopy.class,
                         part,
-                        (drawnPart) -> new Canopy(
+                        drawnPart -> new Canopy(
                                 drawnPart,
                                 getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)),
                                 (Boolean) part.getOrDefault("isSliding", false)
                         ),
-                        info.canopyList
+                        info.canopyList,
+                        new HashSet<>(Arrays.asList("maxRotation", "isSliding"))
                 );
+
                 case "Hatch" -> parseDrawnPart(
                         Hatch.class,
                         part,
-                        (drawnPart) -> new Hatch(
+                        drawnPart -> new Hatch(
                                 drawnPart,
                                 getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)),
                                 (Boolean) part.getOrDefault("isSliding", false)
                         ),
-                        info.hatchList
+                        info.hatchList,
+                        new HashSet<>(Arrays.asList("maxRotation", "isSliding"))
                 );
+
                 case "WeaponBay" -> {
                     String weaponName = part.containsKey("WeaponName")
                             ? ((String) part.get("WeaponName")).trim()
@@ -278,24 +286,27 @@ public class YamlParser implements IParser {
                     parseDrawnPart(
                             "wb",
                             part,
-                            (drawnPart) -> new WeaponBay(
+                            drawnPart -> new WeaponBay(
                                     drawnPart,
                                     getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)),
                                     (Boolean) part.getOrDefault("isSliding", false),
                                     weaponName
                             ),
-                            info.partWeaponBay
+                            info.partWeaponBay,
+                            new HashSet<>(Arrays.asList("maxRotation", "isSliding", "WeaponName"))
                     );
                 }
+
                 case "Rotation" -> parseDrawnPart(
                         RotPart.class,
                         part,
                         drawnPart -> new RotPart(
                                 drawnPart,
                                 ((Number) part.getOrDefault("Speed", 0)).floatValue(),
-                                ((Boolean) part.getOrDefault("AlwaysRotate", false)).booleanValue()
+                                ((Boolean) part.getOrDefault("AlwaysRotate", false))
                         ),
-                        info.partRotPart
+                        info.partRotPart,
+                        new HashSet<>(Arrays.asList("Speed", "AlwaysRotate"))
                 );
 
                 case "SteeringWheel" -> parseDrawnPart(
@@ -305,16 +316,18 @@ public class YamlParser implements IParser {
                                 drawnPart,
                                 ((Number) part.getOrDefault("Direction", 0F)).floatValue(),
                                 part.containsKey("Pivot") ? parseVector((Object[]) part.get("Pivot")) : Vec3d.ZERO
-
                         ),
-                        info.partSteeringWheel
+                        info.partSteeringWheel,
+                        new HashSet<>(Arrays.asList("Direction", "Pivot"))
                 );
-                case "Wheel" -> { //Wheels have their own fucking rules ofc
+
+                case "Wheel" -> {
                     Vec3d pos = null;
                     Vec3d rot = new Vec3d(0, 1, 0);
                     Vec3d pivot = Vec3d.ZERO;
                     String name = "wheel" + info.partWheel.size();
                     float dir = 0;
+
                     for (Map.Entry<String, Object> entry : part.entrySet()) {
                         switch (entry.getKey()) {
                             case "Position" -> pos = parseVector((Object[]) entry.getValue());
@@ -322,25 +335,24 @@ public class YamlParser implements IParser {
                             case "Direction" -> dir = getClamped(-1800.0F, 1800.0F, (Number) entry.getValue());
                             case "Pivot" -> pivot = parseVector((Object[]) entry.getValue());
                             case "PartName" -> name = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
+                            case "Type" -> {}
                             default -> logUnkownEntry(entry, "PartWheel");
                         }
                     }
-                    if (pos == null) throw new IllegalArgumentException("Part wheel must have a Position!");
+                    if (pos == null)
+                        throw new IllegalArgumentException("Part wheel must have a Position!");
                     info.partWheel.add(new PartWheel(new DrawnPart(pos, rot, name), dir, pivot));
                 }
 
-                case "LandingGear" ->
-                    parseDrawnPart(
+                case "LandingGear" -> parseDrawnPart(
                         "lg",
                         part,
                         drawnPart -> {
                             float maxRot = getClamped(-180F, 180F, (Number) part.getOrDefault("maxRotation", 90F)) / 90F;
                             boolean reverse = (Boolean) part.getOrDefault("isReverse", false);
                             boolean hatch = (Boolean) part.getOrDefault("isHatch", false);
-                            LandingGear gear = new LandingGear(
-                                    drawnPart, maxRot,reverse,hatch
-                            );
-                            // Optional secondary rotation
+                            LandingGear gear = new LandingGear(drawnPart, maxRot, reverse, hatch);
+
                             if (part.containsKey("ArticulatedRotation")) {
                                 gear.enableRot2 = true;
                                 gear.rot2 = parseVector((Object[]) part.get("ArticulatedRotation"));
@@ -349,60 +361,57 @@ public class YamlParser implements IParser {
                                 ) / 90F;
                             }
 
-                            // Optional sliding vector
                             if (part.containsKey("SlideVec")) {
                                 gear.slide = parseVector((Object[]) part.get("SlideVec"));
                             }
 
-                            for (Map.Entry<String, Object> entry : part.entrySet()) {
-                                switch (entry.getKey()) {
-                                    case "Type", "Position", "Rotation", "PartName",
-                                         "maxRotation", "isReverse", "isHatch",
-                                         "ArticulatedRotation", "MaxArticulatedRotation", "SlideVec":
-                                        break;
-                                    default:
-                                        logUnkownEntry(entry, "LandingGear");
-                                }
-                            }
-
                             return gear;
                         },
-                        info.landingGear
+                        info.landingGear,
+                        new HashSet<>(Arrays.asList("maxRotation", "isReverse", "isHatch", "ArticulatedRotation", "MaxArticulatedRotation", "SlideVec"))
                 );
-                case "Weapon" -> {
 
-                }
-
+                case "Weapon" -> { /* TODO */ }
             }
-
-
-
-
         }
     }
 
     private <Y extends DrawnPart> void parseDrawnPart(
             String defaultName,
             Map<String, Object> map,
-            Function<DrawnPart, Y> fillChildFields, List<Y> partList) {
+            Function<DrawnPart, Y> fillChildFields,
+            List<Y> partList,
+            Set<String> knownKeys) {
 
         Vec3d pos = map.containsKey("Position") ? parseVector((Object[]) map.get("Position")) : null;
         Vec3d rot = map.containsKey("Rotation") ? parseVector((Object[]) map.get("Rotation")) : null;
 
         String modelName = (String) map.getOrDefault("PartName", defaultName + partList.size());
-        if (pos == null || rot == null) throw new IllegalArgumentException("Part Rotation and Position must be set!");
+        if (pos == null || rot == null)
+            throw new IllegalArgumentException("Part Rotation and Position must be set!");
 
         var base = new DrawnPart(pos, rot, modelName);
+        var built = fillChildFields.apply(base);
+        partList.add(built);
 
-        partList.add(fillChildFields.apply(base));
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            if (!knownKeys.contains(key) &&
+                    !Set.of("Type", "Position", "Rotation", "PartName").contains(key)) {
+                logUnkownEntry(entry, built.getClass().getSimpleName());
+            }
+        }
     }
 
     private <Y extends DrawnPart> void parseDrawnPart(
             Class<? extends DrawnPart> clazz,
             Map<String, Object> map,
-            Function<DrawnPart, Y> fillChildFields, List<Y> partList) {
-        parseDrawnPart(clazz.getSimpleName().toLowerCase(Locale.ROOT).trim(), map, fillChildFields, partList);
+            Function<DrawnPart, Y> fillChildFields,
+            List<Y> partList,
+            Set<String> knownKeys) {
+        parseDrawnPart(clazz.getSimpleName().toLowerCase(Locale.ROOT).trim(), map, fillChildFields, partList, knownKeys);
     }
+
 
 
     private void parseRender(Map<String, Object> renderProperties, MCH_AircraftInfo info) {
