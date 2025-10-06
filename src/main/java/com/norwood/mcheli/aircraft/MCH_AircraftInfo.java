@@ -1119,6 +1119,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.rot2 = rot;
             this.slide = new Vec3d(px2, py2, pz2);
         }
+
+        public Throttle(DrawnPart other, Vec3d slide, float rot2) {
+            super(other);
+            this.slide = slide;
+            this.rot2 = rot2;
+        }
     }
 
     public static class TrackRoller extends MCH_AircraftInfo.DrawnPart {
@@ -1129,6 +1135,10 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.side = px >= 0.0F ? 1 : 0;
         }
 
+        public TrackRoller(DrawnPart other) {
+            super(other);
+            this.side = other.pos.x >= 0 ? 1 : 0;
+        }
     }
 
     public static class Weapon {
