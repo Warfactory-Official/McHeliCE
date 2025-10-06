@@ -287,17 +287,41 @@ public class YamlParser implements IParser {
                                 ((Boolean) part.getOrDefault("AlwaysRotate", false)).booleanValue()
                         ),
                         info.partRotPart
-                        );
+                );
+
+                case "SteeringWheel" -> parseDrawnPart(
+                        "steering_wheel",
+                        part,
+                        drawnPart -> new PartWheel(
+                                drawnPart,
+                                ((Number) part.getOrDefault("Direction", 0F)).floatValue(),
+                                part.containsKey("Pivot") ? parseVector((Object[]) part.get("Pivot")) : Vec3d.ZERO
+
+                        ),
+                        info.partSteeringWheel
+                );
 
 
-//                case "Wheel" -> parseDrawnPart("wheel",
-//                        part,
-//                        drawnPart -> new PartWheel(
-//                                drawnPart,
-//
-//                                )
-//                        );
-//
+                case "Wheel" -> { //Wheels have their own fucking ruls ofc
+                    Vec3d pos = null;
+                    Vec3d rot = new Vec3d(0, 1, 0);
+                    Vec3d pivot = Vec3d.ZERO;
+                    String name = "wheel" + info.partWheel.size();
+                    float dir = 0;
+                    for (Map.Entry<String, Object> entry : part.entrySet()) {
+                        switch (entry.getKey()) {
+                            case "Position" -> pos = parseVector((Object[]) entry.getValue());
+                            case "Rotation" -> rot = parseVector((Object[]) entry.getValue());
+                            case "Direction" -> dir = getClamped(-1800.0F, 1800.0F, (Number) entry.getValue());
+                            case "Pivot" -> pivot = parseVector((Object[]) entry.getValue());
+                            case "PartName" -> name = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
+                            default -> logUnkownEntry(entry, "PartWheel");
+                        }
+                    }
+                    if(pos == null) throw new IllegalArgumentException("Part wheel must have a Position!");
+                    info.partWheel.add(new PartWheel(new DrawnPart(pos,rot, name), dir, pivot));
+                }
+
             }
 
 
@@ -324,9 +348,8 @@ public class YamlParser implements IParser {
             Class<? extends DrawnPart> clazz,
             Map<String, Object> map,
             Function<DrawnPart, Y> fillChildFields, List<Y> partList) {
-       parseDrawnPart(clazz.getSimpleName().toLowerCase(Locale.ROOT).trim(), map,fillChildFields,partList);
+        parseDrawnPart(clazz.getSimpleName().toLowerCase(Locale.ROOT).trim(), map, fillChildFields, partList);
     }
-
 
 
     private void parseRender(Map<String, Object> renderProperties, MCH_AircraftInfo info) {
@@ -538,20 +561,20 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "pos" -> position = parseVector((Object[]) entry.getValue());
-                case "camera", "cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
-                case "names", "name" -> {
+                case "Pos" -> position = parseVector((Object[]) entry.getValue());
+                case "Camera", "Cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
+                case "Names", "Name" -> {
                     Object values = entry.getValue();
                     if (values instanceof List<?> list) entityNames = list.toArray(new String[0]);
                     else if (values instanceof String[] array) entityNames = array;
                     else if (values instanceof String name) entityNames = new String[]{name};
                     else throw new IllegalArgumentException("Rack name must be a string, array or list!");
                 }
-                case "range" -> range = ((Number) entry.getValue()).floatValue();
-                case "openParaAlt" -> openParaAlt = ((Number) entry.getValue()).floatValue();
-                case "yaw" -> yaw = ((Number) entry.getValue()).floatValue();
-                case "pitch" -> pitch = ((Number) entry.getValue()).floatValue();
-                case "rotSeat" -> rotSeat = ((Boolean) entry.getValue()).booleanValue();
+                case "Range" -> range = ((Number) entry.getValue()).floatValue();
+                case "OpenParaAlt" -> openParaAlt = ((Number) entry.getValue()).floatValue();
+                case "Yaw" -> yaw = ((Number) entry.getValue()).floatValue();
+                case "Pitch" -> pitch = ((Number) entry.getValue()).floatValue();
+                case "RotSeat" -> rotSeat = ((Boolean) entry.getValue()).booleanValue();
                 default -> logUnkownEntry(entry, "Racks");
             }
         }
@@ -747,7 +770,7 @@ public class YamlParser implements IParser {
                 case "MaxPitch" -> maxPitch = ((Number) entry.getValue()).floatValue();
                 case "RotSeat" -> rotatableSeat = ((Boolean) entry.getValue()).booleanValue();
                 case "InvCamPos" -> invertCameraPos = ((Boolean) entry.getValue()).booleanValue();
-                case "Camera", "cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
+                case "Camera", "Cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
                 default -> logUnkownEntry(entry, "Seats");
             }
         }

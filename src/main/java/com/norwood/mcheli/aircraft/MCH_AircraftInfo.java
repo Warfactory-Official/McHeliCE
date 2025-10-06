@@ -1100,6 +1100,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             super(paramMCH_AircraftInfo, px, py, pz, 0.0F, 0.0F, 0.0F, name);
             this.side = px >= 0.0F ? 1 : 0;
         }
+
     }
 
     public static class Weapon {
