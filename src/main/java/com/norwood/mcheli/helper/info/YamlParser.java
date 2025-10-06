@@ -462,9 +462,112 @@ public class YamlParser implements IParser {
                             return new Throttle(drawnPart, slidePos, animAngle);
                         },
                         info.partThrottle,
-                        new HashSet<>(Arrays.asList("MaxAngle","SlidePos"))
+                        new HashSet<>(Arrays.asList("MaxAngle", "SlidePos"))
                 );
+                //TODO:Extract to its own method and document, holy shit it's weird
+                case "CrawlerTrack" -> {
 
+
+                    for (Map.Entry<String, Object> entry : part.entrySet()) {
+                        boolean isReverse = false;//Controls whenever vertex order is reversed
+                        float segmentLenght = 1F;
+                        float zOffset = 0F;
+                        List<float[]> trackList = new ArrayList<>();
+
+
+                        switch (entry.getKey()) {
+                            case "IsReverse" -> isReverse = (Boolean) entry.getValue();
+                            case "SegmentLength" -> segmentLenght = getClamped(0.001F, 1000.0F, (Number) entry.getValue());
+                            case "ZOffset" -> zOffset = ((Number) entry.getValue()).floatValue();
+                            case "TrackList" -> {
+                                Object raw = entry.getValue();
+                                if (!(raw instanceof List<?> list))
+                                    throw new IllegalArgumentException("TrackList must be a list of coordinate pairs!");
+
+                                for (Object elem : list) {
+                                    if (!(elem instanceof List<?> pair) || pair.size() != 2)
+                                        throw new IllegalArgumentException("Each TrackList entry must be a 2-element list!");
+
+                                    float x = ((Number) pair.get(0)).floatValue();
+                                    float y = ((Number) pair.get(1)).floatValue();
+
+                                    trackList.add(new float[]{x, y});
+                                }
+                            }
+                            case "Type" -> {
+                            }
+                            default -> logUnkownEntry(entry, "CrawlerTrack");
+                        }
+
+                        int trackCount = trackList.size();
+                        float length = segmentLenght * 0.9F;
+                        if (trackCount < 4)
+                            throw new IllegalArgumentException("CrawlerTrack must have at least 4 track list coordinates");
+
+                        // Prepare ordered coordinate arrays
+                        double[] cx = new double[trackCount];
+                        double[] cy = new double[trackCount];
+                        for (int i = 0; i < trackCount; i++) {
+                            int idx = !isReverse ? i : trackCount - i - 1;
+                            float[] pair = trackList.get(idx);
+                            cx[i] = pair[0];
+                            cy[i] = pair[1];
+                        }
+
+                        // Build interpolated track parameter list
+                        List<MCH_AircraftInfo.CrawlerTrackPrm> trackParams = new ArrayList<>();
+                        trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm((float) cx[0], (float) cy[0]));
+
+                        double accLen = 0.0D;
+                        for (int i = 0; i < trackCount; i++) {
+                            double dx = cx[(i + 1) % trackCount] - cx[i];
+                            double dy = cy[(i + 1) % trackCount] - cy[i];
+                            double dist = Math.sqrt(dx * dx + dy * dy);
+                            accLen += dist;
+
+                            while (accLen >= length) {
+                                trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm(
+                                        (float) (cx[i] + dx * (length / dist)),
+                                        (float) (cy[i] + dy * (length / dist))
+                                ));
+                                accLen -= length;
+                            }
+                        }
+
+                        // Compute rotation between adjacent track points
+                        int n = trackParams.size();
+                        for (int i = 0; i < n; i++) {
+                            var prev = trackParams.get((i + n - 1) % n);
+                            var curr = trackParams.get(i);
+                            var next = trackParams.get((i + 1) % n);
+
+                            float rotPrev = (float) Math.toDegrees(Math.atan2(prev.x - curr.x, prev.y - curr.y));
+                            float rotNext = (float) Math.toDegrees(Math.atan2(next.x - curr.x, next.y - curr.y));
+                            float ppr = (rotPrev + 360.0F) % 360.0F;
+                            float nextAdj = rotNext + 180.0F;
+
+                            if ((nextAdj < ppr - 0.3F || nextAdj > ppr + 0.3F) && nextAdj - ppr < 100.0F && nextAdj - ppr > -100.0F)
+                                nextAdj = (nextAdj + ppr) / 2.0F;
+
+                            curr.r = nextAdj;
+                        }
+
+                        // Construct and add final track
+                        MCH_AircraftInfo.CrawlerTrack crawlerTrack = new MCH_AircraftInfo.CrawlerTrack(
+                                "crawler_track" + info.partCrawlerTrack.size()
+                        );
+                        crawlerTrack.len = length;
+                        crawlerTrack.cx = cx;
+                        crawlerTrack.cy = cy;
+                        crawlerTrack.lp = trackParams;
+                        crawlerTrack.z = zOffset;
+                        crawlerTrack.side = zOffset >= 0.0F ? 1 : 0;
+
+                        info.partCrawlerTrack.add(crawlerTrack);
+
+
+                    }
+                }
 
 
             }

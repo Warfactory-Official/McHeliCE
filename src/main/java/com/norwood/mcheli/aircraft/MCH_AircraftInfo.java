@@ -746,16 +746,24 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public CrawlerTrack(MCH_AircraftInfo paramMCH_AircraftInfo, String name) {
             super(paramMCH_AircraftInfo, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, name);
         }
+        public CrawlerTrack(String name) {
+            super(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, name);
+        }
     }
 
     public static class CrawlerTrackPrm {
-        final float x;
-        final float y;
-        float nx;
-        float ny;
-        float r;
+        public final float x;
+        public final float y;
+        public float nx;
+        public float ny;
+        public float r;
 
         public CrawlerTrackPrm(MCH_AircraftInfo paramMCH_AircraftInfo, float x, float y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public CrawlerTrackPrm(float x, float y) {
             this.x = x;
             this.y = y;
         }
