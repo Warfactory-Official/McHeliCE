@@ -173,7 +173,7 @@ public class YamlParser implements IParser {
                 }
                 case "PhysicalProperties" -> {
                     Map<String, Object> phisicalProperties = (Map<String, Object>) entry.getValue();
-                    phisicalProperties.entrySet().stream().forEach((armorEntry) -> parsePhisProperties(armorEntry, info));
+                    phisicalProperties.entrySet().forEach((armorEntry) -> parsePhisProperties(armorEntry, info));
                 }
                 case "Render" -> {
                     Map<String, Object> renderProperties = (Map<String, Object>) entry.getValue();
@@ -188,12 +188,12 @@ public class YamlParser implements IParser {
                 }
                 case "Armor" -> {
                     Map<String, Object> armorSettings = (Map<String, Object>) entry.getValue();
-                    armorSettings.entrySet().stream().forEach((armorEntry) -> parseArmor(armorEntry, info));
+                    armorSettings.entrySet().forEach((armorEntry) -> parseArmor(armorEntry, info));
                 }
 
                 case "Camera" -> {
                     Map<String, Object> cameraSettings = (Map<String, Object>) entry.getValue();
-                    cameraSettings.entrySet().stream().forEach(((camEntry) -> parseGlobalCamera(info, camEntry)));
+                    cameraSettings.entrySet().forEach(((camEntry) -> parseGlobalCamera(info, camEntry)));
 
                 }
                 case "AircraftFeatures" -> {
@@ -315,7 +315,7 @@ public class YamlParser implements IParser {
                         for (Map.Entry<String, Object> mobEntry : ((Map<String, Object>) parachuteMapRaw).entrySet()) {
                             switch (mobEntry.getKey()) {
                                 case "Pos", "Position" ->
-                                        info.mobDropOption.pos = parseVector((Object[]) mobEntry.getValue());
+                                        info.mobDropOption.pos = parseVector(mobEntry.getValue());
                                 case "Interval" ->
                                         info.mobDropOption.interval = ((Number) mobEntry.getValue()).intValue();
                                 default -> logUnkownEntry(mobEntry, "Parachuting");
@@ -336,8 +336,7 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : value.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos", "Positions" -> pos = parseVector((Object[]) entry.getValue());
-
+                case "Pos", "Positions" -> pos = parseVector(entry.getValue());
                 case "Type", "Types" -> {
                     List<String> typeStrings = new ArrayList<>();
                     if (entry.getValue() instanceof String singleType) {
@@ -399,7 +398,7 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos", "Position" -> wheelPos = parseVector((Object[]) entry.getValue());
+                case "Pos", "Position" -> wheelPos = parseVector(entry.getValue());
                 case "Scale" -> scale = ((Number) entry.getValue()).floatValue();
                 default -> logUnkownEntry(entry, "Wheels");
             }
@@ -437,7 +436,7 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos" -> position = parseVector((Object[]) entry.getValue());
+                case "Pos" -> position = parseVector(entry.getValue());
                 case "Camera", "Cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
                 case "Names", "Name" -> {
                     Object values = entry.getValue();
@@ -486,12 +485,13 @@ public class YamlParser implements IParser {
         return new RideRack(name, rackID);
     }
 
-
-
-
-
-    public static int  parseHexColor(String s) {
-        return !s.startsWith("0x") && !s.startsWith("0X") && s.indexOf(0) != 35 ? (int) (Long.decode("0x" + s).longValue()) : (int) (Long.decode(s).longValue());
+    public static int parseHexColor(String s) {
+        // Accepts "0xRRGGBB", "#RRGGBB", "RRGGBB"
+        if (s == null || s.isEmpty()) throw new IllegalArgumentException("Color string is empty");
+        String t = s.trim();
+        if (t.startsWith("#")) t = "0x" + t.substring(1);
+        if (!t.startsWith("0x") && !t.startsWith("0X")) t = "0x" + t;
+        return (int) (Long.decode(t).longValue());
     }
 
     public static float getClamped(float min, float max, Number value) {
@@ -531,7 +531,7 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos" -> pos = parseVector((Object[]) entry.getValue());
+                case "Pos" -> pos = parseVector(entry.getValue());
                 case "Count" -> num = getClamped(1, 100, (Number) entry.getValue());
                 case "Size" -> size = ((Number) entry.getValue()).floatValue();
                 case "Accel" -> acceleration = ((Number) entry.getValue()).floatValue();
@@ -555,7 +555,7 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos" -> pos = parseVector((Object[]) entry.getValue());
+                case "Pos" -> pos = parseVector(entry.getValue());
                 case "FixedRot" -> fixRot = ((Boolean) entry.getValue()).booleanValue();
                 case "Yaw" -> yaw = ((Number) entry.getValue()).floatValue();
                 case "Pitch" -> pitch = ((Number) entry.getValue()).floatValue();
@@ -582,7 +582,7 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos" -> position = parseVector((Object[]) entry.getValue());
+                case "Pos" -> position = parseVector(entry.getValue());
                 case "Gunner" -> isGunner = ((Boolean) entry.getValue()).booleanValue();
                 case "SwitchGunner" -> canSwitchGunner = ((Boolean) entry.getValue()).booleanValue();
                 case "FixRot" -> hasFixedRotation = ((Boolean) entry.getValue()).booleanValue();
@@ -604,17 +604,61 @@ public class YamlParser implements IParser {
         return new MCH_SeatInfo(position, isGunner, cameraPos, invertCameraPos, canSwitchGunner, hasFixedRotation, fixedYaw, fixedPitch, minPitch, maxPitch, rotatableSeat);
     }
 
+    public static Vec3d parseVector(Object vector) {
+        if (vector == null) throw new IllegalArgumentException("Vector value is null");
 
-    public static Vec3d parseVector(Object[] vector) {
-        if (vector instanceof Number[] numbers) {
-            if (numbers.length != 3)
-                throw new IllegalArgumentException("The vector array must contain princely 3 numbers!");
-            return new Vec3d(numbers[0].doubleValue(), numbers[1].doubleValue(), numbers[2].doubleValue());
-        } else throw new IllegalArgumentException("Vector must be an array of Numbers!");
+        // List form (most common from SnakeYAML)
+        if (vector instanceof List<?> list) {
+            if (list.size() != 3) {
+                throw new IllegalArgumentException("Vector list must have exactly 3 elements, got " + list.size());
+            }
+            return new Vec3d(asDouble(list.get(0)), asDouble(list.get(1)), asDouble(list.get(2)));
+        }
+        // Object[] / Number[] forms
+        else if (vector instanceof Object[] arr) {
+            if (arr.length != 3) throw new IllegalArgumentException("Vector array must have exactly 3 elements");
+            return new Vec3d(asDouble(arr[0]), asDouble(arr[1]), asDouble(arr[2]));
+        } else if (vector instanceof Number[] nums) {
+            if (nums.length != 3) throw new IllegalArgumentException("Vector array must have exactly 3 elements");
+            return new Vec3d(nums[0].doubleValue(), nums[1].doubleValue(), nums[2].doubleValue());
+        }
+        // Primitive arrays
+        else if (vector instanceof double[] d && d.length == 3) {
+            return new Vec3d(d[0], d[1], d[2]);
+        } else if (vector instanceof float[] f && f.length == 3) {
+            return new Vec3d(f[0], f[1], f[2]);
+        } else if (vector instanceof int[] i && i.length == 3) {
+            return new Vec3d(i[0], i[1], i[2]);
+        } else if (vector instanceof long[] l && l.length == 3) {
+            return new Vec3d(l[0], l[1], l[2]);
+        }
+        // Map form: {x: , y: , z: } / {X:,Y:,Z:}
+        else if (vector instanceof Map<?, ?> m) {
+            Object x = m.containsKey("x") ? m.get("x") : m.get("X");
+            Object y = m.containsKey("y") ? m.get("y") : m.get("Y");
+            Object z = m.containsKey("z") ? m.get("z") : m.get("Z");
+            if (x == null || y == null || z == null) {
+                throw new IllegalArgumentException("Vector map must contain keys x,y,z (case-insensitive)");
+            }
+            return new Vec3d(asDouble(x), asDouble(y), asDouble(z));
+        }
+        // String form: "x y z" or "x,y,z"
+        else if (vector instanceof String s) {
+            String[] parts = s.trim().split("[,\\s]+");
+            if (parts.length != 3) {
+                throw new IllegalArgumentException("Vector string must have 3 components, got: " + s);
+            }
+            return new Vec3d(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]), Double.parseDouble(parts[2]));
+        }
 
-
+        throw new IllegalArgumentException("Unsupported vector value type: " + vector.getClass());
     }
 
+    private static double asDouble(Object o) {
+        if (o instanceof Number n) return n.doubleValue();
+        if (o instanceof String s) return Double.parseDouble(s.trim());
+        throw new IllegalArgumentException("Vector component must be numeric, got: " + o.getClass());
+    }
 
     public static enum RACK_TYPE {//Could be bool, but this makes it more extensible
         NORMAL, RIDING

@@ -1023,8 +1023,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @AllArgsConstructor
     public static class RepellingHook {
-        final Vec3d pos;
-        final int interval;
+        public final Vec3d pos;
+        public final int interval;
 
         public RepellingHook(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d pos, int inv) {
             this.pos = pos;
