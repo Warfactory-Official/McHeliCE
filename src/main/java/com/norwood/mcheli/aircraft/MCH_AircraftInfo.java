@@ -8,7 +8,7 @@ import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.hud.MCH_HudManager;
 import com.norwood.mcheli.wrapper.W_Entity;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.experimental.SuperBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.math.Vec3d;
@@ -678,7 +678,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         return true;
     }
 
-    @Builder
+    // mlbv: @Builder can't handle inheritance
+    @SuperBuilder(toBuilder = true)
     public static class Camera extends MCH_AircraftInfo.DrawnPart {
         public final boolean yawSync;
         public final boolean pitchSync;
@@ -769,7 +770,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
     }
 
-    @Builder
+    @SuperBuilder(toBuilder = true)
     public static class DrawnPart {
         public final Vec3d pos;
         public final Vec3d rot;
