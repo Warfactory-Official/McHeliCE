@@ -106,13 +106,14 @@ public class ComponentParser {
                         drawnPart -> new MCH_AircraftInfo.PartWheel(
                                 drawnPart,
                                 ((Number) component.getOrDefault("Direction", 0F)).floatValue(),
-                                component.containsKey("Pivot") ? parseVector((Object[]) component.get("Pivot")) : Vec3d.ZERO
+                                component.containsKey("Pivot") ? parseVector(component.get("Pivot")) : Vec3d.ZERO
                         ),
                         info.partSteeringWheel,
                         new HashSet<>(Arrays.asList("Direction", "Pivot"))
                 )).forEachOrdered(info.partSteeringWheel::add);
 
                 case "Wheel" -> componentList.stream().map( component -> {
+                    //Wheels  of being a drawn part, have their own constraints and defaults
                     Vec3d pos = null;
                     Vec3d rot = new Vec3d(0, 1, 0);
                     Vec3d pivot = Vec3d.ZERO;
@@ -121,10 +122,10 @@ public class ComponentParser {
 
                     for (Map.Entry<String, Object> wheelEntry : component.entrySet()) {
                         switch (wheelEntry.getKey()) {
-                            case "Position" -> pos = parseVector((Object[]) wheelEntry.getValue());
-                            case "Rotation" -> rot = parseVector((Object[]) wheelEntry.getValue());
+                            case "Position" -> pos = parseVector(wheelEntry.getValue());
+                            case "Rotation" -> rot = parseVector(wheelEntry.getValue());
                             case "Direction" -> dir = getClamped(-1800.0F, 1800.0F, (Number) wheelEntry.getValue());
-                            case "Pivot" -> pivot = parseVector((Object[]) wheelEntry.getValue());
+                            case "Pivot" -> pivot = parseVector(wheelEntry.getValue());
                             case "PartName" -> name = ((String) wheelEntry.getValue()).toLowerCase(Locale.ROOT).trim();
                             default -> logUnkownEntry(wheelEntry, "PartWheel");
                         }
@@ -145,14 +146,14 @@ public class ComponentParser {
 
                             if (component.containsKey("ArticulatedRotation")) {
                                 gear.enableRot2 = true;
-                                gear.rot2 = parseVector((Object[]) component.get("ArticulatedRotation"));
+                                gear.rot2 = parseVector(component.get("ArticulatedRotation"));
                                 gear.maxRotFactor2 = getClamped(
                                         -180F, 180F, (Number) component.getOrDefault("MaxArticulatedRotation", 90F)
                                 ) / 90F;
                             }
 
                             if (component.containsKey("SlideVec")) {
-                                gear.slide = parseVector((Object[]) component.get("SlideVec"));
+                                gear.slide = parseVector(component.get("SlideVec"));
                             }
 
                             return gear;
@@ -196,11 +197,11 @@ public class ComponentParser {
                                     boolean childYaw = Boolean.TRUE.equals(childPart.getOrDefault("Yaw", false));
                                     boolean childPitch = Boolean.TRUE.equals(childPart.getOrDefault("Pitch", false));
                                     Vec3d childPos = childPart.containsKey("Position")
-                                            ? parseVector((Object[]) childPart.get("Position"))
+                                            ? parseVector(childPart.get("Position"))
                                             : Vec3d.ZERO;
 
                                     Vec3d childRot = childPart.containsKey("Rotation")
-                                            ? parseVector((Object[]) childPart.get("Rotation"))
+                                            ? parseVector(childPart.get("Rotation"))
                                             : Vec3d.ZERO;
                                     float childRecoil = childPart.containsKey("RecoilBuf")
                                             ? ((Number) childPart.get("RecoilBuf")).floatValue()
@@ -244,7 +245,7 @@ public class ComponentParser {
                         MCH_AircraftInfo.Throttle.class,
                         component,
                         drawnPart -> {
-                            Vec3d slidePos = component.containsKey("SlidePos") ? parseVector((Object[]) component.get("SlidePos")) : Vec3d.ZERO;
+                            Vec3d slidePos = component.containsKey("SlidePos") ? parseVector(component.get("SlidePos")) : Vec3d.ZERO;
                             float animAngle = component.containsKey("MaxAngle")
                                     ? ((Number) component.get("MaxAngle")).floatValue()
                                     : 0.0F;
@@ -347,8 +348,8 @@ public class ComponentParser {
             List<Y> partList,
             Set<String> knownKeys) {
 
-        Vec3d pos = map.containsKey("Position") ? parseVector((Object[]) map.get("Position")) : null;
-        Vec3d rot = map.containsKey("Rotation") ? parseVector((Object[]) map.get("Rotation")) : Vec3d.ZERO;
+        Vec3d pos = map.containsKey("Position") ? parseVector(map.get("Position")) : null;
+        Vec3d rot = map.containsKey("Rotation") ? parseVector(map.get("Rotation")) : Vec3d.ZERO;
 
         String modelName = (String) map.getOrDefault("PartName", defaultName + partList.size());
         if (pos == null)
@@ -382,7 +383,7 @@ public class ComponentParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "pos" -> pos = parseVector((Object[]) entry.getValue());
+                case "pos" -> pos = parseVector(entry.getValue());
                 case "interval" -> interval = ((Number) entry.getValue()).intValue();
                 default -> logUnkownEntry(entry, "RepellingHooks");
             }
@@ -412,7 +413,7 @@ public class ComponentParser {
                 }
                 case "FixedDirection" -> fixedDirection = ((Boolean) entry.getValue()).booleanValue();
                 case "Steering" -> steering = ((Boolean) entry.getValue()).booleanValue();
-                case "Pos", "Position" -> pos = parseVector((Object[]) entry.getValue());
+                case "Pos", "Position" -> pos = parseVector(entry.getValue());
                 case "ColorStart" -> colorStart = parseHexColor((String) entry.getValue());
                 case "ColorEnd" -> colorEnd = parseHexColor((String) entry.getValue());
                 case "Height" -> height = ((Number) entry.getValue()).floatValue();

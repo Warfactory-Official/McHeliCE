@@ -295,8 +295,8 @@ class YamlParserTest {
         assertEquals(1, info.searchLights.size());
         MCH_AircraftInfo.SearchLight searchLight = info.searchLights.get(0);
         assertVecEquals(new Vec3d(1.0, 2.0, 3.0), searchLight.pos);
-        assertEquals(YamlParser.INSTANCE.parseHexColor("0x00FF00"), searchLight.colorStart);
-        assertEquals(YamlParser.INSTANCE.parseHexColor("FF0000"), searchLight.colorEnd);
+        assertEquals(YamlParser.parseHexColor("0x00FF00"), searchLight.colorStart);
+        assertEquals(YamlParser.parseHexColor("FF0000"), searchLight.colorEnd);
         assertEquals(2.5f, searchLight.height);
         assertEquals(1.5f, searchLight.width);
         assertTrue(searchLight.fixDir);
@@ -370,8 +370,8 @@ class YamlParserTest {
 
     @Test
     void parseHexColorSupportsPrefixedAndUnprefixedValues() {
-        assertEquals(0xABCDEF, YamlParser.INSTANCE.parseHexColor("0xABCDEF"));
-        assertEquals(0x123456, YamlParser.INSTANCE.parseHexColor("123456"));
+        assertEquals(0xABCDEF, YamlParser.parseHexColor("0xABCDEF"));
+        assertEquals(0x123456, YamlParser.parseHexColor("123456"));
     }
 
     @Test

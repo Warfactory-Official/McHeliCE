@@ -200,7 +200,7 @@ public class YamlParser implements IParser {
                     Map<String, Object> feats = (Map<String, Object>) entry.getValue();
                     parseAircraftFeatures(feats, info);
                 }
-                case "Racks" -> {
+                case "Racks" -> { //TODO:Move to components
                     List<Map<String, Object>> racks = (List<Map<String, Object>>) entry.getValue();
                     racks.stream().map(this::parseRacks).forEach((rack) -> {
                         if (rack instanceof MCH_SeatRackInfo r) info.entityRackList.add(r);
@@ -215,6 +215,12 @@ public class YamlParser implements IParser {
                    var  components = (Map<String, List<Map<String, Object>>>)entry.getValue();
                     componentParser.parseComponents( components, info);
                 }
+                case "Sound" -> {
+                    Map<String,Object> soundSettings = (Map<String, Object>) entry.getValue();
+                    parseSound(soundSettings,info);
+
+
+                }
 
                 case "Seats" -> {
 
@@ -225,6 +231,17 @@ public class YamlParser implements IParser {
             }
         }
 
+    }
+
+    private void parseSound(Map<String, Object> soundSettings, MCH_AircraftInfo info) {
+
+        for (Map.Entry<String, Object> entry : soundSettings.entrySet()) {
+            switch (entry.getKey()){
+                case "Volume","Vol" -> info.soundVolume = getClamped(10F, (Number) entry.getValue());
+                case "Pitch" -> info.soundVolume = getClamped(1F,10F, (Number) entry.getValue());
+            }
+
+        }
     }
 
 
@@ -241,6 +258,7 @@ public class YamlParser implements IParser {
                 case "ModelHeight" -> info.entityHeight = ((Number) entry.getValue()).floatValue();
                 case "ModelPitch" -> info.entityPitch = ((Number) entry.getValue()).floatValue();
                 case "ModelRoll" -> info.entityRoll = ((Number) entry.getValue()).floatValue();
+                default -> logUnkownEntry(entry,"Render");
             }
 
         }
@@ -305,6 +323,7 @@ public class YamlParser implements IParser {
                 case "GunnerMode" -> info.isEnableGunnerMode = ((Boolean) entry.getValue()).booleanValue();
                 case "NightVision" -> info.isEnableNightVision = ((Boolean) entry.getValue()).booleanValue();
                 case "EntityRadar" -> info.isEnableEntityRadar = ((Boolean) entry.getValue()).booleanValue();
+                case "CanReverse" -> info.enableBack  = ((Boolean) entry.getValue()).booleanValue();
                 case "ConcurrentGunner" ->
                         info.isEnableConcurrentGunnerMode = ((Boolean) entry.getValue()).booleanValue();
                 case "EjectionSeat" -> info.isEnableEjectionSeat = ((Boolean) entry.getValue()).booleanValue();
