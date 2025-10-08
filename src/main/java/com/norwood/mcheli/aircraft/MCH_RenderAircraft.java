@@ -32,6 +32,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
@@ -1029,19 +1030,34 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             this.bindTexture("textures/hit_box.png");
             debugModel.renderAll();
             GlStateManager.popMatrix();
+
             GlStateManager.pushMatrix();
             GlStateManager.translate(x, y, z);
 
             for (MCH_BoundingBox bb : e.extraBoundingBox) {
                 GlStateManager.pushMatrix();
-                GlStateManager.translate(bb.rotatedOffset.x, bb.rotatedOffset.y, bb.rotatedOffset.z);
-                GlStateManager.pushMatrix();
+
+                if (bb.rotatedOffset != null)
+                    GlStateManager.translate(bb.rotatedOffset.x, bb.rotatedOffset.y, bb.rotatedOffset.z);
+                float yAngle = bb.rotationYaw;
+                float pAngle = bb.rotationPitch;
+                float rAngle = bb.rotationRoll;
+                if (bb.boundingBoxType == MCH_BoundingBox.EnumBoundingBoxType.TURRET) {
+                    yAngle += bb.localRotYaw;
+                    pAngle += bb.localRotPitch;
+                    rAngle += bb.localRotRoll;
+                }
+
+                GlStateManager.rotate(-yAngle, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(pAngle, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotate(rAngle, 0.0F, 0.0F, 1.0F);
+
                 GlStateManager.scale(bb.width, bb.height, bb.width);
+
                 this.bindTexture("textures/bounding_box.png");
                 debugModel.renderAll();
                 GlStateManager.popMatrix();
                 this.drawHitBoxDetail(bb);
-                GlStateManager.popMatrix();
             }
 
             GlStateManager.popMatrix();
@@ -1049,37 +1065,43 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     }
 
     public void drawHitBoxDetail(MCH_BoundingBox bb) {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        float f1 = 0.080000006F;
-        String s = String.format("%.2f", bb.damegeFactor);
+        String s = String.format("%.2f", bb.damageFactor);
+        float scale = 0.08F;
+
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.0F, 0.5F + (float) (bb.offsetY * 0.0 + bb.height), 0.0F);
-        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        GlStateManager.scale(-f1, -f1, f1);
-        GlStateManager.disableLighting();
-        GlStateManager.enableBlend();
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GlStateManager.disableTexture2D();
-        FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder builder = tessellator.getBuffer();
-        builder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        int i = fontrenderer.getStringWidth(s) / 2;
-        builder.pos(-i - 1, -1.0, 0.1).color(0.0F, 0.0F, 0.0F, 0.4F).endVertex();
-        builder.pos(-i - 1, 8.0, 0.1).color(0.0F, 0.0F, 0.0F, 0.4F).endVertex();
-        builder.pos(i + 1, 8.0, 0.1).color(0.0F, 0.0F, 0.0F, 0.4F).endVertex();
-        builder.pos(i + 1, -1.0, 0.1).color(0.0F, 0.0F, 0.0F, 0.4F).endVertex();
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.depthMask(false);
-        int color = bb.damegeFactor > 1.0F ? 16711680 : (bb.damegeFactor < 1.0F ? '\uffff' : 16777215);
-        fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, 0, -1073741824 | color);
-        GlStateManager.depthMask(true);
-        GlStateManager.enableLighting();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.popMatrix();
+
+
+        Vec3d offset = bb.rotatedOffset == null ? Vec3d.ZERO : bb.rotatedOffset;
+            GlStateManager.translate(offset.x, offset.y, offset.z);
+            GlStateManager.translate(0.0F, 0.5F + bb.height, 0.0F);
+
+            GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+            GlStateManager.scale(-scale, -scale, scale);
+
+
+            FontRenderer font = this.getFontRendererFromRenderManager();
+
+            int strWidth = font.getStringWidth(s) / 2;
+
+            Tessellator tess = Tessellator.getInstance();
+            BufferBuilder buf = tess.getBuffer();
+
+            GlStateManager.disableTexture2D();
+            buf.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
+            buf.pos(-strWidth - 1, -1.0D, 0.0D).color(0F, 0F, 0F, 0.4F).endVertex();
+            buf.pos(-strWidth - 1, 8.0D, 0.0D).color(0F, 0F, 0F, 0.4F).endVertex();
+            buf.pos(strWidth + 1, 8.0D, 0.0D).color(0F, 0F, 0F, 0.4F).endVertex();
+            buf.pos(strWidth + 1, -1.0D, 0.0D).color(0F, 0F, 0F, 0.4F).endVertex();
+            tess.draw();
+            GlStateManager.enableTexture2D();
+
+            int color = bb.damageFactor < 1.0F ? 0xFFFFFFFF :
+                    (bb.damageFactor > 1.0F ? 0xFFFF0000 : 0xFFFFFF);
+            font.drawString(s, -font.getStringWidth(s) / 2, 0, color);
+
+            GlStateManager.popMatrix();
+            GlStateManager.resetColor();
     }
 
     public final boolean shouldRender(MCH_EntityAircraft livingEntity, ICamera camera, double camX, double camY, double camZ) {

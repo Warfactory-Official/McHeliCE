@@ -209,6 +209,13 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      * APS范围
      */
     public int apsRange = 8;
+
+
+    /**
+     * Scale of preview in TheOneProbe
+     */
+    public float oneProbeScale;
+
     private String lastWeaponType = "";
     private int lastWeaponIndex = -1;
     private MCH_AircraftInfo.PartWeapon lastWeaponPart;
@@ -340,6 +347,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         this.partWheel = new ArrayList<>();
         this.partSteeringWheel = new ArrayList<>();
         this.lightHatchList = new ArrayList<>();
+        this.oneProbeScale = 1F;
     }
 
     public static String[] getCannotReloadItem() {

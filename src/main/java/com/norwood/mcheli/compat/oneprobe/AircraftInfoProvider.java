@@ -24,7 +24,9 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
     @Optional.Method(modid = "theoneprobe")
     public boolean overrideStandardInfo(ProbeMode probeMode, IProbeInfo iProbeInfo, EntityPlayer entityPlayer, World world, Entity entity, IProbeHitEntityData iProbeHitEntityData) {
         if (entity instanceof MCH_EntityAircraft aircraft) {
-            iProbeInfo.entity(aircraft, iProbeInfo.defaultEntityStyle().height(20).width(20));
+            var info = aircraft.getAcInfo();
+            if(info == null) return false;
+            iProbeInfo.entity(aircraft, iProbeInfo.defaultEntityStyle().scale(info.oneProbeScale));
             return true;
         }
         return false;

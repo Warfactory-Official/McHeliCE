@@ -1,6 +1,7 @@
 package com.norwood.mcheli.aircraft;
 
 import com.norwood.mcheli.MCH_Lib;
+import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
@@ -12,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 public class MCH_BoundingBox {
 
     /** Current axis-aligned bounding box (used for broad-phase intersection tests) */
+    @Getter
     public AxisAlignedBB boundingBox;
 
     /** Previous frame's bounding box (kept for historical state) */
@@ -40,6 +42,7 @@ public class MCH_BoundingBox {
     public Vec3d prevPos;
 
     /** Damage factor when this bounding box is hit */
+    @Getter
     public float damageFactor;
 
     /** Type of bounding box (unused, reserved for extensions) */
@@ -104,7 +107,7 @@ public class MCH_BoundingBox {
     /**
      * Creates a deep copy of this MCH_BoundingBox instance.
      */
-    public MCH_BoundingBox copyBoundingBox() {
+    public MCH_BoundingBox copy() {
         MCH_BoundingBox bb = new MCH_BoundingBox(this.offsetX, this.offsetY, this.offsetZ,
                 this.width, this.height, this.widthZ, this.damageFactor);
         bb.rotationYaw = this.rotationYaw;

@@ -154,6 +154,7 @@ public abstract class MCH_EntityAircraft
     public double prevRidingEntityPosZ;
     public boolean canRideRackStatus;
     public MCH_BoundingBox[] extraBoundingBox;
+    @Nullable public String lastBBName;
     public float lastBBDamageFactor;
     public MCH_EntityAircraft.WeaponBay[] weaponBays;
     public float[] rotPartRotation;
@@ -290,6 +291,7 @@ public abstract class MCH_EntityAircraft
         this.extraBoundingBox = new MCH_BoundingBox[0];
         this.setEntityBoundingBox(new MCH_AircraftBoundingBox(this));
         this.lastBBDamageFactor = 1.0F;
+        this.lastBBName = null;
         this.inventory = new MCH_AircraftInventory(this);
         this.fuelConsumption = 0.0;
         this.fuelSuppliedCount = 0;
@@ -934,7 +936,7 @@ public abstract class MCH_EntityAircraft
         nbt.setBoolean("AcDismounted", this.dismountedUserCtrl);
     }
 
-    @Override
+    @Override//TODO:Implement new AABB changes from Reforged
     public boolean attackEntityFrom(DamageSource damageSource, float originalDamage) {
         if (shouldIgnoreDamage(damageSource)) {
             return false;
@@ -5304,12 +5306,21 @@ public abstract class MCH_EntityAircraft
     public abstract Item getItem();
 
     public MCH_BoundingBox[] createExtraBoundingBox() {
-        MCH_BoundingBox[] ar = new MCH_BoundingBox[this.getAcInfo().extraBoundingBox.size()];
-        int i = 0;
+        // Get the list of extra bounding boxes
+        MCH_AircraftInfo acInfo = this.getAcInfo();
+        if (acInfo == null || acInfo.extraBoundingBox == null) {
+            return new MCH_BoundingBox[0];
+        }
 
-        for (MCH_BoundingBox bb : this.getAcInfo().extraBoundingBox) {
-            ar[i] = bb.copy();
-            i++;
+        List<MCH_BoundingBox> boundingBoxes = acInfo.extraBoundingBox;
+
+        // Initialize the array with the size of the list
+        MCH_BoundingBox[] ar = new MCH_BoundingBox[boundingBoxes.size()];
+
+        // Iterate over the list and copy each bounding box to the array
+        int i = 0;
+        for (MCH_BoundingBox bb : boundingBoxes) {
+            ar[i++] = bb.copy();
         }
 
         return ar;

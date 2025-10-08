@@ -1,6 +1,8 @@
 package com.norwood.mcheli.aircraft;
 
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
@@ -39,26 +41,34 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
 
 
     public boolean intersects(@NotNull AxisAlignedBB aabb) {
+
         boolean ret = false;
-        double dist = 1.0E7;
+        double dist = 1.0E7D;
         this.ac.lastBBDamageFactor = 1.0F;
+        this.ac.lastBBName = null;
+
+        // Still use the overall bounding box for a quick preliminary check
         if (super.intersects(aabb)) {
             dist = this.getDistanceSquareBetween(aabb, this);
             ret = true;
         }
 
+        // Iterate through each component's bounding box
         for (MCH_BoundingBox bb : this.ac.extraBoundingBox) {
-            if (bb.getBoundingBox().intersects(aabb)) {
-                double dist2 = this.getDistanceSquareBetween(aabb, this);
-                if (dist2 < dist) {
-                    dist = dist2;
-                    this.ac.lastBBDamageFactor = bb.damegeFactor;
+            // 先用部件的轴对齐外包围盒做快速过滤
+            if (bb.boundingBox.intersects(aabb)) {
+                // 用完整的 OBB-AABB 判定代替原来的 corners 判定
+                if (bb.intersectsAABB(aabb)) {
+                    double dist2 = this.getDistanceSquareBetween(aabb, this);
+                    if (dist2 < dist) {
+                        dist = dist2;
+                        this.ac.lastBBDamageFactor = bb.damageFactor;
+                        this.ac.lastBBName = bb.name;
+                    }
+                    ret = true;
                 }
-
-                ret = true;
             }
         }
-
         return ret;
     }
     public @NotNull AxisAlignedBB grow(double x, double y, double z) {
@@ -112,26 +122,100 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
         return this.NewAABB(this.minX + x, this.minY + y, this.minZ + z, this.maxX + x, this.maxY + y, this.maxZ + z);
     }
 
-    public RayTraceResult calculateIntercept(@NotNull Vec3d start, @NotNull Vec3d end) {
+    /**
+     * Returns the intersection of the bounding box with a ray.
+     * If a component bounding box is closer, it will use the component instead.
+     */
+    public RayTraceResult calculateIntercept(Vec3d start, Vec3d end) {
         this.ac.lastBBDamageFactor = 1.0F;
+        this.ac.lastBBName = null;
 
-        RayTraceResult closestHit = super.calculateIntercept(start, end);
-        double closestDistance = (closestHit != null) ? start.distanceTo(closestHit.hitVec) : Double.MAX_VALUE;
+        // First check intersection with the main aircraft bounding box
+        RayTraceResult bestResult = super.calculateIntercept(start, end);
+        double bestDist = (bestResult != null) ? start.distanceTo(bestResult.hitVec) : Double.MAX_VALUE;
 
-        for (MCH_BoundingBox extraBox : this.ac.extraBoundingBox) {
-            RayTraceResult extraHit = extraBox.getBoundingBox().calculateIntercept(start, end);
-            if (extraHit != null) {
-                double extraDistance = start.distanceTo(extraHit.hitVec);
-                if (extraDistance < closestDistance) {
-                    closestHit = extraHit;
-                    closestDistance = extraDistance;
-                    this.ac.lastBBDamageFactor = extraBox.damegeFactor;
+        // Iterate through the rotated component bounding boxes and perform OBB ray tracing
+        for (MCH_BoundingBox bb : this.ac.extraBoundingBox) {
+            // Transform the ray into the local coordinate system of the component box
+            Vec3d dir = end.subtract(start);
+
+            // Compute the ray components along the component box axes
+            double dirX = dir.dotProduct(bb.axisX);
+            double dirY = dir.dotProduct(bb.axisY);
+            double dirZ = dir.dotProduct(bb.axisZ);
+
+            // Vector from ray start to the component center
+            Vec3d relStart = start.subtract(bb.center);
+            double startX = relStart.dotProduct(bb.axisX);
+            double startY = relStart.dotProduct(bb.axisY);
+            double startZ = relStart.dotProduct(bb.axisZ);
+
+            // Slab method: compute intersection t parameters for each axis
+            double tMin = 0.0D;
+            double tMax = 1.0D;
+            boolean skip = false;
+
+            // X axis
+            if (Math.abs(dirX) > 1e-7) {
+                double invDx = 1.0D / dirX;
+                double t1 = (-bb.halfWidth - startX) * invDx;
+                double t2 = (bb.halfWidth - startX) * invDx;
+                if (t1 > t2) { double tmp = t1; t1 = t2; t2 = tmp; }
+                tMin = Math.max(tMin, t1);
+                tMax = Math.min(tMax, t2);
+            } else if (Math.abs(startX) > bb.halfWidth + 1e-6) {
+                skip = true;
+            }
+
+            // Y axis
+            if (!skip) {
+                if (Math.abs(dirY) > 1e-7) {
+                    double invDy = 1.0D / dirY;
+                    double t1 = (-bb.halfHeight - startY) * invDy;
+                    double t2 = (bb.halfHeight - startY) * invDy;
+                    if (t1 > t2) { double tmp = t1; t1 = t2; t2 = tmp; }
+                    tMin = Math.max(tMin, t1);
+                    tMax = Math.min(tMax, t2);
+                } else if (Math.abs(startY) > bb.halfHeight + 1e-6) {
+                    skip = true;
+                }
+            }
+
+            // Z axis
+            if (!skip) {
+                if (Math.abs(dirZ) > 1e-7) {
+                    double invDz = 1.0D / dirZ;
+                    double t1 = (-bb.halfDepth - startZ) * invDz;
+                    double t2 = (bb.halfDepth - startZ) * invDz;
+                    if (t1 > t2) { double tmp = t1; t1 = t2; t2 = tmp; }
+                    tMin = Math.max(tMin, t1);
+                    tMax = Math.min(tMax, t2);
+                } else if (Math.abs(startZ) > bb.halfDepth + 1e-6) {
+                    skip = true;
+                }
+            }
+
+            // Check if the ray intersects this component box
+            if (!skip && tMax >= tMin && tMin <= 1.0D && tMax >= 0.0D) {
+                double tHit = (tMin < 0.0D) ? tMax : tMin;
+
+                // Compute intersection point
+                Vec3d hit = start.add(dir.scale(tHit));
+                double dist = start.distanceTo(hit);
+
+                // If this hit is closer than the previous closest, update result
+                if (dist < bestDist) {
+
+                    bestDist = dist;
+                    Vec3d hitVec = new Vec3d(hit.x, hit.y, hit.z);
+                    bestResult = new RayTraceResult(hitVec, EnumFacing.DOWN, new BlockPos(hitVec) ); //Yes, the facing is set to DOWN (0), no I don't know if its a good idea
+                    this.ac.lastBBDamageFactor = bb.damageFactor;
+                    this.ac.lastBBName = bb.name;
                 }
             }
         }
 
-        return closestHit;
+        return bestResult;
     }
-
 
 }

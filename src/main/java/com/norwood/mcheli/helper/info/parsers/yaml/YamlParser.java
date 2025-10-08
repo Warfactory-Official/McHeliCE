@@ -394,6 +394,7 @@ public class YamlParser implements IParser {
                 case "ModelHeight" -> info.entityHeight = ((Number) entry.getValue()).floatValue();
                 case "ModelPitch" -> info.entityPitch = ((Number) entry.getValue()).floatValue();
                 case "ModelRoll" -> info.entityRoll = ((Number) entry.getValue()).floatValue();
+                case "OneProbeScale" -> info.oneProbeScale = ((Number)entry.getValue()).floatValue();
                 default -> logUnkownEntry(entry, "Render");
             }
 
