@@ -84,7 +84,8 @@ public class ComponentParser {
                 }).forEachOrdered(info.partWeaponBay::add);
 
 
-                case "RepelHook" -> componentList.stream().map(this::parseHook).forEachOrdered(info.repellingHooks::add);
+                case "RepelHook" ->
+                        componentList.stream().map(this::parseHook).forEachOrdered(info.repellingHooks::add);
 
 
                 case "Rotation" -> componentList.stream().map(component -> parseDrawnPart(
@@ -101,18 +102,18 @@ public class ComponentParser {
 
                 case "SteeringWheel" -> componentList.stream().map(component ->
                         parseDrawnPart(
-                        "steering_wheel",
-                        component,
-                        drawnPart -> new MCH_AircraftInfo.PartWheel(
-                                drawnPart,
-                                ((Number) component.getOrDefault("Direction", 0F)).floatValue(),
-                                component.containsKey("Pivot") ? parseVector(component.get("Pivot")) : Vec3d.ZERO
-                        ),
-                        info.partSteeringWheel,
-                        new HashSet<>(Arrays.asList("Direction", "Pivot"))
-                )).forEachOrdered(info.partSteeringWheel::add);
+                                "steering_wheel",
+                                component,
+                                drawnPart -> new MCH_AircraftInfo.PartWheel(
+                                        drawnPart,
+                                        ((Number) component.getOrDefault("Direction", 0F)).floatValue(),
+                                        component.containsKey("Pivot") ? parseVector(component.get("Pivot")) : Vec3d.ZERO
+                                ),
+                                info.partSteeringWheel,
+                                new HashSet<>(Arrays.asList("Direction", "Pivot"))
+                        )).forEachOrdered(info.partSteeringWheel::add);
 
-                case "Wheel" -> componentList.stream().map( component -> {
+                case "Wheel" -> componentList.stream().map(component -> {
                     //Wheels  of being a drawn part, have their own constraints and defaults
                     Vec3d pos = null;
                     Vec3d rot = new Vec3d(0, 1, 0);
@@ -135,7 +136,7 @@ public class ComponentParser {
                     return (new MCH_AircraftInfo.PartWheel(new MCH_AircraftInfo.DrawnPart(pos, rot, name), dir, pivot));
                 }).forEachOrdered(info.partWheel::add);
 
-                case "LandingGear" -> componentList.stream().map( component -> parseDrawnPart(
+                case "LandingGear" -> componentList.stream().map(component -> parseDrawnPart(
                         "lg",
                         component,
                         drawnPart -> {
@@ -255,89 +256,90 @@ public class ComponentParser {
                         info.partThrottle,
                         new HashSet<>(Arrays.asList("MaxAngle", "SlidePos"))
                 )).forEachOrdered(info.partThrottle::add);
-                //TODO:Extract to its own method and document, holy shit it's weird
-
-                case "CrawlerTrack" -> componentList.stream().map((component -> {
-                    boolean isReverse = (Boolean) component.getOrDefault("IsReverse", false);
-                    float segmentLength = component.containsKey("SegmentLength") ? ((Number) component.get("SegmentLength")).floatValue() : 1F;
-                    float zOffset = component.containsKey("ZOffset") ? ((Number) component.get("ZOffset")).floatValue() : 0F;
-
-                    List<float[]> trackList = new ArrayList<>();
-                    if (component.containsKey("TrackList") && component.get("TrackList") instanceof List<?> list) {
-                        for (Object elem : list) {
-                            if (!(elem instanceof List<?> pair) || pair.size() != 2)
-                                throw new IllegalArgumentException("Each TrackList entry must be a 2-element list!");
-                            float x = ((Number) pair.get(0)).floatValue();
-                            float y = ((Number) pair.get(1)).floatValue();
-                            trackList.add(new float[]{x, y});
-                        }
-                    }
-
-                    int trackCount = trackList.size();
-                    if (trackCount < 4) throw new IllegalArgumentException("CrawlerTrack must have at least 4 track coordinates");
-
-                    double[] cx = new double[trackCount];
-                    double[] cy = new double[trackCount];
-                    for (int i = 0; i < trackCount; i++) {
-                        int idx = !isReverse ? i : trackCount - i - 1;
-                        float[] pair = trackList.get(idx);
-                        cx[i] = pair[0];
-                        cy[i] = pair[1];
-                    }
-
-                    List<MCH_AircraftInfo.CrawlerTrackPrm> trackParams = new ArrayList<>();
-                    trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm((float) cx[0], (float) cy[0]));
-
-                    double accLen = 0.0;
-                    float len = segmentLength * 0.9F;
-                    for (int i = 0; i < trackCount; i++) {
-                        double dx = cx[(i + 1) % trackCount] - cx[i];
-                        double dy = cy[(i + 1) % trackCount] - cy[i];
-                        double dist = Math.sqrt(dx * dx + dy * dy);
-                        accLen += dist;
-
-                        while (accLen >= len) {
-                            trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm(
-                                    (float) (cx[i] + dx * (len / dist)),
-                                    (float) (cy[i] + dy * (len / dist))
-                            ));
-                            accLen -= len;
-                        }
-                    }
-
-                    int n = trackParams.size();
-                    for (int i = 0; i < n; i++) {
-                        var prev = trackParams.get((i + n - 1) % n);
-                        var curr = trackParams.get(i);
-                        var next = trackParams.get((i + 1) % n);
-
-                        float rotPrev = (float) Math.toDegrees(Math.atan2(prev.x - curr.x, prev.y - curr.y));
-                        float rotNext = (float) Math.toDegrees(Math.atan2(next.x - curr.x, next.y - curr.y));
-                        float ppr = (rotPrev + 360.0F) % 360.0F;
-                        float nextAdj = rotNext + 180.0F;
-
-                        if ((nextAdj < ppr - 0.3F || nextAdj > ppr + 0.3F) && nextAdj - ppr < 100.0F && nextAdj - ppr > -100.0F)
-                            nextAdj = (nextAdj + ppr) / 2.0F;
-
-                        curr.r = nextAdj;
-                    }
-
-                    MCH_AircraftInfo.CrawlerTrack crawlerTrack = new MCH_AircraftInfo.CrawlerTrack(
-                            "crawler_track" + info.partCrawlerTrack.size()
-                    );
-                    crawlerTrack.len = len;
-                    crawlerTrack.cx = cx;
-                    crawlerTrack.cy = cy;
-                    crawlerTrack.lp = trackParams;
-                    crawlerTrack.z = zOffset;
-                    crawlerTrack.side = zOffset >= 0.0F ? 1 : 0;
-
-                    return crawlerTrack;
-                })).forEachOrdered(info.partCrawlerTrack::add);
-
-
+                case "CrawlerTrack" -> componentList.stream()
+                        .map((component -> parseCrawlerTrack(component, info)
+                        )).forEachOrdered(info.partCrawlerTrack::add);
             }
         }
+    }
+
+
+    public MCH_AircraftInfo.CrawlerTrack parseCrawlerTrack(Map<String, Object> component, MCH_AircraftInfo info) {
+        boolean isReverse = (Boolean) component.getOrDefault("IsReverse", false);
+        float segmentLength = component.containsKey("SegmentLength") ? ((Number) component.get("SegmentLength")).floatValue() : 1F;
+        float zOffset = component.containsKey("ZOffset") ? ((Number) component.get("ZOffset")).floatValue() : 0F;
+
+        List<float[]> trackList = new ArrayList<>();
+        if (component.containsKey("TrackList") && component.get("TrackList") instanceof List<?> list) {
+            for (Object elem : list) {
+                if (!(elem instanceof List<?> pair) || pair.size() != 2)
+                    throw new IllegalArgumentException("Each TrackList entry must be a 2-element list!");
+                float x = ((Number) pair.get(0)).floatValue();
+                float y = ((Number) pair.get(1)).floatValue();
+                trackList.add(new float[]{x, y});
+            }
+        }
+
+        int trackCount = trackList.size();
+        if (trackCount < 4) throw new IllegalArgumentException("CrawlerTrack must have at least 4 track coordinates");
+
+        double[] cx = new double[trackCount];
+        double[] cy = new double[trackCount];
+        for (int i = 0; i < trackCount; i++) {
+            int idx = !isReverse ? i : trackCount - i - 1;
+            float[] pair = trackList.get(idx);
+            cx[i] = pair[0];
+            cy[i] = pair[1];
+        }
+
+        List<MCH_AircraftInfo.CrawlerTrackPrm> trackParams = new ArrayList<>();
+        trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm((float) cx[0], (float) cy[0]));
+
+        double accLen = 0.0;
+        float len = segmentLength * 0.9F;
+        for (int i = 0; i < trackCount; i++) {
+            double dx = cx[(i + 1) % trackCount] - cx[i];
+            double dy = cy[(i + 1) % trackCount] - cy[i];
+            double dist = Math.sqrt(dx * dx + dy * dy);
+            accLen += dist;
+
+            while (accLen >= len) {
+                trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm(
+                        (float) (cx[i] + dx * (len / dist)),
+                        (float) (cy[i] + dy * (len / dist))
+                ));
+                accLen -= len;
+            }
+        }
+
+        int n = trackParams.size();
+        for (int i = 0; i < n; i++) {
+            var prev = trackParams.get((i + n - 1) % n);
+            var curr = trackParams.get(i);
+            var next = trackParams.get((i + 1) % n);
+
+            float rotPrev = (float) Math.toDegrees(Math.atan2(prev.x - curr.x, prev.y - curr.y));
+            float rotNext = (float) Math.toDegrees(Math.atan2(next.x - curr.x, next.y - curr.y));
+            float ppr = (rotPrev + 360.0F) % 360.0F;
+            float nextAdj = rotNext + 180.0F;
+
+            if ((nextAdj < ppr - 0.3F || nextAdj > ppr + 0.3F) && nextAdj - ppr < 100.0F && nextAdj - ppr > -100.0F)
+                nextAdj = (nextAdj + ppr) / 2.0F;
+
+            curr.r = nextAdj;
+        }
+
+        MCH_AircraftInfo.CrawlerTrack crawlerTrack = new MCH_AircraftInfo.CrawlerTrack(
+                "crawler_track" + info.partCrawlerTrack.size()
+        );
+        crawlerTrack.len = len;
+        crawlerTrack.cx = cx;
+        crawlerTrack.cy = cy;
+        crawlerTrack.lp = trackParams;
+        crawlerTrack.z = zOffset;
+        crawlerTrack.side = zOffset >= 0.0F ? 1 : 0;
+
+        return crawlerTrack;
     }
 
 
@@ -383,7 +385,7 @@ public class ComponentParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos","Position" -> pos = parseVector(entry.getValue());
+                case "Pos", "Position" -> pos = parseVector(entry.getValue());
                 case "Interval" -> interval = ((Number) entry.getValue()).intValue();
                 default -> logUnkownEntry(entry, "RepellingHooks");
             }

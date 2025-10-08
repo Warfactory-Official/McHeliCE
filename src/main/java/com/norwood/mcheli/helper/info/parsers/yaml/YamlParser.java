@@ -1,6 +1,7 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.aircraft.MCH_BoundingBox;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
 import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
@@ -16,6 +17,7 @@ import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.Yaml;
@@ -193,6 +195,11 @@ public class YamlParser implements IParser {
 
                 }
                 case "CanRide" -> info.canRide = ((Boolean) entry.getValue()).booleanValue();
+                case "RotorSpeed" -> {
+                    info.rotorSpeed = getClamped(-10000.0F, 10000.0F, (Number) entry.getValue());
+                    if (info.rotorSpeed > 0.01F) info.rotorSpeed -= 0.01F;
+                    if (info.rotorSpeed < -0.01F) info.rotorSpeed += 0.01F; //Interesting
+                }
                 case "CreativeOnly" -> info.creativeOnly = ((Boolean) entry.getValue()).booleanValue();
                 case "Invulnerable" -> info.invulnerable = ((Boolean) entry.getValue()).booleanValue();
                 case "MaxFuel" -> info.maxFuel = getClamped(100_000_000, (Number) entry.getValue());
@@ -294,9 +301,69 @@ public class YamlParser implements IParser {
 
                 }
 
+                case "BoundingBoxes" -> {
+                    List<Map<String, Object>> boxList = (List<Map<String, Object>>) entry.getValue();
+                    boxList.stream().forEachOrdered(box -> parseBoxes(box, info));
+                    float maxY = Float.NEGATIVE_INFINITY;
+                    float maxAbsXZ = 0.0F;
+                    float zMin = Float.POSITIVE_INFINITY;
+                    float zMax = Float.NEGATIVE_INFINITY;
+                    for (MCH_BoundingBox box : info.extraBoundingBox) {
+                        AxisAlignedBB aabb = box.boundingBox;
+                        maxY = Math.max(maxY, (float) aabb.maxY);
+
+                        maxAbsXZ = Math.max(maxAbsXZ, Math.max(
+                                Math.max(Math.abs((float) aabb.maxX), Math.abs((float) aabb.minX)),
+                                Math.max(Math.abs((float) aabb.maxZ), Math.abs((float) aabb.minZ))
+                        ));
+
+                        zMin = Math.min(zMin, (float) aabb.minZ);
+                        zMax = Math.max(zMax, (float) aabb.maxZ);
+                    }
+                    info.markerHeight = maxY;
+                    info.markerWidth = maxAbsXZ / 2.0F;
+                    info.bbZmin = zMin;
+                    info.bbZmax = zMax;
+                }
+
 
                 default -> logUnkownEntry(entry, "AircraftInfo");
             }
+        }
+
+    }
+
+    private void parseBoxes(Map<String, Object> box, MCH_AircraftInfo info) {
+        Vec3d pos = null;
+        Vec3d size = null;
+        float damageFact = 1f;
+        String name = "";
+        MCH_BoundingBox.EnumBoundingBoxType type = MCH_BoundingBox.EnumBoundingBoxType.DEFAULT;
+        for (Map.Entry<String, Object> entry : box.entrySet()) {
+            switch (entry.getKey()) {
+                case "Pos", "Position" -> pos = parseVector(entry.getValue());
+                case "Size" -> size = parseVector(entry.getValue());
+                case "DamageFactor", "DmgFact" -> damageFact = ((Number) entry.getValue()).floatValue();
+                case "Name" -> name = name.trim();
+                case "Type" -> {
+                    try {
+                        type = MCH_BoundingBox.EnumBoundingBoxType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim());
+                    } catch (RuntimeException r) {
+                        throw new IllegalArgumentException("Invalid bounding box type: " + entry.getValue() + ". Allowed values: " + Arrays.stream(MCH_BoundingBox.EnumBoundingBoxType.values()).map(Enum::name).collect(Collectors.joining(", ")));
+                    }
+                }
+
+                default -> logUnkownEntry(entry, "BoundingBox");
+            }
+
+            if (pos == null)
+                throw new IllegalArgumentException("Bounding box must have a position!");
+            if (size == null)
+                throw new IllegalArgumentException("Bounding box must have a size!");
+
+            var parsedBox = new MCH_BoundingBox(pos.x, pos.y, pos.z, (float) size.x, (float) size.y, (float) size.z, damageFact);
+            parsedBox.setBoundingBoxType(type);
+            info.extraBoundingBox.add(parsedBox);
         }
 
     }
@@ -336,15 +403,39 @@ public class YamlParser implements IParser {
     private void parsePhisProperties(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
         switch (entry.getKey()) {
             case "Speed" -> info.armorDamageFactor = getClamped(info.getMaxSpeed(), (Number) entry.getValue());
+            case "CanFloat" -> info.isFloat = (Boolean) entry.getValue();
+            case "FloatOffset" -> info.floatOffset = -((Number) entry.getValue()).floatValue();
             case "MotionFactor" -> info.motionFactor = getClamped(1F, (Number) entry.getValue());
             case "Gravity" -> info.gravity = getClamped(-50F, 50F, (Number) entry.getValue());
+            case "RotationSnapValue" -> info.autoPilotRot = getClamped(-5F, 5F, (Number) entry.getValue());
             case "GravityInWater" -> info.gravityInWater = getClamped(-50F, 50F, (Number) entry.getValue());
-            case "StepHeight" -> info.stepHeight = getClamped(1000F, (Number) entry.getValue());
+            case "StepHeight" -> info.stepHeight = getClamped(0F, 1000F, (Number) entry.getValue());
+            case "CanRotOnGround" -> info.canMoveOnGround = (Boolean) entry.getValue();
 
-            case "MobilityYawOnGround" -> info.mobilityYawOnGround = getClamped(100F, (Number) entry.getValue());
-            case "MobilityYaw" -> info.mobilityYaw = getClamped(100F, (Number) entry.getValue());
-            case "MobilityPitch" -> info.mobilityPitch = getClamped(100F, (Number) entry.getValue());
-            case "MobilityRoll" -> info.mobilityRoll = getClamped(100F, (Number) entry.getValue());
+            case "Mobility" -> {
+                Map<String, Object> mob = (Map<String, Object>) entry.getValue();
+                for (Map.Entry<String, Object> mobEntry : mob.entrySet()) {
+                    switch (mobEntry.getKey()) {
+                        case "Yaw" -> info.mobilityYaw = getClamped(100F, (Number) mobEntry.getValue());
+                        case "Pitch" -> info.mobilityPitch = getClamped(100F, (Number) mobEntry.getValue());
+                        case "Roll" -> info.mobilityRoll = getClamped(100F, (Number) mobEntry.getValue());
+                        case "YawOnGround" -> info.mobilityYawOnGround = getClamped(100F, (Number) mobEntry.getValue());
+                        default -> logUnkownEntry(mobEntry, "Mobility");
+                    }
+                }
+            }
+
+            case "GroundPitchFactors" -> {
+                Map<String, Object> factors = (Map<String, Object>) entry.getValue();
+                for (Map.Entry<String, Object> rotEntry : factors.entrySet()) {
+                    switch (rotEntry.getKey()) {
+                        case "Pitch" -> info.onGroundPitchFactor = getClamped(0F, 180F, (Number) rotEntry.getValue());
+                        case "Roll" -> info.onGroundRollFactor = getClamped(0F, 180F, (Number) rotEntry.getValue());
+                        default -> logUnkownEntry(rotEntry, "GroundPitchFactors");
+                    }
+                }
+            }
+
             case "RotationLimits" -> {
                 info.limitRotation = true;
                 Map<String, Object> rotationLimits = (Map<String, Object>) entry.getValue();
@@ -372,8 +463,8 @@ public class YamlParser implements IParser {
 
             default -> logUnkownEntry(entry, "PhysicalProperties");
         }
-
     }
+
 
     private void parseArmor(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
         switch (entry.getKey()) {
@@ -469,6 +560,7 @@ public class YamlParser implements IParser {
             case "ThirdPersonDist" -> info.thirdPersonDist = getClamped(4f, 100f, (Number) entry.getValue());
             case "Zoom", "CameraZoom" -> info.cameraZoom = getClamped(1, 10, (Number) entry.getValue());
             case "DefaultFreeLook" -> info.defaultFreelook = ((Boolean) entry.getValue()).booleanValue();
+            case "RotationSpeed" -> info.cameraRotationSpeed = getClamped(10000.0F, (Number) entry.getValue());
             case "Pos", "Positons" -> {
                 List<Map<String, Object>> cameraList = (List<Map<String, Object>>) entry.getValue();
                 info.cameraPosition.addAll(cameraList.stream().map(this::parseCameraPosition).collect(Collectors.toList()));
@@ -578,7 +670,7 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos","Position" -> pos = parseVector(entry.getValue());
+                case "Pos", "Position" -> pos = parseVector(entry.getValue());
                 case "Count" -> num = getClamped(1, 100, (Number) entry.getValue());
                 case "Size" -> size = ((Number) entry.getValue()).floatValue();
                 case "Accel" -> acceleration = ((Number) entry.getValue()).floatValue();
@@ -602,7 +694,7 @@ public class YamlParser implements IParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pos","Position" -> pos = parseVector(entry.getValue());
+                case "Pos", "Position" -> pos = parseVector(entry.getValue());
                 case "FixedRot" -> fixRot = ((Boolean) entry.getValue()).booleanValue();
                 case "Yaw" -> yaw = ((Number) entry.getValue()).floatValue();
                 case "Pitch" -> pitch = ((Number) entry.getValue()).floatValue();
