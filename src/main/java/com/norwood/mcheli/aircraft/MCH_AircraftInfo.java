@@ -1257,6 +1257,11 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final String type;
         public final ArrayList<MCH_AircraftInfo.Weapon> weapons;
 
+        public WeaponSet(String t) {
+            this.type = t;
+            this.weapons = new ArrayList<>();
+        }
+
         public WeaponSet(MCH_AircraftInfo paramMCH_AircraftInfo, String t) {
             this.type = t;
             this.weapons = new ArrayList<>();

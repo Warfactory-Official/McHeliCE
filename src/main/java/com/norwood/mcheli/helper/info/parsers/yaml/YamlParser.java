@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 
 import static com.norwood.mcheli.aircraft.MCH_AircraftInfo.*;
 
+//TODO:Reforged Fields
 @SuppressWarnings({"unchecked", "unboxing"})
 public class YamlParser implements IParser {
 
@@ -204,6 +205,8 @@ public class YamlParser implements IParser {
                     if (info.rotorSpeed > 0.01F) info.rotorSpeed -= 0.01F;
                     if (info.rotorSpeed < -0.01F) info.rotorSpeed += 0.01F; //Interesting
                 }
+
+                case "TurretPosition" -> info.turretPosition = parseVector(entry.getValue());
                 case "CreativeOnly" -> info.creativeOnly = ((Boolean) entry.getValue()).booleanValue();
                 case "Regeneration" -> info.regeneration = ((Boolean) entry.getValue()).booleanValue();
                 case "Invulnerable" -> info.invulnerable = ((Boolean) entry.getValue()).booleanValue();
@@ -464,6 +467,7 @@ public class YamlParser implements IParser {
             case "CanRotOnGround" -> info.canRotOnGround = (Boolean) entry.getValue();
             case "CanMoveOnGround" -> info.canMoveOnGround = (Boolean) entry.getValue();
             case "OnGroundPitch" -> info.onGroundPitch = getClamped(-90F, 90F, (Number) entry.getValue());
+            case "PivotTurnThrottle" -> info.pivotTurnThrottle =getClamped(1F, (Number) entry.getValue());
 
             case "Mobility" -> {
                 Map<String, Object> mob = (Map<String, Object>) entry.getValue();
@@ -535,6 +539,7 @@ public class YamlParser implements IParser {
             case "ArmorMinDamage" -> info.armorMinDamage = getClamped(1_000_000F, (Number) entry.getValue());
             case "ArmorMaxDamage" -> info.armorMaxDamage = getClamped(1_000_000F, (Number) entry.getValue());
             case "DamageFactor" -> info.damageFactor = getClamped(1F, (Number) entry.getValue());
+            case "SubmergedDamageHeight" -> info.submergedDamageHeight = getClamped(-1000F,1000F, (Number) entry.getValue());
             default -> logUnkownEntry(entry, "Armor");
         }
 
