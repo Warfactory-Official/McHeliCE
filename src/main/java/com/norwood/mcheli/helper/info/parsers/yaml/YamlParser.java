@@ -26,10 +26,6 @@ import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -111,11 +107,11 @@ public class YamlParser implements IParser {
         var info = new MCH_HeliInfo(location, filepath);
         mapToAircraft(info, root);
         for (Map.Entry<String, Object> entry : root.entrySet()) {
-            switch (entry.getKey()){
-                case "HeliFeatures" -> parseHeliFeatures((Map<String,Object>)entry.getValue(),info);
+            switch (entry.getKey()) {
+                case "HeliFeatures" -> parseHeliFeatures((Map<String, Object>) entry.getValue(), info);
                 case "Components" -> {
-                var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
-                COMPONENT_PARSER.parseComponents(components, info);
+                    var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
+                    COMPONENT_PARSER.parseComponentsHeli(components, info);
                 }
             }
 
@@ -273,7 +269,7 @@ public class YamlParser implements IParser {
 
                 case "Weapons" -> {
                     List<Map<String, Object>> weapons = (List<Map<String, Object>>) entry.getValue();
-                    weapons.forEach(map -> parseWeapon(map,info));
+                    weapons.forEach(map -> parseWeapon(map, info));
                 }
 
 
@@ -308,7 +304,7 @@ public class YamlParser implements IParser {
                 }
                 case "Racks" -> {
                     int seatCount = 0;
-                    if(root.containsKey("Seats")){
+                    if (root.containsKey("Seats")) {
                         seatCount = ((List<?>) root.get("Seats")).size();
                     }
                     List<Map<String, Object>> racks = (List<Map<String, Object>>) entry.getValue();
@@ -318,7 +314,7 @@ public class YamlParser implements IParser {
                 }
 
                 case "RideRack" -> {
-                    parseRideRacks((Map<String, Integer>) entry.getValue(),info );
+                    parseRideRacks((Map<String, Integer>) entry.getValue(), info);
                 }
 
                 case "Wheels" -> {
@@ -337,10 +333,10 @@ public class YamlParser implements IParser {
                 case "Seats" -> {
                     List<Map<String, Object>> seatList = (List<Map<String, Object>>) entry.getValue();
                     int rackCount = 0;
-                    if(root.containsKey("Racks")){
+                    if (root.containsKey("Racks")) {
                         var rackList = ((List<?>) root.get("Racks")).size();
                     }
-                    seatList.stream().forEachOrdered(seat -> parseSeatInfo(seat, info,rackCount,seatList.size()));
+                    seatList.stream().forEachOrdered(seat -> parseSeatInfo(seat, info, rackCount, seatList.size()));
 
                 }
 
@@ -497,7 +493,7 @@ public class YamlParser implements IParser {
             case "CanRotOnGround" -> info.canRotOnGround = (Boolean) entry.getValue();
             case "CanMoveOnGround" -> info.canMoveOnGround = (Boolean) entry.getValue();
             case "OnGroundPitch" -> info.onGroundPitch = getClamped(-90F, 90F, (Number) entry.getValue());
-            case "PivotTurnThrottle" -> info.pivotTurnThrottle =getClamped(1F, (Number) entry.getValue());
+            case "PivotTurnThrottle" -> info.pivotTurnThrottle = getClamped(1F, (Number) entry.getValue());
 
             case "Mobility" -> {
                 Map<String, Object> mob = (Map<String, Object>) entry.getValue();
@@ -569,7 +565,8 @@ public class YamlParser implements IParser {
             case "ArmorMinDamage" -> info.armorMinDamage = getClamped(1_000_000F, (Number) entry.getValue());
             case "ArmorMaxDamage" -> info.armorMaxDamage = getClamped(1_000_000F, (Number) entry.getValue());
             case "DamageFactor" -> info.damageFactor = getClamped(1F, (Number) entry.getValue());
-            case "SubmergedDamageHeight" -> info.submergedDamageHeight = getClamped(-1000F,1000F, (Number) entry.getValue());
+            case "SubmergedDamageHeight" ->
+                    info.submergedDamageHeight = getClamped(-1000F, 1000F, (Number) entry.getValue());
             default -> logUnkownEntry(entry, "Armor");
         }
 
@@ -694,13 +691,15 @@ public class YamlParser implements IParser {
     }
 
 
-    private void parseRideRacks(Map<String,Integer>map, MCH_AircraftInfo info){
-       map.entrySet().forEach(stringIntegerEntry ->{
-           if(stringIntegerEntry.getKey().isEmpty()) throw new IllegalArgumentException("RideRack vehicle entry cannot be empty!");
-           if(stringIntegerEntry.getValue() < 0) throw new IllegalArgumentException("RideRack rackID cannot be negative!");
-           info.rideRacks.add(new RideRack(stringIntegerEntry.getKey(),stringIntegerEntry.getValue()));
-               }
-       );
+    private void parseRideRacks(Map<String, Integer> map, MCH_AircraftInfo info) {
+        map.entrySet().forEach(stringIntegerEntry -> {
+                    if (stringIntegerEntry.getKey().isEmpty())
+                        throw new IllegalArgumentException("RideRack vehicle entry cannot be empty!");
+                    if (stringIntegerEntry.getValue() < 0)
+                        throw new IllegalArgumentException("RideRack rackID cannot be negative!");
+                    info.rideRacks.add(new RideRack(stringIntegerEntry.getKey(), stringIntegerEntry.getValue()));
+                }
+        );
     }
 
     private void parseSeatRackInfo(Map<String, Object> map, MCH_AircraftInfo info, int seatCount, int rackCount) {
@@ -732,12 +731,12 @@ public class YamlParser implements IParser {
                 case "RotSeat" -> rotSeat = ((Boolean) entry.getValue()).booleanValue();
                 case "ExcludeWith" -> {
                     exclusionList = new ArrayList<>();
-                    var exclusionMap = (Map<String,List<Integer>>) entry.getValue();
-                    if(exclusionMap.containsKey("Seats")){
+                    var exclusionMap = (Map<String, List<Integer>>) entry.getValue();
+                    if (exclusionMap.containsKey("Seats")) {
                         exclusionMap.get("Seats").stream().forEach(exclusionList::add);
                     }
-                    if(exclusionMap.containsKey("Racks")){
-                        exclusionMap.get("Racks").stream().map(num ->num+seatCount).forEach(exclusionList::add);
+                    if (exclusionMap.containsKey("Racks")) {
+                        exclusionMap.get("Racks").stream().map(num -> num + seatCount).forEach(exclusionList::add);
                     }
 
                 }
@@ -901,12 +900,12 @@ public class YamlParser implements IParser {
                 case "Camera", "Cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
                 case "ExcludeWith" -> {
                     exclusionList = new ArrayList<>();
-                    var exclusionMap = (Map<String,List<Integer>>) entry.getValue();
-                    if(exclusionMap.containsKey("Seats")){
+                    var exclusionMap = (Map<String, List<Integer>>) entry.getValue();
+                    if (exclusionMap.containsKey("Seats")) {
                         exclusionMap.get("Seats").stream().forEach(exclusionList::add);
                     }
-                    if(exclusionMap.containsKey("Racks")){
-                        exclusionMap.get("Racks").stream().map(num ->num+seatCount).forEach(exclusionList::add);
+                    if (exclusionMap.containsKey("Racks")) {
+                        exclusionMap.get("Racks").stream().map(num -> num + seatCount).forEach(exclusionList::add);
                     }
 
                 }

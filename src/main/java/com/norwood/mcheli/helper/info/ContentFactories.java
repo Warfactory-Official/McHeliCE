@@ -24,7 +24,7 @@ public class ContentFactories {
         }
 
         TxtParser.register();
-//        YamlParser.register();
+        YamlParser.register();
     }
 
     private ContentFactories() {

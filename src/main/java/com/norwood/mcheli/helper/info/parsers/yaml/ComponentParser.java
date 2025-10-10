@@ -22,15 +22,15 @@ public class ComponentParser {
                                 "blade",
                                 component,
                                 drawnPart -> {
-                                    int bladeNum = 0;
+                                    int bladeNum = 1;
                                     int bladeRot = 0;
                                     boolean haveFoldFunc = false;
                                     boolean oldRenderMethod = false;
 
                                     for (Map.Entry<String, Object> bladeEntry : component.entrySet()) {
                                         switch (bladeEntry.getKey()) {
-                                            case "BladeNum" -> bladeNum = ((Number) bladeEntry.getValue()).intValue();
-                                            case "BladeRot" -> bladeRot = ((Number) bladeEntry.getValue()).intValue();
+                                            case "Count","BladeCount" -> bladeNum = ((Number) bladeEntry.getValue()).intValue();
+                                            case "BladeRotation", "BladeRot" -> bladeRot = ((Number) bladeEntry.getValue()).intValue();
                                             case "CanFold" -> haveFoldFunc = (Boolean) bladeEntry.getValue();
                                             case "OldRenderer" -> oldRenderMethod = (Boolean) bladeEntry.getValue();
                                             default -> logUnkownEntry(bladeEntry, "Rotor");
@@ -390,6 +390,10 @@ public class ComponentParser {
 
         Vec3d pos = map.containsKey("Position") ? parseVector(map.get("Position")) : null;
         Vec3d rot = map.containsKey("Rotation") ? parseVector(map.get("Rotation")) : Vec3d.ZERO;
+        if(pos == null)
+            pos = map.containsKey("Pos") ? parseVector(map.get("Pos")) : null;
+        if(rot == Vec3d.ZERO)
+            rot = map.containsKey("Rot") ? parseVector(map.get("Rot")) : Vec3d.ZERO;
 
         String modelName = (String) map.getOrDefault("PartName", defaultName + partList.size());
         if (pos == null)
