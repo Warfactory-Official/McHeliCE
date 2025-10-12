@@ -142,8 +142,6 @@ public class YamlParser implements IParser {
                     COMPONENT_PARSER.parseComponentsPlane(components, info);
                 }
             }
-
-
         }
         return info;
     }
@@ -156,7 +154,29 @@ public class YamlParser implements IParser {
 
     @Override
     public @Nullable MCH_TankInfo parseTank(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        return null;
+        Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
+        var info = new MCH_TankInfo(location, filepath);
+        mapToAircraft(info, root);
+        if (root.containsKey("TankFeatures"))
+            parseTankFeat((Map<String, Object>) root.get("TankFeatures"), info);
+        return info;
+    }
+
+    private void parseTankFeat(Map<String, Object> tankFeatures, MCH_TankInfo info) {
+        for (Map.Entry<String, Object> entry : tankFeatures.entrySet()) {
+            switch (entry.getKey()) {
+                case "WeightType" -> {
+                    try {
+                        info.weightType = TANK_WEIGHT.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim()).ordinal();
+                    } catch (RuntimeException e) {
+                        throw new IllegalArgumentException("Invalid flare type: " + (String) entry.getValue() + ". Allowed values: " + Arrays.stream(FlareType.values()).map(Enum::name).collect(Collectors.joining(", ")));
+                    }
+                }
+                 case "WeightedCenterZ","CenterZ" -> getClamped(-1000F,1000F,(Number) entry.getValue());
+            }
+
+        }
+
     }
 
     @Override
@@ -210,7 +230,6 @@ public class YamlParser implements IParser {
             }
         }
     }
-
 
     @SuppressWarnings("unboxing")
     private void mapToAircraft(MCH_AircraftInfo info, Map<String, Object> root) {
@@ -414,7 +433,6 @@ public class YamlParser implements IParser {
 
     }
 
-
     private void parseWheels(Map<String, Object> wheel, MCH_AircraftInfo info) {
 
         for (Map.Entry<String, Object> entry : wheel.entrySet()) {
@@ -593,7 +611,6 @@ public class YamlParser implements IParser {
         }
     }
 
-
     private void parseArmor(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
         switch (entry.getKey()) {
             case "ArmorDamageFactor" -> info.armorDamageFactor = getClamped(10_000F, (Number) entry.getValue());
@@ -725,7 +742,6 @@ public class YamlParser implements IParser {
         return new Wheel(wheelPos, scale);
     }
 
-
     private void parseRideRacks(Map<String, Integer> map, MCH_AircraftInfo info) {
         map.entrySet().forEach(stringIntegerEntry -> {
             if (stringIntegerEntry.getKey().isEmpty())
@@ -790,7 +806,6 @@ public class YamlParser implements IParser {
         if (exclusionList != null)
             exclusionList.stream().map(integers -> new Integer[]{seatCount + rackIndex, integers}).forEachOrdered(info.exclusionSeatList::add);
     }
-
 
     private ParticleSplash parseParticleSplash(Map<String, Object> map) {
         Vec3d pos = null;
@@ -895,7 +910,6 @@ public class YamlParser implements IParser {
         set.weapons.add(weapon);
     }
 
-
     @SuppressWarnings("unboxing")
     private void parseSeatInfo(Map<String, Object> map, MCH_AircraftInfo info, int rackCount, int seatCount) {
         Vec3d position = null;
@@ -957,6 +971,11 @@ public class YamlParser implements IParser {
         final int seatIndex = info.seatList.size();
         if (exclusionList != null)
             exclusionList.stream().map(integers -> new Integer[]{seatIndex, integers}).forEachOrdered(info.exclusionSeatList::add);
+    }
+
+
+    public static enum TANK_WEIGHT {
+        UKNOWN, TANK, CAR
     }
 
     public static enum RACK_TYPE {//Could be bool, but this makes it more extensible
