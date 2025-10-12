@@ -4,7 +4,7 @@ import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.item.MCH_ItemInfo;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
@@ -19,7 +19,7 @@ public interface IParser {
     MCH_HeliInfo parseHelicopter(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
 
     @Nullable
-    MCP_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
 
     @Nullable
     MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;

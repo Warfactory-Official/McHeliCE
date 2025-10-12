@@ -21,7 +21,7 @@ public class MCP_ItemPlane extends MCH_ItemAircraft {
 
     @Nullable
     public MCP_EntityPlane createAircraft(World world, double x, double y, double z, ItemStack itemStack) {
-        MCP_PlaneInfo info = MCP_PlaneInfoManager.getFromItem(this);
+        MCH_PlaneInfo info = MCP_PlaneInfoManager.getFromItem(this);
         if (info == null) {
             MCH_Lib.Log(world, "##### MCP_EntityPlane Plane info null %s", this.getTranslationKey());
             return null;

@@ -8,7 +8,7 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.plane.MCP_PlaneInfoManager;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfoManager;
@@ -81,7 +81,7 @@ public class MCH_ItemRecipe implements MCH_IRecipeList {
             addRecipeAndRegisterList(info, info.item, MCH_HeliInfoManager.getInstance());
         }
 
-        for (MCP_PlaneInfo info : ContentRegistries.plane().values()) {
+        for (MCH_PlaneInfo info : ContentRegistries.plane().values()) {
             addRecipeAndRegisterList(info, info.item, MCP_PlaneInfoManager.getInstance());
         }
 

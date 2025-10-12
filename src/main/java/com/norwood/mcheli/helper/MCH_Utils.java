@@ -10,7 +10,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.io.File;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class MCH_Utils {
     public static ResourceLocation suffix(String name) {
@@ -24,6 +28,17 @@ public class MCH_Utils {
     public static AddonResourceLocation buildinAddon(String path) {
         return new AddonResourceLocation(suffix(path), "@builtin");
     }
+
+    public static <K, V> V getAny(Map<K, V> map, Collection<K> keys, V defReturn) {
+        for (K key : keys) {
+            if (map.containsKey(key)) {
+                return map.get(key);
+            }
+        }
+        return defReturn;
+    }
+
+
 
     public static File getSource() {
         return MCH_MOD.getSource();

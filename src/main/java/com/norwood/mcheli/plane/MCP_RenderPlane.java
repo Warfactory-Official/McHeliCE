@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager;
 
 @SideOnly(Side.CLIENT)
 public class MCP_RenderPlane extends MCH_RenderAircraft<MCP_EntityPlane> {
@@ -22,7 +22,7 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCP_EntityPlane> {
 
     @Override
     public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch, float roll, float tickTime) {
-        MCP_PlaneInfo planeInfo;
+        MCH_PlaneInfo planeInfo;
         if (entity instanceof MCP_EntityPlane plane) {
             planeInfo = plane.getPlaneInfo();
             if (planeInfo != null) {
@@ -51,18 +51,18 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCP_EntityPlane> {
         }
     }
 
-    public void renderRotor(MCP_EntityPlane plane, MCP_PlaneInfo planeInfo, float tickTime) {
+    public void renderRotor(MCP_EntityPlane plane, MCH_PlaneInfo planeInfo, float tickTime) {
         float rot = plane.getNozzleRotation();
         float prevRot = plane.getPrevNozzleRotation();
 
-        for (MCP_PlaneInfo.Rotor r : planeInfo.rotorList) {
+        for (MCH_PlaneInfo.Rotor r : planeInfo.rotorList) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(r.pos.x, r.pos.y, r.pos.z);
             GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * r.maxRotFactor, (float) r.rot.x, (float) r.rot.y, (float) r.rot.z);
             GlStateManager.translate(-r.pos.x, -r.pos.y, -r.pos.z);
             renderPart(r.model, planeInfo.model, r.modelName);
 
-            for (MCP_PlaneInfo.Blade b : r.blades) {
+            for (MCH_PlaneInfo.Blade b : r.blades) {
                 float br = plane.prevRotationRotor;
                 br += (plane.rotationRotor - plane.prevRotationRotor) * tickTime;
                 GlStateManager.pushMatrix();
@@ -84,18 +84,18 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCP_EntityPlane> {
         }
     }
 
-    public void renderWing(MCP_EntityPlane plane, MCP_PlaneInfo planeInfo, float tickTime) {
+    public void renderWing(MCP_EntityPlane plane, MCH_PlaneInfo planeInfo, float tickTime) {
         float rot = plane.getWingRotation();
         float prevRot = plane.getPrevWingRotation();
 
-        for (MCP_PlaneInfo.Wing w : planeInfo.wingList) {
+        for (MCH_PlaneInfo.Wing w : planeInfo.wingList) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(w.pos.x, w.pos.y, w.pos.z);
             GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * w.maxRotFactor, (float) w.rot.x, (float) w.rot.y, (float) w.rot.z);
             GlStateManager.translate(-w.pos.x, -w.pos.y, -w.pos.z);
             renderPart(w.model, planeInfo.model, w.modelName);
             if (w.pylonList != null) {
-                for (MCP_PlaneInfo.Pylon p : w.pylonList) {
+                for (MCH_PlaneInfo.Pylon p : w.pylonList) {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(p.pos.x, p.pos.y, p.pos.z);
                     GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * p.maxRotFactor, (float) p.rot.x, (float) p.rot.y, (float) p.rot.z);
@@ -109,7 +109,7 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCP_EntityPlane> {
         }
     }
 
-    public void renderNozzle(MCP_EntityPlane plane, MCP_PlaneInfo planeInfo, float tickTime) {
+    public void renderNozzle(MCP_EntityPlane plane, MCH_PlaneInfo planeInfo, float tickTime) {
         float rot = plane.getNozzleRotation();
         float prevRot = plane.getPrevNozzleRotation();
 

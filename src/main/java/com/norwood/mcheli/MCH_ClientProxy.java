@@ -30,7 +30,7 @@ import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.parachute.MCH_RenderParachute;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.plane.MCP_EntityPlane;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.plane.MCP_RenderPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_RenderShip;
@@ -275,7 +275,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     }
 
     @Override
-    public void registerModelsPlane(MCP_PlaneInfo info, boolean reload) {
+    public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
         info.model = MCH_ModelManager.load("planes", info.name);
 
@@ -283,18 +283,18 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             n.model = this.loadPartModel("planes", info.name, info.model, n.modelName);
         }
 
-        for (MCP_PlaneInfo.Rotor r : info.rotorList) {
+        for (MCH_PlaneInfo.Rotor r : info.rotorList) {
             r.model = this.loadPartModel("planes", info.name, info.model, r.modelName);
 
-            for (MCP_PlaneInfo.Blade b : r.blades) {
+            for (MCH_PlaneInfo.Blade b : r.blades) {
                 b.model = this.loadPartModel("planes", info.name, info.model, b.modelName);
             }
         }
 
-        for (MCP_PlaneInfo.Wing w : info.wingList) {
+        for (MCH_PlaneInfo.Wing w : info.wingList) {
             w.model = this.loadPartModel("planes", info.name, info.model, w.modelName);
             if (w.pylonList != null) {
-                for (MCP_PlaneInfo.Pylon p : w.pylonList) {
+                for (MCH_PlaneInfo.Pylon p : w.pylonList) {
                     p.model = this.loadPartModel("planes", info.name, info.model, p.modelName);
                 }
             }

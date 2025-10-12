@@ -6,7 +6,7 @@ import com.norwood.mcheli.MCH_ModelManager;
 import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.plane.MCP_PlaneInfoManager;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfoManager;
@@ -83,7 +83,7 @@ public class MCH_CurrentRecipe {
             this.getAcInfoTextSub("NightVision", info.isEnableNightVision ? "YES" : "NO");
             this.getAcInfoTextSub("Radar", info.isEnableEntityRadar ? "YES" : "NO");
             this.getAcInfoTextSub("Inventory", "" + info.inventorySize);
-            if (info instanceof MCP_PlaneInfo pinfo) {
+            if (info instanceof MCH_PlaneInfo pinfo) {
                 this.getAcInfoTextSub("VTOL", pinfo.isEnableVtol ? "YES" : "NO");
             }
 

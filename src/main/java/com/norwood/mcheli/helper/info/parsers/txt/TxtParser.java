@@ -18,7 +18,7 @@ import com.norwood.mcheli.helper.info.parsers.IParser;
 import com.norwood.mcheli.hud.*;
 import com.norwood.mcheli.item.MCH_ItemInfo;
 import com.norwood.mcheli.plane.MCP_EntityPlane;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.tank.MCH_EntityTank;
@@ -64,8 +64,8 @@ public class TxtParser implements IParser {
 
     @Override
     @Nullable
-    public MCP_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCP_PlaneInfo(location, filepath), this::applyAircraftLine, this::applyPlaneLine);
+    public MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+        return parse(location, filepath, lines, reload, () -> new MCH_PlaneInfo(location, filepath), this::applyAircraftLine, this::applyPlaneLine);
     }
 
     @Override
@@ -809,22 +809,22 @@ public class TxtParser implements IParser {
         }
     }
 
-    private void applyPlaneLine(MCP_PlaneInfo info, int lineNumber, String item, String data) {
+    private void applyPlaneLine(MCH_PlaneInfo info, int lineNumber, String item, String data) {
         if (item.compareTo("addpartrotor") == 0) {
             String[] s = data.split("\\s*,\\s*");
             if (s.length >= 6) {
                 float m = s.length >= 7 ? info.toFloat(s[6], -180.0F, 180.0F) / 90.0F : 1.0F;
-                MCP_PlaneInfo.Rotor e = new MCP_PlaneInfo.Rotor(info, info.toFloat(s[0]), info.toFloat(s[1]), info.toFloat(s[2]), info.toFloat(s[3]),
+                MCH_PlaneInfo.Rotor e = new MCH_PlaneInfo.Rotor(info, info.toFloat(s[0]), info.toFloat(s[1]), info.toFloat(s[2]), info.toFloat(s[3]),
                         info.toFloat(s[4]), info.toFloat(s[5]), m, "rotor" + info.rotorList.size());
                 info.rotorList.add(e);
             }
         } else if (item.compareTo("addblade") == 0) {
             int idx = info.rotorList.size() - 1;
-            MCP_PlaneInfo.Rotor r = !info.rotorList.isEmpty() ? info.rotorList.get(idx) : null;
+            MCH_PlaneInfo.Rotor r = !info.rotorList.isEmpty() ? info.rotorList.get(idx) : null;
             if (r != null) {
                 String[] s = data.split("\\s*,\\s*");
                 if (s.length == 8) {
-                    MCP_PlaneInfo.Blade b = new MCP_PlaneInfo.Blade(info, info.toInt(s[0]), info.toInt(s[1]), info.toFloat(s[2]), info.toFloat(s[3]),
+                    MCH_PlaneInfo.Blade b = new MCH_PlaneInfo.Blade(info, info.toInt(s[0]), info.toInt(s[1]), info.toFloat(s[2]), info.toFloat(s[3]),
                             info.toFloat(s[4]), info.toFloat(s[5]), info.toFloat(s[6]), info.toFloat(s[7]), "blade" + idx);
                     r.blades.add(b);
                 }
@@ -832,19 +832,19 @@ public class TxtParser implements IParser {
         } else if (item.compareTo("addpartwing") == 0) {
             String[] s = data.split("\\s*,\\s*");
             if (s.length == 7) {
-                MCP_PlaneInfo.Wing n = new MCP_PlaneInfo.Wing(info, info.toFloat(s[0]), info.toFloat(s[1]), info.toFloat(s[2]), info.toFloat(s[3]),
+                MCH_PlaneInfo.Wing n = new MCH_PlaneInfo.Wing(info, info.toFloat(s[0]), info.toFloat(s[1]), info.toFloat(s[2]), info.toFloat(s[3]),
                         info.toFloat(s[4]), info.toFloat(s[5]), info.toFloat(s[6]), "wing" + info.wingList.size());
                 info.wingList.add(n);
             }
         } else if (item.equalsIgnoreCase("AddPartPylon")) {
             String[] s = data.split("\\s*,\\s*");
             if (s.length >= 7 && !info.wingList.isEmpty()) {
-                MCP_PlaneInfo.Wing w = info.wingList.get(info.wingList.size() - 1);
+                MCH_PlaneInfo.Wing w = info.wingList.get(info.wingList.size() - 1);
                 if (w.pylonList == null) {
                     w.pylonList = new ArrayList<>();
                 }
 
-                MCP_PlaneInfo.Pylon n = new MCP_PlaneInfo.Pylon(info, info.toFloat(s[0]), info.toFloat(s[1]), info.toFloat(s[2]), info.toFloat(s[3]),
+                MCH_PlaneInfo.Pylon n = new MCH_PlaneInfo.Pylon(info, info.toFloat(s[0]), info.toFloat(s[1]), info.toFloat(s[2]), info.toFloat(s[3]),
                         info.toFloat(s[4]), info.toFloat(s[5]), info.toFloat(s[6]), w.modelName + "_pylon" + w.pylonList.size());
                 w.pylonList.add(n);
             }

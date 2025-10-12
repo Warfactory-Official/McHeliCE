@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class MCP_GuiPlane extends MCH_AircraftCommonGui {
@@ -55,7 +55,7 @@ public class MCP_GuiPlane extends MCH_AircraftCommonGui {
 
     public void drawKeybind(MCP_EntityPlane plane, EntityPlayer player, int seatID) {
         if (!MCH_Config.HideKeybind.prmBool) {
-            MCP_PlaneInfo info = plane.getPlaneInfo();
+            MCH_PlaneInfo info = plane.getPlaneInfo();
             if (info != null) {
                 int colorActive = -1342177281;
                 int colorInactive = -1349546097;

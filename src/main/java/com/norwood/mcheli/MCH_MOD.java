@@ -30,7 +30,7 @@ import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.parachute.MCH_ItemParachute;
 import com.norwood.mcheli.plane.MCP_EntityPlane;
 import com.norwood.mcheli.plane.MCP_ItemPlane;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_ItemShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
@@ -207,8 +207,8 @@ public class MCH_MOD {
             }
         }
 
-        for (Entry<String, MCP_PlaneInfo> entry : ContentRegistries.plane().entries()) {
-            MCP_PlaneInfo info = entry.getValue();
+        for (Entry<String, MCH_PlaneInfo> entry : ContentRegistries.plane().entries()) {
+            MCH_PlaneInfo info = entry.getValue();
             info.item = new MCP_ItemPlane(info.itemID);
             info.item.setMaxDamage(info.maxHp);
             if (info.canRide || !(info.ammoSupplyRange > 0.0F) && !(info.fuelSupplyRange > 0.0F)) {

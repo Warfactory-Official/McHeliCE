@@ -8,7 +8,7 @@ import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.info.parsers.yaml.ComponentParser;
 import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
 import com.norwood.mcheli.hud.MCH_Hud;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
@@ -16,7 +16,6 @@ import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.Vec3d;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -114,7 +113,7 @@ class YamlParserTest {
         String yaml = "DisplayName: Test Plane\nMaxFuel: 1200\n";
         Path file = writeYaml("plane.yml", yaml);
 
-        MCP_PlaneInfo info = YamlParser.INSTANCE.parsePlane(
+        MCH_PlaneInfo info = YamlParser.INSTANCE.parsePlane(
                 new AddonResourceLocation("mcheli:test_pack|planes/test_plane"),
                 file.toString(),
                 Collections.emptyList(),

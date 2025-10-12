@@ -12,7 +12,7 @@ import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
 import com.norwood.mcheli.helicopter.MCH_ItemHeli;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
 import com.norwood.mcheli.plane.MCP_ItemPlane;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.plane.MCP_PlaneInfoManager;
 import com.norwood.mcheli.ship.MCH_ItemShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
@@ -506,7 +506,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
 
                 Item item = itemStack.getItem();
                 if (item instanceof MCP_ItemPlane) {
-                    MCP_PlaneInfo pi = MCP_PlaneInfoManager.getFromItem(item);
+                    MCH_PlaneInfo pi = MCP_PlaneInfoManager.getFromItem(item);
                     if (pi != null && pi.isUAV) {
                         if (!pi.isSmallUAV && this.getKind() == 2) {
                             ac = null;

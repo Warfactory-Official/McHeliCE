@@ -32,7 +32,7 @@ public class MCP_EntityPlane extends MCH_EntityAircraft {
     public float rotationRotor;
     public float prevRotationRotor;
     public float addkeyRotValue;
-    private MCP_PlaneInfo planeInfo = null;
+    private MCH_PlaneInfo planeInfo = null;
     private boolean addKeyFlag;
 
     public MCP_EntityPlane(World world) {
@@ -62,7 +62,7 @@ public class MCP_EntityPlane extends MCH_EntityAircraft {
         return "Plane";
     }
 
-    public MCP_PlaneInfo getPlaneInfo() {
+    public MCH_PlaneInfo getPlaneInfo() {
         return this.planeInfo;
     }
 
@@ -961,7 +961,7 @@ public class MCP_EntityPlane extends MCH_EntityAircraft {
         }
     }
 
-    protected MCH_Parts createNozzle(MCP_PlaneInfo info) {
+    protected MCH_Parts createNozzle(MCH_PlaneInfo info) {
         MCH_Parts nozzle = null;
         if (info.haveNozzle() || info.haveRotor() || info.isEnableVtol) {
             nozzle = new MCH_Parts(this, 1, PART_STAT, "Nozzle");
@@ -980,7 +980,7 @@ public class MCP_EntityPlane extends MCH_EntityAircraft {
         return nozzle;
     }
 
-    protected MCH_Parts createWing(MCP_PlaneInfo info) {
+    protected MCH_Parts createWing(MCH_PlaneInfo info) {
         MCH_Parts wing = null;
         if (this.planeInfo.haveWing()) {
             wing = new MCH_Parts(this, 3, PART_STAT, "Wing");

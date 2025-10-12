@@ -13,7 +13,7 @@ import com.norwood.mcheli.helper.info.parsers.IParser;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.hud.MCH_HudManager;
 import com.norwood.mcheli.item.MCH_ItemInfo;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
@@ -130,9 +130,24 @@ public class YamlParser implements IParser {
     }
 
     @Override
-    public @Nullable MCP_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        return null;
+    public @Nullable MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+        Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
+        var info = new MCH_PlaneInfo(location, filepath);
+        mapToAircraft(info, root);
+        for (Map.Entry<String, Object> entry : root.entrySet()) {
+            switch (entry.getKey()) {
+                case "PlaneFeatures" -> parsePlaneFeatures((Map<String, Object>) entry.getValue(), info);
+                case "Components" -> {
+                    var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
+                    COMPONENT_PARSER.parseComponentsPlane(components, info);
+                }
+            }
+
+
+        }
+        return info;
     }
+
 
     @Override
     public @Nullable MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
@@ -169,6 +184,34 @@ public class YamlParser implements IParser {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    private void parsePlaneFeatures(Map<String, Object> map, MCH_PlaneInfo info) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "VariableSweepWing" -> info.isVariableSweepWing = (Boolean) entry.getValue();
+                case "SweepWingSpeed" -> info.sweepWingSpeed = getClamped(5.0F, (Number) entry.getValue());
+                case "EnableVtol" -> {
+                    Object vtol = entry.getValue();
+                    if (vtol instanceof Boolean)
+                        info.isEnableVtol = (Boolean) entry.getValue();
+                    else if (vtol instanceof Map<?, ?>) {
+                        for (Map.Entry<String, Object> vtolEntry : map.entrySet()) {
+                            switch (vtolEntry.getKey()) {
+                                case "IsDefault" -> info.isDefaultVtol = (Boolean) entry.getValue();
+                                case "Yaw" -> info.vtolYaw = getClamped(1.0F, (Number) entry.getValue());
+                                case "Pitch" -> info.vtolPitch = getClamped(0.01F, 1.0F, (Number) entry.getValue());
+                            }
+                        }
+                    }
+
+                }
+                case "EnableAutoPilot" -> info.isEnableAutoPilot = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "PlaneFeatures");
+            }
+        }
+    }
+
+
     @SuppressWarnings("unboxing")
     private void mapToAircraft(MCH_AircraftInfo info, Map<String, Object> root) {
 
@@ -204,11 +247,8 @@ public class YamlParser implements IParser {
                     for (Map.Entry<String, Object> recMapEntry : map.entrySet()) {
                         switch (recMapEntry.getKey()) {
                             case "isShaped" -> info.isShapedRecipe = (Boolean) recMapEntry.getValue();
-                            case "Pattern" -> info.recipeString = ((List<String>) recMapEntry.getValue())
-                                    .stream()
-                                    .map(String::toUpperCase)
-                                    .map(String::trim)
-                                    .collect(Collectors.toList());
+                            case "Pattern" ->
+                                    info.recipeString = ((List<String>) recMapEntry.getValue()).stream().map(String::toUpperCase).map(String::trim).collect(Collectors.toList());
                         }
                     }
 
@@ -356,10 +396,7 @@ public class YamlParser implements IParser {
                         AxisAlignedBB aabb = box.boundingBox;
                         maxY = Math.max(maxY, (float) aabb.maxY);
 
-                        maxAbsXZ = Math.max(maxAbsXZ, Math.max(
-                                Math.max(Math.abs((float) aabb.maxX), Math.abs((float) aabb.minX)),
-                                Math.max(Math.abs((float) aabb.maxZ), Math.abs((float) aabb.minZ))
-                        ));
+                        maxAbsXZ = Math.max(maxAbsXZ, Math.max(Math.max(Math.abs((float) aabb.maxX), Math.abs((float) aabb.minX)), Math.max(Math.abs((float) aabb.maxZ), Math.abs((float) aabb.minZ))));
 
                         zMin = Math.min(zMin, (float) aabb.minZ);
                         zMax = Math.max(zMax, (float) aabb.maxZ);
@@ -435,10 +472,8 @@ public class YamlParser implements IParser {
                 default -> logUnkownEntry(entry, "BoundingBox");
             }
 
-            if (pos == null)
-                throw new IllegalArgumentException("Bounding box must have a position!");
-            if (size == null)
-                throw new IllegalArgumentException("Bounding box must have a size!");
+            if (pos == null) throw new IllegalArgumentException("Bounding box must have a position!");
+            if (size == null) throw new IllegalArgumentException("Bounding box must have a size!");
 
             var parsedBox = new MCH_BoundingBox(pos.x, pos.y, pos.z, (float) size.x, (float) size.y, (float) size.z, damageFact);
             parsedBox.setBoundingBoxType(type);
@@ -693,13 +728,12 @@ public class YamlParser implements IParser {
 
     private void parseRideRacks(Map<String, Integer> map, MCH_AircraftInfo info) {
         map.entrySet().forEach(stringIntegerEntry -> {
-                    if (stringIntegerEntry.getKey().isEmpty())
-                        throw new IllegalArgumentException("RideRack vehicle entry cannot be empty!");
-                    if (stringIntegerEntry.getValue() < 0)
-                        throw new IllegalArgumentException("RideRack rackID cannot be negative!");
-                    info.rideRacks.add(new RideRack(stringIntegerEntry.getKey(), stringIntegerEntry.getValue()));
-                }
-        );
+            if (stringIntegerEntry.getKey().isEmpty())
+                throw new IllegalArgumentException("RideRack vehicle entry cannot be empty!");
+            if (stringIntegerEntry.getValue() < 0)
+                throw new IllegalArgumentException("RideRack rackID cannot be negative!");
+            info.rideRacks.add(new RideRack(stringIntegerEntry.getKey(), stringIntegerEntry.getValue()));
+        });
     }
 
     private void parseSeatRackInfo(Map<String, Object> map, MCH_AircraftInfo info, int seatCount, int rackCount) {
@@ -855,13 +889,7 @@ public class YamlParser implements IParser {
         dfy = MathHelper.wrapDegrees(dfy);
         seatID = Math.max(0, seatID - 1);
 
-        MCH_AircraftInfo.Weapon weapon = new MCH_AircraftInfo.Weapon(
-                info,
-                (float) pos.x, (float) pos.y, (float) pos.z,
-                yaw, pitch, canUsePilot, seatID,
-                dfy, mny, mxy, mnp, mxp,
-                turret
-        );
+        MCH_AircraftInfo.Weapon weapon = new MCH_AircraftInfo.Weapon(info, (float) pos.x, (float) pos.y, (float) pos.z, yaw, pitch, canUsePilot, seatID, dfy, mny, mxy, mnp, mxp, turret);
 
         WeaponSet set = info.getOrCreateWeaponSet(type);
         set.weapons.add(weapon);

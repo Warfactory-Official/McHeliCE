@@ -12,7 +12,7 @@ import com.norwood.mcheli.helper.addon.AddonManager;
 import com.norwood.mcheli.helper.addon.AddonPack;
 import com.norwood.mcheli.helper.addon.BuiltinAddonPack;
 import com.norwood.mcheli.hud.MCH_Hud;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 public class ContentRegistries {
     private static final Pattern PATH_SPLIT = Pattern.compile("[/\\\\]+");
     private static ContentRegistry<MCH_HeliInfo> REGISTORY_HELI = null;
-    private static ContentRegistry<MCP_PlaneInfo> REGISTORY_PLANE = null;
+    private static ContentRegistry<MCH_PlaneInfo> REGISTORY_PLANE = null;
     private static ContentRegistry<MCH_ShipInfo> REGISTORY_SHIP = null;
     private static ContentRegistry<MCH_TankInfo> REGISTORY_TANK = null;
     private static ContentRegistry<MCH_VehicleInfo> REGISTORY_VEHICLE = null;
@@ -54,7 +54,7 @@ public class ContentRegistries {
         return REGISTORY_HELI;
     }
 
-    public static ContentRegistry<MCP_PlaneInfo> plane() {
+    public static ContentRegistry<MCH_PlaneInfo> plane() {
         return REGISTORY_PLANE;
     }
 
@@ -86,7 +86,7 @@ public class ContentRegistries {
     public static <T extends MCH_BaseInfo> ContentRegistry<T> get(Class<T> clazz) {
         if (clazz == MCH_HeliInfo.class) {
             return (ContentRegistry<T>) REGISTORY_HELI;
-        } else if (clazz == MCP_PlaneInfo.class) {
+        } else if (clazz == MCH_PlaneInfo.class) {
             return (ContentRegistry<T>) REGISTORY_PLANE;
         } else if (clazz == MCH_ShipInfo.class) {
             return (ContentRegistry<T>) REGISTORY_SHIP;
@@ -121,7 +121,7 @@ public class ContentRegistries {
         REGISTORY_HUD = parseContents(MCH_Hud.class, "hud", contents.get(ContentType.HUD));
         REGISTORY_WEAPON = parseContents(MCH_WeaponInfo.class, "weapons", contents.get(ContentType.WEAPON));
         REGISTORY_HELI = parseContents(MCH_HeliInfo.class, "helicopters", contents.get(ContentType.HELICOPTER));
-        REGISTORY_PLANE = parseContents(MCP_PlaneInfo.class, "planes", contents.get(ContentType.PLANE));
+        REGISTORY_PLANE = parseContents(MCH_PlaneInfo.class, "planes", contents.get(ContentType.PLANE));
         REGISTORY_SHIP = parseContents(MCH_ShipInfo.class, "ships", contents.get(ContentType.SHIP));
         REGISTORY_TANK = parseContents(MCH_TankInfo.class, "tanks", contents.get(ContentType.TANK));
         REGISTORY_VEHICLE = parseContents(MCH_VehicleInfo.class, "vehicles", contents.get(ContentType.VEHICLE));

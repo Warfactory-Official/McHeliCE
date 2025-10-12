@@ -11,11 +11,11 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MCP_PlaneInfo extends MCH_AircraftInfo {
+public class MCH_PlaneInfo extends MCH_AircraftInfo {
     public MCP_ItemPlane item = null;
     public final List<MCH_AircraftInfo.DrawnPart> nozzles = new ArrayList<>();
-    public final List<MCP_PlaneInfo.Rotor> rotorList = new ArrayList<>();
-    public final List<MCP_PlaneInfo.Wing> wingList = new ArrayList<>();
+    public final List<MCH_PlaneInfo.Rotor> rotorList = new ArrayList<>();
+    public final List<MCH_PlaneInfo.Wing> wingList = new ArrayList<>();
     public boolean isEnableVtol = false;
     public boolean isDefaultVtol;
     public float vtolYaw = 0.3F;
@@ -24,7 +24,7 @@ public class MCP_PlaneInfo extends MCH_AircraftInfo {
     public boolean isVariableSweepWing = false;
     public float sweepWingSpeed = this.speed;
 
-    public MCP_PlaneInfo(AddonResourceLocation location, String path) {
+    public MCH_PlaneInfo(AddonResourceLocation location, String path) {
         super(location, path);
     }
     @Override
@@ -92,10 +92,16 @@ public class MCP_PlaneInfo extends MCH_AircraftInfo {
         public final int numBlade;
         public final int rotBlade;
 
-        public Blade(MCP_PlaneInfo paramMCP_PlaneInfo, int num, int r, float px, float py, float pz, float rx, float ry, float rz, String name) {
+        public Blade(MCH_PlaneInfo paramMCP_PlaneInfo, int num, int r, float px, float py, float pz, float rx, float ry, float rz, String name) {
             super(paramMCP_PlaneInfo, px, py, pz, rx, ry, rz, name);
             this.numBlade = num;
             this.rotBlade = r;
+        }
+
+        public Blade(DrawnPart other, int numBlade, int rotBlade) {
+            super(other);
+            this.numBlade = numBlade;
+            this.rotBlade = rotBlade;
         }
     }
 
@@ -103,7 +109,13 @@ public class MCP_PlaneInfo extends MCH_AircraftInfo {
         public final float maxRotFactor;
         public final float maxRot;
 
-        public Pylon(MCP_PlaneInfo paramMCP_PlaneInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name) {
+        public Pylon(DrawnPart other, float maxRot) {
+            super(other);
+            this.maxRot = maxRot;
+            this.maxRotFactor = maxRot / 90F;
+        }
+
+        public Pylon(MCH_PlaneInfo paramMCP_PlaneInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name) {
             super(paramMCP_PlaneInfo, px, py, pz, rx, ry, rz, name);
             this.maxRot = mr;
             this.maxRotFactor = this.maxRot / 90.0F;
@@ -112,9 +124,14 @@ public class MCP_PlaneInfo extends MCH_AircraftInfo {
 
     public static class Rotor extends MCH_AircraftInfo.DrawnPart {
         public final float maxRotFactor;
-        public final List<MCP_PlaneInfo.Blade> blades = new ArrayList<>();
+        public final List<MCH_PlaneInfo.Blade> blades = new ArrayList<>();
 
-        public Rotor(MCP_PlaneInfo paramMCP_PlaneInfo, float x, float y, float z, float rx, float ry, float rz, float mrf, String model) {
+        public Rotor(DrawnPart other, float maxRotFactor) {
+            super(other);
+            this.maxRotFactor = maxRotFactor;
+        }
+
+        public Rotor(MCH_PlaneInfo paramMCP_PlaneInfo, float x, float y, float z, float rx, float ry, float rz, float mrf, String model) {
             super(paramMCP_PlaneInfo, x, y, z, rx, ry, rz, model);
             this.maxRotFactor = mrf;
         }
@@ -123,9 +140,16 @@ public class MCP_PlaneInfo extends MCH_AircraftInfo {
     public static class Wing extends MCH_AircraftInfo.DrawnPart {
         public final float maxRotFactor;
         public final float maxRot;
-        public List<MCP_PlaneInfo.Pylon> pylonList;
+        public List<MCH_PlaneInfo.Pylon> pylonList;
 
-        public Wing(MCP_PlaneInfo paramMCP_PlaneInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name) {
+        public Wing(DrawnPart other,  float maxRot) {
+            super(other);
+            this.maxRot = maxRot;
+            this.maxRotFactor = maxRot/90F;
+            this.pylonList = null;
+        }
+
+        public Wing(MCH_PlaneInfo paramMCP_PlaneInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name) {
             super(paramMCP_PlaneInfo, px, py, pz, rx, ry, rz, name);
             this.maxRot = mr;
             this.maxRotFactor = this.maxRot / 90.0F;

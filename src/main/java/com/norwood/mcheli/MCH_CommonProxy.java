@@ -11,7 +11,7 @@ import com.norwood.mcheli.helper.addon.AddonPack;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.helper.info.ContentType;
-import com.norwood.mcheli.plane.MCP_PlaneInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
@@ -48,7 +48,7 @@ public class MCH_CommonProxy {
     public void registerModelsHeli(MCH_HeliInfo info, boolean reload) {
     }
 
-    public void registerModelsPlane(MCP_PlaneInfo info, boolean reload) {
+    public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {
     }
 
     public void registerModelsShip(MCH_ShipInfo info, boolean reload) {
