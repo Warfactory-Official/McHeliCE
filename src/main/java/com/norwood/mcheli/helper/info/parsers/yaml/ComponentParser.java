@@ -4,10 +4,12 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 
@@ -403,5 +405,86 @@ public class ComponentParser {
 
         }
     }
-}
 
+    public void parseComponentVehicle(Map<String, List<Map<String, Object>>> components, MCH_VehicleInfo info) {
+        if (!components.containsKey("Vpart")) return;
+
+        var vparts = components.get("Vpart");
+        vparts.stream()
+                .map(component -> parseDrawnPart("part", component, drawnPart ->
+                                parseVPart(component, drawnPart, info)
+                        , info.partList,
+                        new HashSet<>(Arrays.asList(
+                                "DrawFP", "DrawFirstPerson",
+                                "UnlockYaw", "CanYaw",
+                                "UnlockPitch", "CanPitch",
+                                "Type", "RecoilBuff", "Children"
+                        ))
+                ))
+                .forEach(info.partList::add);
+    }
+
+    private MCH_VehicleInfo.VPart parseVPart(Map<String, Object> component, Object drawnPart, MCH_VehicleInfo info) {
+        boolean drawFP = true;
+        boolean yaw = false;
+        boolean pitch = false;
+        VpartType type = VpartType.NORMAL;
+        float recoilBuff = 0;
+        List<MCH_VehicleInfo.VPart> childList = new ArrayList<>();
+
+        for (var entry : component.entrySet()) {
+            switch (entry.getKey()) {
+                case "DrawFP", "DrawFirstPerson" ->
+                        drawFP = (Boolean) entry.getValue();
+                case "UnlockYaw", "CanYaw" ->
+                        yaw = (Boolean) entry.getValue();
+                case "UnlockPitch", "CanPitch" ->
+                        pitch = (Boolean) entry.getValue();
+                case "Type" -> {
+                    try {
+                        type = VpartType.valueOf(((String) entry.getValue())
+                                .toUpperCase(Locale.ROOT).trim());
+                    } catch (RuntimeException s) {
+                        throw new IllegalArgumentException(
+                                "Invalid Vpart type: " + entry.getValue() +
+                                        ". Allowed values: " +
+                                        Arrays.stream(VpartType.values())
+                                                .map(Enum::name)
+                                                .collect(Collectors.joining(", "))
+                        );
+                    }
+                }
+                case "RecoilBuff" ->
+                        recoilBuff = ((Number) entry.getValue()).floatValue();
+                case "Children" -> {
+                    // recursive handling
+                    var children = (List<Map<String, Object>>) entry.getValue();
+                    for (var childComponent : children) {
+                        var childPart = parseDrawnPart("child", childComponent, childDrawn ->
+                                        parseVPart(childComponent, childDrawn, info),
+                                info.partList,
+                                new HashSet<>(Arrays.asList(
+                                        "DrawFP", "DrawFirstPerson",
+                                        "UnlockYaw", "CanYaw",
+                                        "UnlockPitch", "CanPitch",
+                                        "Type", "RecoilBuff", "Children"
+                                ))
+                        );
+                        childList.add(childPart);
+                    }
+                }
+                default -> {
+                }
+            }
+        }
+
+        var vpart = new MCH_VehicleInfo.VPart((MCH_AircraftInfo.DrawnPart) drawnPart, pitch, yaw, type.ordinal(), drawFP, recoilBuff);
+        vpart.child = childList;
+        return vpart;
+    }
+
+
+    public static enum VpartType {
+        NORMAL, ROTATES_WEAPON, RECOILS_WEAPON
+    }
+}

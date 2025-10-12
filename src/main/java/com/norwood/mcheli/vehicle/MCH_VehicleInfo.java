@@ -70,5 +70,15 @@ public class MCH_VehicleInfo extends MCH_AircraftInfo {
             this.drawFP = drawfp;
             this.recoilBuf = rb;
         }
+
+        public VPart(DrawnPart other, boolean rotPitch, boolean rotYaw, int type, boolean drawFP, float recoilBuf) {
+            super(other);
+            this.rotPitch = rotPitch;
+            this.rotYaw = rotYaw;
+            this.type = type;
+            this.drawFP = drawFP;
+            this.recoilBuf = recoilBuf;
+            this.child = null;
+        }
     }
 }

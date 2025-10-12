@@ -167,12 +167,13 @@ public class YamlParser implements IParser {
             switch (entry.getKey()) {
                 case "WeightType" -> {
                     try {
-                        info.weightType = TANK_WEIGHT.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim()).ordinal();
+                        info.weightType = TankWeight.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim()).ordinal();
                     } catch (RuntimeException e) {
-                        throw new IllegalArgumentException("Invalid flare type: " + (String) entry.getValue() + ". Allowed values: " + Arrays.stream(FlareType.values()).map(Enum::name).collect(Collectors.joining(", ")));
+                        throw new IllegalArgumentException("Invalid Weight type: " + (String) entry.getValue() + ". Allowed values: " + Arrays.stream(TankWeight.values()).map(Enum::name).collect(Collectors.joining(", ")));
                     }
                 }
-                 case "WeightedCenterZ","CenterZ" -> getClamped(-1000F,1000F,(Number) entry.getValue());
+                case "WeightedCenterZ", "CenterZ" -> getClamped(-1000F, 1000F, (Number) entry.getValue());
+                default -> logUnkownEntry(entry, "TankFeatures");
             }
 
         }
@@ -181,8 +182,33 @@ public class YamlParser implements IParser {
 
     @Override
     public @Nullable MCH_VehicleInfo parseVehicle(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        return null;
+        Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
+        var info = new MCH_VehicleInfo(location, filepath);
+        mapToAircraft(info, root);
+        for (Map.Entry<String, Object> entry : root.entrySet()) {
+            switch (entry.getKey()) {
+                case "VehicleFeatures" -> parseVehicleFeatures((Map<String, Object>) entry.getValue(), info);
+                case "Components" -> {
+                    var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
+                    COMPONENT_PARSER.parseComponentVehicle(components, info);
+                }
+            }
+        }
+
+        return info;
     }
+
+    private void parseVehicleFeatures(Map<String, Object> value, MCH_VehicleInfo info) {
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "CanMove" -> info.isEnableMove = (Boolean) entry.getValue();
+                case "CanRotate" -> info.isEnableRot = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "VehicleFeatures");
+            }
+        }
+
+    }
+
 
     @Override
     public @Nullable MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
@@ -590,17 +616,17 @@ public class YamlParser implements IParser {
                     switch (rotEntry.getKey()) {
                         case "Pitch" -> {
                             Map<String, Object> pitchMap = (Map<String, Object>) rotEntry.getValue();
-                            if (pitchMap.containsKey("min"))
-                                info.minRotationPitch = getClamped(info.getMinRotationPitch(), 0F, (Number) pitchMap.get("min"));
-                            if (pitchMap.containsKey("max"))
-                                info.maxRotationPitch = getClamped(0F, info.getMaxRotationPitch(), (Number) pitchMap.get("max"));
+                            if (pitchMap.containsKey("Min"))
+                                info.minRotationPitch = getClamped(info.getMinRotationPitch(), 0F, (Number) pitchMap.get("Min"));
+                            if (pitchMap.containsKey("Max"))
+                                info.maxRotationPitch = getClamped(0F, info.getMaxRotationPitch(), (Number) pitchMap.get("Max"));
                         }
                         case "Roll" -> {
                             Map<String, Object> rollMap = (Map<String, Object>) rotEntry.getValue();
-                            if (rollMap.containsKey("min"))
-                                info.minRotationRoll = getClamped(info.getMinRotationRoll(), 0F, (Number) rollMap.get("min"));
-                            if (rollMap.containsKey("max"))
-                                info.maxRotationRoll = getClamped(0F, info.getMaxRotationRoll(), (Number) rollMap.get("max"));
+                            if (rollMap.containsKey("Min"))
+                                info.minRotationRoll = getClamped(info.getMinRotationRoll(), 0F, (Number) rollMap.get("Min"));
+                            if (rollMap.containsKey("Max"))
+                                info.maxRotationRoll = getClamped(0F, info.getMaxRotationRoll(), (Number) rollMap.get("Max"));
                         }
                         default -> logUnkownEntry(rotEntry, "RotationLimits");
                     }
@@ -974,7 +1000,7 @@ public class YamlParser implements IParser {
     }
 
 
-    public static enum TANK_WEIGHT {
+    public static enum TankWeight {
         UKNOWN, TANK, CAR
     }
 
