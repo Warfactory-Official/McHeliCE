@@ -7,9 +7,8 @@ import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_AircraftClientTickHandler;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
-import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
-import com.norwood.mcheli.networking.packet.control.PacketPlayerControlShip;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.wrapper.W_Network;
 import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -136,17 +135,17 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityShip plane, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, plane, isPilot, new PacketPlayerControlShip(new DataPlayerControlAircraft()));
+        this.commonPlayerControlInGUI(player, plane, isPilot, new MCH_ShipPacketPlayerControl());
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityShip plane, boolean isPilot) {
-        DataPlayerControlAircraft pc = new DataPlayerControlAircraft();
+        MCH_ShipPacketPlayerControl pc = new MCH_ShipPacketPlayerControl();
         boolean send;
         send = this.commonPlayerControl(player, plane, isPilot, pc);
         if (isPilot) {
             if (this.KeySwitchMode.isKeyDown()) {
                 if (plane.getIsGunnerMode(player) && plane.canSwitchCameraPos()) {
-                    pc.switchMode = DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF;
+                    pc.switchMode = 0;
                     plane.switchGunnerMode(false);
                     send = true;
                     plane.setCameraId(1);
@@ -156,7 +155,7 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
                         plane.setCameraId(0);
                     }
                 } else if (plane.canSwitchGunnerMode()) {
-                    pc.switchMode = plane.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF : DataPlayerControlAircraft.ModeSwitch.GUNNER_ON;
+                    pc.switchMode = (byte) (plane.getIsGunnerMode(player) ? 0 : 1);
                     plane.switchGunnerMode(!plane.getIsGunnerMode(player));
                     send = true;
                     plane.setCameraId(0);
@@ -170,7 +169,11 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
             if (this.KeyExtra.isKeyDown()) {
                 if (plane.canSwitchVtol()) {
                     boolean currentMode = plane.getNozzleStat();
-                    pc.switchVtol = currentMode ? DataPlayerControlAircraft.VtolSwitch.VTOL_OFF : DataPlayerControlAircraft.VtolSwitch.VTOL_ON;
+                    if (!currentMode) {
+                        pc.switchVtol = 1;
+                    } else {
+                        pc.switchVtol = 0;
+                    }
 
                     plane.swithVtolMode(!currentMode);
                     send = true;
@@ -189,36 +192,35 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
 
         if (this.KeyZoom.isKeyDown()) {
             boolean isUav = plane.isUAV() && !plane.getAcInfo().haveHatch() && !plane.getPlaneInfo().haveWing();
-
             if (plane.getIsGunnerMode(player) || isUav) {
                 plane.zoomCamera();
                 playSound("zoom", 0.5F, 1.0F);
             } else if (isPilot) {
                 if (plane.getAcInfo().haveHatch()) {
                     if (plane.canFoldHatch()) {
-                        pc.switchHatch = DataPlayerControlAircraft.HatchSwitch.UNFOLD;
+                        pc.switchHatch = 2;
                         send = true;
                     } else if (plane.canUnfoldHatch()) {
-                        pc.switchHatch = DataPlayerControlAircraft.HatchSwitch.FOLD;
+                        pc.switchHatch = 1;
                         send = true;
                     }
                 } else if (plane.canFoldWing()) {
-                    pc.switchHatch = DataPlayerControlAircraft.HatchSwitch.UNFOLD;
+                    pc.switchHatch = 2;
                     send = true;
                 } else if (plane.canUnfoldWing()) {
-                    pc.switchHatch = DataPlayerControlAircraft.HatchSwitch.FOLD;
+                    pc.switchHatch = 1;
                     send = true;
                 }
             }
         }
 
         if (this.KeyEjectSeat.isKeyDown() && plane.canEjectSeat(player)) {
-            pc.setEjectSeat(true);
+            pc.ejectSeat = true;
             send = true;
         }
 
         if (send) {
-            new PacketPlayerControlShip(pc).sendToServer();
+            W_Network.sendToServer(pc);
         }
     }
 }

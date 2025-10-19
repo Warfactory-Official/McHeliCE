@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MCH_Config {
+
+    public static MCH_ConfigPrm MultiThreadedModelLoading;
+
     public static final List<Block> dummyBreakableBlocks = new ArrayList<>();
     public static final List<Material> dummyBreakableMaterials = new ArrayList<>();
     public static String mcPath;
@@ -110,7 +113,6 @@ public class MCH_Config {
     public static MCH_ConfigPrm CreativeTabIcon;
     public static MCH_ConfigPrm CreativeTabIconHeli;
     public static MCH_ConfigPrm CreativeTabIconPlane;
-    public static MCH_ConfigPrm CreativeTabIconShip;
     public static MCH_ConfigPrm CreativeTabIconTank;
     public static MCH_ConfigPrm CreativeTabIconVehicle;
     public static MCH_ConfigPrm DisableShader;
@@ -131,8 +133,8 @@ public class MCH_Config {
     public static MCH_ConfigPrm MouseControlFlightSimMode;
     public static MCH_ConfigPrm SwitchWeaponWithMouseWheel;
     public static MCH_ConfigPrm AllPlaneSpeed;
-
     public static MCH_ConfigPrm AllShipSpeed;
+
     public static MCH_ConfigPrm AllHeliSpeed;
     public static MCH_ConfigPrm AllTankSpeed;
     public static MCH_ConfigPrm HurtResistantTime;
@@ -243,6 +245,7 @@ public class MCH_Config {
                 KeyScoreboard,
                 KeyMultiplayManager
         };
+        MultiThreadedModelLoading = new MCH_ConfigPrm("MultiThreadedModelLoading", true);
         DamageVs = new ArrayList<>();
         CommandPermission = new ArrayList<>();
         CommandPermissionList = new ArrayList<>();
@@ -286,7 +289,6 @@ public class MCH_Config {
         CreativeTabIcon = new MCH_ConfigPrm("CreativeTabIconItem", "fuel");
         CreativeTabIconHeli = new MCH_ConfigPrm("CreativeTabIconHeli", "ah-64");
         CreativeTabIconPlane = new MCH_ConfigPrm("CreativeTabIconPlane", "f22a");
-        CreativeTabIconShip = new MCH_ConfigPrm("CreativeTabIconShip", "project1204");
         CreativeTabIconTank = new MCH_ConfigPrm("CreativeTabIconTank", "merkava_mk4");
         CreativeTabIconVehicle = new MCH_ConfigPrm("CreativeTabIconVehicle", "mk15");
         DisableShader = new MCH_ConfigPrm("DisableShader", false);
@@ -314,7 +316,6 @@ public class MCH_Config {
         SwitchWeaponWithMouseWheel = new MCH_ConfigPrm("SwitchWeaponWithMouseWheel", true);
         AllHeliSpeed = new MCH_ConfigPrm("AllHeliSpeed", 1.0);
         AllPlaneSpeed = new MCH_ConfigPrm("AllPlaneSpeed", 1.0);
-        AllShipSpeed = new MCH_ConfigPrm("AllShipSpeed", 1.0);
         AllTankSpeed = new MCH_ConfigPrm("AllTankSpeed", 1.0);
         HurtResistantTime = new MCH_ConfigPrm("HurtResistantTime", 0.0);
         DisplayHUDThirdPerson = new MCH_ConfigPrm("DisplayHUDThirdPerson", false);
@@ -431,7 +432,6 @@ public class MCH_Config {
                 CreativeTabIcon,
                 CreativeTabIconHeli,
                 CreativeTabIconPlane,
-                CreativeTabIconShip,
                 CreativeTabIconTank,
                 CreativeTabIconVehicle,
                 DisableShader,
@@ -589,7 +589,7 @@ public class MCH_Config {
 
         AllHeliSpeed.prmDouble = MCH_Lib.RNG(AllHeliSpeed.prmDouble, 0.0, 1000.0);
         AllPlaneSpeed.prmDouble = MCH_Lib.RNG(AllPlaneSpeed.prmDouble, 0.0, 1000.0);
-        AllShipSpeed.prmDouble = MCH_Lib.RNG(AllShipSpeed.prmDouble, 0.0, 1000.0);
+        AllShipSpeed.prmDouble = MCH_Lib.RNG(AllPlaneSpeed.prmDouble, 0.0, 1000.0);
         AllTankSpeed.prmDouble = MCH_Lib.RNG(AllTankSpeed.prmDouble, 0.0, 1000.0);
         this.setBlockListFromString(bulletBreakableBlocks, BulletBreakableBlock.prmString);
         this.setBlockListFromString(carBreakableBlocks, Collision_Car_BreakableBlock.prmString);

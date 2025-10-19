@@ -6,9 +6,13 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
 import net.minecraft.item.Item;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class MCH_HeliInfoManager extends MCH_AircraftInfoManager<MCH_HeliInfo> {
     private static final MCH_HeliInfoManager instance = new MCH_HeliInfoManager();
+
+    public static final HashMap map = new LinkedHashMap();
 
     public static MCH_HeliInfoManager getInstance() {
         return instance;

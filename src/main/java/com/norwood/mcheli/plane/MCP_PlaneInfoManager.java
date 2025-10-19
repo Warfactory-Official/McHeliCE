@@ -6,9 +6,13 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
 import net.minecraft.item.Item;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class MCP_PlaneInfoManager extends MCH_AircraftInfoManager<MCP_PlaneInfo> {
     private static final MCP_PlaneInfoManager instance = new MCP_PlaneInfoManager();
+    public static HashMap map = new LinkedHashMap();
+
 
     public static MCP_PlaneInfo get(String name) {
         return ContentRegistries.plane().get(name);

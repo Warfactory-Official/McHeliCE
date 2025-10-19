@@ -32,7 +32,8 @@ public class MCH_ItemTank extends MCH_ItemAircraft {
             tank.prevPosX = x;
             tank.prevPosY = y;
             tank.prevPosZ = z;
-            tank.camera.setPosition(x, y, z);
+            tank.camera.setPosition(x, y + 1.5D, z); //todo y offset
+            // (double)tank.yOffset was removed because mojang developers hate god so we're gonna try hardcoding 1.5D
             tank.setTypeName(info.name);
             if (!world.isRemote) {
                 tank.setTextureName(info.getTextureName());

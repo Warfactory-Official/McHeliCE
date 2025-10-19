@@ -26,14 +26,13 @@ import com.norwood.mcheli.helicopter.MCH_RenderHeli;
 import com.norwood.mcheli.mob.MCH_EntityGunner;
 import com.norwood.mcheli.mob.MCH_RenderGunner;
 import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
+import com.norwood.mcheli.multithread.MultiThreadModelManager;
 import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.parachute.MCH_RenderParachute;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.plane.MCP_EntityPlane;
 import com.norwood.mcheli.plane.MCP_PlaneInfo;
 import com.norwood.mcheli.plane.MCP_RenderPlane;
-import com.norwood.mcheli.ship.MCH_EntityShip;
-import com.norwood.mcheli.ship.MCH_RenderShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_RenderTank;
@@ -49,6 +48,7 @@ import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
+import com.norwood.mcheli.throwable.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.ITextComponent;
@@ -56,24 +56,14 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.io.File;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class MCH_ClientProxy extends MCH_CommonProxy {
     public String lastLoadHUDPath = "";
 
-
-    @Override
-    public void postInit(FMLPostInitializationEvent postEvent) {
-        MinecraftForge.EVENT_BUS.register(new VehicleRenderManager());
-
-    }
     public static void registerModels_Bullet() {
         for (MCH_WeaponInfo wi : ContentRegistries.weapon().values()) {
             _IModelCustom m;
@@ -110,7 +100,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntitySeat.class, MCH_RenderTest.factory(0.0F, 0.3125F, 0.0F, "seat"));
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityHeli.class, MCH_RenderHeli.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCP_EntityPlane.class, MCP_RenderPlane.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(MCH_EntityShip.class, MCH_RenderShip.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityTank.class, MCH_RenderTank.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityGLTD.class, MCH_RenderGLTD.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityChain.class, MCH_RenderChain.FACTORY);
@@ -152,114 +141,69 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void registerModels() {
-        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         MCH_ModelManager.setForceReloadMode(true);
+        MCH_RenderAircraft.debugModel = MCH_ModelManager.load("box");
+        MCH_ModelManager.load("a-10");
+        MCH_RenderGLTD.model = MCH_ModelManager.load("gltd");
+        MCH_ModelManager.load("chain");
+        MCH_ModelManager.load("container");
+        MCH_ModelManager.load("parachute1");
+        MCH_ModelManager.load("parachute2");
+        MCH_ModelManager.load("lweapons", "fim92");
+        MCH_ModelManager.load("lweapons", "fgm148");
 
-        CompletableFuture<Void> miscFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            MCH_RenderAircraft.debugModel = MCH_ModelManager.load("box");
-            MCH_ModelManager.load("a-10");
-            MCH_RenderGLTD.model = MCH_ModelManager.load("gltd");
-            MCH_ModelManager.load("chain");
-            MCH_ModelManager.load("container");
-            MCH_ModelManager.load("parachute1");
-            MCH_ModelManager.load("parachute2");
-            MCH_ModelManager.load("lweapons", "fim92");
-            MCH_ModelManager.load("lweapons", "fgm148");
-            long end = System.nanoTime();
-            System.out.println("[MCH-LOADER][MISC] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
+        for (String s : MCH_RenderUavStation.MODEL_NAME) {
+            MCH_ModelManager.load(s);
+        }
 
-        CompletableFuture<Void> uavFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            for (String s : MCH_RenderUavStation.MODEL_NAME) {
-                MCH_ModelManager.load(s);
-            }
-            long end = System.nanoTime();
-            System.out.println("[MCH-LOADER][UAV] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
-
-        long startBasic = System.nanoTime();
         MCH_ModelManager.load("wrench");
         MCH_ModelManager.load("rangefinder");
-        long endBasic = System.nanoTime();
-        System.out.println("[MCH-LOADER][BASIC MODELS] Loaded in " + ((endBasic - startBasic) / 1_000_000) + " ms");
 
-        CompletableFuture<Void> heliFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            ContentRegistries.heli().forEachValueParallel(info -> this.registerModelsHeli(info, false));
-            long end = System.nanoTime();
-            System.out.println("[MCH-LOADER][HELI] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
+        if (MCH_Config.MultiThreadedModelLoading.prmBool) {
+            System.out.println("Starting multithreaded model loading");
+            MultiThreadModelManager.start(this);
+            return;
+        }
 
-        CompletableFuture<Void> planeFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            ContentRegistries.plane().forEachValueParallel(info -> this.registerModelsPlane(info, false));
-            long end = System.nanoTime();
-            System.out.println("[MCH-LOADER][PLANE] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
+        ContentRegistries.heli().forEachValue(info -> this.registerModelsHeli(info, false));
+        ContentRegistries.plane().forEachValue(info -> this.registerModelsPlane(info, false));
+        ContentRegistries.ship().forEachValue(info -> this.registerModelsShip(info, false));
+        ContentRegistries.tank().forEachValue(info -> this.registerModelsTank(info, false));
+        ContentRegistries.vehicle().forEachValue(info -> this.registerModelsVehicle(info, false));
+        registerModels_Bullet();
+        MCH_DefaultBulletModels.Bullet = this.loadBulletModel("bullet");
+        MCH_DefaultBulletModels.AAMissile = this.loadBulletModel("aamissile");
+        MCH_DefaultBulletModels.ATMissile = this.loadBulletModel("asmissile");
+        MCH_DefaultBulletModels.ASMissile = this.loadBulletModel("asmissile");
+        MCH_DefaultBulletModels.Bomb = this.loadBulletModel("bomb");
+        MCH_DefaultBulletModels.Rocket = this.loadBulletModel("rocket");
+        MCH_DefaultBulletModels.Torpedo = this.loadBulletModel("torpedo");
 
-        CompletableFuture<Void> shipFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            ContentRegistries.ship().forEachValueParallel(info -> this.registerModelsShip(info, false));
-            long end = System.nanoTime();
-            System.out.println("[MCH-LOADER][SHIP] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
-
-        CompletableFuture<Void> tankFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            ContentRegistries.tank().forEachValueParallel(info -> this.registerModelsTank(info, false));
-            long end = System.nanoTime();
-            System.out.println("[MCH-LOADER][TANK] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
-
-        CompletableFuture<Void> vehicleFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            ContentRegistries.vehicle().forEachValueParallel(info -> this.registerModelsVehicle(info, false));
-            long end = System.nanoTime();
-            System.out.println("[MCH-LOADER][VEHICLE] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
-
-        CompletableFuture<Void> bulletFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            registerModels_Bullet();
-            MCH_DefaultBulletModels.Bullet = this.loadBulletModel("bullet");
-            MCH_DefaultBulletModels.AAMissile = this.loadBulletModel("aamissile");
-            MCH_DefaultBulletModels.ATMissile = this.loadBulletModel("asmissile");
-            MCH_DefaultBulletModels.ASMissile = this.loadBulletModel("asmissile");
-            MCH_DefaultBulletModels.Bomb = this.loadBulletModel("bomb");
-            MCH_DefaultBulletModels.Rocket = this.loadBulletModel("rocket");
-            MCH_DefaultBulletModels.Torpedo = this.loadBulletModel("torpedo");
-            long end = System.nanoTime();
-            System.out.println("[BULLETS] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
-
-        CompletableFuture<Void> throwableFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            for (MCH_ThrowableInfo wi : ContentRegistries.throwable().values()) {
-                wi.model = MCH_ModelManager.load("throwable", wi.name);
-            }
-            long end = System.nanoTime();
-            System.out.println("[MCH-LOADER][THROWABLES] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
-
-        CompletableFuture<Void> allTasks = CompletableFuture.allOf(
-                heliFuture, planeFuture, shipFuture, tankFuture, vehicleFuture, bulletFuture, throwableFuture, uavFuture, miscFuture
-        );
+        for (MCH_ThrowableInfo wi : ContentRegistries.throwable().values()) {
+            wi.model = MCH_ModelManager.load("throwable", wi.name);
+        }
 
         MCH_ModelManager.load("blocks", "drafting_table");
-
-        allTasks.thenRun(() -> {
-            executor.shutdown();
-            System.out.println("All model rendering tasks completed successfully.");
-        }).exceptionally(ex -> {
-            System.err.println("Error during model rendering: " + ex.getMessage());
-            ex.printStackTrace();
-            executor.shutdown();
-            return null;
-        });
     }
 
+    public static void registerModels_Throwable(){
+        System.out.println("Loading throwable");
+
+        for (Object obj : MCH_ThrowableInfoManager.getValues()) {
+            if (obj instanceof MCH_ThrowableInfo) { // Ensure the object is of type MCH_ThrowableInfo
+                MCH_ThrowableInfo throwableInfo = (MCH_ThrowableInfo) obj;
+                _IModelCustom modelCustom = MCH_ModelManager.load("throwable", throwableInfo.name);
+                if (modelCustom != null) {
+                    System.out.println("Adding model for " + throwableInfo.name);
+                    throwableInfo.model = modelCustom;
+                } else {
+                    System.out.println("ERROR: No model found for throwable " + throwableInfo.name);
+                }
+            } else {
+                System.out.println("ERROR: Invalid object type in throwable info manager");
+            }
+        }
+    }
 
     @Override
     public void registerModelsHeli(MCH_HeliInfo info, boolean reload) {
@@ -273,6 +217,22 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         this.registerCommonPart("helicopters", info);
         MCH_ModelManager.setForceReloadMode(false);
     }
+
+    /*** 1.7 method
+     public void registerModelsHeli(String name, boolean reload) {
+     MCH_ModelManager.setForceReloadMode(reload);
+     MCH_HeliInfo info = (MCH_HeliInfo)MCH_HeliInfoManager.map.get(name);
+     info.model = MCH_ModelManager.load("helicopters", info.name);
+
+     MCH_HeliInfo.Rotor rotor;
+     for(Iterator i$ = info.rotorList.iterator(); i$.hasNext(); rotor.model = this.loadPartModel("helicopters", info.name, info.model, rotor.modelName)) {
+     rotor = (MCH_HeliInfo.Rotor)i$.next();
+     }
+
+     this.registerCommonPart("helicopters", info);
+     MCH_ModelManager.setForceReloadMode(false);
+     }
+     */
 
     @Override
     public void registerModelsPlane(MCP_PlaneInfo info, boolean reload) {
@@ -307,7 +267,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerModelsShip(MCH_ShipInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
-        info.model = MCH_ModelManager.load("ships", info.name);
+        info.model = MCH_ModelManager.load("planes", info.name);
 
         for (MCH_AircraftInfo.DrawnPart n : info.nozzles) {
             n.model = this.loadPartModel("ships", info.name, info.model, n.modelName);
@@ -334,8 +294,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         MCH_ModelManager.setForceReloadMode(false);
     }
 
-
-
     @Override
     public void registerModelsVehicle(MCH_VehicleInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
@@ -360,7 +318,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         MCH_ModelManager.setForceReloadMode(false);
     }
 
-    private MCH_BulletModel loadBulletModel(String name) {
+    public MCH_BulletModel loadBulletModel(String name) {
         _IModelCustom m = MCH_ModelManager.load("bullets", name);
         return m != null ? new MCH_BulletModel(name, m) : null;
     }
@@ -370,45 +328,57 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     }
 
     private void registerCommonPart(String path, MCH_AircraftInfo info) {
-        info.hatchList.parallelStream()
-                .forEach(h -> h.model = this.loadPartModel(path, info.name, info.model, h.modelName));
+        for (MCH_AircraftInfo.Hatch h : info.hatchList) {
+            h.model = this.loadPartModel(path, info.name, info.model, h.modelName);
+        }
 
-        info.cameraList.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        for (MCH_AircraftInfo.Camera c : info.cameraList) {
+            c.model = this.loadPartModel(path, info.name, info.model, c.modelName);
+        }
 
-        info.partThrottle.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        for (MCH_AircraftInfo.Throttle c : info.partThrottle) {
+            c.model = this.loadPartModel(path, info.name, info.model, c.modelName);
+        }
 
-        info.partRotPart.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        for (MCH_AircraftInfo.RotPart c : info.partRotPart) {
+            c.model = this.loadPartModel(path, info.name, info.model, c.modelName);
+        }
 
-        info.partWeapon.parallelStream().forEach(p -> {
+        for (MCH_AircraftInfo.PartWeapon p : info.partWeapon) {
             p.model = this.loadPartModel(path, info.name, info.model, p.modelName);
-            p.child.parallelStream()
-                    .forEach(wc -> wc.model = this.loadPartModel(path, info.name, info.model, wc.modelName));
-        });
 
-        info.canopyList.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+            for (MCH_AircraftInfo.PartWeaponChild wc : p.child) {
+                wc.model = this.loadPartModel(path, info.name, info.model, wc.modelName);
+            }
+        }
 
-        info.landingGear.parallelStream()
-                .forEach(n -> n.model = this.loadPartModel(path, info.name, info.model, n.modelName));
+        for (MCH_AircraftInfo.Canopy c : info.canopyList) {
+            c.model = this.loadPartModel(path, info.name, info.model, c.modelName);
+        }
 
-        info.partWeaponBay.parallelStream()
-                .forEach(w -> w.model = this.loadPartModel(path, info.name, info.model, w.modelName));
+        for (MCH_AircraftInfo.DrawnPart n : info.landingGear) {
+            n.model = this.loadPartModel(path, info.name, info.model, n.modelName);
+        }
 
-        info.partCrawlerTrack.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        for (MCH_AircraftInfo.WeaponBay w : info.partWeaponBay) {
+            w.model = this.loadPartModel(path, info.name, info.model, w.modelName);
+        }
 
-        info.partTrackRoller.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        for (MCH_AircraftInfo.CrawlerTrack c : info.partCrawlerTrack) {
+            c.model = this.loadPartModel(path, info.name, info.model, c.modelName);
+        }
 
-        info.partWheel.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        for (MCH_AircraftInfo.TrackRoller c : info.partTrackRoller) {
+            c.model = this.loadPartModel(path, info.name, info.model, c.modelName);
+        }
 
-        info.partSteeringWheel.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        for (MCH_AircraftInfo.PartWheel c : info.partWheel) {
+            c.model = this.loadPartModel(path, info.name, info.model, c.modelName);
+        }
 
+        for (MCH_AircraftInfo.PartWheel c : info.partSteeringWheel) {
+            c.model = this.loadPartModel(path, info.name, info.model, c.modelName);
+        }
     }
 
     private void registerVCPModels(MCH_VehicleInfo info, MCH_VehicleInfo.VPart vp) {

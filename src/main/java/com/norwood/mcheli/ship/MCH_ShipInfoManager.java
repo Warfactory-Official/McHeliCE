@@ -6,9 +6,12 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
 import net.minecraft.item.Item;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class MCH_ShipInfoManager extends MCH_AircraftInfoManager<MCH_ShipInfo> {
     private static final MCH_ShipInfoManager instance = new MCH_ShipInfoManager();
+    public static HashMap map = new LinkedHashMap();
 
     public static MCH_ShipInfo get(String name) {
         return ContentRegistries.ship().get(name);

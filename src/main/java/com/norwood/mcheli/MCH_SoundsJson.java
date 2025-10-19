@@ -41,7 +41,10 @@ public class MCH_SoundsJson {
             for (String key : multimap.keySet()) {
                 cnt++;
                 String sounds = Joiner.on(",")
-                        .join(multimap.get(key).stream().map(namex -> '"' + MCH_Utils.suffix(namex).toString() + '"').collect(Collectors.toList()));
+                        .join(multimap.get(key).stream()
+                                .map(namex -> "\"mcheli:" + namex + "\"")
+                                .collect(Collectors.toList()));
+
                 String line = "\"" + key + "\": {\"category\": \"master\",\"sounds\": [" + sounds + "]}";
                 if (cnt < multimap.keySet().size()) {
                     line = line + ",";

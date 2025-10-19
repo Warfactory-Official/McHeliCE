@@ -2,9 +2,9 @@ package com.norwood.mcheli.helper.info;
 
 public enum ContentType {
     HELICOPTER("helicopter", "helicopters"),
-    PLANE("plane", "planes"),
-    SHIP("ship", "ships"),
-    ITEM("item", "item"),
+    PLANE("plane", "plane"),
+    SHIP("ship", "ship"),
+
     TANK("tank", "tanks"),
     VEHICLE("vehicle", "vehicles"),
     WEAPON("weapon", "weapons"),
