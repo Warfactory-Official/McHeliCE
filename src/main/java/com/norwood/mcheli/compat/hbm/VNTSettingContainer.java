@@ -73,7 +73,6 @@ public class VNTSettingContainer {
     }
     public Object buildExplosion(World world, double x, double y, double z, float size, Entity exploder  ){
         var vnt = new com.hbm.explosion.vanillant.ExplosionVNT(world,x,y,z,size,exploder);
-        vnt.
 
 
         return vnt;
