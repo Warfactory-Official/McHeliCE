@@ -1,116 +1,167 @@
 package com.norwood.mcheli.compat.hbm;
 
 
-import lombok.Builder;
+import com.norwood.mcheli.compat.ModCompatManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-@Builder
 public class VNTSettingContainer {
 
-    @Nullable public  String blockAllocatorPath;
-    @Nullable public  String  entityProcessorPath;
-    @Nullable public  String blockProcessorPath;
-    @Nullable public  String  playerProcessorPath;
-    @Nullable public  String  rangeMutatorPath;
-    @Nullable public  String  blockMutatorPath;
-    @Nullable public  List<String> explosionSFXPath;
-    @Nullable public  String customDamageHandlerPath;
-    @Nullable public String fortuneMutatorPath;
-    @Nullable public String dropChanceMutatorPatch;
-
-    //Allocator possible variables
-    int allocatorResolution = 16;
-    int allocatorMaximum = -1;
-
-    //Entity Possible variables
-
-
+    public static final String HBM_VANILLANT_PACKAGE = "com.hbm.explosion.vanillant.standard";
+    public static Map<String,Class<?>> vanillantClassSet = null; //Simple name : Class
+    private final Map<String, Object> rawEntry;
     //ONLY ASSIGNABLE AT RUNTIME
-        private Object blockAllocator;
-        private Object entityProcessor;
-        private Object playerProcessor;
-        private Object[] sfx;
-        private Object damageHandler;
-        private Object rangeMutator;
+    private Object blockAllocator;
+    private Object entityProcessor;
+    private Object playerProcessor;
+    private Object[] sfx;
+    private Object damageHandler;
+    private Object rangeMutator;
+    private Object blockProcessor;
+    private Object blockMutator;
+    private Object fortuneMutator;
+    private Object dropChanceMutator;
 
-        private Object blockProcessor;
-
-        private Object blockMutator;
-        private Object fortuneMutator;
-        private Object dropChanceMutator;
-
+    public VNTSettingContainer(Map<String, Object> rawEntry) {
+        this.rawEntry = rawEntry;
+    }
 
     @Optional.Method(modid = "hbm")
     public void loadRuntimeInstances() {
-        blockAllocator = loadInstance(blockAllocatorPath,  com.hbm.explosion.vanillant.interfaces.IBlockAllocator.class);
-        entityProcessor = loadInstance(entityProcessorPath,  com.hbm.explosion.vanillant.interfaces.IEntityProcessor.class);
-        blockProcessor = loadInstance(blockProcessorPath, com.hbm.explosion.vanillant.interfaces.IBlockProcessor.class);
-        playerProcessor = loadInstance(playerProcessorPath, com.hbm.explosion.vanillant.interfaces.IPlayerProcessor.class);
-        rangeMutator = loadInstance(rangeMutatorPath, com.hbm.explosion.vanillant.interfaces.IEntityRangeMutator.class);
-        blockMutator = loadInstance(blockMutatorPath, com.hbm.explosion.vanillant.interfaces.IBlockMutator.class);
-        damageHandler = loadInstance(customDamageHandlerPath, com.hbm.explosion.vanillant.interfaces.ICustomDamageHandler.class);
-        fortuneMutator = loadInstance(fortuneMutatorPath, com.hbm.explosion.vanillant.interfaces.IFortuneMutator.class);
-
-        if (explosionSFXPath != null) {
-            List<com.hbm.explosion.vanillant.interfaces.IExplosionSFX> list = new ArrayList<>();
-            for (String sfxPath : explosionSFXPath) {
-                com.hbm.explosion.vanillant.interfaces.IExplosionSFX s = loadInstance(sfxPath, com.hbm.explosion.vanillant.interfaces.IExplosionSFX.class);
-                if (s != null) list.add(s);
-            }
-            sfx = list.toArray(new com.hbm.explosion.vanillant.interfaces.IExplosionSFX[0]);
-        } else {
-            sfx = new com.hbm.explosion.vanillant.interfaces.IExplosionSFX[0];
-        }
+        if (vanillantClassSet == null || vanillantClassSet.isEmpty())
+            vanillantClassSet = ModCompatManager.getClassesInPackage(ModCompatManager.MODID_HBM);
+        processMap(rawEntry);
     }
-    public Object buildExplosion(World world, double x, double y, double z, float size, Entity exploder  ){
-        var vnt = new com.hbm.explosion.vanillant.ExplosionVNT(world,x,y,z,size,exploder);
 
 
+    public Object buildExplosion(World world, double x, double y, double z, float size, Entity exploder) {
+        var vnt = new com.hbm.explosion.vanillant.ExplosionVNT(world, x, y, z, size, exploder);
+        vnt.setBlockAllocator((com.hbm.explosion.vanillant.interfaces.IBlockAllocator) blockAllocator);
+        vnt.setEntityProcessor((com.hbm.explosion.vanillant.interfaces.IEntityProcessor) entityProcessor);
+        vnt.setBlockProcessor((com.hbm.explosion.vanillant.interfaces.IBlockProcessor) blockProcessor);
+        vnt.setPlayerProcessor((com.hbm.explosion.vanillant.interfaces.IPlayerProcessor) playerProcessor);
+        vnt.setSFX((com.hbm.explosion.vanillant.interfaces.IExplosionSFX[]) sfx);
         return vnt;
     }
+    public Object processMap(Map<String, Object> map) {
+        if (map == null || map.isEmpty()) return null;
 
-
-    @SuppressWarnings("unchecked")
-    @Nullable
-    private static <T> T loadInstance(@Nullable String path, Class<T> iface) {
-        if (path == null || path.isEmpty()) return null;
-        try {
-            Class<?> clazz = Class.forName(path);
-            if (!iface.isAssignableFrom(clazz)) {
-                System.err.println("[VNTCompat] " + path + " does not implement " + iface.getSimpleName());
+        //Get the class if specified
+        Object instance = null;
+        if (map.containsKey("Type")) {
+            String typeName = (String) map.get("Type");
+            Class<?> clazz = vanillantClassSet.get(typeName);
+            if (clazz == null) {
+                System.out.println("Unknown class type: " + typeName);
                 return null;
             }
-            Constructor<?>  constructor = getLongestConstructor(clazz);
-            if(constructor==null) return  null;
-            constructor.setAccessible(true);
 
-            return (T) constructor.newInstance();
-        } catch (ClassNotFoundException e) {
-            System.err.println("[VNTCompat] Missing class: " + path);
-        } catch (Throwable t) {
-            System.err.println("[VNTCompat] Failed to instantiate " + path + ": " + t);
+            // Constructor args if present
+            Object ctorArgs = map.get("Constructor");
+            try {
+                if (ctorArgs instanceof List<?> argsList) {
+                    Constructor<?> ctor = findMatchingConstructor(clazz, argsList);
+                    instance = ctor.newInstance(argsList.toArray());
+                } else {
+                    instance = clazz.getDeclaredConstructor().newInstance();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
-        return null;
+
+        // Process all other keys
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key.equals("Type") || key.equals("Constructor")) continue;
+
+            try {
+                if (value instanceof Map<?, ?> nestedMap) {
+                    Object nestedObj = processMap((Map<String, Object>) nestedMap);
+                    invokeSetter(instance, key, nestedObj);
+                } else {
+                    // Scalar value - call setter or assign field
+                    invokeSetter(instance, key, value);
+                }
+            } catch (Exception e) {
+                System.out.println("Failed to process key: " + key);
+                e.printStackTrace();
+            }
+        }
+
+        return instance;
     }
 
-    public static Constructor<?> getLongestConstructor(Class<?> clazz) {
-        Constructor<?>[] ctors = clazz.getDeclaredConstructors();
-        if (ctors.length == 0) {
-            // fallback
-            return null;
+    private void invokeSetter(Object instance, String key, Object value) {
+        if (instance == null || value == null) return;
+
+        Class<?> clazz = instance.getClass();
+        String methodName =   Character.toLowerCase(key.charAt(0)) + key.substring(1); // Ideally user provides exact method name, safety if they decide to use the pascal case
+
+        try {
+            Method m = clazz.getMethod(methodName, value.getClass());
+            m.invoke(instance, value);
+        } catch (NoSuchMethodException e) {
+            try {
+                Field f = clazz.getDeclaredField(key);
+                f.setAccessible(true);
+                f.set(instance, value);
+            } catch (Exception ignored) {}
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return Arrays.stream(ctors)
-                .max(Comparator.comparingInt(Constructor::getParameterCount))
-                .orElse(ctors[0]);
+    }
+
+
+    public static Constructor<?> findMatchingConstructor(Class<?> clazz, List<?> args) throws NoSuchMethodException {
+        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+        outer:
+        for (Constructor<?> ctor : constructors) {
+            Class<?>[] paramTypes = ctor.getParameterTypes();
+            if (paramTypes.length != args.size()) continue;
+
+            for (int i = 0; i < paramTypes.length; i++) {
+                Class<?> paramType = paramTypes[i];
+                Object arg = args.get(i);
+                if (arg == null) continue; // null can go anywhere
+
+                if (!isAssignable(paramType, arg.getClass())) {
+                    continue outer;
+                }
+            }
+
+            ctor.setAccessible(true);
+            return ctor;
+        }
+
+        throw new NoSuchMethodException("No matching constructor found for " + clazz.getSimpleName());
+    }
+
+    // Fixes possible issues with boxing
+    private static boolean isAssignable(Class<?> targetType, Class<?> valueType) {
+        if (targetType.isPrimitive()) {
+            if (targetType == int.class) return valueType == Integer.class;
+            if (targetType == long.class) return valueType == Long.class;
+            if (targetType == float.class) return valueType == Float.class;
+            if (targetType == double.class) return valueType == Double.class;
+            if (targetType == boolean.class) return valueType == Boolean.class;
+            if (targetType == char.class) return valueType == Character.class;
+            if (targetType == byte.class) return valueType == Byte.class;
+            if (targetType == short.class) return valueType == Short.class;
+            return false;
+        }
+        return targetType.isAssignableFrom(valueType);
     }
 
 
