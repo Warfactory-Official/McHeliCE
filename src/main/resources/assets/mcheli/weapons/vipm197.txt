@@ -1,0 +1,36 @@
+DisplayName = 20mm M197 Cannon [M53 - API]
+Type = MachineGun2
+ModelBullet = bullet
+Power = 40
+Acceleration = 7.0
+Explosion = 1
+Flaming = true
+;FAE = true
+Sight = MoveSight
+Delay = 1
+SoundDelay = 1
+SoundPitch = 0.9
+Accuracy = 1.0
+HeatCount = 1
+MaxHeatCount = 150
+Sound = ah
+SoundVolume = 15
+HeatCount = 1
+MaxHeatCount = 150
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+SetCartridge = cartridge, 0,   0, 0, 3.00, -0.04, 0.50
+
+AddMuzzleFlash      =   3.1,      0.32,        3,  100,254,159,84
+AddMuzzleFlash      =   3.0,      0.30,        2,  100,254,219,184
+AddMuzzleFlashSmoke   = 2.2,  1,   5.0,  2.0, 15,  180,250,245,240
+AddMuzzleFlashSmoke   = 3.2,  1,   3.0,  3.0,  5,  180,220,217,214
+
+MaxAmmo = 1200
+SuppliedNum = 200
+Item =  3, iron_ingot
+Item =  3, gunpowder

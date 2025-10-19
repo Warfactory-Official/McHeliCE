@@ -1,0 +1,79 @@
+DisplayName = F-117 Nighthawk (GBU-27 Paveway III)
+AddDisplayName = en_US, F-117 Nighthawk (GBU-27 Paveway III)
+AddDisplayName = ja_JP, F-117 (GBU-27 Paveway III)
+ItemID = 28740
+MaxHp = 100
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.19016
+
+Sound = faeighteen
+
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1300
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+ThrottleUpDown = 0.3
+
+Stealth = 0.95
+
+DamageFactor = 0.8
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+AddTexture = f117
+AddTexture = f1172
+AddTexture = f1173
+AddTexture = f1174
+
+HUD = plane
+
+AddSeat       = 0.00,  1.52,  4.011
+
+unmountposition = 0.00,  1.62,  4.011
+
+
+;Front
+AddPartLG    =  0.00, 1.297, 3.693,  1,0,0,  -105
+
+AddPartLG    =  0.00, 1.403, -0.6740,  1,0,0, -101
+
+AddPartWeaponBay = nhgbu27, -0.70, 1.1,0.488,  0, -0.04, 1.0, -90
+AddPartWeaponBay = nhgbu27, 0.70, 1.1,0.488,  0, -0.04, 1.0,  90
+
+AddWeapon = dummy_bay_closed, 0,0,0,0,0         
+
+AddWeapon = nhgbu27,   0.629, 1.919, -5.267,   0.0, 0.0
+AddWeapon = nhgbu27,  -0.629, 1.919, -5.267,   0.0, 0.0
+
+;AddWeapon = b61nighthawk, 0.0, 1.919, -5.267, 0.0, 0.0
+
+
+;AddWeapon = gbu27,  -0.629, 1.919, -5.267,   0.0, 0.0
+;add
+
+enableback = true
+
+AddWeapon = targeting_pod_ph50s,   0.0, 3.4, 0.0,    0.0, 0.0, true,  1
+
+;modern light plane bomber (late jet), AOW3 style
+AddRecipe = "ABC", "D F", "GGG", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, F, mcheli:fcs3, G, mcheli:electronics
+
+
+BoundingBox = 0.0, 2.5, 3.2, 1.0, 1.0
+BoundingBox =  0.00, 1.90, 2.10,  3.0, 1.7
+BoundingBox =  0.00, 1.90, -0.60,  5.0, 1.3
+
+BoundingBox = -2.92, 1.50, -2.50,  3.0, 0.3
+BoundingBox =  2.92, 1.50, -2.50,  3.0, 0.3
+
+BoundingBox = -3.92, 1.45, -3.80,  1.9, 0.3
+BoundingBox =  3.92, 1.45, -3.80,  1.9, 0.3
+
+BoundingBox =  0.00, 1.65, -3.8,  3.0, 0.8, 1.5
+DamageFactor = 0.8

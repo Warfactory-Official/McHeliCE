@@ -1,0 +1,106 @@
+DisplayName = AH-60L Battle Hawk
+AddDisplayName = en_US, AH-60L Battle Hawk
+AddDisplayName = ja_JP, AH-60L バトルホーク
+ItemID = 28836
+MaxHp = 100
+EnableGunnerMode = true
+EnableFoldBlade = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 2
+ThrottleUpDown = 0.8
+FlareType = 3
+CameraZoom = 2
+CameraPosition = 0.0, 0.15, 0.8
+MaxFuel         = 1500
+FuelConsumption = 1.0
+Stealth = 0.8
+ThirdPersonDist = 20
+
+sound = apache
+soundpitch = 1.3
+soundvolume = 10
+
+AddTexture = ah-60_us
+AddTexture = ah-60_il
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = heli, heli_gnr, gunner, gunner
+
+MobilityYaw = 0.9
+MobilityPitch = 0.9
+MobilityRoll = 0.9
+
+AddPartCamera = 0.0, 0.70, 3.90
+
+; TLH 20mm
+AddPartWeapon = bhawkthl20,    true,  true, false,   0.00, 0.15, 0.05
+AddPartWeaponChild  =            false, true,   0.00, 0.15, 0.05
+; MGAU-19 W
+AddPartWeapon    = bhawkgau-19_tw,   false, true, true,     0.0,  1.29, -1.69
+AddPartRotWeapon = bhawkgau-19_tw,   false, true, true,   -2.51,  1.29, -1.69
+AddPartRotWeapon = bhawkgau-19_tw,   false, true, true,    2.51,  1.29, -1.69
+; MGAU-19 RL
+AddPartWeapon    = bhawkgau-19_r,    false, true, false,  -1.61,  1.26, -2.515
+AddPartWeapon    = bhawkgau-19_r,    false, true, true,   -1.61,  1.26, -2.515
+AddPartRotWeapon = bhawkgau-19_r,    false, true, true,   -1.61,  1.26, -2.515,  1,0,0
+AddPartWeapon    = bhawkgau-19_l,    false, true, false,   1.61,  1.26, -2.515
+AddPartWeapon    = bhawkgau-19_l,    false, true, true,    1.61,  1.26, -2.515
+AddPartRotWeapon = bhawkgau-19_l,    false, true, true,    1.61,  1.26, -2.515,  1,0,0
+
+AddRotor= 4, 90,  0.00,  3.98, -2.33,   0.0, 1.0, 0.0, true
+AddRotor= 1,  0, -0.60,  4.07, -14.57,  1.0, 0.0, 0.0, false
+
+; seat 1,2
+AddSeat       =-0.85,  0.90,  1.30
+AddGunnerSeat = 0.85,  0.90,  1.30,    0.0, 0.15, 0.8
+;,  true
+: GAU-19
+AddSeat =-0.95,  0.90, -2.52
+AddSeat = 0.95,  0.90, -2.52
+
+;AddWeapon = 武器名, 位置X,Y,Z, Yaw, Pitch, パイロットが使用できる？, 座席番号, DefaultYaw,RangeYaw, MinPitch, MaxPitch
+
+AddWeapon = bhawkthl20,      0.00, 0.15,  0.05,     0,  -1, true,  2,   0,-110,110, -05,80
+
+AddWeapon = bhawkgau-19_tw,  2.51, 1.29, -1.69,     1, 0.0, true,  1,   0,   0,  0, -10,30
+AddWeapon = bhawkgau-19_tw, -2.51, 1.29, -1.69,    -1, 0.0, true,  1,   0,   0,  0, -10,30
+
+AddWeapon = spike_er,     3.27,  1.18, -0.55,  1, 0,  true, 1
+AddWeapon = spike_er,    -3.27,  1.18, -0.55, -1, 0,  true, 1
+AddWeapon = spike_er,     3.62,  1.18, -0.55,  1, 0,  true, 1
+AddWeapon = spike_er,    -3.62,  1.18, -0.55, -1, 0,  true, 1
+
+AddWeapon = spike_er_tv,  3.27,  1.18, -0.55,  1, 0,  true,2
+AddWeapon = spike_er_tv, -3.27,  1.18, -0.55, -1, 0,  true,2
+AddWeapon = spike_er_tv,  3.62,  1.18, -0.55,  1, 0,  true,2
+AddWeapon = spike_er_tv, -3.62,  1.18, -0.55, -1, 0,  true,2
+
+AddWeapon = bhawkgau-19_r,  -1.61, 1.26, -2.515,  0.0, 0.0, false, 3,  90, -70, 70, -50,80
+AddWeapon = bhawkgau-19_l,   1.61, 1.26, -2.515,  0.0, 0.0, false, 4, -90, -70, 70, -50,80
+
+;advanced modern helicopter armed, AOW3 style
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:airframe2, B, mcheli:heliblade, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:fcs2, F, mcheli:cannon1, G, mcheli:rocket3
+
+;BoundingBox =  0.0, 2.3, -2.0,  2.8, 3.8
+BoundingBox =  0.0, 1.8, -4.5,  2.8, 2.4
+BoundingBox =  0.0, 3.5,-14.5,  2.0, 3.0, 1.25
+BoundingBox = 0.0, 3.3, -2.3, 1.0, 2.0, 1.5
+
+BoundingBox = 0.0, 1.22, -6.36, 1.0, 1.0
+BoundingBox = 0.0, 1.22, -7.36, 1.0, 1.0
+BoundingBox = 0.0, 1.22, -8.36, 1.0, 1.0
+BoundingBox = 0.0, 1.22, -9.36, 1.0, 1.0
+BoundingBox = 0.0, 1.22, -10.36, 1.0, 1.0
+BoundingBox = 0.0, 1.22, -11.36, 1.0, 1.0
+BoundingBox = 0.0, 1.22, -12.36, 1.0, 1.0
+BoundingBox = 0.0, 1.42, -13.36, 1.0, 1.0
+
+unmountposition = -0.85,  1.5,  1.30
+
+DamageFactor = 0.8
+
+ThrottleUpDown = 0.5
+DamageFactor = 0.8

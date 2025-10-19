@@ -1,0 +1,40 @@
+DisplayName = M58 MICLIC
+Type = Rocket
+Power = 5
+ModelBullet = hydra70
+Acceleration = 7.0
+Explosion = 2
+ExplosionBlock = 8
+Sound = hydraseventy
+Flaming = false
+Sight = MoveSight
+Delay = 1
+ReloadTime = 110
+Round = 2
+
+DelayFuse = 15
+BombletDiff = 0.5
+BombletSTime = 5
+Bomblet = 100
+ModelBomblet = cbc
+
+Piercing = 25
+
+
+SoundVolume = 15
+
+Gravity = -0.35
+
+DamageFactor = tank, 0.5
+DamageFactor = plane, 0.5
+DamageFactor = vehicle 0.5
+DamageFactor = heli, 0.5
+
+; Particle test
+;TrajectoryParticle = heart
+;TrajectoryParticle = fireworksSpark
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  15, gunpowder

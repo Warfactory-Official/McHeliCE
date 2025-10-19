@@ -1,0 +1,46 @@
+DisplayName = 46cm Type 91 Naval Cannon [AP] 
+Type = MachineGun1
+ModelBullet = 91ap_46
+Power = 570
+Acceleration = 6
+AccelerationInWater = 4.0
+Explosion = 6
+ExplosionBlock = 4
+ExplosionInWater = 3
+Flaming = false
+Sight = MoveSight
+Delay = 10
+Round = 3
+HeatCount = 500
+MaxHeatCount = 1450
+ReloadTime = 530
+SoundDelay = 3
+SoundPitch = 0.3
+Sound = cannon_1_snd
+;DisplayMortarDistance = true
+
+Gravity = -0.005
+Group = MainGun
+
+Delay = 10
+ReloadTime = 130
+Group = MainGun
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 2
+;Accuracy = 0.0
+DamageFactor = tank, 20.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 46cm Type91 [AP] 
+SoundVolume = 15
+
+; RecoilBufCount = 駐退カウント, 後退中のカウント倍率
+RecoilBufCount = 40, 5
+
+MaxAmmo = 15
+SuppliedNum = 5
+Item =  7, iron_ingot
+Item =  7, gunpowder

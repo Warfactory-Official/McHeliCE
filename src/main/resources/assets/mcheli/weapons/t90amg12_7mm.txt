@@ -1,0 +1,41 @@
+DisplayName = 12.7mm 6P49 Machine Gun
+Type = MachineGun1
+Power = 31
+Acceleration = 8.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+;SoundDelay = 3
+Accuracy = 1.5
+HeatCount = 5
+MaxHeatCount = 150
+;SoundPitch = 0.8
+Sound = dshk
+
+Round = 150
+
+AddMuzzleFlash      =  2.6,      0.22,        2,  170,254,159,84
+AddMuzzleFlash      =  2.5,      0.20,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  3.2,  1,   5.0,  2.0, 15,  180,250,245,240
+AddMuzzleFlashSmoke =  4.2,  1,   3.0,  1.0,  5,  180,220,217,214
+
+ReloadTime = 80
+
+ModelBullet = bullet
+
+Gravity = -0.005
+
+Acceleration = 7
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+MaxAmmo = 300
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder

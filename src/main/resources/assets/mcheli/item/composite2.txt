@@ -1,0 +1,13 @@
+DisplayName = Advanced Composite Armor
+AddDisplayName = ja_JP, Advanced Composite Armor
+
+StackSize = 64
+;;AddRecipe = "A  ", "   ", "   ", A, hfr:item.ingot_steel
+;;AddRecipe = "ARA", "BAB", " R ", A, mcheli:item.ingot_steel, B, mcheli:composite, R, redstone
+
+;;fuck it
+
+AddRecipe = "ARA", "BAB", " R ", A, mcheli:item.ingot_steel, B, mcheli:composite, R, mcheli:plastic
+
+;;nvm was gonna do some NTM fuckery, I just decided to say no
+

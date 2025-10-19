@@ -1,0 +1,36 @@
+DisplayName = 500lb AN-M64 GP Bomb 
+Type = Bomb
+
+
+
+Flaming = false
+Sight = None
+Delay = 5
+Sound = bomb_snd
+
+;bomb rewrite
+Acceleration = 0.3
+Explosion = 14
+;Explosive mass	125 kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 7
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+
+
+
+
+
+ReloadTime = 1800
+Round = 12
+MaxAmmo = 12
+SuppliedNum = 3
+
+Item = 4, iron_ingot
+Item = 4, gunpowder

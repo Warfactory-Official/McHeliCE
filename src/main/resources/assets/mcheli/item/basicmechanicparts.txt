@@ -1,0 +1,5 @@
+DisplayName = Basic Mechanic Parts
+AddDisplayName = ja_JP, Basic Mechanic Parts
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_mechanism_1
+AddRecipe = "A A", "   ", "A A", A, mcheli:item.ingot_steel

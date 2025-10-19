@@ -1,0 +1,168 @@
+DisplayName = K2 Black Panther
+AddDisplayName = ja_JP, K2 黒豹
+ItemID = 30150
+MaxHp = 850
+Speed = 0.43
+Sound = ktwobp
+ThrottleUpDown = 17.0
+MobilityYawOnGround = 2.0
+MinRotationPitch = -20
+MaxRotationPitch = 10
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 10
+CameraPosition = 0.00,  3.20, 1.80, true
+EnableNightVision = true
+CameraRotationSpeed = 24
+;EnableEntityRadar = true
+MaxFuel         = 1200
+FuelConsumption = 2.0
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+FlareType = 10
+ThirdPersonDist = 12
+
+Category = MBT
+;\n\South Korean
+;damn, guess we cant do next line indents here :c
+;;Category = South Korean
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 4
+
+HideEntity = true
+
+AddTexture = rok_k2_1
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+
+
+HUD = mbt_hud, mbt_gnr, gunner
+
+AddGunnerSeat =  0.5,  1.20,  0.25,    0.00,  2.50,  0.25,  false, -90, 90, true
+AddGunnerSeat =  -0.5,  1.20,  0.25,    -0.8786,  3, 0.650,  false, -90, 90, true
+AddGunnerSeat = -0.9906,  2.6958, -0.7514,   -0.9906, 3.7, -0.7514, false, -90, 90, true
+
+unmountposition = 0.30,  1.50,  0.25
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.90
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+;転輪がなくても動作する
+AddCrawlerTrack = false, 0.37, -2.15,  1.14/ -4.62,  1.10/ -4.88,  0.80/ -4.90,  0.54/ -4.84,  -0.16/ -4.07,  -0.23/ -3.45,  -0.23/  2.17,  -0.11/ 2.73,  0.50/ 4.04,  0.78/ 4.12,  1.12/ 4.02,  1.22/ 3.53,
+AddCrawlerTrack = false, 0.37,  2.15,  1.14/ -4.62,  1.10/ -4.88,  0.80/ -4.90,  0.54/ -4.84,  -0.16/ -3.74,  -0.23/ -3.78,  -0.23/  2.49,  -0.11/ 2.86,  0.50/ 4.04,  0.78/ 4.12,  1.12/ 4.02,  1.22/ 3.53,
+
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+;TrackRollerRot = 30
+
+SetWheelPos =  1.73,  -0.24,  2.53,  1.32, 0.10, -1.09, -2.30, -3.51
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+AddTrackRoller = -2.15,  0.70,  3.70
+AddTrackRoller = -2.15,  0.18,  2.53
+AddTrackRoller = -2.15,  0.18,  1.32
+AddTrackRoller = -2.15,  0.18,  0.10
+AddTrackRoller = -2.15,  0.18, -1.09
+AddTrackRoller = -2.15,  0.18, -2.30
+AddTrackRoller = -2.15,  0.18, -3.51
+AddTrackRoller = -2.15,  0.77, -4.40
+
+AddTrackRoller =  2.15,  0.70,  3.70
+AddTrackRoller =  2.15,  0.18,  2.53
+AddTrackRoller =  2.15,  0.18,  1.32
+AddTrackRoller =  2.15,  0.18,  0.10
+AddTrackRoller =  2.15,  0.18, -1.09
+AddTrackRoller =  2.15,  0.18, -2.30
+AddTrackRoller =  2.15,  0.18, -3.51
+AddTrackRoller =  2.15,  0.77, -4.40
+
+;主砲
+AddPartWeapon = k279 / k280 / kstam, false, true, false,  0.00, 2.10, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.10, 2.02, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.10, 2.02, 0.5
+AddTurretWeapon = k279, 0.00, 2.2368, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = k280, 0.00, 2.2368, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = kstam, 0.00, 2.2368, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = k2mg7_62mm_mbt,      0.3609, 2.5335, 2.0,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+
+;commander
+AddTurretWeapon = targeting_pod_ground,   -0.846, 3.68, 0.373,   0.0, 0.0,  false, 2
+AddTurretWeapon = targeting_pod_block,      -0.846, 3.68, 0.373,  0.0, 0.0, false,2, 0,-360,360, -50, 10
+
+;K6_12.7mm
+AddPartTurretWeapon    = K6_12.7mm,  false, true, true,  -1.01, 3.44, -0.11
+AddPartTurretWeapon    = K6_12.7mm,  false, true, false, -1.01, 3.19, -0.11
+AddTurretWeapon = K6_12.7mm,   -1.01, 3.44, -0.11,   0.0, 0.0, false, 3, 0, -90,90, -50,10
+
+;;RWS M2
+;AddPartTurretWeapon    = abramsm2_rws,   true, true, true,  -0.846, 3.68, 0.373
+;AddPartTurretWeapon    = abramsm2_rws,  false, true, false, -0.846, 3.68, 0.373
+;AddTurretWeapon = abramsm2_rws,   -0.846, 3.68,  0.373,   0.0, 0.0, false, 2, 0, -360,360, -60,20
+
+;AddPartTurretWeapon    = abramsm240_r,   false, true, true,   1.243, 3.24, -0.77
+;AddPartTurretWeapon    = abramsm240_r,   false, true, false,  1.243, 3.24, -0.77
+;AddTurretWeapon = abramsm240_r,    1.243, 3.24, -0.77,   0.0, 0.0, false, 3, 0, -220,30, -65,9
+
+;AddRecipe = "III",  " I ",  "XIX",  X, iron_block,  I, iron_ingot
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+ArmorMinDamage = 20
+
+;700mm
+BoundingBox = 0.0, 1, 3.2, 2.5, 0.55, 0.02
+;slope down 450-300
+BoundingBox = 0.0, 0.65, 3.1, 2.5, 0.2, 0.04
+BoundingBox = 0.0, 0.45, 2.6, 2.5, 0.2, 0.06
+BoundingBox = 0.0, 0.25, 2.4, 2.5, 0.2, 0.01
+
+;ufp 600-700
+BoundingBox = 0.0, 1.35, 3.0, 2.5, 0.2, 0.03
+
+BoundingBox = 0.0, 1.55, 1.8, 2.5, 0.2, 0.03
+
+;sides Hull sides: ~80–120mm 
+;also shot trap
+BoundingBox = 0.0, 1.0, 0.0, 2.55, 1.8, 0.16
+;120 sec (front)
+BoundingBox = 0.0, 1.0, 1.7, 2.55, 1.2, 0.16
+;80 neg
+BoundingBox = 0.0, 0.95, -2.55, 2.55, 1.5, 0.25
+BoundingBox = 0.0, 0.95, -3.2, 2.55, 1.5, 0.25
+;eng rear
+BoundingBox = 0.0, 1.0, -3.5, 2.5, 1.5, 0.8
+BoundingBox = 0.0, 1.4, -4.2, 2.5, 0.6, 0.8
+
+;turret 900
+BoundingBox = 0.0, 2.2, 0.0, 2.8, 0.85, 0.02
+
+; m1a2T mod1
+AddRecipe = "ABC", "DGF", "GE ", A, mcheli:heavychassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:fcs3, G, mcheli:composite3, E, mcheli:advancedmechanicparts

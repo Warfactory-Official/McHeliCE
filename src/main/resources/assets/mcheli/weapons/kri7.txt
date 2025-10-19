@@ -1,0 +1,25 @@
+DisplayName = kri78
+;idk wtf ts is
+Type = Torpedo
+Power = 35
+ModelBullet = kr
+Acceleration = 1.8
+AccelerationInWater = 2.5
+Explosion = 5
+ExplosionInWater = 5
+Flaming = true
+Sight = None
+Delay = 40
+GuidedTorpedo = false
+Gravity = -0.04
+GravityInWater = 0
+ReloadTime = 16
+Round = 9
+DisableSmoke = true
+Sound = bomb_snd
+
+MaxAmmo = 8
+SuppliedNum = 4
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

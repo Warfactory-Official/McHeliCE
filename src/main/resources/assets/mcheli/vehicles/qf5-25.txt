@@ -1,0 +1,43 @@
+﻿DisplayName = QF 5.25-inch Mark I Naval Gun
+AddDisplayName = en_US, QF 5.25-inch Mark I Naval Gun
+AddDisplayName = ja_JP, QF 5.25インチ砲 マークI
+ItemID = 30067
+MaxHp = 100
+Gravity = -9.81
+GravityInWater = -1.0
+HideEntity = true
+MinRotationPitch = -70
+MaxRotationPitch =  5
+DamageFactor = 1.0
+CameraZoom = 4
+CameraPosition = 0.0, 4.36, 0.00
+
+
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = vehicle
+
+AddSeat = 0.00,  0.00, 0.00
+
+unmountposition = 0.0, 1.5, 0.0
+
+
+;med aa turret modern less complex stage 3 big naval can
+AddRecipe = "ABC", "DCC", "   ", A, mcheli:cannon3, B, mcheli:map, C, mcheli:electronics, D, mcheli:fcs2
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;砲塔
+AddPart = true, true, false, 0, 0.0, 0.0, 0.0
+;砲身
+AddChildPart = true, false, true, 0, 0.0, 2.66, -0.56
+
+AddTurretWeapon = qf525sap,  1.24, 2.69, 0.0,   0.0, 0.0,   true,1, 0,-360,360,-70, 5
+AddTurretWeapon = qf525sap, -1.24, 2.69, 0.0,   0.0, 0.0,   true,1, 0,-360,360,-70, 5
+AddTurretWeapon = qf525aa,   1.24, 2.69, 0.0,   0.0, 0.0,   true,1, 0,-360,360, -70, 5
+AddTurretWeapon = qf525aa,  -1.24, 2.69, 0.0,   0.0, 0.0,   true,1, 0,-360,360, -70, 5
+
+BoundingBox =  0.0, 1.5, 0.0,  3.5, 3.5
+
+BoundingBox =  0.0, 3.3, 0.0,  3.0, 0.3
+BoundingBox =  0.0, 3.6, 0.0,  3.0, 0.3

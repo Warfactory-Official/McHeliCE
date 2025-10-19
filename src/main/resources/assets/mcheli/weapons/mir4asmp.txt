@@ -1,0 +1,29 @@
+DisplayName = ASMP Nuclear Cruise Missile [300KT]
+Type = TVMissile
+Power = 100
+Acceleration = 8.5
+Explosion = 10
+ExplosionBlock = 3
+ExplosionInWater = 3
+Sight = MoveSight
+soundvolume = 15
+ModeNum = 2
+ModelBullet = asmp
+Sound = missile_3_snd
+DisableSmoke = true
+nukeyield = 115
+
+Delay = 5
+Round = 1
+ReloadTime = 1800
+
+
+MaxAmmo = 1
+SuppliedNum = 1
+
+;350kt eg
+;Item =  3, mcheli:genericnuclearwarheadhigh
+;Item =  16, tnt
+;Item =  1, mcheli:genericnuclearwarhead
+
+Item =  1, mcheli:genericnuclearwarheadhigh

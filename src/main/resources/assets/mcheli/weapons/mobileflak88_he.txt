@@ -1,0 +1,66 @@
+DisplayName = 88mm Shell [HE]
+Type = MachineGun1
+ModelBullet = 88mm
+Power = 90
+Acceleration = 450
+AccelerationInWater = 9.0
+Explosion = 4
+ExplosionBlock = 3
+ExplosionInWater = 1
+Flaming = false
+Sight = None
+Delay = 90
+ReloadTime = 90
+SoundPitch = 1.0
+SoundVolume = 10
+Sound = ww2tankshot_snd
+Gravity = -0.05
+DamageFactor = helicopter, 1.5
+DamageFactor = plane,      1.5
+DamageFactor = vehicle,    1.0
+DamageFactor = tank,       1.0
+Recoil = 0.80
+Group = MainGun
+
+SetCartridge = 800mmcartridge, 0.8,  90, 15, 0.11, -0.05, 0.5
+
+
+Delay = 90
+ReloadTime = 90
+Group = MainGun
+Acceleration = 7.0
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+
+TrajectoryParticle = smoke
+TrajectoryParticleStartTick = 0
+
+DisplayMortarDistance = true
+
+; AddMuzzleFlash = distance, size, life time,   A,  R,  G,  B
+AddMuzzleFlash   =     5.0, 0.50,        37, 220,254,159, 74
+AddMuzzleFlash   =     4.8, 0.75,        30, 220,254,219,104
+AddMuzzleFlash   =     4.7, 1.50,        28, 220,254,219,184
+AddMuzzleFlash   =     4.5, 0.90,         18, 220,254, 51, 73
+
+; AddMuzzleFlashSmoke = Distance from source, number of displays, size, range, display time, A, R, G, B
+AddMuzzleFlashSmoke   = 4.6, 30, 3.0,   4.0, 124, 220, 50, 50, 50
+AddMuzzleFlashSmoke   = 4.7, 20, 2.0,   7.0, 110, 200, 10, 10, 10
+AddMuzzleFlashSmoke   = 4.7, 40, 4.0,  2.0, 150, 200, 30, 30, 30
+
+RecoilBufCount = 88, 8
+
+MaxAmmo = 20
+SuppliedNum = 4
+Item =   3, iron_ingot
+Item =  4, gunpowder
+Item =   2, redstone

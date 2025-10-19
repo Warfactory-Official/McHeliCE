@@ -1,0 +1,16 @@
+DisplayName = Drift
+Type = Dispenser
+Acceleration = 0
+Sight = None
+Particle = cloud
+Delay = 0
+Flaming = true
+Sound = drift
+SoundDelay = 0
+Gravity = -0.05
+
+Round = 64
+ReloadTime = 0
+
+TrajectoryParticle = cloud
+SmokeSize   = 5.0

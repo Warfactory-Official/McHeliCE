@@ -1,0 +1,171 @@
+DisplayName = Bugatti Chiron
+AddDisplayName = ja_JP, Bugatti Chiron
+ItemID = 99901
+MaxHp = 200
+Speed = 2.61
+Sound = bugattic
+MobilityYawOnGround = 12.0
+ThrottleUpDown = 1.2
+MinRotationPitch = -90
+MaxRotationPitch =  90
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+
+;-9.00
+;should be -0.09
+
+WeightedCenterZ = -0.2
+
+AddTexture = bc2
+AddTexture = bc3
+AddTexture = bc4
+AddTexture = bc5
+AddTexture = bugattichironlb
+
+HUD = Lamborghini Huracan_HUD, none
+
+EntityWidth  = 0.95
+EntityHeight = 0.95
+
+UnmountPosition = 0.464,  1.50,   -0.121
+
+AddSeat =   0.464,  -0.347,   -0.121
+AddSeat =  -0.464,  -0.24,   -0.121
+
+EntityWidth  = 0.85
+EntityHeight = 0.85
+
+SetWheelPos =  0.8,  -0.74,  1.70, -1.80
+
+PartWheelRot = 60
+
+AddPartWheel     = -1.3690,  0.048,  1.7012,   30
+AddPartWheel     =  1.3699,  0.0486,  1.7146,   30
+AddPartWheel     = -1.4032,  0.0482, -1.8018
+AddPartWheel     =  1.4032,  0.0482, -1.8018
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = C
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 500.1
+
+;AddPartSteeringWheel =   1.2195, 0.1505, 1.8536,  0.0, 1.0, 0.0,   30
+;AddPartSteeringWheel =  -1.2195, 0.1505, 1.8536,  0.0, 1.0, 0.0,   30
+
+AddPartSteeringWheel =   0.4620,  0.5479,  0.5906,  0.0, 1, -2.74747419,   130
+
+;;AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+;;AddWeapon = L_Claxon,    0.00, 0.00, 0.00,  0.0,0.0
+
+;AddPartCanopy   =  1.275, 0.6165, 1.346,  0, 1, 0, -60
+;AddPartCanopy   =  1.275, 0.6165, 1.346,  0, 1, 0, -60
+AddPartCanopy   =  0.000, 0.000, 0.000,  0,0,0, 0
+;AddPartCanopy   =  1.275, 0.6165, 1.346,  0, 1, 0, -60
+
+;AddPartThrottle =  0.56, 0.7523, 0.9519,  0, 1, -5.67128182, -230
+
+;AddFixedSearchLight= 座標X, Y, Z,       開始地点の色, 終了地点の色,  距離, 終端の半径, Yaw, Pitch
+;ヘッドライト                           
+AddFixedSearchLight =  0.7395, 0.3661, 2.4725,   0x20FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -0.7395, 0.3661, 2.4725,   0x20FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+AddFixedSearchLight =  0.8556, 0.375, 2.4340,   0x20FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -0.8556, 0.375, 2.4340,   0x20FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+AddFixedSearchLight =  0.9698, 0.3844, 2.3847,   0x20FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -0.9698, 0.3844, 2.3847,   0x20FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+AddFixedSearchLight =  1.0852, 0.3926, 2.3473,   0x20FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -1.0852, 0.3926, 2.3473,   0x20FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+
+
+AddFixedSearchLight =  1.0157, 0.4902,-2.7276,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  20.9,  0
+AddFixedSearchLight = -1.0157, 0.4902,-2.7276,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -20.9,  0
+
+AddFixedSearchLight =  0.9157, 0.4902,-2.7776,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  20.9,  0
+AddFixedSearchLight = -0.9157, 0.4902,-2.7776,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -20.9,  0
+
+AddFixedSearchLight =  0.8157, 0.4902,-2.8076,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  20.9,  0
+AddFixedSearchLight = -0.8157, 0.4902,-2.8076,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -20.9,  0
+
+AddFixedSearchLight =  0.7157, 0.4902,-2.8676,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  20.9,  0
+AddFixedSearchLight = -0.7157, 0.4902,-2.8676,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -20.9,  0
+
+AddFixedSearchLight =  0.6157, 0.4902,-2.8706,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  20.9,  0
+AddFixedSearchLight = -0.6157, 0.4902,-2.8706,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -20.9,  0
+
+AddFixedSearchLight =  0.5157, 0.4902,-2.9006,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight = -0.5157, 0.4902,-2.9006,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -0.0,  0
+
+AddFixedSearchLight =  0.4157, 0.4902,-2.9106,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight = -0.4157, 0.4902,-2.9106,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -0.0,  0
+
+AddFixedSearchLight =  0.3157, 0.4902,-2.9306,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight = -0.3157, 0.4902,-2.9306,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -0.0,  0
+
+AddFixedSearchLight =  0.2157, 0.4902,-2.9306,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight = -0.2157, 0.4902,-2.9306,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -0.0,  0
+
+AddFixedSearchLight =  0.1157, 0.4902,-2.9306,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight = -0.1157, 0.4902,-2.9306,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -0.0,  0
+
+AddFixedSearchLight =  0.0157, 0.4902,-2.9356,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight = -0.0157, 0.4902,-2.9356,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -0.0,  0
+
+
+MaxFuel         = 2000
+FuelConsumption = 3.0
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+
+AddWeapon = L_Claxon,    0.00, 0.00, 0.00,  0.0,0.0
+;AddWeapon = L_H_StartUp,    0.00, 0.00, 0.00,  0.0,0.0
+;AddWeapon = Bugatti_C,    0.00, 0.00, 0.00,  0.0,0.0
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+StepHeight = 1.2
+
+;BoundingBox =  0.0, 0.30,  1.8,  2.2, 0.9,  0.9
+;BoundingBox =  0.0, 0.57, -1.8,  2.2, 1.0,  1.1
+;BoundingBox =  0.0, 0.70, -0.4,  1.9, 1.3
+
+
+BoundingBox = 0.0, -0.18, 0.0, 2.5, 0.1
+BoundingBox = 0.0, -0.18, 1.5, 2.3, 0.1
+
+BoundingBox = 0.0, -0.18, 1.9, 1.8, 0.1
+
+BoundingBox = 0.0, -0.18, -1.4, 2.5, 0.1
+
+BoundingBox = 0.0, -0.18, -1.8, 2.0, 0.1
+
+BoundingBox = 0.0, 0.3, -1.7, 1.3, 0.8
+
+EntityPitch = -20
+
+
+;faster civ car really expensiv
+AddRecipe = "ABC", "DEE", "F  ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine3, D, mcheli:advancedmechanicparts, E, gold_block, F, glass_pane
+
+;AddPartSteeringWheel =  0.4620,  0.6379,  0.5906,  0, 0.6379, -1,   130
+;AddPartSteeringWheel =  0.4620,  0.6379,  0.5906,  0, 0.3196, -1,   160
+AddPartSteeringWheel =   0.4620,  0.6379,  0.5906,  0.0, 1.0, -1.73,   130
+
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+InventorySize = 9
+
+ArmorMinDamage = 2

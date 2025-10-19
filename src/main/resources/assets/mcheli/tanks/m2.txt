@@ -1,0 +1,71 @@
+﻿DisplayName = M2 Browning
+AddDisplayName = en_US, M2 Browning
+MaxHp = 100
+ThrottleUpDown = 9.9
+Speed = 0.005
+MobilityYawOnGround = 1.0
+Sound = none
+MinRotationPitch = -90
+MaxRotationPitch =  90
+MobilityRoll     = 5
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.0
+EnableNightVision = false
+CameraRotationSpeed = 40
+MaxFuel           = 0
+FuelConsumption   = 0
+DefaultFreelook = false
+ThirdPersonDist = 3
+
+CameraZoom = 1
+
+StepHeight = 0.0
+
+;SetWheelPos = 0.0, 0.0, 0.0
+SetWheelPos =  0.20,  -0.20,  0.20, -0.20
+
+CameraRotationSpeed = 20
+
+
+
+UnmountPosition = 1.40,  1.5, -1.00
+
+OnGroundPitchFactor = 0
+OnGroundRollFactor  = 0
+
+EnableBack = true
+
+AddTexture = m2_1
+AddTexture = m2_2
+
+Category = HMG
+
+WeightType = Unknown
+
+HUD = none, gunner
+
+addseat = 1.40,  -0.3, -1.00
+
+AddGunnerSeat =  0.00,-0.3,-1.00,   0.00, 1.00,-1.00,  false, -90, 90, false
+
+PivotTurnThrottle = 0.0
+
+AddPartWeapon = m2_fifty, false, true, false,  0.000, 0.0000,  0.00, -0.003
+
+AddPartWeaponChild = false, true, 0.00, 0.1746,-0.1024,  0.000
+AddPartWeaponChild = false, true, 0.00, 0.1746,-0.1024,  0.030
+AddPartWeaponChild = false, true, 0.00, 0.1746,-0.1024,  0.069
+AddPartWeaponChild = false, true, 0.00, 0.1746,-0.1024,  0.210
+
+AddPartWeaponChild = false, true, 0.00, 0.1746,-0.1024,  0.024
+AddPartWeaponChild = false, true, 0.00, 0.1746,-0.1024,  0.018
+AddPartWeaponChild = false, true, 0.00, 0.1746,-0.1024,  0.012
+AddPartWeaponChild = false, true, 0.00, 0.1746,-0.1024,  0.006
+
+
+;basic turret 
+AddRecipe = "   ", "GEF", "   ", E, mcheli:lap, F, mcheli:basicmechanicparts, G, mcheli:cannon1
+
+
+AddTurretWeapon = m2_fifty,   0.00, 0.1746,-0.15,  0.0, 0.0,  false, 2, 0,  -25,25, -37, 28

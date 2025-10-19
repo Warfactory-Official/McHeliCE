@@ -1,0 +1,55 @@
+DisplayName = 30mm 2A72 Automatic Cannon [3UOR6 - HE-T]
+Type = MachineGun1
+Power = 9
+Acceleration = 5.0
+Explosion = 2
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+Delay = 2
+ReloadTime = 120
+Round = 250
+SoundVolume = 15
+SoundPitch = 1.0
+SoundPitchRandom = 0.1
+Sound = bmptwomain
+Accuracy = 1.5
+
+ModelBullet = bullet
+
+group = maingun
+
+TrajectoryParticle = crit
+
+TimeFuse = 560
+
+ProximityFuseDist = 2
+
+Gravity = -0.005
+
+;2a72
+Delay = 2
+HeatCount = 5
+MaxHeatCount = 150
+
+;tracer
+BulletColor = 230, 200, 20, 80 
+
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+MaxAmmo = 167
+SuppliedNum = 50
+Item =  2, iron_ingot
+Item =  2, gunpowder
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 2a42 Cannon 3UOR6 30mm [HE-T]
+SoundVolume = 15
+
+

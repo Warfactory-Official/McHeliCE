@@ -1,0 +1,30 @@
+DisplayName = 30mm KBA-2 Cannon [3UBR8 - APDS]
+Type = MachineGun2
+Power = 82
+Acceleration = 6.0
+Piercing = 2
+Flaming = false
+Sight = MoveSight
+Delay = 2
+ReloadTime = 120
+Round = 250
+SoundVolume = 3
+SoundPitch = 1.0
+Sound = kba2_snd
+Accuracy = 2.0
+ModeNum = 1
+Gravity = -0.005
+HeatCount = 7
+MaxHeatCount = 150
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+MaxAmmo = 250
+SuppliedNum = 125
+Item =  2, iron_ingot
+Item =  2, gunpowder

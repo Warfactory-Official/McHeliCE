@@ -1,0 +1,151 @@
+DisplayName = Lockheed SR-71 Blackbird
+;ItemID = 2
+MaxHp = 100
+;OnGroundPitch = 3
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+
+AutoPilotRot = 0.00
+EnableGunnerMode = true
+
+Speed = 4
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 2000
+FuelConsumption = 2.0
+Stealth = 0.8
+HideEntity = false
+;Category = M.F
+WeightedCenterZ = -7.6
+
+Sound = srseventyone
+
+DamageFactor = 0.8
+
+enableback = true
+
+;-23.04
+
+;hey, let's not break the fucking game actually
+;MotionFactor = 1.80000
+
+;sorry! that shit sucks!
+
+SweepWingSpeed = 103.8
+VariableSweepWing = true
+
+AddPartHatch =   0.0,  2.9696,  -4.86,  1,0, 0, 45
+AddPartHatch =   0.0,  2.7696,  -7.05, -1,0, 0, 45
+
+ThrottleUpDown = 0.3
+
+
+MobilityYaw = 32.0
+MobilityRoll = 1.2
+MobilityPitch = 9.6
+AddSeat = 0.00,  1.2145,  3.18
+
+CameraPosition = 0.0, 2.3145, 3.18
+
+unmountposition = 0.00,  2.0449,  3.18
+
+AddGunnerSeat = 0.00,  1.4145,  1.6, 0, -0.5, 2.6, true
+
+AddPartCanopy = 0, 2.6196, 2.26, -1,0,0,  45
+AddPartCanopy = 0, 2.6839, 0.852, -1,0,0,  45
+
+;Front
+AddPartLG =  0.00,  1.2496,  -0.286,  -1,0,0, 94
+;Left
+AddPartLG =  2.402795,  1.3374, -15.5268, 0,0,-1,  95
+;, -1,0,0, 20
+;Right
+AddPartLG =  -2.402795,  1.3374, -15.5268, 0,0,1,  95
+;, -1,0,0,  -20
+
+AddWeapon = targeting_pod_all100s,   0.0, 0, 2.62,    0.0, 0.0, false,2
+AddWeapon = targeting_pod_block,   0.00, 0.49, -1.16,   0.0, 0.0, false,2
+
+;todo test and recipe
+
+;alright well it works that's all that matters
+;ill just pay someone to fix the sped speed cap issue or something
+;modern medium-light plane (fast as shit boyyeeeeeeeee), AOW3 style
+AddRecipe = "ABC", "DFF", "BCB", A, mcheli:airframe3, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, F, mcheli:electronics
+
+
+
+;AddRecipe = "GCG",  "CCC",  "CDC",    G, glass,  D,diamond_block,  B, iron_block,  C, coal_block,  I, iron_ingot,  P, gunpowder
+;BoundingBox =  0.0, 1.6, 2.5,  2.0, 1.7
+
+
+BoundingBox =  0.0, 1.9, -0.6,  3.0, 1.7
+BoundingBox =  0.0, 1.8, -3.5,  3.0, 1.5
+BoundingBox =  0.0, 1.8, -6.5,  3.0, 1.5
+BoundingBox =  0.0, 1.8, -9.5,  3.0, 1.5
+BoundingBox =  0.0, 1.8, -12.5,  3.0, 1.5
+BoundingBox =  0.0, 1.8, -15.5,  3.0, 1.5
+BoundingBox =  0.0, 1.8, -18.5,  3.0, 1.5
+
+BoundingBox = -2.4, 1.6, -11.0,  2.0, 0.4
+BoundingBox =  2.4, 1.6, -11.0,  2.0, 0.4
+BoundingBox = -2.4, 1.6, -13.0,  2.0, 0.4
+BoundingBox =  2.4, 1.6, -13.0,  2.0, 0.4
+BoundingBox = -2.4, 1.6, -15.0,  2.0, 0.4
+BoundingBox =  2.4, 1.6, -15.0,  2.0, 0.4
+BoundingBox = -2.4, 1.6, -17,  2.0, 0.4
+BoundingBox =  2.4, 1.6, -17,  2.0, 0.4
+BoundingBox = -2.4, 1.6, -19,  2.0, 0.4
+BoundingBox =  2.4, 1.6, -19,  2.0, 0.4
+
+
+BoundingBox = -4.15, 1.7, -9.9,  1.5, 1.5, 1.5
+BoundingBox =  4.15, 1.7, -9.9,  1.5, 1.5, 1.5
+
+BoundingBox = -4.15, 1.7, -11.4,  1.5, 1.5, 1.5
+BoundingBox =  4.15, 1.7, -11.4,  1.5, 1.5, 1.5
+
+BoundingBox = -4.35, 1.7, -13.0,  1.9, 1.7, 1.5
+BoundingBox =  4.35, 1.7, -13.0,  1.9, 1.7, 1.5
+
+BoundingBox = -4.35, 1.8, -14.9,  1.9, 1.7, 1.5
+BoundingBox =  4.35, 1.8, -14.9,  1.9, 1.7, 1.5
+
+BoundingBox = -4.35, 1.8, -16.8,  1.9, 1.7, 1.5
+BoundingBox =  4.35, 1.8, -16.8,  1.9, 1.7, 1.5
+
+BoundingBox = -4.35, 1.9, -18.7,  1.9, 1.7, 1.5
+BoundingBox =  4.35, 1.9, -18.7,  1.9, 1.7, 1.5
+
+BoundingBox = -4.35, 2.0, -19.0,  1.9, 1.7, 1.5
+BoundingBox =  4.35, 2.0, -19.0,  1.9, 1.7, 1.5
+
+
+BoundingBox = -3.65, 4.2, -20.5,  0.5, 2.2
+BoundingBox =  3.65, 4.2, -20.5,  0.5, 2.2
+
+BoundingBox = -3.65, 4.2, -20.0,  0.5, 2.2
+BoundingBox =  3.65, 4.2, -20.0,  0.5, 2.2
+
+BoundingBox = -3.65, 4.2, -19.5,  0.5, 2.2
+BoundingBox =  3.65, 4.2, -19.5,  0.5, 2.2
+
+BoundingBox = -3.65, 4.0, -19.0,  0.5, 2.2
+BoundingBox =  3.65, 4.0, -19.0,  0.5, 2.2
+
+BoundingBox = -3.75, 3.5, -18.5,  0.5, 2.0
+BoundingBox =  3.75, 3.5, -18.5,  0.5, 2.0
+
+BoundingBox = -3.85, 3.2, -18.0,  0.5, 2.0
+BoundingBox =  3.85, 3.2, -18.0,  0.5, 2.0
+
+BoundingBox =  0.0, 1.6, -21,  2.3, 0.4
+
+BoundingBox =  1.8, 1.6, -21,  2.0, 0.4
+BoundingBox =  -1.8, 1.6, -21,  2.0, 0.4
+
+BoundingBox = 0.0, 1.4, 1.6, 1.6, 1.0
+BoundingBox = 0.0, 1.4, 3.2, 1.6, 1.0
+DamageFactor = 0.8

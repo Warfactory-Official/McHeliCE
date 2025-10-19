@@ -1,0 +1,17 @@
+DisplayName = Depleted Uranium
+AddDisplayName = ja_JP, Depleted Uranium
+;;fix it yourself japan
+;;ItemID = 28979
+
+StackSize = 64
+
+
+AddRecipe = "A  ", "   ", "   ", A, hbm:item.waste_natural_uranium
+AddRecipe = "A  ", "   ", "   ", A, hbm:item.ingot_u238
+AddRecipe = "A  ", "   ", "   ", A, hbm:item.nugget_u238
+
+;AddRecipe = "A  ", "   ", "   ", A, hbm:item.rod.u238
+;AddRecipe = "A  ", "   ", "   ", A, hbm:item.rod_u238
+
+AddRecipe = "AAA", "BBB", "CCC", A, redstone_ore, B, iron_block, C, glowstone
+;;compat for retards, LEARN TO INSTALL A DEPENDENCY

@@ -1,0 +1,35 @@
+DisplayName = SD 50 Semi-AP Bomb
+Type = Bomb
+Power = 500
+Acceleration = 0.2
+Explosion = 6
+Flaming = false
+Sight = None
+Delay = 6
+Sound = bomb_snd
+
+Piercing = 0
+
+ReloadTime = 200
+Round = 6
+
+
+
+ModelBullet = type3_15_5
+
+Acceleration = 0.5
+
+;Explosive mass	269.9 kg kg
+ExplosionBlock = 2
+ExplosionInWater = 3
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 12
+SuppliedNum = 3
+Item =  3, iron_ingot
+Item =  3, gunpowder

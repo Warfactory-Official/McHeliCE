@@ -1,0 +1,31 @@
+DisplayName = CBU-72/B
+Type = Bomb
+;Acceleration = 0.1
+FAE = true
+Flaming = true
+Sight = None
+Delay = 10
+ModelBullet = cbu87
+Sound = bomb_snd
+
+Bomblet = 3
+BombletSTime = 15
+BombletDiff = 0.3
+
+Acceleration = 0.5
+Explosion = 7
+;Explosive mass	125 kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 2
+;it dont detonate in water its an aeresol
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  5, iron_ingot
+Item =  5, gunpowder

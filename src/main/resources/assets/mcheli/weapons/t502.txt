@@ -1,0 +1,32 @@
+DisplayName = KH-38MAE Anti-Surface Missile
+Type = ASMissile
+radius = 2000
+Power = 1000
+Acceleration = 4.2
+Explosion = 11
+ExplosionInWater = 6
+ExplosionBlock = 5
+Flaming = true
+Sight = MoveSight
+Delay = 5
+ReloadTime = 1500
+Round = 2
+ModelBullet = agm84
+Sound = missile_2_snd
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  8, gunpowder
+Item =  2, redstone

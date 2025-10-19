@@ -1,0 +1,122 @@
+DisplayName = F-16C 
+AddDisplayName = en_US, F-16C 
+AddDisplayName = ja_JP, F-16C
+ItemID = 28740
+MaxHp = 100
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.3
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1300
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+ThrottleUpDown = 0.3
+
+Sound = ffifteen
+
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+AddTexture = f16c2
+AddTexture = f16c3
+AddTexture = f16c4
+AddTexture = f16c5
+
+HUD = planenvg
+AddSeat       = 0.00,  2.564,  1.762
+
+
+
+AddPartCanopy =  0.00, 3.275, 0.3653,  -1,0,0,  50
+
+;Front
+AddPartLG    =  0.00, 1.562, -0.2672,  1,0,0, 105
+;Right
+AddPartLG    = -0.4427, 1.541, -5.454,      1,0,0, -90,   0,1,0,  100
+;Left
+AddPartLG    =  0.4427, 1.541, -5.454,      1,0,0, -90,   0,1,0, -100
+
+
+; 使用直後は非表示
+AddPartWeaponMissile = agm84,    false,  false,  false,    2.545, 1.837, -4.551
+AddPartWeaponMissile = agm84,    false,  false,  false,   -2.545, 1.837, -4.551
+AddPartWeaponMissile = agm88,    false,  false,  false,    4.316, 1.837, -4.909
+AddPartWeaponMissile = agm88,    false,  false,  false,   -4.316, 1.837, -4.909
+
+AddPartWeaponMissile = aim7f16,  false,  false,  false,    5.629, 1.919, -5.267
+AddPartWeaponMissile = aim7f16,  false,  false,  false,   -5.629, 1.919, -5.267
+AddPartWeaponMissile = aim7f16,  false,  false,  false,    6.831, 2.446, -5.983
+AddPartWeaponMissile = aim7f16,  false,  false,  false,   -6.831, 2.446, -5.983
+
+AddWeapon = m61f16, 1.016, 2.653, 0.3788,   0.0, 0.0
+AddWeapon = agm84,     2.545, 1.837, -4.551,   0.0, 0.0
+AddWeapon = agm84,    -2.545, 1.837, -4.551,   0.0, 0.0
+AddWeapon = agm88,     4.316, 1.837, -4.909,   0.0, 0.0
+AddWeapon = agm88,    -4.316, 1.837, -4.909,   0.0, 0.0
+
+AddWeapon = aim7f16,   5.629, 1.919, -5.267,   0.0, 0.0
+AddWeapon = aim7f16,  -5.629, 1.919, -5.267,   0.0, 0.0
+AddWeapon = aim120f16c,   6.831, 2.446, -5.983,   0.0, 0.0
+AddWeapon = aim120f16c,  -6.831, 2.446, -5.983,   0.0, 0.0
+
+AddWeapon = targeting_pod_block, 0.0, 0.9, 0.0,  0.0, 0.0
+
+AddWeapon = targeting_pod_ph50s,   0.0, 3.4, 0.0,    0.0, 0.0, true,  1
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0
+
+;modern light plane (late jet), AOW3 style (fcs)
+AddRecipe = "ABC", "DEF", "GG ", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:fcs3, G, mcheli:electronics
+
+BoundingBox =  0.00, 2.350, -0.80,  2.2, 2.0
+
+BoundingBox =  0.00, 2.35, -3.00,  2.2, 2.0
+
+BoundingBox =  0.00, 2.35, -5.20,  2.2, 2.0
+
+BoundingBox =  0.00, 2.35, -7.40,  2.2, 2.0
+
+BoundingBox =  0.00, 2.350, -9.2,  1.4, 1.4
+
+BoundingBox =  0.00, 2.350, -9.6,  1.4, 1.4
+BoundingBox =  0.00, 2.350, -11,  1.4, 1.4
+;wings
+BoundingBox = -1.92, 2.450, -6.40,  2.5, 0.2
+BoundingBox =  1.92, 2.45, -6.40,  2.5, 0.2
+
+BoundingBox = -1.92, 2.45, -5.20,  2.5, 0.2
+BoundingBox =  1.92, 2.45, -5.20,  2.5, 0.2
+BoundingBox = -4.25, 2.450, -6.40,  2.5, 0.2
+BoundingBox =  4.25, 2.45, -6.40,  2.5, 0.2
+
+BoundingBox = -1.22, 2.45, -3.80,  2.5, 0.2
+BoundingBox =  1.22, 2.45, -3.80,  2.5, 0.2
+
+
+BoundingBox = -3.8, 2.45, -4.85,  1.35, 0.2
+BoundingBox =  3.8, 2.45, -4.85,  1.35, 0.2
+
+BoundingBox = -6.00, 2.45, -7.0,  1.35, 0.2
+BoundingBox =  6.00, 2.45, -7.00,  1.35, 0.2
+
+
+
+;tail/rear
+BoundingBox = -2.15, 2.41, -11.35, 2.4, 0.3
+BoundingBox = 2.15, 2.41, -11.35, 2.4, 0.3
+BoundingBox =  0.0, 6.1, -12.0,  1.0, 1.6
+BoundingBox =  0.0, 5.1, -11.0,  1.0, 3.2
+BoundingBox =  0.0, 4.1, -10.0,  1.0, 3.2
+BoundingBox =  0.0, 3.5, -9.0,  1.0, 1.6
+BoundingBox =  0.0, 3.3, -8.0,  1.0, 1.5
+
+unmountposition = 0.00,  1.564,  1.762
+
+EntityWidth  = 0.81
+EntityHeight = 0.81
+
+enableback = true
+DamageFactor = 0.8

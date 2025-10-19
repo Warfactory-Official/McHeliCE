@@ -1,0 +1,5 @@
+DisplayName = Light Engine
+AddDisplayName = ja_JP, Light Engine
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_engine_1
+AddRecipe = "ABB", "ACC", "ADD", A, mcheli:lap, B, mcheli:grate, C, mcheli:basicmechanicparts, D, mcheli:largespring

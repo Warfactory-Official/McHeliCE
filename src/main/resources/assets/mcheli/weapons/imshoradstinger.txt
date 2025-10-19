@@ -1,0 +1,27 @@
+DisplayName = FIM-92 Stinger
+Type = AAMissile
+Power = 30
+Acceleration = 2.5
+Explosion = 4
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+LockTime = 30
+ProximityFuseDist = 1
+Sound = missile_1_snd
+Zoom = 1.8
+
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+; DEBUG
+;RigidityTime = 30
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

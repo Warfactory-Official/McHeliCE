@@ -1,0 +1,29 @@
+DisplayName = BLU-1 Napalm
+Type = Bomb
+Flaming = true
+Sight = None
+Delay = 6
+Sound = bomb_snd
+ModelBullet = blu10b
+FAE = true
+
+Acceleration = 0.5
+Explosion = 10
+;Explosive mass	unknown kg kg
+Power = 1080
+ExplosionBlock = 5
+ExplosionInWater = 5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+ReloadTime = 150
+Round = 4
+
+MaxAmmo = 12
+SuppliedNum = 4
+Item =  3, iron_ingot
+Item =  6, gunpowder

@@ -1,0 +1,32 @@
+DisplayName = 12.7mm M2 Machine Gun
+Type = MachineGun1
+Power = 31
+Flaming = false
+Sight = MoveSight
+Delay = 1
+;SoundDelay = 3
+Accuracy = 1.2
+HeatCount = 3
+MaxHeatCount = 100
+;SoundPitch = 0.8
+Sound = m2_snd
+
+Gravity = -0.005
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+Round = 1800
+ReloadTime = 230
+
+MaxAmmo = 1800
+SuppliedNum = 200
+Item =  2, iron_ingot
+Item =  2, gunpowder

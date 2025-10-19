@@ -1,0 +1,140 @@
+DisplayName = Type 3 Chi-Nu
+AddDisplayName = ja_JP, 三式中戦車 チヌ
+AddDisplayName = en_US, Type 3 Chi-Nu
+ItemID = 91012
+MaxHp = 100
+Speed = 0.24
+ThrottleUpDown = 1.8
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = false
+EnableEntityRadar = false
+Sound = Tank
+HUD = ww2tank_hud, vehiclescoped, vehiclescoped
+WeightType = Tank
+DefaultFreelook = true
+
+EnableBack = true
+
+CameraZoom = 4
+
+Category = MED
+
+SubmergedDamageHeight = 1
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 4.5
+OnGroundRollFactor  = 4.0
+
+MobilityYawOnGround = 2.0
+PivotTurnThrottle = 0.0
+
+AddGunnerSeat = -0.0, 1.0, -0.0, -0.0,  3.5,  -0.0,     false,  -20, 10, true
+
+unmountposition = 0.0, 1.5, -0.0
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+AddGunnerSeat =  0.406,   0.45,  1.52,    0.4172, 1.6,   2.1,     false, -20, 10, false
+AddGunnerSeat =  -0.535,   2.48,  -0.0302,    -0.535,   3.5,  -0.0302,    false, -60, 20, true
+CameraPosition = -0.0, 3.5, -0.0, false
+CameraRotationSpeed = 7
+
+StepHeight = 1.5
+InventorySize = 18
+ParticlesScale = 0.1
+SmoothShading = true
+HideEntity = false
+
+
+
+MotionFactor = 0.92
+
+MaxFuel         = 1000
+FuelConsumption = 1.5
+
+TrackRollerRot = 40
+
+SetWheelPos =  1.1,  -0.24,  2.45, 1.46, 0.44, -0.44, -1.46, -2.45
+
+AddTrackRoller = -1.6,  0.8364,  3.2919
+AddTrackRoller = -1.6,  0.0505,  2.456
+AddTrackRoller = -1.6,  0.0505,  1.4684
+AddTrackRoller = -1.6,  0.0505,  0.4437
+AddTrackRoller = -1.6,  0.0505, -0.4437
+AddTrackRoller = -1.6,  0.0505, -1.4684
+AddTrackRoller = -1.6,  0.0505, -2.456
+AddTrackRoller = -1.6,  0.5780, -3.4111
+AddTrackRoller = -1.6,  0.8892, -1.7745
+AddTrackRoller = -1.6,  0.8892,  0.0
+AddTrackRoller = -1.6,  0.8892,  1.7745
+
+AddTrackRoller =  1.6,  0.8364,  3.2919
+AddTrackRoller =  1.6,  0.0505,  2.456
+AddTrackRoller =  1.6,  0.0505,  1.4684
+AddTrackRoller =  1.6,  0.0505,  0.4437
+AddTrackRoller =  1.6,  0.0505, -0.4437
+AddTrackRoller =  1.6,  0.0505, -1.4684
+AddTrackRoller =  1.6,  0.0505, -2.456
+AddTrackRoller =  1.6,  0.5780, -3.4111
+AddTrackRoller =  1.6,  0.8892, -1.7745
+AddTrackRoller =  1.6,  0.8892,  0.0
+AddTrackRoller =  1.6,  0.8892,  1.7745
+
+AddCrawlerTrack = false, 0.16, -1.5,   1.19/ 3.30, 1.15/ 3.56, 0.78/ 3.67, 0.51/ 3.60, -0.28/ 2.73, -0.3/ -2.45, -0.28/ -2.74, 0.19/ -3.59, 0.46/ -3.8, 0.78/ -3.7, 0.97/ -3.5, 1.05/ -1.77, 1.05/ 2.0, 1.19/ 3.0
+AddCrawlerTrack = false, 0.16,  1.5,   1.19/ 3.30, 1.15/ 3.56, 0.78/ 3.67, 0.51/ 3.60, -0.28/ 2.73, -0.3/ -2.45, -0.28/ -2.74, 0.19/ -3.59, 0.46/ -3.8, 0.78/ -3.7, 0.97/ -3.5, 1.05/ -1.77, 1.05/ 2.0, 1.19/ 3.0
+
+MinRotationPitch = -60
+MaxRotationPitch =  20
+
+AddTurretWeapon = chinuType90_75mmTankGun[APHE],  0.0,  2.2552, 0.2644,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = chinuType90_75mmTankGun[HE],    0.0,  2.2552, 0.2644,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddPartWeapon = chinuType90_75mmTankGun[APHE]/chinuType90_75mmTankGun[HE], false, true, false,  0.0, 2.0, 0.0, 0
+AddPartWeaponChild = false, true, 0.0, 2.2552, 1.2644
+AddPartWeaponChild = false, true, 0.0, 2.2552, 1.2644, 0.3
+
+AddPartTurretWeapon    = chinuType97_7_7mmGun1,  false, true, false,  0.4756, 3.542, 0.6288
+AddPartTurretWeapon    = chinuType97_7_7mmGun1,  false, true, true,   0.4756, 3.542, 0.6288
+AddTurretWeapon = chinuType97_7_7mmGun1,   0.4756, 3.542, 0.6288,   0.0, 0.0, false, 3, 0, -60,60, -70,10
+
+AddWeapon = chinuType97_7_7mmGun2,  0.4172, 1.428, 1.9793,  0.0, 0.0, false,2, 0,-19,19, -10, 7
+AddPartWeapon = chinuType97_7_7mmGun2, false, true, true,  0.4172, 1.428, 1.9793, 0
+
+ArmorMinDamage = 10
+
+;siding
+BoundingBox = 0.0, 0.85, 0.5, 2.1, 1.2, 0.4
+
+BoundingBox = 0.0, 0.85, -1.6, 2.1, 1.2, 0.4
+
+BoundingBox = 0.0, 0.85, -2.5, 2.1, 1.2, 0.4
+BoundingBox = 0.0, 0.85, -2.6, 2.0, 1.15, 0.5
+
+;upper siding
+
+
+BoundingBox = 0.0, 1.55, 0.5, 2.3, 0.4, 0.5
+
+BoundingBox = 0.0, 1.55, -1.5, 2.3, 0.4, 0.5
+
+
+;front plate low to high
+
+BoundingBox = 0.0, 0.4, 2.3, 2.0, 0.3, 0.33
+
+
+BoundingBox = 0.0, 1.0, 2.4, 2.0, 0.2, 0.25
+
+BoundingBox = 0.0, 1.45, 1.0, 2.0, 0.4, 0.2
+
+BoundingBox = 0.0, 0.8, 2.5, 2.0, 0.4, 0.2
+
+
+;turret
+BoundingBox = -0.0, 2.1, 0.0, 1.5, 1.5, 0.2
+
+
+;medium tracked tank ww2 less EARLY
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:mediumchassis, B, mcheli:cannon2, C, mcheli:engine3, D, mcheli:tanktracks

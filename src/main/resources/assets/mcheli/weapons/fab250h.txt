@@ -1,0 +1,30 @@
+DisplayName = FAB-250
+Type = Bomb
+Power = 500
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+Acceleration = 0.8
+Explosion = 11
+ExplosionBlock = 15
+gravity = -0.01
+Flaming = false
+Sight =  MoveSight
+Delay = 5
+ReloadTime = 200
+Sound = bomb_snd
+ModelBullet = fab250
+DisplayMortarDistance = true
+;DamageFactor = player, 10
+
+ExplosionInWater = 5
+
+
+MaxAmmo = 16
+SuppliedNum = 4
+
+Item =  10, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

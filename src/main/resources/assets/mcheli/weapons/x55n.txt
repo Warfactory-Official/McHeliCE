@@ -1,0 +1,30 @@
+DisplayName = Kh-55 Nuclear Cruise Missile [200KT - AIRBURST]
+Type = Rocket
+Power = 1000
+Acceleration = 2
+Explosion = 10
+ExplosionBlock = 3
+ExplosionInWater = 3
+Sight = MoveSight
+Delay = 35
+nukeyield = 100
+
+ReloadTime = 1000
+ModeNum = 2
+ModelBullet = x55at
+Sound = missile_1_snd
+SoundVolume = 10.0
+DisableSmoke = true
+Group = maingun
+gravity = -0.001
+displaymortardistance= true
+;DamageFactor = tank, 2.0
+;DamageFactor = plane, 1.0
+;DamageFactor = vehicle 4.5
+;DamageFactor = heli, 4.5
+;DamageFactor = player, 20.0
+
+MaxAmmo = 6
+SuppliedNum = 1
+Item = 2, mcheli:genericnuclearwarheadhigh
+Item = 1, tnt

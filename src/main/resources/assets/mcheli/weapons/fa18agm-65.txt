@@ -1,0 +1,46 @@
+DisplayName = AGM-65 Maverick
+Type = TVMissile
+Power = 1000
+Acceleration = 2.7
+Flaming = true
+Sight = MoveSight
+ModelBullet = agm65e
+Sound = mlrs
+SoundPitch = 0.8
+SoundVolume = 15
+
+Delay = 5
+ReloadTime = 1000
+Round = 4
+
+
+Explosion = 9
+ExplosionBlock = 5
+ExplosionInWater = 5
+ModeNum = 2
+DamageFactor = tank, 2.0
+DamageFactor = plane, 2.0
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone
+
+
+
+;DEBUG:テスト用
+;目標から30m以内に入ると爆発
+;ProximityFuseDist = 30
+
+;DEBUG:テスト用
+;15Tick後に12個の子弾をばらまく
+;Bomblet = 12
+;BombletSTime = 15
+;BombletDiff = 1.1
+;ModelBomblet = cbc

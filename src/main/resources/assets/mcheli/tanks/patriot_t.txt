@@ -1,0 +1,56 @@
+DisplayName =  MIM-104A Patriot Trailer Mobile Surface-to-Air Missile System TEL
+AddDisplayName = ja_JP, MIM-104A Patriot Trailer Mobile Surface-to-Air Missile System TEL
+MaxHP = 100
+Speed = 0
+Gravity = -0.61
+GravityInWater = -1.0
+Sound = none
+CameraPosition = 0.00, 4.5562, -7.1277
+CameraZoom = 5
+MinRotationPitch = -90
+MaxRotationPitch = 0
+HideEntity = false
+
+CameraRotationSpeed = 15
+
+
+AddGunnerSeat = -2.65,  -0.35, -7.35, 0.0,  1.85, -0.86, false, -90, 5, false
+EnableNightVision = true
+ThirdPersonDist = 12
+DefaultFreelook = true
+
+unmountposition = -2.65,  2.30, -7.35
+
+PivotTurnThrottle = 0.2
+
+SetWheelPos =  0.70,  -0.24,  -7.8766, -6.5774
+
+
+
+AddTexture = patriot_td
+
+; M = Military,  M = Missile(ミサイル)
+Category = MSAM
+
+WeightType = Tank
+
+HUD = vehicle, 
+
+AddPartWeapon = patriotaim7_spa, true, true, false, 0.00, 1.5562, -7.1277, 0
+AddPartWeaponChild = false, true, 0.00, 1.5562, -7.1277, 0.0
+AddPartWeaponChild = false, true, 0.00, 1.63, -6.56, 0.0
+
+AddWeapon = patriotaim7_spa,  0.0, 7.1, -7.1,   0.0, 0.0, false, 1, 0, -360,360, -30,0
+
+;basic turret SAM (advanced)
+AddRecipe = "DDD", "D F", " E ", D, mcheli:electronics, E, mcheli:fcs2, F, mcheli:advancedmechanicparts 
+
+BoundingBox =  0.0, 1.0, -4.0,  2.5, 1.8
+
+BoundingBox =  0.0, 1.0, -6.5,  2.5, 1.8
+
+BoundingBox =  0.0, 1.0, -7.2,  2.5, 1.8
+
+BoundingBox =  0.0, 2.60, -0.835,  1.4, 1.4
+
+BoundingBox = 0.0, 3.0, -7.12, 1.0, 1.8, 1.5

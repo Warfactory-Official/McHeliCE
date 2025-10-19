@@ -1,0 +1,62 @@
+DisplayName = 155mm Haubits BW L/52 FH-77 [Nexter BONUS]
+Type = Rocket
+Power = 500
+ModelBullet = 155mm
+Explosion = 8
+;;would be 4 accounting for lobotomized guidance logic
+ExplosionBlock = 2
+
+ExplosionInWater = 4
+
+Acceleration = 6.0
+Sight = None
+ReloadTime = 180
+Delay = 100
+Round = 7
+SoundVolume = 15.0
+Sound = artillery_gun_snd
+Accuracy = 1.5
+;38km
+Gravity = -0.00075
+
+HeatCount = 1000
+MaxHeatCount = 2100
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 0.5
+
+group = maingun
+
+SetCartridge = cartridge_2, 0.2, 180, 0, 0.3, -0.02, 0.65
+
+ProximityDist = 2
+ProximityFuseDist = 2
+
+Bomblet = 2
+BombletDiff = 0.4
+BombletSTime = 30
+ModelBomblet = flechette
+
+DisableSmoke = true
+
+DisplayMortarDistance = true
+FixCameraPitch = true
+CameraRotationSpeedPitch = 0.2
+
+AddMuzzleFlash      =  7,      1.80,        7,  220,254,159,74
+AddMuzzleFlash      =  7,      1.75,        6,  220,254,219,104
+AddMuzzleFlash      =  7,      1.70,        5,  220,254,219,184
+AddMuzzleFlashSmoke = 0, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =0, 10,  11.0,  6.0, 35,  200,190,170,150
+Particle - largeexplode
+
+Recoil = 1.5
+RecoilBufCount = 40, 5
+
+MaxAmmo = 7
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  5, gunpowder

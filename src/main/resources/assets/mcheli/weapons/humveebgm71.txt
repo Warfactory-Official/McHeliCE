@@ -1,0 +1,40 @@
+DisplayName = BGM-71E TOW
+FixMode = 1
+Type = TVMissile
+Power = 900
+Acceleration = 3.2
+Explosion = 4
+ExplosionInWater = 2
+Flaming = true
+Sight = MoveSight
+
+ModeNum = 2
+ModelBullet = agm114
+Sound = tow
+
+Delay = 10
+ReloadTime = 400
+
+Round = 1
+
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 2.0
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+SoundVolume = 15
+
+CameraRotationSpeedPitch = 0.15
+
+
+; DEBUG
+;RigidityTime = 30
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

@@ -1,0 +1,69 @@
+DisplayName = 105mm M119 Howitzer
+AddDisplayName = ru_RU, 105mm M119 Howitzer
+ItemID = 30151
+MaxHp = 100
+Sound = none
+SoundVolume = 0
+Speed = 0.01
+ThrottleUpDown = 0.81
+MobilityYawOnGround = 1.2
+MinRotationPitch = -65
+MaxRotationPitch = 5
+;MobilityRoll = 0
+MobilityRoll     = 5
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+CameraZoom = 2
+CameraRotationSpeed = 10
+MaxFuel = 0
+FuelConsumption = 0
+;StepHeight = 1.5
+OnGroundPitchFactor = 1
+OnGroundRollFactor  = 1
+CameraPosition = 0.85, 1.00, 0.41
+;head pos 1.16, 0.90, -0.41
+HideEntity = false
+EnableBack = true
+;OnGroundPitchFactor = 2.0
+;OnGroundRollFactor  = 1.3
+ThirdPersonDist = 25
+DefaultFreelook = false
+
+Category = TFG/H
+
+SetWheelPos =  0.20,  -0.20,  0.20, -0.20
+
+WeightType = Unknown
+
+AddTrackRoller =  1.4905,  0.3209,  1.1365
+AddTrackRoller =  -1.4905,  0.3209,  1.1365
+
+TrackRollerRot = 1
+PartWheelRot = 1
+MotionFactor = 0.03
+
+;WeightType = Tank
+;WeightedCenterZ = 0
+;MotionFactor = 0.9
+AddGunnerSeat = 1.16,  -0.24, -0.41, 0.00,  1.4, -0.2, false, -65, 5, false
+;m107 bb
+
+HUD = vehicle_wwii
+
+AddPartWeapon = m1how/m1m327/m1m548/m1m546/m1m413/m1m444/m1m916, false, false, true, 0.00, 0.87, -0.29, 1, 0, 0, -90, 0
+
+AddWeapon = m1how, 0, 2.3, 1.29, 0.0, 0.0, true, 1, 0, -0, 0, -65, 5, 0
+AddWeapon = m1m327, 0, 2.3, 1.29, 0.0, 0.0, true, 1, 0, -0, 0, -65, 5, 0
+AddWeapon = m1m548, 0, 2.3, 1.29, 0.0, 0.0, true, 1, 0, -0, 0, -65, 5, 0
+AddWeapon = m1m546, 0, 2.3, 1.29, 0.0, 0.0, true, 1, 0, -0, 0, -65, 5, 0
+AddWeapon = m1m413, 0, 2.3, 1.29, 0.0, 0.0, true, 1, 0, -0, 0, -65, 5, 0
+AddWeapon = m1m444, 0, 2.3, 1.29, 0.0, 0.0, true, 1, 0, -0, 0, -65, 5, 0
+AddWeapon = m1m916, 0, 2.3, 1.29, 0.0, 0.0, true, 1, 0, -0, 0, -65, 5, 0
+
+BoundingBox =  0.0, 1.0, 0.0,  1.0, 1.0
+
+;advanced arty turret (less)
+AddRecipe = "   ", "DEF", "GG ", D, mcheli:electronics, E, mcheli:lap, F, mcheli:advancedmechanicparts, G, mcheli:cannon3
+
+UnmountPosition = 1.06,  1.54, -0.41

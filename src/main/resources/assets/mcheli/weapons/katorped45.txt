@@ -1,0 +1,22 @@
+DisplayName = Torpedo 45
+Type = Torpedo
+Power = 350
+ModelBullet = mk46
+Acceleration = 0.0
+AccelerationInWater = 1.5
+Explosion = 5
+ExplosionInWater = 9
+Flaming = false
+Sight = None
+Delay = 30
+ReloadTime = 210
+GuidedTorpedo = false
+Gravity = -0.03
+GravityInWater = 0
+Sound = bomb_snd
+
+MaxAmmo = 2
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

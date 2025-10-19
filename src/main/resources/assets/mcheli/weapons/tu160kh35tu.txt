@@ -1,0 +1,28 @@
+DisplayName = Kh-35
+Type = tvmissile
+Power = 1000
+Acceleration = 2.9
+Explosion = 12
+ExplosionBlock = 2
+ExplosionInWater = 12
+flaming = true
+ModeNum = 2
+fixmode = 1
+Sight = MoveSight
+Delay = 2
+ReloadTime = 1000
+ModelBullet = am39
+Sound = hydraseventy
+SoundVolume = 10
+;piercing = 2
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  12, gunpowder
+Item =  2, redstone

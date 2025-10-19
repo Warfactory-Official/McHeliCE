@@ -1,0 +1,48 @@
+DisplayName = MIM-146 [AAM]
+Type = AAMissile
+Power = 50
+Acceleration = 3
+Explosion = 5
+Flaming = false
+Sight = MissileSight
+Delay = 5
+Round = 16
+LockTime = 4
+ProximityFuseDist = 1
+SoundVolume = 20
+Sound = missile_1_snd
+ModelBullet = rocket
+ReloadTime = 1000
+
+Piercing  = 2
+RigidityTime = 10
+RidableOnly = false
+
+
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+TrajectoryParticle = largesmoke
+
+
+
+TrajectoryParticleStartTick = 10
+
+
+AddMuzzleFlash      =  3,      2.10,        14,  200,254,129,44
+AddMuzzleFlash      =  3,      2.05,         8,  200,254,219,104
+AddMuzzleFlash      =  3,      2.00,         6,  200,254,219,184
+AddMuzzleFlashSmoke =  3, 27,  15.0,  5.0, 110,  220,160,130,120
+AddMuzzleFlashSmoke =  3, 16,  17.0,  7.0, 90,   200,190,170,150
+
+AddMuzzleFlashSmoke =  3, 27,  25.0,  5.0, 110,  220,190,180,180
+AddMuzzleFlashSmoke =  3, 16,  27.0,  7.0, 90,  200,190,170,150
+
+
+MaxAmmo = 16
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  2, redstone

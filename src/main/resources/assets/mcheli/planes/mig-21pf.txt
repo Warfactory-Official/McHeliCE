@@ -1,0 +1,112 @@
+DisplayName = MiG-21PF Fishbed
+AddDisplayName = en_US, MiG-21PF Fishbed
+AddDisplayName = ko_KR, 미그-21PF 피쉬베드
+ItemID = 40012
+MaxHp = 100
+Speed = 1.385
+
+;1385mph
+
+Sound = migtwentyone
+ThrottleUpDown = 0.3
+MaxFuel = 1000
+FuelConsumption = 1.0
+FlareType = 4
+EnableNightVision = false
+EnableEntityRadar = true
+EnableEjectionSeat = true
+EnableSeaSurfaceParticle = true
+ParticlesScale = 0.7
+ThirdPersonDist = 17
+Category = M.F
+
+AddSeat = 0.00, 1.50, 1.40
+
+unmountposition = 0.00, 2.10, 1.40
+
+enableback = true
+
+DamageFactor = 0.8
+
+AddPartCanopy = -0.46, 2.336, 1.608,  0,0,1, 70
+HUD = plane
+
+EntityHeight = 0.9
+EntityWidth = 0.9
+
+MobilityYaw = 1.5
+MobilityPitch = 1.5
+MobilityRoll = 2.5
+;OnGroundPitch = 1
+;later modern light plane (late jet), AOW3 style (canandaa)
+AddRecipe = "ABC", "DEG", "   ", A, mcheli:airframe2, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon1, G, mcheli:electronics
+
+AddPartLG =  0.0, 0.95, 2.71,  -1,0,0, 110
+AddPartLG =  1.8, 1.40, -3.0,  0,0,-1, 90
+AddPartLG = -1.8, 1.40, -3.0,  0,0,1, 90
+
+;WEAPON_COUNT
+AddPartWeaponMissile = m21k-13,  false, false, false,  3.369, 0.878, 3.968
+AddPartWeaponMissile = m21k-13,  false, false, false,  -3.369, 0.878, 3.968
+AddPartWeaponMissile = m21k-13,  false, false, false,  0.241, 0.918, -2.842
+AddPartWeaponMissile = m21k-13,  false, false, false,  -0.241, 0.918, -2.842
+
+AddPartWeaponMissile = droptank, false, false, false, 0.0, 0.246, -1.74
+
+;WEAPON
+AddWeapon = m21gsh-23l, 0.3, 0.65, 0.0, 0.0, -0.5
+AddWeapon = m21gsh-23l, -0.3, 0.65, 0.0, 0.0, -0.5
+
+AddWeapon = m21k-13,   3.369, 0.878, 3.968,   1.0, 0.0
+AddWeapon = m21k-13,  -3.369, 0.878, 3.968,   -1.0, 0.0
+AddWeapon = m21k-13,   0.241, 0.918, -2.842,   1.0, 0.0
+AddWeapon = m21k-13,  -0.241, 0.918, -2.842,   -1.0, 0.0
+
+;AddWeapon = droptank, 0.0, 0.246, -1.74,  0.0, 0.0
+
+BoundingBox = 0.0, 1.6, 2.85, 1.3, 1.3
+
+BoundingBox = 0.0, 1.6, 1.55, 1.3, 1.3
+
+BoundingBox =  0.00, 1.85, 0.2,  1.4, 1.9
+BoundingBox =  0.00, 1.85, -1.2,  1.4, 1.9
+BoundingBox =  0.00, 1.65, -2.6,  1.4, 1.5
+BoundingBox =  0.00, 1.65, -4.0,  1.4, 1.5
+BoundingBox =  0.00, 1.65, -5.4,  1.4, 1.5
+BoundingBox =  0.00, 1.6, -6.7,  1.2, 1.2
+BoundingBox =  0.00, 1.55, -7.9,  1.2, 1.2
+BoundingBox =  0.00, 1.55, -8.7,  1.0, 1.0, 1.5
+
+BoundingBox = 1.7, 1.5, -4.5, 2.0, 0.3
+BoundingBox = -1.7, 1.5, -4.5, 2.0, 0.3
+
+BoundingBox = 3.2, 1.4, -5.0, 1.0, 0.3
+BoundingBox = -3.2, 1.4, -5.0, 1.0, 0.3
+
+BoundingBox = 3.2, 1.4, -4.0, 1.0, 0.3
+BoundingBox = -3.2, 1.4, -4.0, 1.0, 0.3
+
+BoundingBox = 1.6, 1.5, -2.6, 1.8, 0.3
+BoundingBox = -1.6, 1.5, -2.6, 1.8, 0.3
+
+BoundingBox = 0.0, 2.2, -5.20, 0.5, 1.0
+BoundingBox = 0.0, 2.4, -5.70, 0.5, 1.0
+BoundingBox = 0.0, 2.6, -6.20, 0.5, 1.0
+BoundingBox = 0.0, 2.8, -6.70, 0.5, 1.0
+BoundingBox = 0.0, 2.9, -7.20, 0.5, 1.4
+BoundingBox = 0.0, 3.0, -7.70, 0.5, 1.8
+BoundingBox = 0.0, 3.1, -8.20, 0.5, 2.2
+BoundingBox = 0.0, 3.2, -8.70, 0.5, 2.4
+BoundingBox = 0.0, 3.4, -9.20, 0.5, 2.2
+BoundingBox = 0.0, 3.6, -9.70, 0.5, 1.8
+BoundingBox = 0.0, 3.95, -10.20, 0.5, 1.2
+
+BoundingBox = 1.0, 1.63, -9.01, 1.0, 0.3
+BoundingBox = -1.0, 1.63, -9.01, 1.0, 0.3
+
+BoundingBox = 1.8, 1.63, -9.81, 1.0, 0.3
+BoundingBox = -1.8, 1.63, -9.81, 1.0, 0.3
+
+
+;AddRecipe = " YX",  "XXP",  "X X",  X, iron_block, Y, glass, P, iron_ingot
+DamageFactor = 0.8

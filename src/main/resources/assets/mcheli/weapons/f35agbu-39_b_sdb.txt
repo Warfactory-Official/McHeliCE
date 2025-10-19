@@ -1,0 +1,35 @@
+DisplayName = GBU-39/B SDB
+Type = ASMissile
+Power = 1000
+radius = 2000
+Acceleration = 7.3
+Flaming = true
+Sight = MoveSight
+Delay = 5
+Round = 8
+ReloadTime = 1000
+SoundVolume = 3
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = sdb
+Gravity = -0.001
+DisableSmoke = true
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 8
+;Explosive mass	125 kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 4
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 8
+SuppliedNum = 2
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

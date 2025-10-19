@@ -1,0 +1,13 @@
+DisplayName = OPS-20 航海用レーダー
+Type = TargetingPod
+Delay = 2
+Sight = MoveSight
+SoundPitch = 1.0
+Sound = lockon
+SoundVolume = 5.0
+SoundPitchRandom = 0.0
+Length = 300
+Radius = 10
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/tanks/players/others
+MarkTime = 180

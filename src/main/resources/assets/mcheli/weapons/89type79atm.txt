@@ -1,0 +1,43 @@
+﻿DisplayName = Type 79 Jyu-MAT Anti-Tank Guided Missile
+Type = TVMissile
+Power = 700
+;something about this file seems to be bugged???
+DisplayName = Type 79 Jyu-MAT Anti-Tank Guided Missile
+
+Explosion = 4
+
+ExplosionInWater = 2
+
+Flaming = false
+Sight = MoveSight
+
+
+
+CameraRotationSpeedPitch = 0.5
+
+
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+Acceleration = 2
+Explosion = 5
+ExplosionBlock = 3
+Flaming = false
+Sight = MoveSight
+Delay = 60
+ReloadTime = 250
+
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone
+
+
+ModeNum = 2
+Sound = bmptmissile

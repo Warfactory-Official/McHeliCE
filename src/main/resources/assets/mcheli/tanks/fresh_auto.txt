@@ -1,0 +1,78 @@
+DisplayName = VAZ 2105 "Tsar Zhiga" (Fresh Auto Team, Drift Car)
+AddDisplayName = ru_RU, ВАЗ 2105 "Царь Жига" (Fresh Auto Team)
+MaxHp = 200
+Speed = 0.95
+Sound = lada
+MobilityYawOnGround = 10.0
+ThrottleUpDown = 0.90
+MinRotationPitch = 45
+MaxRotationPitch = 45
+MobilityRoll = 0
+Gravity = -0.15
+GravityInWater = 0.1
+DamageFactor = 0.8
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+EntityWidth = 0.8
+EntityHeight = 0.8
+
+HUD = bnr32_hud, none
+
+AddSeat =  0.4621,  0.03, 0.3429
+AddSeat =  -0.4621,  0.13, 0.3429
+
+UnmountPosition = 0.4621,  2.23, 0.3429
+
+Regeneration = false
+ArmorDamageFactor = 2.32
+
+ArmorMinDamage = 2
+
+EnableBack = true
+Category = C
+WeightType = Car
+
+WeightedCenterZ = 0.8
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 50
+SetWheelPos =  0.57,  -0.24,  1.87, -1.20
+AddPartSteeringWheel =  0.4381,  0.693, 0.9562,  0, 0.3196, -1,   90
+AddPartWheel     =  0.9283,  0.11235, 1.8725, 30
+AddPartWheel     =  -0.9283,  0.11235, 1.8725, 30
+AddPartWheel     =  0.9283,  0.11235, -1.2071
+AddPartWheel     = -0.9283,  0.11235, -1.2071
+AddPartCanopy =  0.9242, 0.456, 1.1844, 0, -1, 0, 75
+
+AddFixedSearchLight =  0.5571, 0.5284, 2.5325,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5, 0, 0
+AddFixedSearchLight =  -0.5571, 0.5284, 2.5325,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5,0,0
+AddFixedSearchLight =  0.7, 0.5284, 2.5325,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5, 0, 0
+AddFixedSearchLight =  -0.7, 0.5284, 2.5325,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5,0,0
+
+AddFixedSearchLight =  0.722, 0.5524,-2.4452,   0x80FF0000,   0x00FF0000,    0.02, 0.55,  180.0,  4
+AddFixedSearchLight = -0.722, 0.5524,-2.4452,   0x80FF0000,   0x00FF0000,    0.02, 0.55,  180.0,  4
+AddFixedSearchLight =  0.53, 0.5524,-2.4452,   0x80FF0000,   0x00FF0000,    0.02, 0.55,  180.0,  4
+AddFixedSearchLight = -0.53, 0.5524,-2.4452,   0x80FF0000,   0x00FF0000,    0.02, 0.55,  180.0,  4
+
+;basic civ car
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts, E, glass_pane
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:2105, B, mcheli:basicmechanicparts
+
+
+MaxFuel         = 1000
+FuelConsumption = 2
+
+BoundingBox = 0.0, 0.4, 1.8, 0.8, 0.7
+BoundingBox = 0.0, 0.1, 0.1, 2.0, 0.2
+BoundingBox = 0.0, 0.1, 1.5, 2.0, 0.2
+BoundingBox = 0.0, 0.1, -1.6, 1.9, 0.2
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+
+
+AddWeapon = drift,    0.9283, 0.0, -1.44,  0.0,0.0
+AddWeapon = drift,   -0.9283, 0.0, -1.44,  0.0,0.0
+
+StepHeight = 1.2

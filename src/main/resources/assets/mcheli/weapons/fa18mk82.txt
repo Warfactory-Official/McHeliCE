@@ -1,0 +1,35 @@
+DisplayName = 500lb MK82 Bomb
+Type = Bomb
+Power = 1000
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 0.1
+ModelBullet = mk82
+Flaming = false
+Sight = None
+Delay = 5
+Sound = bomb_snd
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 10
+;Explosive mass	? kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+ReloadTime = 1000
+Round = 4
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  3, iron_ingot
+Item =  6, gunpowder

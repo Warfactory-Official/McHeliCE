@@ -1,0 +1,29 @@
+DisplayName = Generic Nuclear Warhead Payload [10KT]
+AddDisplayName = ja_JP, Generic Nuclear Warhead Payload [10KT]
+
+StackSize = 64
+
+
+
+
+
+;;AddRecipe = "ABB", "BBD", "   ", A, hbm:tile.nuke_tsar, B, hbm:item.explosive_lenses, D, hbm:item.man_core
+
+;AddRecipe = "ABB", "BBD", "AC ", A, hbm:tile.bomb_multi, B, hbm:item.explosive_lenses, D, hbm:item.man_core, C, hbm:item.boy_igniter
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.warhead_nuclear
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.mp_warhead_10_nuclear
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.mp_warhead_10_nuclear_large
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.mp_warhead_15_nuclear
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.mp_warhead_15_nuclear_mimi
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.mp_warhead_15_nuclear_shark
+
+
+
+
+

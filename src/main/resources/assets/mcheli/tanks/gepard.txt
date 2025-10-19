@@ -1,0 +1,95 @@
+﻿DisplayName = Flugabwehrkanonenpanzer Gepard 'Cheetah'
+AddDisplayName = en_US, Flugabwehrkanonenpanzer Gepard 'Cheetah'
+AddDisplayName = ja_JP, ゲパルト自走対空砲
+ItemID = 30000
+MaxHp = 200
+Speed = 0.4
+Sound = leoone
+ThrottleUpDown = 2.0
+MobilityYawOnGround = 2.7
+MotionFactor = 0.95
+MinRotationPitch = -85
+MaxRotationPitch = 10
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 6
+;CameraPosition = 0.00,  3.20, 1.00, false
+EnableNightVision = true
+CameraRotationSpeed = 54
+EnableEntityRadar = true
+MaxFuel         = 1200
+FuelConsumption = 1.0
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+FlareType = 10
+HideEntity = true
+; Tank or Car or Unknown
+WeightType = Tank
+WeightedCenterZ = 0.0
+DefaultFreelook = true
+SubmergedDamageHeight = 2
+
+Category = SPAAG
+
+HUD = mbt_hudtherm
+
+AddTexture = gepard_1
+AddTexture = gepard_2
+
+AddGunnerSeat =  0.00,  2.50, 0.00, 0.0, 3.50, 0.00, false, -85, 10, false
+CameraPosition =  0.00,  5.00, -0.0, true
+MotionFactor = 0.95
+;ArmorMinDamage 
+ArmorMinDamage = 15
+;ArmorMaxDamage 
+;ArmorMaxDamage = 500
+;ArmorDamageFactor 
+ArmorDamageFactor = 1.0
+EnableBack = true
+
+PivotTurnThrottle = 0.0
+
+;TrackRollerRot = 30
+
+AddCrawlerTrack = false, 0.26, -2.02,  -0.26/2.06, -0.13/2.16, 0.27/2.76, 0.40/2.90, 0.62/2.96, 0.84/2.90, 0.96/2.73, 0.94/-3.96, 0.81/-4.15, 0.57/-4.22, 0.33/-4.11, 0.08/-3.94, -0.11/-3.71, -0.26/-3.27
+AddCrawlerTrack = false, 0.26,  2.02,  -0.26/2.06, -0.13/2.16, 0.27/2.76, 0.40/2.90, 0.62/2.96, 0.84/2.90, 0.96/2.73, 0.94/-3.96, 0.81/-4.15, 0.57/-4.22, 0.33/-4.11, 0.08/-3.94, -0.11/-3.71, -0.26/-3.27
+
+AddTrackRoller =  0.00,  0.62,  2.59
+AddTrackRoller =  0.00,  0.08,  1.78
+AddTrackRoller =  0.00,  0.08,  0.99
+AddTrackRoller =  0.00,  0.08,  0.18
+AddTrackRoller =  0.00,  0.08, -0.58
+AddTrackRoller =  0.00,  0.08, -1.38
+AddTrackRoller =  0.00,  0.08, -2.15
+AddTrackRoller =  0.00,  0.08, -2.99
+AddTrackRoller =  0.00,  0.56, -3.79
+
+SetWheelPos =  1.30,  -0.29,  1.98,  -3.17, 0.0, -1.0, -2.0, 1.0
+
+
+AddPartWeapon = gepKDA_APDS / gepKDA_HEI, false, true, false,  0.00, 1.63, -0.0, 0
+AddPartWeaponChild = false, true,  0.00, 2.59, -1.13
+AddTurretWeapon = gepKDA_APDS,  1.11, 2.71, -0.64,  0.0, 0.0, true,1, 0,-360,360, -85, 10
+AddTurretWeapon = gepKDA_APDS, -1.11, 2.71, -0.64,  0.0, 0.0, true,1, 0,-360,360, -85, 10
+AddTurretWeapon = gepKDA_HEI,  1.11, 2.71, -0.64,  0.0, 0.0, true,1, 0,-360,360, -85, 10
+AddTurretWeapon = gepKDA_HEI, -1.11, 2.71, -0.64,  0.0, 0.0, true,1, 0,-360,360, -85, 10
+
+AddTurretWeapon = targeting_pod_all100s,     0.60, 3.40, 0.60,   0.0, 0.0,  true, 1
+AddTurretWeapon = uhf_radar,     0.60, 3.40, 0.60,   0.0, 0.0,  true, 1
+AddTurretWeapon = targeting_pod_pv10s,   0.60, 3.40, 0.60,   0.0, 0.0,  false,1
+
+;light tracked spaa alt (modern)
+AddRecipe = "AGC", "DEF", "   ", A, mcheli:lightchassis, C, mcheli:engine3, D, mcheli:tanktracks, E, mcheli:lap, F, mcheli:electronics, G, mcheli:fcs
+
+BoundingBox = 0.0, 2.3, 0.0, 2.0, 1.7, 1.0
+BoundingBox = 0.0, 1.15, -3.3, 3.0, 0.7, 1.0
+BoundingBox = 0.0, 1.15, -3.0, 3.0, 1.3, 1.0
+BoundingBox = 0.0, 1.1, -2.0, 3.0, 1.2, 1.0
+BoundingBox = 0.0, 1.1, 0.0, 3.0, 1.2, 1.0
+BoundingBox = 0.0, 1.0, 1.5, 3.0, 0.8, 0.3
+
+UnmountPosition = 0.00,  1.50, 0.00

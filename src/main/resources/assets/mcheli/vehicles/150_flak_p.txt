@@ -1,0 +1,42 @@
+﻿DisplayName = 12.8 cm Flak 40 Anti-Aircraft Gun with quadripod mount
+AddDisplayName = en_US, 12.8 cm Flak 40 Anti-Aircraft Gun with quadripod mount
+AddDisplayName = ja_JP, 一七式十五糎高角砲 支脚有リ
+ItemID = 28616
+MaxHp = 120
+HideEntity = false
+MinRotationPitch = -85
+MaxRotationPitch =  3
+DamageFactor = 1.0
+CameraZoom = 3
+CameraPosition = -0.968, 2.70, 0.0
+Gravity = -9.81
+GravityInWater = -1.0
+
+; W = WWII,  A = AAGun(対空砲)
+Category = W.A
+
+unmountposition = 0.00, 1.5, -0.0
+HUD = vehicle_wwii
+
+;AddSeat = 0.00,  1.32, 0.00
+
+AddGunnerSeat = -0.968,  1.73, -1.32, 0.0, 2.70, 0.0, false, -75, 5, true
+
+
+
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;本体-砲身
+AddPart		 = true,  true,  false, 0,   0.00, 0.00,  0.00
+AddChildPart = true, false, true,  0,   0.00, 2.65, -1.32
+AddChildPart = true, false, true,  2,   0.00, 2.65, -1.32, 0.8
+
+AddWeapon = 15cm_vtstable,  0.00, 2.70, 5.67,   0.0, 0.0
+
+;light aa turret not modern less complex stage 2 naval med can
+AddRecipe = "ABA", "BB ", "CCC", A, mcheli:cannon2, B, mcheli:map, C, mcheli:lap
+
+
+BoundingBox =  0.0, 2.05, 0.0,  2.0, 1.80
+BoundingBox =  0.0, 0.0, 0.15,  1.2, 1.0
+BoundingBox =  0.0, 1.0, 0.15,  1.2, 1.0

@@ -1,0 +1,36 @@
+DisplayName = 12.7cm Gun Left
+Type = MachineGun2
+Power = 80
+ModelBullet = bullet76mm
+Acceleration = 6.0
+Explosion = 3
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+Delay = 5
+ModeNum = 1
+HeatCount = 10
+MaxHeatCount = 80
+SoundVolume = 0.6
+Sound = cannon_1_snd
+
+Delay = 10
+ReloadTime = 150
+Group = MainGun
+Acceleration = 7.0
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 12.7cm Gun Left
+SoundVolume = 15
+
+MaxAmmo = 120
+SuppliedNum = 30
+Item =  3, iron_ingot
+Item =  3, gunpowder

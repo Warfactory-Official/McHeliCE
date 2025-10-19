@@ -1,0 +1,6 @@
+DisplayName = Grate
+AddDisplayName = ja_JP, Grate
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_grate
+AddRecipe = "AAA", "AAA", "   ", A, mcheli:item.ingot_steel
+;;learn 2 use a dependency

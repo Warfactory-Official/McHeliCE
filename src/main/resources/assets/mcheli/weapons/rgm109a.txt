@@ -1,0 +1,25 @@
+DisplayName = RGM-109A Tomahawk Nuclear Missile [150 KT SURFACE]
+Type = ASMissile
+Acceleration = 0.7
+Explosion = 1
+Flaming = false
+DisplayMortarDistance = true
+
+Sight = MoveSight
+Delay = 1
+nukeyield = 90
+ModelBullet = rgm109
+Sound = missile_2_snd
+DisableSmoke = true
+
+MaxAmmo = 1
+SuppliedNum = 1
+
+;350kt eg
+;Item =  3, mcheli:genericnuclearwarheadhigh
+;Item =  16, tnt
+;Item =  1, mcheli:genericnuclearwarhead
+
+Item =  1, hbm:item.missile_nuclear
+Item =  1, iron_block
+Item =  1, mcheli:genericnuclearwarhead

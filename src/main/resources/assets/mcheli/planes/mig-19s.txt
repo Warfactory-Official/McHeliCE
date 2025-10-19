@@ -1,0 +1,104 @@
+DisplayName = MiG-19S Farmer
+AddDisplayName = en_US, MiG-19S Farmer
+AddDisplayName = ko_KR, 미그-19S 파머
+ItemID = 40014
+MaxHp = 100
+Speed = 0.904
+
+;904mph
+
+DamageFactor = 0.8
+
+Sound = mignineteen
+ThrottleUpDown = 0.3
+MaxFuel = 1000
+FuelConsumption = 1.0
+;FlareType = 4
+;EnableNightVision = true
+;EnableEntityRadar = true
+;EnableEjectionSeat = true
+EnableSeaSurfaceParticle = true
+ParticlesScale = 0.7
+ThirdPersonDist = 17
+Category = M.F
+
+enableback = true
+
+AddSeat = 0.00, 1.495, 1.25
+
+unmountposition = 0.00, 2.195, 1.25
+
+AddPartSlideCanopy = 0, 0.0, -1.2
+HUD = plane_wwii
+
+AddTexture = mig-19s-cn
+
+EntityHeight = 0.9
+EntityWidth = 0.9
+
+MobilityYaw = 1.5
+MobilityPitch = 2.0
+MobilityRoll = 2.5
+;OnGroundPitch = 1
+
+AddPartLG =  0.0, 0.85, 2.736,  -1,0,0, 115
+AddPartLG =  2.7, 1.25, -2.3,  0,0,-1, 94
+AddPartLG = -2.7, 1.25, -2.3,  0,0,1, 94
+
+;WEAPON_COUNT
+AddPartWeaponMissile = droptank2,  false, false, false,  3.334, 0.566, -2.97
+AddPartWeaponMissile = droptank2,  false, false, false, -3.334, 0.566, -2.97
+
+;WEAPON
+AddWeapon = m19triplenr-30, 1.107, 1.443, 2.612, 0.5, 0.0
+AddWeapon = m19triplenr-30, -1.107, 1.443, 2.612, -0.5, 0.0
+AddWeapon = m19triplenr-30, -0.344, 0.719, 2.534, -0.0, 0.0
+
+AddWeapon = m19s-5m57mm,  2.349, 0.792, 0.689,   1.0, 0.0
+AddWeapon = m19s-5m57mm, -2.349, 0.792, 0.689,  -1.0, 0.0
+
+;AddWeapon = droptank2,  3.334, 0.516, -2.97,  0.0, 0.0
+;AddWeapon = droptank2, -3.334, 0.516, -2.97,  0.0, 0.0
+
+;early modern light plane (late jet), AOW3 style (rktsm)
+AddRecipe = "ABC", "DEG", "H  ", A, mcheli:airframe, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon1, G, mcheli:electronics, H, mcheli:rocket
+
+BoundingBox = 0.0, 1.6, 4.0, 1.2, 1.2
+BoundingBox = 0.0, 1.6, 2.8, 1.5, 1.5
+BoundingBox = 0.0, 1.6, 1.3, 1.5, 1.5
+
+BoundingBox =  0.00, 1.75, -0.2,  1.5, 2.0
+BoundingBox =  0.00, 1.65, -1.7,  1.5, 1.8
+BoundingBox =  0.00, 1.65, -3.2,  1.5, 1.8
+BoundingBox =  0.00, 1.65, -4.7,  1.5, 1.8
+BoundingBox =  0.00, 1.65, -6.2,  1.5, 1.8
+
+BoundingBox =  0.00, 1.65, -7.2,  1.4, 1.2, 1.5
+
+BoundingBox = 1.8, 1.3, -1.8, 2.0, 0.7
+BoundingBox = -1.8, 1.3, -1.8, 2.0, 0.7
+
+BoundingBox = 2.8, 1.3, -2.8, 1.8, 0.3
+BoundingBox = -2.8, 1.3, -2.8, 1.8, 0.3
+
+BoundingBox = 3.8, 1.3, -4.2, 1.4, 0.3
+BoundingBox = -3.8, 1.3, -4.2, 1.4, 0.3
+
+BoundingBox = 1.1, 1.94, -7.96, 1.5, 0.3
+BoundingBox = -1.1, 1.94, -7.96, 1.5, 0.3
+
+BoundingBox = 2.0, 1.94, -9.26, 1.5, 0.3
+BoundingBox = -2.0, 1.94, -9.26, 1.5, 0.3
+
+BoundingBox = 0.0, 2.6, -6.93, 0.5, 1.0
+BoundingBox = 0.0, 2.8, -7.43, 0.5, 1.2
+BoundingBox = 0.0, 3.0, -7.93, 0.5, 1.6
+BoundingBox = 0.0, 3.2, -8.43, 0.5, 2.0
+BoundingBox = 0.0, 3.3, -8.93, 0.5, 2.2
+BoundingBox = 0.0, 3.5, -9.43, 0.5, 1.8
+BoundingBox = 0.0, 3.7, -9.93, 0.5, 1.4
+BoundingBox = 0.0, 3.9, -10.43, 0.5, 1.0
+
+
+;AddRecipe = " YX",  "XXP",  "X X",  X, iron_block, Y, glass, P, iron_ingot
+DamageFactor = 0.8

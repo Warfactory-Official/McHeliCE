@@ -1,0 +1,35 @@
+DisplayName = Stugna-P Baryer [Skif - ATGM]
+Type = ATMissile
+Power = 800
+Acceleration = 3
+Explosion = 4
+
+ExplosionInWater = 2
+
+ExplosionBlock = 3
+
+Flaming = false
+Sight = MissileSight
+Delay = 20
+
+ReloadTime = 210
+ModelBullet = atmissle
+Sound = ATGM_shot
+RidableOnly = true
+
+ModeNum = 2 
+SoundVolume = 15
+
+CameraRotationSpeedPitch = 0.3
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 2.0
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

@@ -1,0 +1,44 @@
+DisplayName = 30mm GAU-8 Avenger
+Type = MachineGun2
+Power = 40
+ModelBullet = bullet
+Acceleration = 8.0
+Explosion = 1
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 0
+SoundPitch = 1.0
+;HeatCount = 1
+
+
+Sound = gaueight
+Accuracy = 2.0
+HeatCount = 2
+MaxHeatCount = 160
+
+
+Gravity = -0.001
+
+ModeNum = 2
+
+AddMuzzleFlash      =  3.2,      0.62,        1,  150,254,159,84
+AddMuzzleFlash      =  3.1,      0.61,        1,  150,254,230,160
+AddMuzzleFlash      =  3.0,      0.60,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  4.2,  2,   7.0,  2.5, 15,  130,250,245,240
+AddMuzzleFlashSmoke =  3.2,  1,   6.0,  2.5, 25,  130,220,217,214
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+MaxAmmo = 1600
+SuppliedNum = 400
+Item =  5, iron_ingot
+Item =  5, gunpowder

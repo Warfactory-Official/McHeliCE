@@ -1,0 +1,22 @@
+DisplayName = Type 98 No 25 Bomb
+Type = Bomb
+Power = 500
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 0.5
+Explosion = 15
+ExplosionInWater = 8
+Flaming = false
+Sight = None
+Delay = 5
+
+ReloadTime = 150
+Round = 1
+Piercing  = 1
+
+MaxAmmo = 12
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  4, gunpowder

@@ -1,0 +1,30 @@
+DisplayName = 70mm LAU-68/APKWS
+Type = TVMissile
+Power = 400
+Acceleration = 4.2
+Explosion = 4
+ExplosionInWater = 2
+Flaming = true
+Sight = MoveSight
+Delay = 8
+ModelBullet = hydra70
+Round = 4
+ReloadTime = 120
+Sound = hydraseventy
+
+Gravity = -0.001
+
+Piercing = 0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+SoundVolume = 15
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  6, gunpowder
+Item =  1, redstone

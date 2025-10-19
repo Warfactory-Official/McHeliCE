@@ -1,0 +1,24 @@
+DisplayName = HY-6 [SAM]
+Type = AAMissile
+Power = 10
+Acceleration = 2.5
+Explosion = 3
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+Round = 8
+LockTime = 15
+ProximityFuseDist = 1
+Sound = bmptmissile
+
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 8
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  2, redstone

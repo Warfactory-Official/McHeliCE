@@ -1,0 +1,27 @@
+DisplayName = R-3S [AAM]
+Type = AAMissile
+Power = 8
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 1.7
+Explosion = 5
+Flaming = true
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+Round = 2
+LockTime = 30
+ModelBullet = R-60BM
+Sound = aimnine
+SoundPitch = 0.8
+SoundVolume = 15
+TrajectoryParticleStartTick = 10
+
+
+MaxAmmo = 2
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

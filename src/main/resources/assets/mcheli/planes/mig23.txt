@@ -1,0 +1,114 @@
+﻿DisplayName = MIG-23MLD
+AddDisplayName = en_US, Mig-23MLD
+AddDisplayName = ja_JP, Mig-23MLD
+ItemID = 28720
+MaxHp = 100
+EnableNightVision = false
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Sound = migtwentythree
+Speed = 1.553
+
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+VariableSweepWing = true
+SweepWingSpeed = 1.9
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 16
+ThrottleUpDown = 0.3
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = plane
+
+;-21.58
+
+AddSeat = 0.00, 1.4342,  -0.40
+
+
+AddPartLG =  0.00, 1.0262,  0.2687,  1,0,0, 90
+AddPartLG = -0.00, 0.8652, -6.760,  1,0,0, 90,  0,0,1, 90
+AddPartLG =  0.00, 0.8652, -6.760,  1,0,0, 90,  0,0,-1, 90
+
+
+AddPartWing  =  1.50, 1.6512, -6.418,  0, -1,0, 35
+
+AddPartWing  = -1.50, 1.6512, -6.418,  0, 1,0, 35
+
+
+AddPartWeaponMissile = r-60, false, false, false,  1.701, 1.8502, -5.641
+AddPartWeaponMissile = r-60, false, false, false,  -1.701, 1.8502, -5.641
+
+
+AddWeapon = mig2323mm, 0.00, 0.5842,  1.78
+
+AddWeapon = r24,  1.701, 1.8502, -5.641, 0.0, 0.0 , true, 2
+AddWeapon = r24,  -1.701, 1.8502, -5.641, 0.0, 0.0 , true, 2
+
+;modern medium light plane (jet), AOW3 style
+AddRecipe = "ABC", "DE ", "G  ", A, mcheli:airframe2, B, mcheli:basicmechanicparts, C, mcheli:engine2, D, mcheli:wheelair, E, mcheli:cannon1, G, mcheli:electronics
+
+EntityWidth  = 0.7
+EntityHeight = 0.7
+
+BoundingBox =  1.5, 2.1442, -12.5,  2.5, 0.2
+BoundingBox =  -1.5, 2.1442, -12.5,  2.5, 0.2
+
+
+BoundingBox =  0.0, 1.5842, 3.95,  0.6, 0.4
+BoundingBox =  0.0, 1.5842, 3.35,  0.6, 0.4
+BoundingBox =  0.0, 1.642, 2.75,  0.75, 0.65
+
+BoundingBox =  0.0, 1.632, 2.0,  0.95, 0.95
+
+
+
+BoundingBox =  0.0, 1.8542, -2.3,  1.72, 1.8
+BoundingBox =  0.0, 1.8542, -3.8,  1.72, 1.8
+
+BoundingBox =  0.0, 1.8542, -4.3,  2.0, 1.8
+BoundingBox =  0.0, 1.8542, -6.3,  2.0, 1.8
+BoundingBox =  0.0, 1.8542, -8.3,  1.9, 1.8
+BoundingBox =  0.0, 1.8542, -9.5,  1.6, 1.7
+BoundingBox =  0.0, 1.8542, -10.9,  1.6, 1.7
+BoundingBox =  0.0,  1.9, -12.3,  1.6, 1.4
+
+BoundingBox =  0.0, 1.98, -13.8,  1.28, 1.1
+
+
+
+BoundingBox =  0.0, 3.0842, -13.0,  1.0, 1.8
+
+BoundingBox =  0.0, 3.0842, -12.0,  1.0, 2.0
+
+BoundingBox =  0.0, 3.9842, -13.0,  1.0, 1.8
+
+BoundingBox =  0.0, 3.6542, -12.0,  1.0, 2.0
+BoundingBox =  0.0, 3.4842, -11.0,  1.0, 1.8
+BoundingBox =  0.0, 2.8542, -10.0,  1.0, 1.8
+BoundingBox =  0.0, 2.5542, -9,  1.0, 1.8
+
+BoundingBox =  0.0, 2.18, -8.0,  1.0, 1.8
+
+
+BoundingBox = -0.5, 2.4, -5.3,  2.0, 0.3
+BoundingBox =  0.95, 2.4, -5.3,  2.0, 0.3
+
+
+BoundingBox = -2.9, 2.3, -7.0,  2.5, 0.3
+BoundingBox =  2.9, 2.3, -7.0,  2.5, 0.3
+
+BoundingBox = -5.2, 2.1, -7.5,  2.0, 0.2
+BoundingBox =  5.2, 2.1, -7.5,  2.0, 0.2
+
+
+BoundingBox = -6.85, 2.0, -7.65,  1.4, 0.2
+BoundingBox =  6.85, 2.0, -7.65,  1.4, 0.2
+
+UnmountPosition = 0.00, 1.6,  -0.40
+
+enableback = true
+DamageFactor = 0.8

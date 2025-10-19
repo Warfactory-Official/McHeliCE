@@ -1,0 +1,37 @@
+DisplayName = 125mm 2A46M-1 Cannon [9M119 - ATGM]
+Type = TVMissile
+FixMode = 1
+ModeNum = 2
+Power = 700
+Acceleration = 3.5
+LockTime = 20
+Explosion = 3
+ExplosionInWater = 2
+Flaming = true
+Sight = MoveSight
+ModelBullet = 9M119
+Sound = teightymain
+
+Recoil = 1.8
+
+Round = 1
+
+Delay = 140
+ReloadTime = 180
+group = maingun
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+
+MaxAmmo = 9
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

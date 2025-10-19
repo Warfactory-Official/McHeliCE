@@ -1,0 +1,64 @@
+﻿DisplayName = A6M2-N Rufe
+AddDisplayName = en_US, A6M2-N
+AddDisplayName = ru_RU, A6M2-N Rufe
+ItemID = 30005
+MaxHp = 100
+Speed = 0.59334
+Float = true
+Sound = zero
+ThrottleUpDown = 0.3
+MaxFuel         = 1200
+FuelConsumption = 1.0
+
+RotorSpeed = 2000.0
+
+EnableBack = true
+
+UnmountPosition = 0.0,  2.4, 0.0
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+; W = WWII.  F = Fighter(戦闘機)
+Category = W.F
+
+HUD = plane_wwii
+
+;AddSeat =  X, Y, Z
+AddSeat = 0.0,  2.4, 0.0
+
+AddPartSlideCanopy = 0, 0.00, -0.6
+
+AddPartRotor =    0.00,  2.55, 2.83,   1,0, 0
+AddBlade = 1, 0,  0.00,  2.55, 2.83,   0,0,-1
+
+AddWeapon = mg7_7mma6,  0.19, 2.18, 1.62,  0.0, -3.0
+AddWeapon = mg7_7mma6, -0.19, 2.18, 1.62,  0.0, -3.0
+
+AddWeapon = mg20mma6,  2.00, 1.41, 1.69,   2.0, -5.0
+AddWeapon = mg20mma6, -2.00, 1.41, 1.69,  -2.0, -5.0
+
+;basic ww2 prop plane, AOW3 style
+AddRecipe = "ABC", "DED", "   ", A, mcheli:airframe, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon2
+
+BoundingBox = 0.0, 2.50, 2.20, 1.1, 1.1
+BoundingBox = -1.32, 2.20,  0.30,  2.0, 0.6
+BoundingBox =  1.32, 2.20,  0.30,  2.0, 0.6
+BoundingBox = -3.30, 2.30,  0.30,  2.0, 0.6
+BoundingBox =  3.30, 2.30,  0.30,  2.0, 0.6
+
+BoundingBox = 0.0, 2.40, -1.03, 1.3, 1.3
+BoundingBox = 0.0, 2.40, -1.93, 1.3, 1.3
+BoundingBox = 0.0, 2.40, -2.93, 1.3, 1.3
+BoundingBox = 0.0, 2.40, -3.93, 1.3, 1.3
+BoundingBox = 0.0, 2.40, -4.93, 1.3, 1.3
+
+BoundingBox = 1.5, 2.70, -4.93, 1.3, 0.3
+BoundingBox = -1.5, 2.70, -4.93, 1.3, 0.3
+
+BoundingBox = 0.0, 3.10, -4.93, 0.5, 2.3
+BoundingBox = 0.0, 3.15, -5.33, 0.5, 2.3
+BoundingBox = 0.0, 3.10, -5.73, 0.5, 2.3
+
+DamageFactor = 0.8
+DamageFactor = 0.8

@@ -1,0 +1,146 @@
+DisplayName = Tu-22M3
+AddDisplayName = en_US, Tu-22M3
+AddDisplayName = ja_JP, Tu-22M3
+ItemID = 28738
+MaxHp  = 250
+EnableNightVision  = false
+EnableEntityRadar  = true
+EnableEjectionSeat = true
+Speed = 1.42158
+FlareType = 2
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 4800
+FuelConsumption = 2.0
+CameraPosition  = 0.0, 1.46, 3.78
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+AutoPilotRot = 0
+ThirdPersonDist = 24
+SweepWingSpeed = 1.5
+
+sound = tutwentytwo
+
+ThrottleUpDown = 0.3
+enableback = true
+MobilityYaw = 0.5
+MobilityPitch = 0.5
+MobilityRoll = 0.3
+MinRotationPitch = -60
+MaxRotationPitch =  60
+;MinRotationRoll  = -60
+;MaxRotationRoll  =  60
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = planesu24, plane_gnrsu24
+
+AddSeat =  0.4733, 2.7, 1.119 
+
+DamageFactor = 0.8
+unmountposition = 0.4733, 1.5, 1.119
+AddGunnerSeat = -0.4733, 2.7, 1.119, 0.00,  3.638, -28.07, true
+
+AddPartWing  = -6.944, 2.864, -14.81,  0, -1,0, 50
+
+AddPartWing  = 6.944, 2.864, -14.81,  0, 1,0, 50
+
+AddPartLG         =   0.00,  2.535,  -1.515,  1,0,0,  90
+AddPartLG         =  -3.058,  2.568, -12.58,  0,0,1,  100
+AddPartLG         =   3.058,  2.568, -12.58,  0,0,1, -100
+
+AddPartWeapon = tu22gsh-23-2, false, true, true,  0.00,  4.638, -27.10
+AddPartWeaponChild = false, true,0.00,  4.638, -27.10
+
+AddPartWeaponMissile = tu22kh22,    false,  false,  false,  -6.265,  1.994, -14.23
+AddPartWeaponMissile = tu22kh22,    false,  false,  false,   6.265,  1.994, -14.23
+
+
+AddWeapon = tu22gsh-23-2,  0.00,  4.638, -28.07,  0, 0 , false,  2, -180,  -120,  120, -75, 75
+
+;non nuclear
+AddWeapon = tu22kh22,  -6.265,  1.994, -14.23,  0, 0 , true,  1
+AddWeapon = tu22kh22,   6.265,  1.994, -14.23,  0, 0 , true,  1
+
+AddWeapon = dummy_bay_closed, 0,0,0,0,0         , true,  1
+
+AddPartWeaponBay = tu22fab1500/ tu22fab500 / tu22fab250 / tu22rn28nuke/ tu22rn40nuke / tu22rbk500 , 0.6404, 2.0925,-19.8511,  0, -0.04, 1.0, -90
+AddPartWeaponBay = tu22fab1500/ tu22fab500 / tu22fab250 / tu22rn28nuke/ tu22rn40nuke / tu22rbk500 , -0.6404, 2.0925,-19.8511,  0, -0.04, 1.0, 90
+;hopefully that works how I want it to idk
+
+
+
+;;2
+AddWeapon = tu22fab1500,  0.352,  2.90, -15.69,  0, 0
+AddWeapon = tu22fab1500, -0.352,  2.90, -15.69,  0, 0
+
+
+;4
+AddWeapon = tu22fab500, 0.352, 2.9, -15.69, 0, 0
+AddWeapon = tu22fab500, -0.352, 2.9, -15.69, 0, 0
+
+
+;6
+AddWeapon = tu22fab250, 0.352, 2.9, -15.69, 0, 0
+AddWeapon = tu22fab250, -0.352, 2.9, -15.69, 0, 0
+
+
+;1 per
+AddWeapon = tu22rn28nuke, 0.352, 2.9, -15.69, 0, 0
+AddWeapon = tu22rn40nuke, -0.352, 2.9, -15.69, 0, 0
+
+;4
+AddWeapon = tu22rbk500, 0.352, 2.9, -15.69, 0, 0
+AddWeapon = tu22rbk500, -0.352, 2.9, -15.69, 0, 0
+
+Boundingbox = 0.0, 3.3, -0.5, 2.0, 2.0
+Boundingbox = 0.0, 3.3, -2.5, 2.0, 2.0
+Boundingbox = 0.0, 3.3, -4.5, 2.0, 2.0
+
+Boundingbox = 0.0, 3.3, -6.5, 5.0, 2.0
+Boundingbox = 0.0, 3.3, -11.5, 5.0, 2.0
+Boundingbox = 0.0, 3.3, -16.5, 5.6, 2.0
+Boundingbox = 0.0, 3.3, -21.5, 5.0, 2.0
+Boundingbox = 0.0, 3.3, -25.5, 4.5, 2.0, 1.5
+
+Boundingbox = -5.19, 2.83, -15.77, 5.0, 0.3
+Boundingbox = 5.19, 2.83, -15.77, 5.0, 0.3
+
+Boundingbox = -9.75, 2.83, -16.77, 4.0, 0.3
+Boundingbox = 9.75, 2.83, -16.77, 4.0, 0.3
+
+
+
+Boundingbox = 0.0, 5.08, -17, 0.5, 1.5
+Boundingbox = 0.0, 5.08, -17.5, 0.5, 1.5
+Boundingbox = 0.0, 5.08, -18, 0.5, 1.5
+Boundingbox = 0.0, 5.08, -18.5, 0.5, 1.5
+Boundingbox = 0.0, 5.18, -19, 0.5, 1.8
+Boundingbox = 0.0, 5.28, -19.5, 0.5, 2.1
+Boundingbox = 0.0, 5.38, -20, 0.5, 2.4
+Boundingbox = 0.0, 5.48, -20.5, 0.5, 2.7
+Boundingbox = 0.0, 5.58, -21, 0.5, 3.0
+Boundingbox = 0.0, 5.68, -21.5, 0.5, 3.3
+Boundingbox = 0.0, 5.78, -22, 0.5, 3.6
+Boundingbox = 0.0, 5.88, -22.5, 0.5, 3.9
+Boundingbox = 0.0, 5.98, -23, 0.5, 4.2
+Boundingbox = 0.0, 6.08, -23.5, 0.5, 4.5
+Boundingbox = 0.0, 6.18, -24, 0.5, 4.8
+Boundingbox = 0.0, 6.28, -24.5, 0.5, 5.1
+Boundingbox = 0.0, 6.38, -25, 0.5, 5.4
+Boundingbox = 0.0, 6.48, -25.5, 0.5, 5.7
+Boundingbox = 0.0, 6.58, -26, 0.5, 6.0
+Boundingbox = 0.0, 6.58, -26.5, 0.5, 6.0
+Boundingbox = 0.0, 6.58, -27, 0.5, 6.0
+Boundingbox = 0.0, 6.58, -27.5, 0.5, 6.0
+
+Boundingbox = 3.61, 2.87, -24.04, 2.8, 0.3
+Boundingbox = -3.61, 2.87, -24.04, 2.8, 0.3
+
+Boundingbox = 5.81, 2.97, -25.04, 2.8, 0.3
+Boundingbox = -5.81, 2.97, -25.04, 2.8, 0.3
+
+;large bomber aircraft dated modern, AOW3 style
+AddRecipe = "ABC", "DAC", "E  ", A, mcheli:airframebomb, B, mcheli:advancedmechanicparts, C, mcheli:engine2, D, mcheli:wheelair, E, mcheli:electronics
+DamageFactor = 0.8

@@ -1,0 +1,22 @@
+DisplayName = ATGM Combat
+;still no idea what this is
+Type = TVMissile
+FixMode = 1
+ModeNum = 2
+Power = 100
+Acceleration = 2.0
+Explosion = 1
+Flaming = true
+Sight = MoveSight
+Delay = 180
+ModelBullet = 9M113
+Sound = missile_2_snd
+Group = MainGun
+
+DamageFactor = tank, 1.2
+
+MaxAmmo = 10
+SuppliedNum = 5
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

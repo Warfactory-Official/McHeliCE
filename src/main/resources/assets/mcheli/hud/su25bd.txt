@@ -1,0 +1,172 @@
+;DrawTexture =5,10, -38, 4,4 ,0,0, 256,256,0
+;DrawTexture =5,13, -38, 4,4 ,0,0, 256,256,0  
+;DrawTexture =5,16, -38, 4,4 ,0,0, 256,256,0   
+;DrawTexture =5,19, -38, 4,4 ,0,0, 256,256,0   
+;(altitude-300)
+
+If=(altitude-300)%10==0
+DrawTexture=0,19,-38,4,4,0,0,256,256,0
+EndIf
+
+If=(altitude-300)%10==1
+DrawTexture =1,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10==2
+DrawTexture =2,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10==3
+DrawTexture =3,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10==4
+DrawTexture =4,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10==5
+DrawTexture =5,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10==6
+DrawTexture =6,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10==7
+DrawTexture =7,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10==8
+DrawTexture =8,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10==9
+DrawTexture =9,19, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+;--10--
+
+If=(altitude-300)>=100&&(altitude-300)%100<10
+DrawTexture =0,16, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=10&&(altitude-300)%100<20
+DrawTexture =1,16, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=20&&(altitude-300)%100<30
+DrawTexture =2,16, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=30&&(altitude-300)%100<40
+DrawTexture =3,16, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=40&&(altitude-300)%100<50
+DrawTexture =4,16, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=50&&(altitude-300)%100<60
+DrawTexture =5,16, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=60&&(altitude-300)%100<70
+DrawTexture =6,16,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=70&&(altitude-300)%100<80
+DrawTexture =7,16, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=80&&(altitude-300)%100<90
+DrawTexture =8,16,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%100>=90&&(altitude-300)%100<100
+DrawTexture =9,16, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+;--100--
+
+If=(altitude-300)>1000&&(altitude-300)%1000<100
+DrawTexture =0,13,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=100&&(altitude-300)%1000<200
+DrawTexture =1,13,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=200&&(altitude-300)%1000<300
+DrawTexture =2,13,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=300&&(altitude-300)%1000<400
+DrawTexture =3,13, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=400&&(altitude-300)%1000<500
+DrawTexture =4,13,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=500&&(altitude-300)%1000<600
+DrawTexture =5,13, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=600&&(altitude-300)%1000<700
+DrawTexture =6,13, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=700&&(altitude-300)%1000<800
+DrawTexture =7,13, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=800&&(altitude-300)%1000<900
+DrawTexture =8,13, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%1000>=900&&(altitude-300)%1000<1000
+DrawTexture =9,13, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+;--1000--
+
+If=(altitude-300)%10000==0&&(altitude-300)>10000
+DrawTexture =0,10,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=1000&&(altitude-300)%10000<2000
+DrawTexture =1,10, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=2000&&(altitude-300)%10000<3000
+DrawTexture =2,10,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=3000&&(altitude-300)%10000<4000
+DrawTexture =3,10, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=4000&&(altitude-300)%10000<5000
+DrawTexture =4,10,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=5000&&(altitude-300)%10000<6000
+DrawTexture =5,10, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=6000&&(altitude-300)%10000<7000
+DrawTexture =6,10,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=7000&&(altitude-300)%10000<8000
+DrawTexture =7,10, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=8000&&(altitude-300)%10000<9000
+DrawTexture =8,10, -38, 4,4 ,0,0, 256,256,0   
+EndIf
+
+If=(altitude-300)%10000>=9000&&(altitude-300)%10000<10000
+DrawTexture =9,10,-38, 4,4 ,0,0, 256,256,0   
+EndIf
+

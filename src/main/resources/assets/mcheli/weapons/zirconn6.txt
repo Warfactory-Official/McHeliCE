@@ -1,0 +1,30 @@
+DisplayName = Zircon Hypersonic Missile [Nuclear Warhead - 150KT]
+Type = rocket
+Power = 1000
+Acceleration = 24
+Explosion = 12
+ExplosionBlock = 12
+ExplosionInWater = 6
+Flaming = true
+Sight = MissileSight 
+Delay = 60
+
+ModeNum = 2
+ModelBullet = Zircon
+Sound = kinjal
+soundvloume= 30
+DisableSmoke = true
+nukeyield = 90
+gravity = -0.001
+displaymortardistance = true
+DamageFactor = tank, 200.0
+DamageFactor = plane, 100.0
+DamageFactor = vehicle 200.5
+DamageFactor = heli, 200.5
+DamageFactor = player, 200.0
+
+MaxAmmo = 6
+SuppliedNum = 1
+Item =  1, mcheli:genericnuclearwarheadhigh
+Item =  1, mcheli:genericnuclearwarhead
+Item =  3, redstone

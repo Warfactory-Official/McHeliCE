@@ -1,0 +1,19 @@
+DisplayName = Fuel Drop Tank
+Type = Bomb
+Power = 50
+Acceleration = 0.1
+Explosion = 0
+ExplosionInWater = 0
+Flaming = true
+Sight = None
+Delay = 5
+Sound = bomb_snd
+ModelBullet = ft_m2k
+FAE = true
+
+ReloadTime = 2000
+Round = 1
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  1, iron_ingot

@@ -1,0 +1,26 @@
+DisplayName = AM-39 Exocet [Anti Ship Missile]
+Type = rocket
+Power = 3000
+Acceleration = 4.0
+Explosion = 13
+
+ExplosionInWater = 7
+
+Flaming = true
+Sight = MoveSight
+Delay = 30
+ModelBullet = am39
+Sound = missile_2_snd
+piercing = 1
+DamageFactor = tank, 20.0
+DamageFactor = plane, 10.5
+DamageFactor = vehicle 10.5
+DamageFactor = heli, 10.5
+DamageFactor = player, 10.0
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  12, gunpowder
+Item =  2, redstone

@@ -1,0 +1,136 @@
+﻿DisplayName = Lenco Bearcat F-550
+AddDisplayName = en_US, Lenco Bearcat F-550
+AddDisplayName = ja_JP, レンコ ベアキャット
+ItemID = 33410
+MaxHp = 230
+Speed = 0.75
+Sound = diesel
+MobilityYawOnGround = 6.5
+ThrottleUpDown = 0.81
+MinRotationPitch = -90
+MaxRotationPitch = 45
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+HUD = super_duty_hud,mbt_gnr,none,none, none, none, none, none, none, none, none, none, none, none, none, none, none, none
+InventorySize = 18
+EnableBack = true
+MotionFactor = 0.93
+AddTexture = bearcat_2
+StepHeight = 1.5
+
+WeightedCenterZ = -0.2
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+; C = Civilian(民間機)
+Category = C
+
+; Tank or Car or Unknown
+WeightType = Car
+
+PivotTurnThrottle = 0.1
+
+AddPartWheel = -1.18, 0.33, 3.00, 30
+AddPartWheel =  1.18, 0.33, 3.00, 30
+AddPartWheel = -1.18, 0.33,-1.03
+AddPartWheel = -1.18, 0.33,-1.03
+
+SetWheelPos =  0.88,  -0.24,  3.00, -1.03
+
+AddPartSteeringWheel =  0.6057, 1.4257, 1.6868,  0, 0.3625,-1,  130
+
+PartWheelRot = 40
+
+;AddFixedSearchLight = -1.09,  1.02,  3.50,   0x50FFFFFF,   0x10FFFFC0,    2.0, 2.0,       0,   0
+AddFixedSearchLight = -1.09,  1.02,  3.50,   0x50FFFFFF,   0x10FFFFC0,    0.85, 0.5,       0,   0
+AddFixedSearchLight = -1.09,  1.02,  3.50,   0x50FFFFFF,   0x10FFFFC0,    0.5, 0.6,       0,   0
+
+;AddFixedSearchLight =  1.09,  1.02,  3.50,   0x50FFFFFF,   0x10FFFFC0,    2.0, 2.0,       0,   0
+AddFixedSearchLight =  1.09,  1.02,  3.50,   0x50FFFFFF,   0x10FFFFC0,    0.85, 0.5,       0,   0
+AddFixedSearchLight =  1.09,  1.02,  3.50,   0x50FFFFFF,   0x10FFFFC0,    0.5, 0.6,       0,   0
+
+
+AddFixedSearchLight =  1.0179, 0.7841,-2.6610,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight =  -1.0179, 0.7841,-2.6610,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+
+AddSearchLight = 0.960, 2.89,  0.846,   0x50FFFFFF,   0x10FFFFC0,    1.8461, 0.9596
+AddPartCamera = -0.96, 2.78, 0.84, true, false
+AddPartCamera = 0.96, 2.89,  0.85, true, false
+
+AddSeat =   0.65, 0.82, 1.16
+AddGunnerSeat =  -0.63, 0.88, 1.16, -0.96, 3.10, 0.84, true
+AddSeat =  -0.65, 0.86, 0.16 
+AddSeat =   0.65, 0.86, 0.16
+
+AddSeat =  -0.89, 0.86, -0.9 
+AddSeat =   0.89, 0.86, -0.9
+AddSeat =   0.0, 0.86, -0.9
+
+AddSeat =  -0.89, 0.86, -1.5
+AddSeat =   0.89, 0.86, -1.5
+AddSeat =   0.0, 0.86, -1.5
+
+AddSeat =  -0.89, 0.86, -2.0
+AddSeat =   0.89, 0.86, -2.0
+
+
+;hang rack
+AddSeat = 1.70, 0.768, 0.0
+AddSeat = -1.70, 0.768, 0.0
+
+AddSeat = 1.70, 0.768, 0.5
+AddSeat = -1.70, 0.768, 0.5
+
+AddSeat = 1.70, 0.768, 1.0
+AddSeat = -1.70, 0.768, 1.0
+
+
+
+AddPartCanopy =  1.33, 1.44, 2.12, 0, -1, 0, 80
+AddPartCanopy = -1.33, 1.44, 2.12, 0,  1, 0, 80
+
+AddPartHatch = -0.52, 1.52, -2.56, 0.0, 1.0, 0.00, 120
+
+AddWeapon = none, 0.0, 3.00, 4.00, 0.0, 0.0, true, 2
+AddWeapon = thorn2,    0.00, 0.00, 0.00,  0.0,0.0
+
+
+AddWeapon = speaker, 0.0, 3.00, 4.00, 0.0, 0.0, false, 2
+AddWeapon = targeting_pod_block, 0.0, 2.0, 0.0, 0.0, 0.0, false, 2
+AddWeapon = targeting_pod_ground, 0.0, 0.0, 0.0, 0.0, 0.0, false, 2
+;AddWeapon = targeting_pod_mob, 0.0, 0.0, 0.0, 0.0, 0.0, false, 2
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+InventorySize = 35
+
+
+
+;old method
+;BoundingBox =  0.0, 0.7, -1.5,  3.0, 2.1
+;BoundingBox =  0.0, 0.7,  0.9,  3.0, 2.1
+
+StepHeight = 1.5
+
+BoundingBox =  0.0, 0.82,  2.9439,   2.4, 1.4
+
+;rest
+BoundingBox = 0.0, 1.40, 0.58, 2.8, 2.0
+BoundingBox = 0.0, 1.40, -1.25, 2.8, 2.0
+;BoundingBox = 0.0, 0.90, -1.25, 2.0, 1.0, 0.0
+;BoundingBox = 0.0, 0.90, -1.33, 1.9, 1.0, 1.0
+
+
+BoundingBox =  0.0, 0.62,  1.70,   1.8, 0.9
+ArmorMinDamage = 31
+ArmorDamageFactor = 2.32
+Regeneration = false
+;ArmorMaxDamage = 50
+UnmountPosition = 0.0, 1.50, -2.0
+
+;armored civ 6x6
+AddRecipe = "ABC", "DDF", "   ", A, mcheli:lightchassis, B, mcheli:wheel6, C, mcheli:engine2, D, mcheli:lap, F, glass

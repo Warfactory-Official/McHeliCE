@@ -1,0 +1,98 @@
+﻿DisplayName = M151A1C 106mm RCL Rifle 
+AddDisplayName = en_US, M151A1C Kennedy Jeep with 106mm RCL Rifle 
+AddDisplayName = ja_JP, M151A1C 106mm 無反動砲搭載型
+ItemID = 28766
+MaxHp = 200
+ThrottleUpDown = 0.81
+Speed = 0.63
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = willyjeep
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.0
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+
+CameraZoom = 3
+
+OnGroundPitchFactor = 15.0
+OnGroundRollFactor  = 5.2
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = LUV
+
+; Tank or Car or Unknown
+WeightType = Car
+
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  0.4,  -0.24,  1.65, -1.00
+
+HUD = bnr32_hud, none, vehiclescoped
+
+AddSeat =  0.45, 0.54,  0.18
+AddSeat = -0.45, 0.74,  0.18
+AddGunnerSeat =  0.58, 0.96, -1.25, 0.58, 1.96, -1.25
+
+AddWeapon =  none, 0.00,  0.42,  3.05, 0.0, 90
+
+AddWeapon =  simple_horn, 0.00,  0.42,  3.05, 0.0, 90
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     =  0.58,  0.17,  1.64, 30
+AddPartWheel     = -0.58,  0.17,  1.64, 30
+AddPartWheel     =  0.00,  0.17, -1.04
+
+AddPartWeapon    = m8c / m344 / m581,   false, true, false,  0.00, 1.33, -1.18
+AddPartWeapon    = m8c / m344 / m581,   false, true, true, 0.00, 1.65, -1.18
+AddTurretWeapon = m8c, 0.00, 1.84, -1.35,   0.0, 0.0, false, 3, 0, -10, 90, -20,20
+AddTurretWeapon = m344, 0.00, 1.67, -1.35,   0.0, 0.0, false, 3, 0, -10, 90, -20,20
+AddTurretWeapon = m581, 0.00, 1.67, -1.35,   0.0, 0.0, false, 3, 0, -10, 90, -20,20
+
+
+InventorySize = 9
+
+;basic civ car offroad armed
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts, E, mcheli:cannon2
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:m151, B, mcheli:cannon2, C, mcheli:wrench
+
+;ヘッドライト
+AddFixedSearchLight =  0.3724, 1.0090, 2.3010,   0x50FFFFFF,   0x00FFFFC0,    0.3, 0.6,  -5,  0
+AddFixedSearchLight = -0.3724, 1.0090, 2.3010,   0x50FFFFFF,   0x00FFFFC0,    0.3, 0.6,   5,  0
+
+AddFixedSearchLight =  0.7478, 0.6109,-1.9160,   0xFFFF0000,   0x10FF0000,    0.05, 0.20,  0.0,  0
+AddFixedSearchLight = -0.7478, 0.6109,-1.9160,   0xFFFF0000,   0x10FF0000,    0.05, 0.20, -0.0,  0
+
+AddPartSteeringWheel =  0.452,  1.07,  0.750,  0.0, 1.0, -1.73,   130
+
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+BoundingBox = 0.0, 0.78, 1.65, 1.00, 0.7
+BoundingBox = 0.0, 0.40, 1.50, 1.85, 0.2
+BoundingBox = 0.0, 0.40, 0.0, 1.85, 0.2
+BoundingBox = 0.0, 0.40, -0.95, 1.85, 0.2
+
+WeightedCenterZ = 0.5
+
+Regeneration = false
+ArmorDamageFactor = 1
+
+unmountposition = 0.45, 1.30,  0.38
+
+ArmorMinDamage = 2

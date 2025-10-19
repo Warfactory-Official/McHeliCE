@@ -1,0 +1,17 @@
+DisplayName = testitem
+AddDisplayName = ja_JP, testitem
+ItemID = 28978
+
+StackSize = 64
+
+
+
+
+;;AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+
+;AddRecipe = "ACA", "EXG", "T T", T, hfr:testcrashskibiditoilet, A, hfr:item.part_plating_1, C, hfr:item.part_chassis_1, E, hfr:item.part_engine_1, X, hfr:item.components_electronics, G, hfr:item.part_cannon_3
+
+
+;hell no
+
+

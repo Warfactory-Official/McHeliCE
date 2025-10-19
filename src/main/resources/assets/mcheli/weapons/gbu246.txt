@@ -1,0 +1,32 @@
+DisplayName = GBU-24 Paveway III
+Type = ASMissile
+Power = 4000
+Acceleration = 2
+Explosion = 17
+ExplosionBlock = 25
+
+ExplosionInWater = 9
+
+Flaming = true
+Sight = MoveSight
+Delay = 25
+ReloadTime = 190
+SoundVolume = 10
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = GBU-24B
+Gravity = -0.004
+DisableSmoke = true
+Piercing  = 2
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 6
+SuppliedNum = 1
+Item =  10, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

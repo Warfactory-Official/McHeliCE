@@ -1,0 +1,54 @@
+DisplayName = 30mm Gryazev-Shipunov GSh-6-30 Rotary Cannon [HEI-Frag]
+Type = MachineGun2
+Power = 30
+ModelBullet = bullet
+Acceleration = 7.0
+ExplosionBlock = 1
+Explosion = 2
+Flaming = true
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+SoundPitch = 0.7
+Sound = gun_m61a1_snd
+Accuracy = 1
+HeatCount = 5
+MaxHeatCount = 520
+Gravity = -0.001
+
+Bomblet = 6
+BombletSTime = 0
+BombletDiff = 0.1
+ModelBomblet = bullet
+
+
+Round = 1000
+ReloadTime = 200
+
+;ModeNum = 2
+
+AddMuzzleFlash      =  3.2,      0.62,        1,  150,254,159,84
+AddMuzzleFlash      =  3.1,      0.61,        1,  150,254,230,160
+AddMuzzleFlash      =  3.0,      0.60,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  3.2,  2,   7.0,  2.5, 15,  130,250,245,240
+AddMuzzleFlashSmoke =  3.2,  1,   6.0,  2.5, 25,  130,220,217,214
+
+
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+
+
+MaxAmmo = 2000
+SuppliedNum = 500
+Item =  5, iron_ingot
+Item =  5, gunpowder

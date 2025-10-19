@@ -1,0 +1,142 @@
+DisplayName = Nissan Skyline GT-R R32 Police
+AddDisplayName = en_US, Nissan Skyline GT-R R32 Police
+AddDisplayName = ja_JP, スカイラインGT-R 警察仕様
+ItemID = 30132
+MaxHp = 230
+ThrottleUpDown = 0.918
+;bullbar+weight
+Speed = 1.56
+;168mph ;wrong 156
+MobilityYawOnGround = 8.5
+StepHeight = 1.2
+Sound = rbtwentyfive
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.00
+EnableNightVision = true
+MaxFuel           = 1200
+FuelConsumption   = 1.2
+
+EntityPitch = -20
+
+EntityWidth  = 0.95
+EntityHeight = 0.95
+
+CameraPosition =  0.54,  1.23, -0.02, true
+CameraPosition = -0.88,  0.50,  0.72, true, -130, 0
+CameraPosition = -0.70,  1.40, -0.44, true, -40, 20
+CameraPosition =  1.80,  0.20,  1.50, true,  15, 0
+
+WeightedCenterZ = 0.8
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+AddTexture = bnr32_1p
+AddTexture = bnr32_2p
+AddTexture = bnr32_3p
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = C
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  0.80,  -0.24,  1.965, -1.789
+
+HUD = bnr32_hud, car_police_navi, none, none
+
+AddSeat =  0.54,  0.02, -0.30
+AddSeat = -0.54,  0.12, -0.30
+AddSeat = -0.54,  0.22, -1.30
+AddSeat =  0.54,  0.22, -1.30
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     = -1.05,  0.157,  1.965, 30
+AddPartWheel     =  1.05,  0.157,  1.965, 30
+AddPartWheel     = -1.05,  0.157, -1.789
+AddPartWheel     =  1.05,  0.157, -1.789
+
+AddPartSteeringWheel =   0.5386,  0.8820,  0.4793,  0.0, 1.0, -1.73,   130
+
+
+AddPartSteeringWheel =   1.05,  0.157,  1.965,  0.0, 1.0, 0.0,   30
+AddPartSteeringWheel =  -1.05,  0.157,  1.965,  0.0, 1.0, 0.0,   30
+
+AddPartThrottle =  0.623, 0.882, 0.800,  0,1,-1.73, -220
+AddPartThrottle =  0.453, 0.882, 0.800,  0,1,-1.73, -175
+AddPartThrottle = -0.623, 0.882, 0.800,  0,1,-1.73, 0
+
+AddPartCanopy   =  1.18, 0.32, 1.20,  0, 1, 0, -70
+AddPartCanopy   =  1.18, 0.32, 1.20,  0, 1, 0, -70
+AddPartCanopy   =  1.18, 0.32, 1.20,  0, 1, 0, -70
+AddPartCanopy   =  0.000, 0.000, 0.000,  0,0,0, 0
+
+;AddFixedSearchLight= 座標X, Y, Z,       開始地点の色, 終了地点の色,  距離, 終端の半径, Yaw, Pitch
+;ヘッドライト
+AddFixedSearchLight =  0.77, 0.62, 3.09,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -0.77, 0.62, 3.09,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+;テールランプ
+AddFixedSearchLight =  0.97, 0.78,-3.05,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+AddFixedSearchLight =  0.62, 0.78,-3.09,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+AddFixedSearchLight = -0.62, 0.78,-3.09,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -6.0,  0
+AddFixedSearchLight = -0.97, 0.78,-3.05,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -6.0,  0
+
+;ブレーキ
+AddPartHatch    =     0.00,   0.62,   1.28,   1,0,0,   5
+
+;音声ギミック
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon =  1_horn         , 0.00,  0.42,  3.05,   0.0, 90
+AddWeapon =  1_siren_police , 0.00,  0.42,  3.05,   0.0, 90,  true,  2
+
+AddWeapon = targeting_pod_mob,     0.0, 1.1, 4.5,   0.0, 0.0,  false, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 1.1, 4.5,   0.0, 0.0,  false, 2
+AddWeapon = targeting_pod_block,     0.0, 0.6, 4.8,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_tank,   0.0, 0.6, 4.8,   0.0, 0.0,  false,2
+
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+InventorySize = 9
+
+;faster civ car expensiv
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts, E, gold_nugget, F, mcheli:electronics, G, glass_pane
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:bnr32, B, mcheli:electronics
+
+;engine?
+BoundingBox =  0.0, 0.60,  2.1,   0.8, 0.6
+;mid
+BoundingBox = 0.0, 0.10, 0.0, 2.5, 0.2
+;front
+BoundingBox = 0.0, 0.05, 1.65, 2.5, 0.2
+
+BoundingBox = 0.0, 0.00, 2.15, 2.1, 0.2
+
+;rear
+BoundingBox = 0.0, 0.10, -1.8, 2.3, 0.2
+Regeneration = false
+ArmorDamageFactor = 2.32
+
+UnmountPosition = 0.54,  2.20, -0.30
+
+ArmorMinDamage = 2

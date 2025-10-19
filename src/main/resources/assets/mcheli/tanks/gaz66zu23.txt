@@ -1,0 +1,138 @@
+DisplayName = GAZ-66 "shishiga"
+;with 23mm ZU-23-2 Anti-Aircraft Twin Auto Cannon
+AddDisplayName = ru_RU, ГАЗ-66
+;и ЗУ-23-2 (Для Ильи)
+MaxHp = 150
+ThrottleUpDown = 0.81
+Speed = 0.56
+MobilityYawOnGround = 5.0
+StepHeight = 1.8
+Sound = gazsixsix
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1
+EnableNightVision = false
+MaxFuel           = 800
+FuelConsumption   = 1.0
+ThirdPersonDist = 10
+WeightType = Car
+WeightedCenterZ = 0.0
+
+Category = LUV
+
+ThirdPersonDist = 2
+
+;-3.33
+;-2.22
+;5.55
+;0.0555
+
+OnGroundPitchFactor = 15.0
+OnGroundRollFactor  = 5.2
+
+EnableBack = true
+
+
+
+HUD = bnr32_hud, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none
+
+AddSeat =  0.7677, 0.9875, 2.2594
+
+unmountposition = 0.7677, 1.50, 2.2594
+
+AddSeat =  -0.7677, 1.0875, 2.2594
+;, 0.0,  2.0,  0.4193,  true, -90, 90, true
+
+
+AddSeat =  0.0,  0.75, 0.628
+AddSeat =  0.5,  0.75, 0.628
+AddSeat = -0.5,  0.75, 0.628
+
+AddSeat =  0.0,  0.75, 0.0
+AddSeat =  0.5,  0.75, 0.0
+AddSeat = -0.5,  0.75, 0.0
+
+AddSeat =  0.0,  0.75, -0.5
+AddSeat =  0.5,  0.75, -0.5
+AddSeat = -0.5,  0.75, -0.5
+
+AddSeat =  0.0,  0.75, -1.0
+AddSeat =  0.5,  0.75, -1.0
+AddSeat = -0.5,  0.75, -1.0
+
+AddSeat =  0.0,  0.75, -1.5
+AddSeat =  0.5,  0.75, -1.5
+AddSeat = -0.5,  0.75, -1.5
+
+AddSeat =  0.0,  0.75, -2.0
+AddSeat =  0.5,  0.75, -2.0
+AddSeat = -0.5,  0.75, -2.0
+
+AddSeat =  0.0,  0.75, -2.5
+AddSeat =  0.5,  0.75, -2.5
+AddSeat = -0.5,  0.75, -2.5
+
+;AddSeat =  0.0,  0.75, -3
+;AddSeat =  0.5,  0.75, -3
+;AddSeat = -0.5,  0.75, -3
+
+
+;AddSeat =  0.521, 1.18, -2.27, 0.0,  2.0,  0.4193,  false, -90, 90, true
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon = thorn2,    0.00, 0.00, 0.00,  0.0,0.0
+
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 40
+
+SetWheelPos =  0.78,  -0.24,  2.43, -1.48
+
+AddPartWheel     =   0.86,    0.3128, 2.4359, 30
+AddPartWheel     =  -0.86,  0.3128, 2.4359, 30
+AddPartWheel     =   0.86,  0.3247, -1.4892
+AddPartWheel     =  -0.86,  0.3247, -1.4892
+;AddTurretWeapon = zu23-2, -0.05, 1.5194, -1.708, 0.0, 0.0, false,3, 0,-360,360, -42, 5
+;AddTurretWeapon = zu23-2, 0.05, 1.5194, -1.708, 0.0, 0.0, false,3, 0,-360,360, -42, 5
+;AddPartWeapon = zu23-2, false, true, false,  0.00, 0.9862, -1.708, 0
+;AddPartWeaponChild = false, true, 0.00, 1.4199, -1.3622, 0.0
+;AddPartWeaponChild = false, true, 0.00, 1.4199, -1.3622, 0.3
+;AddPartWeaponChild = false, true, 0.00, 1.4199, -1.3622, 0.3
+
+AddRack = zu23/container/davycrockett, 0.00, 0.9862, -1.708, 0.0, 1.0, -1.25
+
+;AddRack = davycrockett/container, 0.0, 1.05, -1.0,   0.0, 1.05, -1.25
+
+;178.95?
+
+InventorySize = 9
+
+;basic civ car offroad
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine2, D, mcheli:basicmechanicparts
+
+AddFixedSearchLight =   0.878,  0.9808, 3.455,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+AddFixedSearchLight =  -0.8793, 0.989, 3.4728,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25, -6.0,  0
+
+AddFixedSearchLight =   1.0193, 0.6987, -2.8,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+AddFixedSearchLight =   0.8069, 0.6987, -2.8,   0xFFFF0000,   0x10FF7F00,    0.05, 0.25,  6.0,  0
+
+AddFixedSearchLight =  -1.14, 0.6987, -2.8,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+AddFixedSearchLight =  -0.939, 0.6987, -2.8,   0xFFFF0000,   0x10FF7F00,    0.05, 0.25,  6.0,  0
+
+AddPartSteeringWheel =  0.7677,  1.713,  2.6156,  0, 0.9296, -1,   80
+AddPartCanopy =  1.2968, 1.5635, 2.824, 0, -1, 0, 75
+AddPartCanopy = -1.2968, 1.5635, 2.824, 0,  1, 0, 75
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+BoundingBox = 0.0, 0.7, 2.33, 2.5, 0.2
+
+BoundingBox = 0.0, 0.7, -0.17, 2.5, 0.2
+
+BoundingBox = 0.0, 0.7, -1.50, 2.5, 0.2
+
+BoundingBox = 0.0, 1.2, 2.5, 0.8, 0.8

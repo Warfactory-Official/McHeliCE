@@ -1,0 +1,23 @@
+DisplayName = R-73 [AAM]
+Type = AAMissile
+Power = 7
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 2.5
+Explosion = 11
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+Round = 2
+LockTime = 16
+ProximityFuseDist = 2
+Sound = missile_1_snd
+
+MaxAmmo = 2
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

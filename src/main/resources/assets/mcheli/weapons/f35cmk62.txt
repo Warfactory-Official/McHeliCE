@@ -1,0 +1,37 @@
+DisplayName = Mk-62 Quick Strike Mine
+Type = Bomb
+Power = 100
+Acceleration = 0.8
+Explosion = 10
+ExplosionInWater = 10
+VelocityInWater = 0.5
+Delay = 5
+Round = 4
+ReloadTime = 20
+Gravity = -0.03
+GravityInWater = 0.01
+ProximityFuseDist = 2
+ModelBullet = mk62
+Sound = bomb_snd
+
+; Alpha, Red, Green, blue
+BulletColorInWater = 255,  25,  25,  75
+BulletColor        = 255, 255, 255, 255
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 5
+;Explosive mass	125 kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder

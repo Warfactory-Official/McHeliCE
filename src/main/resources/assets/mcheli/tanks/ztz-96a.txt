@@ -1,0 +1,137 @@
+﻿DisplayName = ZTZ-96A (Type 96A)
+AddDisplayName = en_US, ZTZ-96A (Type 96A)
+AddDisplayName = ja_JP, ZTZ-96A
+ItemID = 33404
+MaxHp = 530
+Speed = 0.40
+Sound = chinesecrap
+ThrottleUpDown = 1.0
+MobilityYawOnGround = 2.0
+MinRotationPitch = -12
+MaxRotationPitch = 5
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = true
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+DefaultFreelook = true
+CameraRotationSpeed = 18
+
+Category = MBT
+
+HUD = mbt_hud, gunnernvg
+
+
+AddGunnerSeat =  0.00,  1.00, 0.00, 0.0, 3.50, 0.00, false, -12, 6, true
+
+AddGunnerSeat = -0.7534, 2.8092, -0.4588, -0.7534, 3.8, -0.4588, false, -85, 6, true
+
+StepHeight = 1.8
+
+HideEntity = true
+
+CameraZoom = 10
+
+CameraPosition = 0.0, 3.50, 0.50, true
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 2
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+;TrackRollerRot = 30
+
+MotionFactor = 0.95
+
+
+;, -4.85
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+
+SetWheelPos =  1.75,  -0.24,  2.54, 1.42, 0.28, -0.75, -1.93, -3.14
+
+AddTrackRoller = -1.4859,  0.8358,  3.5860
+AddTrackRoller =  1.4859,  0.8358,  3.5860
+AddTrackRoller = -1.4555,  0.2460,  2.5490
+AddTrackRoller =  1.4555,  0.2460,  2.5490
+AddTrackRoller = -1.4555,  0.2460,  1.4273
+AddTrackRoller =  1.4555,  0.2460,  1.4273
+AddTrackRoller = -1.4555,  0.2460,  0.2840
+AddTrackRoller =  1.4555,  0.2460,  0.2840
+AddTrackRoller = -1.4555,  0.2460, -0.7526
+AddTrackRoller =  1.4555,  0.2460, -0.7526
+AddTrackRoller = -1.4555,  0.2460, -1.9361
+AddTrackRoller =  1.4555,  0.2460, -1.9361
+AddTrackRoller = -1.4555,  0.2460, -3.1441
+AddTrackRoller =  1.4555,  0.2460, -3.1441
+AddTrackRoller = -1.4592,  0.8551, -4.3277
+AddTrackRoller =  1.4592,  0.8551, -4.3277
+
+
+ArmorDamageFactor = 1.0
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+
+
+AddTurretWeapon = ztz2a46_apfsds,  0.00, 2.20, 0.00,  0.0, 0.0, true,1, 0,-360,360, -12, 5
+AddTurretWeapon = ztz2a46_heat,  0.00, 2.20, 0.00,  0.0, 0.0, true,1, 0,-360,360, -12, 5
+AddTurretWeapon = ztz2a46_he,  0.00, 2.20, 0.00,  0.0, 0.0, true,1, 0,-360,360, -12, 5
+AddPartWeapon = ztz2a46_apfsds / ztz2a46_heat / ztz2a46_he, false, true, false,  0.00, 2.20, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.20, 1.43
+
+;AddPartTurretWeapon    = 62hmg,   false, true, false,-0.388, 2.1328, -0.486,0
+;AddPartWeaponChild =                                               false, true, -0.3721, 2.1328, -0.2327, 0.0
+;AddTurretWeapon = 62hmg,    -0.3721, 2.1355, -0.486, 0.0, 0.0, false, 2,0,-360,360, -82, 4
+
+AddTurretWeapon = ztzmg7_7mm,  -0.7534, 3.48, -0.4588,  0.0, 0.0, false,2, 0,-360,360, -85, 6
+AddPartTurretWeapon = ztzmg7_7mm, false, true, false,  -0.7534, 2.9692, -0.4588, 0
+AddPartWeaponChild = false, true, -0.78, 3.48, 0.71, 0.0
+
+AddTurretWeapon = ztzmg_coaxial, -0.37, 2.11, 1.99,  0.0, 0.0, true,1, 0,-360,360, -12, 5
+AddPartWeapon = ztzmg_coaxial, false, true, false,  0.00, 1.65, 0.00, 0
+AddPartWeaponChild = false, true, -0.37, 2.11, 1.99
+
+MaxFuel         = 800
+FuelConsumption = 2.0
+
+UnmountPosition = 0.0, 1.50, 0.00
+
+ArmorMinDamage = 20
+
+;upper front plate era
+BoundingBox =  0.0, 1.45,  2.7,  2.6, 0.4, 0.02
+;lower front plate
+BoundingBox =  0.0, 0.84,  2.7,  2.7, 0.9, 0.13
+
+
+;side armor 50mm *58
+BoundingBox =  0.0, 1.0, -0.7,  3.0, 1.3, 0.34
+BoundingBox =  0.0, 1.3, -1.3,  3.0, 1.3, 0.34
+
+;turret 700mm composite
+BoundingBox =  0.0, 2.1, 0.0,  2.8, 1.0, 0.02
+
+
+;front hull 125mm composite
+BoundingBox = 0.6, 1.3,  2.0,  1.5, 1.0, 0.16
+BoundingBox =  -0.6, 1.3,  2.0,  1.5, 1.0, 0.16
+
+;rear 45mm
+BoundingBox =  0.3, 1.3,  -3.9,  2.3, 1.3,  0.44
+BoundingBox =  -0.3, 1.3,  -3.9,  2.3, 1.3, 0.44
+
+
+;heavy mbt tracked tank 2 (modern autoloader)
+AddRecipe = "ABC", "DGF", "E  ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:fcs2, G, mcheli:composite2, E, mcheli:advancedmechanicparts

@@ -1,0 +1,156 @@
+﻿DisplayName = BMP-2 IFV
+AddDisplayName = en_US, BMP-2 IFV
+AddDisplayName = ja_JP, BMP-2 歩兵戦闘車
+MaxHp = 200
+Speed = 0.4
+Sound = bmptwoeng
+;SoundPitch = 0.3
+ThrottleUpDown = 2.0
+MobilityRoll = 0
+Gravity = -0.61
+Float = true
+FloatOffset = 0.0
+
+Category = AIFV/AAPC
+
+GravityInWater = -0.2
+DamageFactor = 0.0
+EnableNightVision = true
+CameraRotationSpeed = 18
+StepHeight = 1.8
+MinRotationPitch = -75
+MaxRotationPitch = 5
+DefaultFreelook = true
+MaxFuel         = 1200
+FuelConsumption = 2.0
+HideEntity = true
+FlareType = 10
+
+AddTexture = bmp2_1
+AddTexture = bmp2_2
+
+CameraZoom = 6
+
+TurretPosition = 0.0, 2.5619, -0.2461
+
+MobilityYawOnGround = 3.2
+
+HUD = mbt_hudtwo, mbt_gnrtwo, none, none, none, none, none, none, none
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 3
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  1.10,  -0.24,  2.80, 1.82, 0.86,  -0.09, -1.06, -2.05
+
+;AddGunnerSeat = 0.00, 2.10, 0.24
+AddGunnerSeat = 0.00, 0.90, 0.0, 0.00, 3.10, -0.2461, false, -90, 90, false
+
+AddGunnerSeat = 0.8051, 0.45, 1.2186, 0.80, 2.10, 1.60
+
+
+
+;, 0.00, 2.10, 0.0, true, -90, 90, true
+CameraPosition = 0.00, 3.10, -0.2461
+
+;;AddSeat = 0.48, 0.59, -1.79
+;;AddSeat =-0.48, 0.59, -1.79
+;;AddSeat = 0.48, 0.59, -2.29
+;;AddSeat =-0.48, 0.59, -2.29
+
+;AddSeat = 0.48, 0.59, -1.65
+;AddSeat =-0.48, 0.59, -1.65
+AddSeat = 0.48, 0.59, -2.10
+AddSeat =-0.48, 0.59, -2.10
+AddSeat = 0.48, 0.59, -2.5
+AddSeat =-0.48, 0.59, -2.5
+AddSeat = 0.48, 0.59, -2.90
+AddSeat = -0.48, 0.59, -2.90
+
+AddCrawlerTrack = true, 0.23, -2.40,  0.86/-3.04, 0.62/-3.14, 0.37/-3.04, -0.18/-2.36, -0.31/-2.05, -0.31/2.80, -0.18/3.10, 0.37/3.87, 0.62/3.98, 0.86/3.87, 0.97/3.63, 0.97/-2.79
+AddCrawlerTrack = true, 0.23, 2.40,  0.86/-3.04, 0.62/-3.14, 0.37/-3.04, -0.18/-2.36, -0.31/-2.05, -0.31/2.80, -0.18/3.10, 0.37/3.87, 0.62/3.98, 0.86/3.87, 0.97/3.63, 0.97/-2.79
+
+
+AddTrackRoller = 0.00,  0.62,  3.63
+AddTrackRoller = 0.00,  0.11,  2.80
+AddTrackRoller = 0.00,  0.11,  1.82
+AddTrackRoller = 0.00,  0.11,  0.86
+AddTrackRoller = 0.00,  0.11, -0.09
+AddTrackRoller = 0.00,  0.11, -1.06
+AddTrackRoller = 0.00,  0.11, -2.05
+AddTrackRoller = 0.00,  0.62, -2.79
+
+AddPartWeapon = bmp23ubr6 / bmp23yof8 / bmp2hefi, false, true, false, 0.00, 1.65, -0.2461, 0
+AddPartWeaponChild = false, true, 0.00, 2.09, 0.60
+AddPartWeaponChild = false, true, 0.00, 2.09, 0.60
+
+AddPartWeapon = bmp29M113_1, false, true, false, 0.00, 2.6042, -0.2461, 0
+AddPartWeaponChild = false, true, 0.00, 2.6042, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.6042, 0.0
+
+
+AddTurretWeapon = bmp23ubr6,  0.00, 2.00, 0.00,  0.0, 0.0, true,1, 0,-360,360, -75, 5
+AddTurretWeapon = bmp23yof8,  0.00, 2.00, 0.00,  0.0, 0.0, true,1, 0,-360,360, -75, 5
+AddTurretWeapon = bmp2hefi,  0.00, 2.00, 0.00,  0.0, 0.0, true,1, 0,-360,360, -75, 5
+AddTurretWeapon = bmp2pkt,    0.16, 2.08, 0.00,  0.0, 0.0, true,1, 0,-360,360, -75, 5
+AddTurretWeapon = bmp29M113_1, 0.00, 2.6915, 0.3414,  0.0, 0.0, true,1, 0,-360,360, -15, 5
+
+AddWeapon = op, 0.0, 0.0, 0.0
+
+
+AddWeapon = none,  0.8051, 0.45, 1.2186,  0.0, 0.0, false,2, 0,-360,360, -90, 90
+
+AddWeapon = targeting_pod_ground,  0.8051, 0.45, 1.2186,  0.0, 0.0, false,2, 0,-360,360, -90, 90
+
+AddWeapon = targeting_pod_block, 0.8051, 0.45, 1.2186, 0, 0, false, 2, 0, -360, 360, -90,90
+
+
+;AddPartHatch =   1.19,  0.46,  -3.42, 0,1, 0, -90
+;AddPartHatch =   -1.19,  0.46,  -3.42, 0,1, 0, 90
+
+AddPartWeaponBay = op,   1.19,  0.46,  -3.42, 0,1, 0, -90
+AddPartWeaponBay = op,  -1.19,  0.46,  -3.42, 0,1, 0, 90
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 5
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 1000
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.90
+
+;light tracked tank/ifv (bmp2 family) (modern no composite)
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:cannon3, C, mcheli:engine1, D, mcheli:tanktracks, E, mcheli:lap, F, mcheli:electronics, G, mcheli:fcs
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:bmp1, B, mcheli:cannon3, C, mcheli:electronics, D, mcheli:fcs
+
+;BoundingBox =  0.0, 1.0,  1.5,   4.0, 2.0,   0.75
+;BoundingBox =  0.0, 2.5, -0.5,   3.0, 1.0,   1.00
+;BoundingBox =  0.0, 1.0, -1.2,   4.0, 2.0,   1.25
+
+BoundingBox = 0.0, 1.0, 0.0, 3.5, 1.45, 0.28
+
+
+BoundingBox = 0.0, 1.0, 2.8, 3.0, 1.25, 0.09
+BoundingBox = 0.0, 1.0, 3.2, 3.0, 0.5, 0.13
+
+
+BoundingBox = 0.0, 1.0, -2.0, 3.0, 1.5, 0.31
+BoundingBox = 0.0, 0.8, -2.0, 3.0, 1.5, 0.31
+
+BoundingBox = 0.0, 1.7, 0.0, 1.0, 1.0, 0.06
+
+UnmountPosition = -0.0, 1.50, -2.90

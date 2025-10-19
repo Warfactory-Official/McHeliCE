@@ -1,0 +1,40 @@
+DisplayName = 35mm Oerlikon GDF Automatic Cannon [DM23 - APDS]
+Type = MachineGun2
+Power = 127
+Flaming = false
+Sight = MoveSight
+Delay = 0
+ReloadTime = 120
+Round = 320
+
+SoundPitch = 1.0
+Sound = gepardmain
+HeatCount = 5
+MaxHeatCount = 450
+
+Accuracy = 1.0
+
+Gravity = -0.001
+
+AddMuzzleFlashSmoke =  4.2, 10,  2.0,  1.0, 45,  220,160,140,120
+;AddMuzzleFlashSmoke = 4.2, 10,  2.0,  1.0, 35,  200,190,170,150
+
+Acceleration = 7.5
+Piercing = 2
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+DisplayMortarDistance = true
+
+
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+MaxAmmo = 40
+SuppliedNum = 20
+Item =  2, iron_ingot
+Item =  2, gunpowder

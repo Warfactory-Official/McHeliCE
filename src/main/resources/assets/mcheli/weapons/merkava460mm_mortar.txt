@@ -1,0 +1,40 @@
+DisplayName = 60mm Soltam Vehicle Mounted Mortar
+Type = Rocket
+Power = 25
+Explosion = 2
+ExplosionBlock = 1
+Acceleration = 4.0
+SoundVolume = 15.0
+SoundPitchRandom = 0.1
+Sound = mortareighty
+Accuracy = 2.0
+ModelBullet = bullet76mm
+Flaming = false
+Sight = None
+Delay = 30
+Gravity = -0.06
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+; ÅfÅcÅfe???Åí?I?\?|
+DisplayMortarDistance = true
+; ?J???ÅÒ?I??Åf??u?u?d0?E?AÅfe?ÅE?e
+FixCameraPitch = true
+; ?J???ÅÒ?IÅÒnÅg]ÅeÅ Ågx?IÅh{?|(?Å ?3?-?ÅE?e?A?a?e?Å~?c?-ÅfÅcÅfeÅfnÅg_?aÅf2?R?a?A?Å·?e)
+CameraRotationSpeedPitch = 0.3
+DisableSmoke = true
+Round = 5
+ReloadTime = 80
+HeatCount = 100
+MaxHeatCount = 250
+; AddMuzzleFlash = Åh-?E?3?c?c?I???Åí, ?T?C?Y, ?\?|???O,  A,  R,  G,  B
+AddMuzzleFlash      =           2.1,   1.05,        2,  220,254,219,104
+AddMuzzleFlash      =           2.0,   1.00,        1,  220,254,219,184
+; AddMuzzleFlashSmoke = Åh-?E?3?c?c?I???Åí, ?\?|?Åh, ?T?C?Y, ÅhI?I, ?\?|???O,  A,  R,  G,  B
+AddMuzzleFlashSmoke   =             3.2,     10,    6.0,  3.0,       25,  220,160,140,120
+AddMuzzleFlashSmoke   =             2.2,      5,    6.0,  4.0,       35,  200,190,170,150
+MaxAmmo = 45
+SuppliedNum = 5
+Item =  3, iron_ingot
+Item =  3, gunpowder

@@ -1,0 +1,123 @@
+﻿DisplayName = Sd.Kfz. 234/2 "Puma"
+AddDisplayName = en_US, Sd.Kfz. 234/2 "Puma"
+AddDisplayName = ja_JP, Sd Kfz 234/2 "Puma"
+ItemID = 91011
+MaxHp = 200
+Speed = 0.56
+ThrottleUpDown = 1.2
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+EnableNightVision = false
+EnableEntityRadar = false
+Sound = sdkfz
+HUD = ww2tank_hud, none, none, none, none
+WeightType = Tank
+DefaultFreelook = true
+
+Category = LT/AC
+
+AddTexture = SdKfz234_21
+AddTexture = SdKfz234_22
+
+EnableBack = true
+
+CameraZoom = 4
+
+
+SubmergedDamageHeight = 2
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 4.5
+OnGroundRollFactor  = 4.0
+
+MobilityYawOnGround = 7.0
+PivotTurnThrottle = 0.15
+
+AddGunnerSeat =  0.0, 1.5,  0.0,   0.0, 1.5, 0.0,     false,  -20, 10, true
+AddSeat =  -0.6,  1.6,  -2.5
+AddSeat =  0.6,  1.6,  -2.5
+AddSeat =   0.6,  1.5,  -3.5
+AddSeat =  -0.6,  1.5,  -3.5
+CameraPosition = 0.0, 2.7,  0.0
+CameraRotationSpeed = 10
+
+StepHeight = 1.5
+InventorySize = 9
+ParticlesScale = 0.1
+SmoothShading = true
+HideEntity = true
+
+ArmorMinDamage = 5
+
+MotionFactor = 0.95
+
+MaxFuel         = 1800
+FuelConsumption = 3
+
+SetWheelPos =  0.55,  -0.24,  1.3, -0.10, -1.49, -3.1
+
+AddPartWheel =  -0.75,  0.2395,   1.3879,  30
+AddPartWheel =  -0.75,  0.2395,  -0.1059,  15
+AddPartWheel =  -0.75,  0.2395,  -1.4911, -15
+AddPartWheel =  -0.75,  0.2395,  -3.1006, -30
+AddPartWheel =   0.75,  0.2395,   1.3879,  30
+AddPartWheel =   0.75,  0.2395,  -0.1059,  15
+AddPartWheel =   0.75,  0.2395,  -1.4911, -15
+AddPartWheel =   0.75,  0.2395,  -3.1006, -30
+
+PartWheelRot = 55
+
+MinRotationPitch = -20
+MaxRotationPitch =  15
+
+AddTurretWeapon = puma5cmkwk39_l60[ap], 0.0,  2.0362, 1.0481,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = puma5cmkwk39_l60[he], 0.0,  2.0362, 1.0481,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = puma5cmkwk39_l60[apcr], 0.0,  2.0362, 1.0481,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = puma7_92mmMG1, -0.3253, 2.0362, 1.0481,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddPartWeapon = puma5cmkwk39_l60[ap]/puma5cmkwk39_l60[he]/puma5cmkwk39_l60[apcr], false, true, false,  0.0,  2.0362, 0.0, 0
+AddPartWeaponChild = false, true, 0.0,  2.0362, 1.0481
+AddPartWeaponChild = false, true, 0.0,  2.0362, 1.0481, 0.3
+
+
+;20 40 50 40 40 simplified staircase
+
+;20
+BoundingBox = 0.0, 0.4, 1.6, 0.8, 0.5, 0.25
+;40
+BoundingBox = 0.0, 0.78, 1.8, 1.5, 0.35, 0.13
+;50
+BoundingBox = 0.0, 1.14, 1.2, 1.7, 0.35, 0.1
+;40
+BoundingBox = 0.0, 1.14, 1.2, 1.7, 0.35, 0.13
+;40
+BoundingBox = 0.0, 1.52, 0.5, 1.7, 0.41, 0.13
+
+;turret is 32
+BoundingBox = 0.0, 1.85, 0.0, 1.0, 1.0, 0.16
+
+;side 8
+
+BoundingBox = 0.0, 1.0, 0.0, 1.8, 1.3, 0.63
+
+BoundingBox = 0.0, 1.0, -1.5, 1.8, 1.3, 0.63
+
+BoundingBox = 0.0, 0.85, -3.3, 1.8, 1.1, 0.63
+
+;side thick 15
+
+BoundingBox = 0.0, 1.2, 0.0, 2.3, 0.5, 0.33
+BoundingBox = 0.0, 1.2, -1.5, 2.3, 0.5, 0.33
+BoundingBox = 0.0, 1.1, -2.3, 2.3, 0.5, 0.33
+
+;top 5
+;does not matter as in im on a time crunch
+
+unmountposition = 0.0, 1.9,  0.0
+
+
+
+
+
+;armored armed 8x8 ww2
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine2, D, mcheli:lap, E, mcheli:cannon1

@@ -1,0 +1,39 @@
+DisplayName = RDS-3 Soviet Nuclear Bomb [41KT AIRBURST - 380M]
+;Type = Nuke
+Type = bomb
+nukeYield = 70
+modelbullet = fatmanru
+;479
+
+;chemYield = 10
+Explosion = 1
+
+;debug
+;50 is equivelent to 82m in width
+;50*1.64=82m
+;82m/1.64=50
+;little boy was 1287.48m wide
+;I corrupted a world for this...
+;785.04
+;785=868m block damage
+;540m actually...
+;540/1.64
+
+
+;457m above for fat man, let's say the soviets managed to get it down because it came after
+;official reports for RDS-3 were 380meters above ground sorry kid you're staying in orbit
+;ProximityFuseDist = 380.0
+ExplosionAltitude = 380
+
+;Power = 329
+Acceleration = 0.1
+Sight = None
+Sound = bomb_snd
+Delay = 4
+SoundVolume = 8
+Gravity = -0.01
+;Piercing = 10
+MaxAmmo = 1
+SuppliedNum = 1
+Item = 1, mcheli:fatmanmultipart
+Item = 5, tnt

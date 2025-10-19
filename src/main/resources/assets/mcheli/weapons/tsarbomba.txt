@@ -1,0 +1,29 @@
+DisplayName = Tsar Bomba [100MT]
+Type = Bomb
+Power = 50
+Acceleration = 0.01
+Explosion = 20
+ExplosionBlock = 1
+ExplosionInWater = 1
+;Flaming = true
+Sight = None
+Delay = 10
+Sound = bomb_snd
+ModelBullet = tsarbomba
+;ModelBomblet = 0_none
+
+;700/2 = 350meters squared
+nukeyield = 350
+
+ReloadTime = 150
+;Bomblet = 90
+;BombletSTime = 30
+;BombletDiff = 2.5
+Round = 1
+MaxAmmo = 1
+SuppliedNum = 1
+;SmokeColor = 219, 155, 17
+;SoundVolume = 50
+
+Item = 1, mcheli:tsarmultipart
+Item = 1, hbm:item.tsar_core

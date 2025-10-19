@@ -1,0 +1,21 @@
+DisplayName = 80mm S-8TsM Marker
+Type = MkRocket
+Power = 0
+Acceleration = 7.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 300
+Sound = hydraseventy
+SoundPitch = 0.8
+
+Round = 5
+
+ReloadTime = 1200
+
+Gravity = -0.001
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder

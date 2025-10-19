@@ -1,0 +1,133 @@
+DisplayName = KF-21 Boramae
+AddDisplayName = en_US, KF-21 Boramae
+AddDisplayName = ko_KR, KF-21 보라매
+ItemID = 40009
+MaxHp = 100
+Speed = 1.367
+Sound = faeighteen
+ThrottleUpDown = 0.3
+MaxFuel = 1200
+FuelConsumption = 1.0
+FlareType = 4
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+EnableSeaSurfaceParticle = true
+ParticlesScale = 0.7
+ThirdPersonDist = 20
+Stealth = 0.55
+Category = M.F
+
+DamageFactor = 0.8
+
+enableback = true
+
+AddSeat = 0.00,  1.83,  1.378
+
+unmountposition = 0.00,  2.13,  1.378
+
+AddPartCanopy = 0.0, 3.30, 0.245,  -1,0,0,  50
+HUD = plane
+
+EntityHeight = 0.9
+EntityWidth = 0.9
+
+MobilityYaw = 1.5
+MobilityPitch = 2
+MobilityRoll = 2
+;OnGroundPitch = 3
+
+EnableGunnerMode = true
+CameraPosition = 0.0, 0.7, -1.0
+AutoPilotRot = 0
+
+AddTexture=kf21_blue
+
+AddPartThrottle = 0.375, 2.35, 1.667,  0, 0, 0,  0,  0, 0, 0.2
+AddPartThrottle = 0, 2.064, -11.69,  0, 0, 0,  0,  0, 0, -0.2
+
+;LANDING_GEAR
+AddPartLG =  0.00, 1.735, 1.0,  1,0,0, 80
+AddPartSlideRotLG =  -0.85, 0, 0,  1.50, 1.70, -5.90,  -1,0,0, 90
+AddPartSlideRotLG =   0.85, 0, 0, -1.50, 1.70, -5.90,  -1,0,0, 90
+
+AddPartLG =   1.16, 1.86, -4.32,  0,1,0, 20,  1,0,0, 20
+AddPartLG =  -1.16, 1.86, -4.32,  0,-1,0, 20,  1,0,0, 20
+
+AddPartLGRev = 0.2, 1.116, 0.245, 0,0,1, 90
+
+AddPartLGRev = 1.923, 2.087, -4.62, 0,0,1, 30
+AddPartLGRev = 1.448, 1.114, -4.62, 0,0,-1, 150
+AddPartLGRev = 1.89, 2.078, -5.7, 0,0,1, 30
+
+AddPartLGRev = -1.923, 2.087, -4.62, 0,0,-1, 30
+AddPartLGRev = -1.448, 1.114, -4.62, 0,0,1, 150
+AddPartLGRev = -1.89, 2.078, -5.7, 0,0,-1, 30
+
+;WEAPON_COUNT
+AddPartWeaponMissile = kfmeteor_k,  false, false, false,  0.75, 0.99, -4.3
+AddPartWeaponMissile = kfmeteor_k,  false, false, false, -0.75, 0.99, -4.3
+AddPartWeaponMissile = kfmeteor_k,  false, false, false,   0.25, 0.99, -4.15
+AddPartWeaponMissile = kfmeteor_k,  false, false, false,  -0.25, 0.99, -4.15
+
+AddPartWeaponMissile = kfchunryong, false, false, false, 2.92, 1.38, -5.67
+AddPartWeaponMissile = kfchunryong, false, false, false, -2.92, 1.38, -5.67
+
+AddPartWeaponMissile = kfagm-65_1, false, false, false, 4.0, 1.45, -5.92
+AddPartWeaponMissile = kfagm-65_1, false, false, false, -4.0, 1.45, -5.92
+
+AddPartWeaponMissile = kfiris-t, false, false, false, 5.17, 1.43, -6.56
+AddPartWeaponMissile = kfiris-t, false, false, false, -5.17, 1.43, -6.56
+
+;WEAPON
+AddWeapon = m61kf21,  1.46, 2.36, -1.15,  0.0, 0.0
+
+AddWeapon = kfmeteor_k,  0.75, 0.99, -4.3,   1.0, 0.0
+AddWeapon = kfmeteor_k, -0.75, 0.99, -4.3,  -1.0, 0.0
+AddWeapon = kfmeteor_k,  0.25, 0.99, -4.15,  1.0, 0.0
+AddWeapon = kfmeteor_k, -0.25, 0.99, -4.15,  -1.0, 0.0
+
+AddWeapon = kfchunryong, 2.92, 1.38, -5.67, 0.0, 0.0
+AddWeapon = kfchunryong, -2.92, 1.38, -5.67, 0.0, 0.0
+
+AddWeapon = kfagm-65_1, 4.0, 1.45, -5.92, 0.0, 0.0
+AddWeapon = kfagm-65_1, -4.0, 1.45, -5.92, 0.0, 0.0
+
+AddWeapon = kfiris-t, 5.17, 1.43, -6.56, 0.0, 0.0
+AddWeapon = kfiris-t, -5.17, 1.43, -6.56, 0.0, 0.0
+
+AddWeapon = targeting_pod_ph50s,   0.0, 2.1, 1.4,    0.0, 0.0
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0
+
+;HITBOX
+
+BoundingBox =  0.00, 1.90, -1.10,  2.0, 2.0
+BoundingBox =  0.00, 1.90, -3.10,  3.0, 2.0
+BoundingBox =  0.00, 1.90, -6.60,  4.0, 2.0
+BoundingBox = -2.92, 2.20, -6.90,  3.0, 1.0
+BoundingBox =  2.92, 2.20, -6.90,  3.0, 1.0
+BoundingBox =  0.00, 2.20, -9.80,  3.0, 1.0
+
+BoundingBox = -4.82, 2.15, -7.00,  2.0, 0.3
+BoundingBox =  4.82, 2.15, -7.00,  2.0, 0.3
+
+BoundingBox = -2.52, 2.25, -11.60,  2.0, 0.3
+BoundingBox =  2.52, 2.25, -11.60,  2.0, 0.3
+
+BoundingBox = 1.93, 3.55, -10.96, 0.5, 2.5
+BoundingBox = -1.93, 3.55, -10.96, 0.5, 2.5
+;;BoundingBox = 2.03, 3.55, -11.96, 0.5, 2.5
+;;BoundingBox = -2.03, 3.55, -11.96, 0.5, 2.5
+
+BoundingBox = 1.83, 3.05, -10.46, 0.5, 2.5
+BoundingBox = -1.83, 3.05, -10.46, 0.5, 2.5
+
+;;BoundingBox = 2.03, 3.55, -11.46, 0.5, 2.5
+;;BoundingBox = -2.03, 3.55, -11.46, 0.5, 2.5
+
+BoundingBox = 1.83, 3.05, -9.96, 0.5, 2.5
+BoundingBox = -1.83, 3.05, -9.96, 0.5, 2.5
+
+;modern medium light plane (jet), AOW3 style
+AddRecipe = "ABC", "DEH", "GHG", A, mcheli:airframe3, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, G, mcheli:electronics, H, mcheli:fcs3
+DamageFactor = 0.8

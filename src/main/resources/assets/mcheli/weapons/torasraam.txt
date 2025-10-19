@@ -1,0 +1,28 @@
+DisplayName = ASRAAM [AAM]
+Type = AAMissile
+Power = 60
+Acceleration = 4
+Explosion = 5
+Flaming = false
+Sight = MissileSight
+Delay = 7
+ReloadTime = 1000
+Round = 2
+LockTime = 18
+ProximityFuseDist = 2
+ModelBullet = aim120
+Sound = aimnine
+SoundPitch = 0.8
+SoundVolume = 15
+
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 2
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

@@ -1,0 +1,34 @@
+DisplayName = AN-M17A2 250kg Bomb
+Type = Bomb
+Acceleration = 0.1
+ExplosionAltitude = 1
+Sight = None
+Delay = 5
+Sound = bomb_snd
+
+ModelBullet = bomb
+ModelBomblet = cbc
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 11
+;Explosive mass	125 kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+
+ReloadTime = 150
+Round = 2
+
+MaxAmmo = 16
+SuppliedNum = 1
+
+Item = 3, iron_ingot
+Item = 3, gunpowder

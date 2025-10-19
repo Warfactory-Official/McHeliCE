@@ -1,0 +1,25 @@
+DisplayName = AAM-5 [AAM]
+Type = AAMissile
+Power = 12
+Acceleration = 3
+Explosion = 5
+Flaming = false
+Sight = MissileSight
+Delay = 5
+Round = 4
+ReloadTime = 1000
+LockTime = 13
+ProximityFuseDist = 2
+ModelBullet = aam-5
+Sound = missile_1_snd
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  3, redstone

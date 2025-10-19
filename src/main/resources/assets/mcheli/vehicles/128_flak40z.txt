@@ -1,0 +1,44 @@
+﻿DisplayName = 12.8cm Flakzwilling 40
+AddDisplayName = en_US, 12.8cm Flakzwilling 40
+ItemID = 28622
+MaxHp = 100
+HideEntity = false
+MinRotationPitch = -88
+MaxRotationPitch =  3
+DamageFactor = 1.0
+CameraZoom = 2
+CameraPosition = 2.89, 3.40, 0.0
+Gravity = -9.81
+GravityInWater = -1.0
+
+; W = WWII,  A = AAGun(対空砲)
+Category = W.A
+
+HUD = vehicle_wwii
+
+AddGunnerSeat = 2.89,  1.56, -1.32, 0.0, 3.40, 0.0, false, -75, 3, true
+
+unmountposition = 2.89,  1.56, -1.32
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;本体-砲身
+AddPart		 = true,  true,  false, 0,   0.00, 0.00,  0.00
+AddChildPart = true, false, true,  0,   0.00, 1.57,  1.27
+AddChildPart = true, false, true,  2,   0.00, 1.90, -1.27, 0.8
+AddChildPart = true, false, true,  2,   0.00, 1.90, -1.27, 0.8
+AddChildPart = false, false, true,  0,   0.00, 1.90, -1.27
+
+AddTurretWeapon = 128flakz_low,   0.84, 2.43, 10.27,   0.0, 0.0
+AddTurretWeapon = 128flakz_low,  -0.84, 2.43, 10.27,   0.0, 0.0
+AddTurretWeapon = 128flakz_mid,   0.84, 2.43, 10.27,   0.0, 0.0
+AddTurretWeapon = 128flakz_mid,  -0.84, 2.43, 10.27,   0.0, 0.0
+AddTurretWeapon = 128flakz_hig,   0.84, 2.43, 10.27,   0.0, 0.0
+AddTurretWeapon = 128flakz_hig,  -0.84, 2.43, 10.27,   0.0, 0.0
+
+;light aa turret not modern less complex stage 2 naval big can
+AddRecipe = "ABA", "BB ", "   ", A, mcheli:cannon3, B, mcheli:map
+
+
+unmountposition = 0.00, 1.5, -0.0
+BoundingBox =  0.0, 2.0, 0.0,  3.0, 3.0
+BoundingBox =  0.0, 0.0, 0.0,  2.0, 1.0, 0.50

@@ -1,0 +1,94 @@
+DisplayName = UAZ-469 with KPVT
+AddDisplayName = ru_RU, УАЗ-469 с КПВТ
+MaxHp = 230
+ThrottleUpDown = 0.81
+Speed = 0.6
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = uaz_loop
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.0
+EnableNightVision = false
+MaxFuel           = 1500
+FuelConsumption   = 1.0
+ThirdPersonDist = 5
+DefaultFreelook = false
+
+CameraZoom = 0
+
+WeightedCenterZ = 0.8
+
+OnGroundPitchFactor = 10.0
+OnGroundRollFactor  = 4.8
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+EnableBack = true
+Category = LUV
+
+WeightType = Car
+
+SetWheelPos =  0.35,  -0.24,  1.44, -0.98
+
+HUD = bnr32_hud, none, gunner
+
+AddSeat =  0.4331,  0.25,  0.2001
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon = L_Claxon,    0.00, 0.00, 0.00,  0.0,0.0
+
+UnmountPosition = 0.4331,  2.25,  0.2001
+
+AddSeat = -0.4331,  0.35,  0.2001
+AddGunnerSeat =  0,  1.2714,  -1.40,    0.00,  2.43,  -1.4,  false, -90, 45, true
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 40
+AddPartSteeringWheel =  0.431,  1.05,  0.565,  0, 0.488, -1,  130
+AddPartWeaponBay = kpvt,0,1.16,0.743, 1,0,0,80
+InventorySize = 9
+AddTurretWeapon = kpvt,      0.00, 2.0642, -0.435,  0.0, 0, false,3, 0, -90,90, -35, 7
+AddPartWeapon = kpvt, false, true, false, 0.00, 1.8706, -0.435, 0
+AddPartWeaponChild = false, true, 0.00, 1.8706, -0.435, 0.0
+;EntityWeidth = 0.875
+;EntityHeight = 0.875
+
+
+
+AddFixedSearchLight =  -0.5464, 0.7642, 2.0289,   0x50FFFFFF,   0x00FFFFC0,    0.05, 0.8,  -5,  0
+AddFixedSearchLight = 0.5464, 0.7642, 2.0289,   0x50FFFFFF,   0x00FFFFC0,    0.05, 0.8,   5,  0
+
+AddFixedSearchLight =  0.727, 0.579,-1.77,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+AddFixedSearchLight =  -0.727, 0.579,-1.77,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+
+AddFixedSearchLight =  0.727, 0.519,-1.77,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+AddFixedSearchLight =  -0.727, 0.519,-1.77,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+
+AddPartWheel     =  0.6203,   0.0749,  1.4455, 35
+AddPartWheel     = -0.6203,   0.0749,  1.4455, 35
+AddPartWheel     =  0.6203,   0.0749, -0.9875
+AddPartWheel     = -0.6203,   0.0749, -0.9875
+
+;basic civ car offroad armed
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts, E, mcheli:cannon1
+
+BoundingBox = 0.0, 0.7, 1.4, 0.8, 0.6
+
+BoundingBox = 0.0, 0.30, 0.0, 1.7, 0.2
+BoundingBox = 0.0, 0.30, 1.15, 1.7, 0.2
+BoundingBox = 0.0, 0.30, -0.6, 1.7, 0.2
+BoundingBox = 0.0, 0.30, -0.8, 1.7, 0.2
+
+InventorySize = 9
+
+AddPartCanopy   =  0.8115, 0.8417, 0.7622,  0, 1, 0, -75
+
+ArmorDamageFactor = 1
+
+ArmorMinDamage = 2

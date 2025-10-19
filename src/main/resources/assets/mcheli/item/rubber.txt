@@ -1,0 +1,16 @@
+DisplayName = Rubber
+AddDisplayName = ja_JP, Rubber
+
+StackSize = 64
+;;AddRecipe = "A  ", "B  ", "A  ", A, coal, B, reeds
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.ingot_rubber
+AddRecipe = " AA", "   ", "   ", A, coal,1
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_rubber
+;;hopefully should be charcoal I mean look it's made basically the same way if you factor in logs and smelting
+;fuck you it's minecraft and we need max compatibility
+
+
+;;AddRecipe = " A ", "   ", "   ", A, hbm:item.ingot_bakelite
+;;AddRecipe = " A ", "   ", "   ", A, hbm:item.ingot_pc
+

@@ -1,0 +1,89 @@
+DisplayName = Peugeot P4
+MaxHp = 230
+ThrottleUpDown = 0.81
+Speed = 0.73
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = simpe_engine
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 0.85
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+ThirdPersonDist = 4
+DefaultFreelook = false
+
+SetWheelPos =  0.43,  -0.24,  1.33, -1.12
+
+WeightedCenterZ = 0.8
+
+OnGroundPitchFactor = 10.0
+OnGroundRollFactor  = 4.8
+
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+EnableBack = true
+
+Category = LUV
+
+WeightType = Car
+
+HUD =  bnr32_hud, none, none, none, none, none
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+AddSeat =  0.5285,  0.20, -0.2210
+
+;basic civ car offroad
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts
+
+unmountposition = 0.5285,  2.20, -0.0210
+
+AddSeat = -0.5285,  0.30, -0.2210
+
+AddSeat =  0.5863,  0.40, -0.9815
+AddSeat =  0.5863,  0.40, -1.5010
+AddSeat = -0.5863,  0.40, -0.9815
+AddSeat = -0.5863,  0.40, -1.5010
+
+AddWeapon =  none, 0.00,  0.42,  3.05, 0.0, 90
+
+AddWeapon =  simple_horn, 0.00,  0.42,  3.05, 0.0, 90
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 25
+
+AddPartWheel     =  0.6460,   0.0521,  1.3394, 35
+AddPartWheel     = -0.6460,   0.0521,  1.3394, 35
+AddPartWheel     =  0.6460,   0.0521, -1.1283
+AddPartWheel     = -0.6460,   0.0521, -1.1283
+
+AddFixedSearchLight =  -0.627, 0.580, 2.01,   0x50FFFFFF,   0x00FFFFC0,    0.5, 1.0,  -5,  0
+AddFixedSearchLight = 0.627, 0.580, 2.01,   0x50FFFFFF,   0x00FFFFC0,    0.5, 1.0,   5,  0
+
+AddFixedSearchLight =  0.734, 0.355,-1.98,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+AddFixedSearchLight =  -0.734, 0.355,-1.98,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+
+ArmorDamageFactor = 1.0
+
+ArmorMinDamage = 2
+
+
+BoundingBox = 0.0, 0.4, 1.2, 1.0, 0.6
+
+BoundingBox = 0.0, 0.30, 0.0, 1.7, 0.2
+BoundingBox = 0.0, 0.30, 1.25, 1.7, 0.2
+BoundingBox = 0.0, 0.30, -0.6, 1.7, 0.2
+BoundingBox = 0.0, 0.30, -1.2, 1.7, 0.2
+
+InventorySize = 9
+
+
+AddPartSteeringWheel =  0.5221,  0.9968,  0.2732,  0, 0.570, -1,  130

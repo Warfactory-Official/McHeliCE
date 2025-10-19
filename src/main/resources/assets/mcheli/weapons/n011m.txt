@@ -1,0 +1,13 @@
+DisplayName = N011M Radar
+Type = TargetingPod
+Delay = 2
+Sight = MoveSight
+SoundPitch = 1.0
+Sound = lockon
+SoundVolume = 5.0
+SoundPitchRandom = 0.0
+Length = 1800
+Radius = 130
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/helicopters/tanks/vehicles/players/monsters/others
+MarkTime = 180

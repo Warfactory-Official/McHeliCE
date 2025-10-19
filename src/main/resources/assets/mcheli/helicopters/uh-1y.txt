@@ -1,0 +1,107 @@
+DisplayName = UH-1Y Venom
+AddDisplayName = ja_JP, UH-1Y ペイヴホーク
+ItemID = 288166
+MaxHp = 100
+EnableGunnerMode = false
+EnableFoldBlade = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 1.89
+Sound = r44_heli
+ThrottleUpDown = 0.8
+FlareType = 3
+CameraPosition = 0.0, 0.7, 3.5
+MaxFuel         = 1500
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = heli, heli_gnr, gunner, gunner, none, none, none, none, none, none, none, none
+
+MobilityYaw = 0.9
+MobilityPitch = 0.9
+MobilityRoll = 0.9
+
+AddPartCamera = 0.0, 0.45, 1.45
+
+AddPartWeapon    = uhm134_l50, false, true, false,   1.54, 1.3795, -2.14
+AddPartWeapon    = uhm134_l50, false, true, true,   1.54, 1.3795, -2.14
+AddPartRotWeapon = uhm134_l50, false, true, true,   1.54, 1.3795, -2.14, 1,0,0
+;idk how or why but this rotweapon is absolutely cooked beyond repair and I do NOT feel like fixing it
+;after further review i have determined not only is this cooked but it is beyond absolutely fucked
+
+AddPartWeapon    = uhm134_r50, false, true, false, -1.54, 1.379, -2.14
+AddPartWeapon    = uhm134_r50, false, true, true,  -1.54, 1.379, -2.14
+AddPartRotWeapon = uhm134_r50, false, true, true,  -1.54, 1.379, -2.14,  1,0,0
+
+AddPartWeapon    = uhhydra70_l, false, false, true,  0.0000, 0.57, -1.46
+
+AddRotor= 1,  0,  -4.82,  3.20, -12.27,  1.0, 0.0, 0.0, false
+AddRotor= 1, 90,  0.00,  3.95, -2.21,   0.0, 1.0, 0.0, true
+
+; seat 1,2
+AddSeat       =-0.65,  0.79,  0.08
+AddGunnerSeat = 0.65,  0.79,  0.08,  0.0, 0.7, 3.0,  true
+; M134D
+AddSeat       = 1.2,  0.70, -2.13
+AddSeat       =-1.2,  0.70, -2.13
+; other seat
+AddSeat       = 0.65,  0.70, -1.32
+AddSeat       =-0.65,  0.70, -1.32
+
+AddSeat       = 0.65,  0.70, -2.82
+AddSeat       =-0.65,  0.70, -2.82
+
+AddSeat       = 0.65,  0.70, -3.32
+AddSeat       =-0.65,  0.70, -3.32
+
+AddSeat       = 0.65,  0.70, -3.82
+AddSeat       =-0.65,  0.70, -3.82
+
+AddWeapon = uhm134_l50,  1.67, 1.46,-2.10,   0.0, 0.0, false, 3, -90,-80, 80, -50,80
+AddWeapon = uhm134_r50, -1.67, 1.46,-2.10,   0.0, 0.0, false, 4,  90,-80, 80, -50,80
+
+AddWeapon = targeting_pod_ground,     0.0, 0.7, 3.5,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.7, 3.5,   0.0, 0.0,  false,2
+AddWeapon = targeting_pod_block, -0.40,  3.60, -0.90, 0, 0, false, 2, 0, -360, 360, -90,90
+
+AddWeapon = uhhydra70_l,   1.77, 0.57, -1.46,   1.0, 0.0,  false,  1,  0,0,0, 0, 30
+AddWeapon = uhhydra70_l,  -1.77, 0.57, -1.46,  -1.0, 0.0,  false,  1,  0,0,0, 0, 30
+
+;basic armed small modern helicopter NO WHEEL, AOW3 style
+AddRecipe = "ABC", "DEF", "E  ", A, mcheli:airframe2, B, mcheli:heliblade, C, mcheli:engine2, E, mcheli:fcs2, D, mcheli:rocket, F, mcheli:cannon1
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:uh-1c, B, mcheli:engine2, C, mcheli:electronics
+
+InventorySize = 9
+
+BoundingBox = 0.0, 3.3, -2.21, 0.5, 1.5, 1.5
+BoundingBox =  0.0, 2.5, -3.7,  2.0, 0.45
+BoundingBox =  0.0, 2.5, -1.7,  2.0, 0.45
+
+BoundingBox =  0.0, 1.5, -5,  1.5, 2
+
+BoundingBox = 0.0, 3.1, -1.7, 0.8, 1.0
+BoundingBox = 0.0, 3.15, -2.5, 0.8, 1.0
+BoundingBox = 0.0, 3.0, -3.3, 0.8, 1.0
+BoundingBox = 0.0, 2.8, -3.9, 0.8, 1.0
+
+
+BoundingBox =  0.0, 3.2,-12.0,  1.0, 1.5, 1.25
+
+BoundingBox = 0.0, 1.46, -5.50, 1.0, 1.0
+BoundingBox = 0.0, 1.46, -6.50, 1.0, 1.0
+BoundingBox = 0.0, 1.56, -7.50, 1.0, 1.0
+BoundingBox = 0.0, 1.56, -8.50, 1.0, 1.0
+BoundingBox = 0.0, 1.56, -9.50, 1.0, 1.0
+BoundingBox = 0.0, 1.86, -10.50, 1.0, 1.0
+BoundingBox = 0.0, 1.86, -11.50, 1.0, 1.0
+
+unmountposition = -0.65,  1.5,  0.08
+
+DamageFactor = 0.8
+
+
+ThrottleUpDown = 0.5

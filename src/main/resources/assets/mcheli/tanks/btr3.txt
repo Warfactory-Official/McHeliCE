@@ -1,0 +1,140 @@
+﻿DisplayName = BTR-3 APC
+AddDisplayName = ru_RU, BTR-3 APC
+AddDisplayName = en_US, BTR-3 APC
+ItemID = 30102
+MaxHp = 200
+Speed = 0.53
+Sound = apc_run
+ThrottleUpDown = 2
+MobilityYawOnGround = 7.5
+MaxFuel         = 1000
+FuelConsumption = 0.8
+CameraZoom = 8
+EnableNightVision = true
+EnableEntityRadar = false
+Gravity = -0.61
+GravityInWater = -1.0
+CameraRotationSpeed = 30
+GravityInWater = -1.0
+MinRotationPitch = -70
+MaxRotationPitch = 5
+MobilityRoll = 0
+InventorySize = 25
+StepHeight = 1.8
+DefaultFreelook = true
+MotionFactor = 0.9
+FlareType = 10
+ThirdPersonDist = 8
+
+CameraPosition = -0.0154, 3.4291, -0.0245
+
+SubmergedDamageHeight = 3
+
+;  M = Military,  A = AAGun(対空砲)
+Category = APC
+
+WeightType = Tank
+
+AddTexture = btr3_1
+AddTexture = btr3_2
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+HUD = mbt_hud, none, none, none, none, none, none, none, none
+
+AddGunnerSeat = -0.0154, 1.1291, -0.0245, -0.0154, 1.9291, -0.0245,  false, -90, 90
+AddSeat = -0.31, 0.75, -1.62 
+AddSeat =  0.31, 0.75, -1.62 
+AddSeat = -0.31, 0.75, -2.48
+AddSeat =  0.31, 0.75, -2.48
+
+AddSeat = -0.31, 0.75, -3.14
+AddSeat =  0.31, 0.75, -3.14
+
+
+;AddSeat = -0.31, 0.75, -2.32
+;AddSeat =  0.31, 0.75, -2.32
+
+SetWheelPos =  1.30,  -0.24,  1.04, -1.02, -3.42, -5.36
+
+AddPartWheel =    1.30,  0.43, 1.05, 20
+AddPartWheel =    1.30,  0.43,-1.05, 10
+AddPartWheel =    0.00,  0.43,-3.46
+AddPartWheel =    0.00,  0.43,-5.41
+
+AddPartWheel =   -1.30,  0.43, 1.05, 20
+AddPartWheel =   -1.30,  0.43,-1.05, 10
+AddPartWheel =   -0.00,  0.43,-3.46
+AddPartWheel =   -0.00,  0.43,-5.41
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 6
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+TrackRollerRot = 30
+
+AddPartWeapon    = btr33ubr6 / btr33yof8,   false, true, false, -0.0154, 2.6291, -0.0245
+AddPartWeaponChild = false, true, -0.0154, 2.6291, -0.0245
+AddTurretWeapon = btr33ubr6,   -0.0154, 2.6291, -0.0245,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+AddTurretWeapon = btr33yof8,   -0.0154, 2.6291, -0.0245,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+AddTurretWeapon = pktbtr3,  0.3649, 2.7940, 0.5840,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+AddTurretWeapon = kba117,  0.4914, 2.7186, 0.3435,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+
+AddWeapon = barrier, -1.0461, 2.8952, 0.1622,   0.0, 0.0, false, 1, 0, -360,360, -60,10
+AddWeapon = barrier, -1.0461, 2.6827, 0.3589,   0.0, 0.0, false, 1, 0, -360,360, -60,10
+
+AddPartHatch =  -1.30,  1.90,  -1.61, 0,1, 0, 60
+AddPartHatch =   1.30,  1.90,  -1.61, 0,1, 0, -60
+AddPartHatch =  -1.31,  0.53,  -1.92, 0,0, 1, 140
+AddPartHatch =   1.31,  0.53,  -1.92, 0,0, 1, -140
+
+DamageFactor = 0.1
+
+HideEntity = false
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+;start of Ukro bullshit tree
+
+;btr3
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:fcs2, E, mcheli:lap, F, mcheli:advancedmechanicparts, G, mcheli:cannon2
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:fcs2, B, mcheli:advancedmechanicparts, C, mcheli:cannon1, D, mcheli:btr82
+
+;btr82
+;;AddRecipe = "ABC", "DEG", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:fcs, E, mcheli:lap, G, mcheli:cannon2
+;;AddRecipe = "ABC", "   ", "   ", A, mcheli:fcs, B, mcheli:cannon2, C, mcheli:btr80
+
+
+
+
+;btr80 to btr3 recipe for the clinically insane
+;;AddRecipe = "ABC", "DEF", "   ", A, mcheli:fcs2, B, mcheli:advancedmechanicparts, C, mcheli:cannon2, D, mcheli:btr80, E, mcheli:wrench, F, mcheli:fcs
+;i refuse to go any further than this actually i decided im just gonna remove this to spare my sanity
+
+
+BoundingBox = -0.0154, 2.2362, -0.0245, 1.5, 1.5, 1.0
+
+BoundingBox = 0.0, 1.2, 0.0, 3.0, 2.0, 0.75
+BoundingBox = 0.0, 1.2, 1.0, 2.7, 1.8, 0.33
+BoundingBox = 0.0, 1.2, 1.5, 2.5, 1.6, 0.33
+BoundingBox = 0.0, 1.2, 2.4, 2.3, 0.4, 0.27
+
+
+BoundingBox = 0.0, 1.2, -2.5, 3.0, 2.0, 0.75
+BoundingBox = 0.0, 1.2, -5.4, 3.0, 2.0, 0.75
+
+
+UnmountPosition = -0.0154, 1.6291, -0.0245
+
+

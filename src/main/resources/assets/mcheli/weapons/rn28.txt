@@ -1,0 +1,45 @@
+﻿DisplayName = RN28 Nuclear Bomb [30KT SURFACE]
+DisplayName = RN28 Nuclear Bomb [30KT SURFACE]
+DisplayName = RN28 Nuclear Bomb [30KT SURFACE]
+DisplayName = RN28 Nuclear Bomb [30KT SURFACE]
+DisplayName = RN28 Nuclear Bomb [30KT SURFACE]
+
+Type = Bomb
+;Power = 100000
+;DamageFactor = tank, 10000.0
+;DamageFactor = plane, 30000.0
+;DamageFactor = vehicle 20000.0
+;DamageFactor = heli, 30000.0
+Acceleration = 2.0
+;Explosion = 4
+;ExplosionBlock = 3
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 20
+Sound = bomb_snd
+DisableSmoke = true
+;ModeNum = 2
+ModelBullet = rn28
+;400kt
+nukeyield = 30
+gravity = -0.01
+;bomb rewrite
+Acceleration = 2
+Explosion = 15
+;Explosive mass	? kg
+;Power = 500000
+;ExplosionBlock = 2
+;ExplosionInWater = 0
+;DamageFactor = tank, 10000.0
+;DamageFactor = plane, 30000.0
+;DamageFactor = vehicle 20000.0
+;DamageFactor = heli, 30000.0
+displaymortardistance = true
+ExplosionAltitude = 30
+Round = 1
+MaxAmmo = 1
+SuppliedNum = 1
+Item = 4, mcheli:genericnuclearbomb
+
+

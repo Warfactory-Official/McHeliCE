@@ -1,0 +1,32 @@
+DisplayName = 40mm Bofors L/60 Autocannon [Mk.II - HE]
+Type = MachineGun2
+Power = 9
+ModelBullet = bullet76mm
+Acceleration = 7.0
+Explosion = 2
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+Delay = 5
+HeatCount = 18
+MaxHeatCount = 150
+ReloadTime = 30
+
+;SoundPitch = 0.6
+SoundVolume = 15
+
+
+
+Gravity = -0.001
+SoundVolume = 15
+Sound = bofors
+
+MaxAmmo = 240
+SuppliedNum = 120
+Item =  2, iron_ingot
+Item =  2, gunpowder
+DamageFactor = tank, 1.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0

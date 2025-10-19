@@ -1,0 +1,109 @@
+DisplayName = A-6 Intruder
+AddDisplayName = ja_JP, A-6 Intruder
+ItemID = 28740
+MaxHp = 150
+onGroundPitch = 5
+Sound = asix
+
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 0.95
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1500
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+ThrottleUpDown = 0.3
+
+DamageFactor = 0.8
+
+enableback = true
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+AddTexture = a62
+AddTexture = a63
+AddTexture = a64
+
+HUD = planesu24, plane_gnrsu24
+
+AddSeat       = -0.528,  2.794,  -0.9981
+AddSeat       = 0.528,  2.794,  -0.9981
+
+AddPartWing  = -4.504, 3.23, -5.878,  0, 0, 1,  -170
+
+AddPartWing  = 4.504, 3.23, -5.878,  0, 0, 1,  160
+
+;Front
+AddPartLG    =  0.00, 1.74, 0.3636,  1,0,0, 105
+
+
+;Left
+AddPartLG    =  1.692, 2.494, -5.77,      1,0,0, -90,   0,1,0, -100
+;Right
+AddPartLG    = -1.692, 2.494, -5.77,      1,0,0, -90,   0,1,0,  100
+
+
+; 使用直後は非表示
+AddPartWeaponMissile = agm84a7,    false,  false,  false,   -4.192, 2.135, -4.988
+AddPartWeaponMissile = agm84a7,    false,  false,  false,    4.192, 2.135, -4.988
+AddPartWeaponMissile = agm84a7,    false,  false,  false,   -2.814, 1.966, -4.623
+AddPartWeaponMissile = agm84a7,    false,  false,  false,    2.814, 1.966, -4.623
+
+AddPartWeaponMissile = gbu-12a6,    false,  false,  false,    0.0, 1.9, -4.0
+
+AddWeapon = agm84a7,    -4.192, 2.135, -4.988,   0.0, 0.0
+AddWeapon = agm84a7,     4.192, 2.135, -4.988,   0.0, 0.0
+AddWeapon = agm84a7,    -2.814, 1.966, -4.623,   0.0, 0.0
+AddWeapon = agm84a7,     2.814, 1.966, -4.623,   0.0, 0.0
+
+
+
+AddWeapon = gbu-12a6, 0.0, 1.9, -4.0, 0.0, 0.0
+
+
+AddWeapon = targeting_pod_ph50s,   0.0, 3.4, 0.0,    0.0, 0.0, true,  1
+
+;modern medium-light plane (no gun early jet), AOW3 style
+AddRecipe = "ABC", "DGF", "   ", A, mcheli:airframe2, B, mcheli:basicmechanicparts, C, mcheli:engine2, D, mcheli:wheelair, F, mcheli:rocket2, G, mcheli:electronics 
+
+
+BoundingBox =  0.00, 2.90, -3.00,  3.5, 2.8
+BoundingBox =  0.00, 2.80, -5.60,  3.0, 2.0
+BoundingBox =  0.00, 2.80, -8.60,  3.0, 2.0
+
+BoundingBox = -2.92, 2.80, -5.60,  4.0, 1.0
+BoundingBox =  2.92, 2.80, -5.60,  4.0, 1.0
+
+BoundingBox = -5.55, 3.00, -6.26,  2.0, 0.2
+BoundingBox =  5.55, 3.00, -6.26,  2.0, 0.2
+
+BoundingBox = -7.55, 3.00, -7.26,  2.0, 0.2
+BoundingBox =  7.55, 3.00, -7.26,  2.0, 0.2
+
+
+
+
+
+BoundingBox =  0.00, 3.10, -10,  1.5, 1.5
+BoundingBox =  0.00, 3.15, -11.5,  1.5, 1.5
+BoundingBox =  0.00, 3.25, -13,  1.5, 1.5
+BoundingBox =  0.00, 3.45, -14.5,  1.5, 1.5
+BoundingBox =  0.00, 3.55, -15.5,  1.0, 1.0
+BoundingBox =  0.00, 3.55, -16.5,  1.0, 1.0
+
+BoundingBox = 0.0, 4.0, -14, 0.5, 2.5
+BoundingBox = 0.0, 4.5, -14.5, 0.5, 2.5
+BoundingBox = 0.0, 5.0, -15, 0.5, 2.5
+BoundingBox = 0.0, 5.3, -15.5, 0.5, 2.5
+BoundingBox = 0.0, 5.3, -16, 0.5, 2.5
+BoundingBox = 0.0, 5.3, -16.5, 0.5, 2.5
+
+BoundingBox = 1.47, 3.5, -15.25, 2.0, 0.2
+BoundingBox = -1.47, 3.5, -15.25, 2.0, 0.2
+
+Unmountposition = -0.528,  1.594,  -0.9981
+DamageFactor = 0.8

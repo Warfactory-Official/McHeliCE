@@ -1,0 +1,48 @@
+DisplayName = 75mm KwK40 L48 [PzGr 39 - APCBC]
+Type = MachineGun1
+ModelBullet = 75mm
+Power = 145
+Acceleration = 4.0
+Explosion = 1
+ExplosionBlock = 1
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 75
+ReloadTime = 150
+SoundPitch = 0.8
+SoundVolume = 10
+Sound = cannon_5_snd
+Gravity = -0.005
+DamageFactor = tank, 3.5
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+Recoil = 0.45
+Group = MainGun
+
+Piercing = 2
+; AddMuzzleFlash = distance, size, life time,   A,  R,  G,  B
+AddMuzzleFlash   =     3.2, 1.00,        27, 220,254,159, 74
+AddMuzzleFlash   =     3.1, 1.25,        20, 220,254,219,104
+AddMuzzleFlash   =     3.3, 0.70,        18, 220,254,219,184
+AddMuzzleFlash   =     3.25, 0.90,         8, 220,254, 51, 73
+
+; AddMuzzleFlashSmoke = Distance from source, number of displays, size, range, display time,   A,  R,  G,  B
+AddMuzzleFlashSmoke   =                 3.1,                 30, 1.5,   4.0,           62, 220, 50, 50, 50
+AddMuzzleFlashSmoke   =                 3.3,                 20, 2.0,   7.0,     	 55, 200, 10, 10, 10
+AddMuzzleFlashSmoke   =                 3.2,                 40, 1.0,  2.0,           75, 200, 30, 30, 30
+
+TrajectoryParticle = smoke
+TrajectoryParticleStartTick = 0
+
+DisplayMortarDistance = true
+
+RecoilBufCount = 50, 2
+
+MaxAmmo = 44
+SuppliedNum = 8
+Item =   2, iron_ingot
+Item =  2, gunpowder
+

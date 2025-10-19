@@ -1,0 +1,32 @@
+DisplayName = KAB-250 Guided Bomb
+Type = ASMissile
+Acceleration = 1.3
+Flaming = true
+Sight = MoveSight
+Delay = 5
+Round = 2
+SoundVolume = 3
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = gbu31
+Gravity = -0.01
+DisableSmoke = true
+
+
+Explosion = 10
+;Explosive mass	~269.9 kg kg
+Power = 1080
+ExplosionBlock = 5
+ExplosionInWater = 5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

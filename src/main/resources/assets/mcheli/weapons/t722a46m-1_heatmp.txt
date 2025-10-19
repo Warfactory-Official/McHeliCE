@@ -1,0 +1,52 @@
+DisplayName = 125mm 2A46 Cannon [3BK12M - HEAT-FS]
+Type = MachineGun2
+Power = 440
+ModelBullet = 3bk18m
+Explosion = 3
+ExplosionBlock = 3
+ExplosionInWater = 2
+Flaming = false
+Sight = MoveSight
+
+Recoil = 2.0
+
+
+;SoundPitch = 0.5
+
+Sound = tseventytwomain
+group = maingun
+Round = 7
+DisplayMortarDistance = true
+
+
+Gravity = -0.005
+
+MaxAmmo = 15
+SuppliedNum = 5
+Item =  3, iron_ingot
+Item =  2, gunpowder
+
+AddMuzzleFlash      =  10.2,      1.80,        7,  200,254,129,44
+AddMuzzleFlash      =  10.1,      1.75,        6,  200,254,219,104
+AddMuzzleFlash      =  10.0,      1.70,        5,  200,254,219,184
+AddMuzzleFlashSmoke =  12.2, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke = 15.2, 10,  11.0,  6.0, 35,  200,190,170,150
+
+Delay = 155
+ReloadTime = 210
+
+
+Group = MainGun
+Acceleration = 6
+BulletColor        = 255, 255, 100, 100
+
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+SoundVolume = 15
+
+

@@ -1,0 +1,32 @@
+DisplayName = 70mm Hydra Rocket [M156 - HE-FRAG]
+Type = Rocket
+Power = 400
+ModelBullet = hydra70
+Acceleration = 7.0
+Explosion = 2
+ExplosionInWater = 1
+Sound = hydraseventy
+Flaming = false
+Sight = MoveSight
+Delay = 1
+ReloadTime = 110
+Round = 5
+
+SoundVolume = 15
+
+Gravity = -0.005
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+; Particle test
+;TrajectoryParticle = heart
+;TrajectoryParticle = fireworksSpark
+
+MaxAmmo = 5
+;2 for apkws
+SuppliedNum = 5
+Item =  3, iron_ingot
+Item =  3, gunpowder

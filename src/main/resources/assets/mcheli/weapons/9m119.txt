@@ -1,0 +1,35 @@
+DisplayName = 9M119M Refleks-M
+Type = TVMissile
+FixMode = 1
+ModeNum = 2
+Power = 900
+Acceleration = 3.5
+LockTime = 20
+Explosion = 3
+ExplosionInWater = 2
+Flaming = true
+Sight = MoveSight
+ModelBullet = 9M119
+Sound = missile_2_snd
+
+Delay = 20
+ReloadTime = 100
+Group = MainGun
+BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 9M119M Refleks ATGM 
+SoundVolume = 15
+
+
+MaxAmmo = 10
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  3, gunpowder
+Item =  2, redstone

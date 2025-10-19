@@ -1,0 +1,120 @@
+DisplayName = T-26 mod. 1939
+AddDisplayName = Т-26 (образец 1939 г.)
+MaxHp = 100
+Speed = 0.193
+Sound = prop_tank
+ThrottleUpDown = 0.8
+MobilityYawOnGround = 2
+MinRotationPitch = -22
+MaxRotationPitch = 6
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 4
+CameraPosition = 0.25,  2.70,  0.00, true
+EnableNightVision = false
+CameraRotationSpeed = 10
+EnableEntityRadar = false
+MaxFuel         = 800
+FuelConsumption = 2
+StepHeight = 1.5
+DefaultFreelook = true
+OnGroundPitchFactor = 2
+OnGroundRollFactor  = 1.3
+SubmergedDamageHeight = 1
+HideEntity = true
+WeightType = Tank
+WeightedCenterZ = 0.0
+
+Category = LT
+
+HUD = ww2tank_hud
+AddTexture = t26_1
+unmountposition = -0.0,  2.00,  -0.25
+AddGunnerSeat =  0.22,  1.70,  0,    0.00,  3,  0,  false, -90, 45, true
+MotionFactor = 0.95
+
+;ArmorMaxDamage = 200
+ArmorDamageFactor = 1
+EnableBack = true
+PivotTurnThrottle = 0.0
+
+AddCrawlerTrack = true, 0.2, 1.3875,  -0.1079/1.7261, -0.0391/1.8209, 0.4517/2.3946, 0.5814/2.5243, 0.7586/2.5718, 0.9358/2.5243, 1.0655/2.3946, 1.1130/2.2174, 1.0562/1.489, 0.999/0.5315, 0.9422/-0.3728, 0.8751/-1.3333, 0.8192/-2.2347, 0.7476/-2.4551, 0.56/-2.5914, 0.3283/-2.5914, 0.1408/-2.4551, 0.0692/-2.2347, -0.1079/-1.6817, -0.1079/-1.51, -0.1079/1.54
+AddCrawlerTrack = true, 0.2, -1.3875,  -0.1079/1.7261,-0.0391/1.8209, 0.4517/2.3946, 0.5814/2.5243, 0.7586/2.5718, 0.9358/2.5243, 1.0655/2.3946, 1.1130/2.2174, 1.0562/1.489, 0.999/0.5315, 0.9422/-0.3728, 0.8751/-1.3333, 0.8192/-2.2347, 0.7476/-2.4551, 0.56/-2.5914, 0.3283/-2.5914, 0.1408/-2.4551, 0.0692/-2.2347, -0.1079/-1.6817, -0.1079/-1.51, -0.1079/1.54
+
+SetWheelPos =  0.9,  -0.24,  1.6675,  1.191, 0.7099, 0.2357, -0.191, -0.6665, -1.1474, -1.62
+
+AddTrackRoller = 1.28,  0.7586,  2.2174
+AddTrackRoller = 1.28,  0.0724,  1.6675
+AddTrackRoller = 1.28,  0.0724,  1.191
+AddTrackRoller = 1.28,  0.0724, 0.7099
+AddTrackRoller = 1.28,  0.0724, 0.2357
+AddTrackRoller = 1.28,  0.0724, -0.191
+AddTrackRoller = 1.28,  0.0724, -0.6665
+AddTrackRoller = 1.28,  0.0724, -1.1474
+AddTrackRoller = 1.28,  0.0724, -1.6231
+AddTrackRoller = 1.28,  0.4405, -2.2347
+
+AddTrackRoller = -1.28,  0.7586,  2.2174
+AddTrackRoller = -1.28,  0.0724,  1.6675
+AddTrackRoller = -1.28,  0.0724,  1.191
+AddTrackRoller = -1.28,  0.0724, 0.7099
+AddTrackRoller = -1.28,  0.0724, 0.2357
+AddTrackRoller = -1.28,  0.0724, -0.191
+AddTrackRoller = -1.28,  0.0724, -0.6665
+AddTrackRoller = -1.28,  0.0724, -1.1474
+AddTrackRoller = -1.28,  0.0724, -1.6231
+AddTrackRoller = -1.28,  0.4405, -2.2347
+
+AddTrackRoller = 1.0362, 0.8995, 1.4453
+AddTrackRoller = 1.0362, 0.8423, 0.4877
+AddTrackRoller = 1.0362, 0.7855, -0.4165
+AddTrackRoller = 1.0362, 0.7184, -1.377
+AddTrackRoller = -1.0362, 0.8995, 1.4453
+AddTrackRoller = -1.0362, 0.8423, 0.4877
+AddTrackRoller = -1.0362, 0.7855, -0.4165
+AddTrackRoller = -1.0362, 0.7184, -1.377
+
+AddPartWeapon = t2645mmcannon / t2645mmcannon_aphe / t2645mmcannon_apa / t2645mmcannon_he, false, true, false,  0.22, 1.5582, 0.00, 0
+
+TurretPosition = 0.22, 1.5582, 0.00
+
+AddPartWeaponChild = false, true, 0.2253, 2.0239, 0.8464, 0.15
+AddPartWeaponChild = false, true, 0.01, 2.0239, 0.8464, 0
+AddTurretWeapon = t2645mmcannon, 0.22, 2.0239, 0,  0.0, 0.0, false,1, 0,-360,360, -17, 7
+AddTurretWeapon = t2645mmcannon_aphe, 0.22, 2.0239, 0,  0.0, 0.0, false,1, 0,-360,360, -17, 7
+AddTurretWeapon = t2645mmcannon_apa, 0.22, 2.0239, 0,  0.0, 0.0, false,1, 0,-360,360, -17, 7
+AddTurretWeapon = t2645mmcannon_he, 0.22, 2.0239, 0,  0.0, 0.0, false,1, 0,-360,360, -17, 7
+AddTurretWeapon = t26mg7_62mm_dt, 0.01, 2.0239, 0,  0.0, 0.0, false,1, 0,-360,360, -17, 7
+
+ArmorMinDamage = 7
+
+BoundingBox =  0.22, 1.9,  0.0,   1.1, 0.7,  0.35
+
+
+BoundingBox =  0.0, 0.9, -0.0,   2.0, 1.3,  0.46
+
+
+BoundingBox =  0.0, 0.55, -1.40,   1.95, 0.4,  0.46
+
+
+BoundingBox =  0.0, 0.55, 1.30,   1.90, 0.4,  0.46
+BoundingBox =  0.0, 0.65, 1.40,   1.90, 0.1,  0.46
+BoundingBox =  0.0, 0.75, 1.45,   1.90, 0.1,  0.46
+BoundingBox =  0.0, 0.85, 1.45,   1.90, 0.1,  0.46
+
+BoundingBox =  0.0, 0.95, 1.35,   1.90, 0.1,  0.20
+BoundingBox =  0.0, 1.05, 1.05,   1.90, 0.1,  0.20
+BoundingBox =  0.0, 1.15, 0.55,   1.90, 0.1,  0.20
+BoundingBox =  0.0, 1.25, 0.15,   1.90, 0.1,  0.30
+BoundingBox =  0.0, 1.35, 0.15,   1.90, 0.1,  0.30
+BoundingBox =  0.0, 1.45, 0.10,   1.90, 0.1,  0.30
+BoundingBox =  0.0, 1.50, 0.10,   1.90, 0.1,  0.30
+
+
+
+AddFixedSearchLight =  0.072, 1.2216, 1.42,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+
+;light tracked tank ww2 EARLY
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:cannon1, C, mcheli:engine1, D, mcheli:tanktracks

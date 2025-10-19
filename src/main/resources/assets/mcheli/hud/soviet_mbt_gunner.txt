@@ -1,0 +1,10 @@
+DrawTexture = T, -685, -335,  1350,675,  0,0,3000,1500, 0
+
+DrawTexture = tyawb, -275, -110,  120,120,  0,0,268,268, 0
+DrawTexture = tyawbb, -217, -91,  3,85,  0,0,5,130,plyr_yaw-yaw
+;DrawTexture = tyawbb, -216.5, -100,  2,100,  0,0,5,130,color
+DrawTexture = tyawbs, -230, -64.5,  30,30,  0,0,70,70,0
+
+If=have_radar==0&&cam_mode==2
+DrawTexture = black, -500,-500,  5000,5000, 0, 0,100,100,
+EndIf

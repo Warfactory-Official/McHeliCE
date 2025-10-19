@@ -1,0 +1,191 @@
+DisplayName = T-14 Armata
+AddDisplayName = en_US, T-14 Armata
+MaxHp = 950
+Speed = 0.50
+Sound = armataeng
+ThrottleUpDown = 5.0
+MobilityYawOnGround = 3.30
+MinRotationPitch = -60
+MaxRotationPitch = 7
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 10
+;1.63 x
+;2.26 x
+
+Stealth = 0.3
+
+Category = MBT
+
+CameraPosition = 0.00,  3.7, -0.0, true
+EnableNightVision = true
+CameraRotationSpeed = 30
+EnableEntityRadar = true
+MaxFuel         = 1300
+FuelConsumption = 4.0
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+FlareType = 10
+SubmergedDamageHeight = 1
+HideEntity = true
+WeightType = tank
+WeightedCenterZ = 0.0
+
+HUD = mbt_hud, mbt_gnr
+
+;canride = true
+AddGunnerSeat =  0.00,  0.40,  2.0,    0.00,  2.70,  -0.5,  false, -60, 7, false
+AddGunnerSeat =  0.000   ,  0.50 ,  0.0,   -0.450, 4.1548, -1.35, false, -60, 7, true
+
+;AddFixRotSeat = 0.0, 3.0, 2.0, 0
+
+;AddFixRotSeat = 0.0, 4.0, 0.0
+
+;AddGunnerSeat =  0.0  ,  2.85 ,  0.0,   -0.486, 4.1548, -1.4652, false, -50, 5, true
+;testing
+;ExclusionSeat = 3
+;AddRack = none,   0, 5, 0,  0, 5, 0
+;canride = true
+;AddGunnerSeat = 0.0, 2.0, 2.0
+
+
+MotionFactor = 0.925
+
+ArmorMaxDamage = 500
+ArmorDamageFactor = 0.85
+EnableBack = true
+PivotTurnThrottle = 0.0
+
+SetWheelPos =  1.55,  -0.24,  3.22,  2.28, 1.27, 0.31, -0.67, -1.57, -2.53
+
+AddCrawlerTrack = true, 0.2, -1.98,  -0.25/3.2222, -0.1274/3.5176, 0.446/4.3412, 0.4978/4.4663, 0.5496/4.5914, 0.6747/4.6432, 0.8/4.695, 0.9249/4.6432, 1.05/4.5914, 1.1018/4.4663, 1.1537/4.3412, 1.2291/-3.8393, 1.2176/-4.0234, 1.0863/-4.1558, 0.9508/-4.2736, 0.7654/-4.2738, 0.5835/-4.2648, 0.4472/-4.142, 0.332/-3.9973, -0.1274/-2.8295, -0.2498/-2.534
+AddCrawlerTrack = true, 0.2, 1.98,  -0.25/3.2222, -0.1274/3.5176, 0.446/4.3412, 0.4978/4.4663, 0.5496/4.5914, 0.6747/4.6432, 0.8/4.695, 0.9249/4.6432, 1.05/4.5914, 1.1018/4.4663, 1.1537/4.3412, 1.2291/-3.8393, 1.2176/-4.0234, 1.0863/-4.1558, 0.9508/-4.2736, 0.7654/-4.2738, 0.5835/-4.2648, 0.4472/-4.142, 0.332/-3.9973, -0.1274/-2.8295, -0.2498/-2.534
+
+AddTrackRoller = -1.82,  0.7998,  4.34
+AddTrackRoller = -1.82,  0.1681,  3.2212
+AddTrackRoller = -1.82,  0.1681,  2.2824
+AddTrackRoller = -1.82,  0.1681, 1.2709
+AddTrackRoller = -1.82,  0.1681, 0.3113
+AddTrackRoller = -1.82,  0.1681, -0.6764
+AddTrackRoller = -1.82,  0.1681, -1.5796
+AddTrackRoller = -1.82,  0.1681, -2.535
+AddTrackRoller = -1.82,  0.7808, -3.8282
+
+AddTrackRoller = 1.82,  0.7998,  4.34
+AddTrackRoller = 1.82,  0.1681,  3.2212
+AddTrackRoller = 1.82,  0.1681,  2.2824
+AddTrackRoller = 1.82,  0.1681, 1.2709
+AddTrackRoller = 1.82,  0.1681, 0.3113
+AddTrackRoller = 1.82,  0.1681, -0.6764
+AddTrackRoller = 1.82,  0.1681, -1.5796
+AddTrackRoller = 1.82,  0.1681, -2.535
+AddTrackRoller = 1.82,  0.7808, -3.8282
+
+
+AddPartWeapon = armata2A82_APFSDS / armata2A82_HE / armata2A82_HEATMP / armata9m119m, false, true, false,  0.00, 1.8784, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.332, 1.3754, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.332, 1.3754, 0.5
+AddTurretWeapon = armata2A82_APFSDS, 0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -14, 7
+AddTurretWeapon = armata2A82_HE,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -14, 7
+AddTurretWeapon = armata2A82_HEATMP,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -14, 7
+AddTurretWeapon = armata9m119m,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -14, 7
+;AddTurretWeapon = armatamg7_62mm,   -0.50, 2.30, 0.02,   0.0, 0.0, true, 1, 0, -360,360, -14,7
+
+AddTurretWeapon = armatamg7_62mm_mbt,    -0.0875, 3.5548, -1.35,   0.0, 0.0, true, 2, 0, -360,360, -45,7
+
+AddPartTurretWeapon = armatamg7_62mm_mbt,  false, true, false, -0.450, 3.10, -1.35
+AddPartWeaponChild = false, true, -0.450, 3.62, -1.77, 0.0
+
+
+;AddPartTurretWeapon = armatamg7_62mm_mbt,   true, true, true,  -0.450, 3.62, -1.35
+
+;AddPartTurretWeapon    = mg7_62mm_mbt,   false, true, true,  -0.486, 3.5548, -1.4652
+;AddPartTurretWeapon    = mg7_62mm_mbt,  false, true, false, -0.486, 3.5548, -1.4652
+
+
+
+;-0.3237, 3.0520, -1.7110
+
+;, -0.486, 3.5548, -1.4652
+
+
+;AddPartTurretWeapon    = m2_rws,   true, true, true,  -0.846, 3.68, 0.373
+;AddPartTurretWeapon    = m2_rws,  false, true, false, -0.846, 3.68, 0.373
+
+
+
+;AddTurretWeapon = mg7_62mm_mbt,   -0.0939, 3.5920, -1.2962,   0.0, 0.0, false, 2, 0, -360,360, -30,5
+
+;heavy MEME (APS) mbt tracked tank 3 (modern autoloader)
+AddRecipe = "ABC", "DGF", "EHG", A, mcheli:heavychassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite3, E, mcheli:complexmechanicparts, H, mcheli:fcs3
+
+
+RideRack = c5, 1
+RideRack = c5, 2
+;maybe some day
+;AddFixedSearchLight =  1.4613, 1.3024, 4.8697,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+;AddFixedSearchLight =  1.5832, 1.3040, 4.8697,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+;AddFixedSearchLight = -1.4613, 1.3024, 4.8697,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25, -6.0,  0
+;AddFixedSearchLight = -1.5832, 1.3040, 4.8697,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25, -6.0,  0
+;AddFixedSearchLight =  1.61, 1.5272,-5.158,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+;AddFixedSearchLight =  1.80, 1.5272,-5.158,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+;AddFixedSearchLight =  -1.61, 1.5272,-5.158,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+;AddFixedSearchLight =  -1.80, 1.5272,-5.158,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+
+ArmorMinDamage = 30
+
+
+;BoundingBox =  0.0, 0.6,  2.2,   3.4, 1.8,  0.70
+;BoundingBox = -0.9, 1.6,  1.0,   2.4, 3.2,  0.70
+;BoundingBox =  0.9, 1.6,  1.0,   2.4, 3.2,  0.70
+;BoundingBox =  0.0, 1.4, -2.2,   3.8, 3.0,  1.00
+;BoundingBox =  0.0, 3.0, -2.0,   2.0, 1.0,  1.25
+;BoundingBox = -0.9, 1.2, -4.5,   2.4, 1.6,  1.25
+;BoundingBox =  0.9, 1.2, -4.5,   2.4, 1.6,  1.25
+
+;siding 100-90mm
+
+BoundingBox = 0.0, 1.05, 0.0, 3.05, 1.5, 0.3
+BoundingBox = 0.0, 0.92, 1.8, 3.0, 1.2, 0.27
+
+;back siding 70-80mm? 40mm back
+BoundingBox = 0.0, 1.15, -3.05, 3.05, 1.5, 0.42
+BoundingBox = 0.0, 1.25, -3.25, 3.05, 1.2, 0.42
+BoundingBox = 0.0, 1.25, -3.34, 3.0, 1.0, 0.75
+
+;topping
+BoundingBox = 0.0, 1.825, 0.5, 2.8, 0.1, 0.3
+
+
+;sloping 700-1000mm
+
+BoundingBox = 0.0, 0.38, 2.9, 2.9, 0.1, 0.03
+BoundingBox = 0.0, 0.48, 3.0, 2.9, 0.1, 0.03
+BoundingBox = 0.0, 0.58, 3.1, 2.9, 0.1, 0.03
+BoundingBox = 0.0, 0.68, 3.2, 2.9, 0.1, 0.04
+BoundingBox = 0.0, 0.78, 3.3, 2.9, 0.1, 0.04
+BoundingBox = 0.0, 0.88, 3.4, 2.9, 0.1, 0.04
+BoundingBox = 0.0, 0.98, 3.5, 2.9, 0.1, 0.05
+
+BoundingBox = 0.0, 1.08, 3.4, 2.9, 0.1, 0.04
+BoundingBox = 0.0, 1.12, 3.25, 2.9, 0.1, 0.04
+BoundingBox = 0.0, 1.22, 3.0, 2.9, 0.1, 0.04
+BoundingBox = 0.0, 1.32, 2.9, 2.9, 0.1, 0.04
+BoundingBox = 0.0, 1.42, 2.7, 2.9, 0.1, 0.03
+BoundingBox = 0.0, 1.52, 2.1, 2.9, 0.1, 0.03
+BoundingBox = 0.0, 1.62, 1.8, 2.9, 0.1, 0.03
+BoundingBox = 0.0, 1.72, 1.7, 2.9, 0.1, 0.03
+BoundingBox = 0.0, 1.82, 0.5, 2.9, 0.1, 0.03
+
+
+;BoundingBox = 0.0, 1.0, 0.0, 500, 80, 0.7
+
+
+BoundingBox = 0.0, 2.5, 0.0, 1.0, 1.0, 0.6
+
+
+unmountposition = 0.00,  1.50,  2.0

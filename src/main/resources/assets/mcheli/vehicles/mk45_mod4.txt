@@ -1,0 +1,43 @@
+﻿DisplayName = 127mm Mark 45 Mod4 Naval Cannon
+AddDisplayName = ja_JP, Mk45 Mod4 5インチ砲
+AddDisplayName = en_US, 5"/54 Caliber Mark 45 Mod4 Naval Cannon
+ItemID = 28601
+MaxHp = 100
+HideEntity = true
+MinRotationPitch = -65
+MaxRotationPitch =  15
+DamageFactor = 0.8
+CameraZoom = 4
+Stealth = 0.2
+Gravity = -9.81
+GravityInWater = -1.0
+EnableNightVision = true
+
+CameraPosition = 0.0, 4, 0.0
+unmountposition = -0.0, 1.5, -0.0
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = plane_gnr
+
+AddSeat = 0.00,  1.37, 0.00
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;脚
+AddPart		 = true, true, false, 0,   0.00, 0.00, 0.00
+;本体
+AddChildPart = true,false,true,  0,   0.00, 1.915, 0.00
+;砲身
+AddChildPart = true,false,true,  2,   0.00, 1.915, 0.00, 0.6
+
+AddTurretWeapon = mk45, 0.00, 1.915, 0.0,   0.0, 0,   true,1, 0,-360,360, -65, 15
+;AddWeapon = mk45_hecvt, 0.00, 1.915, 0.0,   0.0, -1.0,   true,1, 0,-360,360, -65, 15
+AddTurretWeapon = mk45_hepd, 0.00, 1.915, 0.0,   0.0,  0,   true,1, 0,-360,360, -65,15
+AddTurretWeapon = mk45_heicm, 0.00, 1.915, 0.0,   0.0, 0,   true,1, 0,-360,360, -65, 15
+
+
+;light aa turret modern less complex stage 2 naval can more 
+AddRecipe = "ABC", "DCC", "   ", A, mcheli:cannon2, B, mcheli:map, C, mcheli:electronics, D, mcheli:fcs3
+
+BoundingBox =  0.0, 1.45, 0.0,  3.0, 2.6
+BoundingBox =  0.0, 0.0, 0.0,  2.1, 0.8

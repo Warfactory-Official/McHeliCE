@@ -1,0 +1,36 @@
+DisplayName = AM-39 Exocet [Anti Ship Missile]
+Type = TVMissile
+FixMode = 1
+ModeNum = 2
+Power = 3000
+Acceleration = 4.0
+Explosion = 13
+
+Gravity = -0.12
+GravityInWater = 1
+AccelerationInWater = 4.0
+
+
+ExplosionInWater = 7
+
+Flaming = true
+Sight = MoveSight
+Delay = 5
+ModelBullet = am39
+Sound = missile_2_snd
+piercing = 1
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+Round = 2
+ReloadTime = 1000
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  12, gunpowder
+Item =  2, redstone

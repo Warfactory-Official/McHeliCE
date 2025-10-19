@@ -1,0 +1,30 @@
+DisplayName = 30mm GSh-6-23 [API-T]
+Type = MachineGun1
+Power = 16
+Acceleration = 8.0
+Explosion = 1
+Flaming = true
+Sight = MoveSight
+Delay = 0
+SoundDelay = 1
+Accuracy = 4
+HeatCount = 10
+MaxHeatCount = 150
+ReloadTime =100
+Round = 200
+Sound = mig21_30mm
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+SoundVolume = 15
+
+Piercing = 0
+Gravity = -0.001
+
+MaxAmmo = 200
+SuppliedNum = 50
+Item =  2, iron_ingot
+Item =  2, gunpowder

@@ -1,0 +1,142 @@
+If=yaw>=-180&&yaw<=-170
+DrawTexture = kakudo1, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-170&&yaw<=-160
+DrawTexture = kakudo2, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-160&&yaw<=-150
+DrawTexture = kakudo3, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-150&&yaw<=-140
+DrawTexture = kakudo4, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-140&&yaw<=-130
+DrawTexture = kakudo5, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-130&&yaw<=-120
+DrawTexture = kakudo6, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-120&&yaw<=-110
+DrawTexture = kakudo7, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-110&&yaw<=-100
+DrawTexture = kakudo8, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-100&&yaw<=-90
+DrawTexture = kakudo9, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-90&&yaw<=-80
+DrawTexture = kakudo10, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-80&&yaw<=-70
+DrawTexture = kakudo11, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-70&&yaw<=-60
+DrawTexture = kakudo12, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-60&&yaw<=-50
+DrawTexture = kakudo13, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-50&&yaw<=-40
+DrawTexture = kakudo14, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-40&&yaw<=-30
+DrawTexture = kakudo15, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-30&&yaw<=-20
+DrawTexture = kakudo16, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-20&&yaw<=-10
+DrawTexture = kakudo17, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=-10&&yaw<=0
+DrawTexture = kakudo18, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=0&&yaw<=10
+DrawTexture = kakudo19, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=10&&yaw<=20
+DrawTexture = kakudo20, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=20&&yaw<=30
+DrawTexture = kakudo21, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=30&&yaw<=40
+DrawTexture = kakudo22, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=40&&yaw<=50
+DrawTexture = kakudo23, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=50&&yaw<=60
+DrawTexture = kakudo24, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=60&&yaw<=70
+DrawTexture = kakudo25, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=70&&yaw<=80
+DrawTexture = kakudo26, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=80&&yaw<=90
+DrawTexture = kakudo27, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=90&&yaw<=100
+DrawTexture = kakudo28, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=110&&yaw<=120
+DrawTexture = kakudo29, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=120&&yaw<=130
+DrawTexture = kakudo30, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=130&&yaw<=140
+DrawTexture = kakudo31, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=140&&yaw<=150
+DrawTexture = kakudo32, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=150&&yaw<=160
+DrawTexture = kakudo33, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=160&&yaw<=170
+DrawTexture = kakudo34, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+If=yaw>=170&&yaw<=180
+DrawTexture = kakudo35, -10, -48, 30,30 ,0,0, 256,256
+EndIf
+
+
+

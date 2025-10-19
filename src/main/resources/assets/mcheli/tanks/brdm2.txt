@@ -1,0 +1,111 @@
+﻿DisplayName = BRDM-2 ARV
+AddDisplayName = ru_RU, BRDM-2 ARV
+AddDisplayName = en_US, BRDM-2 ARV
+ItemID = 30102
+MaxHp = 200
+Speed = 0.62
+Sound = apc_run
+ThrottleUpDown = 2
+MaxFuel = 1000
+FuelConsumption = 0.8
+CameraZoom = 0
+EnableNightVision = true
+EnableEntityRadar = false
+Gravity = -0.61
+GravityInWater = -0.2
+CameraRotationSpeed = 10
+MinRotationPitch = -30
+MaxRotationPitch = 5
+MobilityRoll = 0
+InventorySize = 27
+StepHeight = 1.5
+DefaultFreelook = true
+MotionFactor = 0.9
+FlareType = 10
+ThirdPersonDist = 8
+CameraPosition = 0.1136, 2.8065, 0.1832, true
+PivotTurnThrottle = 0.1
+
+
+
+Float = true
+FloatOffset = -2.0
+
+SubmergedDamageHeight = 3
+MobilityYawOnGround = 6.0
+
+;  M = Military,  A = AAGun(対空砲)
+Category = AASC
+
+WeightType = Tank
+
+AddTexture = brdm2_1
+AddTexture = brdm2_2
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+
+HUD = mbt_hudtwo
+
+AddGunnerSeat =  0.00, 1.68,  0.00,  0.00, 3.68,  0.00,  false, -90, 90
+
+TurretPosition = 0.1136, 2.4065, 0.1832
+
+;AddGunnerSeat = -0.0154, 1.6291, -0.0245, -0.0154, 1.9291, -0.0245,  false, -90, 90
+
+SetWheelPos =  0.9,  -0.24,  1.7779, -1.9130
+
+AddPartWheel =    1.1675, 0.4246,  1.7779, 30
+AddPartWheel =    1.1675, 0.4246, -1.9130
+AddPartWheel =   -1.0272, 0.4246,  1.7779, 30
+AddPartWheel =   -1.0272, 0.4246, -1.9130
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 2
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+TrackRollerRot = 30
+
+AddPartWeapon    = brdmkpvt_heit / brdmkpvt_apit,   false, true, false,  0.1136, 2.4065, 0.1832
+AddPartWeaponChild = false, true, 0.1136, 2.4065, 0.1832, 0.05
+AddPartWeaponChild = false, true, 0.1136, 2.4065, 0.1832, 0.00
+AddTurretWeapon = brdmkpvt_heit, 0.1136, 2.4065, 0.1832,   0.0, 0.0, false, 1, 0, -360,360, -30,5
+AddTurretWeapon = brdmkpvt_apit, 0.1136, 2.4065, 0.1832,   0.0, 0.0, false, 1, 0, -360,360, -30,5
+AddTurretWeapon = brdm2pkt, -0.15, 2.4065, 1.5,   0.0, 0.0, false, 1, 0, -360,360, -30,5
+
+;AddTurretWeapon = pkt,  0.3649, 2.7940, 0.5840,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+
+UnmountPosition = 0.00, 2.68,  0.00
+
+DamageFactor = 0.8
+
+HideEntity = true
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+EnableBack = true
+
+;IFV armed light 4x4
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine2, D, mcheli:fcs, E, mcheli:lap, F, mcheli:cannon1
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:brdm-s, B, mcheli:cannon1, C, mcheli:wrench
+
+BoundingBox = 0.1136, 2.2, 0.1832, 1.0, 1.0, 0.2
+
+BoundingBox = 0.0, 1.2, 0.0, 3.0, 2.0, 0.28
+BoundingBox = 0.0, 1.2, -2.1, 3.0, 2.0, 0.28
+
+
+BoundingBox = 0.0, 1.2, 1.0, 2.7, 1.8, 0.4
+BoundingBox = 0.0, 1.2, 1.5, 2.5, 1.6, 0.14
+BoundingBox = 0.0, 1.2, 2.4, 2.3, 0.4, 0.14
+
+
+

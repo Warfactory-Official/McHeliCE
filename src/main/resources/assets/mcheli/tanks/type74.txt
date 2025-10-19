@@ -1,0 +1,122 @@
+﻿DisplayName = Type 74 C
+AddDisplayName = en_US, Type 74 C
+AddDisplayName = ja_JP, 74式戦車 C型
+ItemID = 91129
+MaxHp = 260
+Speed = 0.33
+ThrottleUpDown = 1.2
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = true
+EnableEntityRadar = false
+Sound = typeseventyfour
+HUD = mbt_hudtwo, mbt_hudtwo
+WeightType = Tank
+DefaultFreelook = true
+FlareType = 10
+
+Category = MBT
+
+AddTexture = type741
+AddTexture = type742
+AddTexture = type743
+AddTexture = type744
+CameraZoom = 8
+EnableBack = true
+
+SubmergedDamageHeight = 2
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 3.5
+OnGroundRollFactor  = 3.5
+
+MobilityYawOnGround = 2.5
+PivotTurnThrottle = 0.0
+
+AddGunnerSeat =  -0.5,  1.5, -0.33,   -0.0,  2.0,  1,    false,  -9, 6, true
+AddGunnerSeat =   0.0,  1.0,  0.0,    -0.04, 3.25, -0.0275,  false, -60, 10, false
+CameraPosition = -0.0,  2.65, 1, false
+CameraRotationSpeed = 14
+
+StepHeight = 1.8
+ParticlesScale = 0.1
+SmoothShading = true
+HideEntity = true
+
+
+
+MotionFactor = 0.95
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+TrackRollerRot = 50
+
+SetWheelPos =  1.4,  -0.24,  1.65, 0.4943, -0.7192, -1.8827, -3.0462
+
+
+AddTrackRoller =  -1.0,  0.6756,  2.9635
+AddTrackRoller =  -1.0,  0.2127,  1.6578
+AddTrackRoller =  -1.0,  0.2127,  0.4943
+AddTrackRoller =  -1.0,  0.2127, -0.7192
+AddTrackRoller =  -1.0,  0.2127, -1.8827
+AddTrackRoller =  -1.0,  0.2127, -3.0462
+AddTrackRoller =  -1.0,  0.6756, -4.2901
+
+AddTrackRoller =   1.0,  0.6756,  2.9635
+AddTrackRoller =   1.0,  0.2127,  1.6578
+AddTrackRoller =   1.0,  0.2127,  0.4943
+AddTrackRoller =   1.0,  0.2127, -0.7192
+AddTrackRoller =   1.0,  0.2127, -1.8827
+AddTrackRoller =   1.0,  0.2127, -3.0462
+AddTrackRoller =   1.0,  0.6756, -4.2901
+
+AddCrawlerTrack = false, 0.37, -1.8,   1.0/ 2.96, 0.91/ 3.2, 0.67/ 3.3, 0.44/ 3.2, -0.15/ 2.1, -0.35/ 1.71, -0.35/ -3.04, -0.15/ -3.41, 0.39/ -4.57, 0.67/ -4.69, 0.96/ -4.57, 1.08/ -4.29, 0.96/ -4.0, 0.726/ -3.04, 0.726/ 1.71, 0.91/ 2.73
+AddCrawlerTrack = false, 0.37,  1.8,   1.0/ 2.96, 0.91/ 3.2, 0.67/ 3.3, 0.44/ 3.2, -0.15/ 2.1, -0.35/ 1.71, -0.35/ -3.04, -0.15/ -3.41, 0.39/ -4.57, 0.67/ -4.69, 0.96/ -4.57, 1.08/ -4.29, 0.96/ -4.0, 0.726/ -3.04, 0.726/ 1.71, 0.91/ 2.73
+
+MinRotationPitch = -60
+MaxRotationPitch =  10
+
+AddPartWeapon  = Type74_APDS / Type74_HEP, false, true,  false,  0.0, 1.9, 0.0, 0
+AddPartWeaponChild = false, true,   0.0,    1.9146, 1.5959
+AddPartWeaponChild = false, true,   0.0,    1.9146, 1.5959, 0.5
+AddTurretWeapon     = Type74_APDS,  0.0,    1.8278, 0,  0.0, 0.0, true,1, 0,-360,360, -9, 6
+AddTurretWeapon     = Type74_HEP,   0.0,    1.8278, 0,  0.0, 0.0, true,1, 0,-360,360, -9, 6
+AddTurretWeapon     = Type74_HEat,   0.0,    1.8278, 0,  0.0, 0.0, true,1, 0,-360,360, -9, 6
+AddTurretWeapon     = type74lmg,    0.3958, 1.9914, 1.0,   0.0, 0.0, true,1, 0,-360,360, -9, 6
+
+AddPartTurretWeapon    = type74M2_12_7mm,  false, true, false,  -0.042, 2.91, -0.03
+AddPartTurretWeapon    = type74M2_12_7mm,  false, true, true,   -0.042, 2.91, -0.03
+AddTurretWeapon = type74M2_12_7mm,   -0.042, 2.922, -0.042,   0.0, 0.0, false, 2, 0, -360,360, -60,10
+
+;BoundingBox = 0.0, 0.7,  1.0, 4.0, 1.5, 0.7
+;BoundingBox = 0.0, 0.7, -3.0, 4.0, 1.5, 1.0
+;BoundingBox = 0.0, 2.0,  0.0, 3.0, 1.0, 0.5
+;BoundingBox = 0.0, 2.7,  0.0, 1.0, 0.3, 1.5
+
+ArmorMinDamage = 25
+;side armor 30mm
+BoundingBox = 0.0, 0.8, 0.0, 2.3, 1.4, 0.83
+BoundingBox = 0.0, 0.8, -2.3, 2.3, 1.4, 0.83
+BoundingBox = 0.0, 0.8, -3.4, 2.3, 1.4, 0.83
+;back 20mm
+BoundingBox = 0.0, 0.8, -3.5, 2.2, 1.4, 1.25
+;sloping
+BoundingBox = 0.0, 1.45, 0.7, 2.2, 0.1, 0.20
+BoundingBox = 0.0, 1.35, 1.0, 2.2, 0.1, 0.20
+BoundingBox = 0.0, 1.25, 1.3, 2.2, 0.1, 0.18
+BoundingBox = 0.0, 1.15, 1.7, 2.2, 0.1, 0.15
+BoundingBox = 0.0, 1.05, 2.0, 2.2, 0.1, 0.15
+BoundingBox = 0.0, 0.95, 2.33, 2.2, 0.1, 0.22
+
+;lower
+BoundingBox = 0.0, 0.54, 2.30, 2.2, 0.75, 0.13
+
+;turret 
+BoundingBox = 0.0, 1.85, 0.0, 2.0, 1.0, 0.05
+
+unmountposition = -0.5,  1.5, -0.33
+
+;slightly really less modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "E  ", A, mcheli:mediumchassis, B, mcheli:cannon2, C, mcheli:engine3, D, mcheli:tanktracks, G, mcheli:lap, E, mcheli:advancedmechanicparts, F, mcheli:fcs

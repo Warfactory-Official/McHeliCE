@@ -1,0 +1,51 @@
+DisplayName = 20.3cm SK C/34 Cannon [L/4.7 Kz - HE]
+Type = MachineGun2
+Power = 61
+Explosion = 5
+ExplosionBlock = 8
+
+ExplosionInWater = 3
+
+Acceleration = 4.0
+SoundVolume = 1.0
+Sound = cannon_4_snd
+Accuracy = 1
+ModelBullet = bullet
+Flaming = false
+Sight = None
+Delay = 5
+Gravity = -0.005
+ReloadTime = 800
+Recoil = 5
+Round = 2
+
+HeatCount = 300
+MaxHeatCount = 520
+
+Piercing = 0
+
+Group = Maingun
+
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 10.0
+
+
+DisplayMortarDistance = true
+FixCameraPitch = true
+CameraRotationSpeedPitch = 0.2
+
+AddMuzzleFlash      =  8.2,     2.10,        9,  220,254,159,74
+AddMuzzleFlash      =  8.1,     2.05,        8,  220,254,219,104
+AddMuzzleFlash      =  8.0,     2.00,        7,  220,254,219,184
+AddMuzzleFlashSmoke =  8.2, 30, 12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 10.2, 20, 13.0,  7.0, 55,  200,190,170,150
+
+MaxAmmo = 6
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder

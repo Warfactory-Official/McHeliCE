@@ -1,0 +1,23 @@
+DisplayName = Type 97 No6 Bomb
+Type = Bomb
+Power = 300
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 0.5
+Explosion = 4
+ExplosionBlock = 2
+ExplosionInWater = 2
+Flaming = false
+Sight = None
+Delay = 3
+ReloadTime = 1500
+Round = 2
+;Piercing  = 2
+Sound = bomb_snd
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  2, gunpowder

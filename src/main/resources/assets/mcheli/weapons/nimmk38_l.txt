@@ -1,0 +1,33 @@
+DisplayName = 25mm Mk.38 Mod2 Cannon [L]
+Type = MachineGun2
+Power = 32
+Acceleration = 7.0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+ReloadTime = 100
+Round = 1200
+SoundVolume = 5.5
+SoundPitch = 5.5
+Sound = twentymil
+Accuracy = 4.0
+
+Acceleration = 7.5
+Gravity = -0.005
+
+AddMuzzleFlash      =   2.1,      0.32,        3,  150,254,159,84
+AddMuzzleFlash      =   2.0,      0.30,        2,  150,254,219,184
+AddMuzzleFlashSmoke   = 2.2,  2,   5.0,  2.0, 15,  180,250,245,240
+AddMuzzleFlashSmoke   = 3.2,  1,   3.0,  3.0,  5,  180,220,217,214
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+MaxAmmo = 4000
+SuppliedNum = 200
+Item =  3, iron_ingot
+Item =  3, gunpowder

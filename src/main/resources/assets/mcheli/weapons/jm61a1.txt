@@ -1,0 +1,33 @@
+DisplayName = 20mm JM61A1 Cannon
+Type = MachineGun2
+ModelBullet = bullet
+Power = 40
+Acceleration = 8.0
+;Explosion = 1
+;ExplosionBlock = 1
+;wtf even is this
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+SoundPitch = 0.3
+SoundVolume = 2.5
+HeatCount = 1
+MaxHeatCount = 150
+Sound = gun_m61a1_snd
+Piercing = 0
+Gravity = -0.001
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+AddMuzzleFlash  =  0.0,             0.10,   1,        140,254,219,184
+AddMuzzleFlash  =  0.1,             0.10,   1,        170,254,219,154
+AddMuzzleFlashSmoke  =  0.0,             1,       2.0,    0.5,  15,      150,250,245,240
+AddMuzzleFlashSmoke  =  0.3,             1,       2.0,    0.5,  15,      180,250,245,240
+AddMuzzleFlashSmoke  =  0.5,             1,       2.0,    0.5,  15,      180,250,245,240
+
+MaxAmmo = 512
+SuppliedNum = 256
+Item =  2, iron_ingot
+Item =  2, gunpowder

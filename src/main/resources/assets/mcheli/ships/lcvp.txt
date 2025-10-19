@@ -1,0 +1,139 @@
+﻿DisplayName = Landing Craft For Vehicles and Personnel (LCVP Boat)
+AddDisplayName = en_US, Landing Craft For Vehicles and Personnel (LCVP Boat)
+AddDisplayName = ja_JP, Lcvp輸送ボート
+
+PivotTurnThrottle = 0.2
+
+MaxHp = 200
+Speed = 0.14
+;modern is 17mph
+Float = true
+FloatOffset = 0.0
+Sound = boat
+ThrottleUpDown = 0.8
+MaxFuel         = 800
+FuelConsumption = 1.0
+Gravity = -0.15
+DamageFactor = 0.8
+ThirdPersonDist = 16
+MobilityYawOnGround = 1.8
+MotionFactor = 0.92
+EnableBack = true
+
+CanMoveOnGround = false
+
+InventorySize = 27
+
+Sound = lcvp
+
+onGroundPitch = 4
+
+
+
+ParticlesScale = 0.7
+
+
+; M = Military(軍用機).  C = Transport(輸送機)
+Category = M.C
+
+
+HUD = plane_wwii, gunner, gunner, none
+
+
+
+;　main seat
+AddSeat =  -0.10, 0.97, -0.23
+
+
+; weapon seat
+AddGunnerSeat =   -0.50, 1.13, -2.30, -0.50, 2.33, -2.30, false
+AddGunnerSeat =   -2.20, 1.13, -2.30, -2.20, 2.33, -2.30, false
+
+
+AddPartSteeringWheel =   -0.127, 1.189, 0.667,   0, 1, -0.35,  90
+
+AddPartSteeringWheel =   -1.287, -0.17, -4.412,   0, 1, 0,  -60
+
+
+
+; seat 4-16
+AddSeat = -2.27, 0.46, -0.07
+
+AddSeat = -2.27, 0.46, 1.96
+AddSeat = -1.31, 0.46, 1.96
+AddSeat = -0.21, 0.46, 1.96
+AddSeat = -2.27, 0.46, 3.05
+AddSeat = -1.31, 0.46, 3.05
+AddSeat = -0.21, 0.46, 3.05
+AddSeat = -2.27, 0.46, 4.40
+AddSeat = -1.31, 0.46, 4.40
+AddSeat = -0.21, 0.46, 4.40
+AddSeat = -2.27, 0.46, 5.63
+AddSeat = -1.31, 0.46, 5.63
+AddSeat = -0.21, 0.46, 5.63
+
+
+AddRack = tank / mc_atv / mc_jeep / mc_Mini_Truck / MCForklift / humvee / humvee_m2 / Humvee_m1114 / m1129,   -1.18, 0.71, 4.82,  -1.18, 0.71, 10.67
+
+
+ExclusionSeat = 5, 17
+ExclusionSeat = 6, 17
+ExclusionSeat = 7, 17
+ExclusionSeat = 8, 17
+ExclusionSeat = 9, 17
+ExclusionSeat = 10, 17
+ExclusionSeat = 11, 17
+ExclusionSeat = 12, 17
+ExclusionSeat = 13, 17
+ExclusionSeat = 14, 17
+ExclusionSeat = 15, 17
+ExclusionSeat = 16, 17
+
+
+
+
+
+AddPartRotor =      -1.34, -0.22, -4.02,  0, 0, 1
+AddBlade = 1, 0,    -1.3003, -0.2199, -4.0632,  0, 0, 1
+
+
+AddPartHatch = 0.80, 0.08, 6.83, 1, 0, 0, 60
+
+
+
+AddPartWeapon    = lcvpmg7_7mm1,   false, true, true,  -0.50, 1.70, -2.30
+AddWeapon =  lcvpmg7_7mm1,   -0.50, 1.70, -2.30,  0, 0, false,  2,   0,   -360,  360,  -60, 10
+
+
+
+AddPartWeapon    = lcvpmg7_7mm2,   false, true, true,  -2.20, 1.70, -2.30
+AddWeapon =  lcvpmg7_7mm2,   -2.20, 1.70, -2.30,  0, 0, false,  3,   0,   -360,  360,  -60, 10
+
+UnmountPosition = -1.31, 2.10, 6.33
+
+
+
+
+
+BoundingBox = -1.31, 0.11, -1.48, 4.0, 2.0
+BoundingBox = -1.31, 0.11, -2.70, 4.0, 2.0
+BoundingBox = -1.31, 0.11, 2.60, 4.0, 2.0
+;BoundingBox = -1.31, 0.41, 5.73, 4.0, 2.0
+
+
+
+AddParticleSplash =  1.6,  0.02,  -5.3,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -1.6,  0.02,  -5.3,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  1.6,  0.02,  -8.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6,  0.02,  -8.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  1.6,  0.02,  -10.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6,  0.02,  -10.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  0.8,  0.02,  -10.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -0.8,  0.02,  -10.0,   2,      9.0,    1.1,   60,       0.01,   0
+
+;small light transport
+AddRecipe = "ACB", "BDD", "   ", A, mcheli:shiphull1, C, mcheli:engine1, B, mcheli:cannon1, D, mcheli:lap
+
+
+enableback = true
+

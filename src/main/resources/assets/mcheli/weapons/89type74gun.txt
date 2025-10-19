@@ -1,0 +1,34 @@
+DisplayName = 7.62mm Type 74 Machine Gun
+Type = MachineGun2
+Power = 8
+Acceleration = 8.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+
+SoundPitch = 1.0
+Sound = typesevenfourmachinegun
+Accuracy = 0.7
+HeatCount = 5
+MaxHeatCount = 150
+Gravity = -0.005
+SetCartridge = cartridge, 0.1,  90, 30, 3.00, -0.04, 0.40
+
+ModelBullet = bullet
+
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.0
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 1.0
+;DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+MaxAmmo = 2000
+SuppliedNum = 500
+Item =  3, iron_ingot
+Item =  2, gunpowder

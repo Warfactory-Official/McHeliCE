@@ -1,0 +1,65 @@
+DisplayName = 122mm 9P132 [9M28F - FRAG-HE Rocket]
+Type = Rocket
+Power = 250
+Acceleration = 7.0
+Flaming = false
+Sight = None
+;10.4km
+Gravity = -0.00276
+
+
+SoundPitch = 1.0
+
+ProximityFuseDist = 1
+ProximityDist = 1
+
+;BombletSTime = 100
+;BombletDiff = 2.8
+;Bomblet = 3
+
+
+Accuracy = 1.5
+Explosion = 4
+
+ExplosionInWater = 2
+
+ExplosionBlock = 3
+Round = 40
+
+ModelBullet = m30
+;Group = Rocket
+recoil = 0.5
+
+Delay = 2
+ReloadTime = 14000
+Group = MainGun
+;Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+TrajectoryParticle = largeexplode
+
+
+;Bomblet = 10
+;BombletDiff = 0.3
+;BombletSTime = 60
+ModelBomblet = cbc
+
+Sound = grad
+DisplayMortarDistance = true
+FixCameraPitch = true
+CameraRotationSpeedPitch = 0.2
+
+MaxAmmo = 40
+SuppliedNum = 10
+Item =  5, iron_ingot
+Item =  5, gunpowder

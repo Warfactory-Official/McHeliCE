@@ -1,0 +1,24 @@
+DisplayName = 7.62mm M1919 MG
+Type = MachineGun1
+Power = 7
+Acceleration = 7.0
+Accuracy = 1.50
+Flaming = false
+Sight = MoveSight
+Delay = 1
+ReloadTime = 160
+Round = 100
+;SoundDelay = 3
+;Accuracy = 4.0
+HeatCount = 3
+MaxHeatCount = 200
+SoundPitch = 1.0
+Sound = gun_h4_snd
+SoundVolume = 0.5
+AddMuzzleFlash      =           1.0,   0.25,        1,  220,254,219,104
+AddMuzzleFlashSmoke   =              1.5,     2,   3.0,  0.5,       15,  220,160,140,120
+
+MaxAmmo = 2400
+SuppliedNum = 100
+Item =  6, iron_ingot
+Item =  6, gunpowder

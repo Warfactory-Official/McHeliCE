@@ -1,0 +1,23 @@
+DisplayName = Kh-31
+Type = ASMissile
+Power = 1000
+Acceleration = 4.0
+radius = 2000
+Explosion = 10
+Flaming = true
+Sight = MoveSight
+Delay = 5
+ReloadTime = 1000
+Gravity = -0.01
+Sound = missile_2_snd
+ExplosionInWater = 10
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  8, gunpowder
+Item =  3, redstone

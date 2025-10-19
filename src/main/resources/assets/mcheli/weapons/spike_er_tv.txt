@@ -1,0 +1,31 @@
+DisplayName = SPIKE-ER Anti-Tank Missile
+Type = TVMissile
+Power = 1000
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 2
+Explosion = 4
+ExplosionInWater = 2
+Flaming = true
+Sight = MoveSight
+Delay = 5
+
+ReloadTime = 110
+ModeNum = 2
+ModelBullet = agm114
+Sound = missile_1_snd
+
+;DEBUG:Manual control only
+FixMode = 1
+
+; DEBUG
+;RigidityTime = 30
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  4, gunpowder
+Item =  2, redstone

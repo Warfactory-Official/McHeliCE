@@ -1,0 +1,37 @@
+DisplayName = 8cm Granatwerfer 34 Mortar
+AddDisplayName = en_US, 8 cm Granatwerfer 34 Mortar
+AddDisplayName = ru_RU, s.Gr.W.34 Mortar
+ItemID = 28607
+MaxHp = 100
+Gravity = -9.81
+GravityInWater = -1.0
+HideEntity = false
+MinRotationPitch = -20
+MaxRotationPitch =  0
+DamageFactor = 1.0
+CameraZoom = 3
+CameraPosition = -1.0,0.9, -0.2
+ThirdPersonDist = 8
+
+;Category = W.A
+
+HUD = gunner
+
+AddGunnerSeat = -1.00,  -0.2, -0.2,-1.00,  1.4, -0.2,false,-90,40,true
+
+UnmountPosition = -1.00,  1.5, -0.2
+
+AddPartWeapon = gr34,false,  true,  false, -0.0199, -0.0885, 0.1660
+AddPartWeaponChild= false, true, -0.0199, -0.0885, 0.1660
+
+AddTurretWeapon = gr34, 0, 2.3, 1.29,   0.0, -1.0,   true,1, 0,-360,360, -90,90
+
+;basic mortar
+AddRecipe = "ABA", "   ", "   ", A, mcheli:cannon1, B, mcheli:lap
+
+;BoundingBox =  0.0, 0.3782, 0.4666,  2.0, 2.0
+
+
+
+
+Boundingbox = 0.00,  0.20,  0.1660,  0.5, 1.0

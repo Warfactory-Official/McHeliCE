@@ -1,0 +1,5 @@
+DisplayName = Large Rocket Pod
+AddDisplayName = ja_JP, Large Rocket Pod
+StackSize = 64
+AddRecipe = "B B", " A ", "B B", A, mcheli:rocket2, B, mcheli:item.ingot_steel
+

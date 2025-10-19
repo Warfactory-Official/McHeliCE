@@ -1,0 +1,186 @@
+﻿DisplayName = ZTZ59D/Type 59D
+AddDisplayName = en_US, ZTZ59D/Type 59D
+AddDisplayName = zh_CN,  59D型坦克
+ItemID = 8894
+MaxHp = 205
+Speed = 0.31
+Sound = typefiftynine
+ThrottleUpDown = 3.0
+MobilityYawOnGround = 2.8
+MinRotationPitch = -18
+MaxRotationPitch = 4
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraPosition = 0.00,  2.8411, 0.90, true
+CameraZoom = 7
+EnableNightVision = true
+CameraRotationSpeed = 6
+FlareType = 10
+MaxFuel         = 1000
+FuelConsumption = 2.3
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 1.0
+FlareType = 10
+;EnableGunnerMode = true
+SubmergedDamageHeight = 3
+EnableEntityRadar = false
+HideEntity = false
+
+Category = MBT
+
+;-40.89
+
+;-0.4089
+
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+
+TurretPosition = 0.0, 1.0, 0.0
+
+
+WeightedCenterZ = 0.0
+
+SetWheelPos =  1.5,  -0.24,  2.4,  1.2, 0, -1.19, -2.45
+
+HUD = mbt_hudtwo, gunnernvg
+
+
+
+AddGunnerSeat =  0.00,  1.8411,  0.0,    0.00,  2.0911,  0.0,  false, -90, 90, true
+
+AddGunnerSeat = -0.5352, 2.3911,  -0.494,   -0.5352, 3.3911,  -0.494, false, -90, 90, true
+
+
+
+
+
+
+MotionFactor = 0.9
+
+
+;ArmorMinDamage = 9
+;ArmorMaxDamage = 350
+ArmorDamageFactor = 1.0
+
+EnableBack = true
+
+
+PivotTurnThrottle = 0.0
+
+
+
+
+
+
+AddCrawlerTrack = true, 0.2, 1.86,  -0.16/-2.6, 0.42/-3.71, 0.64/-3.78, 0.86/-3.71,0.99/-3.52,0.99/3.52,0.86/3.7, 0.64/3.78,0.42/3.7, -0.16/2.55
+AddCrawlerTrack = true, 0.2,  -1.92,   -0.16/-2.6, 0.42/-3.71, 0.64/-3.78, 0.86/-3.71,0.99/-3.52,0.99/3.52,0.86/3.7, 0.64/3.78,0.42/3.7, -0.16/2.55
+
+
+
+;TrackRollerRot = 30
+
+
+AddTrackRoller =  1.81 ,0.64 ,3.4
+AddTrackRoller =  1.79,  0.31,  2.4
+AddTrackRoller = 1.79,  0.31,  1.2
+AddTrackRoller =1.79,  0.31,  0
+AddTrackRoller = 1.79,  0.31,  -1.19
+AddTrackRoller =  1.79,  0.31,  -2.45
+AddTrackRoller = 1.81,  0.64,  -3.4
+
+AddTrackRoller =  -1.87 ,0.64 ,3.4
+AddTrackRoller =  -1.85,  0.31,  2.4
+AddTrackRoller =-1.85,  0.31,  1.2
+AddTrackRoller =-1.85,  0.31,  0
+AddTrackRoller = -1.85,  0.31,  -1.19
+AddTrackRoller =  -1.85,  0.31,  -2.45
+AddTrackRoller = -1.87,  0.64,  -3.4
+
+
+
+AddPartWeapon = 100AP59d / 100HE59d / 100he-59d, false, true, false,  0.00, 1.8838, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 1.8838, 1.23, 0.0
+AddPartWeaponChild = false, true, 0.00, 1.8838, 1.23, 0.4
+AddTurretWeapon = 100AP59d, 0.00, 1.8838, 0.23,  0.0, 0.0, true,1, 0,-360,360, -18, 4
+AddTurretWeapon = 100HE59d, 0.00, 1.8838, 0.23,  0.0, 0.0, true,1, 0,-360,360, -18, 4
+AddTurretWeapon = 100he-59d, 0.00, 1.8838, 0.23,  0.0, 0.0, true,1, 0,-360,360, -18, 4
+AddTurretWeapon =  mg_coaxial59d, 0.35, 1.8838, 0.23,  0.0, 0.0, true,1, 0,-360,360, -18, 4
+
+
+
+
+
+AddPartTurretWeapon    = 12_7mmgun59d,   false, true, true,  -0.4993, 3.1232, 0.0339
+AddPartTurretWeapon    = 12_7mmgun59d,  false, true, true, -0.4993, 2.8847, 0.0339
+AddTurretWeapon = 12_7mmgun59d,   -0.4993, 3.1232, 0.0339,   0.0, 0.0, false, 2, 0, -80,80, -82,4
+
+
+ArmorMinDamage = 20
+
+
+;side
+BoundingBox =  0.0, 0.75,  0.85,   2.65, 1.4,  0.24
+
+BoundingBox =  0.0, 0.75,  0.0,   2.65, 1.4,  0.24
+
+
+;lfp 169-171
+BoundingBox =  0, 0.20,  2.15,   2.50, 0.2,  0.11
+BoundingBox =  0, 0.40,  2.35,   2.50, 0.2,  0.11
+
+BoundingBox =  0, 0.60,  2.50,   2.50, 0.2,  0.11
+
+
+;ufp 291-286-224
+BoundingBox =  0, 0.80,  2.45,   2.50, 0.2,   0.06
+
+BoundingBox =  0, 1.0,  2.15,   2.50, 0.2,   0.06
+BoundingBox =  0, 1.2,  1.75,   2.50, 0.2,   0.06
+BoundingBox =  0, 1.35,  1.45,   2.50, 0.2,  0.08
+
+
+;rearhull
+
+BoundingBox =  0.0, 0.75, -2.0,   2.65, 1.4,  0.2
+;rear rear
+BoundingBox =  0.0, 0.85, -2.5,   2.6, 1.2,  0.44
+
+;turret
+BoundingBox =  0, 1.65,  0,   2.30, 1.2,  0.08
+
+
+;old
+
+;front hull 180mm
+;BoundingBox = 0.0, 1.0, 1.7, 3.0, 1.0, 0.11
+;BoundingBox = 0.0, 1.0, 1.9, 3.0, 0.8, 0.11
+;BoundingBox = 0.0, 1.0, 2.1, 3.0, 0.6, 0.11
+;BoundingBox = 0.0, 1.0, 2.3, 3.0, 0.4, 0.11
+;BoundingBox = 0.0, 1.0, 2.1, 3.0, 0.2, 0.11
+;BoundingBox = 0.0, 0.8, 2.6, 3.0, 0.1, 0.11
+;mid
+;BoundingBox = 0.0, 1.2, 0.0, 3.1, 0.65, 0.25
+;BoundingBox = 0.0, 1.2, 1.5, 3.1, 0.65, 0.25
+;BoundingBox = 0.0, 1.0, -2.0, 3.0, 1.25, 0.25
+;back
+;BoundingBox = 0.0, 1.0, -2.3, 2.8, 1.25, 0.44
+;top of hull 30mm
+;BoundingBox = 0.0, 1.3, 1.5, 3.0, 0.65, 0.66
+;turret
+;BoundingBox = 0.0, 2.1, 0.0, 2.4, 1.2, 0.1
+
+UnmountPosition = 0.00,  2.50, 0.00
+
+;med tracked tank (modern)
+AddRecipe = "ABC", "DGF", "   ", A, mcheli:mediumchassis, B, mcheli:cannon2, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:fcs, G, mcheli:composite
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:t55, B, mcheli:fcs, C, mcheli:composite
+
+;EntityWidth  = 0.8
+;EntityHeight = 0.8

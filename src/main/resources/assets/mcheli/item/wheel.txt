@@ -1,0 +1,5 @@
+DisplayName = Wheel
+AddDisplayName = ja_JP, Wheel
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_wheel
+AddRecipe = " B ", "BAB", " B ", A, mcheli:rims, B, mcheli:rubber

@@ -1,0 +1,94 @@
+DisplayName = AMX-13/75 FL-10
+MaxHp = 150
+Speed = 0.37
+Sound = MT_Run_snd
+ThrottleUpDown = 2.0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 8
+CameraRotationSpeed = 18
+StepHeight = 1.8
+MinRotationPitch = -13
+MaxRotationPitch = 6
+DefaultFreelook = true
+
+Category = LT
+
+FlareType = 10
+
+CameraPosition = 0.00,  2.85, 0.5, true
+HideEntity = true
+ThirdPersonDist = 8
+MobilityYawOnGround = 3.0
+HUD = ww2tank_hud, ww2tank_hud
+SubmergedDamageHeight = 1
+OnGroundPitchFactor = 1.8
+OnGroundRollFactor  = 1.6
+WeightType = Tank
+
+AddGunnerSeat =  0.00,  1.5,  0.5,    0.00,  3.50,  -0.5,  false, -30, 6, true
+
+unmountposition = 0.00,  3.5,  0.5
+
+SetWheelPos =  1.05,  -0.24,  2.82, 1.75, 0.64,  -0.42, -1.57
+
+AddCrawlerTrack = true, 0.18, -1.5657, -0.3327/2.8227, -0.0417/3.783, -0.0189/3.9552, 0.0613/4.1091, 0.1894/4.2264, 0.35/4.2927, 0.5233/4.30, 0.6889/4.248, 0.8266/4.1422, 0.9199/3.9957, 0.9574/3.8262, 0.6666/-1.5744, 0.5997/-1.8242, 0.4168/-2.007, 0.1669/-2.07, -0.0828/-2.007, -0.2658/-1.8242, -0.3327/-1.5744, -0.3327/-1.5844, -0.3327/2.8127
+AddCrawlerTrack = true, 0.18, 1.5657, -0.3327/2.8227, -0.0417/3.783, -0.0189/3.9552, 0.0613/4.1091, 0.1894/4.2264, 0.35/4.2927, 0.5233/4.30, 0.6889/4.248, 0.8266/4.1422, 0.9199/3.9957, 0.9574/3.8262, 0.6666/-1.5744, 0.5997/-1.8242, 0.4168/-2.007, 0.1669/-2.07, -0.0828/-2.007, -0.2658/-1.8242, -0.3327/-1.5744, -0.3327/-1.5844, -0.3327/2.8127
+AddTrackRoller = -1.55,  0.4579,  3.8046
+AddTrackRoller = -1.55,  0.1669,  2.8227
+AddTrackRoller = -1.55,  0.1669,  1.7505
+AddTrackRoller = -1.55,  0.1669,  0.6466
+AddTrackRoller = -1.55,  0.1669,  -0.4218
+AddTrackRoller = -1.55,  0.1669,  -1.5744
+AddTrackRoller = 1.55,  0.4579,  3.8046
+AddTrackRoller = 1.55,  0.1669,  2.8227
+AddTrackRoller = 1.55,  0.1669,  1.7505
+AddTrackRoller = 1.55,  0.1669,  0.6466
+AddTrackRoller = 1.55,  0.1669,  -0.4218
+AddTrackRoller = 1.55,  0.1669,  -1.5744
+AddTurretWeapon = amx75mm,  0.00, 2.0886, 0,  0.0, 0.0, true,1, 0,-360,360, -13, 6
+AddTurretWeapon = amx75mmhe,  0.00, 2.0886, 0,  0.0, 0.0, true,1, 0,-360,360, -13, 6
+AddTurretWeapon = mac31,      -0.5086, 2.0886, 0,  0.0, 0.0, true,1, 0,-360,360, -13, 6
+AddPartWeapon = amx75mm/amx75he, false, true, false,  0.00, 1.35, 0, 0
+AddPartWeaponChild = false, true, 0.00, 2.06, 0.1339
+AddPartWeaponChild = false, true, 0.00, 2.06, 0.1339, 0.5
+AddFixedSearchLight =  1.0848, 1.3438, 3.6153,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+AddFixedSearchLight =  -1.0821, 1.3438, 3.6153,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  -6.0,  0
+AddFixedSearchLight =  1.3559, 1.2072, 3.4688,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.15,  6.0,  0
+AddFixedSearchLight =  1.4768, 0.8268,-2.1877,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight = -1.5043, 0.8268,-2.1877,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -0.0,  0
+EnableBack = true
+MotionFactor = 0.95
+ArmorMinDamage = 10
+;ArmorMaxDamage = 200
+ArmorDamageFactor = 1.0
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+;light tracked tank (modern no composite)
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:cannon1, C, mcheli:engine2, D, mcheli:tanktracks, E, mcheli:lap, F, mcheli:electronics
+
+;turret
+BoundingBox =  0.0, 2,  0,   2.55, 1.0,   0.20
+;hull
+BoundingBox =  0.0, 0.65, 0,   2.5, 1.45,   0.50
+BoundingBox =  0.0, 0.65, 1.0,   2.5, 1.45,   0.50
+BoundingBox =  0.0, 0.65, -0.25,   2.5, 1.45,   0.60
+
+;lfp
+
+BoundingBox =  0.0, 0.20, 2.8,   2.4, 0.2,   0.30
+BoundingBox =  0.0, 0.25, 2.8,   2.4, 0.2,   0.30
+BoundingBox =  0.0, 0.45, 2.9,   2.4, 0.2,   0.30
+BoundingBox =  0.0, 0.65, 2.8,   2.4, 0.2,   0.30
+BoundingBox =  0.0, 0.85, 2.8,   2.4, 0.2,   0.30
+;ulp
+
+BoundingBox =  0.0, 1.05, 2.6,   2.4, 0.2,   0.20
+
+BoundingBox =  0.0, 1.25, 2.0,   2.4, 0.2,   0.20
+
+BoundingBox =  0.0, 1.45, 1.65,   2.4, 0.2,   0.20
+

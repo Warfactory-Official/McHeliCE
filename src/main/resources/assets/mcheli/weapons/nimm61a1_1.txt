@@ -1,0 +1,34 @@
+DisplayName = 20mm M61A1 Vulcan Automatic Cannon
+Type = MachineGun2
+ModelBullet = bullet
+Power = 25
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+SoundPitch = 0.7
+Accuracy = 3.0
+HeatCount = 1
+MaxHeatCount = 150
+
+Gravity = -0.001
+
+Delay = 0
+SoundVolume = 5.5
+SoundPitch = 5.5
+Accuracy = 3
+HeatCount = 1
+MaxHeatCount = 150
+Sound = gun_m61a1_snd
+Power = 40
+Acceleration = 8.0
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+MaxAmmo = 940
+SuppliedNum = 400
+Item =  5, iron_ingot
+Item =  5, gunpowder

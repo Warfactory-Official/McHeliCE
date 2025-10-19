@@ -1,0 +1,184 @@
+﻿DisplayName = HSV-X1 JOINT VENTURE
+AddDisplayName = en_US, HSV-X1 JOINT VENTURE
+AddDisplayName = ja_JP, HSV-X1 軍用フェリー
+
+PivotTurnThrottle = 0.2
+
+MaxHp = 1000
+Speed = 0.58
+
+;50 knots
+
+Float = true
+FloatOffset = 0.0
+Sound = big_ships
+ThrottleUpDown = 0.8
+MaxFuel         = 2000
+FuelConsumption = 1.2
+Gravity = -0.5
+GravityInWater = -0.2
+StepHeight = 5.0
+DamageFactor = 0.1
+MobilityYawOnGround = 0.8
+EnableNightVision = true
+EnableEntityRadar = true
+MotionFactor = 0.90
+ParticlesScale = 18.5
+;Stealth = 0.3
+RotorSpeed = 10
+EnableBack = true
+ThirdPersonDist = 60
+CanMoveOnGround = false
+CameraPosition = -10.62, 12.78, 39.15, true
+HideEntity = true
+InventorySize = 54
+
+
+; guest entry seat
+
+;AddSeat =  -0.04, 0.12, -0.02
+AddSeat =  -1.5, 0.12, 2.26
+
+;UnmountPosition = -1.5, 1.98, 2.26
+
+BoundingBox = -1.5, 1.0, 2.26, 3.5, 3.5, 1.0
+
+
+
+; M = Military(軍用機).  C = Transport(輸送機)
+Category = M.C
+
+
+HUD = plane_wwii, gunner, gunner, gunner, gunner, gunner, gunner, none, none, none, none, none
+
+
+
+AddPartRotation  =  -11.02, 17.33, 25.12,  0, 1, 0, 1.0,   false
+
+; stopping anchor
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+
+
+;　main seat
+AddSeat =  -0.31,  0.18, -0.02
+
+
+AddPartSteeringWheel =   -10.61, 11.94, 40.08,   0, 1, -0.65,  80
+
+
+
+
+
+
+
+; inside seat
+AddSeat =  -8.93, 11.69, 38.82
+AddSeat =  -12.71, 11.69, 38.82
+AddSeat =  -12.71, 11.69, 36.93
+AddSeat =  -10.81, 11.69, 36.93
+AddSeat =  -8.91, 11.69, 36.93
+AddSeat =  -12.71, 11.69, 35.17
+AddSeat =  -10.81, 11.69, 35.17
+AddSeat =  -8.91, 11.69, 35.17
+
+; heliport seat
+AddSeat =  -7.90, 10.82, 4.31
+
+
+; boat seat
+AddSeat =  -11.03, 8.00, -5.55
+AddSeat =  -1.80, 7.07, -0.47
+
+
+; on sea seat
+AddSeat =  -3.96, 0.11, -0.14
+AddSeat =  -4.24, 0.11, 12.26
+AddSeat =  -4.24, 0.11, 31.54
+AddSeat =  -4.24, 0.11, 50.81
+
+
+
+AddPartSlideHatch = 0.00, -8.65, 0.00
+AddPartHatch = -13.32, 3.67, -3.29, 1, 0, 0, -105
+AddPartSlideHatch =  0.00, 0.00, -12.53
+
+
+
+; horn
+AddWeapon =  ship_horn, 0.00, 0.10, 0.00,  0.0, 90
+
+UnmountPosition = 0, 2, 0
+
+;AddRack = none, 0, 40, 0,  -11.45, 16.71, 4.94,  15
+
+AddRack = helicopter / mv-22,  -11.45, 11.09, 5.94,  -11.45, 16.71, 4.94,  15
+
+;AddRack = none,  -11.45, 10.09, 5.94,  -11.45, 16.71, 4.94,  15
+
+AddRack =  mc_RHIB / Lcvp,  -11.03, 6.12, -5.66, -10.90, 0.56, -7.87, 8
+
+AddRack =  zodiac /  stinger_390x / Rubber_dinghy ,  -0.25, 6.24, -0.53, 0.44, 0.13, -2.08, 8
+
+
+AddRack =  tank,  -5.98, 4.14, 45.82, -17.93, 4.38, -18.87, 20
+AddRack =  tank,  -11.15, 4.14, 45.82, -14.85, 4.38, -18.87, 20
+AddRack =  tank,  -15.68, 4.14, 45.82, -20.80, 4.38, -18.87, 20
+AddRack =  tank,  -5.98, 4.14, 34.37, -11.75, 4.38, -18.87, 20
+AddRack =  tank,  -11.15, 4.14, 34.37, -23.70, 4.38, -18.87, 20
+AddRack =  tank,  -15.68, 4.14, 34.37, -08.65, 4.38, -18.87, 20
+
+AddRack =  tank,  -5.98, 4.14, 23.95, -17.93, 4.38, -25.87, 20
+AddRack =  tank,  -11.15, 4.14, 23.95, -14.85, 4.38, -25.87, 20
+AddRack =  tank,  -15.68, 4.14, 23.95, -20.80, 4.38, -25.87, 20
+AddRack =  tank,  -5.98, 4.14, 12.88, -11.75, 4.38, -25.87, 20
+AddRack =  tank,  -11.15, 4.14,  12.88, -23.70, 4.38, -25.87, 20
+AddRack =  tank,  -15.68, 4.14,  12.88, -08.65, 4.38, -25.87, 20
+
+
+
+BoundingBox = -10.75, 6.99, 56.38,  15.0,  10
+BoundingBox = -10.75, 6.99, 44.00,  15.0,  10
+
+BoundingBox = -10.75, 1.09, 56.38,  15.0,  10
+BoundingBox = -10.75, 1.09, 44.00,  15.0,  10
+
+
+BoundingBox = -10.75, 6.99, 32.83,  15.0,  10
+BoundingBox = -10.75, 6.99, 30.60,  20.0,  20
+BoundingBox = -10.75, 6.99, 23.60,  20.0,  20
+BoundingBox = -10.75, 4.99, 23.60,  20.0,  10
+BoundingBox = -10.75, 6.99, 9.22,  15.0,  10
+BoundingBox = -10.75, 6.99, 1.48,  15.0,  10
+BoundingBox = -10.75, 2.99, 6.48,  15.0,  10
+BoundingBox = -10.75, 2.99, 1.48,  15.0,  10
+
+
+
+
+
+AddParticleSplash  =  2.16, 0.25, 1.38,    5, 10.5,  0.8, 40, 0.4, -0.03 
+AddParticleSplash  =  0.67, 0.25, -2.16,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -2.34, 0.25, -5.52,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -4.78, 0.25, -10.00,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -4.78, 0.25, -13.86,   4, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -4.78, 0.25, -15.72,   4, 10.3,  0.8, 80, 0.1,   -0.02
+AddParticleSplash  =  -4.78, 0.25, -17.42,   4, 10.0,  0.8, 80, 0.1,  -0.02
+
+
+
+AddParticleSplash  =  -24.75, 0.25, 1.38,    5, 10.5,  0.8, 40, 0.4, -0.03 
+AddParticleSplash  =  -22.73, 0.25, -2.16,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -20.73, 0.25, -5.52,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -15.67, 0.25, -10.00,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -15.67, 0.25, -13.86,   4, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -15.67, 0.25, -15.72,   4, 10.3,  0.8, 80, 0.1,   -0.02
+AddParticleSplash  =  -15.67, 0.25, -17.42,   4, 10.0,  0.8, 80, 0.1,  -0.02
+
+
+enableback = true
+
+
+;transport
+AddRecipe = "AAC", "D  ", "BC ", A, mcheli:shiphull3, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:electronics

@@ -1,0 +1,38 @@
+DisplayName = B83 Nuclear Bomb [1.2MT SURFACE]
+Type = Bomb
+;Power = 1000
+;DamageFactor = tank, 1.0
+;DamageFactor = plane, 3.0
+;DamageFactor = vehicle 2.0
+;DamageFactor = heli, 3.0
+Acceleration = 0.1
+;Explosion = 4
+;ExplosionBlock = 3
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 4
+Sound = bomb_snd
+ModelBullet = agm65e
+;400kt
+nukeyield = 250
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 15
+;Explosive mass	? kg
+;Power = 500
+;ExplosionBlock = 2
+;ExplosionInWater = 0
+;DamageFactor = tank, 2.0
+;DamageFactor = plane, 4.5
+;DamageFactor = vehicle 4.5
+;DamageFactor = heli, 4.5
+;DamageFactor = player, 20.0
+
+ReloadTime = 1000
+Round = 1
+MaxAmmo = 1
+SuppliedNum = 1
+Item = 12, mcheli:genericnuclearbomb
+Item = 1, tnt

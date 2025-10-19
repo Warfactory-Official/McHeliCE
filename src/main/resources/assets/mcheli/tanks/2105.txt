@@ -1,0 +1,109 @@
+﻿DisplayName = 2105 Lada
+AddDisplayName = en_US, 2105 Lada
+AddDisplayName = ja_JP, スカイラインLada 2105
+ItemID = 300341
+MaxHp = 200
+ThrottleUpDown = 0.81
+Speed = 0.92
+MobilityYawOnGround = 10.0
+StepHeight = 1.2
+Sound = lada
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+;CameraPosition = 0.60,  1.22, -0.02, true
+;CameraPosition  = 0.00,  2.50, -6.00, true
+
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+WeightedCenterZ = 0.8
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = C
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  0.85,  -0.24,  2.065, -1.33
+
+HUD = bnr34_hud, none, none, none, none
+
+AddSeat = 0.58,  -0.02, 0.22
+
+Regeneration = false
+ArmorDamageFactor = 2.32
+ArmorMinDamage = 2
+
+
+
+unmountposition = 0.58,  2.22, 0.22
+
+AddSeat = -0.58,  0.08, 0.22
+
+AddSeat = -0.58,  0.08, -0.9
+AddSeat = -0.0,   0.08, -0.9
+AddSeat = 0.58,   0.08, -0.9
+
+
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     = -1.16,  0.043,  2.065, 45
+AddPartWheel     =  1.16,  0.043,  2.065, 45
+AddPartWheel     = -1.16,  0.043, -1.334
+AddPartWheel     =  1.16,  0.043, -1.334
+
+;ハンドル
+AddPartSteeringWheel =  0.5873,  0.6195,  0.8467,  0.0, 1.0, -3.5,   130
+
+；前輪ブレーキ
+AddPartSteeringWheel =  -1.16,  0.204,  2.065,  0.0, 1.0, 0.0,   45
+AddPartSteeringWheel =   1.16,  0.204,  2.065,  0.0, 1.0, 0.0,   45
+
+;音声ギミック
+AddWeapon = none, 0.0, 0.0, 0.0, 0, 0
+AddWeapon =  1_horn , 0.00,  0.42,  3.05, 0.0, 90
+
+AddWeapon = drift,    1.16, 0.0, -1.334,  0.0,0.0
+AddWeapon = drift,   -1.16, 0.0, -1.334,  0.0,0.0
+
+
+AddFixedSearchLight =  0.832, 0.376, 2.915,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5, 0, 0
+AddFixedSearchLight =  -0.832, 0.376, 2.915,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5,0,0
+
+
+AddFixedSearchLight =  0.862, 0.5524,-2.8452,   0x80FF0000,   0x00FF0000,    0.02, 0.55,  180.0,  4
+AddFixedSearchLight = -0.862, 0.5524,-2.8452,   0x80FF0000,   0x00FF0000,    0.02, 0.55,  180.0,  4
+AddFixedSearchLight =  0.93, 0.5524,-2.8452,   0x80FF0000,   0x00FF0000,    0.02, 0.55,  180.0,  4
+AddFixedSearchLight = -0.93, 0.5524,-2.8452,   0x80FF0000,   0x00FF0000,    0.02, 0.55,  180.0,  4
+
+
+BoundingBox = 0.0, 0.4, 2.3, 0.8, 0.7
+BoundingBox = 0.0, -0.1, 0.1, 2.6, 0.2
+BoundingBox = 0.0, -0.1, 1.5, 2.6, 0.2
+BoundingBox = 0.0, 0.1, -1.6, 2.5, 0.2
+
+InventorySize = 9
+
+;basic civ car
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, glass_pane
+

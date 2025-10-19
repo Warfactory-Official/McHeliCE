@@ -1,0 +1,34 @@
+DisplayName = 40mm M75 Grenade
+Type = MachineGun2
+ModelBullet = cbc
+Power = 15
+Acceleration = 2.5
+Explosion = 1
+ExplosionBlock = 1
+ExplosionInWater = 1
+Flaming = false
+Sight = MoveSight
+Delay = 5
+Round = 5
+ReloadTime = 60
+SoundDelay = 1
+SoundPitch = 0.3
+SoundVolume = 2
+Sound = gun_h2_snd
+Gravity = -0.03
+Accuracy = 2.0
+
+Piercing = 0
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+MaxAmmo = 300
+SuppliedNum = 150
+Item =  3, iron_ingot
+Item =  3, gunpowder

@@ -1,0 +1,25 @@
+DisplayName = FPV Drone Suicide (PG-7 Warhead)
+Type = Bomb
+Power = 2600
+Acceleration = 0.1
+Explosion = 9
+ExplosionBlock = 2
+ExplosionInWater = 2
+Flaming = false
+Sight = None
+Delay = 5000
+Destruct = true
+HeatCount = 500
+MaxHeatCount = 650
+DamageFactor = tank, 20.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+ProximityFuseDist = 12
+
+DelayFuse = 5
+;delayfuse does nothing for destruct = true, todo fix
+MaxAmmo = 1
+SuppliedNum = 1

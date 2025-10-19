@@ -1,0 +1,40 @@
+﻿DisplayName = Type 79 Anti Tank Guided Missile
+Type = TVMissile
+Power = 700
+Acceleration = 2
+Explosion = 2
+Flaming = false
+Sight = MoveSight
+FixMode = 1
+DisplayName = Type 79 Anti Tank Missile
+DisplayName = Type 79 Anti Tank Missile
+
+DisplayName = Type 79 Anti Tank Missile
+
+DisplayName = Type 79 Anti Tank Missile
+DisplayName = Type 79 Anti Tank Missile
+
+DisplayName = Type 79 Anti Tank Missile
+
+
+
+
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Explosion = 2
+Flaming = false
+Sight = MoveSight
+Delay = 60
+ReloadTime = 100
+
+
+Item = 2, iron_ingot
+Item = 2, gunpowder
+Item = 2, redstone
+
+
+ModeNum = 2
+Sound = bmptmissile

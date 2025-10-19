@@ -1,0 +1,39 @@
+DisplayName = D-102TC Rifled gun [HE]
+Type = MachineGun2
+Power = 40
+ModelBullet = bullet105mm
+Acceleration = 4.0
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 2
+Flaming = false
+Sight = MoveSight
+Delay = 120
+ModeNum = 1
+Round = 1
+SoundPitch = 0.5
+SoundVolume = 10
+Sound = tfiftyfive
+Group = MainGun
+Recoil = 2
+Gravity = -0.001
+AddMuzzleFlash      =  8.2,     2.10,        7,  220,254,159,74
+AddMuzzleFlash      =  8.1,     2.05,        6,  220,254,219,104
+AddMuzzleFlash      =  8.0,     2.00,        5,  220,254,219,184
+AddMuzzleFlashSmoke =  8.2, 30, 12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 10.2, 20, 13.0,  7.0, 55,  200,190,170,150
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 10.0
+
+
+RecoilBufCount = 40, 5
+
+MaxAmmo = 14
+SuppliedNum = 7
+Item =  2, iron_ingot
+Item =  2, gunpowder

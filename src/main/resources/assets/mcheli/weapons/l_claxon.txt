@@ -1,0 +1,27 @@
+DisplayName = Horn
+Type = MachineGun2
+Power = 0
+Acceleration = 0.0
+Explosion = 0
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 5
+ReloadTime = 0
+Particle = largesmoke
+TimeFuse = 1
+ModelBullet = dummy
+Sound = L_Claxon
+
+Sight = None
+;Delay = 10
+Power = 0
+Accuracy = 0
+Flaming = false
+ModelBullet = 0_none
+Particle = none
+SoundVolume = 15.0
+;SoundPitchRandom = 0
+Gravity = -9
+;AddDisplayName = en_US,
+SoundVolume = 15

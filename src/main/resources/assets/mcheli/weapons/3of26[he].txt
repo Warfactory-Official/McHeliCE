@@ -1,0 +1,36 @@
+DisplayName = 125mm Smoothbore Cannon [3OF26 - HE]
+Type = MachineGun2
+Power = 42
+ModelBullet = 3of26
+Acceleration = 4.0
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 5
+Flaming = false
+Sight = MoveSight
+Delay = 150
+ModeNum = 1
+SoundPitch = 0.5
+SoundVolume = 15
+Sound = cannon_4_snd
+group = maingun
+Gravity = -0.005
+Round = 1
+DisplayMortarDistance = true
+ReloadTime = 150
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+AddDisplayName = en_US, 3OF26[HE]
+
+
+MaxAmmo = 35
+SuppliedNum = 15
+Item =  3, iron_ingot
+Item =  2, gunpowder
+

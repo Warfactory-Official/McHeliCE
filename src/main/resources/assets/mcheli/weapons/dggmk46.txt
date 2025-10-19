@@ -1,0 +1,22 @@
+DisplayName = Mark 46 Torpedo
+Type = Torpedo
+Power = 1050
+ModelBullet = mk46
+Acceleration = 0.0
+AccelerationInWater = 1.5
+Explosion = 8
+ExplosionInWater = 8
+Flaming = false
+Sight = None
+Delay = 3
+GuidedTorpedo = false
+;sorry! guide logic is FUCKING RETARDED
+Gravity = -0.03
+GravityInWater = 0
+Sound = bomb_snd
+
+MaxAmmo = 8
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  3, gunpowder
+Item =  1, redstone

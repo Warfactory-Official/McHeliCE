@@ -1,0 +1,37 @@
+DisplayName = 7.62mm PKM Machine Gun
+Type = MachineGun1
+Power = 8
+Flaming = false
+Sight = MoveSight
+Delay = 1
+;SoundDelay = 3
+Accuracy = 2.2
+HeatCount = 3
+MaxHeatCount = 150
+SoundPitch = 1.0
+SoundVolume = 15
+Sound = pkt
+Gravity = -0.005
+BulletColor        = 255, 189, 255, 116
+
+
+AddMuzzleFlash      =  1.5,      0.22,        1,  150,254,159,84
+AddMuzzleFlashSmoke =  1.7,  1,   2.0,  0.5, 15,  180,250,245,240
+
+Round = 250
+ReloadTime = 80
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+;DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+MaxAmmo = 250
+SuppliedNum = 250
+Item =  2, iron_ingot
+Item =  2, gunpowder

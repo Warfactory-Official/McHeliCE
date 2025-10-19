@@ -1,0 +1,8 @@
+DisplayName = Advanced Helicopter Rotor
+AddDisplayName = ja_JP, Advanced Helicopter Rotor
+
+StackSize = 64
+
+AddRecipe = " R ", "RBR", " R ", R, redstone, B, mcheli:heliblade
+
+

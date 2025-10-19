@@ -1,0 +1,98 @@
+DisplayName = 152mm 2A65 Msta-B Howitzer 
+AddDisplayName = uk_UA, 152mm Мста-б
+AddDisplayName = en_EN, 152mm Msta-b
+AddDisplayName = en_US, 152mm 2A65 Msta-B Howitzer 
+ItemID = 196619
+MaxHp = 100
+Speed = 0.01
+Sound = none
+ThrottleUpDown = 0.81
+MinRotationPitch = -70
+MaxRotationPitch =  70
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+EnableNightVision = false
+DefaultFreelook = false
+
+Category = H
+
+SubmergedDamageHeight = 2
+OnGroundPitchFactor = 3.5
+OnGroundRollFactor  = 3.5
+
+HideEntity = false
+
+SubmergedDamageHeight = 2
+
+WeightedCenterZ = 0.0
+
+CameraZoom = 4
+PartWheelRot = 1
+
+WeightType = Unknown
+
+MobilityYawOnGround = 1.0
+PivotTurnThrottle = 0.0
+
+HUD = vehicle_wwii
+AddGunnerSeat =  0.75,  0.27, -1.5, 0.07,  -0.27, -2.13, false, -70, 70, false
+CameraPosition = 0.75, 2.0,  -0.0, true
+CameraRotationSpeed = 10
+
+unmountposition = 0.75,  1.5, -1.5
+
+MotionFactor = 0.03
+
+SetWheelPos =  1.05,  -0.24,  -0.04, 0.04
+
+AddWeapon = mstahe,  0.0, 1.51, -0.49,  0.48, -1.32, true,1, 0, 0, 0, -70, 4
+AddWeapon = mstatv,  0.0, 1.51, -0.49,  0.48, -1.32, true,1, 0, 0, 0, -70, 4
+AddWeapon = mstaheat,  0.0, 1.51, -0.49,  0.48, -1.32, true,1, 0, 0, 0, -70, 4
+AddWeapon = mstanuclear,  0.0, 1.51, -0.49,  0.48, -1.32, true,1, 0, 0, 0, -70, 4
+AddWeapon = mstalrcharge,  0.0, 1.51, -0.49,  0.48, -1.32, true,1, 0, 0, 0, -70, 4
+
+AddTrackRoller    =   1.36,  0.33,  -0.04
+AddTrackRoller     =   -1.35, 0.33,  -0.04
+
+
+TrackRollerRot = 2.5
+
+AddPartWeaponBay = mstahe / mstatv / mstaheat / mstanuclear / mstalrcharge, -0.02, 0.67, 0.48,  1, 0, 0, 90
+AddPartWeaponBay = mstahe / mstatv / mstaheat / mstanuclear / mstalrcharge, 0.75, 0.52, -0.29,  0, 1, 0, 15
+AddPartWeaponBay = mstahe / mstatv / mstaheat / mstanuclear / mstalrcharge, -0.63, 0.52, -0.29,  0, 1, 0, -15
+
+
+
+
+AddPartWeapon = mstahe / mstatv / mstaheat / mstanuclear / mstalrcharge, false, true, false,  0.51, 2.49, -1.32, 0
+AddPartWeaponChild = false, true, 0.0, 1.51, -0.49, 1
+
+EnableBack = true
+
+MotionFactor = 0.1
+
+;ArmorMinDamage = 5
+;ArmorMaxDamage = 120
+ArmorDamageFactor = 1.00
+
+MaxFuel         = 0
+FuelConsumption = 0.0
+
+;BoundingBox =  0.40, 2.64, 0.0,  3.10, 2.01
+;BoundingBox =  0.40, 0.79, -1.75, 3.10, 2.01
+
+BoundingBox = 0.0, 1.2, 0.0, 1.0, 1.8
+
+BoundingBox = 0.75, 1.2, -0.5, 0.5, 1.8
+BoundingBox = -0.75, 1.2, -0.5, 0.5, 1.8
+BoundingBox = 1.25, 1.2, -0.5, 0.5, 1.8
+BoundingBox = -1.25, 1.2, -0.5, 0.5, 1.8
+
+
+
+StepHeight = 0.0
+
+;advanced arty turret (less)
+AddRecipe = "   ", "DEF", "GG ", D, mcheli:electronics, E, mcheli:lap, F, mcheli:advancedmechanicparts, G, mcheli:cannon3

@@ -1,0 +1,45 @@
+DisplayName = 88mm KwK36 Cannon [PzGr 39 - APCBC]
+Type = MachineGun1
+Power = 165
+Acceleration = 6
+ModelBullet = bullet76mm
+Explosion = 1
+ExplosionBlock = 1
+Sight = None
+ReloadTime = 120
+Delay = 120
+Round = 1
+Sound = HT_Fire_snd
+SoundVolume = 15
+Accuracy = 1.5
+Piercing = 2
+;HeatCount = 80
+;MaxHeatCount = 75
+Gravity = -0.005
+GravityInWater = -1.0
+Particle = flame
+RecoilBufCount = 40, 5
+DamageFactor = tank, 3.5
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+
+
+HeatCount = 900
+MaxHeatCount = 2050
+
+Group = MainGun
+Recoil = 2.0
+Piercing = 2
+
+AddMuzzleFlash      =           8.0,   2.50,        3,  220,254,159,74
+AddMuzzleFlash      =           12.0,  1.25,        6,  220,254,219,104
+
+AddMuzzleFlashSmoke   =              9.2,     30,   13.0,  5.0,       100,  220,160,140,120
+AddMuzzleFlashSmoke   =             14.6,     15,   20.0,  8.0,       150,  200,190,170,150
+
+MaxAmmo = 24
+SuppliedNum = 4
+Item =   2, iron_ingot
+Item =  1, gunpowder

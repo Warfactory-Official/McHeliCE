@@ -1,0 +1,37 @@
+DisplayName = 76mm QF-3 
+Type = Rocket
+Power = 45
+ModelBullet = 88mm
+Acceleration = 35
+Explosion = 3
+ExplosionBlock = 3
+Flaming = false
+Sight = MoveSight
+Delay = 60
+ReloadTime = 88
+Round = 15
+DisableSmoke = true
+Sound = aa_shoot_snd
+RecoilBufCount = 40, 5
+Recoil = 0.5
+Group = MainGun
+
+SetCartridge = 800mmcartridge, 0.8,  90, 15, 0.11, -0.05, 0.5
+
+DisplayMortarDistance = true
+AddMuzzleFlash   =     5.0, 0.50,        37, 220,254,159, 74
+AddMuzzleFlash   =     4.8, 0.75,        30, 220,254,219,104
+AddMuzzleFlash   =     4.7, 1.50,        28, 220,254,219,184
+AddMuzzleFlash   =     4.5, 0.90,         18, 220,254, 51, 73
+
+AddMuzzleFlashSmoke   = 4.6, 30, 3.0,   4.0, 124, 220, 50, 50, 50
+AddMuzzleFlashSmoke   = 4.7, 20, 2.0,   7.0, 110, 200, 10, 10, 10
+AddMuzzleFlashSmoke   = 4.7, 40, 4.0,  2.0, 150, 200, 30, 30, 30
+
+RecoilBufCount = 88, 8
+
+MaxAmmo = 45
+SuppliedNum = 15
+Item =   1, iron_ingot
+Item =  2, gunpowder
+Item =   1, redstone

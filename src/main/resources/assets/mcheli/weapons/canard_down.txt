@@ -1,0 +1,2 @@
+DisplayName = カナード下げ
+Type = Dummy

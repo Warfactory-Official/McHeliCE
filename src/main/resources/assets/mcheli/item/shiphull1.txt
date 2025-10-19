@@ -1,0 +1,6 @@
+DisplayName = Light Ship Hull
+AddDisplayName = ja_JP, Light Ship Hull
+
+StackSize = 64
+AddRecipe = "AAA", "   ", "   ", A, mcheli:lap
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_hull_1

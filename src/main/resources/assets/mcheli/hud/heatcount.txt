@@ -1,0 +1,40 @@
+
+If=pitch<=0
+color=50
+EndIf
+If=pitch>0
+color=20
+EndIf
+
+If=(wpn_heat>0&&wpn_heat<=0.125)&&(motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5)
+DrawTexture = heat1, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.125&&wpn_heat<=0.25)&&(motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5)
+DrawTexture = heat2, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.25&&wpn_heat<=0.375)&&(motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5)
+DrawTexture = heat3, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.375&&wpn_heat<=0.5)&&(motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5)
+DrawTexture = heat4, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+
+If=(wpn_heat>0.5&&wpn_heat<=0.625)&&(motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5)
+DrawTexture = heat5, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.625&&wpn_heat<=0.75)&&(motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5)
+DrawTexture = heat6, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.75&&wpn_heat<=0.875)&&(motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5)
+DrawTexture = heat7, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.875&&wpn_heat<=1)&&(motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5)
+DrawTexture = heat8, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+
+
+If=motion_y<=0.5&&motion_y>=-0.3&&motion_z<=5&&motion_z>=-5
+DrawTexture = kasoru, -7.5+motion_z*3, -27+motion_y*color, 15,15 , 0,0, 256,256
+EndIf
+
+DrawTexture = syouzyunn1, -19, -27.5, 40,40 ,0,0, 256,256

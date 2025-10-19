@@ -1,0 +1,36 @@
+DisplayName = GBU-38
+Type = ASMissile
+Power = 1000
+radius=1000
+Acceleration = 1.7
+Flaming = true
+Sight = MoveSight
+Delay = 5
+Round = 12
+ReloadTime = 90
+SoundVolume = 3
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = gbu38
+Gravity = -0.01
+DisableSmoke = true
+Piercing  = 1
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 10
+;Explosive mass	125 kg*2
+Power = 1000
+ExplosionBlock = 5
+ExplosionInWater = 5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 48
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

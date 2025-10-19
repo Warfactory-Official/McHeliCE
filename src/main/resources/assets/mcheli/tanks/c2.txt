@@ -1,0 +1,140 @@
+DisplayName = Challenger 2 MBT
+AddDisplayName = en_US, Challenger 2 MBT
+AddDisplayName = ja_JP, チャレンジャー2
+ItemID = 30100
+MaxHp = 400
+Speed = 0.37
+Sound = challenger
+ThrottleUpDown = 5.0
+MobilityYawOnGround = 2.0
+MinRotationPitch = -20
+MaxRotationPitch = 10
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 3
+CameraPosition = 0.00,  3.50, 1.55, true
+EnableNightVision = true
+CameraRotationSpeed = 18
+;EnableEntityRadar = true
+MaxFuel         = 1200
+FuelConsumption = 3.0
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+FlareType = 10
+
+Category = MBT
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 3
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  1.8,  -0.24,  2.96,  1.55, 0.08, -1.61, -3.04, -4.49
+
+HUD = mbt_hud, gunner
+
+
+
+
+AddGunnerSeat =  0.00,  1.00, 1.55,   0.00,  3.50, 1.00,  false, -90, 90, true
+AddGunnerSeat =  0.83,  1.7, -1.31,  0.83,  3.33, -1.31,  false, -90, 90, true
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 12
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントZ/Y, 履帯の回転ポイントZ/Y, 履帯の回転ポイントZ/Y, ...
+;転輪がなくても動作する
+AddCrawlerTrack = true, 0.25, -2.38,  -0.33/-4.66,   0.43/-5.66, 0.6/-5.89, 0.87/-5.98,1.14/-5.89,1.31/-5.66,1.31/-5.38, 0.95/4.24, 0.95/4.45, 0.83/4.61, 0.64/4.67,0.44/4.61, 0.32/4.45, -0.33/3.14,
+AddCrawlerTrack = true, 0.25,  2.31,   -0.33/-4.66,   0.43/-5.66, 0.6/-5.89, 0.87/-5.98,1.14/-5.89,1.31/-5.66,1.31/-5.38, 0.95/4.24 ,0.95/4.45, 0.83/4.61, 0.64/4.67,0.44/4.61, 0.32/4.45, -0.33/3.14,
+
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+;TrackRollerRot = 30
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+AddTrackRoller =  1.99 ,0.64 ,4.34
+AddTrackRoller =  2.14,  0.2,  2.96
+AddTrackRoller =  2.14,  0.2,  1.55
+AddTrackRoller = 2.14,  0.2,  0.08
+AddTrackRoller =  2.14,  0.2 , -1.61
+AddTrackRoller =   2.14,  0.2  ,-3.04
+AddTrackRoller =   2.14,  0.2,  -4.49
+AddTrackRoller = 2.23,  0.87,  -5.52
+
+AddTrackRoller =  -2.03 ,0.64 ,4.34
+AddTrackRoller =  -2.18,  0.2,  2.96
+AddTrackRoller = -2.18,  0.2,  1.55
+AddTrackRoller =-2.18,  0.2,   0.08
+AddTrackRoller = -2.18,  0.2,  -1.61
+AddTrackRoller =  -2.18,  0.2,  -3.04
+AddTrackRoller =  -2.18,  0.2,   -4.49
+AddTrackRoller = -2.26,  0.87,  -5.52
+
+;主砲
+;m240_r
+AddPartWeapon = c2l26, false, true, false,  0.00, 1.72, -0.01, 0
+AddPartWeaponChild = false, true, -0.05, 2.20, 2.07, 0.0
+AddPartWeaponChild = false, true, -0.05, 2.20, 2.07, 0.5
+AddTurretWeapon = c2l26, 0.00, 2.20, 0.91,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = c2l37a7, 0.00, 2.20, 0.91,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon =  c2l8a2, -0.5, 2.4, 2.33,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+
+AddPartTurretWeapon    = c2l37a2,   false, true, true,0.25,3.23,-0.86,0
+AddTurretWeapon = c2l37a2,0.26, 3.41, -0.5 ,0,0, false, 2, 0, -80,80, -25,10
+
+;slightly less modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "EF ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:fcs2, G, mcheli:composite2, E, mcheli:advancedmechanicparts
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+;BoundingBox =  0.0, 0.6,  2.2,   3.4, 1.8,  0.70
+;BoundingBox = -0.9, 1.6,  1.0,   2.4, 3.2,  0.70
+;BoundingBox =  0.9, 1.6,  1.0,   2.4, 3.2,  0.70
+;BoundingBox =  0.0, 1.4, -2.2,   3.8, 3.0,  1.00
+;BoundingBox =  0.0, 3.0, -2.0,   2.0, 1.0,  1.25
+;BoundingBox = -0.9, 1.2, -4.5,   2.4, 1.6,  1.25
+;BoundingBox =  0.9, 1.2, -4.5,   2.4, 1.6,  1.25
+
+;side armor 70mm
+BoundingBox = 0.0, 1.0, 0.0, 3.0, 1.0, 0.28
+;front plate 330mm
+BoundingBox = 0.0, 1.0, 2.8, 3.0, 1.0, 0.06
+;turret 670mm
+BoundingBox = 0.0, 2.20, 0.0, 3.6, 1.05, 0.02
+
+BoundingBox = 0.0, 2.00, 0.0, 3.4, 1.05, 0.06
+
+;side plate
+BoundingBox = 0.0, 1.1, -4.4, 3.0, 1.3, 0.52
+BoundingBox = 0.0, 1.1, -3.0, 3.0, 1.3, 0.52
+;rear plate
+BoundingBox = 0.0, 1.1, -4.45, 2.99, 1.3, 1
+
+UnmountPosition = 0.00,  1.50, 1.55

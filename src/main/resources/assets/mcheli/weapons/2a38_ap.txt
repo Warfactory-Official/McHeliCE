@@ -1,0 +1,40 @@
+DisplayName = 30mm 2A38M Cannon AP-T
+Type = Rocket
+Power = 65
+ModelBullet = bullet
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundVolume = 3
+SoundPitch = 0.6
+Sound = pantsirbrt
+Accuracy = 2.0
+Piercing = 1
+BulletColor = 230, 200, 20, 80
+TrajectoryParticle = crit
+HeatCount = 1
+MaxHeatCount = 150
+Gravity = -0.001
+
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+AddMuzzleFlash      =  3.1,      0.62,        1,  150,254,159,84
+AddMuzzleFlash      =  3.0,      0.61,        1,  150,254,230,160
+AddMuzzleFlash      =  2.9,      0.60,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  4.1,  2,   7.0,  2.5, 15,  130,250,245,240
+AddMuzzleFlashSmoke =  3.1,  1,   6.0,  2.5, 25,  130,220,217,214
+
+MaxAmmo = 800
+SuppliedNum = 200
+Item =  2, iron_ingot
+Item =  2, gunpowder
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+SoundVolume = 15
+AddDisplayName = en_US, 2A38M 30mm CannonÅ AP-TÅ

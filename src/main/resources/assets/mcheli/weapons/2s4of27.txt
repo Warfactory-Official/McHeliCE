@@ -1,0 +1,53 @@
+DisplayName = 152mm 2A65 Howitzer [OF-45 - HE]
+Type = MachineGun1
+Power = 700
+ModelBullet = bullet105mm
+Explosion = 4
+ExplosionInWater = 2
+ExplosionBlock = 5
+Acceleration = 4.0
+Sight = None
+Round = 13
+Sound = msta
+;Accuracy = 1.5
+;HeatCount = 1100
+;MaxHeatCount = 2050
+Accuracy = 0.5
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+;24.7km
+Gravity = -0.00116
+group = maingun
+; 着弾距離の表示
+;DisplayMortarDistance = true
+; カメラの垂直方向を0に固定する
+;FixCameraPitch = true
+; カメラの回転速度の倍率(小さくするとより細かく着弾地点が調整ができる)
+;CameraRotationSpeedPitch = 0.1
+;Sound = missile_4_snd
+DisplayMortarDistance = true
+FixCameraPitch = false
+;CameraRotationSpeedPitch = 0.5
+AddMuzzleFlash      =  9.3,      1.80,        7,  220,254,159,74
+AddMuzzleFlash      =  9.3,      1.75,        6,  220,254,219,104
+AddMuzzleFlash      =  9.3,      1.70,        5,  220,254,219,184
+AddMuzzleFlashSmoke =  9.3, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =  9.3, 10,  11.0,  6.0, 35,  200,190,170,150
+Recoil = 2.5
+MaxAmmo = 13
+SuppliedNum = 5
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Delay = 120
+ReloadTime = 1500
+Group = MainGun
+Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+ModelBullet = bullet105mm
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+SoundVolume = 15

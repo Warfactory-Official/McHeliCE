@@ -1,0 +1,28 @@
+DisplayName = KAB-500 Cluster
+Type = rocket
+Power = 200
+Acceleration = 2
+Explosion = 1
+Explosionblock = 0
+ExplosionInWater = 1
+Flaming = false
+Sight = None
+Delay = 15
+ReloadTime = 50
+
+Bomblet = 282
+BombletSTime = 35
+BombletDiff = 1.5
+Sound = bomb_snd
+SoundVolume = 10
+disablesmoke=true
+Gravity = -0.002
+
+ModelBullet = kab500
+ModelBomblet = cbc
+DamageFactor = tank, 2.0
+MaxAmmo = 16
+SuppliedNum = 1
+Item =  10, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

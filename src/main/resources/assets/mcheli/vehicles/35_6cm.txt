@@ -1,0 +1,43 @@
+﻿DisplayName = 36cm 41st Year Type Naval Gun
+AddDisplayName = en_US, 36cm 41st Year Type Naval Gun
+AddDisplayName = ja_JP, 45口径35.6cm連装砲
+ItemID = 30031
+MaxHp = 200
+HideEntity = true
+MinRotationPitch = -43
+MaxRotationPitch =  3
+DamageFactor = 1.0
+CameraZoom = 4
+CameraPosition = 0.0, 5.50, 0.0
+Gravity = -9.81
+GravityInWater = -1.0
+
+; W = WWII,  A = AAGun(対空砲)
+Category = W.A
+
+HUD = vehicle_wwii
+
+AddSeat = 0.00,  1.50, 0.00
+
+unmountposition = 0.0, 1.5, 0.0
+
+BoundingBox = 0.0, 2.4, 0.0, 6.9, 3.0
+BoundingBox = 0.0, 0.1, 0.0, 6.5, 1.5, 0.5
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;本体-砲身
+AddPart		 = true, true, false, 0,   0.00, 0.00, 0.00
+AddPart		 = true, true, true, 0,   0.00, 0.00, 0.00
+
+AddTurretWeapon = 35_6cm_1,   1.4827,  3.0621,  0.0,   0.0, 0.0
+AddTurretWeapon = 35_6cm_1,  -1.4827,  3.0621,  0.0,   0.0, 0.0
+AddTurretWeapon = 35_6cm_91,   1.4827, 3.0621, 0.0,   0.0, 0.0
+AddTurretWeapon = 35_6cm_91,  -1.4827, 3.0621, 0.0,   0.0, 0.0
+
+unmountposition = 0.00, 1.5, -0.0
+;;AddWeapon = 35_6cm_3,   2.56, 2.07, 2.91,   0.0, -1.0
+;;AddWeapon = 35_6cm_3,  -2.56, 2.07, 2.91,   0.0, -1.0
+
+;heavier turret 2
+AddRecipe = " BC", "BCB", "A A", A, mcheli:cannon3, B, mcheli:map, C, mcheli:hap
+

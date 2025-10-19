@@ -1,0 +1,19 @@
+DisplayName = Little Boy Payload
+AddDisplayName = ja_JP, Little Boy Payload
+;;fix it yourself japan
+;;yes the irony was lost on me about this
+;;ItemID = 28979
+;;idc
+
+StackSize = 1
+
+
+
+
+
+AddRecipe = "ABC", "DEF", "   ", A, hbm:tile.nuke_boy, B, hbm:item.boy_shielding, C, hbm:item.boy_target, D, hbm:item.boy_bullet, E, hbm:item.boy_propellant, F, hbm:item.boy_igniter
+
+
+
+
+

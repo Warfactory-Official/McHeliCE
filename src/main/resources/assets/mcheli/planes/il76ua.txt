@@ -1,0 +1,187 @@
+DisplayName = Il-76MD-90A
+AddDisplayName = en_US, Il-76MD-90A
+AddDisplayName = ru_RU, Ил-76MD-90A
+MaxHp = 250
+Speed = 1.15
+
+ThrottleUpDown = 0.1
+MaxFuel         = 30000
+FuelConsumption = 2
+InventorySize = 64
+FlareType = 2
+EnableNightVision = true
+EnableEntityRadar = true
+ThirdPersonDist = 68
+
+Category = M.C
+HUD = planenvg,planenvg, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none
+
+AddTexture = il76
+
+MobilityRoll = 0.3
+MobilityYaw = 0.3
+MobilityPitch = 0.3
+;MinRotationRoll =-30
+;MaxRotationRoll =30
+
+
+sound = ilsevensix
+
+AddSeat = 0.7544, 5.7919, 3.9352
+
+unmountposition = 0.7544, 2.5919, 3.9352
+
+enableback = true
+
+AddSeat = -0.7544, 5.8919, 3.9352
+
+
+AddSeat =  1.9,  2.59,  -3.75
+AddSeat = -1.6,  2.59,  -3.75
+AddSeat =  1.9,  2.59, -4.75
+AddSeat = -1.9,  2.59,  -4.75
+
+
+AddSeat =  1.9,  2.59,  -5.75
+AddSeat = -1.9,  2.59,  -5.75
+
+AddSeat =  1.9,  2.59,  -6.75
+AddSeat = -1.9,  2.59,  -6.75
+
+AddSeat =  1.9,  2.59,  -7.75
+AddSeat = -1.9,  2.59,  -7.75
+
+AddSeat =  1.9,  2.59,  -10.8
+AddSeat = -1.9,  2.59,  -10.8
+
+AddSeat =  1.9,  2.59,  -11.8
+AddSeat = -1.9,  2.59,  -11.8
+
+AddSeat =  1.9,  2.59,  -12.8
+AddSeat = -1.9,  2.59,  -12.8
+
+AddSeat =  1.9,  2.59,  -13.8
+AddSeat = -1.9,  2.59,  -13.8
+
+AddSeat =  1.9,  2.59,  -14.8
+AddSeat = -1.9,  2.59,  -14.8
+
+AddSeat =  1.9,  2.59,  -15.8
+AddSeat = -1.9,  2.59,  -15.8
+
+AddSeat =  1.9,  2.59,  -16
+
+AddPartRotor = 8.5576, 4.9526, -7.2549,   0,0,-1
+AddBlade = 1, 0, 8.5576, 4.9526, -7.2549, 0,0,-1
+AddPartRotor = -8.4963, 4.9526, -7.2549,   0,0,1
+AddBlade = 1, 0, -8.4963, 4.9526, -7.2549, 0,0,1
+AddPartRotor = 14.1794, 4.4419, -9.9061,   0,0,-1
+AddBlade = 1, 0, 14.1794, 4.4419, -9.9061, 0,0,-1
+AddPartRotor = -14.1143, 4.4419, -9.9061,   0,0,1
+AddBlade = 1, 0, -14.1143, 4.4419, -9.9061, 0,0,1
+AddPartHatch = -1.8131, 4.25, -38.9012, -1.4513, -3.3656,14.3613, -115
+AddPartHatch = 1.8131, 4.25, -38.9012, 1.4513, -3.3656,14.3613, 115
+AddPartHatch = 0, 1.6953, -30.2565, -1,0,0,35
+
+AddPartLG =       0.00, 1.62,  -2.78,  0,  0, 0
+
+AddPartLG      =  3.6, 2.2, -19.61,  0,  0, 0
+
+AddPartLG      = -3.6, 2.2, -19.61,  0,  0, 0
+
+DamageFactor = 0.8
+
+RotorSpeed = 2000.0
+
+BoundingBox =   0.00,  6.30,   0.89,   4.0, 3.5
+BoundingBox =   0.00,  6.30,  -3.36,   4.0, 3.5
+BoundingBox =   0.00,  6.70,  -7.65,   4.0, 3.5
+BoundingBox =   0.00,  6.70, -11.96,   4.0, 3.5
+BoundingBox =   0.00,  6.70, -17.24,   6.0, 4.0
+BoundingBox =   0.00,  5.80, -23.47,   6.0, 3.5
+BoundingBox =   0.00,  6.30, -28.77,   4.0, 3.5
+BoundingBox =   0.00,  6.70, -33.25,   4.0, 3.5
+BoundingBox =   0.00,  6.90, -37.74,   4.0, 3.5
+BoundingBox =   0.00,  7.10, -42.11,   4.0, 3.5
+BoundingBox =   0.00,  6.92, -45.82,   2.5, 3.0
+
+BoundingBox =   0.00, 10.67, -40.11,   1.5, 7.0,  0.8
+BoundingBox =   0.00,  9.26, -42.14,   1.3, 6.5,   0.8
+BoundingBox =   0.00, 15.26, -42.14,   1.3, 5.5,   0.8
+BoundingBox =   0.00,  9.78, -44.23,   1.3, 6.0,   0.8
+BoundingBox =   0.00, 15.95, -44.23,   1.3, 6.0,   0.8
+BoundingBox =   0.00, 15.68, -46.31,   1.3, 6.0,   0.8
+BoundingBox =   0.00, 17.01, -48.43,   1.3, 3.0,   0.8
+BoundingBox =   0.00, 10.07, -37.81,   1.3, 3.0,   0.8
+
+BoundingBox =   0.00,  4.38,   5.60,   3.0, 3.0
+
+BoundingBox =   0.00,  3.67,   0.89,   6.0, 3.2
+BoundingBox =   0.00,  3.34,  -5.58,   6.5, 3.5
+BoundingBox =   0.00,  3.34, -12.62,   6.5, 3.5
+BoundingBox =   0.00,  3.34, -20.11,   6.5, 3.5
+BoundingBox =   0.00,  3.34, -27.02,   6.5, 3.5
+BoundingBox =   0.00,  4.34, -33.04,   6.5, 3.5
+BoundingBox =   0.00,  5.94, -39.27,   6.0, 3.0
+
+BoundingBox =   7.40,  8.20, -16.54,   9.0, 1.0
+BoundingBox =  -7.40,  8.20, -16.54,   9.0, 1.0
+BoundingBox =  15.63,  7.35, -20.40,   8.0, 0.8,  0.9
+BoundingBox = -15.63,  7.35, -20.40,   8.0, 0.8,  0.9
+BoundingBox =  22.14,  6.80, -23.27,   6.0, 0.6,  0.7
+BoundingBox = -22.14,  6.80, -23.27,   6.0, 0.6,  0.7
+BoundingBox =  26.53,  6.45, -24.91,   5.0, 0.5,  0.5
+BoundingBox = -26.53,  6.45, -24.91,   5.0, 0.5,  0.5
+
+;;BoundingBox =  8.56,  4.9, -8.36,   2.8, 2.8,  1.25
+;;BoundingBox = -8.56,  4.9, -8.36,   2.8, 2.8,  1.25
+;;BoundingBox =  8.56,  4.9, -11.3,   2.3, 2.3,  1.25
+;;BoundingBox = -8.56,  4.9, -11.3,   2.3, 2.3,  1.25
+
+BoundingBox =  8.56,  4.9, -9,   2.0, 2.0,  1.25
+BoundingBox = -8.56,  4.9, -9,   2.0, 2.0,  1.25
+BoundingBox =  8.56,  4.9, -11,   2.0, 2.0,  1.25
+BoundingBox = -8.56,  4.9, -11,   2.0, 2.0,  1.25
+BoundingBox =  8.56,  4.9, -13,   2.0, 2.0,  1.25
+BoundingBox = -8.56,  4.9, -13,   2.0, 2.0,  1.25
+BoundingBox =  8.56,  4.9, -8,   2.0, 2.0,  1.25
+BoundingBox = -8.56,  4.9, -8,   2.0, 2.0,  1.25
+
+BoundingBox =  14.17,  4.40, -10.70,   2.0, 2.0,  1.25
+BoundingBox = -14.17,  4.40, -10.70,   2.0, 2.0,  1.25
+BoundingBox =  14.17,  4.40, -11.70,   2.0, 2.0,  1.25
+BoundingBox = -14.17,  4.40, -11.70,   2.0, 2.0,  1.25
+BoundingBox =  14.17,  4.40, -13.70,   2.0, 2.0,  1.25
+BoundingBox = -14.17,  4.40, -13.70,   2.0, 2.0,  1.25
+BoundingBox =  14.17,  4.40, -15.70,   2.0, 2.0,  1.25
+BoundingBox = -14.17,  4.40, -15.70,   2.0, 2.0,  1.25
+
+
+BoundingBox = 1.18, 18.37, -46.69, 2.0, 0.3
+BoundingBox = -1.18, 18.37, -46.69, 2.0, 0.3
+
+BoundingBox = 1.18, 18.37, -44.69, 2.0, 0.3
+BoundingBox = -1.18, 18.37, -44.69, 2.0, 0.3
+
+BoundingBox = 1.88, 18.07, -48.69, 2.0, 0.3
+BoundingBox = -1.88, 18.07, -48.69, 2.0, 0.3
+
+BoundingBox = 3.18, 18.37, -46.69, 3.0, 0.3
+BoundingBox = -3.18, 18.37, -46.69, 3.0, 0.3
+
+BoundingBox = 5.18, 18.37, -48.69, 3.0, 0.3
+BoundingBox = -5.18, 18.37, -48.69, 3.0, 0.3
+
+BoundingBox = 7.18, 18.37, -49.69, 3.0, 0.3
+BoundingBox = -7.18, 18.37, -49.69, 3.0, 0.3
+
+
+;basic unarmed transport mil massive plane, AOW3 style
+AddRecipe = "ABC", "DA ", "EAE", A, mcheli:airframebomb, B, mcheli:basicmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:electronics
+
+; AddRack=Entity type,                    RackPos X,Y,Z,   EntryPos X,Y,Z,   Range,  Open parachute atl,  Yaw, Pitch
+;AddRack = mh-60g/mh-60l_dap/sh-60/sh-3,   0, 2.1,  -4.8,   0, 0, -2.5,      11,    100000
+
+;AddRack = container,   2.0, 2.1, -11.0,  0, 0,  -4.3,   15,    20
+
+DamageFactor = 0.8

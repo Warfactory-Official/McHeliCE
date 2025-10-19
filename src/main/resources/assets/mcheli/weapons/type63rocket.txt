@@ -1,0 +1,29 @@
+DisplayName = 107mm Type-63 Rocket Launcher [HE]
+Type = Rocket
+Power = 42
+ModelBullet = hydra70
+Acceleration = 7.0
+Explosion = 3
+ExplosionBlock = 4
+
+ExplosionInWater = 2
+
+Flaming = false
+DisplayMortarDistance = true
+Sight = MoveSight
+Delay = 8
+ReloadTime = 110
+Round = 12
+Sound = missile_4_snd
+Gravity = -0.04
+Accuracy = 1.5
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+MaxAmmo = 12
+SuppliedNum = 6
+Item =  8, iron_ingot
+Item =  7, gunpowder

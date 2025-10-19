@@ -1,0 +1,6 @@
+DisplayName = Heavy Chassis
+AddDisplayName = ja_JP, Heavy Chassis
+
+StackSize = 64
+AddRecipe = "AAA", "A A", "AAA", A, mcheli:mediumchassis
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_chassis_3

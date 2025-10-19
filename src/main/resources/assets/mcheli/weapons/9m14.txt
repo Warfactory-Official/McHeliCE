@@ -1,0 +1,34 @@
+DisplayName = 9M14 Malyutka [ATM]
+Type = ATMissile
+FixMode = 1
+ModeNum = 2
+Power = 400
+Acceleration = 1.2
+Explosion = 3
+ExplosionInWater = 2
+Flaming = false
+Sight = MoveSight
+Round = 4
+ModelBullet = 9M113
+Sound = bmptmissile
+ModeNum = 2
+LockTime = 40
+
+Delay = 40
+ReloadTime = 200
+Group = MainGun
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+SoundVolume = 15
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  3, gunpowder
+Item =  1, redstone

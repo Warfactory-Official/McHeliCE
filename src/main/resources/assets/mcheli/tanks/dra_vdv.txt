@@ -1,0 +1,89 @@
+DisplayName = VDV Buggy/Fast Attack Vehicle/Ukrainian Attack Buggy
+;(22nd SPGSPB)
+;https://en.wikipedia.org/wiki/22nd_Separate_Guards_Special_Purpose_Brigade 
+;https://www.youtube.com/watch?v=o4OYCrBAy_s
+MaxHp = 100
+ThrottleUpDown = 0.95 
+Speed = 0.7
+MobilityYawOnGround = 8.5
+StepHeight = 1.5
+Sound = rattletrap
+SoundPitch = 0.8
+MinRotationPitch = -90 
+MaxRotationPitch = 90 
+MobilityRoll = 4 
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+EnableNightVision = false 
+MaxFuel = 600
+FuelConsumption = 1.2
+ThirdPersonDist = 5
+CameraZoom = 0
+
+WeightedCenterZ = 0.3
+
+
+;-18.53
+
+OnGroundPitchFactor = 17.0 
+OnGroundRollFactor = 5.8 
+
+AddTexture = dra_vdv1
+AddTexture = dra_vdv2
+AddTexture = dra_vdv3
+AddTexture = dra_vdv4
+AddTexture = dra_vdv5
+AddTexture = dra_vdv6
+AddTexture = dra_vdv7
+
+EnableBack = true 
+
+;;Category = LAV/SANDRAIL
+Category = LUV
+;light utility vehicle
+
+WeightType = Car 
+
+SetWheelPos = 0.60, -0.24, 1.6848, -1.5286 
+
+HUD = bnr32_hud, none, gunner 
+
+AddSeat = 0.58, 0.2547, -0.1465
+
+UnmountPosition = 0.58, 2.24, -0.1465
+
+AddSeat = -0.58, 0.2547, -0.1465
+AddGunnerSeat = 0, 1.0647, -1.19, 0, 2.2647, -1.19
+
+PivotTurnThrottle = 0.1 
+
+PartWheelRot = 45
+AddPartWheel = 0.84, 0.0831, 1.6848, 35
+AddPartWheel = -0.84, 0.0831, 1.6848, 35
+AddPartWheel = 0.84, 0.0831, -1.5286
+AddPartWheel = -0.84, 0.0831, -1.5286
+
+BoundingBox = 0.0, 0.4147, 1.4, 0.8, 0.8
+
+BoundingBox = 0.0, 0.0147, 0.0, 2.1, 0.2
+
+
+InventorySize = 0
+
+;basic civ car armed
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:cannon1
+
+
+AddFixedSearchLight =  0.5487, 0.7053, 1.9932,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+AddFixedSearchLight = -0.5487, 0.7053, 1.9932,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25, -6.0,  0
+AddFixedSearchLight =  0.23, 0.4147, 2.1752,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+AddFixedSearchLight = -0.23, 0.4147, 2.1752,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25, -6.0,  0
+
+TurretPosition = 0.00, 2.0787, -1.22
+
+AddTurretWeapon = LAkord,    0.0, 2.0787, -1.22, 0.0, 0.0, false, 3, 0, -360, 360, -30,  6
+AddPartWeapon = LAkord, false, true, false,  0.00, 1.6047, -1.19, 0
+AddPartWeaponChild = false, true, 0.0, 2.0787, -0.4154
+
+AddPartSteeringWheel =  0.5755, 0.7505, 0.4594,  0, 0.3625,-1,  110

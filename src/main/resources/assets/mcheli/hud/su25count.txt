@@ -1,0 +1,33 @@
+
+
+
+If=(wpn_heat>0&&wpn_heat<=0.125)
+DrawTexture = heat1,-7.5, 0, 10,10 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.125&&wpn_heat<=0.25)
+DrawTexture = heat2, -7.5, 0, 10,10 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.25&&wpn_heat<=0.375)
+DrawTexture = heat3, -7.5, 0, 10,10 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.375&&wpn_heat<=0.5)
+DrawTexture = heat4, -7.5, 0, 10,10 , 0,0, 256,256
+EndIf
+
+If=(wpn_heat>0.5&&wpn_heat<=0.625)
+DrawTexture = heat5, -7.5, 0, 10,10 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.625&&wpn_heat<=0.75)
+DrawTexture = heat6, -7.5, 0, 10,10 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.75&&wpn_heat<=0.875)
+DrawTexture = heat7,-7.5, 0, 10,10 , 0,0, 256,256
+EndIf
+If=(wpn_heat>0.875&&wpn_heat<=1)
+DrawTexture = heat8, -7.5, 0, 10,10 , 0,0, 256,256
+EndIf
+
+
+
+
+DrawTexture = b, -7.5, 0, 10,10 , 0,0, 256,256

@@ -1,0 +1,132 @@
+﻿DisplayName = Type 62
+AddDisplayName = ja_JP, Type 62
+AddDisplayName = en_US, Type 62 
+MaxHp = 110
+Speed = 0.37
+
+ThrottleUpDown = 1.0
+MobilityYawOnGround = 2.0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 7
+MinRotationPitch = -22
+MaxRotationPitch = 5
+DefaultFreelook = true
+ThirdPersonDist = 12
+Sound = bmpone
+unmountposition = -0.0,  1.50,  0
+AddTexture = type62_2
+AddTexture = type62_3
+AddTexture = type62_4
+AddTexture = type62_5
+
+Category = LT
+
+FlareType = 10
+
+HideEntity = true
+
+HUD = ww2tank_hud, gunner
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+MotionFactor = 0.95
+
+
+
+SubmergedDamageHeight = 2
+
+AddGunnerSeat =  0.00,   0.5, 0.00, 0.0, 2, 1.4, false, -22, 5, true
+
+AddGunnerSeat = -0.388, 1.00, -0.486, -0.388, 2.80, -0.486, false, -82, 4, true
+
+CameraPosition = 0.0, 2, 1.4, true, -20, 5
+CameraRotationSpeed = 6
+
+MotionFactor = 0.9
+
+
+
+ArmorDamageFactor = 1.00
+EnableBack = true
+
+PivotTurnThrottle = 0.0
+AddCrawlerTrack = true, 0.16, -1.40,  -0.31/1.63, -0.27/1.79, 0.23/2.47, 0.29/2.57, 0.39/2.63, 0.51/2.63, 0.61/2.57, 0.67/2.47, 0.64/-2.58, 0.60/-2.71, 0.51/-2.82, 0.38/-2.87, 0.24/-2.85, 0.13/-2.77, 0.06/-2.65, -0.26/-2.06, -0.31/-1.89
+
+AddCrawlerTrack = true, 0.16, -1.40,  -0.31/1.63, -0.27/1.79, 0.23/2.47, 0.29/2.57, 0.39/2.63, 0.51/2.63, 0.61/2.57, 0.67/2.47, 0.64/-2.58, 0.60/-2.71, 0.51/-2.82, 0.38/-2.87, 0.24/-2.85, 0.13/-2.77, 0.06/-2.65, -0.26/-2.06, -0.31/-1.89
+
+SetWheelPos =  0.85, -0.24, 1.5809, 0.5681, -0.2644, -1.0726, -1.9498
+
+AddTrackRoller = -0.9942,  0.4514,  2.4135
+AddTrackRoller = -1.0611,  0.0754,  1.5809
+AddTrackRoller = -1.4774,  0.0754,  0.5681
+AddTrackRoller = -1.4774,  0.0754, -0.2644
+AddTrackRoller = -1.4774,  0.0754, -1.0726
+AddTrackRoller = -1.4774,  0.0754, -1.9498
+AddTrackRoller = -1.5228,  0.3533, -2.5848
+
+AddTrackRoller =  0.9942,  0.4514,  2.4135
+AddTrackRoller =  1.0611,  0.0754,  1.6411
+AddTrackRoller =  1.0611,  0.0754,  0.6283
+AddTrackRoller =  1.0611,  0.0754, -0.2041
+AddTrackRoller =  1.0611,  0.0754, -1.0124
+AddTrackRoller =  1.0611,  0.0754, -1.8896
+AddTrackRoller =  1.5259,  0.3533, -2.5848
+
+AddTurretWeapon = 6285mm_type_62,   0.0,    1.3947,  0.0, 0.0, 0.0, true, 1,0,-360,360, -22, 5
+AddTurretWeapon = 6285mm_type_62_2, 0.0,    1.3947,  0.0, 0.0, 0.0, true, 1,0,-360,360, -22, 5
+AddTurretWeapon = 6285mm_type_62_3, 0.0,    1.3947,  0.0, 0.0, 0.0, true, 1,0,-360,360, -22, 5
+AddTurretWeapon = 6285mm_type_62_4, 0.0,    1.3947,  0.0, 0.0, 0.0, true, 1,0,-360,360, -22, 5
+AddTurretWeapon = 6285mm_type_62_5, 0.0,    1.3947,  0.0, 0.0, 0.0, true, 1,0,-360,360, -22, 5
+AddTurretWeapon = 62lmg,      -0.3230, 1.4798,  1.2376, 0.0, 0.0, true, 1,0,-360,360, -22, 5
+
+
+
+
+
+AddPartWeapon = 6285mm_type_62/6285mm_type_62_2/6285mm_type_62_3/6285mm_type_62_4/6285mm_type_62_5, false, true, false,  0.0,    1.1276,  0.0
+AddPartWeaponChild =                                               false, true,  0.0,    1.3947,  1.2376, 0.0
+AddPartWeaponChild =                                               false, true,  0.0,    1.3947,  1.2376, 0.5
+AddPartWeaponChild =                                               false, true, -0.3230, 1.4798,  1.0741,0.0
+
+EntityWidth=0.8
+EntityHeight=0.8
+
+AddPartTurretWeapon    = 62hmg,   false, true, false,-0.388, 2.1328, -0.486,0
+AddPartWeaponChild =                                               false, true, -0.3721, 2.1328, -0.2327, 0.0
+AddTurretWeapon = 62hmg,    -0.3721, 2.1355, -0.486, 0.0, 0.0, false, 2,0,-360,360, -82, 4
+
+
+ArmorMinDamage = 10
+
+;turret
+BoundingBox =  0.0, 1.4,   0.0,   1.6, 0.7,  0.1
+
+;side
+BoundingBox =  0.0, 0.4,   0.6,   2.1, 1.35,   0.4
+BoundingBox =  0.0, 0.4,   -1.7,   2.1, 1.35,  0.4
+BoundingBox =  0.0, 0.4,   -0.7,   2.1, 1.35,  0.4
+
+;front
+BoundingBox =  0.0, 0.3,   1.35,   2.0, 0.2,   0.22
+BoundingBox =  0.0, 0.5,   1.50,   2.0, 0.2,   0.17
+BoundingBox =  0.0, 0.7,   1.45,   2.0, 0.2,   0.17
+BoundingBox =  0.0, 0.9,   1.00,   2.0, 0.1,   0.17
+BoundingBox =  0.0, 1.0,   0.75,   2.0, 0.18,  0.16
+
+
+;slightly really less modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "E  ", A, mcheli:mediumchassis, B, mcheli:cannon2, C, mcheli:engine3, D, mcheli:tanktracks, G, mcheli:lap, E, mcheli:basicmechanicparts, F, mcheli:electronics
+
+MaxFuel         = 600
+FuelConsumption = 2.0
+
+StepHeight = 1.8
+
+

@@ -1,0 +1,119 @@
+DisplayName = B-2A Spirit (Full Nuclear Loadout)
+AddDisplayName = en_US, B-2A Spirit (Full Nuclear Loadout)
+AddDisplayName = ja_JP, B-2A スピリット (Full Nuclear Loadout)
+ItemID = 28738
+MaxHp  = 250
+EnableNightVision  = true
+EnableEntityRadar  = true
+EnableEjectionSeat = true
+Speed = 1.09272
+
+;628
+
+Sound = bone
+SoundPitch = 0.8
+FlareType = 2
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 4800
+FuelConsumption = 2.0
+CameraPosition  = 0.0, 2.66, 3.78
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+AutoPilotRot = 0
+Stealth = 0.35
+ThirdPersonDist = 20
+
+ThrottleUpDown = 0.1
+
+EntityWidth  = 0.88
+EntityHeight = 0.88
+
+
+MobilityYaw = 0.5
+MobilityPitch = 0.5
+MobilityRoll = 0.3
+MinRotationPitch = -60
+MaxRotationPitch =  60
+;MinRotationRoll  = -60
+;MaxRotationRoll  =  60
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = plane, plane_gnr
+
+AddSeat       =  0.80,  3.20,  0.28
+AddGunnerSeat = -0.80,  3.40,  0.28, 0.0, 2.66, 3.78, true
+
+; 前輪
+AddPartLG         =   0.00,  2.96,  2.79,  1,0,0,      75
+AddPartLGRev      =   0.00,  2.87,  3.29,  1,0,0,     -60
+AddPartLGHatch    =  -0.65,  1.75,  0.25,  0,0.22,1,  -90
+
+; 後輪
+AddPartLG         =   0.00,  3.05, -7.96,  1,0,0,     -90
+AddPartSlideRotLG =   0.00,  2.74,  3.31,  0.00, 0.00, 0.00, 1,0,0, 0
+AddPartLGRev      =  -7.74,  2.23, -7.02,  0,-0.02,1, -90
+AddPartLGRev      =   7.74,  2.23, -7.02,  0,-0.02,1,  90
+
+; 補助空気口
+AddPartLGRev      =  -5.06,  4.38, -5.57,  0.91, 0.10,1, -45
+AddPartLGRev      =  -4.06,  4.41, -5.57, -0.99,-0.07,1,  45
+AddPartLGRev      =   5.06,  4.38, -5.57, -0.91, 0.10,1,  45
+AddPartLGRev      =   4.06,  4.41, -5.57,  0.99,-0.07,1, -45
+
+; 排気口
+AddPartNozzle =  4.77, 3.34, -13.32, -1,0,0
+AddPartNozzle = -4.77, 3.34, -13.32, -1,0,0
+
+; ウェポンベイ
+AddPartWeaponBay = b2fb61/b2fb83/b2fagm86b, -2.79, 1.86,-6.56,  0, -0.04, 1.0, -90
+AddPartWeaponBay = b2fb61/b2fb83/b2fagm86b, -0.15, 1.72,-6.56,  0, -0.04, 1.0,  90
+AddPartWeaponBay = b2fb61/b2fb83/b2fagm86b,  2.79, 1.86,-6.56,  0, -0.04, 1.0,  90
+AddPartWeaponBay = b2fb61/b2fb83/b2fagm86b,  0.15, 1.72,-6.56,  0, -0.04, 1.0, -90
+
+;武器設定
+;1番席が Mk82、  GBU-28、AGM-154、GBU-57、AGM-158　(無誘導[小]、誘導[中,散,大]、誘導[TV])
+;2番席が         GBU-38、AGM-154、GBU-57、AGM-158　(            誘導[小,散,大]、誘導[TV])
+
+AddWeapon = dummy_bay_closed, 0,0,0,0,0         , true,  2
+
+;12
+AddWeapon = b2fb61,  1.84,  2.80, -4.27,  0, 0
+AddWeapon = b2fb61, -1.84,  2.80, -4.27,  0, 0
+AddWeapon = b2fb61,  1.84,  2.80, -8.57,  0, 0
+AddWeapon = b2fb61, -1.84,  2.80, -8.57,  0, 0
+
+;8
+AddWeapon = b2fb83,  1.84,  2.80, -4.27,  0, 0
+AddWeapon = b2fb83, -1.84,  2.80, -4.27,  0, 0
+
+;10
+AddWeapon = b2fagm86b,   -1.84,  2.80, -8.57,  0, 0, true,  2
+AddWeapon = b2fagm86b,   1.84,  2.80, -8.57,  0, 0, true,  2
+
+AddWeapon = targeting_pod_block, 0.0, 0.9, 0.0,  0.0, 0.0
+
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0
+
+
+BoundingBox =  0.0, 3.5, -1.8,  7.0, 4.0
+BoundingBox =  0.0, 3.5, -8.2,  7.0, 4.0
+BoundingBox =  0.0, 3.0,-14.8,  7.0, 2.0
+BoundingBox =  8.5, 3.2, -9.3, 10.0, 2.3
+BoundingBox = -8.5, 3.2, -9.3, 10.0, 2.3
+BoundingBox =  18.5, 3.2, -12.3, 10.0, 2.3
+BoundingBox = -18.5, 3.2, -12.3, 10.0, 2.3
+
+
+;large bomber nuclear strike aircraft modern, AOW3 style
+AddRecipe = "ABC", "DAC", "EFF", A, mcheli:airframebomb, B, mcheli:complexmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:fcs3, F, mcheli:electronics
+
+DamageFactor = 0.8
+
+unmountposition = 0.80,  1.70,  0.28
+
+enableback = true
+
+DamageFactor = 0.8

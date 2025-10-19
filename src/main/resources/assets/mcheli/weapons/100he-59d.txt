@@ -1,0 +1,47 @@
+DisplayName = 105mm Type 83 Cannon [Type-83 HESH - HESH]
+Type = MachineGun2
+Power = 127
+;ModelBullet = 3bm42
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 3
+Acceleration = 7.0
+Sight = None
+Delay = 160
+ReloadTime = 160
+Round = 1
+Sound = tfiftyfive
+
+HeatCount = 1100
+MaxHeatCount = 2050
+
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+Gravity = -0.005
+
+Recoil = 2.5
+
+Group = MainGun
+Acceleration = 7.0
+ModelBullet = bullet105mm
+
+DisplayMortarDistance = true
+
+
+
+Piercing = 5
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+
+
+MaxAmmo = 12
+SuppliedNum = 3
+Item =  2, iron_ingot
+Item =  2, gunpowder

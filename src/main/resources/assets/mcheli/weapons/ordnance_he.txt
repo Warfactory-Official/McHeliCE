@@ -1,0 +1,41 @@
+DisplayName = Ordnance Rifled Gun[HE]
+Type = MachineGun1
+Power = 23
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Explosion = 3
+ExplosionBlock = 3
+Acceleration = 7.0
+Sight = None
+ReloadTime = 150
+Round = 1
+SoundVolume = 10.0
+Sound = mbtshot
+Accuracy = 1.0
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+
+
+Delay = 150
+ReloadTime = 140
+Group = MainGun
+Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+ModelBullet = bullet105mm
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+MaxAmmo = 40
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  1, gunpowder

@@ -1,0 +1,138 @@
+DisplayName = M270 Multiple Launch Rocket System (MLRS)
+AddDisplayName = en_US, M270 Multiple Launch Rocket System (MLRS)
+AddDisplayName = ru_RU, M270 МЛРС
+MaxHp = 250
+ThrottleUpDown = 2.0
+Speed = 0.4
+MobilityYawOnGround = 2.3
+StepHeight = 1.8
+ThrottleUpDown = 2
+
+Sound = mlrseng
+MinRotationPitch = -90
+MaxRotationPitch = 45
+CameraPosition = 0.0, 5.8, -2.20, true
+MobilityRoll     = 0
+
+;;OnGroundPitchFactor = 3.0
+;;OnGroundRollFactor  = 3.0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.0
+EnableNightVision = true
+MaxFuel           = 1000
+FuelConsumption   = 5
+ThirdPersonDist = 10
+DefaultFreelook = true
+HideEntity = true
+
+EnableBack = true
+Category = MLRS
+
+WeightType = Tank
+
+SetWheelPos =  1.0,  -0.24,  2.3901, 1.5276, 0.3651, -0.5849, -1.7099, -2.5599
+
+HUD = mbt_hudtwo, mbt_hudtwo
+
+AddGunnerSeat =  1.0, 1.01, 2.97,  0, 5.5, -2.20, false, -90,45
+
+;AddSeat =  -1.0, 1.2009, 2.6841
+
+;how would deleting a false value affect this? I don't know, the 82ccv did it so let's try it!!!!!
+
+
+;, false
+
+;;PivotTurnThrottle = 0.1
+
+MotionFactor = 0.9
+
+AddCrawlerTrack = false, 0.22, -1.5162, -0.2347/2.3901, -0.127/2.6452, 0.1463/3.3154,0.2432/3.545, 0.3453/3.6164,0.4728/3.6419,0.5953/3.6164,0.6973/3.545,0.7688/3.443, 0.7943/3.3154, 0.7943/-3.3221, 0.7688/-3.4446, 0.6973/-3.5466, 0.5953/-3.618, 0.4728/-3.6436, 0.3453/-3.618, 0.2432/-3.5466, 0.1718/-3.4446, -0.127/-2.8093,-0.2064/-2.6959, -0.2347/-2.5599, -0.2347/-2.5589, -0.2347/2.389
+AddCrawlerTrack = false, 0.22, 1.5162, -0.2347/2.3901, -0.127/2.6452, 0.1463/3.3154,0.2432/3.545, 0.3453/3.6164,0.4728/3.6419,0.5953/3.6164,0.6973/3.545,0.7688/3.443, 0.7943/3.3154, 0.7943/-3.3221, 0.7688/-3.4446, 0.6973/-3.5466, 0.5953/-3.618, 0.4728/-3.6436, 0.3453/-3.618, 0.2432/-3.5466, 0.1718/-3.4446, -0.127/-2.8093,-0.2064/-2.6959, -0.2347/-2.5599, -0.2347/-2.5589, -0.2347/2.389
+AddTrackRoller = -1.5, 0.4728,3.3154
+AddTrackRoller = -1.5, 0.1281,2.3901
+AddTrackRoller = -1.5, 0.1281,1.5276
+AddTrackRoller = -1.5, 0.1281,0.3651
+AddTrackRoller = -1.5, 0.1281,-0.5849
+AddTrackRoller = -1.5, 0.1281,-1.7099
+AddTrackRoller = -1.5, 0.1281,-2.5599
+AddTrackRoller = -1.5, 0.4728,-3.3221
+
+AddTrackRoller = 1.5, 0.4728,3.3154
+AddTrackRoller = 1.5, 0.1281,2.3901
+AddTrackRoller = 1.5, 0.1281,1.5276
+AddTrackRoller = 1.5, 0.1281,0.3651
+AddTrackRoller = 1.5, 0.1281,-0.5849
+AddTrackRoller = 1.5, 0.1281,-1.7099
+AddTrackRoller = 1.5, 0.1281,-2.5599
+AddTrackRoller = 1.5, 0.4728,-3.3221
+
+
+
+
+;;calibrated!
+;now, lets see about making all the rockets salvo personally
+;AddWeapon			= mfom227mm,    0,  2.5, -2.205,  0.0, 0.0, false,  2, 0, -360, 360, -45, 2
+
+
+TurretPosition = 0, 1.0628, -2.20
+
+
+AddPartTurretWeapon 		= mfom227mm/mfom227mm2,    false, true,  false, 0.00,  1.0628, -2.20
+AddPartWeaponChild 		= false, true, 0.00,  1.4128, -3.8959
+
+CameraRotationSpeed = 20
+
+AddTurretWeapon			= mfom227mm,    -1.31,  2.25, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    -0.873,  2.25, -2.205,  0.0, 0.0, false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    -0.435,  2.25, -2.205,  0.0, 0.0, false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    1.31,  2.25, -2.205,  0.0, 0.0,   false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    0.873,  2.25, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    0.435,  2.25, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    -1.31,  1.79, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    -0.873,  1.79, -2.205,  0.0, 0.0, false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    -0.435,  1.79, -2.205,  0.0, 0.0, false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    1.31,  1.79, -2.205,  0.0, 0.0,   false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    0.873,  1.79, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm,    0.435,  1.79, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+
+
+AddTurretWeapon			= mfom227mm2,    -1.31,  2.25, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    -0.873,  2.25, -2.205,  0.0, 0.0, false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    -0.435,  2.25, -2.205,  0.0, 0.0, false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    1.31,  2.25, -2.205,  0.0, 0.0,   false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    0.873,  2.25, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    0.435,  2.25, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    -1.31,  1.79, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    -0.873,  1.79, -2.205,  0.0, 0.0, false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    -0.435,  1.79, -2.205,  0.0, 0.0, false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    1.31,  1.79, -2.205,  0.0, 0.0,   false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    0.873,  1.79, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+AddTurretWeapon			= mfom227mm2,    0.435,  1.79, -2.205,  0.0, 0.0,  false,  1, 0, -360, 360, -45, 2
+
+
+
+;AddPartTurretWeapon    = m2_fifty,   false, true, true,  -.9630, 2.7930, .8643
+;AddTurretWeapon = m2_fifty,    -.9626, 2.8641, 1.0597,   0.0, 0.0, false, 2, 0, -0,180, -65,9
+
+
+;;AddWeapon = m2_1,    -0.4940, 3.0028, -1.8746,   0.0, 0.0, false, 3, 0, -90,90, -50,10
+
+
+
+
+;light tracked rocket arty (modern)
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:rocket3, C, mcheli:engine2, D, mcheli:tanktracks, E, mcheli:fcs3, F, mcheli:electronics
+
+;BoundingBox =  0.0, 1.4,  -2.0,   3.4, 3.8,  1.00
+;BoundingBox =  0.0, 1.4, 2.0,   3.4, 2.3,  1.00
+
+BoundingBox = 0.0, 1.5, 2.6, 2.8, 1.0, 1.0
+
+BoundingBox = 0.0, 1.5, 2.2, 3.0, 2.5, 1.0
+
+BoundingBox = 0.0, 1.5, -0.7, 3.0, 2.5, 1.0
+BoundingBox = 0.0, 1.5, -2.35, 3.0, 2.5, 1.0
+
+unmountposition = 1.0, 2.25, 2.97

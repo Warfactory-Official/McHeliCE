@@ -1,0 +1,99 @@
+﻿DisplayName = F8F-1B Bearcat
+AddDisplayName = en_US, F8F-1B Bearcat
+AddDisplayName = ko_KR, F8F-1B 베어캣
+ItemID = 40006
+MaxHp = 100
+Speed = 0.73254
+Sound = thunderbolteng
+onGroundPitch = 11.5
+ThrottleUpDown = 0.3
+MaxFuel         = 1000
+FuelConsumption = 1.0
+ThrottleUpDownOnEntity = 2.0
+ThirdPersonDist = 12
+
+
+
+;basic ww2 prop plane, AOW3 style
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:airframe, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon1
+
+DamageFactor = 0.8
+
+enableback = true
+
+; W = WWII.  F = Fighter
+Category = W.F
+
+HUD = plane_wwii
+
+AddTexture = f8f-201
+AddTexture = f8f-224
+AddTexture = f8f-225
+AddTexture = f8f-fr
+
+AddSeat = 0.0,  2.32, -1.808
+
+unmountposition = 0.0,  2.12, -1.808
+
+AddPartSlideCanopy = 0, -0.05, -0.6
+;Color: RGB 190 253 255, opacity 20% brush
+
+AddPartRotor =    0.00,  2.09, 3.206,  1,0, 0
+AddBlade = 1, 0,  0.00,  2.09, 3.206,   0,0,-1
+RotorSpeed = 2000.0
+
+MobilityYaw = 2.5
+MobilityRoll = 1.5
+MobilityPitch = 2.5
+
+AddPartWing = 4.317, 2.167, -0.468,  0,0,1, 100
+AddPartWing =  -4.317, 2.167, -0.468,  0, 0,-1, 100
+AddPartWing = 0.00, 3.335, -0.977,  -1,0,0, 60
+
+;F
+AddPartLG =   2.35, 1.85, 0.28,  0,0,-1, 88.5, 1,0,0, 23
+AddPartLG =   -2.35, 1.85, 0.28,  0,0, 1, 88.5, 1,0,0, 23
+
+;R
+AddPartLG =   0.00, 1.75,  -6.00,  1,0, 0, 70
+AddPartLG =   0.16, 1.65,  -6.00,   0, 0, -1, 65
+AddPartLG =   -0.16, 1.65,  -6.00,  0,0, 1, 65
+
+;change weapons firing trajectory
+AddWeapon = f8an-m3_20,  3.15, 1.95, -0.59, 2.0, -2.5
+AddWeapon = f8an-m3_20,  -3.15, 1.95, -0.59, -2.0, -2.5
+AddWeapon = f8an-m3_20,  2.905, 1.925, -0.64, 1.5, -3.0
+AddWeapon = f8an-m3_20,  -2.905, 1.925, -0.64, -1.5, -3.0
+
+BoundingBox =  0.00, 2.20, 1.7, 1.7, 1.7, 1.5
+BoundingBox =  0.00, 2.20, 0.0, 1.7, 1.7
+BoundingBox =  0.00, 2.20, -1.7, 1.7, 1.7
+BoundingBox =  0.00, 2.20, -3.4, 1.7, 1.7
+BoundingBox =  0.00, 2.20, -4.9, 1.5, 1.5
+BoundingBox =  0.00, 2.20, -6.4, 1.5, 1.5
+
+
+
+BoundingBox = -1.85, 2.00, -0.7,  2.0, 0.3
+BoundingBox =  1.85, 2.00, -0.7,  2.0, 0.3
+
+
+BoundingBox =  1.0, 2.7, -6.4, 1.2, 0.3
+BoundingBox = -1.0, 2.7, -6.4, 1.2, 0.3
+
+BoundingBox =  2.0, 2.7, -6.4, 1.0, 0.3
+BoundingBox = -2.0, 2.7, -6.4, 1.0, 0.3
+
+
+BoundingBox = -3.85, 2.20, -0.7,  2.0, 0.3
+BoundingBox =  3.85, 2.20, -0.7,  2.0, 0.3
+
+BoundingBox = -5.45, 2.250, -0.7,  1.5, 0.3
+BoundingBox =  5.45, 2.25, -0.7,  1.5, 0.3
+
+BoundingBox = 0.0, 2.5, -7.38, 0.5, 1.5
+
+BoundingBox = 0.0, 4.0, -7.38, 0.5, 1.5
+
+BoundingBox = 0.0, 3.8, -6.88, 0.5, 1.5
+DamageFactor = 0.8

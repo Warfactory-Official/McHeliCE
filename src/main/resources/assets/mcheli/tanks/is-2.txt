@@ -1,0 +1,216 @@
+﻿DisplayName = IS-2 (1944)
+AddDisplayName = ja_JP, IS-2 (1944)
+AddDisplayName = en_US, IS-2 (1944)
+ItemID = 30180
+
+MaxHp = 180
+
+Speed = 0.23
+
+Category = HT
+
+
+Sound = istwo
+ThrottleUpDown = 1.3
+throttleDownFactor = 0.65
+MinRotationPitch = -20
+MaxRotationPitch = 3
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 4
+CameraPosition = 0.00,  3.50, 0.90, true
+EnableNightVision = false
+CameraRotationSpeed = 9
+;EnableEntityRadar = true
+MaxFuel         = 1500
+FuelConsumption = 2.0
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+FlareType = 10
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 2
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+
+
+HUD = ww2tank_hud, gunner
+
+AddTexture = IS-2s
+AddTexture = IS-2gp
+AddTexture = IS-2sp
+
+AddGunnerSeat =  0.00,  2.00,  0.25,    0.00,  2.50,  0.25,  false, -90, 90, true
+
+unmountposition = 0.00,  1.50,  0.25
+
+AddGunnerSeat =  0.43,  3.00, -0.90,    0.43, 3.95, -0.90, false, -90, 90, true
+
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+
+
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+;ArmorDamageFactor = 1.0
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントZ/Y, 履帯の回転ポイントZ/Y, 履帯の回転ポイントZ/Y, ...
+;転輪がなくても動作する
+
+AddCrawlerTrack = true, 0.20, -2.11,  -0.26/ 1.92,  -0.14/ 2.22,  0.43/ 3.22,    0.72/ 3.35,  1.02/ 3.22,  1.14/ 2.92,    1.00/ 1.93,   1.16/ 1.33,   1.0/ 0.00,   1.16/ -1.33,   1.00/ -2.70,   1.16/ -3.95,    1.00/ -4.80,   1.02/ -5.22,     0.92/ -5.79,     0.65/ -5.90,     0.39/ -5.79,     -0.13/ -4.78,    -0.26/ -4.48,
+AddCrawlerTrack = true, 0.20,  2.15,  -0.26/ 1.92,  -0.14/ 2.22,  0.43/ 3.22,    0.72/ 3.35,  1.02/ 3.22,  1.14/ 2.92,    1.00/ 1.93,   1.16/ 1.33,   1.0/ 0.00,   1.16/ -1.33,   1.00/ -2.70,   1.16/ -3.95,    1.00/ -4.80,   1.02/ -5.22,     0.92/ -5.79,     0.65/ -5.90,     0.39/ -5.79,     -0.13/ -4.78,    -0.26/ -4.48,
+
+
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+;TrackRollerRot = 30
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+
+
+SetWheelPos =  1.75,  -0.24,  1.92,  0.60, -0.68, -1.98, -3.39, -4.48
+
+AddTrackRoller =  -2.11,  0.72,  2.92
+AddTrackRoller =  -2.11,  0.15,  1.92
+AddTrackRoller =  -2.11,  0.15,  0.60
+AddTrackRoller =  -2.11,  0.15, -0.68
+AddTrackRoller =  -2.11,  0.15, -1.98
+AddTrackRoller =  -2.11,  0.15, -3.39
+AddTrackRoller =  -2.11,  0.15, -4.48
+AddTrackRoller =  -2.11,  0.65, -5.52
+AddTrackRoller =  -2.11,  0.90, -3.95
+AddTrackRoller =  -2.11,  0.90, -1.33
+AddTrackRoller =  -2.11,  0.90,  1.33
+
+
+AddTrackRoller =  2.11,  0.72,  2.92
+AddTrackRoller =  2.11,  0.15,  1.92
+AddTrackRoller =  2.11,  0.15,  0.60
+AddTrackRoller =  2.11,  0.15, -0.68
+AddTrackRoller =  2.11,  0.15, -1.98
+AddTrackRoller =  2.11,  0.15, -3.39
+AddTrackRoller =  2.11,  0.15, -4.48
+AddTrackRoller =  2.11,  0.65, -5.52
+AddTrackRoller =  2.11,  0.90, -3.95
+AddTrackRoller =  2.11,  0.90, -1.33
+AddTrackRoller =  2.11,  0.90,  1.33
+
+;主砲
+AddPartWeapon = is2d25tap / is2d25the, false, true, false,  0.00, 2.00, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.41, 1.68, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.41, 1.68, 0.5
+AddTurretWeapon = is2d25tap, 0.00, 2.41, 0.68,  0.0, 0.0, true,1, 0,-360,360, -20, 3
+AddTurretWeapon = is2d25the,     0.00, 2.41, 0.68,  0.0, 0.0, true,1, 0,-360,360, -20, 3
+AddTurretWeapon = is2dt29coax,        0.43, 2.28, 1.66,  0.0, 0.0, true,1, 0,-360,360, -20, 3
+;車体
+
+;AddTurretWeapon = is2reardt,        0.7048, 2.6171, -2.8433,  0.0, 0.0, true,1, 0,-360,-360, -20, 3
+
+AddWeapon = is2hullmg, -1.3679, 1.6866, 1.7297, 0, 0, true, 1, 0, -0, 0, 0, 0
+
+
+AddPartTurretWeapon    = is212.7mmDShK,   false, true, true,   0.96, 3.60, -0.88, 0
+
+
+
+
+AddTurretWeapon = is212.7mmDShK,    0.9518, 3.649, -0.87,   0.0, 0.0, false,2, 0, -360,360, -60,10
+AddPartWeaponChild = false, true, 0.9518, 3.649, 0.7738
+
+
+;heavy tracked tank ww2
+AddRecipe = "ABC", "DEE", "E  ", A, mcheli:heavychassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, E, mcheli:hap
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:is-1, B, mcheli:hap, C, mcheli:wrench
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+ArmorMinDamage = 30
+
+
+;turret 100mm
+BoundingBox = 0.0, 2.5, 0.0, 2.1, 1.1, 0.3
+
+;side armor 90mm
+BoundingBox = 0.0, 0.85, 0.0, 2.5, 1.3, 0.33
+BoundingBox = 0.0, 0.85, -2.5, 2.5, 1.3, 0.33
+BoundingBox = 0.0, 0.85, -4.5, 2.5, 1.3, 0.33
+BoundingBox = 0.0, 0.85, 1.0, 2.5, 1.3, 0.33
+
+;130mm upper side armor
+BoundingBox = 0.0, 1.7, 0.0, 3.5, 0.5, 0.23
+
+;side armor top rear 90mm
+BoundingBox = 0.0, 1.7, -3.0, 3.5, 0.5, 0.5
+
+;270mm front upper armor
+BoundingBox = 0.0, 1.55, 2.15, 1.0, 0.8, 0.11
+
+;200mm
+BoundingBox = 0.0, 1.70, 0.7, 3.4, 0.5, 0.15
+
+;310 front
+
+BoundingBox = 1.25, 1.70, 2.0, 1.0, 0.5, 0.09
+BoundingBox = -1.25, 1.70, 2.0, 1.0, 0.5, 0.09
+
+;lower front plate 137mm
+BoundingBox = 0.0, 0.68, 2.80, 1.1, 0.8, 0.21
+BoundingBox = -1.07, 0.67, 3.23, 0.25, 0.75, 0.21
+BoundingBox = 1.0, 0.67, 3.23, 0.25, 0.75, 0.21
+
+;lower front plate no track 117mm
+BoundingBox = 0.0, 0.66, 2.00, 2.5, 0.9, 0.25
+;BoundingBox = 0.0, 0.67, 1.99, 2.5, 0.9, 0.25
+;BoundingBox = 0.0, 0.68, 1.98, 2.5, 0.9, 0.25
+;BoundingBox = 0.0, 0.69, 1.97, 2.5, 0.9, 0.25
+;BoundingBox = 0.0, 0.70, 1.96, 2.5, 0.9, 0.25
+;BoundingBox = 0.0, 0.71, 1.95, 2.5, 0.9, 0.25
+;BoundingBox = 0.0, 0.72, 1.94, 2.5, 0.9, 0.25
+
+;upper front plate center 0.13/228mm
+BoundingBox = 0.0, 1.33, 2.70, 1.3, 0.5, 0.13
+
+;upper front plate left/right
+BoundingBox = 1.15, 1.55, 2.55, 1.0, 0.5, 0.1
+BoundingBox = -1.15, 1.55, 2.55, 1.0, 0.5, 0.1
+
+;lower upper shit 180mm
+;BoundingBox = 1.15, 1.35, 2.55, 1.0, 0.5, 0.16
+;BoundingBox = -1.15, 1.35, 2.55, 1.0, 0.5, 0.16
+
+;upper front plate side 90mm
+;left
+BoundingBox = 0.65, 0.75, 2.55, 1.3, 0.8, 0.5
+;right
+BoundingBox = -0.65, 0.75, 2.55, 1.3, 0.8, 0.5
+
+Regeneration = false
+
+
+;;;;;;;;;;;;60mm rear trollface jk it's 90
+;;;;;;;;;;;;;BoundingBox = 0.0, 2.0, -4.5

@@ -1,0 +1,75 @@
+﻿DisplayName = INMAR 520R-MIL (17'6'') Rigid Inflatable Boat with M240 Mount
+;ok seriously what the fuck is this
+AddDisplayName = en_US, INMAR 520R-MIL (17'6'') Rigid Inflatable Boat with M240 Mount
+AddDisplayName = ja_JP, 複合艇(マシンガン搭載)
+ItemID = 49998
+MaxHp = 100
+Speed = 0.68
+Float = true
+FloatOffset = -0.7
+Sound = boat
+ThrottleUpDown = 1.8
+MaxFuel         = 1200
+FuelConsumption = 1.0
+Gravity = -0.15
+GravityInWater = -0.12
+DamageFactor = 1.0
+StepHeight = 5.0
+
+PivotTurnThrottle = 0.2
+
+CanMoveOnGround = false
+CanRotOnGround  = false
+
+MobilityPitch = 0.01
+MinRotationPitch = 3.00
+MaxRotationPitch = -3.00
+
+onGroundPitch = 4
+
+sound = rhib
+
+enableback = true
+
+MobilityYaw = 2.70
+MobilityYawOnGround = 2.7
+
+enableback = true
+
+; M = Military(軍用機).  C = Transport(輸送機)
+Category = M.C
+
+HUD = vehicle, vehicle
+
+AddSeat = 0.0,  1.0, -1.25
+
+unmountposition = 0.0,  2.5, -1.25
+
+AddSeat = 0.0,  1.25, 1.50
+AddSeat = 0.6,  0.63, 2.0
+AddSeat = -0.6,  0.63, 2.0
+AddSeat = 1.0,  0.63, 0.0
+AddSeat = -1.0,  0.63, 0.0
+AddSeat = 1.0,  0.63, -0.62
+AddSeat = -1.0,  0.63, -0.62
+AddSeat = 1.0,  0.63, -1.25
+AddSeat = -1.0,  0.63, -1.25
+
+AddPartWeapon    = rhib_hmg, false, true, false,  0.0, 1.62, 2.24
+AddPartWeapon    = rhib_hmg, false, true, true,   0.0, 1.62, 2.24
+
+AddTurretWeapon = rhib_hmg,     0.00, 1.75, 2.25,   0.0, 0.0, false, 2, 0.0, -90.0, 90.0, -60.0, 15.0
+
+AddParticleSplash = -1.0,  0.15,  0.0,   3,      7.0,    1.0,   20,       0.20,  -0.02
+AddParticleSplash =  1.0,  0.15,  0.0,   3,      7.0,    1.0,   20,       0.20,  -0.02
+AddParticleSplash = -0.5,  0.15, -0.8,   2,      7.0,    1.0,   60,       0.01,   0
+AddParticleSplash =  0.5,  0.15, -0.8,   2,      7.0,    1.0,   60,       0.01,   0
+
+AddRack = container,   0.0, 0.7, 0.5,  0.0, 0.0, 0.0,  8.0,   20
+
+;small light transport rubber
+AddRecipe = "ACB", "BDD", "   ", A, mcheli:shiphull1, C, mcheli:engine1, B, mcheli:cannon1, D, mcheli:rubber
+
+BoundingBox = 0.0, 0.2, 0.0, 1.5, 1.0, 1.0
+BoundingBox = 0.0, 0.2, -1.5, 1.5, 1.0, 1.0
+BoundingBox = 0.0, 0.2, 1.5, 1.5, 1.0, 1.0

@@ -1,0 +1,36 @@
+DisplayName = RBK-500 Cluster UMPK Kit
+Type = ASMissile
+Power = 400
+Acceleration = 2
+Explosion = 3
+Explosionblock = 1
+ExplosionInWater = 2
+Flaming = false
+Sight = None
+Delay = 5
+ReloadTime = 1000
+
+Bomblet = 75
+BombletSTime = 40
+BombletDiff = 0.5
+Sound = bomb_snd
+SoundVolume = 15
+disablesmoke=true
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+Sound = bomb_snd
+ModelBullet = RBK500umpk
+ModelBomblet = cbc
+Gravity = -0.002
+
+Round = 4
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  5, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

@@ -1,0 +1,29 @@
+DisplayName = HEAT
+Type = MachineGun1
+Power = 430
+ModelBullet =bullet105mm
+Explosion = 1
+ExplosionBlock = 3
+Acceleration = 16.0
+Sight = None
+ReloadTime = 200
+Round = 6
+SoundVolume = 10.0
+Sound = heat
+Accuracy = 1.5
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+Gravity = -0.02
+Delay = 10
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+
+
+MaxAmmo = 6
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  1, gunpowder

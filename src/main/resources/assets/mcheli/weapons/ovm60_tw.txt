@@ -1,0 +1,33 @@
+DisplayName = 7.62mm M60 Machine Gun
+Type = MachineGun2
+Power = 8
+Acceleration = 7.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+SoundVolume = 15.0
+SoundPitch = 1.0
+Sound = msixty
+Accuracy = 0.3
+HeatCount = 1
+MaxHeatCount = 250
+
+Round = 2000
+ReloadTime = 180
+
+Gravity = -0.005
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+AddMuzzleFlash      =  1.6,      0.22,        1,  100,254,159,84
+AddMuzzleFlash      =  1.5,      0.20,        1,  120,254,219,184
+AddMuzzleFlashSmoke =  2.2,  2,   5.0,  2.0, 15,  100,250,245,240
+AddMuzzleFlashSmoke =  3.2,  1,   8.0,  1.0,  5,  100,220,217,214
+
+MaxAmmo = 2000
+SuppliedNum = 500
+Item =  1, iron_ingot
+Item =  1, gunpowder

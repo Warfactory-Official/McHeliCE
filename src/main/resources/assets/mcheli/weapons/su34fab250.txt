@@ -1,0 +1,28 @@
+DisplayName = 250kg OFAB-250-270 Bomb
+Type = Bomb
+Flaming = false
+Sight = None
+Delay = 5
+Sound = bomb_snd
+ModelBullet = fab500sh
+Gravity = -0.01
+
+Acceleration = 0.5
+Explosion = 10
+;Explosive mass	269.9/around 2 kg kg
+Power = 540
+ExplosionBlock = 5
+ExplosionInWater = 5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+ReloadTime = 2000
+Round = 12
+
+MaxAmmo = 12
+SuppliedNum = 3
+Item =  6, iron_ingot
+Item =  6, gunpowder

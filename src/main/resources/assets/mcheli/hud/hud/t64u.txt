@@ -1,0 +1,21 @@
+If=cam_mode==2&&have_radar==1
+Call = soviet_mbt_hud_night
+EndIf
+If=cam_mode!=2
+Call = soviet_mbt_hud
+EndIf
+If=have_radar==0&&cam_mode==2
+DrawTexture = black, -500,-500,  5000,5000, 0, 0,100,100,
+EndIf
+
+DrawTexture = white, -380,-280,  100,200, 0, 0,100,100,
+DrawCenteredString =-333,-170,"THR"
+DrawCenteredString =-310,-170,"%.0f",THROTTLE 
+DrawCenteredString =-333,-160,"REA"
+DrawCenteredString =-311,-160,"%s",WPN_AMMO
+DrawCenteredString =-333,-150,"H P"
+DrawCenteredString =-310,-150,"%d",HP
+DrawTexture = hud, -340, -140, 32,32,  64, 64, 64,64
+DrawTexture = hud, -340, -140, 32,32,  64,128, 64,64, fuel*270-135
+DrawCenteredString =-333,-110,"WPN"
+DrawCenteredString =-313,-100,"%s", WPN_NAME 

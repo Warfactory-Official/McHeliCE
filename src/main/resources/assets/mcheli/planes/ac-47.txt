@@ -1,0 +1,165 @@
+DisplayName = Douglas AC-47 Spooky "Puff, the Magic Dragon"
+AddDisplayName = en_US, Douglas AC-47 Spooky "Puff, the Magic Dragon"
+AddDisplayName = ja_JP, AC-47 Spooky "Puff, the Magic Dragon"
+HUD = plane_wwiinotherm, plane_wwiinotherm
+EnableEntityRadar = false
+Speed = 1.75
+;max speed seemed too fast
+GravityInWater = -0.04
+MobilityRoll = 0.3
+MobilityYaw = 0.3
+MobilityPitch = 0.3
+;MinRotationRoll =-30
+;MaxRotationRoll =30
+MaxHP = 250
+InventorySize = 9
+Sound = prop
+OnGroundPitch = 11.62
+ThrottleUpDown = 0.1
+EnableParachuting = false
+;MobDropOption  = 0.97, 1.52, -6.48, 2
+;Regeneration = true
+
+Category = M.A
+
+;OH BROTHER!!!
+
+;large WW2 prop plane transport, AOW3 style
+AddRecipe = "ABC", "DAE", "EEF", A, mcheli:airframebomb, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:complexmechanicparts
+
+RotorSpeed = 2000.0
+
+enableback = true
+
+DamageFactor = 0.8
+
+AddSeat = 0.68, 5.0, 1.78
+
+
+AutoPilotRot = -0.10
+CameraPosition = 1.8, 4.40, -7.42
+CameraZoom = 1
+EnableNightVision = true
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+;FlareType = 2
+;sorry kid
+
+AddGunnerSeat = 0.0, 4.25, -7.42
+
+AddSeat = -0.67, 5.0, 1.78
+
+;AddSeat = 1.41, 4.64, -2.42
+;AddSeat = 1.41, 4.64, -3.73
+;AddSeat = 1.41, 4.64, -5.0
+;AddSeat = 1.41, 4.64, -6.34
+;AddSeat = 1.41, 4.64, -7.66
+;AddSeat = 1.41, 4.64, -8.88
+;AddSeat = -1.41, 4.64, -2.42
+;AddSeat = -1.41, 4.64, -3.73
+;;AddSeat = -1.41, 4.64, -5.0
+;AddSeat = -1.41, 4.64, -6.34
+;AddSeat = -1.41, 4.64, -7.66
+;AddSeat = -1.41, 4.64, -8.88
+
+AddPartRotor = -3.79, 3.47, 0.29,  0, 0, 1
+AddBlade =1, 0, -3.79, 3.47, 0.29,  0, 0, 1
+
+AddPartRotor = 3.77, 3.47, 0.29,  0, 0, 1
+AddBlade =1, 0, 3.77, 3.47, 0.29,  0, 0, 1
+
+;AddRack = container,     0.0, 4.11, -2.42,  2.19, 4.39, -11.12,   15,    20
+;AddRack = container,     0.0, 4.11, -3.95,  2.19, 4.39, -11.12,   15,    20
+;AddRack = container,     0.0, 4.11, -5.68,  2.19, 4.39, -11.12,   15,    20
+;AddRack = container,     0.0, 4.11, -7.4,  2.19, 4.39, -11.12,   15,    20
+;AddRack = container,     0.0, 4.11, -9.19,  2.19, 4.39, -11.12,   15,    20
+;AddRack = container,     0.0, 4.11, -11.35,  2.19, 4.39, -11.12,   15,    20
+
+
+
+
+;-6.4338, 2.4156, -0.1949
+
+;shamelessly stolen from mk5
+
+;AddWeapon        = m134_l50,  1.68, 1.96, -3.965,   0.0, 0.0, false, 2, -90,-80, 80, -50,80
+;AddPartWeapon    = m134_l50, false, true, false,  1.54, 1.66, -3.965
+;AddPartWeapon    = m134_l50, false, true, true,   1.54, 1.96, -3.965
+;AddPartRotWeapon = m134_l50, false, true, true,   1.54, 1.96, -3.965, -1,0,0
+
+;1.68 -> 1.54 = 0.14 diff x
+;1.96 -> 1.66 = 0.3 diff y
+
+;1st
+AddWeapon        = m134puff3,  1.4860, 4.3775, -10.3993,   0.0, 0.0, true, 2, -90,-45, 15, -5,45
+AddPartWeapon    = m134puff3, false, true, false,  1.346, 4.0775, -10.3993
+AddPartWeapon    = m134puff3, false, true, true,   1.346, 4.3775, -10.3993
+AddPartRotWeapon = m134puff3, false, true, true,   1.346, 4.3775, -10.3993, -1,0,0
+
+;2nd
+;z272.70, y72.57
+
+AddWeapon        = m134puff,  1.4860, 5.1032, -7.6723,   0.0, 0.0, true, 2, -90,-45, 15, -5,45
+AddPartWeapon    = m134puff, false, true, false,  1.346, 4.8032, -7.6723
+AddPartWeapon    = m134puff, false, true, true,   1.346, 5.1032, -7.6723
+AddPartRotWeapon = m134puff, false, true, true,   1.346, 5.1032, -7.6723, -1,0,0
+
+;3rd forward from original (1)
+;z147.01, y72.57
+
+AddWeapon        = m134puff2,  1.4860, 5.1032, -8.9292,   0.0, 0.0, true, 2, -90,-45, 15, -5,45
+AddPartWeapon    = m134puff2, false, true, false,  1.346, 4.8032, -8.9292
+AddPartWeapon    = m134puff2, false, true, true,   1.346, 5.1032, -8.9292
+AddPartRotWeapon = m134puff2, false, true, true,   1.346, 5.1032, -8.9292, -1,0,0
+
+
+AddWeapon = memeflare, 0.0, 5.0, -9, 0.0, 0.0, true, 3, -90, 0, 0, 0, 90
+
+
+
+AddPartLG    =  3.77, 2.78, -1.29,  -1,0,0,  -90
+AddPartLG    =  -3.77, 2.78, -1.29,  -1,0,0,  -90
+
+MaxFuel         = 1000
+FuelConsumption = 0.5
+
+BoundingBox = 0.0, 4.97, -0.65,3, 3
+BoundingBox = 0.0, 4.97, -3.65,3, 3
+BoundingBox = 0.0, 4.97, -6.65,3, 3
+BoundingBox = 0.0, 4.97, -9.65,3, 3
+BoundingBox = 0.0, 4.97, -12.65,3, 3
+BoundingBox = 0.0, 5.35, -15.65,3, 2.5
+
+BoundingBox = 2.96, 3.71, -4.25,3, 1
+BoundingBox = -2.96, 3.71, -4.25,3, 1
+
+BoundingBox = 5.96, 3.71, -4.25,3, 0.8
+BoundingBox = -5.96, 3.71, -4.25,3, 0.8
+
+BoundingBox = 8.96, 4.01, -4.25,3, 0.6
+BoundingBox = -8.96, 4.01, -4.25,3, 0.6
+
+BoundingBox = 0.0, 7.85, -16.15, 0.5, 2.5
+BoundingBox = 0.0, 7.85, -16.65, 0.5, 2.5
+BoundingBox = 0.0, 8.15, -17.15, 0.5, 3.2
+BoundingBox = 0.0, 8.15, -17.65, 0.5, 3.5
+BoundingBox = 0.0, 8.15, -18.15, 0.5, 3.8
+
+BoundingBox = 1.55, 5.80, -18.75, 1.5, 0.3
+BoundingBox = -1.55, 5.80, -18.75, 1.5, 0.3
+
+BoundingBox = 0.0, 5.75, -17.65,2, 1.5
+
+BoundingBox = 2.75, 5.80, -18.95, 1.0, 0.3
+BoundingBox = -2.75, 5.80, -18.95, 1.0, 0.3
+
+BoundingBox = 3.75, 3.45, -0.773, 1.3, 1.3, 1.5 
+BoundingBox = -3.75, 3.45, -0.773, 1.3, 1.3, 1.5 
+BoundingBox = 3.75, 3.45, -2.073, 1.3, 1.3, 1.5 
+BoundingBox = -3.75, 3.45, -2.073, 1.3, 1.3, 1.5 
+
+;large WW2 prop plane transport, AOW3 style
+;AddRecipe = "ABC", "DA ", "EEE", A, mcheli:airframebomb, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon1
+
+UnmountPosition = 0.68, 2.2, 1.78
+DamageFactor = 0.8

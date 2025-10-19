@@ -1,0 +1,251 @@
+
+DrawTexture = njk, -685, -335,  1350,675,  0,0,3000,1500, 0
+
+; パラメータ1  :テクスチャファイル名 (拡張子無し。assets\mcheli\textures\gui 内のファイル)
+; パラメータ2  : 画面の中央からのX座標
+; パラメータ3  : 画面の中央からのY座標
+; パラメータ4  : 画面上の幅
+; パラメータ5  : 画面上の高さ
+; パラメータ6  : 読み出すテクスチャのX座標
+; パラメータ7  : 読み出すテクスチャのY座標
+; パラメータ8  : 読み出すテクスチャの幅
+; パラメータ9  : 読み出すテクスチャの高さ
+; パラメータ10 : 画面上での回転角度(省略可)50,20,  0,0, 64,64,  90.0
+
+
+;tyawbs
+;autoloader
+
+
+
+DrawTexture = tyawb, -275, -110,  120,120,  0,0,268,268, 0
+DrawTexture =autoloader, -30, -160,  60,76,  0,0,119,150,0
+DrawTexture =aah, 43, -160,  86,73,  0,0,178,150,0
+
+If=sight_type==0 &&(is_heat_wpn==0)
+DrawTexture =aahp, 67, -184,  45,120,  0,0,89,275,63
+EndIf
+If=sight_type==1&&(is_heat_wpn==0)
+DrawTexture =aahp, 67, -184,  45,120,  0,0,89,275,45
+EndIf
+If=(sight_type==1)&&(is_heat_wpn==1)
+DrawTexture =aahp, 67, -184,  45,120,  0,0,89,275,0
+EndIf
+If=(sight_type==0)&&(is_heat_wpn==1)
+DrawTexture =aahp, 67, -184,  45,120,  0,0,89,275,25
+EndIf
+
+
+;If=(yaw==0&&(color!=270&&color!=90&&color!=180))
+;color=0
+;EndIf
+
+;If=(yaw>=90&&yaw<=95)&&(color!=0&&color!=90&&color!=180)
+;color=270
+;EndIf
+
+;If=yaw==-90&&(color!=270&&color!=0&&color!=180)
+;color=90
+;EndIf
+
+;If=(yaw>=180&&yaw<=181)||(yaw<=180&&yaw>=179)&&(color!=270&&color!=90&&color!=0)
+;color=180
+;EndIf
+
+
+;DrawTexture = tyawbb, -217, -91,  3,85,  0,0,5,130,plyr_yaw-yaw
+;color=plyr_yaw-yaw
+
+DrawTexture = tyawbb, -216.5, -100,  2,100,  0,0,5,130,plyr_yaw-yaw
+
+DrawTexture = tyawbs, -230, -64.5,  30,30,  0,0,70,70,0
+
+If=cam_zoom==1
+DrawTexture = zs0, -13, -5,  20,110,  0,0,40,251,0
+DrawTexture = s16, -10, 0,  3.3,4,  0,0,8,9,0
+DrawTexture = ss8, -10, -5,  3.3,4,  0,0,8,9,0
+DrawTexture = he1, -100, -10,  45,30,  0,0,143,65,0
+EndIf
+
+If=cam_zoom==2
+DrawTexture = zs1, -13, -5,  20,120,  0,0,40,251,0
+DrawTexture = s16, -10, 4,  3.3,4,  0,0,8,9,0
+DrawTexture = ss8, -10, -2,  3.3,4,  0,0,8,9,0
+DrawTexture = he2, -100, -10,  45,30,  0,0,143,65,0
+EndIf
+
+If=cam_zoom==3
+DrawTexture = zs2, -13, -6.7,  20,110,  0,0,40,251,0
+DrawTexture = s18, -10, 10,  3.3,4,  0,0,8,9,0
+DrawTexture = s16, -10, 4,  3.3,4,  0,0,8,9,0
+DrawTexture = ss8, -10, -2,  3.3,4,  0,0,8,9,0
+DrawTexture = he3, -100, -10,  45,40,  0,0,143,65,0
+EndIf
+
+If=reloading==1
+DrawTexture = leroad, -76,122,  16,16,  0,0,29,30,0
+EndIf
+
+;DrawTexture = l0, -17,126,  6,9,  0,0,12,20,0
+;DrawTexture = l0, -6,126,  6,9,  0,0,12,20,0
+;DrawTexture = l0, 5,126,  6,9,  0,0,12,20,0
+;DrawTexture = l0, 16,126,  6,9,  0,0,12,20,0
+
+If=(mt_dist%10>=0&&mt_dist%10<1)
+DrawTexture = l0, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=0&&mt_dist%100<1)||(mt_dist>=100&&mt_dist%10>=1&&mt_dist%10<10)
+DrawTexture = l0, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000==0)||(mt_dist%1000>=1&&mt_dist%1000<100)
+DrawTexture = l0, -6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=1&&mt_dist%10<2)
+DrawTexture = l1, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=2&&mt_dist%10<3)
+DrawTexture = l2, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=3&&mt_dist%10<4)
+DrawTexture = l3, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=4&&mt_dist%10<5)
+DrawTexture = l4, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=5&&mt_dist%10<6)
+DrawTexture = l5, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=6&&mt_dist%10<7)
+DrawTexture = l6, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=7&&mt_dist%10<8)
+DrawTexture = l7, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=8&&mt_dist%10<9)
+DrawTexture = l8, 16,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10>=9&&mt_dist%10<10)
+DrawTexture = l9, 16,126,  6,9,  0,0,12,20,0
+EndIf
+;-----------------------------------------------------10の位
+If=(mt_dist%100>=10&&mt_dist%100<20)
+DrawTexture = l1, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=20&&mt_dist%100<30)
+DrawTexture = l2, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=30&&mt_dist%100<40)
+DrawTexture = l3, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=40&&mt_dist%100<50)
+DrawTexture = l4, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=50&&mt_dist%100<60)
+DrawTexture = l5, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=60&&mt_dist%100<70)
+DrawTexture = l6, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=70&&mt_dist%100<80)
+DrawTexture = l7, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=80&&mt_dist%100<90)
+DrawTexture = l8, 5,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%100>=90&&mt_dist%100<100)
+DrawTexture = l9, 5,126,  6,9,  0,0,12,20,0
+EndIf
+;-------------------------------------------------------100の位
+If=(mt_dist%1000>=100&&mt_dist%1000<200)
+DrawTexture = l1, -6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000>=200&&mt_dist%1000<300)
+DrawTexture = l2, -6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000>=300&&mt_dist%1000<400)
+DrawTexture = l3,-6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000>=400&&mt_dist%1000<500)
+DrawTexture = l4,-6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000>=500&&mt_dist%1000<600)
+DrawTexture = l5, -6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000>=600&&mt_dist%1000<700)
+DrawTexture = l6, -6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000>=700&&mt_dist%1000<800)
+DrawTexture = l7, -6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000>=800&&mt_dist%1000<900)
+DrawTexture = l8, -6,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%1000>=900&&mt_dist%1000<1000)
+DrawTexture = l9, -6,126,  6,9,  0,0,12,20,0
+EndIf
+;-----------------------------------1000の位
+If=(mt_dist%10000>=1000&&mt_dist%10000<2000)
+DrawTexture = l1, -17,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10000>=2000&&mt_dist%10000<3000)
+DrawTexture = l2, -17,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10000>=3000&&mt_dist%10000<4000)
+DrawTexture = l3,-17,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10000>=4000&&mt_dist%10000<5000)
+DrawTexture = l4,-17,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10000>=5000&&mt_dist%10000<6000)
+DrawTexture = l5, -17,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10000>=6000&&mt_dist%10000<7000)
+DrawTexture = l6, -17,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10000>=7000&&mt_dist%10000<8000)
+DrawTexture = l7, -17,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10000>=8000&&mt_dist%1000<9000)
+DrawTexture = l8, -17,126,  6,9,  0,0,12,20,0
+EndIf
+
+If=(mt_dist%10000>=9000&&mt_dist%10000<10000)
+DrawTexture = l9, -17,126,  6,9,  0,0,12,20,0
+EndIf
+
+;----night
+

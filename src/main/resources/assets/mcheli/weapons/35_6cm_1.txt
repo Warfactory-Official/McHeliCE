@@ -1,0 +1,44 @@
+DisplayName = 36cm 41st Year Type Naval Gun [AP]
+Type = MachineGun1
+ModelBullet = 91ap
+Power = 500
+Acceleration = 3.5
+Explosion = 6
+ExplosionBlock = 4
+ExplosionInWater = 3
+Flaming = false
+Sight = MoveSight
+Delay = 80
+Round = 2
+ReloadTime = 220
+SoundDelay = 4
+SoundPitch = 0.3
+
+HeatCount = 500
+MaxHeatCount = 1450
+
+Gravity = -0.005
+
+Delay = 80
+ReloadTime = 220
+Group = MainGun
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 2
+;Accuracy = 0.0
+DamageFactor = tank, 20.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 36cm Gun
+Sound = 150mmAA
+SoundVolume = 15
+
+
+
+
+MaxAmmo = 8
+SuppliedNum = 2
+Item =  5, iron_ingot
+Item =  5, gunpowder

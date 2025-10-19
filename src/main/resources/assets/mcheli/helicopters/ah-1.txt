@@ -1,0 +1,99 @@
+﻿DisplayName = AH-1F/S Cobra
+AddDisplayName = en_US, AH-1F/S Cobra
+AddDisplayName = ja_JP, AH-1F/S コブラ
+ItemID = 28824
+MaxHp = 100
+EnableGunnerMode = true
+EnableNightVision = true
+Speed = 1.72
+ThrottleUpDown = 0.8
+FlareType = 3
+MaxFuel         = 1200
+FuelConsumption = 1.0
+Sound = r44_heli
+soundpitch = 1.45
+soundvolume = 15
+ThirdPersonDist = 20
+
+AddTexture = AH-1_1
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = heli, heli_gnr
+
+CameraPosition = 0.0, 1.04, 2.86
+
+
+MobilityYaw = 1.2
+MobilityPitch = 1.2
+MobilityRoll = 1.2
+
+AddPartCamera = 0.0, 1.12, 2.47, true, false
+
+EntityPitch = 0
+EntityRoll = 0
+
+AddRotor= 1, 0, 0,  3.29, -12.90,  1.0, 0.0, 0.0
+AddRotor= 1, 0, 0,  4.26, -2.57,  0.0, 1.0, 0.0,false
+
+AddPartWeapon        = ahm197_1/ahm197_2,     true,  true,  false, -0.02,  0.61, 1.39
+AddPartWeapon        = ahm197_1/ahm197_2,     true,  true,  true,  -0.02,  0.48, 1.39
+AddPartRotWeapon     = ahm197_1/ahm197_2,     false, true,  true,  -0.02,  0.48, 1.39
+
+AddSeat       = 0.00, 1.41, -0.62
+AddGunnerSeat = 0.00, 1.10,  0.88,  0.0, 1.1, 3.5, true
+
+;basic modern helicopter armed, AOW3 style
+AddRecipe = "ABC", " EF", "G  ", A, mcheli:airframe, B, mcheli:heliblade, C, mcheli:engine1, E, mcheli:electronics, F, mcheli:cannon1, G, mcheli:rocket2
+
+
+AddWeapon = ahm197_1,  -0.02,  0.48, 1.39,  0,-1, true,2, 0,-110,110, -10,50
+AddWeapon = ahm197_2,  -0.02,  0.48, 1.39,  0,-1, true,2, 0,-110,110, -10,50
+
+
+AddWeapon = ahhydra70,        1.42,  0.96, -1.59,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = ahhydra70,       -1.42,  0.96, -1.59,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = ahhydra70,        1.02,  0.96, -1.59,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = ahhydra70,       -1.02,  0.96, -1.59,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = ahhydra70_mpsm,   1.42,  0.96, -1.59,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = ahhydra70_mpsm,  -1.42,  0.96, -1.59,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = ahhydra70_mpsm,   1.02,  0.96, -1.59,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = ahhydra70_mpsm,  -1.02,  0.96, -1.59,  1, 0,  true,1,  0,0,0, 0, 25
+
+AddWeapon = bgm71,    2.09,  1.09, -1.76,  1, 0,  true,2
+AddWeapon = bgm71,   -2.09,  1.09, -1.76, -1, 0,  true,2
+AddWeapon = bgm71,    2.09,  0.81, -1.76,  1, 0,  true,2
+AddWeapon = bgm71,   -2.09,  0.81, -1.76,  1, 0,  true,2
+
+AddWeapon = bgm71,  1.78,  1.09, -1.76,  1, 0,  true,2
+AddWeapon = bgm71, -1.78,  1.09, -1.76, -1, 0,  true,2
+AddWeapon = bgm71,  1.78,  0.81, -1.76,  1, 0,  true,2
+AddWeapon = bgm71, -1.78,  0.81, -1.76,  1, 0,  true,2
+
+AddWeapon = targeting_pod_mob,     0.0, 1.179, 2.89,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 1.179, 2.89,   0.0, 0.0,  false,2
+
+;BoundingBox =  0.0, 2.5, -2.0,  2.0, 3.8
+BoundingBox =  0.0, 2.0, -2.5,  2.0, 2.4
+BoundingBox =  0.0, 2.0, -4.5,  2.0, 2.4
+BoundingBox =  0.0, 2.5,-13.0,  2.0, 3.0, 1.25
+
+BoundingBox = 0.0, 1.17, -5.82, 1.0, 1.0
+BoundingBox = 0.0, 1.17, -6.82, 1.0, 1.0
+BoundingBox = 0.0, 1.17, -7.82, 1.0, 1.0
+BoundingBox = 0.0, 1.17, -8.82, 1.0, 1.0
+BoundingBox = 0.0, 1.27, -9.82, 1.0, 1.0
+BoundingBox = 0.0, 1.27, -10.82, 1.0, 1.0
+BoundingBox = 0.0, 1.27, -11.82, 1.0, 1.0
+
+BoundingBox = 0.0, 3.5, -2.5, 1.0, 1.5, 1.5
+
+unmountposition = 0.00, 1.50, -0.62
+
+
+DamageFactor = 0.8
+
+
+ThrottleUpDown = 0.5
+DamageFactor = 0.8

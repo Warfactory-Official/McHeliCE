@@ -1,0 +1,129 @@
+DisplayName = M8 Greyhound
+AddDisplayName = ru_RU, M8 Greyhound
+ItemID = 30997
+MaxHp = 100
+Speed = 0.55
+Sound = stuart
+ThrottleUpDown = 1.2
+MobilityYawOnGround = 7.0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+CameraZoom = 4
+CameraPosition = -0.0114, 4.2456, 0.2101
+CameraRotationSpeed = 14
+MinRotationPitch = -34
+MaxRotationPitch = 7
+DefaultFreelook = true
+ThirdPersonDist = 12
+
+Category = LT/AC
+
+HUD = ww2tank_hud, gunner, none, none, none, none, none, none
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+WeightType = Tank
+
+MotionFactor = 0.9
+
+SetWheelPos =  1.31, -0.24, 2.81, -0.55, -2.42
+
+SubmergedDamageHeight = 2
+
+AddGunnerSeat =  -0.0114, 1.2456, 0.2101
+
+AddGunnerSeat =  -0.0114, 5.2456, -1.2101, -0.0114, 4.0456, -1.4101, false, -90, 90, true
+
+AddSeat = 1.1521, 1.8258, -1.3680
+AddSeat = 1.1521, 1.8258, -2.0159
+AddSeat = 1.1521, 1.8258, -2.7261
+
+AddSeat = -1.1605, 1.8258, -1.3680
+AddSeat = -1.1605, 1.8258, -2.0159
+AddSeat = -1.1605, 1.8258, -2.7261
+
+MotionFactor = 0.9
+
+;ArmorMinDamage = 10
+;ArmorMaxDamage = 500
+ArmorDamageFactor = 2.00
+EnableBack = true
+
+PivotTurnThrottle = 0.1
+
+AddTurretWeapon = m8m51_mbt,  0.0078, 2.4278, 1.0094,   0.0, 0.0, true, 1,0,-360,360, -20,10
+AddTurretWeapon = m8m63_mbt,  0.0078, 2.4278, 1.0094,   0.0, 0.0, true, 1,0,-360,360, -20,10
+AddTurretWeapon = m8m74_mbt,  0.0078, 2.4278, 1.0094,   0.0, 0.0, true, 1,0,-360,360, -20,10
+AddTurretWeapon = m8m2_canister_mbt, 0.0078, 2.4278, 1.0094,   0.0, 0.0, true, 1,0,-360,360, -20,10
+
+AddTurretWeapon = m8browning, -0.2415, 2.4269, 1.0635,   0.0, 0.0, true, 1,0,-360,360, -20,10
+
+
+
+
+;AddWeapon = none,  0.0078, 2.4278, 2.5094,   0.0, 0.0, true, 2,0,-360,360, -5,5
+
+AddPartWeapon = m8m51_mbt / m8m63_mbt/ m8m74_mbt/ m8m2_canister_mbt, false, true, false,  -0.0114, 2.2456, 0.2101
+AddPartWeaponChild = false, true, -0.0114, 2.3682, 1.3976, 0.3
+
+TurretPosition = -0.0114, 2.2456, 0.2101
+
+
+AddTurretWeapon = m8m2_mbt, 0.0311, 3.68, -0.6884,   0.0, 0.0, false, 2,0,-360,360, -40,10
+
+AddPartTurretWeapon = m8m2_mbt, false, true, false, 0.0311, 2.2456, -0.6884, 0
+
+AddPartWeaponChild = false, true, 0.0311, 3.68, -0.816
+
+
+
+;AddPartTurretWeapon = m8m2_mbt, false, true, true, 0.0311, 3.68, -0.816, 0
+
+;AddTurretWeapon = QJC88,    2.1514, 5.2887, -0.7037,   0.0, 0.0, false, 2, 0, -80,80, -55,20
+;AddPartTurretWeapon    = QJC88,   false, true, true,   2.1514, 5.1970, -0.7217, 0
+;AddPartTurretWeapon    = QJC88,   false, true, false,  2.1514, 4.5920, -0.7037, 0
+;AddPartWeaponChild = false, true, 2.1514, 4.5920, -0.7037
+
+AddPartWheel     =  1.6323, 0.3479,  2.8121, 15
+AddPartWheel     =  1.6323, 0.3479, -0.5581
+AddPartWheel     =  1.6323, 0.3479, -2.4203
+
+AddPartWheel     = -1.6891, 0.3609,  2.8121, 15
+AddPartWheel     = -1.6891, 0.3609, -0.5581
+AddPartWheel     = -1.6891, 0.3609, -2.4203
+
+
+;side armor 10mm
+BoundingBox = 0.0, 1.0, 0.0, 3.4, 1.5, 0.1
+BoundingBox = 0.0, 1.0, 1.2, 3.4, 1.5, 0.1
+BoundingBox = 0.0, 1.2, 2.2, 3.4, 1.0, 0.1
+BoundingBox = 0.0, 1.0, -1.7, 3.4, 1.5, 0.1
+
+;front around 20mm
+BoundingBox = 0.0, 1.1, 2.4, 3.2, 1.25, 0.04
+
+;turret also around 20mm
+BoundingBox = 0.0, 2.0, 1.0, 0.5, 1.5, 0.04
+BoundingBox = 0.5, 2.0, 0.8, 0.5, 1.5, 0.04
+BoundingBox = -0.5, 2.0, 0.8, 0.5, 1.5, 0.04
+BoundingBox = 0.8, 2.0, 0.6, 0.5, 1.5, 0.04
+BoundingBox = -0.8, 2.0, 0.6, 0.5, 1.5, 0.04
+BoundingBox = 0.8, 2.0, 0.1, 0.5, 1.5, 0.04
+BoundingBox = -0.8, 2.0, 0.1, 0.5, 1.5, 0.04
+BoundingBox = 0.5, 2.0, -0.4, 0.5, 1.5, 0.04
+BoundingBox = -0.5, 2.0, -0.4, 0.5, 1.5, 0.04
+BoundingBox = -0.0, 2.0, -0.8, 0.5, 1.5, 0.04
+
+
+MaxFuel         = 600
+FuelConsumption = 2.0
+
+StepHeight = 1.2
+
+UnmountPosition = -0.0114, 1.5456, 0.2101
+
+;armored armed 6x6
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:lightchassis, B, mcheli:wheel6, C, mcheli:engine2, D, mcheli:lap, E, mcheli:cannon1

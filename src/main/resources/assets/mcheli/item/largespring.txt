@@ -1,0 +1,5 @@
+DisplayName = Large Spring
+AddDisplayName = ja_JP, Large Spring
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_suspension
+AddRecipe = "  A", "  A", "  A", A, mcheli:item.ingot_steel

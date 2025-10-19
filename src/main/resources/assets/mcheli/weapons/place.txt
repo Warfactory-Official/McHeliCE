@@ -1,0 +1,72 @@
+DisplayName = Entrenching (Place)
+Type = Dispenser
+;Power = 10
+Explosion = 0
+ExplosionBlock = 0
+Acceleration = 0.0
+Sight = None
+Round = 3
+SoundVolume = 1
+;Sound = abramsmain
+
+DispenseItem = dirt
+DispenseRange = 1
+
+;;DispenseItem = hbm:tile.mine_ap
+;;DispenseRange = 1
+
+;;how the actual fuck is this shit not working randomly
+
+
+Sound = ng
+Accuracy = 0.0
+;BulletColor        = 255, 255, 100, 100
+;Particle = largeexplode
+;DamageFactor = tank, 1.0
+;DamageFactor = plane, 3.0
+;DamageFactor = vehicle 2.0
+;DamageFactor = heli, 3.0
+
+
+;DisplayMortarDistance = true
+
+;chemYield = 1
+
+; AddMuzzleFlash = 発射元からの距離, サイズ, 表示時間,  A,  R,  G,  B
+;AddMuzzleFlash      =           10.2,   2.10,        7,  220,254,159,74
+;AddMuzzleFlash      =           10.1,   2.05,        6,  220,254,219,104
+;AddMuzzleFlash      =           10.0,   2.00,        5,  220,254,219,184
+; AddMuzzleFlashSmoke = 発射元からの距離, 表示数, サイズ, 範囲, 表示時間,  A,  R,  G,  B
+;AddMuzzleFlashSmoke   =              10.2,     30,   12.0,  4.0,       65,  220,160,140,120
+;AddMuzzleFlashSmoke   =             11.2,     20,   13.0,  7.0,       55,  200,190,170,150
+
+
+Bomblet = 1
+BombletSTime = 0
+BombletDiff = 0.0
+
+ModelBomblet = 0_none
+
+Gravity = -0.1
+
+MaxAmmo = 3
+SuppliedNum = 1
+;Item =  1, iron_ingot
+;Item =  1, gunpowder
+
+Delay = 1
+ReloadTime = 10
+;Group = MainGun
+Acceleration = 0.0
+;ModelBullet = bullet105mm
+
+ModelBullet = 0_none
+
+;Piercing = 2
+
+;;Item = 1, dirt
+
+Item = 1, dirt
+
+
+Accuracy = 0.0

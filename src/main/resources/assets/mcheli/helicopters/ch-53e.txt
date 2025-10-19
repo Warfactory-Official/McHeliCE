@@ -1,0 +1,96 @@
+DisplayName = CH-53E Super Stallion
+AddDisplayName = ja_JP, CH-53E スーパースタリオン
+ItemID = 30047
+MaxHp = 200
+EnableGunnerMode = true
+Float = true
+FloatOffset = -0.4
+EnableFoldBlade = true
+EnableNightVision = true
+EnableEntityRadar = false
+Speed = 1.96
+ThrottleUpDown = 0.5
+FlareType = 3
+CameraPosition = 0.0, 0.7, 3.5
+MaxFuel         = 2800
+FuelConsumption = 1.1
+CameraPosition = 1.52, 0.46, 1.55
+ThirdPersonDist = 20
+
+sound = stallion
+soundvolume = 15
+
+; M = Military(軍用機).  C = Transport(輸送機)
+Category = M.C
+
+HUD = helinvg, heli_gnrnone, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none
+
+MobilityYaw = 0.4
+MobilityPitch = 0.4
+MobilityRoll = 0.4
+
+AddTexture = ch-53e-1
+
+AddRotor= 7, 51,   0.00, 5.60,  -5.40,    0.000, 1.000, 0.0,   true
+AddRotor= 1,  0,   2.39, 5.94, -22.63,   -1.267, 0.461, 0.0,   false
+
+AddPartCamera = 1.52, 0.65, 1.55, true, false
+
+; seat 1,2
+AddSeat =-0.85,  1.63,  0.07
+AddGunnerSeat = 0.85,  1.63,  0.07
+
+AddSeat = 0.00,  1.55, -1.17
+AddSeat = 0.96,  1.21, -2.00
+AddSeat =-0.96,  1.21, -2.00
+
+AddSeat = 1.05,  1.20, -2.95
+AddSeat =-1.05,  1.20, -2.95
+AddSeat = 1.05,  1.20, -4.05
+AddSeat =-1.05,  1.20, -4.05
+AddSeat = 1.05,  1.20, -5.20
+AddSeat =-1.05,  1.20, -5.20
+AddSeat = 1.05,  1.20, -6.40
+AddSeat =-1.05,  1.20, -6.40
+AddSeat = 1.05,  1.20, -7.60
+AddSeat =-1.05,  1.20, -7.60
+AddSeat = 1.05,  1.20, -8.70
+AddSeat =-1.05,  1.20, -8.70
+AddSeat = 1.05,  1.20, -9.85
+AddSeat =-1.05,  1.20, -9.85
+
+AddPartLG  = 0, 1.12,  0.93,  1,0,0,  77
+AddPartLG  = 0, 1.01, -8.35,  1,0,0, -90
+
+AddPartHatch  = 0, 2.500, -15.65, 1,0,0, -33
+AddPartHatch  = 0, 0.543, -10.47, 1,0,0, -34
+
+;advanced large modern helicopter transport, AOW3 style
+AddRecipe = "ABC", "DE ", " A ", A, mcheli:airframe3, B, mcheli:heliblade, C, mcheli:engine2, D, mcheli:wheelair, E, mcheli:electronics
+
+InventorySize = 54
+
+;BoundingBox =  0.0, 2.3, -2.0,  2.8, 3.8
+;BoundingBox =  0.0, 2.0, -6.5,  4.0, 4.2
+;BoundingBox =  0.0, 2.3, -9.0,  2.8, 3.8
+
+BoundingBox = 0.0, 5.0, -5.42, 1.5, 1.5, 1.5
+
+BoundingBox = 0.0, 3.8, -2.0, 3.5, 1.0
+BoundingBox = 0.0, 3.8, -5.5, 3.5, 1.0
+BoundingBox = 0.0, 3.8, -9.0, 3.5, 1.0
+
+BoundingBox = 0.0, 3.4, -12.0, 2.5, 1.0
+BoundingBox = 0.0, 3.2, -14.5, 2.5, 1.0
+BoundingBox = 0.0, 3.0, -17.0, 2.5, 1.0
+BoundingBox = 0.0, 3.0, -19.5, 2.5, 1.0
+
+BoundingBox =  0.0, 5.5,-22.5,  3.0, 4.0, 1.25
+
+unmountposition = -0.85,  1.50,  0.07
+
+DamageFactor = 0.8
+
+
+ThrottleUpDown = 0.3
+DamageFactor = 0.8

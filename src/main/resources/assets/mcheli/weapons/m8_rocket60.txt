@@ -1,0 +1,30 @@
+DisplayName = 110mm M8 Rocket
+Type = Rocket
+Power = 400
+ModelBullet = hydra70
+Acceleration = 3.5
+Explosion = 1
+ExplosionBlock = 0
+Flaming = false
+Sound = missile_4_snd
+Sight = MoveSight
+Delay = 0
+ReloadTime = 200
+Round = 60
+Gravity = -0.01
+Particle = largeexplode
+
+Piercing = 0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+MaxAmmo = 60
+SuppliedNum = 30
+Item =  2, iron_ingot
+Item =  2, gunpowder

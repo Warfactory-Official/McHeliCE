@@ -1,0 +1,33 @@
+DisplayName = FAB-500 UMPK (Guided Bomb) Kit
+Type = rocket
+Power = 1000
+Acceleration = 2
+Explosion = 15
+Explosionblock = 18
+Flaming = false
+Sight = MoveSight
+Delay = 10
+ModeNum = 2
+Sound = bomb_snd
+SoundVolume = 15.0
+ReloadTime = 50
+gravity = -0.002
+accuracy = 8
+ModelBullet = fab500umpk
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+displaymortardistance = true
+
+ExplosionInWater = 8
+
+DisableSmoke = true
+ExplosionAltitude = 2
+
+MaxAmmo = 8
+SuppliedNum = 2
+Item =  15, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

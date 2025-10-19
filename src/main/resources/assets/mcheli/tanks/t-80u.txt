@@ -1,0 +1,151 @@
+﻿DisplayName = T-80U MBT
+AddDisplayName = en_US, T-80U MBT
+AddDisplayName = ja_JP, T-80U 
+MaxHp = 525
+Speed = 0.50
+Sound = teightyeng
+ThrottleUpDown = 1.4
+throttleDownFactor = 0.6
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = true
+CameraRotationSpeed = 14
+StepHeight = 1.8
+MinRotationPitch = -15
+MaxRotationPitch = 5
+DefaultFreelook = true
+HideEntity = true
+FlareType = 10
+CameraZoom = 10
+
+Category = MBT
+
+MobilityYawOnGround = 3
+
+HUD = mbt_hud, gunnernvg
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 2
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+
+
+;AddSeat =  0.00, 1.58, 0.44
+
+AddGunnerSeat =  0.00, 1.58, 0.44, 0.00, 2.58, 0.44, false, -60, 5, false
+
+AddGunnerSeat =  -1.0024, 2.3877, 0.498, -1.0024, 3.3877, 0, false, -60, 5, true
+;suffer
+
+CameraPosition =  0.00, 2.58, 0.44, true
+
+TurretPosition = 0.0, 0.0, 0.44
+
+AddCrawlerTrack = true, 0.23, -2.40,  -0.30/3.13, -0.17/3.46, 0.34/4.31, 0.61/4.42, 0.87/4.31, 0.98/4.04, 0.98/-3.32, 0.87/-3.59, 0.61/-3.70, 0.34/-3.59, -0.31/-2.12
+AddCrawlerTrack = true, 0.23,  2.40,  -0.30/3.13, -0.17/3.46, 0.34/4.31, 0.61/4.42, 0.87/4.31, 0.98/4.04, 0.98/-3.32, 0.87/-3.59, 0.61/-3.70, 0.34/-3.59, -0.31/-2.12
+
+
+SetWheelPos =  1.90,  -0.24,  3.13, 2.08, 1.03, -0.02, -1.07, -2.12
+
+AddTrackRoller = -2.32,  0.60,  4.04
+AddTrackRoller = -2.32,  0.16,  3.13
+AddTrackRoller = -2.32,  0.16,  2.08
+AddTrackRoller = -2.32,  0.16,  1.03
+AddTrackRoller = -2.32,  0.16, -0.02
+AddTrackRoller = -2.32,  0.16, -1.07
+AddTrackRoller = -2.32,  0.16, -2.12
+AddTrackRoller = -2.32,  0.60, -3.32
+
+AddTrackRoller = 2.32,  0.60,  4.04
+AddTrackRoller = 2.32,  0.16,  3.13
+AddTrackRoller = 2.32,  0.16,  2.08
+AddTrackRoller = 2.32,  0.16,  1.03
+AddTrackRoller = 2.32,  0.16, -0.02
+AddTrackRoller = 2.32,  0.16, -1.07
+AddTrackRoller = 2.32,  0.16, -2.12
+AddTrackRoller = 2.32,  0.60, -3.32
+
+AddTurretWeapon = t803bm42[APFSDS],  0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -15, 5
+AddTurretWeapon = t803bm46[apfsds],  0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -15, 5
+AddTurretWeapon = t803bk18m[HEAT],   0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -15, 5
+AddTurretWeapon = t803of26[HE],      0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -15, 5
+AddTurretWeapon = t809M119M[ATGM],   0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -15, 5
+AddTurretWeapon = t80mg_coaxial,     -0.50, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -15, 5
+AddPartWeapon = t803bm42[APFSDS] / t803bm46[apfsds] / t803bk18m[HEAT] / t803of26[HE] / t809M119M[ATGM], false, true, false,  0.00, 1.58, 0.44, 0
+AddPartWeaponChild = false, true, 0.00, 1.60, 1.81
+AddPartWeaponChild = false, true, 0.00, 1.60, 1.81, 0.5
+
+AddTurretWeapon = t80mg12_7mm,  -1.37, 2.39, 1.06,  0.0, 0.0, false,2, 0,-360,360, -60, 5
+AddPartTurretWeapon = t80mg12_7mm, false, true, false,  -1.37, 2.39, 1.06, 0
+AddPartWeaponChild = false, true, -1.37, 2.39, 1.06
+
+EnableBack = true
+
+MotionFactor = 0.95
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.0
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+AddTexture = t-80u
+AddTexture = t-80u_2
+AddTexture = t-80u_3
+
+;BoundingBox =  0.0, 1.0,  1.5,   4.0, 2.0,   0.75
+;BoundingBox =  0.0, 2.5, -0.5,   3.0, 1.0,   1.00
+;BoundingBox =  0.0, 1.0, -1.2,   4.0, 2.0,   1.25
+
+
+ArmorMinDamage = 20
+
+;side armor 80
+BoundingBox = 0.0, 0.65, 1.0, 3.1, 1.15, 0.25
+;front plate
+
+BoundingBox = 0.0, 0.60, 2.7, 3.0, 0.1, 0.03
+BoundingBox = 0.0, 0.65, 2.50, 3.0, 0.1, 0.03
+BoundingBox = 0.0, 0.80, 2.30, 3.0, 0.1, 0.03
+BoundingBox = 0.0, 0.85, 2.10, 3.0, 0.1, 0.03
+BoundingBox = 0.0, 0.90, 1.90, 3.0, 0.1, 0.04
+BoundingBox = 0.0, 0.95, 1.70, 3.0, 0.1, 0.04
+BoundingBox = 0.0, 1.05, 1.50, 3.0, 0.1, 0.04
+BoundingBox = 0.0, 1.10, 1.30, 3.0, 0.1, 0.05
+BoundingBox = 0.0, 1.175, 1.10, 3.0, 0.1, 0.05
+
+;lower plate 
+
+BoundingBox = 0.0, 0.30, 2.65, 3.0, 0.5, 0.14
+
+;back side armor 70, 50
+BoundingBox = 0.0, 0.65, -1.9, 3.1, 1.15, 0.28
+
+BoundingBox = 0.0, 0.70, -2.15, 3.0, 1.0, 0.4
+
+BoundingBox = 0.0, 1.565, 0.5, 2.6, 0.7, 0.02
+
+unmountposition = 0.00, 1.58, 0.44
+
+;the t-80 is based on the t-64
+
+;which is based on the T-72, thanks zealot for deleting all my goddamn recipes for this AI slop!
+
+;slightly really less modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "EH ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite3, E, mcheli:complexmechanicparts, H, mcheli:fcs

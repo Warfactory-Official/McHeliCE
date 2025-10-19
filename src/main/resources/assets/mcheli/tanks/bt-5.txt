@@ -1,0 +1,109 @@
+﻿DisplayName = BT-5
+AddDisplayName = ja_JP, BT-5
+AddDisplayName = en_US, BT-5
+ItemID = 91012
+MaxHp = 100
+Speed = 0.45
+ThrottleUpDown = 1.6
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+EnableNightVision = false
+EnableEntityRadar = false
+Sound = bmptwoeng
+HUD = ww2tank_hud
+WeightType = Tank
+DefaultFreelook = true
+
+Category = LCT
+
+CameraZoom = 5
+
+AddTexture = bT-51
+AddTexture = bT-52
+AddTexture = bT-53
+
+EnableBack = true
+
+SubmergedDamageHeight = 1
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 4.5
+OnGroundRollFactor  = 4.0
+
+MobilityYawOnGround = 2.6
+PivotTurnThrottle = 0.0
+
+AddGunnerSeat =  0.0, 1.0, -0.0,   -0.0,  2.0,  -0.0,     false,  -25, 8, true
+unmountposition = 0.0, 1.5, -0.0
+
+CameraPosition = -0.0, 3.5, -0.0
+CameraRotationSpeed = 10
+
+StepHeight = 1.5
+InventorySize = 9
+ParticlesScale = 0.1
+SmoothShading = true
+HideEntity = false
+
+;ArmorMinDamage = 5
+
+MotionFactor = 0.92
+
+MaxFuel         = 1000
+FuelConsumption = 1.5
+
+TrackRollerRot = 40
+
+AddTrackRoller = -1.2,  0.5658,  2.4012
+AddTrackRoller = -1.2,  0.211,   1.1896
+AddTrackRoller = -1.2,  0.211,  -0.091
+AddTrackRoller = -1.2,  0.211,  -1.7085
+AddTrackRoller = -1.2,  0.211,  -2.7878
+AddTrackRoller = -1.2,  0.5474, -3.6984
+
+AddTrackRoller =  1.2,  0.5658,  2.4012
+AddTrackRoller =  1.2,  0.211,   1.1896
+AddTrackRoller =  1.2,  0.211,  -0.091
+AddTrackRoller =  1.2,  0.211,  -1.7085
+AddTrackRoller =  1.2,  0.211,  -2.7878
+AddTrackRoller =  1.2,  0.5474, -3.6984
+
+SetWheelPos =  0.75,  -0.24,  1.18, -0.09, -1.70, -2.78
+
+
+AddCrawlerTrack = false, 0.24, -1.0,   0.87/ 2.4, 0.78/ 2.62, 0.57/ 2.71, 0.35/ 2.62, -0.15/ 1.55, -0.3/ 1.19, -0.3/ -2.79, -0.15/ -3.15, 0.25/ -4.04, 0.55/ -4.16, 0.88/ -4.04, 1.0/ -3.7, 0.88/ -3.43, 0.72/ -2.78, 0.72/ 1.19
+AddCrawlerTrack = false, 0.24,  1.0,   0.87/ 2.4, 0.78/ 2.62, 0.57/ 2.71, 0.35/ 2.62, -0.15/ 1.55, -0.3/ 1.19, -0.3/ -2.79, -0.15/ -3.15, 0.25/ -4.04, 0.55/ -4.16, 0.88/ -4.04, 1.0/ -3.7, 0.88/ -3.43, 0.72/ -2.78, 0.72/ 1.19
+
+MinRotationPitch = -25
+MaxRotationPitch =  8
+
+AddTurretWeapon = bt545mm20-KTankGun[APHEBC],    0.0,  2.0602, 0.7845,  0.0, 0.0, true,1, 0,-360,360, -25, 8
+
+AddTurretWeapon = bt545mm20-KTankGun[HE],    0.0,  2.0602, 0.7845,  0.0, 0.0, true,1, 0,-360,360, -25, 8
+
+AddPartWeapon = bt545mm20-KTankGun[APHEBC] / bt545mm20-KTankGun[HE], false, true, false,  0.0, 2.0, 0.0, 0
+AddPartWeaponChild = false, true, 0.0,  2.0602, 0.7845
+AddPartWeaponChild = false, true, 0.0,  2.0602, 0.7845, 0.3
+
+AddPartTurretWeapon    = bt57_62mmDTGun1,  false, true, false, -0.3,  2.0602, 0.7845
+AddPartTurretWeapon    = bt57_62mmDTGun1,  false, true, true,  -0.3,  2.0602, 0.7845
+AddTurretWeapon = bt57_62mmDTGun1,  -0.3,  2.0602, 0.7845,   0.0, 0.0, true, 1, 0, -360,360, -25,8
+
+;light tracked tank ww2 EARLY
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:cannon1, C, mcheli:engine3, D, mcheli:tanktracks
+
+ArmorMinDamage = 6
+
+BoundingBox = 0.0, 1.9, 0.0, 1.2, 1.2, 0.3
+
+BoundingBox = 0.0, 1.05, -0.2, 1.99, 1.2, 0.46
+BoundingBox = 0.0, 0.85, 0.2, 1.99, 1.2, 0.46
+BoundingBox = 0.0, 0.75, 0.5, 1.99, 1.0, 0.46
+
+BoundingBox = 0.0, 0.55, 1.5, 1.99, 0.5, 0.46
+
+
+BoundingBox =  0.0, 0.9,  -0.3,   2.0, 1.5,  0.4
+BoundingBox =  0.0, 0.9,  -1.5,   2.0, 1.5,  0.4
+BoundingBox =  0.0, 0.9,  -2.4,   2.0, 1.5,  0.4

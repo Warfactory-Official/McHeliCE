@@ -1,0 +1,64 @@
+DisplayName = 122mm 9P132 [9M28K - Anti Tank Mines]
+Type = Dispenser
+Power = 20
+Acceleration = 8.0
+Flaming = false
+Sight = None
+;9km
+Gravity = -0.00318
+
+
+SoundPitch = 1.0
+
+;ProximityFuseDist = 3
+
+BombletSTime = 280
+BombletDiff = 1.2
+Bomblet = 3
+
+DispenseItem = hbm:tile.mine_he
+
+
+Accuracy = 1.5
+Round = 40
+
+ModelBullet = m30
+;Group = Rocket
+recoil = 0.5
+
+Delay = 2
+ReloadTime = 14000
+Group = MainGun
+;Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+TrajectoryParticle = largeexplode
+
+
+;Bomblet = 10
+;BombletDiff = 0.3
+;BombletSTime = 60
+ModelBomblet = cbc
+
+DispenseRange = 2
+
+Sound = grad
+DisplayMortarDistance = true
+FixCameraPitch = true
+CameraRotationSpeedPitch = 0.2
+
+MaxAmmo = 40
+SuppliedNum = 10
+Item =  5, iron_ingot
+Item =  5, gunpowder
+Item = 15, hbm:tile.mine_he

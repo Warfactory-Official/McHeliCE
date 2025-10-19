@@ -1,0 +1,148 @@
+﻿DisplayName = PLZ-45
+AddDisplayName = ja_JP, PLZ-45
+AddDisplayName = en_US, PLZ-45
+ItemID = 8997
+MaxHp = 200
+Speed = 0.34
+Sound = chinesecrap
+ThrottleUpDown = 2.0
+MobilityYawOnGround = 2.2
+MinRotationPitch = -72
+MaxRotationPitch = 3
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+CameraPosition = 0.00,  5.22, 0.000, true
+EnableNightVision = true
+CameraRotationSpeed = 8
+FlareType = 10
+MaxFuel         = 1400
+FuelConsumption = 2.1
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 1.0
+FlareType = 10
+;EnableGunnerMode = true
+SubmergedDamageHeight = 2
+EnableEntityRadar = true
+HideEntity = true
+
+Category = SPH/SPA
+
+AddTexture = plz45_1
+AddTexture = plz45_2
+
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+
+WeightedCenterZ = 0.0
+
+
+SetWheelPos =  2.20,  -0.32, 5.1975, 3.2358, 1.6567, 0.4618,-0.7317,-1.9654
+
+HUD = mbt_hud,mbt_gnr, mbt_gnr, none, none, none, none, none
+
+
+AddGunnerSeat = 0.00,  1.50, 0.00, 0.00,  5.22, 0.000, true, -90, 90, false
+AddGunnerSeat =  1.3705,  4.06, 0.6575,   1.3705,  4.9451, 0.6575, false, -90, 90, true
+AddGunnerSeat =  -1.3240,  3.6204, -1.2737,    0.00,  40, 0.00,  true, -50, 80, true
+
+AddSeat = -1.173,  0.75, -1.5241
+AddSeat =  1.173,  0.75, -1.5241
+AddSeat = -1.173,  0.75, -2.6056
+AddSeat =  1.173,  0.75, -2.6056
+
+
+MotionFactor = 0.95
+
+
+
+;ArmorMaxDamage = 300
+ArmorDamageFactor = 1
+
+EnableBack = true
+
+
+PivotTurnThrottle = 0.0
+
+
+;AddPartHatch = 0.9123, 1.2208, -3.5459,  0.00, -1.0, 0.00, 115
+
+
+
+
+AddCrawlerTrack = false, 0.2536,   2.3176,  1.34/ 6.68,  1.29/ -3.03,  1.26/ -3.33,  1.12/ -3.62,  0.83/ -3.78,  0.51/ -3.74,  0.29/ -3.49,  -0.17/ -2.39,  -0.26/ -2.10,  -0.27/ -1.81,  -0.27/ 5.16,  -0.23/ 5.6,  0.32/ 6.97,  0.51/ 7.23,  0.82/ 7.31,  1.12/ 7.2,  1.30/ 6.96
+
+
+
+AddCrawlerTrack = false, 0.2536,  -2.3176,  1.34/ 6.68,  1.29/ -3.03,  1.26/ -3.33,  1.12/ -3.62,  0.83/ -3.78,  0.51/ -3.74,  0.29/ -3.49,  -0.17/ -2.39,  -0.26/ -2.10,  -0.27/ -1.81,  -0.27/ 5.16,  -0.23/ 5.6,  0.32/ 6.97,  0.51/ 7.23,  0.82/ 7.31,  1.12/ 7.2,  1.30/ 6.96
+
+
+
+
+TrackRollerRot = 40
+
+
+AddTrackRoller =  2.4848,  0.7965,   6.7787
+AddTrackRoller =  2.4848,  0.3524,   5.1975
+AddTrackRoller =  2.4848,  0.3505,   3.2449
+AddTrackRoller =  2.4848,  0.3489,   1.6785
+AddTrackRoller =  2.4848,  0.3478,   0.4871
+AddTrackRoller =  2.4848,  0.3465,  -0.7701
+AddTrackRoller =  2.4848,  0.3455,  -1.9654
+AddTrackRoller =  2.4848,  0.7645,  -3.3176
+
+AddTrackRoller = -2.4848,  0.7965,   6.7787
+AddTrackRoller = -2.4848,  0.3524,   5.1975
+AddTrackRoller = -2.4848,  0.3505,   3.2449
+AddTrackRoller = -2.4848,  0.3489,   1.6785
+AddTrackRoller = -2.4848,  0.3478,   0.4871
+AddTrackRoller = -2.4848,  0.3465,  -0.7701
+AddTrackRoller = -2.4848,  0.3455,  -1.9654
+AddTrackRoller = -2.4848,  0.7645,  -3.3176
+
+
+AddPartWeapon = 155sgh / 155sgh1 / 155sgh2, false, true, false,  0.00, 2.9709, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.9709, 2.2037, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.9709, 2.2037, 0.6
+AddTurretWeapon = 155sgh,   0.00, 2.9709, 0.0,  0.0, 0.0, true,1, 0,-360,360, -72, 3
+AddTurretWeapon = 155sgh1,  0.00, 2.9709, 0.0,  0.0, 0.0, true,1, 0,-360,360, -72, 3
+AddTurretWeapon = 155sgh2,  0.00, 2.9709, 0.0,  0.0, 0.0, true,1, 0,-360,360, -72, 3
+
+
+AddPartTurretWeapon    = plzQJC88,   false, true, true,   1.3752, 4.3978, 1.6956
+AddTurretWeapon = plzQJC88,    1.3752, 4.6589, 1.6905,   0.0, 0.0, false, 2, 0, -80,80, -70,15
+
+
+AddWeapon = op, 0.0, 0.0, 0.0
+AddPartWeaponBay = op,  0.9123, 1.2208, -3.5459,  0.00, -1.0, 0.00, 115
+
+ArmorMinDamage = 19
+
+
+BoundingBox =   0.00, 1.15,  1.58,  5.46, 1.75,  0.60
+
+;turret
+BoundingBox =   0.00, 2.90,  0.0,  3.44, 2.10,  1.00
+
+
+BoundingBox =   1.25, 1.15,  5.78,  2.88, 1.31,  0.80
+BoundingBox =  -1.25, 1.15,  5.78,  2.88, 1.31,  0.80
+
+
+BoundingBox =   1.25, 1.15,  -2.18,  2.90, 1.9,  0.90
+BoundingBox =  -1.25, 1.15,  -2.18,  2.90, 1.9,  0.90
+
+
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+unmountposition = 0.00,  1.50, 0.00
+
+;med tracked cannon arty (m109base)
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, E, mcheli:lap, F, mcheli:fcs3

@@ -1,0 +1,26 @@
+DisplayName = VL-ASROC RUM-139 VLASR [RUM-139 - Torpedo] 
+Type = Torpedo
+Power = 1000
+ModelBullet = LWT
+Acceleration = 1.5
+AccelerationInWater = 2.0
+Explosion = 8
+ExplosionInWater = 9
+Sight = MoveSight
+Delay = 10
+Sound = missile_1_snd
+GuidedTorpedo = false
+Gravity = -0.1
+GravityInWater = 0.33
+TrajectoryParticle = cloud
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 8
+SuppliedNum = 1
+Item =  6, iron_ingot
+Item =  6, gunpowder
+Item =  6, redstone

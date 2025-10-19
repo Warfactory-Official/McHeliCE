@@ -1,0 +1,42 @@
+DisplayName = 155mm Advanced Gun System [LRAP]
+Type = MachineGun2
+Power = 500
+ModelBullet = 91ap
+Acceleration = 5.2
+Explosion = 5
+;its a naval cannon who gives a shit
+ExplosionBlock = 5
+Flaming = false
+Sight = MoveSight
+Delay = 50
+ModeNum = 1
+Piercing  = 0
+SoundPitch = 0.9
+SoundVolume = 20
+Sound = msta
+Recoil = 0.2
+Gravity = -0.005
+
+Delay = 50
+ReloadTime = 350
+Group = MainGun
+Acceleration = 6.0
+BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 155mm Cannon
+SoundVolume = 15
+
+
+RecoilBufCount = 25, 5
+
+
+MaxAmmo = 920
+SuppliedNum = 460
+Item =  3, iron_ingot
+Item =  3, gunpowder

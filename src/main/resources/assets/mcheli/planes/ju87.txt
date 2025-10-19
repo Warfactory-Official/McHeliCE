@@ -1,0 +1,89 @@
+DisplayName = Ju-87D-3 Stuka
+AddDisplayName = ru_RU, Ju-87D-3 Stuka
+ItemID = 30005
+MaxHp = 150
+Speed = 0.4002
+
+;230
+
+Float = true
+Sound = prop_g
+ThrottleUpDown = 0.3
+MaxFuel         = 1200
+FuelConsumption = 1.0
+onGroundPitch = 6.8
+ThirdPersonDist = 12
+
+MobilityYaw = 0.8
+MobilityPitch = 0.4
+MobilityRoll = 0.6
+
+DamageFactor = 0.8
+
+RotorSpeed = 2000.0
+
+
+; W = WWII.  F = Fighter(???)
+Category = W.F
+
+HUD = plane_wwii
+
+enableback = true
+
+
+AddSeat = -0.04, 2.8969, -2.5839
+unmountposition = -0.04, 1.9969, -2.5839
+
+AddGunnerSeat = 0.02, 2.74, -5.38, 0.03, 3.94, -5.06, false -90, 20
+
+AddPartSlideCanopy = 0.00, 0.00, -0.60
+
+AddPartCanopy = 0.00, 0.00, 0.0
+
+AddPartRotor =    0.00, 3.0367, 3.8732,   1,0, 0
+AddBlade = 1, 0,  0.00, 3.0367, 3.8732,   0,0,-1
+
+AddWeapon = jumg17,  3.30, 2.63, 0.054,  0.0, -3.0
+AddWeapon = jumg17, -3.33, 2.6385, 2.54,  0.0, -3.0
+
+AddPartWeapon = jumg151w, false, true, true, 0.00, 3.4, -5.94
+AddWeapon     = jumg151w, 0.0882, 3.4, -5.94, 0.0, 0.0, false,  2, 180, -80, 80, -60, 10
+AddWeapon     = jumg151w, -0.0882, 3.4, -5.94, 0.0, 0.0, false,  2, 180, -80, 80, -60, 10
+AddPartWeaponChild = false, true,  0.00,4.76,-5.94
+AddPartWeaponChild = false, true,  0.00,4.76,-5.94
+
+AddPartWeaponMissile = jusc250, false, false, false,  7.63, 2.61, -3.37
+AddPartWeaponMissile = jusc250, false, false, false, -7.63, 2.61, -3.37
+AddWeapon = jusc250,  7.63, 2.61, -3.37,   0.0, 0.0,true, 1
+AddWeapon = jusc250, -7.63, 2.61, -3.37,   0.0, 0.0,true, 1
+
+BoundingBox =  -0.04, 3.0,   3.01,  1.0, 1.0
+BoundingBox =  0.08, 2.94,  2.13,  1.0, 1.0
+BoundingBox =  0.00, 3.07,  1.15,  1.0, 1.0
+BoundingBox =  0.01, 3.12,  0.33,  1.0, 1.0
+;BoundingBox =  0.05, 4.43, -3.72,  1.5, 1,1
+BoundingBox = -0.02, 3.09, -1.04,  1.5, 1.5
+BoundingBox =  4.58, 2.69, -2.76,  4.0, 0.5
+BoundingBox = -4.29, 2.69, -2.76,  4.0, 0.5
+
+BoundingBox =  2.58, 2.69, -2.76,  4.0, 0.5
+BoundingBox = -2.29, 2.69, -2.76,  4.0, 0.5
+
+BoundingBox =  8.71, 2.91, -2.54,  2.0, 0.5
+BoundingBox = -8.40, 2.91, -2.54,  2.0, 0.5
+
+BoundingBox =  6.71, 2.81, -2.54,  2.0, 0.5
+BoundingBox = -6.40, 2.81, -2.54,  2.0, 0.5
+
+
+BoundingBox =  -0.04, 2.75, -7.69,  1.5, 1.5
+BoundingBox =  -0.04, 2.85, -8.89,  1.5, 1.3
+BoundingBox =  -0.04, 2.99, -10.33, 1.5, 1.3
+BoundingBox =  -0.04, 2.99, -11.8, 1.5, 1.3
+BoundingBox = -2.05, 3.62, -13.86, 3.0, 0.2
+BoundingBox =  1.9, 3.59, -13.86,  3.0, 0.2
+BoundingBox =  -0.04, 4.87, -13.73, 1.0, 3.0
+
+;basic ww2 prop plane, AOW3 style
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:airframe2, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon2
+DamageFactor = 0.8

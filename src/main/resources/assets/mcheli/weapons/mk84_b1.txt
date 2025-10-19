@@ -1,0 +1,29 @@
+DisplayName = Mark 84 Bomb
+Type = Bomb
+Power = 2000
+ModelBullet = 1000lbBomb
+Acceleration = 0.1
+Flaming = false
+Sight = None
+Round = 10
+ReloadTime = 150
+Sound = bomb_snd
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 17
+;Explosive mass	269.9 kg kg
+Power = 1080
+ExplosionBlock = 5
+ExplosionInWater = 9
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 20
+SuppliedNum = 5
+
+Item = 4, iron_ingot
+Item = 8, gunpowder

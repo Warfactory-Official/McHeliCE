@@ -1,0 +1,57 @@
+﻿DisplayName = 88mm AA-Gun Flak 36 with Shield
+AddDisplayName = en_US, 88mm AA-Gun Flak 36 with Shield
+MaxHp = 100
+HideEntity = false
+MinRotationPitch = -85
+MaxRotationPitch =  3
+DamageFactor = 0.8
+CameraZoom = 1
+CameraPosition = -1.00,  2.5, 0.00
+ThirdPersonDist = 10
+Gravity = -9.81
+GravityInWater = -1.0
+
+;AddTexture = flak36
+;AddTexture = flak36alt
+
+; W = WWII
+Category = W
+
+HUD = vehicle_wwii
+
+;AddGunnerSeat = -0.8991,  0.8454, -0.047
+AddGunnerSeat = -0.8991,  0.8454, -0.047, 1.0, 2.50, 0.0, false, -85, 5, true
+
+unmountposition = -0.8991,  1.5454, -0.047
+;AddGunnerSeat = 0.8149, 0.9284, 0.6032
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+AddPart = true, true, false, 0, 0.00, 0.00, 0.00
+AddChildPart = true, false, true, 0,  0.00, 1.7218, -0.7534
+AddChildPart = true, false, true, 2,  0.00, 1.7218, -0.7534, 1
+AddChildPart = true, false, true, 0,  -0.7165, 0.9368, -0.5232
+AddChildPart = true, false, true, 0,  -0.6567, 0.9296, 0.4482
+
+AddTurretWeapon = flak88_aa,  0.00, 1.7218, -0.7534,   0.0, 1.0
+AddTurretWeapon = flak88_he,  0.00, 1.7218, -0.7534,   0.0, 1.0
+AddTurretWeapon = flak88_ap,  0.00, 1.7218, -0.7534,   0.0, 1.0
+;AddTurretWeapon = flaklock, 0.00, 0.00, 0.00, 0.0, 0.0
+
+;;AddPartWeaponBay = flaklock, 0.00, 0.0518, -2.2458, 1.0, 0.0, 0.0, 0
+;;AddPartWeaponBay = flaklock, 0.00, 0.0518, 2.2458, 1.0, 0.0, 0.0, 0
+;;AddPartWeaponBay = flaklock, 1.20, 0.05, 0.3513, 0.0, 0.0, 1.0, 0
+;;AddPartWeaponBay = flaklock, -1.20, 0.05, 0.3513, 0.0, 0.0, 1.0, 0
+
+unmountposition = 0.00, 1.5, -0.0
+
+BoundingBox =  0.0, 0.032, 0.0,  1.296, 0.2976, 0.75
+BoundingBox =  0.966, 0.032, 0.0,  0.64, 0.225, 0.75
+BoundingBox =  -0.966, 0.032, 0.0,  0.64, 0.225, 0.75
+BoundingBox =  0.0, 0.032, 0.966,  0.64, 0.225, 0.75
+BoundingBox =  0.0, 0.032, -0.966,  0.64, 0.225, 0.75
+BoundingBox =  0.0, 0.483, 0.0,  0.7286, 0.6131, 0.75
+BoundingBox =  0.0, 1.01, 0.0,  0.9779, 0.651, 1.0
+BoundingBox =  0.0, 1.66, 0.0,  0.9779, 0.651, 1.5
+
+;light aa turret not modern less complex stage 2 naval med can 88mm ww2
+AddRecipe = "ABC", " C ", " C ", A, mcheli:cannon2, B, mcheli:map, C, mcheli:lap

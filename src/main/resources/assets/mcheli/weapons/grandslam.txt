@@ -1,0 +1,41 @@
+DisplayName = Grand Slam Earthquake Bomb
+Type = Bomb
+Power = 34012
+ModelBullet = slam
+Acceleration = 0.8
+;AccelerationInWater = 2.5
+Explosion = 38
+ExplosionInWater = 38
+Flaming = true
+Sight = None
+Delay = 40
+;GuidedTorpedo = false
+Gravity = -0.08
+GravityInWater = -1
+ReloadTime = 12000
+Round = 1
+DisableSmoke = false
+Sound = bomb_snd
+
+Group = maingun
+
+ProximityFuseDist = 5
+;ExplosionAltitude =
+
+DelayFuse = 3
+
+Piercing = 40
+ 
+;BombletSTime = 50
+SmokeColor = 219, 155, 17
+ParticlesScale = 40
+
+;Bomblet = 15
+;;BombletDiff = 0.1
+;ModelBomblet = none
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  8, iron_ingot
+Item =  64, gunpowder
+Item =  32, tnt

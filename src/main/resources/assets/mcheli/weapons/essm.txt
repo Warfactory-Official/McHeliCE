@@ -1,0 +1,22 @@
+DisplayName = RIM-162 ESSM [RIM-162 - HE]
+Type = AAMissile
+Power = 100
+Acceleration = 3.5
+Explosion = 6
+Sight = MissileSight
+Delay = 0
+LockTime = 5
+ModelBullet = aim7
+Sound = missile_1_snd
+ProximityFuseDist = 3
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+ReloadTime = 1000
+
+MaxAmmo = 32
+SuppliedNum = 8
+Item =  2, iron_ingot
+Item =  3, gunpowder
+Item =  3, redstone

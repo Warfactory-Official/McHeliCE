@@ -1,0 +1,31 @@
+DisplayName = Fat Man Payload
+AddDisplayName = ja_JP, Fat Man Payload
+;;fix it yourself japan
+;;ItemID = 28979
+;;idc
+
+StackSize = 1
+
+
+
+
+;;AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+
+;;AddRecipe = "ACA", "EXG", "T T", T, hfr:testcrashskibiditoilet, A, hfr:item.part_plating_1, C, hfr:item.part_chassis_1, E, hfr:item.part_engine_1, X, hfr:item.components_electronics, G, hfr:item.part_cannon_3
+
+AddRecipe = "AAA", "ABC", "D  ", A, hbm:item.early_explosive_lenses, B, hbm:tile.nuke_man, C, hbm:item.man_igniter, D, hbm:item.man_core
+
+;;/give RagexPrince683 hbm:tile.nuke_man
+
+;;/give RagexPrince683 hbm:item.man_igniter
+
+;;someone asked me for ts so if you don't like it go be mad at them, idk who it was, probably saltyrob or someshit
+
+;;but it makes it easier to ban transportable nukes for the server anyway
+
+;;also fuck you bob stay out of my space, I already got banned for making fun of you leave me alone you insufferable mongs
+
+;;/give RagexPrince683 hbm:item.early_explosive_lenses
+
+
+

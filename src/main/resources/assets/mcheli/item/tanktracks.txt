@@ -1,0 +1,5 @@
+DisplayName = Tank Tracks
+AddDisplayName = ja_JP, Tank Tracks
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_treads
+AddRecipe = "AAA", "BBB", "AAA", A, mcheli:tanktrackpiece, B, mcheli:rims

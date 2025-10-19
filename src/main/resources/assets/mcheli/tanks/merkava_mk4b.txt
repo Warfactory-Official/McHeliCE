@@ -1,0 +1,189 @@
+DisplayName = Merkava Mk.4 Barak
+AddDisplayName = ja_JP, Merkava Mk.4 Barak
+ItemID = 30075
+MaxHp = 600
+Speed = 0.40
+Sound = merkavaeng
+ThrottleUpDown = 10.0
+MobilityYawOnGround = 2.5
+MinRotationPitch = -20
+MaxRotationPitch = 7
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 10
+CameraPosition = 0.52, 3.70, -0.1, true
+EnableNightVision = true
+CameraRotationSpeed = 23
+StepHeight = 1.8
+DefaultFreelook = true
+TurretPosition = 0.0, 0.0, 0.25
+FlareType = 10
+;WHY TS NOT WORKING
+
+Category = MBT
+
+;debug: testing new APS feature
+;HasAPS = true
+;APSUseTime = 500
+;APSWaitTime = 0
+;APSRange = 30
+
+hasaps=true
+apsUseTime= 4500
+apsWaitTime=5
+apsRange = 16
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 2
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+
+
+HUD = mbt_hud, gunner, none, none, none, none, none, none, none, none
+;HUD = ww2tank_hud, ww2tank_hud, none, none, none, none, none, none
+
+AddGunnerSeat = 0.00,  2.50,  0.25,   2.00,  3.50,  0.25, false, -90, 90, true
+AddGunnerSeat = 0.00,  1.00, -1.25,  -0.55,  3.80, -1.16, false, -90, 90, true
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.92
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.95
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+;転輪がなくても動作する
+AddCrawlerTrack = false, 0.37, -2.09,  1.03/-3.41, 0.72/-3.57, 0.37/-3.42, -0.15/-2.55, -0.25/-2.16, -0.25/3.88, -0.13/4.21, 0.52/5.29, 0.78/5.39, 1.03/5.28, 1.10/5.04, 1.15/-3.12
+AddCrawlerTrack = false, 0.37,  2.09,  1.03/-3.41, 0.72/-3.57, 0.37/-3.42, -0.15/-2.55, -0.25/-2.16, -0.25/3.88, -0.13/4.21, 0.52/5.29, 0.78/5.39, 1.03/5.28, 1.10/5.04, 1.15/-3.12
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+TrackRollerRot = 30
+
+;Rev Test
+;AddCrawlerTrack = false, 0.30, -1.64, 1.47/3.60, 1.73/3.49, 1.84/3.23, 1.78/-3.60, 1.68/-3.86, 1.42/-3.96, 1.16/-3.86, 1.06/-3.60, -1.32/-2.47, -1.32/2.17, 1.22/3.49
+;AddCrawlerTrack = false, 0.30,  1.64, 1.47/3.60, 1.73/3.49, 1.84/3.23, 1.78/-3.60, 1.68/-3.86, 1.42/-3.96, 1.16/-3.86, 1.06/-3.60, -1.32/-2.47, -1.32/2.17, 1.22/3.49
+;AddCrawlerTrack = true,  0.30, -1.64, 0.22/3.49,-0.32/2.17, -0.32/-2.47, 0.06/-3.60, 0.16/-3.86, 0.42/-3.96, 0.68/-3.86, 0.78/-3.60, 0.84/3.23, 0.73/3.49, 0.47/3.60
+;AddCrawlerTrack = false, 0.30,  1.64, 0.22/3.49,-0.32/2.17, -0.32/-2.47, 0.06/-3.60, 0.16/-3.86, 0.42/-3.96, 0.68/-3.86, 0.78/-3.60, 0.84/3.23, 0.73/3.49, 0.47/3.60
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+
+SetWheelPos =  1.55,  -0.24,  3.88, 2.80, 1.62, 0.37, -1.12, -2.19
+
+AddTrackRoller = -1.72,  0.77,  5.04
+AddTrackRoller = -1.72,  0.18,  3.88
+AddTrackRoller = -1.72,  0.18,  2.80
+AddTrackRoller = -1.72,  0.18,  1.62
+AddTrackRoller = -1.72,  0.18,  0.37
+AddTrackRoller = -1.72,  0.18, -1.12
+AddTrackRoller = -1.72,  0.18, -2.19
+AddTrackRoller = -1.72,  0.73, -3.10
+
+AddTrackRoller =  1.72,  0.77,  5.04
+AddTrackRoller =  1.72,  0.18,  3.88
+AddTrackRoller =  1.72,  0.18,  2.80
+AddTrackRoller =  1.72,  0.18,  1.62
+AddTrackRoller =  1.72,  0.18,  0.37
+AddTrackRoller =  1.72,  0.18, -1.12
+AddTrackRoller =  1.72,  0.18, -2.19
+AddTrackRoller =  1.72,  0.73, -3.10
+
+
+AddPartWeapon = merkava4rehinmetall_apfsds / merkava4rehinmetall_he / merkava4rehinmetall_heat / merkava120mmcanistershell/ merkava4lahat, false, true, false,  0.00, 1.52, 0.25, 0
+AddPartWeaponChild = false, true, 0.00, 2.01, 1.62, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.01, 1.62, 0.5
+AddTurretWeapon = merkava4rehinmetall_apfsds, 0.00, 2.22, 0.00,  0.0,  0.0, false, 1, 0,-360,360, -20, 7
+AddTurretWeapon = merkava4rehinmetall_he, 0.00, 2.22, 0.00,  0.0,  0.0, false, 1, 0,-360,360, -20, 7
+AddTurretWeapon = merkava4rehinmetall_heat, 0.00, 2.22, 0.00,  0.0,  0.0, false, 1, 0,-360,360, -20, 7
+AddTurretWeapon = merkava120mmcanistershell,      0.00, 2.22, 0.00,  0.0,  0.0, false, 1, 0,-360,360, -20, 7
+AddTurretWeapon = merkava4lahat,      0.00, 2.22, 0.00,  0.0,  0.0, false, 1, 0,-360,360, -20, 7
+AddTurretWeapon = merkava460mm_mortar,        0.90, 3.00, 0.52,  0.0,-45.0, false, 1, 0,-360,360, -85, 7
+AddTurretWeapon = merkava412_7,         0.00, 2.92, 2.70,  0.0,  0.0, false, 1, 0,-360,360, -20, 7
+AddTurretWeapon = merkava4mgcox,         0.5, 2.22, 1.00,  0.0,  0.0, false, 1, 0,-360,360, -20, 7
+
+
+AddPartTurretWeapon = merkava4mg7_62mm, false, true, true,  -0.83, 3.39,-0.57, 0
+AddTurretWeapon = merkava4mg7_62mm,          -0.83, 3.39,-0.57,  0.0,  0.0, false,2, 0,-60,120, -50, 5
+
+MaxFuel         = 1200
+FuelConsumption = 2.5
+
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+;modern mbt tracked tank 
+;todo fix aps bc it is not working for some reason
+;AddRecipe = "ABC", "DGF", "EH ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite3, E, mcheli:fcs3, H, mcheli:complexmechanicparts
+
+ArmorMinDamage = 30
+
+;lower plate
+BoundingBox =  0.0, 1.0,  4.0,  3.0, 1.0, 0.17
+
+;left
+BoundingBox = -1.1, 1.05,  2.7,  2.3, 1.8, 0.08
+;right
+BoundingBox =  1.1, 1.05,  2.7,  2.3, 1.8, 0.09
+
+;;;;;;;;side turret 11 but since mcheli is annoying with non rot bbs .20
+
+;turret
+BoundingBox =  0.0, 2.0, 0.0,  2.8, 1.8, 0.05
+;side armor
+BoundingBox =  0.0, 1.0, 0.0,  4.3, 1.8, 0.6
+
+;back
+;top back
+BoundingBox =  1.25, 0.91, -3.0,  1.79, 2.0, 1
+BoundingBox = -1.25, 0.91, -3.0,  1.79, 2.0, 1
+
+;sideback
+BoundingBox =  1.26, 0.9, -3.0,  1.8, 2.0, 0.4
+BoundingBox = -1.26, 0.9, -3.0,  1.8, 2.0, 0.4
+;back back
+BoundingBox =  1.25, 0.9, -3.01,  1.79, 2.0, 1
+BoundingBox = -1.25, 0.9, -3.01,  1.79, 2.0, 1
+;back back back back 30mm 
+BoundingBox = 0.0, 0.9, -2.1, 1.0, 2.0, 1
+
+
+
+;BoundingBox =  0.0, 2.9,  0.0,  2.0, 1.0, 1.30
+
+AddSeat =  0.75, 0.45, -0.51
+AddSeat = -0.75, 0.45, -0.51
+AddSeat =  0.75, 0.45, -1.32
+AddSeat = -0.75, 0.45, -1.32
+AddSeat =  0.75, 0.45, -1.62
+AddSeat = -0.75, 0.45, -1.62
+AddSeat =  0.75, 0.45, -1.92
+AddSeat = -0.75, 0.45, -1.92
+
+
+
+unmountposition = 0.00,  1.50,  0.25

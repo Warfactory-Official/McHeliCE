@@ -1,0 +1,100 @@
+DisplayName = Dassault Mirage IIIE
+AddDisplayName = en_US, Dassault Mirage IIIE
+AddDisplayName = ko_KR, 미라주 3E
+ItemID = 40012
+MaxHp = 100
+Speed = 1.460
+Sound = mirage
+ThrottleUpDown = 0.3
+MaxFuel = 1000
+FuelConsumption = 1.0
+FlareType = 4
+EnableNightVision = false
+EnableEntityRadar = true
+EnableEjectionSeat = true
+EnableSeaSurfaceParticle = true
+ParticlesScale = 0.7
+ThirdPersonDist = 19
+Category = M.F
+
+DamageFactor = 0.8
+
+
+enableback = true
+
+AddSeat = 0.00, 1.72, 1.50
+
+unmountposition = 0.00, 2.12, 1.50
+
+
+AddPartCanopy = -0.46, 2.336, 1.608,  0,0,1, 70
+HUD = plane
+
+;EntityHeight = 0.9
+;EntityWidth = 0.9
+
+MobilityYaw = 1.5
+MobilityPitch = 1.5
+MobilityRoll = 2.5
+;OnGroundPitch = 1
+
+AddPartLG =  0.0, 1.46, 1.66,  1,0,0, 95
+AddPartLG =  2.1, 1.45, -5.09, 0,0,-1, 99
+AddPartLG = -2.1, 1.45, -5.09, 0,0,1, 99
+
+;WEAPON_COUNT
+AddPartWeaponMissile = mir3r550,  false, false, false,  4.045, 0.945, -6.67
+AddPartWeaponMissile = mir3r550,  false, false, false,  -4.045, 0.945, -6.67
+AddPartWeaponMissile = mir3r530,  false, false, false,  0.0, 0.888, -2.278
+
+;WEAPON
+AddWeapon = mir3defa552, 0.753, 1.38, -0.31, 0.0, -0.5
+AddWeapon = mir3defa552, -0.753, 1.38, -0.31, 0.0, -0.5
+
+AddWeapon = mir3r550,   4.045, 0.945, -6.67,   1.0, 0.0
+AddWeapon = mir3r550,  -4.045, 0.945, -6.67,   -1.0, 0.0
+AddWeapon = mir3r530,   0.0, 0.888, -2.278,   0.0, 0.0
+
+AddWeapon = mir3sneb,   3.157, 0.99, -2.171,   1.0, 0.0
+AddWeapon = mir3sneb,  -3.157, 0.99, -2.171,   -1.0, 0.0
+
+;HITBOX
+BoundingBox =  0.00, 2.3, -0.2,  2.0, 1.8
+BoundingBox =  0.00, 2.3, -2.2,  2.0, 1.8
+BoundingBox =  0.00, 2.3, -4.2,  2.0, 1.8
+BoundingBox =  0.00, 2.3, -6.1,  1.8, 1.8
+BoundingBox =  0.00, 2.3, -7.8,  1.7, 1.8
+BoundingBox =  0.00, 2.3, -9.4,  1.5, 1.8
+BoundingBox =  0.00, 2.25, -10.8,  1.3, 1.3, 1.5
+
+BoundingBox = 2.0, 1.5, -7.2, 3.5, 0.3
+BoundingBox = -2.0, 1.5, -7.2, 3.5, 0.3
+
+
+
+
+BoundingBox = 1.4, 1.5, -4.2, 3.0, 0.3
+BoundingBox = -1.4, 1.5, -4.2, 3.0, 0.3
+
+
+BoundingBox = 0.0, 2.9, -7.0, 0.5, 1.5
+BoundingBox = 0.0, 3.1, -7.5, 0.5, 1.5
+BoundingBox = 0.0, 3.3, -8.0, 0.5, 1.5
+BoundingBox = 0.0, 3.5, -8.5, 0.5, 1.5
+BoundingBox = 0.0, 3.8, -9.0, 0.5, 1.5
+BoundingBox = 0.0, 4.0, -9.5, 0.5, 1.7
+BoundingBox = 0.0, 4.1, -10.0, 0.5, 1.9
+BoundingBox = 0.0, 4.2, -10.5, 0.5, 2.1
+BoundingBox = 0.0, 4.3, -11, 0.5, 2.3
+BoundingBox = 0.0, 4.5, -11.5, 0.5, 2.1
+BoundingBox = 0.0, 5.05, -12, 0.5, 1.0
+
+BoundingBox = 0.0, 2.0, 1.0, 1.1, 1.1
+BoundingBox = 0.0, 2.0, 2.1, 1.1, 1.1
+BoundingBox = 0.0, 2.0, 3.2, 1.1, 1.1
+BoundingBox = 0.0, 1.9, 4.0, 0.85, 0.85
+
+
+;modern medium light plane (jet), AOW3 style
+AddRecipe = "ABC", "DEG", " GR", A, mcheli:airframe2, B, mcheli:basicmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, G, mcheli:electronics, H, mcheli:fcs3, R, mcheli:rocket
+DamageFactor = 0.8

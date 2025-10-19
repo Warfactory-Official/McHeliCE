@@ -1,0 +1,30 @@
+DisplayName = 20mm Type 99 Model 1 Automatic Cannon [Front]
+Type = MachineGun1
+Power = 19
+Flaming = false
+Sight = MoveSight
+Delay = 1
+HeatCount = 3
+MaxHeatCount = 60
+Sound = gun_h2_snd
+SetCartridge = cartridge, 0.1,  90, 0, 3.00, -0.04, 0.40
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+Round = 270
+ReloadTime = 180
+
+
+MaxAmmo = 270
+SuppliedNum = 270
+Item =  2, iron_ingot
+Item =  2, gunpowder
+

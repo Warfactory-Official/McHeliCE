@@ -1,0 +1,37 @@
+DisplayName = DJI Mavic 3 with Grenade
+MaxHp = 20
+Speed = 0.45
+CameraPosition = 0.00, -0.2, 0.4
+SmallUAV = true
+Sound = radicon_heli
+ThrottleUpDown = 2.0
+ParticlesScale = 0.1
+MaxFuel         = 60
+FuelConsumption = 0.1
+Stealth = 0.4
+
+HUD = heli
+
+; C = Civilian(–¯ŠÔ‹@)
+Category = C
+
+AddSeat =  0.0, 1.0, 0.0
+
+AddPartCamera = 0.00, 0.0, 0.389, true, true
+AddPartCamera = 0.00, 0.0, 0.389, true, false
+
+AddRotor = 1, 0, 0.55,  0.0, 0.3578,  0.0052 , 0.0602, 0
+AddRotor = 1, 0, -0.55,  0.0, 0.3578,  -0.0052 , 0.0602, 0
+AddRotor = 1, 0, 0.4377,  -0.0156, -0.4693,  0.0098 , 0.0597, 0.0008
+AddRotor = 1, 0, -0.4377,  -0.0156, -0.4693,  -0.0098 , 0.0597, 0.0008
+
+AddPartWeaponMissile = rgd5mavic,  false, false, false,  0, -0.124 , 0.095
+
+AddWeapon = rgd5mavic, 0, -0.124 , 0.095,  0,0
+
+;basic armed drone
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:item.ingot_aluminum, B, mcheli:electronics, C, mcheli:fcs2, D, mcheli:basicmechanicparts
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:mavic3, B, mcheli:basicmechanicparts
+
+ThrottleUpDown = 0.8

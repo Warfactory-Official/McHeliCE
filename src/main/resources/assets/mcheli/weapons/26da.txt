@@ -1,0 +1,33 @@
+DisplayName = 26DA Torpedo
+Type = Torpedo
+Power = 600
+ModelBullet = 26da-torpedo
+Acceleration = 0.0
+AccelerationInWater = 1.0
+Explosion = 0
+ExplosionInWater = 8
+Flaming = true
+Sight = None
+Delay = 8
+GuidedTorpedo = false
+Gravity = -0.04
+GravityInWater = 0
+ReloadTime = 300
+Round = 1
+TimeFuse = 500
+Sound = type91torpedo_snd
+
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 26DA Torpedo
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

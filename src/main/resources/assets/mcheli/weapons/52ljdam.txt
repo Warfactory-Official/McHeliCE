@@ -1,0 +1,36 @@
+DisplayName = GBU-54(V)1/B LJDAM
+Type = ASMissile
+Power = 1080
+radius = 1000
+Acceleration = 2
+Explosion = 10
+ExplosionBlock = 2
+ExplosionInWater = 5
+Flaming = false
+Sight = MoveSight
+Delay = 5
+Round = 19
+SoundPitch = 0.1
+SoundVolume = 3
+Sound = bomb_snd
+ModelBullet = mk82_b
+Gravity = -0.02
+DisableSmoke = true
+
+Piercing = 0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+ReloadTime = 1000
+
+MaxAmmo = 19
+SuppliedNum = 1
+Item =  6, iron_ingot
+Item =  5, gunpowder
+Item =  3, redstone

@@ -1,0 +1,6 @@
+DisplayName = Modern Composite Armor
+AddDisplayName = ja_JP, Modern Composite Armor
+
+StackSize = 64
+;;AddRecipe = "A  ", "   ", "   ", A, hfr:item.ingot_steel
+AddRecipe = " R ", "BAB", "RRR", A, mcheli:item.ingot_steel, B, mcheli:composite2, R, mcheli:plastic

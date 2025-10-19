@@ -1,0 +1,99 @@
+DisplayName = 2S7 Pion "Peony"
+MaxHp = 200
+Speed = 0.31
+Sound = zilonethreefive
+ThrottleUpDown = 1.0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+EnableNightVision = false
+CameraRotationSpeed = 10
+StepHeight = 1.8
+MinRotationPitch = -60
+MaxRotationPitch = 0
+DefaultFreelook = false
+HideEntity = false
+CameraPosition = 0.90, 2.61, -3.2266, false
+
+Category = SPH/SPA
+
+MobilityYawOnGround = 1.2
+
+HUD = ww2tank_hud
+
+SubmergedDamageHeight = 2
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+WeightType = Tank
+
+
+
+AddGunnerSeat =  0.90, 1.41, -3.2266, 0.90, 2.61, -3.2266, false, -60, 0
+
+unmountposition = 0.9,  1.50,  -3.22
+
+AddCrawlerTrack = true, 0.23, -1.8083,  -0.18/2.73, 0.23/3.87, 0.35/3.9963, 0.52/4.0409, 0.68/3.9963, 0.8086/3.8750, 0.85/3.7091, 0.85/-3.507, 0.80/-3.67, 0.6861/-3.79, 0.52/-3.8366, 0.35/-3.7920, 0.23/-3.6716, -0.18/-2.7314
+AddCrawlerTrack = true, 0.23, 1.8083,  -0.18/2.73, 0.23/3.87, 0.35/3.9963, 0.52/4.0409, 0.68/3.9963, 0.8086/3.8750, 0.85/3.7091, 0.85/-3.507, 0.80/-3.67, 0.6861/-3.79, 0.52/-3.8366, 0.35/-3.7920, 0.23/-3.6716, -0.18/-2.7314
+
+
+SetWheelPos =  1.32,  -0.24,  2.73, 1.82, 0.91,  0, -0.91, -1.82, -2.73
+
+AddTrackRoller = -1.20,  0.52,  3.7091
+AddTrackRoller = -1.20,  0.2033,  2.7310
+AddTrackRoller = -1.20,  0.2033,  1.8205
+AddTrackRoller = -1.20,  0.2033,  0.9101
+AddTrackRoller = -1.20,  0.2033,  0
+AddTrackRoller = -1.20,  0.2033,  -0.9105
+AddTrackRoller = -1.20,  0.2033,  -1.8209
+AddTrackRoller = -1.20,  0.2033,  -2.7314
+AddTrackRoller = -1.20,  0.52,  -3.5070
+
+AddTrackRoller = 1.20,  0.52,  3.7091
+AddTrackRoller = 1.20,  0.2033,  2.7310
+AddTrackRoller = 1.20,  0.2033,  1.8205
+AddTrackRoller = 1.20,  0.2033,  0.9101
+AddTrackRoller = 1.20,  0.2033,  0
+AddTrackRoller = 1.20,  0.2033,  -0.9105
+AddTrackRoller = 1.20,  0.2033,  -1.8209
+AddTrackRoller = 1.20,  0.2033,  -2.7314
+AddTrackRoller = 1.20,  0.52,  -3.5070
+
+
+AddWeapon = pion203mm,      0.00, 2.4050, -3.1605,  0.0, 0.0, true,1, 0,0,0, -60, 0
+
+AddWeapon = pion203mmRA,      0.00, 2.4050, -3.1605,  0.0, 0.0, true,1, 0,0,0, -60, 0
+
+AddWeapon = pion203mmNC,      0.00, 2.4050, -3.1605,  0.0, 0.0, true,1, 0,0,0, -60, 0
+
+AddPartWeapon = pion203mm/pion203mmRA/pion203mmNC, false, true, false, 0.00, 2, -3.08, 0
+AddPartWeaponChild = false, true, 0.00, 2.24, -3.1605
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+ArmorMinDamage = 9
+;ArmorMaxDamage = 250
+ArmorDamageFactor = 1.0
+
+MaxFuel         = 1200
+FuelConsumption = 3.0
+
+;med tracked cannon arty (modern)
+AddRecipe = "ABC", "DFF", "   ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics
+
+BoundingBox =  0.0, 0.92,  1.7,   3.6, 1.5,   1.00
+BoundingBox =  0.0, 2.5, -2.1,   1.2, 1.0,   1.25
+BoundingBox =  0.0, 2.5, -2.8,   1.2, 1.0,   1.25
+BoundingBox =  0.0, 0.92, -1.2,   3.6, 1.5,   1.00
+;frontplate
+BoundingBox =  0.0, 0.52,  2.6,   3.5, 0.2,   1.00
+BoundingBox =  0.0, 0.72,  3.2,   3.5, 0.2,   1.00
+BoundingBox =  0.0, 0.92,  3.65,   3.5, 0.2,   1.00
+BoundingBox =  0.0, 1.12,  3.92,   3.5, 0.2,   1.00
+BoundingBox =  0.0, 1.32,  3.85,   3.5, 0.2,   1.00
+BoundingBox =  0.0, 1.52,  3.45,   3.5, 0.2,   1.00
+BoundingBox =  0.0, 1.72,  3.20,   3.5, 0.2,   1.00
+

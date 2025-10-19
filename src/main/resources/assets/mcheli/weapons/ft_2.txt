@@ -1,0 +1,19 @@
+DisplayName = Drop fuel tank
+Type = Bomb
+Power = 30
+Acceleration = 0.1
+Explosion = 2
+ExplosionBlock = 2
+ExplosionInWater = 0
+Flaming = true
+Sight = None
+Delay = 4
+ReloadTime = 12000
+Sound = bomb_snd
+ModelBullet = FT_2
+FAE = true
+
+Round = 2
+
+MaxAmmo = 2
+SuppliedNum = 2

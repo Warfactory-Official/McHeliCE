@@ -1,0 +1,63 @@
+DisplayName = 30mm NR-30 Automatc Cannon
+Type = MachineGun2
+ModelBullet = bullet
+Explosion = 2
+ExplosionBlock = 1
+Power = 30
+Acceleration = 6.0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 0
+;SoundPitch = 2
+Accuracy = 1.5
+HeatCount = 5
+MaxHeatCount = 150
+Round = 60
+ReloadTime = 120
+
+Gravity = -0.001
+
+;no
+Sound = gshtwentythree
+;SoundPitch = 0.6
+
+
+;ProximityFuseDist = 1.0
+SoundVolume = 10
+;ロックオンするタイプのミサイルの近接信管の動作距離
+; 1 を指定すると 1m 以内に入ったら爆発
+SetCartridge = cartridge, 0.2, 0.1, -0.1, 2.00, -0.04, 0.40
+; 武器使用時に空薬莢を落とす設定
+; SetCartridge = model_name, Acceleration, Yaw, Pitch, ModelScale, Gravity, Bound
+; model_name   : モデル名 全て小文字、半角
+; Acceleration : 飛ばす強さ 0だと真下に落ちる
+; Yaw          : 武器からみて横方向に飛んで行く角度(Yaw)   正の値:左、負の値:右
+; Pitch        : 武器からみて縦方向に飛んで行く角度(Pitch) 正の値:下、負の値:上
+; ModelScale   : 表示倍率
+; Gravity      : 重力の強さ
+; Bound        : ブロックにぶつかった時の跳ね返りの強さ
+AddTexture = red
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 30mm Auto Cannon
+SoundVolume = 15
+
+
+
+AddMuzzleFlash      =  0,      0.62,        0,  150,254,159,84
+AddMuzzleFlash      =  0,      0.61,        0,  150,254,230,160
+AddMuzzleFlash      =  0,      0.60,        0,  150,254,219,184
+AddMuzzleFlashSmoke =  0,  2,   7.0,  2.5, 15,  130,250,245,240
+AddMuzzleFlashSmoke =  0,  1,   6.0,  2.5, 25,  130,220,217,214
+
+MaxAmmo = 60
+SuppliedNum = 30
+Item =  5, iron_ingot
+Item =  5, gunpowder

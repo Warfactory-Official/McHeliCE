@@ -1,0 +1,12 @@
+DisplayName = Tier 3 Air Frame
+AddDisplayName = ja_JP, Tier 3 Air Frame
+
+StackSize = 64
+
+;;AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+
+;AddRecipe = "ACA", "EXG", "T T", T, hfr:testcrashskibiditoilet, A, hfr:item.part_plating_1, C, hfr:item.part_chassis_1, E, hfr:item.part_engine_1, X, hfr:item.components_electronics, G, hfr:item.part_cannon_3
+
+AddRecipe = "ARA", "RRR", "BRB", A, mcheli:airframe2, R, redstone, B, mcheli:item.ingot_aluminum
+
+

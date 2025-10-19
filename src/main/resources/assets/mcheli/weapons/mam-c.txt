@@ -1,0 +1,29 @@
+DisplayName = MAM-C
+Type = ASMissile
+Power = 430
+Acceleration = 4.0
+radius = 2000
+Explosion = 3
+ExplosionInWater = 2
+Flaming = true
+Sight = MissileSight 
+Delay = 5
+ReloadTime = 800
+LockTime = 20
+ModeNum = 2
+ProximityFuseDist = 1
+ModelBullet = agm114
+Sound = missile_1_snd
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

@@ -1,0 +1,24 @@
+DisplayName = 7.7mm Lewis Machine Gun
+Type = MachineGun1
+Power = 8
+Acceleration = 7.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+HeatCount = 5
+MaxHeatCount = 100
+SoundPitch = 1.0
+ReloadTime = 100
+Round = 97
+SetCartridge = cartridge, 0.1,  90, 0, 1.50, -0.04, 0.40
+Sound = gun_l1_snd
+ModelBullet = bullet
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+MaxAmmo = 300
+SuppliedNum = 150
+Item =  2, iron_ingot
+Item =  2, gunpowder

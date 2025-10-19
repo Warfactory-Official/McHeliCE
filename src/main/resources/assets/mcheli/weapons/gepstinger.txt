@@ -1,0 +1,27 @@
+DisplayName = Fliegerfaust 2 Stinger [FIM-92E - HE-FRAG]
+Type = AAMissile
+Power = 45
+Acceleration = 2.5
+Explosion = 4
+Flaming = false
+Sight = MissileSight
+Delay = 5
+LockTime = 30
+ProximityFuseDist = 0
+Sound = missile_1_snd
+ReloadTime = 1000
+
+
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+; DEBUG
+;RigidityTime = 30
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

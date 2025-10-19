@@ -1,0 +1,36 @@
+DisplayName = BGM-71A "TOW"
+Type = TVMissile
+Power = 430
+FixMode = 1
+ModeNum = 2
+
+Delay = 100
+ReloadTime = 200
+BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 2.0
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+Acceleration = 2.8
+LockTime = 20
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 2
+Flaming = true
+Sight = MoveSight
+Delay = 20
+ModelBullet = 9M113
+Sound = tow
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

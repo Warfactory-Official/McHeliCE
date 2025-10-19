@@ -1,0 +1,37 @@
+DisplayName = 35mm KDE Cannon [DM11A1 - HE]
+Type = MachineGun1
+Power = 11
+ModelBullet = bullet
+
+Explosion = 2
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+Delay = 6
+HeatCount = 50
+MaxHeatCount = 900
+ReloadTime = 30
+Sound =rcvtwentyfive
+
+;gun_h1_snd
+;cannon_5_snd
+
+Round = 4
+
+group = maingun
+
+
+Acceleration = 6.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+MaxAmmo = 126
+SuppliedNum = 63
+Item =  2, iron_ingot
+Item =  2, gunpowder

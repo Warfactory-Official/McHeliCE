@@ -1,0 +1,12 @@
+DisplayName = 40mm
+Type = MachineGun2
+Power = 35
+ModelBullet = bullet76mm
+Acceleration = 3.5
+Explosion = 2
+Flaming = false
+Sight = MoveSight
+Delay = 15
+ModeNum = 2
+SoundVolume = 0.6
+SetCartridge = cartridge, 0.4,  0, 0, 5.00, -0.04, 0.40

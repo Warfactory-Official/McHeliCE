@@ -1,0 +1,19 @@
+DisplayName = 7.62mm M1919A4 Machine Gun
+Type = MachineGun1
+Power = 8
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+Gravity = -0.005
+Accuracy = 1.0
+HeatCount = 3
+MaxHeatCount = 150
+SoundPitch = 1.0
+Sound = gun_l4_snd
+
+MaxAmmo = 400
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder

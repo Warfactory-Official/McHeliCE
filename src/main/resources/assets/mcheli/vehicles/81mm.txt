@@ -1,0 +1,38 @@
+DisplayName = 81mm M252 Mortar
+AddDisplayName = ja_JP, 迫撃砲
+ItemID = 28607
+MaxHp = 100
+HideEntity = false
+MinRotationPitch = -45
+MaxRotationPitch =  -85
+DamageFactor = 1
+CameraZoom = 3
+CameraPosition = 0.0,1.6, -0.2
+ThirdPersonDist = 8
+Gravity = -9.81
+GravityInWater = -1.0
+
+; W = WWII,  A = AAGun(対空砲)
+Category = W.A
+
+HUD = gunner
+
+AddGunnerSeat = 0.30,  -0.3, -0.5,0.00,  1.6, -0.2,false,-85,-45,true
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;本体-砲身
+AddPartWeapon= 81mm_mortar252,false,  true,  false,   0.00, -0.2,  0.00
+AddPartWeaponChild= false, true, 0,0.6366,  1.0839
+;AddPartWeaponChild= true,  true,  0, 0.88,  1.06
+;-0.13,0.9,1.08 
+
+AddTurretWeapon = 81mm_mortar252,        0, 2.3, 0,   0.0, 0,   true,1, 0,-360,360, -85,0
+
+;basic modern mortar
+AddRecipe = "ABA", "C  ", "   ", A, mcheli:cannon1, B, mcheli:lap, C, mcheli:electronics
+
+
+
+Boundingbox = 0.00,  0.20,  0.00,  0.5, 1.0
+
+unmountposition = 0.00, 1.5, -0.0

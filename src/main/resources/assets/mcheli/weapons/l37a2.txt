@@ -1,0 +1,22 @@
+DisplayName = 7.62mm L37A2 Machine Gun
+Type = MachineGun2
+Power = 7
+Acceleration = 8.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+ReloadTime = 80
+SoundVolume = 0.6
+SoundPitch = 1.0
+Sound = fnmag
+Round = 100
+Gravity = -0.005
+Accuracy = 0.7
+HeatCount = 5
+MaxHeatCount = 150
+SetCartridge = cartridge, 0.1,  90, 30, 3.00, -0.04, 0.40
+
+MaxAmmo = 1700
+SuppliedNum = 100
+Item =  3, iron_ingot
+Item =  2, gunpowder

@@ -1,0 +1,14 @@
+DisplayName = Medium Chassis
+AddDisplayName = ja_JP, Medium Chassis
+
+StackSize = 64
+;;you vill install the fucking faction mod
+
+;AddRecipe = "AAA", "A A", "AAA", A, mcheli:map
+;more expensiv since you wanted to cheese the system
+AddRecipe = "AAA", "A A", "AAA", A, mcheli:lightchassis
+;you will use the fucking machine thing
+
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_chassis_2
+
+

@@ -1,0 +1,30 @@
+DisplayName = M67 Hand Grenade
+AddDisplayName = ja_JP, M67 Grenade
+ItemID = 28907
+Power = 80
+StackSize = 5
+Explosion = 5
+;ProximityDist = 5
+;ProximityFuseDist = 5
+;would be 5
+;using lethal radius = 1
+ExplosionBlock = 2
+
+TimeFuse = 5
+;Bound = 0.3
+;Bomblet = 25
+;BombletDiff = 2.0
+
+
+DamageFactor = tank, 0.1
+DamageFactor = plane, 1.0
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 1.5
+DamageFactor = player, 15.0
+
+AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+;hell no
+
+Gravity = -0.08
+GravityInWater = -1.00
+DispenseAcceleration = 0.95

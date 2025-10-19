@@ -1,0 +1,163 @@
+DisplayName = BTR-4-E Bucefal
+;AddDisplayName = ua_UA, BTR-4 E Bucefal
+;AddDisplayName = en_EN, BTR-4 E Bucefal
+;at least translate it???
+ItemID = 191919
+MaxHp = 200
+Speed = 0.68
+Sound = apc_run
+ThrottleUpDown = 2.0
+MinRotationPitch = -45
+MaxRotationPitch =  5
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -0.2
+
+Category = IFV
+
+Float = true
+FloatOffset = -2.0
+
+DamageFactor = 0.2
+EnableNightVision = true
+DefaultFreelook = true
+CameraRotationSpeed = 20
+FlareType = 10
+SubmergedDamageHeight = 4
+OnGroundPitchFactor = 3.0
+OnGroundRollFactor  = 3.0
+CameraZoom = 8
+CameraPosition = -0.0706, 4.0, -1.30, true
+HideEntity = false
+ThirdPersonDist = 8
+
+TurretPosition = -0.0761, 3.31, -1.30
+
+;-59.16 x
+;-0.5916
+
+EnableNightVision = true
+EnableEntityRadar = false
+; Tank or Car or Unknown    
+WeightType = Tank
+
+AddTexture = btr4captured
+
+
+PivotTurnThrottle = 0.1
+
+
+MobilityYawOnGround = 3.5
+
+HUD = mbt_hud, mbt_gnrtwo, none, none, none, none, none, none, none, none
+
+
+
+AddGunnerSeat =  0.4884,  0.80, 3.68, -0.0761, 4.0, -1.30,  false, -45, 5, false
+
+
+
+AddGunnerSeat =  -0.7016,  0.90, 3.68, -0.7016,  2.00, 3.68
+
+
+
+AddSeat =  -0.9616,  0.80, -1.41
+AddSeat =  0.7284,  0.80, -1.41
+AddSeat =  0.7284,  0.80, -2.16
+AddSeat =  -0.9616,  0.80, -2.16
+AddSeat =  -0.9616,  0.80, -3.16
+AddSeat =  0.7284,  0.80, -3.16
+AddSeat =  -0.9616,  0.80, -3.88
+AddSeat =  0.7284,  0.80, -3.88
+
+unmountposition = 0.0,  1.50, -3.88
+
+MotionFactor = 0.9
+
+SetWheelPos =  1.35,  -0.24,  3.10, 1.37, -0.87, -2.66
+
+AddPartWheel     =   1.6184,  0.40,  -2.66
+AddPartWheel     =   1.6184,  0.38,  -0.87
+AddPartWheel     =   1.6184,  0.38,  1.37, 30
+AddPartWheel     =   1.6184,  0.38,  3.18, 40
+AddPartWheel     =   -1.7616,  0.40,  -2.66
+AddPartWheel     =   -1.7616,  0.38,  -0.87
+AddPartWheel     =   -1.7616,  0.38,  1.37, 30
+AddPartWheel     =   -1.7616,  0.38,  3.10, 40
+
+;AddPartWeaponBay = op,  1.75, 1.62, 4.47,  0, 1, 0,  -37
+;AddPartWeaponBay = op, -0.71, 1.74, 4.36,  0, 1, 0,  37
+
+AddPartCanopy   =  1.1584, 1.62, 4.47,  0, 1, 0,  -37
+AddPartCanopy   = -1.3016, 1.74, 4.36,  0, 1, 0,  37
+
+AddPartWeaponBay = op,   -1.1216, 1.57, -4.36, 0.0, 1.0, 0.0, 85
+AddPartWeaponBay = op,   0.9784, 1.57, -4.36, 0.0, 1.0, 0.0, -85
+
+AddTurretWeapon = btr4kba-2_30mmAPDS,  -0.0916, 3.29, -1.24,  0.0, 0.0, true,1, 0,-360,360, -45, 5
+AddTurretWeapon = btr4kba-2_30mmHEI,   -0.0916, 3.29, -1.24,  0.0, 0.0, true,1, 0,-360,360,    -45, 5
+AddTurretWeapon = btr4barier,          -1.4396, 3.26, -1.24,  0.0, 0.0, true,1, 0,-360,360,    -0, 5
+AddTurretWeapon = btr4barier,          -1.4396, 3.55, -1.24,  0.0, 0.0, true,1, 0,-360,360,    -0, 5
+
+AddTurretWeapon = btr47.62mm,          0.2384, 3.37, -1.24,  0.0, 0.0, true,1, 0,-360,360,    -45, 5
+;AddWeapon = btr4ags-17,          0.37, 3.18, -1.24,  0.0, 0.0, true,1, 0,-360,360,    -45, 5
+
+AddWeapon = op, 0.00, 3.50, 0.00, 0.0, 0.0, false, 1, 0, -360, 360, -90, 90
+
+AddWeapon = none,  -0.7016,  2.00, 3.68,  0.0, 0.0, false,2, 0,-360,360, -90, 90
+
+AddWeapon = targeting_pod_ground,  -0.7016,  2.00, 3.68,  0.0, 0.0, false,2, 0,-360,360, -90, 90
+
+AddWeapon = targeting_pod_block, -0.7016,  2.00, 3.68, 0, 0, false, 2, 0, -360, 360, -90,90
+
+AddPartWeapon = btr4kba-2_30mmAPDS/ btr4kba-2_30mmHEI, false, true, false,  -0.0761, 2.49, -1.30, 0
+AddPartWeaponChild = false, true, -0.0761, 3.30, -0.886, 0
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 10
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 350
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.90
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+BoundingBox =  0.0, 3.0, -1.55,  1.8, 1.4, 0.25
+BoundingBox =  0.0, 1.25, -2.80, 3.00, 2.10, 0.70
+BoundingBox =  0.0, 1.25, -1.75, 2.70, 2.10, 0.70
+BoundingBox =  0.0, 1.25, 0.00, 2.70, 2.10, 0.70
+
+BoundingBox =  0.0, 1.25, 2.05, 2.70, 2.19, 0.25
+
+;lfp
+BoundingBox =  0.0, 1.20, 2.75, 2.5, 1.4, 0.30
+BoundingBox =  0.0, 0.4, 3.30, 2.45, 0.2, 0.30
+BoundingBox =  0.0, 0.6, 3.50, 2.45, 0.2, 0.30
+BoundingBox =  0.0, 0.8, 3.70, 2.45, 0.2, 0.30
+BoundingBox =  0.0, 1.0, 3.90, 2.45, 0.2, 0.30
+BoundingBox =  0.0, 1.2, 4.10, 2.45, 0.2, 0.30
+BoundingBox =  0.0, 1.4, 4.30, 2.45, 0.2, 0.30
+;ulp
+
+BoundingBox =  0.0, 1.6, 3.85, 2.45, 0.2, 0.30
+BoundingBox =  0.0, 1.8, 3.45, 2.45, 0.2, 0.30
+BoundingBox =  0.0, 2.0, 3.25, 2.45, 0.2, 0.30
+BoundingBox =  0.0, 2.2, 3.05, 2.45, 0.2, 0.30
+
+
+StepHeight = 1.8
+
+;btr4e
+AddRecipe = "ABC", "DEF", "GDH", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics, E, mcheli:fcs3, F, mcheli:advancedmechanicparts, G, mcheli:cannon2, H, mcheli:rocket
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:btr3, B, mcheli:fcs3, C, mcheli:electronics, D, mcheli:rocket
+
+;btr3
+;;AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:fcs2, E, mcheli:lap, F, mcheli:advancedmechanicparts, G, mcheli:cannon2
+;;AddRecipe = "ABC", "D  ", "   ", A, mcheli:fcs2, B, mcheli:advancedmechanicparts, C, mcheli:cannon1, D, mcheli:btr82
+

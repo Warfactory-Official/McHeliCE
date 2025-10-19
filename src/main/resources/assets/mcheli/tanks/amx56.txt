@@ -1,0 +1,120 @@
+DisplayName = AMX56 Leclerc MBT
+AddDisplayName = zh_CN,AMX56 勒克莱尔主战坦克
+AddDisplayName = en_US, AMX56 Leclerc MBT
+
+ItemID = 91128
+MaxHp = 550
+Speed = 0.44
+Gravity = -0.61
+GravityInWater = -1.0
+
+DamageFactor = 0.00
+EnableNightVision = true
+EnableEntityRadar = false
+Sound = leclerc
+HUD = mbt_hud
+WeightType = Tank
+DefaultFreelook = true
+
+Category = MBT
+
+CameraZoom = 10
+
+FlareType = 10
+
+ArmorDamageFactor = 1
+
+ThrottleUpDown = 3.5
+MobilityYawOnGround = 3.5
+OnGroundPitchFactor = 5
+OnGroundRollFactor  = 5
+MotionFactor = 0.9
+
+EnableBack = true
+
+SubmergedDamageHeight = 3
+WeightedCenterZ = 0.0
+
+
+
+
+PivotTurnThrottle = 0.0
+
+AddGunnerSeat =  0.00, 1.58, 0.0,    -0.6, 1.78, 2.0,  false, -20, 8, true
+unmountposition = 0.00, 1.58, 0.0
+Entitywidth=0
+Entityheight=0
+
+HideEntity = true
+
+CameraPosition = -0.8,  3.2, 2.25, true
+CameraRotationSpeed = 24
+
+StepHeight = 1.8
+HideEntity = true
+
+
+MaxFuel         = 1500
+FuelConsumption = 1.0
+
+TrackRollerRot = 50
+
+SetWheelPos =  1.65,  -0.21,  2.493, 1.322, 0.1436, -1.044, -2.214, -3.435
+
+AddTrackRoller = -2.32,  0.8253,  3.566
+AddTrackRoller = -2.32,  0.2588,  2.493
+AddTrackRoller = -2.32,  0.2590,  1.322
+AddTrackRoller = -2.32,  0.2592,  0.1436
+AddTrackRoller = -2.32,  0.2594,  -1.044
+AddTrackRoller = -2.32,  0.2595,  -2.214
+AddTrackRoller = -2.32,  0.2597,  -3.435
+AddTrackRoller = -2.32,  0.8347, -4.454
+
+
+
+AddCrawlerTrack = true, 0.21, -2.0,  -0.25/1.323,-0.25/2.494,-0.2016/2.683,0.4697/3.778,0.6253/3.930,0.8352/3.896,1.045/3.930,1.199/3.777,1.251/3.568,1.252/-4.455,1.198/-4.664,1.048/-4.811,0.8449/-4.867,0.6418/-4.810,0.4931/-4.662,-0.2035/-3.631,-0.25/-3.437
+
+MinRotationPitch = -20
+MaxRotationPitch =  8
+
+
+
+
+
+
+AddTurretWeapon = amx56_ap, 0.00, 2.1464, 0.5,  0.0, 0.0, true,1, 0,-360,360, -20, 8
+AddTurretWeapon = amx56_he, 0.00, 2.1464, 0.5,  0.0, 0.0, true,1, 0,-360,360, -20, 8
+AddTurretWeapon = amx56mg_127,  0.4931, 2.0322, 0.0,  1, -1, true,1, 0,-360,360, -20, 8
+
+AddPartWeapon = amx56_AP /amx56_he, false, true, false,  0.00, 1.58, 0.0, 0
+AddPartWeaponChild = false, true, 0.00, 2.14, 1.04
+AddPartWeaponChild = false, true, 0.00, 2.14, 1.04, 0.5
+
+ArmorMinDamage = 20
+
+;side front composite scrn 160
+BoundingBox = 0.0, 1.0, 2.0, 2.7, 1.0, 0.13
+;front plate high 150  to265
+BoundingBox = 0.0, 1.5, 2.0, 2.68, 0.5, 0.13
+;below
+BoundingBox = 0.0, 1.3, 2.5, 2.68, 0.5, 0.07
+;700
+BoundingBox = 0.0, 1.05, 3, 2.68, 0.35, 0.02
+;70
+BoundingBox = 0.0, 0.70, 2.8, 2.68, 0.35, 0.28
+
+;siding 30mm
+BoundingBox = 0.0, 1.1, 0.0, 2.7, 1.4, 0.66
+;rear siding 20mm
+BoundingBox = 0.0, 1.1, -2.7, 2.7, 1.4, 1
+;back 10mm
+BoundingBox = 0.0, 1.1, -4, 2.65, 1.4, 2
+
+;turret
+BoundingBox = 0.0, 2.2, 0.0, 2.8, 1.0, 0.03
+
+;modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "EH ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine2, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite2, E, mcheli:complexmechanicparts, H, mcheli:fcs3
+
+
+;AddRecipe = "TBT",  "TXT",  "IDI",  T, tnt_minecart, B, bow, X, dispenser, I, iron_ingot, D, diamond

@@ -1,0 +1,20 @@
+DisplayName = Aluminum Ingot
+AddDisplayName = ja_JP, Aluminum Ingot
+
+StackSize = 64
+
+;;AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+
+;;AddRecipe = "ACA", "EXG", "T T", T, hfr:testcrashskibiditoilet, A, hfr:item.part_plating_1, C, hfr:item.part_chassis_1, E, hfr:item.part_engine_1, X, hfr:item.components_electronics, G, hfr:item.part_cannon_3
+
+;;AddRecipe = "A  ", "   ", "   ", A, hfr:item.ingot_steel
+AddRecipe = "A  ", "   ", "   ", A, hbm:item.ingot_aluminium
+
+AddRecipe = "AB ", "C  ", "   ", A, iron_block, B, mcheli:item.ingot_steel, C, coal
+;;compat for the mentally impaired
+
+;;temp
+;;AddRecipe = "A  ", "   ", "   ", A, stone
+;;I decided not to that might be a bit too much for the processes involved
+
+;;AddRecipe = "A  ", "   ", "   ", A, 

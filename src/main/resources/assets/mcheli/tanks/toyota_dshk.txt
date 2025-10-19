@@ -1,0 +1,100 @@
+DisplayName = Toyota Hilux with DSHK
+AddDisplayName = en_US, Toyota Hilux with DSHK
+AddDisplayName = ru_RU, Тойота с ДШК
+MaxHp = 200
+ThrottleUpDown = 0.81
+Speed = 0.81
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = hilux
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.00
+MaxFuel           = 800
+FuelConsumption   = 1.0
+ThirdPersonDist = 10
+WeightType = Car
+WeightedCenterZ = 0.0
+
+Category = TFV
+
+OnGroundPitchFactor = 15.0
+OnGroundRollFactor  = 5.2
+
+EnableBack = true
+
+SetWheelPos =  0.55,  -0.24,  3.63, -0.10
+
+HUD = bnr32_hud, gunner, none
+
+AddSeat =  0.4386, 0.3, 1.9374
+
+AddWeapon = none, 0.0, 3.00, 4.00, 0.0, 0.0, false, 1
+AddWeapon = l_claxon,    0.00, 0.00, 0.00,  0.0,0.0
+
+
+AddSeat = 0.0,  1.343,  -0.57
+AddSeat =  -0.4386, 0.3, 1.9374
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AddGunnerSeat =  -0.4386, 0.47, 1.9374, 0.0,  2.343,  -0.57,  true, -90, 90, true
+;AddGunnerSeat =  0.0,  1.343,  -0.57, 0.0,  2.343,  -0.57,  false, -90, 90, true
+
+
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 40
+AddPartWheel     = 0.97,  0.1765, 3.6098, 30
+AddPartWheel     =  -0.97,  0.1765, 3.6098, 30
+AddPartWheel     = 0.97,  0.1714, -0.0691
+AddPartWheel     =  -0.97,  0.1714, -0.0691
+
+
+;AddTurretWeapon = dshk12_7mm, 0.296, 2.0606, 0.1342, 0.0, 0.0, false,2, 0,-100,100, -58, 4
+AddWeapon = toyotadshk12_7mm, -0.0671, 2.0606, 0.018, 0.0, 0.0, false,2, 0,-100,100, -30, 1
+AddPartWeapon = toyotadshk12_7mm, false, true, false, -0.0671, 0.8016, 0.018, 0
+;y value for part was 0.8016
+AddPartWeaponChild = false, true, 0.0296, 2.1174, 0.1342, 0.0
+;weaponchild was -0.411, 0.8633, -0.671
+
+InventorySize = 9
+
+;basic civ car offroad armed
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts, E, mcheli:cannon1
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:toyota_unarmed, B, mcheli:cannon1
+
+AddFixedSearchLight =  0.7879, 0.6448, 4.4096,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5, 0, 0
+AddFixedSearchLight = -0.7879, 0.6448, 4.4096,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5, 0, 0
+
+
+
+
+AddFixedSearchLight =  0.9665, 0.8701,-1.6416,   0xFFFF0000,   0x10FF0000,    0.05, 0.20,  0.0,  0
+AddFixedSearchLight = -0.9665, 0.8701,-1.6416,   0xFFFF0000,   0x10FF0000,    0.05, 0.20, -0.0,  0
+AddFixedSearchLight =  0.9665, 0.7554,-1.6416,   0xFFFF0000,   0x10FF0000,    0.05, 0.20,  0.0,  0
+AddFixedSearchLight = -0.9665, 0.7554,-1.6416,   0xFFFF0000,   0x10FF0000,    0.05, 0.20, -0.0,  0
+AddFixedSearchLight =  0.9665, 0.6954,-1.6416,   0xFFFF0000,   0x10FF0000,    0.05, 0.20,  0.0,  0
+AddFixedSearchLight = -0.9665, 0.6954,-1.6416,   0xFFFF0000,   0x10FF0000,    0.05, 0.20, -0.0,  0
+
+AddPartSteeringWheel =  0.4408,  0.9616,  2.4891,  0, 0.3146, -1,   100
+AddPartCanopy =  1.0547, 0.7509, 2.8769, 0, -1, 0, 75
+EntityWidth=0.8
+EntityHeight=0.8
+
+BoundingBox = 0.0, 0.6, 3.6, 1.65, 0.85
+
+BoundingBox = 0.0, 0.3, 2.1, 1.8, 0.2
+
+BoundingBox = 0.0, 0.3, 3.4, 2.0, 0.2
+
+BoundingBox = 0.0, 0.3, 1.5, 2.0, 0.2
+;BoundingBox = 0.0, 0.3, -1.05, 2.0, 0.2
+
+BoundingBox = 0.0, 0.3, -0.76, 2.0, 0.2
+
+unmountposition = 0.4386, 1.5, 1.9374
+
+ArmorMinDamage = 2

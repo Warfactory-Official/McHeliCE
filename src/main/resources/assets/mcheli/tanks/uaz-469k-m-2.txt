@@ -1,0 +1,102 @@
+DisplayName = UAZ-469
+AddDisplayName = ru_RU, УАЗ-469
+AddDisplayName = en_US, UAZ-469
+MaxHp = 230
+ThrottleUpDown = 0.81
+Speed = 0.62
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = uaz_loop
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 0.85
+EnableNightVision = false
+MaxFuel           = 1500
+FuelConsumption   = 1.0
+ThirdPersonDist = 5
+DefaultFreelook = false
+
+WeightedCenterZ = 0.8
+
+;AddTexture = uaz-469_9
+;AddTexture = uaz-469_10
+;AddTexture = uaz-469_11
+;AddTexture = uaz-469_12
+;AddTexture = uaz-469_13
+;AddTexture = uaz-469_14
+;AddTexture = uaz-469_15
+
+OnGroundPitchFactor = 10.0
+OnGroundRollFactor  = 4.8
+
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+EnableBack = true
+
+Category = LUV
+
+WeightType = Car
+
+HUD =  bnr32_hud, none, none, none, none
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+AddSeat =  0.4331,  0.25,  0.2001
+
+UnmountPosition = 0.4331,  2.25,  0.2001
+
+AddSeat = -0.4331,  0.35,  0.2001
+
+AddSeat =  0.4331,  0.37, -0.6315
+AddSeat =  0.0000,  0.37, -0.6315
+AddSeat = -0.4331,  0.37, -0.6315
+
+AddWeapon =  none, 0.00,  0.42,  3.05, 0.0, 90
+
+AddWeapon =  simple_horn, 0.00,  0.42,  3.05, 0.0, 90
+AddWeapon =  cb-radio,    0.00,  0.42,  3.05, 0.0, 90, false, 2
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 25
+
+SetWheelPos =  0.35,  -0.24,  1.44, -0.98
+
+AddPartWheel     =  0.6203,   0.0749,  1.4455, 35
+AddPartWheel     = -0.6203,   0.0749,  1.4455, 35
+AddPartWheel     =  0.6203,   0.0749, -0.9875
+AddPartWheel     = -0.6203,   0.0749, -0.9875
+
+AddFixedSearchLight =  -0.5464, 0.7642, 2.0289,   0x50FFFFFF,   0x00FFFFC0,    0.05, 0.8,  -5,  0
+AddFixedSearchLight = 0.5464, 0.7642, 2.0289,   0x50FFFFFF,   0x00FFFFC0,    0.05, 0.8,   5,  0
+
+AddFixedSearchLight =  0.727, 0.579,-1.77,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+AddFixedSearchLight =  -0.727, 0.579,-1.77,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+
+AddFixedSearchLight =  0.727, 0.519,-1.77,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+AddFixedSearchLight =  -0.727, 0.519,-1.77,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+
+BoundingBox = 0.0, 0.7, 1.4, 0.8, 0.6
+
+BoundingBox = 0.0, 0.30, 0.0, 1.7, 0.2
+BoundingBox = 0.0, 0.30, 1.15, 1.7, 0.2
+BoundingBox = 0.0, 0.30, -0.6, 1.7, 0.2
+BoundingBox = 0.0, 0.30, -0.8, 1.7, 0.2
+
+InventorySize = 9
+
+AddPartCanopy   =  0.8115, 0.8417, 0.7622,  0, 1, 0, -75
+
+AddPartSteeringWheel =  0.431,  1.05,  0.565,  0, 0.488, -1,  130
+
+;basic civ car offroad
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts
+
+ArmorDamageFactor = 1
+
+ArmorMinDamage = 2

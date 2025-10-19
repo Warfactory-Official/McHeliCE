@@ -1,0 +1,90 @@
+DisplayName = Volkswagen Iltis
+MaxHp = 230
+ThrottleUpDown = 0.82
+Speed = 0.758
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = simpe_engine
+;MinRotationPitch = -90
+;MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 0.85
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+ThirdPersonDist = 4
+DefaultFreelook = false
+
+SetWheelPos =  0.30,  -0.24,  1.19, -1.09
+
+WeightedCenterZ = 0.8
+
+OnGroundPitchFactor = 10.0
+OnGroundRollFactor  = 4.8
+
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+EnableBack = true
+
+Category = LUV
+
+WeightType = Car
+
+AddTexture = ILTIS-Kdow_2
+
+HUD =  bnr32_hud, none, none, none, none, none
+
+;basic civ car offroad
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+AddSeat =  0.3432,  0.25, -0.1930
+
+unmountposition = 0.3432,  2.25, -0.1930
+
+AddSeat = -0.3432,  0.35, -0.1930
+
+AddSeat =  0.2727,  0.40, -0.9422
+AddSeat = -0.2727,  0.40, -0.9422
+
+AddWeapon = none, 0, 0, 0, 0, 90
+
+AddWeapon =  simple_horn, 0.00,  0.42,  3.05, 0.0, 90
+
+BoundingBox = 0.0, 0.55, 1.2, 0.7, 0.8
+
+BoundingBox = 0.0, 0.30, 0.0, 1.65, 0.2
+BoundingBox = 0.0, 0.30, 1.35, 1.65, 0.2
+BoundingBox = 0.0, 0.30, -0.6, 1.65, 0.2
+BoundingBox = 0.0, 0.30, -1.2, 1.65, 0.2
+
+
+AddFixedSearchLight =  -0.601, 0.680, 2.07,   0x50FFFFFF,   0x00FFFFC0,    0.45, 0.55,  -5,  0
+AddFixedSearchLight = 0.601, 0.680, 2.07,   0x50FFFFFF,   0x00FFFFC0,    0.45, 0.55,   5,  0
+
+AddFixedSearchLight =  0.816, 0.456,-2.31,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+AddFixedSearchLight =  -0.808, 0.456,-2.31,   0xFFFF0000,   0x10FF0000,    0.05, 0.20,  0.0,  0
+
+Regeneration = false
+ArmorDamageFactor = 1.0
+ArmorMinDamage = 2
+
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 25
+
+AddPartWheel     =  0.5990,   0.1150,  1.1956, 35
+AddPartWheel     = -0.5990,   0.1150,  1.1956, 35
+AddPartWheel     =  0.5990,   0.1150, -1.0976
+AddPartWheel     = -0.5990,   0.1150, -1.0976
+
+InventorySize = 9
+
+
+AddPartSteeringWheel =  0.3176,  1.0213,  0.2935,  0, 0.700, -1,  130

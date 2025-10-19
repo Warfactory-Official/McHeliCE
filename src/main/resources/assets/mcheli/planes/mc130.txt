@@ -1,0 +1,117 @@
+DisplayName = MC-130H Combat Talon II
+AddDisplayName = ja_JP, MC-130H Combat Talon II
+ItemID = 28713
+MaxHp = 250
+Speed = 0.63858
+Sound = conethirty
+ThrottleUpDown = 0.3
+;AutoPilotRot = -0.60
+AutoPilotRot = -0.00
+CameraPosition = 2.0, 1.40, -4.0
+EnableNightVision = true
+EnableEntityRadar = false
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+FlareType = 2
+InventorySize = 18
+MaxFuel         = 4800
+FuelConsumption = 2.0
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+ThirdPersonDist = 28
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = planenvg, plane_gnrnvg, plane_gnrnvg, none, none, none, none
+
+MobilityYaw = 0.4
+MobilityPitch = 0.4
+MobilityRoll = 0.2
+MinRotationPitch = -60
+MaxRotationPitch =  60
+;MinRotationRoll  = -60
+;MaxRotationRoll  =  60
+
+AddSeat =  0.65,  2.43,  2.00
+AddSeat = -0.65,  2.43,  2.00
+AddSeat =  0.65,  2.43,  0.75
+AddSeat = -0.65,  2.43,  0.75
+
+
+AddPartLG =  0.00, 1.19,  0.37,  1,0,0
+AddPartLG =  0.00, 1.20, -7.16,  1,0,0, 60
+AddPartLG =  0.00, 1.20, -8.78,  1,0,0, 60
+
+AddPartRotor =   9.55,  3.40,  -1.94,   0, 0, 1
+AddBlade = 4,90, 9.55,  3.40,  -1.94,   0, 0, 1
+AddPartRotor =  -9.55,  3.40,  -1.94,   0, 0, 1
+AddBlade = 4,90,-9.55,  3.40,  -1.94,   0, 0, 1
+
+AddPartRotor =   4.67,  3.40,  -1.94,   0, 0, 1
+AddBlade = 4,90, 4.67,  3.40,  -1.94,   0, 0, 1
+AddPartRotor =  -4.67,  3.40,  -1.94,   0, 0, 1
+AddBlade = 4,90,-4.67,  3.40,  -1.94,   0, 0, 1
+
+AddPartHatch =   0.00, 3.62, -18.65, -1, 0,0, 27
+AddPartHatch =   0.00, 0.81, -13.46, -1, 0,0, 48
+
+AddPartWeaponMissile = MOAB,    false,  false,  false,  0.00, 2.31, -5.345
+
+AddWeapon = MOAB,  0.00, 0.8398, -12.27,  0.0, -3.0
+
+;large aircraft bomber, AOW3 style
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:airframebomb, B, mcheli:basicmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:electronics
+
+BoundingBox =  0.00, 2.60,  -1.60,  4.0, 4.0
+BoundingBox =  0.00, 2.60,  -6.60,  4.0, 4.0
+BoundingBox =  0.00, 2.60, -11.60,  4.0, 4.0
+
+BoundingBox = -2.92, 4.00,  -6.60,  4.0, 1.0
+BoundingBox =  2.92, 4.00,  -6.60,  4.0, 1.0
+
+
+BoundingBox = -4.92, 4.00,  -6.60,  4.0, 1.0
+BoundingBox =  4.92, 4.00,  -6.60,  4.0, 1.0
+
+BoundingBox = -7.92, 4.00,  -6.60,  4.0, 1.0
+BoundingBox =  7.92, 4.00,  -6.60,  4.0, 1.0
+
+BoundingBox = -10.92, 4.00,  -6.60,  4.0, 1.0
+BoundingBox =  10.92, 4.00,  -6.60,  4.0, 1.0
+
+BoundingBox = -13.92, 4.00,  -6.60,  4.0, 1.0
+BoundingBox =  13.92, 4.00,  -6.60,  4.0, 1.0
+
+BoundingBox =  0.00, 2.60, -9.60,  4.0, 4.0
+BoundingBox =  0.00, 2.60,  -4.60,  4.0, 4.0
+BoundingBox =  0.00, 2.90, -14.60,  3.5, 3.5
+BoundingBox =  0.00, 3.20, -17.60,  3.5, 3.0
+BoundingBox =  0.00, 3.80, -19.60,  3.0, 2.0
+BoundingBox =  0.00, 6.96, -22.75,  3.0, 7.0
+
+BoundingBox =  2.00, 4.96, -22.75,  3.0, 2.0
+BoundingBox =  -2.00, 4.96, -22.75,  3.0, 2.0
+
+BoundingBox = 4.0, 4.80, -22.75, 3.0, 1.0
+BoundingBox = -4.0, 4.80, -22.75, 3.0, 1.0
+BoundingBox = 6.0, 4.80, -22.75, 3.0, 1.0
+BoundingBox = -6.0, 4.80, -22.75, 3.0, 1.0
+
+BoundingBox = -4.62, 3.24, -3.26, 1.5, 1.5  , 1.5
+BoundingBox = -9.47, 3.24, -3.26, 1.5, 1.5  , 1.5
+BoundingBox = 4.62, 3.24, -3.26, 1.5, 1.5   , 1.5
+BoundingBox = 9.47, 3.24, -3.26, 1.5, 1.5   , 1.5
+
+DamageFactor = 0.8
+
+RotorSpeed = 500.0
+
+
+unmountposition = 0.65,  2.43,  2.00
+
+enableback = true
+
+; AddRack=Entity type, RackPos X,Y,Z,   EntryPos X,Y,Z,   Range,  Open parachute alt
+AddRack = container,   0.0, 1.4, -4.7,  0.0, 0.0, -16.1,  8.0,    20.0
+DamageFactor = 0.8

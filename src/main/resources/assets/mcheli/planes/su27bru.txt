@@ -1,0 +1,147 @@
+DisplayName = Su-27 Flanker-B
+MaxHp = 100
+Speed = 1.553
+EnableNightVision = false
+EnableEntityRadar = true
+EnableEjectionSeat = true
+ThrottleUpDown = 0.3
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1000
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+Sound = sutwentyseven
+
+SweepWingSpeed = 0.85
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+HUD = planenvgonly
+
+enableback = true
+
+AddTexture = su27b-ru_2
+AddTexture = su27b-ru_3
+AddTexture = su27b-ru_4
+AddTexture = su27b-antares
+AddTexture = su27b-cn
+AddTexture = su27b-cn_2
+AddTexture = su27b-cn_3
+AddTexture = su27b-cn_4
+AddTexture = su27b-idn
+AddTexture = su27b-ua
+
+AddSeat = 0.0, 2.2757, 2.8290
+
+unmountposition = 0.0, 1.9757, 2.8290
+
+AddPartLG    =  0.0,    2.0280,  0.2609, -1, 0,   0, 110
+AddPartLG    =  0.0,    2.1071, -1.2156, -1, 0,   0, 60
+AddPartLGRev = -0.3011, 1.8716,  1.2412,  0, 0,  -1, 100
+
+AddPartLG    =  1.9987, 2.1521, -5.9321, -1,-0.4, 0, 80, 0, -1, 0, 90
+AddPartLGRev =  2.3540, 2.2603, -4.1278,  0, 0,   1, 100
+AddPartLGRev =  2.2778, 2.1853, -5.5007,  0, 0,   1, 110
+
+AddPartLG    = -1.9987, 2.1521, -5.9321, -1, 0.4, 0, 90, 0,  1, 0, 90
+AddPartLGRev = -2.3540, 2.2603, -4.1278,  0, 0,  -1, 100
+AddPartLGRev = -2.2778, 2.1853, -5.5007,  0, 0,  -1, 110
+
+AddPartWeaponMissile = su27r-73e,  false, false, false,   6.5259, 1.8519, -7.6642
+AddPartWeaponMissile = su27r-73e,  false, false, false,  -6.5259, 1.8519, -7.6642
+AddPartWeaponMissile = su27r-73e,  false, false, false,   4.9154, 1.6903, -6.1041
+AddPartWeaponMissile = su27r-73e,  false, false, false,  -4.9154, 1.6903, -6.1041
+
+AddPartWeaponMissile = su27x-25_2, false, false, false,   1.2223, 0.4577, -5.0653
+AddPartWeaponMissile = su27x-25_2, false, false, false,  -1.2223, 0.4577, -5.0653
+AddPartWeaponMissile = su27x-25_2, false, false, false,   0.00,   1.6277, -3.2562
+AddPartWeaponMissile = su27x-25_2, false, false, false,  -0.00,   1.6522, -9.1284
+
+AddWeapon = su27gsh-30-1, -1.0126, 2.4849,  1.1137,  0.0, -1.0
+AddWeapon = su27r-73e,      6.5259, 1.8519, -7.6642,  0.0, -1.0
+AddWeapon = su27r-73e,     -6.5259, 1.8519, -7.6642,  0.0, -1.0
+AddWeapon = su27r-73e,      4.9154, 1.6903, -6.1041,  0.0, -1.0
+AddWeapon = su27r-73e,     -4.9154, 1.6903, -6.1041,  0.0, -1.0
+
+AddWeapon = su27x-25_2,      1.2223, 0.4577, -5.0653,  0.0, -1.0
+AddWeapon = su27x-25_2,     -1.2223, 0.4577, -5.0653,  0.0, -1.0
+AddWeapon = su27x-25_2,      0.00,   1.6277, -3.2562,  0.0, -1.0
+AddWeapon = su27x-25_2,      0.00,   1.6522, -9.1284,  0.0, -1.0
+
+AddWeapon = targeting_pod_ph50s_ru,   0.0, 3.1,-0.6,    0.0, 0.0
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0
+
+AddPartSteeringWheel =  1.9192,  1.8065, -10.4225,  1,  0,  0,   10
+AddPartSteeringWheel = -1.9192,  1.8065, -10.4225, -1,  0,  0,   10
+
+AddPartSteeringWheel =  2.3215,  2.3553, -6.6984,   1,  0, -0.4, 20
+AddPartSteeringWheel = -2.3215,  2.3553, -6.6984,  -1,  0, -0.4, 20
+
+AddPartSteeringWheel =  2.2075,  2.6861, -9.4737,   0, -1,  0.2, 20
+AddPartSteeringWheel = -2.2075,  2.6861, -9.4737,   0, -1,  0.2, 20
+
+AddPartSteeringWheel =  0.00,    2.3903,  3.1111,   0,  0, -1,   20
+
+AddPartSteeringWheel =   0, 0, 0, 0, 0, 0, 0
+AddPartSteeringWheel =   0, 0, 0, 0, 0, 0, 0
+
+AddPartCanopy = 0.00, 0, 0, 0,0,0,  0
+
+AddPartHatch =  0.00,    3.2313, -1.0219,   1,  0, 0, 53
+AddPartHatch =  0.00,    2.6710, -4.0226,  -1,  0, 0, 45
+
+BoundingBox =  0.0, 2.6, 1.0,  2.0, 1.4
+
+BoundingBox =  0.0, 2.2, -1.0,  2.0, 1.4
+
+BoundingBox =  0.0, 1.6, -4,  4.0, 2.0
+
+BoundingBox =  0.0, 1.6, -8,  4.0, 1.4
+
+
+
+BoundingBox = -2.9, 2.2, -5.5,  3.0, 0.8
+BoundingBox =  2.9, 2.2, -5.5,  3.0, 0.8
+
+BoundingBox = -5.3, 2.2, -6.9,  3.0, 0.8
+BoundingBox =  5.3, 2.2, -6.9,  3.0, 0.8
+
+BoundingBox = 2.3, 2.28, -7.36, 0.5, 2.8
+BoundingBox = -2.3, 2.28, -7.36, 0.5, 2.8
+
+
+BoundingBox = 2.3, 2.88, -7.86, 0.5, 2.8
+BoundingBox = -2.3, 2.88, -7.86, 0.5, 2.8
+
+BoundingBox = 2.3, 3.48, -8.36, 0.5, 2.8
+BoundingBox = -2.3, 3.48, -8.36, 0.5, 2.8
+
+BoundingBox = 2.3, 3.68, -8.86, 0.5, 2.8
+BoundingBox = -2.3, 3.68, -8.86, 0.5, 2.8
+
+BoundingBox = 2.3, 3.68, -9.36, 0.5, 3.8
+BoundingBox = -2.3, 3.68, -9.36, 0.5, 3.8
+
+BoundingBox = 2.3, 3.88, -9.86, 0.5, 4.2
+BoundingBox = -2.3, 3.88, -9.86, 0.5, 4.2
+
+BoundingBox = 2.3, 3.68, -10.36, 0.5, 3.8
+BoundingBox = -2.3, 3.68, -10.36, 0.5, 3.8
+
+BoundingBox = -2.9, 1.8, -10.5,  2.0, 0.3
+BoundingBox =  2.9, 1.8, -10.5,  2.0, 0.3
+
+BoundingBox = -3.9, 1.8, -11.5,  2.0, 0.3
+BoundingBox =  3.9, 1.8, -11.5,  2.0, 0.3
+
+BoundingBox = -1.3, 1.8, -10.5,  1.3, 1.3, 1.5
+BoundingBox =  1.3, 1.8, -10.5,  1.3, 1.3, 1.5
+
+
+;modern light plane (late jet), AOW3 style (fcs)
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:airframe3, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:fcs2, G, mcheli:electronics 
+
+DamageFactor = 0.8
+DamageFactor = 0.8

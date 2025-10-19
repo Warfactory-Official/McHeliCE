@@ -1,0 +1,106 @@
+DisplayName = KamAZ-6350 8x8 Truck
+MaxHp = 200
+Speed = 0.6
+Sound = kamaz
+InventorySize = 54
+StepHeight = 1.8
+DefaultFreelook = false
+EnableBack = true
+HUD = super_duty_hud,none
+EnableEntityRadar = false
+MaxFuel         = 1800
+FuelConsumption = 3.0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+ThrottleUpDown = 0.81
+MobilityYawOnGround = 2.5
+AddSeat =  1.33,  2.39, 6.06
+
+Category = HUT/GUT
+
+ThirdPersonDist = 10
+
+PivotTurnThrottle = 0.1
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+
+SubmergedDamageHeight = 2
+
+
+WeightType = Car
+
+MobilityRoll = 0
+
+WeightedCenterZ = 0.0
+
+unmountposition = 1.33,  1.50, 6.06
+
+AddSeat =  -1.35,  2.39, 6.06
+HideEntity = false
+EnableBack = true
+CameraRotationSpeed = 35
+MinRotationPitch = -90
+MaxRotationPitch = 45
+AddPartWheel =   1.98, 0.5543, 5.55, 30
+AddPartWheel =   -1.98, 0.5543, 5.55, 30
+AddPartWheel =   1.98, 0.5543, 2.59
+AddPartWheel =   -1.98, 0.5543, 2.59
+AddPartWheel =   1.98, 0.56, -2.4095
+AddPartWheel =   -1.98, 0.556, -2.4244
+AddPartWheel =   1.98, 0.56, -4.5186
+AddPartWheel =   -1.98, 0.56, -4.5184
+
+
+PartWheelRot = 30
+SetWheelPos =  1.55,  -0.24,  5.55, 2.6, -2.4, -4.51
+BoundingBox =  0.0, 1.25,  5.8,    4.25, 0.3
+BoundingBox =  0.0, 1.25,  3.6,   1.8, 0.3
+BoundingBox =  0.0, 1.25,  1.8,   1.8, 0.3
+BoundingBox =  0.0, 1.25,  -0.0,   1.8, 0.3
+BoundingBox =  0.0, 1.25,  -1.8,   1.8, 0.3
+BoundingBox =  0.0, 1.25,  -3.6,   1.8, 0.3
+BoundingBox =  0.0, 1.25,  -5.4,   1.8, 0.3
+
+BoundingBox =  0.0, 1.9,  1.4,    3.8, 0.3
+BoundingBox =  0.0, 1.9,  -2.4,    3.8, 0.3
+BoundingBox =  0.0, 1.9,  -4.8,    3.8, 0.3
+
+BoundingBox =  0.0, 1.25,  5.8,    1.2, 1.2
+BoundingBox =  0.0, 2.45,  5.8,    1.2, 1.2
+BoundingBox =  0.0, 2.45,  6.8,    1.2, 1.2
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon = thorn2,    0.00, 0.00, 0.00,  0.0,0.0
+
+AddRack = container,   1.02, 2.12, 1.61,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   1.02, 3.02, 1.61,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   1.02, 2.12, -0.98,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   1.02, 3.02, -0.98,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   1.02, 2.12, -4.33,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   1.02, 3.02, -4.33,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   -1.02, 2.12, 1.61,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   -1.02, 3.02, 1.61,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   -1.02, 2.12, -0.98,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   -1.02, 3.02, -0.98,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   -1.02, 2.12, -4.33,  0.0, 0.0, -9.18,  8.0,   20
+AddRack = container,   -1.02, 3.02, -4.33,  0.0, 0.0, -9.18,  8.0,   20
+AddPartCanopy =  1.98, 2.35, 7.19, 0, -1, 0, 70
+AddPartCanopy = -1.98, 2.35, 7.19, 0,  1, 0, 70
+AddFixedSearchLight =  1.5192, 1.8116, 7.3648,   0x50FFFFFF,   0x00FFFFC0,    0.15, 0.25,  -5,  0
+AddFixedSearchLight = -1.45, 1.8036, 7.3648,   0x50FFFFFF,   0x00FFFFC0,    0.15, 0.25,   5,  0
+
+AddFixedSearchLight = 0.773, 1.13, -6.61,   0xFFFF0000,   0x10FF0000, 0.05, 0.25, 0, 0
+AddFixedSearchLight = 0.973, 1.13, -6.61,   0xFFFF0000,   0x10FF0000, 0.05, 0.25, 0, 0
+
+AddFixedSearchLight = -0.773, 1.13, -6.61,   0xFFFF0000,   0x10FF0000, 0.05, 0.25, 0, 0
+AddFixedSearchLight = -0.973, 1.13, -6.61,   0xFFFF0000,   0x10FF0000, 0.05, 0.25, 0, 0
+
+AddPartSteeringWheel =  1.3475, 2.9296, 6.6145, 0, 1.2, -1, 110
+
+;light 8x8 spaa (modern)
+;AddRecipe = "ABC", "DEG", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine2, D, mcheli:electronics, E, mcheli:lap, G, mcheli:cannon3
+
+;light 8x8 unarmed mil modern
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics

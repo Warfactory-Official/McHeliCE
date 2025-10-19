@@ -1,0 +1,134 @@
+﻿DisplayName = M142 HIMARS MLRS (M1140 Truck)
+AddDisplayName = en_US, M142 HIMARS MLRS (M1140 Truck)
+AddDisplayName = ru_RU, M142 HIMARS MLRS (M1140 Truck)
+ItemID = 30153
+MaxHp = 200
+Speed = 0.53
+Sound = dieselman
+ThrottleUpDown = 2.0
+MobilityYawOnGround = 5.0
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+
+Category = MLRS
+
+Regeneration = false
+ArmorMinDamage = 35
+ArmorDamageFactor = 2.32
+
+CameraZoom = 10
+EnableNightVision = true
+CameraRotationSpeed = 25
+MaxFuel = 1500
+FuelConsumption = 2.5
+StepHeight = 1.5
+HideEntity = false
+EnableBack = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+ThirdPersonDist = 15
+
+WeightType =  Car
+WeightedCenterZ = 0
+
+SetWheelPos =  1.54,  -0.47,  6.95,  1.25,-0.6 
+
+MotionFactor = 0.9
+
+AddSeat =  0.91,2.11,7.46
+AddGunnerSeat = -0.91,2.11,7.46, 0.00, 4.50, 7, false, -90, 90
+;fuck this shit
+
+;AddGunnerSeat =  0.00, 2.20,-0.59, 0.00, 3.40, -0.59, false, -25, 4
+
+;CameraPosition = -0.91,4.31,7.46
+
+CameraPosition = 0.00, 2.30, 0, false
+
+;TurretPosition = 0.00, 2.30, 0
+
+HUD = bnr32_hud,mbt_hud
+
+
+AddWeapon = none, 0.0, 3.00, 4.00, 0.0, 0.0
+AddWeapon = thorn2,    0.00, 0.00, 0.00,  0.0,0.0
+
+
+
+
+AddTurretWeapon = m28, -0.55, 3.27, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m28,  0.00, 3.27, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m28,  0.54, 3.27, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m28, -0.55, 2.72, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m28,  0.00, 2.72, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m28,  0.54, 2.72, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+
+;I will return with the husky shit
+
+AddTurretWeapon = m30, -0.55, 3.27, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m30,  0.00, 3.27, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m30,  0.54, 3.27, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m30, -0.55, 2.72, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m30,  0.00, 2.72, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+AddTurretWeapon = m30,  0.54, 2.72, -0.7,  0.0, 0.0,  false,2, 0,-60,60, -60, 0
+
+TurretPosition = 0, 2.30, 0
+
+
+
+AddPartWeapon = m28 / m30, false, true, false,  0.00, 2.30, 0
+AddPartWeaponChild = false, true, 0.00, 1.67, -2.5269
+
+;AddPartTurretWeapon 		= mfom227mm/mfom227mm2,    false, true,  false, 0.00,  1.0628, -2.20
+;AddPartWeaponChild 		= false, true, 0.00,  1.4128, -3.8959
+
+
+;AddTurretWeapon = gmw,    0.00, 2.95, -0.59, 0.0, 0.0, false, 5, 0, -360, 360, -25,  4
+;AddTurretWeapon = gmw_fl, 0.00, 2.95, -0.59, 0.0, 0.0, false, 5, 0, -360, 360, -25,  4
+;AddPartWeapon = gmw / gmw_fl, false, true, false,  0.00, 2.30, -0.59, 0
+;AddPartWeaponChild = false, true, 0.00, 2.74, 0.48
+
+
+
+;ok nvm it doesn't make sense anymore
+
+
+AddPartCanopy   = -1.78, 2.56, 8.61,  0, 1, 0, 60
+AddPartCanopy   =  1.78, 2.56, 8.61,  0, 1, 0,-60
+
+PivotTurnThrottle = 0.1
+PartWheelRot = 40
+
+AddPartThrottle =  0.81, 2.08, 6.15,  0,0,1,  -230
+
+AddPartWheel     =  1.58,  0.59,  6.93, 30
+AddPartWheel     =  1.58,  0.59,  1.23
+AddPartWheel     =  1.58,  0.59, -0.64
+AddPartWheel     = -1.58,  0.59,  6.93, 30
+AddPartWheel     = -1.58,  0.59,  1.23
+AddPartWheel     = -1.58,  0.59, -0.64
+
+AddPartSteeringWheel = 0.92, 2.58, 8.05,   0, 1, -2.1445,   130
+
+
+BoundingBox = 0.0, 1.1, 4.0, 2.2, 1.0
+BoundingBox = 0.0, 1.1, 1.0, 2.2, 1.0
+BoundingBox = 0.0, 1.1, -1.0, 2.2, 1.0
+BoundingBox = 0.0, 1.1, 3.0, 2.2, 1.0
+BoundingBox = 0.0, 1.1, 6.0, 2.2, 1.0
+
+BoundingBox = 0.0, 2.3, 7.0, 3.5, 3.0
+
+BoundingBox = 0.0, 2.5, 0.0, 3.0, 2.5
+
+
+unmountposition = 0.91, 1.50 ,7.46
+
+;med 6x6 rocket arty (modern)
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:rocket3, C, mcheli:engine2, D, mcheli:wheel6, E, mcheli:lap, F, mcheli:electronics, G, mcheli:fcs3
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:m142atacms, B, mcheli:fcs3, C, mcheli:wrench, D, mcheli:lap

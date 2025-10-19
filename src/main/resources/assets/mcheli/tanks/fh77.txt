@@ -1,0 +1,69 @@
+DisplayName = 155mm Haubits BW L/52 FH-77
+;155 mm haubits 77 BW L/52
+AddDisplayName = ru_RU, 155mm Haubits BW L/52 FH-77
+AddDisplayName = en_US, 155mm Haubits BW L/52 FH-77
+MaxHp = 100
+Speed = 0.037
+ThrottleUpDown = 0.81
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+Sound = none
+MinRotationPitch = -70
+MaxRotationPitch = 5
+WeightType = Unknown
+DefaultFreelook = true
+ThirdPersonDist = 10
+CameraRotationSpeed = 45
+CameraZoom = 3
+
+Category = H
+
+SetWheelPos =  0.80,  -0.40,  1.32, 0.05
+
+EnableBack = true
+
+SubmergedDamageHeight = 1
+;WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 3.5
+OnGroundRollFactor  = 3.5
+
+MobilityYawOnGround = 0.5
+PivotTurnThrottle = 0.0
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+TrackRollerRot = 2.5
+
+AddTrackRoller =   1.0449, 0.1342, 1.3227
+AddTrackRoller =   1.0449, 0.1341, 0.0593
+AddTrackRoller =  -1.0449, 0.1340, 1.3236
+AddTrackRoller =  -1.0449, 0.1341, 0.0593
+
+HUD = gunner
+
+AddGunnerSeat =  2.20, 0.00, -2.20, 0.00, 3.7472, -1.2630, false, -70, 5, false
+
+unmountposition = 2.20, 1.50, -2.20
+
+CameraPosition = 0.00, 3.7472, -1.2630
+;, true
+
+AddWeapon = fhm77, 0.00, 1.5774, -1.1638, 0.00, 0.00, true,1, 0, -27, 27, -70, 5
+AddWeapon = m549a1_fh77, 0.00, 1.5774, -1.1638, 0.00, 0.00, true,1, 0, -27, 27, -70, 5
+AddWeapon = m864_fh77, 0.00, 1.5774, -1.1638, 0.00, 0.00, true,1, 0, -27, 27, -70, 5
+
+AddPartWeapon = fhm77 / m549a1_fh77 / m864_fh77, false, true, false,  0.0041, 1.1448, -0.5882
+AddPartWeaponChild  =  false, true,  0.0041, 1.1448, -0.5882
+AddPartWeaponChild  =  false, true,  0.0041, 1.1448, -0.5882, 0.8
+
+;advanced arty turret (advanced)
+AddRecipe = "DDD", "DEF", "GGG", D, mcheli:electronics, E, mcheli:fcs2, F, mcheli:complexmechanicparts, G, mcheli:cannon3
+
+BoundingBox =  0.0, 1.4, -0.58,  1.4, 1.6
+
+BoundingBox = 0.0, 0.5, 0.5, 1.4, 0.6, 1.5
+
+BoundingBox = 0.0, 0.5, 1.8, 1.4, 0.6, 1.5

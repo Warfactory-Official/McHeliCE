@@ -1,0 +1,126 @@
+﻿DisplayName = J-15 Fly shark
+AddDisplayName = en_US, J-15 Fly shark
+AddDisplayName = zh_CN, 歼15 飞鲨
+ItemID = 6655
+MaxHp = 100
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.585
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1400
+FuelConsumption = 1.0
+ThrottleUpDown = 0.3
+
+Sound = sutwentyseven
+
+
+Category = M.F
+
+HUD = plane
+
+AddSeat = 0.00, 3.24, 0.00
+
+
+AddTexture = j15_1
+
+
+MobilityYaw = 10.0
+MobilityRoll = 2.0
+MobilityPitch = 4.5
+
+AddPartCanopy = 0.00, 4.5607, -1.4737, -1,0,0,  60
+
+
+AddPartWing =  4.7185,  2.3980,  -8.9643,  0, -0.03, -1, -100
+AddPartWing = -4.7185,  2.3980,  -8.9643,  0, -0.03,  1, -100
+AddPartWing =  4.2369,  1.5538, -15.9081,  0, -0.02, -1, -100
+AddPartWing = -4.2369,  1.5538, -15.9081,  0, -0.02,  1, -100
+
+
+SweepWingSpeed = 0.01
+
+
+
+AddPartSteeringWheel =   2.4833,  3.1177,  -16.1226,  0 , 1,  -0.2,   -30
+AddPartSteeringWheel =  -2.4833,  3.1177,  -16.1226,   0, 1,  -0.2,   -30
+
+
+
+AddPartLGRev =  -0.5977, 2.6482, -1.3574,   -0.05, 0.075, 1.00,  -89
+AddPartLG =  0.00,  2.8651, -2.5038,  -1,0,0,  100
+AddPartLG = -0.4516,  2.8197, -0.4283, 0,0,1,  130
+
+AddPartLGRev =  2.8688, 2.1494, -8.9094,   0, 0, 1.00,  95
+AddPartLG =  2.4466,  2.0670, -9.8678,  -850.00, -100.00,-250.00,  90
+
+AddPartLGRev = -2.8688, 2.1494, -8.9094,   0, 0, 1.00,  -95
+AddPartLG = -2.4466,  2.0670, -9.8678,  850.00, -100.00,-250.00,  -90
+AddPartLGRev = 0.00, 1.1680, -16.0494,   -1, 0, 0,   29
+
+
+
+AddPartWeaponMissile = j15yj-91,    false,  false,  false,   0.00, 0.8485, -7.53
+AddPartWeaponMissile = j15yj-91,    false,  false,  false,   0.00, 0.8485, -12.50
+AddPartWeaponMissile = j15KD-88,   false,  false,  false,   -3.2046, 1.2159, -8.4029
+AddPartWeaponMissile = j15KD-88,   false,  false,  false,    3.2046, 1.2159, -8.4029
+
+AddWeapon = j15gsh-30-1, -1.15,  2.11,  0.77,   2.0, -3.0
+AddWeapon = j15yj-91,  0.00, 0.8485, -7.53,   2.0, -3.0
+AddWeapon = j15yj-91,  0.00, 0.8485, -12.50,   2.0, -3.0
+AddWeapon = j15KD-88, -3.2046, 1.2159, -8.4029,   2.0, -3.0
+AddWeapon = j15KD-88,  3.2046, 1.2159, -8.4029,   2.0, -3.0
+AddWeapon = j15Kh-59ME,   -5.87, 1.39, -8.17,   2.0, -3.0
+AddWeapon = j15Kh-59ME,    5.87, 1.39, -8.17,   2.0, -3.0
+AddWeapon = j15Kh-59ME,    -7.35, 1.90, -8.64,   2.0, -3.0
+AddWeapon = j15Kh-59ME,    7.35, 1.90, -8.64,   2.0, -3.0
+AddWeapon = j15PL-12,   -8.55, 1.84, -10.31,   2.0, -3.0
+AddWeapon = j15PL-12,   8.55, 1.84, -10.31,   2.0, -3.0
+AddWeapon = j15PL-8, -9.39, 1.20, -12.44,   2.0, -3.0
+AddWeapon = j15PL-8, 9.39, 1.20, -12.44,   2.0, -3.0
+AddWeapon = targeting_pod_ph50s,   0.0, 3.1, 7.2,    0.0, 0.0
+AddWeapon = none,   0.0, 3.1, 7.2,    0.0, 0.0
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0
+
+
+AddPartWeaponBay = targeting_pod_ph50s/ none,   0.00, 3.5784, -6.8482,  1,0,0, -43
+AddPartWeaponBay = targeting_pod_ph50s/ none,   0.00, 3.9204, -3.927,  1,0,0, 40
+
+;modern light plane (late jet), AOW3 style (fcs)
+AddRecipe = "ABC", "DEF", "GG ", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:fcs3, G, mcheli:electronics 
+
+BoundingBox =  0.00, 2.8, 3.5,  1.5, 1.5,0.5
+BoundingBox =  0.00, 3.3,  -5.0,  3.5, 2.0,1
+BoundingBox =  0.00, 3.1,  2.20,  1.5, 1.5,1
+BoundingBox =  0.00, 2.3,  -9.0, 4.5, 2.0,1.5
+BoundingBox =  0.00, 2.3,  -13.5, 4.5, 2.0,1.2
+BoundingBox =  0.00, 2.3,  -16.5, 4.5, 2.0,1.0
+
+
+BoundingBox =  4.37, 2.0, -10.47,  4.0, 1,1.2
+BoundingBox = -4.37, 2.0, -10.47,  4.0, 1,1.2
+
+BoundingBox =  7.27, 2.0, -12.47,  4.0, 1,1.2
+BoundingBox = -7.27, 2.0, -12.47,  4.0, 1,1.2
+
+BoundingBox =  3.5, 1.87, -16.64,  3, 1,1.0
+BoundingBox = -3.5, 1.87, -16.64,  3, 1,1.0
+
+BoundingBox = -2.5, 4.57, -16.64, 1.0, 4.5
+BoundingBox = 2.5, 4.57, -16.64, 1.0, 4.5
+
+
+BoundingBox = -2.5, 4.27, -15.64, 1.0, 4.5
+BoundingBox = 2.5, 4.27, -15.64, 1.0, 4.5
+
+BoundingBox = -2.5, 3.87, -14.64, 1.0, 4.0
+BoundingBox = 2.5, 3.87, -14.64, 1.0, 4.0
+BoundingBox = -2.5, 3.07, -13.64, 1.0, 2.6
+BoundingBox = 2.5, 3.07, -13.64, 1.0, 2.6
+
+unmountposition = 0.00, 1.54, 0.00
+
+enableback = true
+DamageFactor = 0.8

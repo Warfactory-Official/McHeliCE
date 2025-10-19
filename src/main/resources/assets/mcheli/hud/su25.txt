@@ -1,0 +1,89 @@
+; パラメータ1  :テクスチャファイル名 (拡張子無し。assets\mcheli\textures\gui 内のファイル)
+; パラメータ2  : 画面の中央からのX座標
+; パラメータ3  : 画面の中央からのY座標
+; パラメータ4  : 画面上の幅
+; パラメータ5  : 画面上の高さ
+; パラメータ6  : 読み出すテクスチャのX座標
+; パラメータ7  : 読み出すテクスチャのY座標
+; パラメータ8  : 読み出すテクスチャの幅
+; パラメータ9  : 読み出すテクスチャの高さ
+; パラメータ10 : 画面上での回転角度(省略可)
+If=free_look ==0
+DrawTexture = syouzyunn1, -20 , -30, 40,40 ,0,0, 256,256,0
+DrawTexture = suihei, -15 , -35, 30,50 ,0,0, 256,256,roll
+DrawTexture = unk, -15 , -11, 30,14 ,0,0, 555,248,0
+DrawTexture =aroow, 0, -29, 2,3 ,0,0, 20,32,90
+Call = su25_pitch
+Call = su25_yaw
+Call=su25_alt
+Call=su25lock
+EndIf
+If=sight_type==1&&dsp_mt_dist==0 &&free_look ==0
+Call=su25count
+EndIf
+If=(sight_type==1&&dsp_mt_dist==1 &&free_look ==0)&&altitude<300
+Call=su25bomb
+DrawTexture = alti, -24, -25, 10,30 ,0,0, 43,171,0
+EndIf
+
+If=(sight_type==1&&dsp_mt_dist==1 &&free_look ==0)
+DrawTexture =fab, 20, 7, 3,5 ,0,0, 27,52,0
+EndIf
+
+If=(sight_type==1&&dsp_mt_dist==1 &&free_look ==0)&&altitude>=300
+Call=su25bd
+EndIf
+
+If=((2-(pitch/2.5))<=2)&&pitch<20&&(sight_type==1&&dsp_mt_dist==1 &&free_look ==0)&&altitude<300
+DrawTexture =aroow, -17, 2-(pitch/2.5), 2,3 ,0,0, 20,32,0
+EndIf
+If=pitch>=20&&(sight_type==1&&dsp_mt_dist==1 &&free_look ==0)&&altitude<300
+DrawTexture =aroow, -17, -3-(pitch/5), 2,3 ,0,0, 20,32,0
+EndIf
+If=(-3-(pitch/5))<-25&&(sight_type==1&&dsp_mt_dist==1 &&free_look ==0)&&altitude<300
+DrawTexture =aroow, -17, -25, 2,3 ,0,0, 20,32,0
+EndIf
+If=pitch<0&&(sight_type==1&&dsp_mt_dist==1 &&free_look ==0)&&altitude<300
+DrawTexture =aroow, -17, 2, 2,3 ,0,0, 20,32,0
+EndIf
+
+If=sight_type==0&&dsp_mt_dist==1 &&free_look ==0
+DrawTexture =s81, 20, 7, 5,5 ,0,0, 59,52,0
+DrawTexture = b, -5, -5, 10,10 , 0,0, 256,256
+EndIf
+If=sight_type==0&&dsp_mt_dist==0 &&free_look ==0
+DrawTexture =s8, 10, 7, 14,4 ,0,0, 158,52,0
+DrawTexture = b, -5, -5, 10,10 , 0,0, 256,256
+EndIf
+
+If=altitude<=15&&motion_y<=0&&pitch>45&&free_look ==0
+DrawTexture = cau, -27, -40, 60,70 ,0,0, 500,500,0
+EndIf
+
+If=sight_type==2 &&free_look ==0
+DrawTexture = 6, 12 , 7, 4,4 ,0,0, 256,256,0
+DrawTexture = 0, 15 , 7, 4,4 ,0,0, 256,256,0
+DrawTexture = m, 19 , 7, 4,4 ,0,0, 256,256,0
+EndIf
+
+If=sight_type!=2 &&free_look ==0
+DrawTexture =gnd, -25, 7, 15,4 ,0,0, 185,48,0
+EndIf
+If=reloading==0&&lock==0 &&free_look ==0
+DrawTexture =la, -2.5, 7, 6,4 ,0,0, 61,47,0
+EndIf
+
+If=free_look ==1
+Color=0xffffff
+DrawCenteredString =-333,-170,"THR"
+DrawCenteredString =-310,-170,"%.0f",THROTTLE 
+Color=0xffffff
+DrawCenteredString =-333,-160,"REA"
+DrawCenteredString =-311,-160,"%s",WPN_AMMO
+DrawCenteredString =-333,-150,"H P"
+DrawCenteredString =-310,-150,"%d",HP
+DrawTexture = hud, -340, -140, 32,32,  64, 64, 64,64
+DrawTexture = hud, -340, -140, 32,32,  64,128, 64,64, fuel*270-135
+DrawCenteredString =-333,-110,"WPN"
+DrawCenteredString =-313,-100,"%s", WPN_NAME 
+EndIf

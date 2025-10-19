@@ -1,0 +1,30 @@
+DisplayName = 9M119 Refleks [ATGM]
+Type = TVMissile
+FixMode = 1
+ModeNum = 2
+Power = 700
+Acceleration = 3.5
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 4
+Flaming = true
+Sight = MoveSight
+Delay = 120
+ReloadTime = 190
+Round = 5
+ModelBullet = 9M113
+Sound = cannon_3_snd
+Group = MainGun
+Recoil = 6.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 10
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

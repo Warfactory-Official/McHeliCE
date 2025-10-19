@@ -1,0 +1,125 @@
+DisplayName = 2S1 SAU-122 Gvozdika 
+MaxHp = 200
+Speed = 0.37
+Sound = twosone
+ThrottleUpDown = 1
+MobilityYawOnGround = 2.5
+MinRotationPitch = -70
+MaxRotationPitch = 3
+MobilityRoll = 0
+Gravity = -0.61
+DamageFactor = 0.8
+EnableNightVision = false
+CameraRotationSpeed = 6
+
+Category = SPH
+
+MaxFuel         = 1400
+FuelConsumption = 2.1
+StepHeight = 1.8
+
+DefaultFreelook = true
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 1.0
+;EnableGunnerMode = true
+SubmergedDamageHeight = 3
+EnableEntityRadar = false
+HideEntity = true
+
+GravityInWater = -0.2
+Float = true
+FloatOffset = 0.0
+
+
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+WeightedCenterZ = 0.0
+
+
+
+HUD = ww2tank_hudtwo
+
+;debug
+;HUD = mbt_hud
+
+AddGunnerSeat = 0.00, 1.0, -1.3733,   0.00, 3, -1.3733,  false, -90, 90, false
+
+;AddSeat = 0.0, 1.0, 0.0
+
+CameraPosition = 0.00, 3, -1.3733
+CameraZoom = 6
+
+
+
+
+MotionFactor = 0.9
+
+ArmorMinDamage = 15
+;ArmorMaxDamage = 300
+ArmorDamageFactor = 1.0
+
+EnableBack = true
+
+PivotTurnThrottle = 0.0
+
+AddCrawlerTrack = true, 0.15, -2.40,  -0.30/2.15, -0.004/3.11, 0.06/3.21, 0.16/3.28, 0.29/3.29,  0.40/3.26, 0.50/3.18, 0.55/3.07, 0.56/2.95, 0.35/1.34, 0.35/-1.88, 0.49/-3.40, 0.47/-3.51, 0.41/-3.60, 0.32/-3.66, 0.21/-3.68, 0.10/-3.66, 0.02/-3.60, -0.03/-3.51, -0.30/-2.68
+
+AddCrawlerTrack = true, 0.15, -2.40,  -0.30/2.15, -0.004/3.11, 0.06/3.21, 0.16/3.28, 0.29/3.29,  0.40/3.26, 0.50/3.18, 0.55/3.07, 0.56/2.95, 0.35/1.34, 0.35/-1.88, 0.49/-3.40, 0.47/-3.51, 0.41/-3.60, 0.32/-3.66, 0.21/-3.68, 0.10/-3.66, 0.02/-3.60, -0.03/-3.51, -0.30/-2.68
+
+TrackRollerRot = 40
+
+;SetWheelPos =  1.00,  
+
+SetWheelPos =  1.00,  -0.32, 2.15, 1.34, 0.54, -0.27, -1.07, -1.88, -2.68
+
+
+AddTrackRoller =  -1.5463,  0.2706,   3.0025
+AddTrackRoller =  -1.4358,  0.0275,   2.1516
+AddTrackRoller =  -1.4358,  0.0275,   1.3441
+AddTrackRoller =  -1.4358,  0.0275,   0.5420
+AddTrackRoller =  -1.4358,  0.0275,  -0.2700
+AddTrackRoller =  -1.4358,  0.0275,  -1.0778
+AddTrackRoller =  -1.4358,  0.0275,  -1.8888
+AddTrackRoller =  -1.4358,  0.0275,  -2.6871
+AddTrackRoller =  -1.4358,  0.2154,  -3.4066
+
+AddTrackRoller =   1.5463,  0.2706,   3.0025
+AddTrackRoller =   1.4358,  0.0275,   2.1516
+AddTrackRoller =   1.4358,  0.0275,   1.3441
+AddTrackRoller =   1.4358,  0.0275,   0.5420
+AddTrackRoller =   1.4358,  0.0275,  -0.2700
+AddTrackRoller =   1.4358,  0.0275,  -1.0778
+AddTrackRoller =   1.4358,  0.0275,  -1.8888
+AddTrackRoller =   1.4358,  0.0275,  -2.6871
+AddTrackRoller =   1.4358,  0.2154,  -3.4066
+
+AddPartWeapon = 2s2A31 / 2s2A31_1 / 2s2A31_2, false, true, false, 0.00, 1.6796, -1.3733, 0
+AddPartWeaponChild =                          false, true, 0.00, 1.6796, -0.6716, 0.0
+AddPartWeaponChild =                          false, true, 0.00, 1.6796, -0.6716, 0.5
+AddTurretWeapon = 2s2A31,   0.00, 1.6796, -1.63,  0.0, 0.0, true,1, 0,-360,360, -70, 3
+AddTurretWeapon = 2s2A31_1, 0.00, 1.6796, -1.63,  0.0, 0.0, true,1, 0,-360,360, -70, 3
+AddTurretWeapon = 2s2A31_2, 0.00, 1.6796, -1.63,  0.0, 0.0, true,1, 0,-360,360, -70, 3
+
+;AddTurretWeapon = m900stryker, 0.00, 2.99, 7.14,  0.0, 0.0, true,1, 0,-360,180, -15, 5
+
+;AddPartWeapon =m900stryker/m456a2stryker/canistershellstryker, false, true, false,  0.00, 0, 0, 0
+
+
+TurretPosition = 0.0, 1.0, -1.63
+
+BoundingBox = 0.0, 0.5, 2.5, 2.5, 1.0
+BoundingBox = 0.0, 0.7, 1.0, 2.5, 1.4
+BoundingBox = 0.0, 0.7, 0.0, 2.5, 1.4
+BoundingBox = 0.0, 0.7, -2.5, 2.5, 1.4
+
+BoundingBox = 0.00, 1.5, -1.3733, 1.5, 1.0
+
+unmountposition = 0.00, 1.5, -1.3733
+
+;light tracked cannon arty (modern)
+AddRecipe = "ABB", "DEF", "C  ", A, mcheli:lightchassis, B, mcheli:cannon3, C, mcheli:engine2, D, mcheli:tanktracks, E, mcheli:lap, F, mcheli:electronics
+
+EntityWidth  = 0.8
+EntityHeight = 0.8

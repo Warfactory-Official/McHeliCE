@@ -1,0 +1,41 @@
+﻿DisplayName = Twin Mounted Maxim Machine Gun
+AddDisplayName = en_US, Twin Mounted Maxim Machine Gun
+AddDisplayName = ja_JP, マキシム機関銃(二挺結合)
+ItemID = 30068
+MaxHp = 100
+Gravity = -9.81
+GravityInWater = -1.0
+HideEntity = false
+MinRotationPitch = -85
+MaxRotationPitch =  5
+DamageFactor = 1.0
+CameraZoom = 2
+CameraPosition = 0.0,  2.00, -1.10
+
+
+
+; W = WWII,  A = AAGun(対空砲)
+Category = W.A
+
+HUD = vehicle_wwii
+
+;AddSeat = 0.00,  0.23, -0.83
+
+AddGunnerSeat = 0.00,  1, -0.83, 0.0, 2.40, 0.0, false, -80, 25, true
+
+AddPart = true, true, false, 0,  0.00, 0.00, 0.00
+AddChildPart = true,false,true,  0,   0.00, 1.82, 0.00
+
+
+AddTurretWeapon = maxim_aa,  0.26, 1.82,  0,  0,0
+AddTurretWeapon = maxim_aa, -0.26, 1.82,  0,  0,0
+
+unmountposition = 0.00, 1.5, -0.0
+BoundingBox =  0.0, 1.0, 0.0,  0.1, 1.5, 0.8 
+BoundingBox =  0.0, 1.8, 0.0,  0.5, 0.35, 1.2
+;bounding boxes don't rotate with turret
+
+;duo, ww2
+AddRecipe = "AAB", " B ", "   ", A, mcheli:cannon1, B, mcheli:lap
+
+unmountposition = 0.00,  1.50, -0.83

@@ -1,0 +1,38 @@
+DisplayName = 9M113 Konkurs [9N131 HEAT - ATGM]
+Type =  TVMissile
+FixMode = 1
+ModeNum = 2
+Power = 600
+Acceleration = 2.1
+Explosion = 3
+ExplosionInWater = 2
+Flaming = false
+Sight =MissileSight
+Delay = 20
+ModelBullet = 9M113M
+Sound = aimnine
+
+SoundPitchRandom = 0.1
+ReloadTime = 1000
+
+
+Delay = 55
+ReloadTime = 1000
+Group = MainGun
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 9M113M
+SoundVolume = 15
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

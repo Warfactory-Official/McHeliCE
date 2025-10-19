@@ -1,0 +1,26 @@
+DisplayName = Steel Ingot
+AddDisplayName = ja_JP, item.ingot_steel test
+;;fix it yourself japan
+ItemID = 28979
+
+StackSize = 64
+
+
+
+
+;;AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+
+;;AddRecipe = "ACA", "EXG", "T T", T, hfr:testcrashskibiditoilet, A, hfr:item.part_plating_1, C, hfr:item.part_chassis_1, E, hfr:item.part_engine_1, X, hfr:item.components_electronics, G, hfr:item.part_cannon_3
+
+AddRecipe = "A  ", "   ", "   ", A, hfr:item.ingot_steel
+AddRecipe = "A  ", "   ", "   ", A, hbm:item.ingot_steel
+
+AddRecipe = "A  ", "B  ", "   ", A, iron_ingot, B, iron_block
+;;compat for retards, LEARN TO INSTALL A DEPENDENCY
+
+
+;;/give RagexPrince683 hfr:item.ingot_steel
+
+;hell no
+
+

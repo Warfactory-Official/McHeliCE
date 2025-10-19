@@ -1,0 +1,16 @@
+DisplayName = 12.7mm Breda SAFAT
+Type = MachineGun1
+Power = 31
+Acceleration = 4.5
+Flaming = false
+Sight = MoveSight
+Delay = 1
+Accuracy = 3.0
+HeatCount = 4
+MaxHeatCount = 60
+
+MaxAmmo = 200
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder
+

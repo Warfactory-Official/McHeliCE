@@ -1,0 +1,206 @@
+;DrawTexture =0, 23, -12, 5,5 ,0,0, 256,256 一の位
+;DrawTexture =0, 19, -12, 5,5 ,0,0, 256,256 十の位
+;DrawTexture =bou, 22, -8, 6,5 ,0,0, 256,256 カーソル
+;DrawTexture =bou, 19, -13, 2.5,7 ,0,0, 256,256 一の位
+;DrawTexture =bou, 16, -13, 2.5,7 ,0,0, 256,256 十の位
+;DrawTexture =bou, 22, -20-pitch, 6, 5 ,0,0, 256,256
+
+;If=pitch>-18&&pitch<18
+;DrawTexture =bou, 22, -8+pitch, 6, 5 ,0,0, 256,256
+;EndIf
+;DrawTexture =bou, 22, 6-pitch, 6, 5 ,0,0, 256,256
+
+;20
+;4
+color=pitch%5
+If=pitch<0
+color=(-pitch)%5
+EndIf
+
+If=pitch>=0
+DrawTexture =bou, 22, -8-(color*2.4), 6, 5 ,0,0, 256,256
+DrawTexture =bou, 22, 4-(color*2.4), 6, 5 ,0,0, 256,256
+EndIf
+If=pitch<0
+DrawTexture =bou, 22, -8+(color*2.4), 6, 5 ,0,0, 256,256
+DrawTexture =bou, 22, -20+(color*2.4), 6, 5 ,0,0, 256,256
+EndIf
+
+If=(pitch>=0&&pitch<=5)
+DrawTexture =bou, -15, -8.1-(color*2.4), 35,6 ,0,0, 256,256
+EndIf
+If=(pitch<0&&pitch>=-5)
+DrawTexture =bou, -15, -8.1+(color*2.4), 35,6 ,0,0, 256,256
+EndIf
+
+If=(pitch>=0&&pitch<=5)||(pitch>=5&&pitch<=10)||(pitch>=10&&pitch<=15)||(pitch>=15&&pitch<=20)||(pitch>=20&&pitch<=25)||(pitch>=25&&pitch<=30)||(pitch>=30&&pitch<=35)||(pitch>=35&&pitch<=40)||(pitch>=40&&pitch<=45)||(pitch>=45&&pitch<=50)||(pitch>=50&&pitch<=55)||(pitch>=55&&pitch<=60)||(pitch>=60&&pitch<=65)||(pitch>=65&&pitch<=70)||(pitch>=70&&pitch<=75)||(pitch>=75&&pitch<=80)||(pitch>=80&&pitch<=85)||(pitch>=85&&pitch<=90)
+DrawTexture =bou, 19, -(color*2.4), 2.5,7 ,0,0, 256,256
+EndIf
+If=(pitch>5&&pitch<10)||(pitch>=10&&pitch<=15)||(pitch>=15&&pitch<=20)||(pitch>=20&&pitch<=25)||(pitch>=25&&pitch<=30)||(pitch>=30&&pitch<=35)||(pitch>=35&&pitch<=40)||(pitch>=40&&pitch<=45)||(pitch>=45&&pitch<=50)||(pitch>=50&&pitch<=55)||(pitch>=55&&pitch<=60)||(pitch>=60&&pitch<=65)||(pitch>=65&&pitch<=70)||(pitch>=70&&pitch<=75)||(pitch>=75&&pitch<=80)||(pitch>=80&&pitch<=85)||(pitch>=85&&pitch<=90)||(pitch>=75&&pitch<=80)
+DrawTexture =bou, 19, -12-(color*2.4), 2.5,7 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=0&&pitch<=5)
+DrawTexture =0, 23, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<0&&pitch>=-5)
+DrawTexture =0, 23, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=0&&pitch<=5)||(pitch>10&&pitch<=15)||(pitch>=20&&pitch<=25)||(pitch>=30&&pitch<=35)||(pitch>=40&&pitch<=45)||(pitch>=50&&pitch<=55)||(pitch>=60&&pitch<=65)||(pitch>=70&&pitch<=75)||(pitch>=80&&pitch<=85)||(pitch>=90&&pitch<=95)
+DrawTexture =5, 23, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>5&&pitch<=10)||(pitch>=15&&pitch<=20)||(pitch>=25&&pitch<=30)||(pitch>=35&&pitch<=40)||(pitch>=45&&pitch<=50)||(pitch>=55&&pitch<=60)||(pitch>=65&&pitch<=70)||(pitch>=75&&pitch<=80)||(pitch>=85&&pitch<=90)||(pitch>=95&&pitch<=100)
+DrawTexture =5, 23, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+
+If=(pitch<0&&pitch>=-5)||(pitch<-10&&pitch>=-15)||(pitch<-20&&pitch>=-25)||(pitch<-30&&pitch>=-35)||(pitch<-40&&pitch>=-45)||(pitch<-50&&pitch>=-55)||(pitch<-60&&pitch>=-65)||(pitch<-70&&pitch>=-75)||(pitch<-80&&pitch>=-85)||(pitch<-95&&pitch>=-100)
+DrawTexture =5, 23, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-5&&pitch>=-10)||(pitch<-15&&pitch>=-20)||(pitch<-25&&pitch>=-30)||(pitch<-35&&pitch>=-40)||(pitch<-45&&pitch>=-50)||(pitch<-55&&pitch>=-60)||(pitch<-65&&pitch>=-70)||(pitch<-75&&pitch>=-80)||(pitch<-85&&pitch>=-90)
+DrawTexture =5, 23, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-5&&pitch>=-10)||(pitch<-15&&pitch>=-20)||(pitch<-25&&pitch>=-30)||(pitch<-35&&pitch>=-40)||(pitch<-45&&pitch>=-50)||(pitch<-55&&pitch>=-60)||(pitch<-65&&pitch>=-70)||(pitch<-75&&pitch>=-80)||(pitch<-85&&pitch>=-90)|(pitch<-95&&pitch>=-100)
+DrawTexture =0, 23, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-10&&pitch>=-15)||(pitch<-20&&pitch>=-25)||(pitch<-30&&pitch>=-35)||(pitch<-40&&pitch>=-45)||(pitch<-50&&pitch>=-55)||(pitch<-60&&pitch>=-65)||(pitch<-70&&pitch>=-75)||(pitch<-80&&pitch>=-85)||(pitch<-90&&pitch>=-95)
+DrawTexture =0, 23, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-5&&pitch>=-10)||(pitch<-10&&pitch>=-15)
+DrawTexture =1, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-10&&pitch>=-15)||(pitch<-15&&pitch>=-20)
+DrawTexture =1, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-15&&pitch>=-20)||(pitch<-20&&pitch>=-25)
+DrawTexture =2, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-20&&pitch>=-25)||(pitch<-25&&pitch>=-30)
+DrawTexture =2, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-25&&pitch>=-30)||(pitch<-30&&pitch>=-35)
+DrawTexture =3, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-30&&pitch>=-35)||(pitch<-35&&pitch>=-40)
+DrawTexture =3, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-35&&pitch>=-40)||(pitch<-40&&pitch>=-45)
+DrawTexture =4, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-40&&pitch>=-45)||(pitch<-45&&pitch>=-50)
+DrawTexture =4, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-45&&pitch>=-50)||(pitch<-50&&pitch>=-55)
+DrawTexture =5, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-50&&pitch>=-55)||(pitch<-55&&pitch>=-60)
+DrawTexture =5, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-55&&pitch>=-60)||(pitch<-60&&pitch>=-65)
+DrawTexture =6, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-60&&pitch>=-65)||(pitch<-65&&pitch>=-70)
+DrawTexture =6, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-65&&pitch>=-70)||(pitch<-70&&pitch>=-75)
+DrawTexture =7, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-70&&pitch>=-75)||(pitch<-75&&pitch>=-80)
+DrawTexture =7, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-75&&pitch>=-80)||(pitch<-80&&pitch>=-85)
+DrawTexture =8, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-80&&pitch>=-85)||(pitch<-85&&pitch>=-90)
+DrawTexture =8, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch<-85&&pitch>=-90)||(pitch<-90&&pitch>=-95)
+DrawTexture =9, 20, -23+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch<-90&&pitch>=-95)||(pitch<-95&&pitch>=-100)
+DrawTexture =9, 20, -12+(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+
+If=(pitch>=5&&pitch<=10)||(pitch>10&&pitch<=15)
+DrawTexture =1, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>10&&pitch<=15)||(pitch>=15&&pitch<=20)
+DrawTexture =1, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=15&&pitch<=20)||(pitch>=20&&pitch<=25)
+DrawTexture =2, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>=20&&pitch<=25)||(pitch>=25&&pitch<=30)
+DrawTexture =2, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=25&&pitch<=30)||(pitch>=30&&pitch<=35)
+DrawTexture =3, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>=30&&pitch<=35)||(pitch>=35&&pitch<=40)
+DrawTexture =3, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=35&&pitch<=40)||(pitch>=40&&pitch<=45)
+DrawTexture =4, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>=40&&pitch<=45)||(pitch>=45&&pitch<=50)
+DrawTexture =4, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=45&&pitch<=50)||(pitch>=50&&pitch<=55)
+DrawTexture =5, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>=50&&pitch<=55)||(pitch>=55&&pitch<=60)
+DrawTexture =5, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=55&&pitch<=60)||(pitch>=60&&pitch<=65)
+DrawTexture =6, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>=60&&pitch<=65)||(pitch>=65&&pitch<=70)
+DrawTexture =6, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=65&&pitch<=70)||(pitch>=70&&pitch<=75)
+DrawTexture =7, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>=70&&pitch<=75)||(pitch>=75&&pitch<=80)
+DrawTexture =7, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=75&&pitch<=80)||(pitch>=80&&pitch<=85)
+DrawTexture =8, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>=80&&pitch<=85)||(pitch>=85&&pitch<=90)
+DrawTexture =8, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=85&&pitch<=90)||(pitch>=90&&pitch<=95)
+DrawTexture =9, 20, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>=90&&pitch<=95)||(pitch>=95&&pitch<=100)
+DrawTexture =9, 20, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+If=(pitch>=5&&pitch<=10)||(pitch>=15&&pitch<=20)||(pitch>=25&&pitch<=30)||(pitch>=35&&pitch<=40)||(pitch>=45&&pitch<=50)||(pitch>=55&&pitch<=60)||(pitch>=65&&pitch<=70)||(pitch>=75&&pitch<=80)||(pitch>=85&&pitch<=90)
+DrawTexture =0, 23, -(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+If=(pitch>10&&pitch<=15)||(pitch>=20&&pitch<=25)||(pitch>=30&&pitch<=35)||(pitch>=40&&pitch<=45)||(pitch>=50&&pitch<=55)||(pitch>=60&&pitch<=65)||(pitch>=70&&pitch<=75)||(pitch>=80&&pitch<=85)||(pitch>=90&&pitch<=95)
+DrawTexture =0, 23, -12-(color*2.4), 5,5 ,0,0, 256,256 
+EndIf
+
+

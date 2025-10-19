@@ -1,0 +1,13 @@
+DisplayName = AN/APG-63(V)1 Radar
+Type = TargetingPod
+Delay = 2
+Sight = MoveSight
+SoundPitch = 1.0
+Sound = lockon
+SoundVolume = 5.0
+SoundPitchRandom = 0.0
+Length = 2000
+Radius = 140
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/helicopters/tanks/vehicles/players/monsters/others
+MarkTime = 180

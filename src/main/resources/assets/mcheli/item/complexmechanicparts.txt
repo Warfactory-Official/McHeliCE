@@ -1,0 +1,5 @@
+DisplayName = Complex Mechanic Parts
+AddDisplayName = ja_JP, Complex Mechanic Parts
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_mechanism_3
+AddRecipe = " A ", "AAA", " A ", A, mcheli:advancedmechanicparts

@@ -1,0 +1,11 @@
+DisplayName = Heavy Ship Hull
+AddDisplayName = ja_JP, Heavy Ship Hull
+
+StackSize = 64
+AddRecipe = "AAA", "   ", "   ", A, mcheli:hap
+;tardcrafting
+;200steelper*3hap=600steel
+;default hfr:
+;15lightship*5=75mediumship*5=375steel
+;yeah here's ur recipes bro enjoy grinding vanilla
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_hull_3

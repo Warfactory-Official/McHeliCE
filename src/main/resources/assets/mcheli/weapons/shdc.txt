@@ -1,0 +1,38 @@
+DisplayName = Mk 54 Depth Charge
+Type = Bomb
+Acceleration = 0.1
+Explosion = 4
+ExplosionInWater = 8
+Flaming = true
+Sight = None
+Sound = bomb_snd
+Delay = 5
+ReloadTime = 110
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+GravityInWater = -0.01
+
+ProximityFuseDist = 8
+ProximityDist = 8
+
+
+Acceleration = 0.5
+;Explosion = 50
+;Explosive mass	269.9 kg kg
+Power = 1080
+ExplosionBlock = 5
+;ExplosionInWater = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 2
+SuppliedNum = 2
+Item =  7, iron_ingot
+Item =  3, gunpowder

@@ -1,0 +1,30 @@
+DisplayName = 105mm M68 Cannon [M735 - APFSDS]
+Type = MachineGun2
+Power = 292
+ModelBullet = bullet105mm
+Acceleration = 5.0
+Flaming = false
+Sight = MoveSight
+ReloadTime = 140
+Delay = 140
+ModeNum = 1
+Piercing  = 5
+SoundPitch = 0.5
+SoundVolume = 20
+Sound = mbtshot
+Group = MainGun
+DamageFactor = tank, 10.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+Gravity = -0.001
+Round = 1
+DisplayMortarDistance = true
+
+
+
+MaxAmmo = 21
+SuppliedNum = 7
+Item =  2, iron_ingot
+Item =  2, gunpowder

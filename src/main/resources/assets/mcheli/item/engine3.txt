@@ -1,0 +1,5 @@
+DisplayName = Large Engine
+AddDisplayName = ja_JP, Large Engine
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_engine_3
+AddRecipe = "ABB", "ACC", "ADD", A, mcheli:hap, B, mcheli:grate, C, mcheli:complexmechanicparts, D, mcheli:largespring

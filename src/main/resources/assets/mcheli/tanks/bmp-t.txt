@@ -1,0 +1,160 @@
+DisplayName = BMPT Terminator
+AddDisplayName = en_US, BMPT Terminator
+AddDisplayName = ja_JP, BMP-T
+ItemID = 191919
+MaxHp = 200
+Speed = 0.37
+;Sound = bmpt
+
+Sound = tseventytwopass
+
+FlareType = 10
+
+Category = FSCV
+
+ThrottleUpDown = 2.0
+MinRotationPitch = -45
+MaxRotationPitch =  5
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = true
+DefaultFreelook = true
+CameraRotationSpeed = 22
+SubmergedDamageHeight = 2
+OnGroundPitchFactor = 3.0
+OnGroundRollFactor  = 3.0
+
+CameraZoom = 7
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+MobilityYawOnGround = 3.0
+
+HUD = mbt_hud, mbt_gnr, mbt_gnr, mbt_gnr
+
+
+;, 0.00, 3.75, 0, true, -90, 90, true
+
+AddGunnerSeat =  0.00,  1.25, 0.00
+
+CameraPosition = 0.00, 3.75, 0
+
+AddGunnerSeat = 0.0, 2.8, 0.0, -0.7, 3.45, -1.45, false, -90, 90, true
+
+AddGunnerSeat = -0.5, 0.5, 1.0, -1.29, 1.69, 2.32
+
+AddGunnerSeat = 0.5, 0.5, 1.0, 1.29, 1.69, 2.32
+
+
+MotionFactor = 0.9
+
+SetWheelPos =  1.5,  -0.24,  -2.16, -1.13, -0.10, 0.92, 1.86, 2.8
+
+AddCrawlerTrack = false, 0.30, 1.00,  -0.22/2.98, 0.33/3.85, 0.54/4.06, 0.81/4.06, 1.02/3.87, 1.02/3.59, 1.02/-2.92, 1.02/-3.19, 0.81/-3.39, 0.54/-3.39, 0.35/-3.21, -0.22/-2.34
+AddCrawlerTrack = false, 0.30, -1.00,  -0.22/2.98, 0.33/3.85, 0.54/4.06, 0.81/4.06, 1.02/3.87, 1.02/3.59, 1.02/-2.92, 1.02/-3.19, 0.81/-3.39, 0.54/-3.39, 0.35/-3.21, -0.22/-2.34
+
+AddTrackRoller = 1.30,   0.68,  -3.06
+AddTrackRoller = 1.30,   0.22,  -2.16
+AddTrackRoller = 1.30,   0.22,  -1.13
+AddTrackRoller = 1.30,   0.22,  -0.10
+AddTrackRoller = 1.30,   0.22,   0.92
+AddTrackRoller = 1.30,   0.22,   1.86
+AddTrackRoller = 1.30,   0.22,   2.80
+AddTrackRoller = 1.30,   0.68,   3.72
+
+AddTrackRoller = -1.30,   0.68,  -3.06
+AddTrackRoller = -1.30,   0.22,  -2.16
+AddTrackRoller = -1.30,   0.22,  -1.13
+AddTrackRoller = -1.30,   0.22,  -0.10
+AddTrackRoller = -1.30,   0.22,   0.92
+AddTrackRoller = -1.30,   0.22,   1.86
+AddTrackRoller = -1.30,   0.22,   2.80
+AddTrackRoller = -1.30,   0.68,   3.72
+
+AddTurretWeapon = bmpt2A42_30mmAPDS,  0.13, 2.63, 0.0,  0.0, 0.0, true,1, 0,-360,360,  -45, 5
+AddTurretWeapon = bmpt2A42_30mmAPDS,  -0.13, 2.63, 0.0,  0.0, 0.0, true,1, 0,-360,360, -45, 5
+AddTurretWeapon = bmpt2A42_30mmHEI,  0.13, 2.63, 0.0,  0.0, 0.0, true,1, 0,-360,360,   -45, 5
+AddTurretWeapon = bmpt2A42_30mmHEI,  -0.13, 2.63, 0.0,  0.0, 0.0, true,1, 0,-360,360,  -45, 5
+AddTurretWeapon = bmptPKT_7.62mm,  0.00, 2.82, 0.0,  0.0, 0.0, true,1, 0,-360,360,     -45, 5
+AddTurretWeapon = bmpt9M120_HEAT,  1.15, 2.80,  0.70,  0.0, 0.0, true,1, 0,-360,360,  -25,  5
+AddTurretWeapon = bmpt9M120_HEAT,  1.15, 2.50,  0.70,  0.0, 0.0, true,1, 0,-360,360,  -25,  5
+
+AddTurretWeapon = bmpt9M120_HIT,  -1.15, 2.80, -0.70,  0.0, 0.0, true,1, 0,-360,360,  -25,  5
+AddTurretWeapon = bmpt9M120_HIT,  -1.15, 2.50, -0.70,  0.0, 0.0, true,1, 0,-360,360,  -25,  5
+
+;AddTurretWeapon = bmpt9M120_HEAT,  -1.15, 2.80, -0.70,  0.0, 0.0, true,1, 0,-360,360, -25,  5
+;AddTurretWeapon = bmpt9M120_HEAT,  -1.15, 2.50, -0.70,  0.0, 0.0, true,1, 0,-360,360, -25,  5
+
+
+;AddTurretWeapon = bmpt9M120_HIT,  1.15, 2.80,  0.70,  0.0, 0.0, true,1, 0,-360,360,   -25,  5
+;AddTurretWeapon = bmpt9M120_HIT,  1.15, 2.50,  0.70,  0.0, 0.0, true,1, 0,-360,360,   -25,  5
+
+AddPartWeapon = bmpt2A42_30mmAPDS/bmpt2A42_30mmHEI, false, true, false,  0.00, 2.63, 0.0, 0
+AddPartWeaponChild = false, true, 0.00, 2.63, 0.0
+
+AddPartWeaponChild = false, true, 0.00, 2.63, 0.0, 0.5
+AddPartWeaponChild = false, true, 0.00, 2.63, 0.0, 0.3
+
+
+AddWeapon = targeting_pod_block,  -0.7, 3.45, -1.45,  0.0, 0.0, false,2, 0,-360,360,  -90, 90
+AddWeapon = targeting_pod_ground,  -0.7, 3.45, -1.45,  0.0, 0.0, false,2, 0,-360,360,  -90, 90
+
+
+AddPartWeapon = bmptags-171, false, true, false,  -1.6298, 1.7566, 2.1511, 0
+AddWeapon = bmptags-171,  -1.6298, 1.7566, 2.1511,  0.0, 0.0, false,3, 0,-5,5,  -5, 5
+
+AddPartWeapon = bmptags-172, false, true, false,  1.6298, 1.7566, 2.1511, 0
+AddWeapon = bmptags-172,  1.6298, 1.7566, 2.1511,  0.0, 0.0, false,4, 0,-5,5,  -5, 5
+
+
+TurretPosition = 0.00, 2.63, 0.0
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 20
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 1000
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+;BoundingBox =  0.0, 2.64, 0.0,  3.10, 1.83
+;BoundingBox =  0.0, 0.79, -1.75, 4.30, 1.59
+;BoundingBox =  0.0, 0.79, 2.26, 4.30, 1.59
+
+
+
+;side armor 80mm
+BoundingBox = 0.0, 1.1, 0.0, 3.1, 1.4, 0.25
+;top armor 20mm
+BoundingBox = 0.0, 1.145, 0.0, 3.0, 1.4, 1.0
+;front armor 840mm
+BoundingBox = 0.0, 1.0, 0.5, 3.0, 1.3, 0.02
+BoundingBox = 0.0, 0.99, 1.2, 3.0, 1.2, 0.02
+BoundingBox = 0.0, 0.90, 1.5, 3.0, 1.1, 0.02
+BoundingBox = 0.0, 0.89, 2.2, 3.0, 0.6, 0.02
+BoundingBox = 0.0, 0.63, 2.2, 3.0, 0.6, 0.02
+
+
+;engine side 70mm
+BoundingBox = 0.0, 1.1, -2.0, 3.1, 1.4, 0.28
+;engine back 40mm
+BoundingBox = 0.0, 1.1, -2.1, 3.0, 1.4, 0.5
+
+StepHeight = 1.8
+
+
+UnmountPosition = 0.00,  1.50, 0.00
+
+;medium MEME (missiles and extra unnecessary bullshit) 'mbt' (IFV thing) tracked tank 3 mod1 (modern)
+AddRecipe = "ABC", "DGF", "ER ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite2, E, mcheli:advancedmechanicparts, R, mcheli:fcs2

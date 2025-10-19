@@ -1,0 +1,34 @@
+DisplayName = HJ-10
+Type = ATMissile
+Power = 1200
+Acceleration = 4.0
+Explosion = 4
+ExplosionInWater = 2
+Flaming = true
+Sight = MissileSight 
+Delay = 35
+LockTime = 15
+ModeNum = 35
+ProximityFuseDist = 1
+ModelBullet = HJ10
+SoundVolume = 10
+Sound = missile_1_snd
+RidableOnly = true
+FixMode = 2
+DamageFactor = tank, 2.0
+DamageFactor = plane, 1.0
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+Delay = 5
+ReloadTime = 180
+;Group = MainGun
+;Acceleration = 7.0
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  5, iron_ingot
+Item =  6, gunpowder
+Item =  3, redstone

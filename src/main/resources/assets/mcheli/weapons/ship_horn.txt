@@ -1,0 +1,12 @@
+DisplayName = Ship Horn
+Type = MachineGun1
+Power = 0
+Accuracy = 0
+Flaming = true
+Sight = None
+Delay = 50
+ModelBullet = horn_mdl
+Particle = none
+Sound = ship_horn_snd
+SoundVolume = 150.0
+SoundPitchRandom = 0

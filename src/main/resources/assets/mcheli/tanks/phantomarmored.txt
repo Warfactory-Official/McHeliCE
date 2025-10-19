@@ -1,0 +1,123 @@
+﻿DisplayName = phantom
+AddDisplayName = en_US, Rolls-Royce Phantom Armored
+AddDisplayName = ja_JP, ロールスロイス ファントム
+ItemID = 30111
+MaxHp = 200
+ThrottleUpDown = 0.89
+;armored so 4.6s
+Speed = 1.55
+MobilityYawOnGround = 9.0
+StepHeight = 1.2
+Sound = phantom
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.0
+EnableNightVision = true
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+FlareType = 10
+
+EntityWidth  = 0.85
+EntityHeight = 0.85
+
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+AddTexture = phantom_warmored
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = C
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  0.785,  -0.11,  2.30505, -2.19681
+
+HUD = bnr32_hud, mbt_gnr, none, none, none
+
+AddSeat = -0.6105, 0.1626, -0.007953
+AddSeat =  0.555, 0.2247, -0.00723
+AddSeat = -0.555, 0.2247, -1.03
+AddSeat = 0.555, 0.2247, -1.03
+AddSeat = 0.0, 0.2247, -1.03
+
+
+AddPartCanopy   =  0.000, 0.000, 0.000,  0,0,0, 0
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon = L_Claxon,    0.00, 0.00, 0.00,  0.0,0.0
+
+
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     =  1.2574,  0.1206, 2.3298, 30
+AddPartWheel     = -1.2574,  0.1206, 2.3298, 30
+AddPartWheel     =  1.2574,  0.1206, -2.1720
+AddPartWheel     = -1.2574,  0.1206, -2.1720
+
+
+AddFixedSearchLight =   0.7315, 0.7015, 3.0955,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -0.7315, 0.7015, 3.0955,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+AddFixedSearchLight =  0.8426, 0.6747,-3.6925,   0xFFFF0000,   0x10FF0000,    -0.00, -0.25,  0.0,  0
+AddFixedSearchLight =  -0.8426, 0.6747,-3.6925,   0xFFFF0000,   0x10FF0000,    -0.00, -0.25,  0.0,  0
+
+AddFixedSearchLight =  0.8426, 0.5747,-3.6925,   0xFFFF0000,   0x10FF0000,    -0.00, -0.25,  0.0,  0
+AddFixedSearchLight =  -0.8426, 0.5747,-3.6925,   0xFFFF0000,   0x10FF0000,    -0.00, -0.25,  0.0,  0
+
+AddFixedSearchLight =  0.8426, 0.7147,-3.6825,   0xFFFF0000,   0x10FF0000,    -0.00, -0.25,  0.0,  0
+AddFixedSearchLight =  -0.8426, 0.7147,-3.6825,   0xFFFF0000,   0x10FF0000,    -0.00, -0.25,  0.0,  0
+
+
+
+
+
+;-0.607
+
+;-0.0607
+
+;-0.1348
+
+;faster civ car really expensiv
+AddRecipe = "ABC", "DEE", "FFF", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine3, D, mcheli:advancedmechanicparts, E, gold_block, F, mcheli:lap
+
+AddRecipe = "ABB", "B  ", "   ", A, mcheli:phantom, B, mcheli:lap
+
+AddPartSteeringWheel =  -0.61061,  0.7674,  0.40854,  0.0, 1.0, -5.1476,   130
+
+InventorySize = 9
+
+;armor
+BoundingBox = 0.0, 0.55, -0.5, 2.2, 1.95
+
+;engine?
+BoundingBox =  0.0, 0.50,  1.8,   1.8, 0.6
+;mid
+BoundingBox = 0.0, 0.0, -0.0, 2.32, 0.2
+;front
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;BoundingBox = 0.0, 0.20, 9.4, 2.85, 0.2
+BoundingBox = 0.0, 0.0, 1.8, 2.32, 0.2
+;rear
+BoundingBox = 0.0, 0.0, -2.20, 2.32, 0.2
+;ArmorDamageFactor = 2.32
+
+Regeneration = false
+ArmorMinDamage = 35
+ArmorDamageFactor = 2.32
+
+UnmountPosition = -0.6105, 1.5, -0.007953
+
+WeightedCenterZ = 1.0

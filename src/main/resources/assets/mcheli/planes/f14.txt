@@ -1,0 +1,125 @@
+﻿DisplayName = F-14D Tomcat
+AddDisplayName = en_US, F-14D Tomcat
+AddDisplayName = ja_JP, F-14D トムキャット
+ItemID = 30000
+MaxHp = 100
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+Speed = 1.544
+Sound = tomcat
+CameraPosition = -2.97, 1.0, -4.95
+ConcurrentGunnerMode = true
+AutoPilotRot = 0
+ThrottleUpDown = 0.3
+FlareType = 4
+VariableSweepWing = true
+SweepWingSpeed = 1.6
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+
+
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+HUD = planenvg, plane_gnrnvg
+
+AddSeat = 0.00, 1.60, 0.49
+AddGunnerSeat = 0.00, 1.65, -1.24
+
+AddTexture = vf31_high
+AddTexture = vf84_low
+AddTexture = vf84_high
+
+AddPartCanopy = 0, 2.89, -2.40, -1,0,0,  25
+
+
+AddPartLG =  0.00, 1.40,  0.00,  1,0,0, 100
+AddPartLG = -2.18, 1.90, -6.65, -1,0,0, 110,  0,0,1, 28
+AddPartLG =  2.18, 1.90, -6.65, -1,0,0, 110,  0,0,-1, 28
+AddPartLG =  0.00, 1.12, -11.31, -1,0,0,-40
+
+;modern light plane (late jet), AOW3 style (fcs)
+AddRecipe = "ABC", "DEF", "GGG", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:fcs2, G, mcheli:electronics
+
+;oh
+AddRecipe = "ABC", "   ", "   ", A, mcheli:f14d, B, mcheli:electronics, C, mcheli:fcs2
+
+
+AddPartWing =  -3.17, 2.31, -5.69,  0,-1,0, 50
+AddPartWing =   3.17, 2.31, -5.69,  0, 1,0, 50
+
+AddPartWeaponMissile = aim9f14,    false,  false,  false,  -3.24, 1.54, -3.92
+AddPartWeaponMissile = aim9f14,    false,  false,  false,   3.24, 1.54, -3.92
+AddPartWeaponMissile = aim54,   false,  false,  false,  -0.55, 0.91, -6.50
+AddPartWeaponMissile = aim54,   false,  false,  false,   0.55, 0.91, -6.50
+AddPartWeaponMissile = gbu12,   false,  false,  false,  -0.59, 0.97, -1.65
+AddPartWeaponMissile = gbu12,   false,  false,  false,   0.59, 0.97, -1.65
+
+AddWeapon = m61f14,  0.63, 1.33,  2.01, 0.0, 0.0
+AddWeapon = aim9f14,    -3.24, 1.54, -3.92, 0.0, 0.0
+AddWeapon = aim9f14,     3.24, 1.54, -3.92, 0.0, 0.0
+AddWeapon = aim54,   -0.55, 0.91, -6.50, 0.0, 0.0, true, 2
+AddWeapon = aim54,    0.55, 0.91, -6.50, 0.0, 0.0, true, 2
+AddWeapon = gbu12,   -0.59, 0.97, -1.65, 0.0, 0.0, true, 2
+AddWeapon = gbu12,    0.59, 0.97, -1.65, 0.0, 0.0, true, 2
+
+AddWeapon = targeting_pod_block, 0.0, 0.9, 0.0,  0.0, 0.0, true, 2
+
+
+AddWeapon = targeting_pod_ph50s,   0.0, 2.7, 0.1,    0.0, 0.0, true,  2
+
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0
+
+BoundingBox =  0.00, 1.80, -3.50,  3.0, 1.8
+BoundingBox =  0.00, 1.50, -5.50,  3.0, 2.0
+BoundingBox =  0.00, 1.40, -8.50,  3.0, 2.2
+BoundingBox =  0.00, 1.50,-11.50,  3.0, 2.0
+BoundingBox = -2.92, 2.00, -7.00,  3.0, 1.0
+BoundingBox =  2.92, 2.00, -7.00,  3.0, 1.0
+
+BoundingBox = -2.72, 1.60, -12.30,  2.3, 0.7
+BoundingBox =  2.72, 1.60, -12.30,  2.3, 0.7
+
+BoundingBox =  1.51, 3.08, -12.80,  1.0, 3.0
+BoundingBox =  -1.51, 3.08, -12.80,  1.0, 3.0
+
+BoundingBox =  -1.51, 2.58, -11.80,  1.0, 2.5
+BoundingBox =  1.51, 2.58, -11.80,  1.0, 2.5
+
+BoundingBox =  -1.51, 2.0, -10.80,  1.0, 2.3
+BoundingBox =  1.51, 2.0, -10.80,  1.0, 2.3
+
+
+BoundingBox = -1.72, 1.60, -10.30,  2.0, 0.7
+BoundingBox =  1.72, 1.60, -10.30,  2.0, 0.7
+
+
+
+BoundingBox = -1.02, 2.10, -2.50,  2.0, 0.4
+BoundingBox =  1.02, 2.10, -2.50,  2.0, 0.4
+
+
+
+BoundingBox = -1.72, 2.10, -4.5,  2.0, 0.5
+BoundingBox =  1.72, 2.10, -4.5,  2.0, 0.5
+
+
+BoundingBox = -5.52, 2.00, -7.30,  2.5, 0.7
+BoundingBox =  5.52, 2.00, -7.30,  2.5, 0.7
+
+BoundingBox = -7.72, 2.00, -7.70,  2.0, 0.5
+BoundingBox =  7.72, 2.00, -7.70,  2.0, 0.5
+
+unmountposition = 0.00, 1.80, 0.49
+
+DamageFactor = 0.8
+
+
+enableback = true
+DamageFactor = 0.8

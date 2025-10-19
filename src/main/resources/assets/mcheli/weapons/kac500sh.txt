@@ -1,0 +1,30 @@
+DisplayName = KAB-1500?
+Type = rocket
+Power = 30000
+Acceleration = 1.6
+Explosion = 100
+Flaming = true
+FAE = true
+Sight = None
+Delay = 100
+Bomblet = 4
+BombletSTime = 100
+BombletDiff = 0.8
+DamageFactor = tank, 1000.0
+DamageFactor = plane, 400.5
+DamageFactor = vehicle 400.5
+DamageFactor = heli, 40.5
+DamageFactor = living, 2000.0
+Gravity = -0.005
+ExplosionAltitude = 8
+Sound = bomb_snd
+DisableSmoke = true
+
+ModelBullet = KAB-1500KR
+ModelBomblet = ball
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  15, iron_ingot
+Item =  10, gunpowder
+Item =  5, redstone

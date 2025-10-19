@@ -1,0 +1,32 @@
+DisplayName = 1000lb AN-M65 GP Bomb
+Type = Bomb
+Power = 1000
+ModelBullet = bomb
+Acceleration = 0.5
+Flaming = false
+Sight = None
+Round = 8
+Delay = 5
+ReloadTime = 1900
+Sound = bomb_snd
+
+Gravity = -0.2
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 15
+;Explosive mass	269.9 kg kg
+Power = 1080
+ExplosionBlock = 5
+ExplosionInWater = 7
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 8
+SuppliedNum = 1
+
+Item = 8, iron_ingot
+Item = 8, gunpowder

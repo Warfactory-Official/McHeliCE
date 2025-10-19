@@ -1,0 +1,169 @@
+﻿DisplayName = Su-57 
+AddDisplayName = en_US, Su-57 
+AddDisplayName = zh_CN, 老毛子的苏-57 
+ItemID = 7788
+MaxHp = 100
+ThrottleUpDown = 0.3
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.324
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1400
+FuelConsumption = 1.0
+Stealth = 0.43
+CameraPosition = 0.0, 1.25, 0.00
+EnableGunnerMode = true
+AutoPilotRot = 0
+
+sound = pakfa
+
+AddTexture = su57_1
+AddTexture = su57_2
+AddTexture = su57_3
+AddTexture = su57_4
+AddTexture = su57_5
+AddTexture = su57_AC
+;AddTexture = su57_proto
+AddTexture = su57_tgm
+
+
+Category = M.F
+
+
+
+MobilityRoll = 2.5
+MobilityPitch = 9.5
+
+
+
+HUD = plane
+
+AddSeat = 0,  2.8106,  0
+
+
+AddPartSlideCanopy = 0, 0.3511, -1.0
+
+
+AddPartLG    =  0.00,  2.318,  -2.7320,    -1, 0, 0,  85
+AddPartLG    =  0.00,  1.6444,  -4.5491,    -1, 0, 0,  23
+AddPartLGRev =  -0.502,  1.6636,  -1.3335,    0, 0,  1,  -100
+AddPartLGRev =   0.502,  1.6636,  -1.3335,    0, 0, -1,  -100
+
+
+
+
+
+
+
+
+AddPartSteeringWheel =  -6.9424,  2.587,  -16.06,   1, 0, 0,   -30
+AddPartSteeringWheel =   6.9424,  2.587,  -16.06,  -1, 0, 0,   -30
+
+
+AddPartSteeringWheel =  -3.5109,  2.2029,  -18.1431,  0, 1, 0,   20
+AddPartSteeringWheel =   3.5109,  2.2029,  -18.1431,  0, 1, 0,   20
+
+AddPartThrottle =  -3.4796, 2.6939, -18.925,  1,0,0, -15
+AddPartThrottle =   3.4796, 2.6939, -18.925,  1,0,0, -15
+
+
+AddPartWeaponBay = su57t500,  -0.8083,  1.6108, -12.4423,    0, 0, -1,  100
+
+AddPartWeaponBay = su57t500,   0.8083,  1.6108, -12.4423,    0, 0,  1,  100
+
+
+
+AddPartWeaponBay = su57t501/ su57t502/ su57t503,  -0.8083,  1.6108, -12.4423,    0, 0, -1,  100
+
+AddPartWeaponBay = su57t501/ su57t502/ su57t503,   0.8083,  1.6108, -12.4423,    0, 0,  1,  100
+
+
+
+
+;R-77-1
+AddPartWeaponMissile = su57t500,   false, false, false,   0.4784, 2.135, -7
+AddPartWeaponMissile = su57t500,   false, false, false,   0.4784, 2.135, -7
+AddPartWeaponMissile = su57t500,   false, false, false,  -0.4784, 2.135, -7
+
+;R-73
+AddPartWeaponMissile = su57t501,     false, false, false,   0, 2.335 , -17.47
+
+;kh-38mae
+AddPartWeaponMissile = su57t502,     false, false, false,   0.4784, 2.135, -17.47
+AddPartWeaponMissile = su57t502,     false, false, false,  -0.4784, 2.135, -17.47
+
+;kab-250 guided bomb
+AddPartWeaponMissile = su57t503,   false, false, false,  0.2821, 1.96, -14
+AddPartWeaponMissile = su57t503,   false, false, false,  -0.2821, 1.96, -14
+
+
+;150rnds
+AddWeapon = su57gsh-30-1,    -1.74, 2.45, -5.56,   0.0, 0.0
+AddWeapon = su57t501,        0, 2.56, -17.47,   0.0, 0.0
+AddWeapon = su57t502,      0.4858, 2.56, -17.47,   0.0, 0.0
+AddWeapon = su57t502,     -0.4858, 2.56, -17.47,   0.0, 0.0
+AddWeapon = su57t500,      0, 2.035, -7,   0.0, 0.0
+AddWeapon = su57t500,      0.4784, 2.035, -7,   0.0, 0.0
+AddWeapon = su57t500,     -0.4784, 2.035, -7,   0.0, 0.0
+AddWeapon = su57t503,     0.2821, 1.96, -14,   0.0, 0.0
+AddWeapon = su57t503,    -0.2821, 1.96, -14,   0.0, 0.0
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0
+
+
+
+
+
+
+AddPartLGRev =  -3.5405,  2.0034,  -10.3998,    0, 0, -1,  110
+AddPartLGRev =   3.5405,  2.0034,  -10.3998,    0, 0,  1,  110
+
+
+AddPartLG    =  -2.3779,  2.4304,  -11.3689,    -4.3, 2.9, 0.8,  100
+
+AddPartLG    =   2.3779,  2.4304,  -11.3689,    -4.3, -2.9, -0.8,  100
+
+BoundingBox =  0.0, 2.8, -2.3,  3.0, 2.5
+BoundingBox =  0.0, 2.8, -4.8,  3.0, 2.5
+BoundingBox =  0.0, 2.6, -7.8,  3.2, 2.5
+
+BoundingBox =  0.0, 2.6, -11.0,  3.2, 2.5
+
+BoundingBox = 2.69, 2.71, -10.73, 4.5, 1.0
+BoundingBox = -2.69, 2.71, -10.73, 4.5, 1.0
+
+BoundingBox = 6.69, 2.71, -14.73, 5.5, 1.0
+BoundingBox = -6.69, 2.71, -14.73, 5.5, 1.0
+
+BoundingBox = -0.0, 2.71, -14.73, 9.0, 1.5
+
+BoundingBox = 0.00, 2.71, -17.90, 6.0, 1.5
+
+BoundingBox = 4.76, 2.47, -20, 3.0, 0.8
+BoundingBox = -4.76, 2.47, -20, 3.0, 0.8
+
+BoundingBox = 3.72, 4.66, -17.62, 1.0, 2.5
+BoundingBox = -3.72, 4.66, -17.62, 1.0, 2.5
+
+BoundingBox = 3.72, 4.66, -18.62, 1.0, 2.5
+BoundingBox = -3.72, 4.66, -18.62, 1.0, 2.5
+
+
+BoundingBox = 0.89, 2.71, -6.73, 4.5, 1.0
+BoundingBox = -0.89, 2.71, -6.73, 4.5, 1.0
+
+
+;modern medium light plane (jet), AOW3 style
+AddRecipe = "ABC", "DEH", "GHG", A, mcheli:airframe3, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, G, mcheli:electronics, H, mcheli:fcs3
+
+
+
+
+
+
+unmountposition = 0,  2.1,  0
+
+enableback = true
+DamageFactor = 0.8

@@ -1,0 +1,26 @@
+If=lock==0||(lock>=0.05&&lock<=0.1)||(lock>=0.15&&lock<=0.2)||(lock>=0.25&&lock<=0.3)||(lock>=0.35&&lock<=0.4)||(lock>=0.45&&lock<=0.5)
+DrawTexture = kasoru, -7.5+motion_z*3, -15, 15,15 , 0,0, 256,256
+EndIf
+If=lock>0&&lock<0.05
+DrawTexture = lockon, -7.5+motion_z*3, -15, 15,15 , 0,0, 256,256
+EndIf
+
+If=lock>0.1&&lock<0.15
+DrawTexture = lockon, -7.5+motion_z*3, -15, 15,15 , 0,0, 256,256
+EndIf
+
+If=lock>0.2&&lock<0.25
+DrawTexture = lockon, -7.5+motion_z*3, -15, 15,15 , 0,0, 256,256
+EndIf
+
+If=lock>0.3&&lock<0.35
+DrawTexture = lockon, -7.5+motion_z*3, -15, 15,15 , 0,0, 256,256
+EndIf
+
+If=lock>0.4&&lock<0.45
+DrawTexture = lockon, -7.5+motion_z*3, -15, 15,15 , 0,0, 256,256
+EndIf
+
+If=lock>0.55
+DrawTexture = lockon, -7.5+motion_z*3, -15, 15,15 , 0,0, 256,256
+EndIf

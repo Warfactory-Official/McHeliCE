@@ -1,0 +1,24 @@
+DisplayName = RGM-109 Tomahawk Missile [RGM-109 - HE]
+Type = ASMissile
+Power = 2000
+Acceleration = 0.7
+Explosion = 18
+ExplosionBlock = 6
+ExplosionInWater = 9
+Flaming = false
+Sight = MoveSight
+Delay = 150
+ModelBullet = rgm109
+Sound = missile_2_snd
+
+DisableSmoke = true
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+MaxAmmo = 16
+SuppliedNum = 8
+Item =  6, iron_ingot
+Item =  6, gunpowder
+Item =  6, redstone

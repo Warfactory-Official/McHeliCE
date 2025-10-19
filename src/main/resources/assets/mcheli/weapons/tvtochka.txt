@@ -1,0 +1,65 @@
+DisplayName = 9M123K Tochka Anti-Personnel [Scarab A]
+Type = Rocket
+Power = 110
+Acceleration = 7
+Explosion = 18
+ExplosionBlock = 5
+
+HeatCount = 41000
+MaxHeatCount = 80000
+
+ExplosionInWater = 9
+
+Flaming = false
+Sight = MoveSight
+Delay = 5000
+Round = 1
+ReloadTime = 5000
+SoundVolume = 15
+SoundPitch = 1.0
+Sound = missile_12_snd
+;ModeNum = 2
+ModelBullet = ballistic
+Gravity = -0.00041
+
+
+TrajectoryParticle = largeexplode
+
+Group = Maingun
+
+Bomblet = 40
+BombletSTime = 30
+BombletDiff = 0.5
+ModelBomblet = bullet
+
+DisplayMortarDistance = true
+FixCameraPitch = true
+
+CameraRotationSpeedPitch = 0.2
+
+AddMuzzleFlash      =  2.2,      1.80,        8,  200,254,129,44
+AddMuzzleFlash      =  2.1,      1.75,        7,  200,254,219,104
+AddMuzzleFlash      =  2.0,      1.70,        6,  200,254,219,184
+AddMuzzleFlashSmoke =  3.2, 20,  11.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =  4.2, 10,  12.0,  6.0, 35,  200,190,170,150
+AddMuzzleFlashSmoke =  3.2, 20,  11.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =  4.2, 10,  12.0,  6.0, 35,  200,190,170,150
+
+AddMuzzleFlash      =  -4.2,      1.80,        8,  200,254,129,44
+AddMuzzleFlash      =  -4.1,      1.75,        7,  200,254,219,104
+AddMuzzleFlash      =  -4.0,      1.70,        6,  200,254,219,184
+AddMuzzleFlashSmoke =  -5.2, 25,  12.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =  -6.2, 13,  13.0,  6.0, 35,  200,190,170,150
+AddMuzzleFlashSmoke =  -5.2, 25,  12.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =  -6.2, 13,  13.0,  6.0, 35,  200,190,170,150
+DamageFactor = tank, 1.2
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  16, gunpowder
+Item =  5, redstone
+Item =  10, iron_ingot

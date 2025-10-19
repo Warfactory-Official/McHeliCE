@@ -1,0 +1,37 @@
+DisplayName = 20mm M197 Automatic Cannon [MPT-SD]
+Type = MachineGun2
+ModelBullet = bullet
+Power = 15
+Explosion = 1
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+SoundPitch = 0.9
+Accuracy = 4.5
+HeatCount = 2
+MaxHeatCount = 130
+Sound = ah
+
+SoundVolume = 15
+
+Gravity = -0.001
+
+
+SetCartridge = cartridge, 0,   0, 0, 3.00, -0.04, 0.50
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+MaxAmmo = 375
+SuppliedNum = 375
+Item =  3, iron_ingot
+Item =  3, gunpowder

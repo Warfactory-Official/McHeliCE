@@ -1,0 +1,135 @@
+﻿DisplayName = BTR-90 APC
+AddDisplayName = en_US, BTR-90 APC
+MaxHp = 200
+Speed = 0.62
+Sound = bmpone
+ThrottleUpDown = 2
+MobilityYawOnGround = 7.5
+MaxFuel         = 1000
+FuelConsumption = 0.8
+CameraZoom = 6
+
+;BPK-3-42 
+
+
+EnableNightVision = true
+EnableEntityRadar = false
+CameraRotationSpeed = 20
+;should be same as bmp-2
+GravityInWater = -1.0
+MinRotationPitch = -60
+MaxRotationPitch = 5
+MobilityRoll = 0
+HideEntity = true
+InventorySize = 25
+StepHeight = 1.8
+DefaultFreelook = true
+MotionFactor = 0.9
+FlareType = 10
+
+Float = true
+FloatOffset = -0.5
+;perhaps this will fix previous projects?
+Gravity = -0.61
+;earth gravity is -9.81m/s^2 however minecraft and mcheli base off of different metric or something 
+GravityInWater = 0.1
+
+;GravityInWater = -0.2???
+
+SubmergedDamageHeight = 3
+
+;  M = Military,  A = AAGun(対空砲)
+Category = APC
+
+WeightType = Tank
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+HUD = mbt_hud, none, none, none, none, none, none
+;, none, none
+
+CameraPosition = 0.00, 3.78,  0.00, false
+
+AddGunnerSeat =  0.00, 1.08,  0.00, 0.00, 2.56, 1.4644, false, -60, 5, false
+;AddSeat = -0.31, 0.75, -1.62 
+AddSeat = -0.31, 0.75, -1.62 
+AddSeat =  0.31, 0.75, -1.62 
+AddSeat = -0.31, 0.75, -2.58
+AddSeat =  0.31, 0.75, -2.58
+
+AddSeat = -0.31, 0.75, -3.44
+AddSeat =  0.31, 0.75, -3.44
+
+SetWheelPos =  1.30,  -0.24,  1.04, -1.02, -3.42, -5.36
+
+AddPartWheel =    1.30,  0.43, 1.05, 20
+AddPartWheel =    1.30,  0.43,-1.05, 10
+AddPartWheel =    0.00,  0.43,-3.46
+AddPartWheel =    0.00,  0.43,-5.41
+
+AddPartWheel =   -1.30,  0.43, 1.05, 20
+AddPartWheel =   -1.30,  0.43,-1.05, 10
+AddPartWheel =   -0.00,  0.43,-3.46
+AddPartWheel =   -0.00,  0.43,-5.41
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 6
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+TrackRollerRot = 30
+
+;AddPartWeapon = bmp23ubr6 / bmp23yof8 , false, true, false, 0.00, 1.65, -0.2461, 0
+;AddPartWeaponChild = false, true, 0.00, 2.09, 0.60
+;AddPartWeaponChild = false, true, 0.00, 2.09, 0.60
+
+AddPartWeapon    = 90b32/90mdz, false, true, false,  -0.00, 1.65, -0.00
+AddPartWeaponChild = false, true, 0.00, 2.48, 0.60
+AddPartWeaponChild = false, true, 0.00, 2.48, 0.60
+
+;no NO NO NO NO NO NO!!!
+
+AddTurretWeapon = 90b32,   0.00, 2.98, 0,   0.0, 0.0, true, 1, 0, -360,360, -60,5
+AddTurretWeapon = 90mdz,   0.00, 2.98, 0,   0.0, 0.0, true, 1, 0, -360,360, -60,5
+AddTurretWeapon = 90pkt,  0.2064, 2.98, 0.4644,   0.0, 0.0, true, 1, 0, -360,360, -60,5
+AddTurretWeapon = 909m113mga,  0, 3.0480, 0.6598,   0.0, 0.0, false, 1, 0, -360,360, -75,5
+
+
+
+DamageFactor = 0.1
+
+HideEntity = false
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+;IFV armed atgm light 8x8
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics, E, mcheli:fcs, F, mcheli:advancedmechanicparts, G, mcheli:cannon2
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:fcs, B, mcheli:advancedmechanicparts, C, mcheli:cannon2, D, mcheli:btr80
+
+;;start of btr family
+;;AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics, E, mcheli:lap, F, mcheli:cannon1
+
+
+BoundingBox = 0.0, 2.15, 0.0, 1.0, 1.0, 0.2
+
+BoundingBox = 0.0, 1.2, 0.0, 3.0, 2.0, 0.75
+BoundingBox = 0.0, 1.2, 1.0, 2.7, 1.8, 0.33
+BoundingBox = 0.0, 1.2, 1.5, 2.5, 1.6, 0.3
+BoundingBox = 0.0, 1.2, 2.4, 2.3, 0.4, 0.3
+
+
+BoundingBox = 0.0, 1.2, -2.5, 3.0, 2.0, 0.75
+BoundingBox = 0.0, 1.2, -5.4, 3.0, 2.0, 0.75
+
+
+UnmountPosition = 0.00, 1.68,  0.00

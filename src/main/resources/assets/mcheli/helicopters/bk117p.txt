@@ -1,0 +1,94 @@
+DisplayName = Kawasaki/Eurocopter BK 117 B-2 Police
+AddDisplayName = ja_JP, 川崎/ユーロコプター BK 117 B-2 警察仕様
+MaxHp = 100
+EnableNightVision = true
+Speed = 1.55
+MaxFuel         = 1200
+FuelConsumption = 1.0
+onGroundPitch = 2.09
+EnableGunnerMode = true
+ThirdPersonDist = 20
+
+sound = eurocopter
+;soundpitch = 1.3
+soundvolume = 15
+
+HUD = helinvg, tv_missile,none,
+
+CameraPosition = 0.53, -0.13, 2.78, false
+
+Category = C
+
+MobilityYaw = 1.1
+MobilityPitch = 1.1
+MobilityRoll = 1.1
+
+AddTexture = bk117p_2
+
+AddSeat = -0.40,  0.50,  1.99
+AddGunnerSeat =  0.40, 0.74, 1.99, 0.53, -0.13, 2.78, true
+
+AddWeapon = speaker, 0.0, 3.00, 4.00, 0.0, 0.0, true, 2
+AddWeapon = targeting_pod_block, 0.0, 0.0, 0.0, 0.0, 0.0, true, 2
+AddWeapon = targeting_pod_pv50s, 0.0, 0.0, 0.0, 0.0, 0.0, true, 2
+AddWeapon = targeting_pod_ph50s, 0.0, 0.0, 0.0, 0.0, 0.0, true, 2
+AddWeapon = targeting_pod_mob, 0.0, 0.0, 0.0, 0.0, 0.0, true, 2
+
+; パラメータは前から順に 武器設定ファイル名、位置(X,Y,Z)、回転角度(横,縦), パイロット使用可否, 座席, DefaultYaw, MinYaw, MaxYaw, MinPitch, MaxPitch
+
+AddSeat =  0.24, 0.65, 0.37
+AddSeat = -0.24, 0.70, 0.37
+AddSeat =  0.24, 0.65,-0.21
+AddSeat = -0.24, 0.65,-0.21
+AddSeat =  0.24, 0.65,-0.74
+AddSeat = -0.24, 0.65,-0.74
+
+AddSeat =  1.17, 0.19, 1.27
+AddSeat = -1.17, 0.19, 1.27
+AddSeat =  1.35, 0.26,-0.08
+AddSeat = -1.35, 0.26,-0.08
+
+AddRotor= 1, 0,  0.00,  2.75,   0.00,  0,1,0
+AddRotor= 1, 0,  0.10,  2.84,  -7.32,  1,0,0
+
+AddPartSlideHatch =  0.018, -0.03, -1.06
+AddPartSlideHatch = -0.018, -0.03, -1.06
+AddPartSlideHatch =  0.018,  0.03, -1.06
+AddPartSlideHatch = -0.018,  0.03, -1.06
+
+AddPartCamera = 0.53, -0.13, 2.78, true, false
+AddPartCamera = 0.53, -0.13, 2.78, true, true
+AddPartCamera = -1.05, 0.21, 2.21, true, false
+
+AddRepellingHook =  1.47,  1.82, 0.79, 25
+
+BoundingBox =  0.0,  2.35, -7.21,  2.3, 1.5, 1.25
+
+BoundingBox =  0.0, 1.65, -1.5,  2.0, 2.5
+
+BoundingBox = 0.0, 2.5, 0.0, 1.0, 1.5, 1.5
+
+BoundingBox = 0.0, 2.02, -2.19, 1.0, 1.0
+BoundingBox = 0.0, 2.02, -3.19, 1.0, 1.0
+BoundingBox = 0.0, 2.02, -4.19, 1.0, 1.0
+BoundingBox = 0.0, 2.02, -5.19, 1.0, 1.0
+BoundingBox = 0.0, 2.02, -6.19, 1.0, 1.0
+
+UnmountPosition = -0.40,  1.50,  1.99
+
+
+;basic unarmed modern helicopter, AOW3 style
+AddRecipe = "ABC", " EE", "   ", A, mcheli:airframe, B, mcheli:heliblade, C, mcheli:engine2, E, mcheli:electronics
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:bk117, B, mcheli:electronics
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+MaxFuel         = 1000
+FuelConsumption = 1.0
+
+DamageFactor = 0.8
+
+ThrottleUpDown = 0.5
+DamageFactor = 0.8

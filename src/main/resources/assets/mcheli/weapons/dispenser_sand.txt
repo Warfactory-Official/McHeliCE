@@ -1,0 +1,26 @@
+DisplayName = Gravel Dispenser
+Type = Dispenser
+Acceleration = 0
+Sight = None
+Delay = 0
+Sound = smoke_snd
+SoundDelay = 4
+Gravity = -0.05
+
+Bomblet = 8
+BombletSTime = 1
+BombletDiff = 0.2
+
+Round = 10
+ReloadTime = 200
+
+SmokeSize   = 0.2
+
+;着弾時に使用するアイテムに水バケツを指定する。
+; 本来水バケツは使用すると水を設置するが、ヘリMOD内では特殊な処理を行って火を消していいる。
+DispenseItem = gravel
+DispenseRange = 2
+
+MaxAmmo = 20
+SuppliedNum = 20
+Item =  5, gravel

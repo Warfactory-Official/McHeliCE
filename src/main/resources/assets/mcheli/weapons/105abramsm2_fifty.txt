@@ -1,0 +1,38 @@
+DisplayName = 12.7mm M2 Browning
+Type = MachineGun2
+Power = 31
+Acceleration = 7.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+Sound = m2_snd
+SoundVolume = 15
+SoundPitch = 1 
+SoundPitchRandom = 0.1
+SoundDelay = 2
+Accuracy = 0.5
+HeatCount = 4
+MaxHeatCount = 225
+Gravity = -0.001
+ModelBullet = bullet
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+;DamageFactor = player, 20.0
+
+SetCartridge = cal50,      0.0,  0,0,  1.0, -0.04, 0.40
+;SetCartridge = unif_cal50, 0.0,  0,0,  1.0, -0.04, 0.40
+
+AddMuzzleFlash      =  2.4,      0.15,        2,  170,254,159,84
+AddMuzzleFlash      =  2.3,      0.10,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  2.6,  1,   5.0,  0.5, 15,  180,250,245,240
+AddMuzzleFlashSmoke =  3.6,  1,   3.0,  0.5, 25,  180,220,217,214
+
+ReloadTime = 150
+
+Round = 100
+MaxAmmo = 900
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder

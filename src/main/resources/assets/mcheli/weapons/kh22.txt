@@ -1,0 +1,29 @@
+DisplayName = KH-22 [Conventional Payload]
+Type = ATMissile
+Power = 1000
+Acceleration = 5.0
+Explosion = 23
+
+ExplosionInWater = 12
+
+Flaming = true
+Sight = MissileSight 
+Delay = 5
+LockTime = 20
+ModeNum = 1
+ProximityFuseDist = 1
+ModelBullet = kh22
+Sound = missile_1_snd
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  5, iron_ingot
+Item =  10, gunpowder
+Item =  3, redstone

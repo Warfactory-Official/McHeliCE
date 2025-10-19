@@ -1,0 +1,45 @@
+DisplayName = 125mm ZPT-98 Cannon [DTC10-125 - APFSDS]
+Type = MachineGun1
+Power = 700
+ModelBullet = bullet105mm
+
+Flaming = false
+Sight = None
+Delay = 155
+ReloadTime = 155
+Round = 10
+
+Sound = ninetyninemain
+
+BulletColor        = 255, 255, 100, 100
+Group = MainGun
+Recoil = 0.5
+
+Gravity = -0.001
+
+
+Acceleration = 7.0
+;ModelBullet = bullet105mm
+Piercing = 5
+Accuracy = 0.0
+DamageFactor = tank, 10.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+AddDisplayName = en_US, 125mm Cannon [APFSDS]
+SoundVolume = 35
+
+
+AddMuzzleFlash      =  9.3,      2.10,        7,  220,254,159,74
+AddMuzzleFlash      =  9.2,      2.05,        6,  220,254,219,104
+AddMuzzleFlash      =  9.1,      2.00,        5,  220,254,219,184
+AddMuzzleFlashSmoke =  9.3, 30,  12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 11.3, 20,  13.0,  7.0, 55,  200,190,170,150
+
+RecoilBufCount = 40, 5
+
+MaxAmmo = 10
+SuppliedNum = 2
+Item =  4, iron_ingot
+Item =  2, gunpowder

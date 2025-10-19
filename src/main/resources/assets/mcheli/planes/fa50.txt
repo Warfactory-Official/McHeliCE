@@ -1,0 +1,104 @@
+DisplayName = FA-50
+AddDisplayName = en_US, FA-50
+AddDisplayName = ko_KR, FA-50 공격기
+MaxHp = 100
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.142
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+ThrottleUpDown = 0.3
+
+Sound = faeighteen
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+HUD = planenvg, plane_gnrnvg
+
+AddSeat =  0.00,  1.844,  2.57
+AddSeat =  0.00,  1.958,  1.05
+
+AddPartLG =  0.00, 1.65,  3.27,   -1,0,0, 100
+AddPartLG = -0.72, 1.58, -2.37, -1,0, -0.35, 150.5, 1,0,0, 25
+AddPartLG =  0.72, 1.58, -2.37, -1,0,  0.35, 150.5, 1,0,0, 25
+;,   1,0,  1, 28
+AddPartCanopy =  0.00, 3.35, -0.00,  -1,0,0,  45
+
+AddPartSteeringWheel =  0.90, 2.05, -5.89,  3.0026, -0.1013, 0.2237,  15
+AddPartSteeringWheel = -0.90, 2.05, -5.89,  3.0026, -0.1013, 0.2237, -15
+
+AddPartWeaponMissile = mk82_fa50,    false, false, false,   2.12,  1.22, -0.68
+AddPartWeaponMissile = mk82_fa50,    false, false, false,  -2.85,  1.22, -0.68
+AddPartWeaponMissile = mk82_fa50,  false, false, false,  3.28,  1.59, -0.68
+AddPartWeaponMissile = mk82_fa50,  false, false, false,  -3.41,  1.59, -0.68
+AddPartWeaponMissile = mk82_fa50,  false, false, false,   2.17,  1.59, -0.68
+AddPartWeaponMissile = mk82_fa50,  false, false, false,  -2.30,  1.59, -0.68
+
+AddPartWeaponMissile = fa50aim-9x_f4,   false,  false,  false,   4.78,  1.63, 0.67
+AddPartWeaponMissile = fa50aim-9x_f4,   false,  false,  false,   -4.89,  1.63, 0.67
+AddPartWeaponMissile = fa50aim-9x_f4,   false,  false,  false,   3.94,  1.63, 0.67
+AddPartWeaponMissile = fa50aim-9x_f4,   false,  false,  false,   -4.06,  1.63, 0.67
+
+AddPartWeaponMissile = aim120_fa50,  false, false, false,   6.87,  2.17, -0.59
+AddPartWeaponMissile = aim120_fa50,  false, false, false,  -6.87,  2.17, -1.09
+AddPartWeaponMissile = fa50agm-65,  false, false, false,   5.71,  1.60, -0.91
+AddPartWeaponMissile = fa50agm-65,  false, false, false,  -5.57,  1.60, -0.91
+
+
+AddWeapon = m61a2, 0.00,  2.24,  5.71,  0.0,  0.0
+
+;6
+AddWeapon = mk82_fa50,    2.12,  1.22, -0.68, 0.0, 0.0, true,  2
+AddWeapon = mk82_fa50,   -2.85,  1.22, -0.68, 0.0, 0.0, true,  2
+AddWeapon = mk82_fa50,    3.28,  1.59, -0.68, 0.0, 0.0, true,  2
+AddWeapon = mk82_fa50,   -3.41,  1.59, -0.68, 0.0, 0.0, true,  2
+AddWeapon = mk82_fa50,    2.17,  1.59, -0.68, 0.0, 0.0, true,  2
+AddWeapon = mk82_fa50,   -2.30,  1.59, -0.68, 0.0, 0.0, true,  2
+
+;4
+AddWeapon = fa50aim-9x_f4,  4.78,  1.63, 0.67,   0.0, 0.0
+AddWeapon = fa50aim-9x_f4, -4.89,  1.63, 0.67,   0.0, 0.0
+AddWeapon = fa50aim-9x_f4,  3.94,  1.63, 0.67,   0.0, 0.0
+AddWeapon = fa50aim-9x_f4, -4.06,  1.63, 0.67,   0.0, 0.0
+
+;2
+AddWeapon = aim120_fa50,  6.87,  2.17, -0.59
+AddWeapon = aim120_fa50, -6.87,  2.17, -1.09
+
+;2
+AddWeapon = fa50agm-65,  5.71,  1.60, -0.91, 0.0, 0.0, true,  2
+AddWeapon = fa50agm-65, -5.57,  1.60, -0.91, 0.0, 0.0, true,  2
+
+AddWeapon = targeting_pod_ph50s,   0.0, 2.7, 1.1,    0.0, 0.0, true,  2
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0, true,  2
+
+;modern light plane (late jet), AOW3 style (fcs)
+AddRecipe = "ABC", "DEF", "GG ", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:fcs2, G, mcheli:electronics 
+
+BoundingBox =  0.00, 1.90, -1.00,  3.0, 1.8
+BoundingBox =  0.00, 1.90, -4.00,  3.0, 1.8
+
+BoundingBox = -2.02, 2.00, -5.90,  2.0, 0.6
+BoundingBox =  2.02, 2.00, -5.90,  2.0, 0.6
+
+BoundingBox =  0.00, 4.20, -5.70,  1.0, 2.6
+
+BoundingBox =  0.00, 1.90, -6.00,  2.0, 1.8
+
+BoundingBox = -2.92, 2.10, -1.00,  3.0, 0.6
+BoundingBox =  2.92, 2.10, -1.00,  3.0, 0.6
+
+BoundingBox = -5.42, 2.10, -1.50,  2.0, 0.6
+BoundingBox =  5.42, 2.10, -1.50,  2.0, 0.6
+
+Unmountposition = 0.00,  1.544,  2.57
+
+enableback = true
+
+DamageFactor = 0.8

@@ -1,0 +1,27 @@
+DisplayName = 57E6 [SAM]
+Type = AAMissile
+Power = 200
+Acceleration = 7
+Explosion = 12
+ExplosionBlock = 2
+
+ModelBullet = 57e6
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+Round = 12
+LockTime = 10
+ProximityFuseDist = 1
+Sound = pantsirmis
+SoundVolume = 15
+
+
+
+TrajectoryParticle = cloud
+TrajectoryParticleStartTick = 5
+
+MaxAmmo = 12
+SuppliedNum = 3
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

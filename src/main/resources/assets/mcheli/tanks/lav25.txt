@@ -1,0 +1,113 @@
+DisplayName = LAV-25
+MaxHp = 200
+Speed = 0.62
+Sound = stryker
+ThrottleUpDown = 3.0
+HideEntity = true
+MobilityYawOnGround = 6.5
+MinRotationPitch = -30
+MaxRotationPitch = 5
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 4
+CameraPosition = 0.65,  3.6, 0.5, true
+EnableNightVision = true
+CameraRotationSpeed = 20
+FlareType = 10
+MaxFuel = 1200
+FuelConsumption = 2.7
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 1.0
+FlareType = 10
+ThirdPersonDist = 8
+
+Float = true
+FloatOffset = 0.0
+
+GravityInWater = -0.2
+
+Category = AARV/AIFV
+
+;stryker -122.65
+
+
+SubmergedDamageHeight = 2
+
+
+HUD = mbt_hud, nohudbmp, none, none, none, none, none
+
+MotionFactor = 0.925
+ArmorMinDamage = 14
+;ArmorMaxDamage = 600
+;ArmorDamageFactor = 0.90
+EnableBack = true
+PivotTurnThrottle = 0.1
+
+WeightType = Tank
+
+
+
+AddGunnerSeat =  0.00,  1.50, 1.55,   0.00,  3.50, 1.00,  false, -90, 90, true
+unmountposition = 0.00,  1.50, -2.5
+
+AddSeat =  0.82, 1.0, -1.3
+AddSeat = -0.82, 1.0, -1.3
+AddSeat =  0.82, 1.0, -1.9
+AddSeat = -0.82, 1.0, -1.9
+AddSeat =  0.82, 1.0, -2.5
+AddSeat = -0.82, 1.0, -2.5
+
+
+
+SetWheelPos =  1.0,  -0.32,  3.0486, 1.5839, -0.0822, -1.5735
+
+;-44.16
+
+AddPartWheel = -1.4287, 0.3927,  3.0486, 40
+AddPartWheel =  1.4286, 0.3927,  3.0486, 40
+AddPartWheel = -1.4287,  0.3927,  1.5839, 20
+AddPartWheel =  1.4286,  0.3927,  1.5839, 20
+AddPartWheel =  -1.4287, 0.3927,  -0.0822, 
+AddPartWheel =  1.4286,  0.3927,  -0.0822,
+AddPartWheel =  -1.4287, 0.3927,  -1.5735, 
+AddPartWheel =  1.4286,    0.3927,  -1.5735,
+
+
+AddPartWeapon = 25lav3M791 / 25lav3M919 / 25lav3he, false, true, false,  0.0, 2.0, 0.0, 0
+AddPartWeaponChild = false, true, -0.0, 2.6, 1.10, 0.0,
+AddPartWeaponChild = false, true, -0.0, 2.6, 1.10, 0.0,
+AddPartWeaponChild = false, true, -0.0, 2.6, 1.10, 0.2,
+AddTurretWeapon = 25lav3M791,  0.0760, 2.5900, 0.7,  0.0, 0.0, false, 1, 0,-360,360,  -30,  5
+AddTurretWeapon = 25lav3M919,  0.0760, 2.5900, 0.7,  0.0, 0.0, false, 1, 0,-360,360, -30, 5
+AddTurretWeapon = 25lav3he,    0.0760, 2.5900, 0.7,  0.0, 0.0, false, 1, 0,-360,360, -30, 5
+AddTurretWeapon = 25lav3fnmag, -0.179, 2.5900, 0.7, 0.0, 0.0, false, 1, 0,-360,360, -30, 5
+
+
+
+;BoundingBox = 0.0, 1.4, 2.4, 3.2, 1.6, 1.0
+;BoundingBox = 0.0, 1.4, 2.8, 3.2, 1.4, 1.0
+;BoundingBox = 0.0, 1.3, 2.8, 3.2, 1.3, 1.0
+BoundingBox = 0.0, 1.3, 2.4, 3, 1.5, 1.0
+BoundingBox = 0.0, 1.3, 2.8, 2.8, 1.2, 1.0
+BoundingBox = 0.0, 1.4, 3.2, 2.8, 0.8, 1.0
+BoundingBox = 0.0, 1.5, 3.7, 2.8, 0.4, 1.0
+
+
+BoundingBox = 0.0, 1.4, 0.0, 3.0, 1.5, 1.0
+BoundingBox = 0.0, 1.4, 0.5, 3.0, 1.5, 1.0
+BoundingBox = 0.0, 1.4, -1.8, 3.0, 1.5, 1.0
+
+BoundingBox = 0.0, 1.5, 0.5, 3.0, 1.5, 1.0
+BoundingBox = 0.0, 1.5, -1.8, 3.0, 1.5, 1.0
+
+;turret
+BoundingBox = 0.0, 2.55, 0.0, 1.8, 0.8, 1.0
+
+
+
+;light 8x8 with autocan
+AddRecipe = "ABC", "DEG", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics, E, mcheli:fcs, G, mcheli:cannon1

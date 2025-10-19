@@ -1,0 +1,17 @@
+DisplayName = Machinegun [1]
+Type = MachineGun1
+Power = 2
+Acceleration = 8.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+Accuracy = 1.5
+Round = 200
+ReloadTime = 150
+SoundPitch = 1.0
+Sound = gun_l1_snd
+
+MaxAmmo = 400
+SuppliedNum = 200
+Item =  2, iron_ingot
+Item =  2, gunpowder

@@ -1,0 +1,125 @@
+DisplayName = 9K33 Osa SA-8
+AddDisplayName = en_US, 9K33 Osa SA-8
+AddDisplayName = ja_JP, 9K33 Osa SA-8
+ItemID = 36432
+MaxHp = 200
+ThrottleUpDown = 2.0
+Speed = 0.5
+MobilityYawOnGround = 7.5
+StepHeight = 1.5
+Sound = sa
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+Float = true
+FloatOffset = 0.0
+GravityInWater = -0.2
+DamageFactor   = 0.8
+EnableNightVision = true
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+EnableEntityRadar = true
+CameraPosition = -0.50, 1.8,  3.83, true
+
+Category = ASAM
+
+SubmergedDamageHeight = 2
+
+CameraRotationSpeed = 40
+
+OnGroundPitchFactor = 15.0
+OnGroundRollFactor  = 5.2
+
+AddTexture = sa82
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+
+
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  1.0,  -0.24,  3.02, -0.198, -3.22
+
+HUD = mbt_hudsa8, gunnernvgsa8
+
+AddSeat = -0.45, 0.45,  3.23
+;, -0.50, 1.8,  3.83, false, -90, 90, true
+;AddSeat =  0.70, 0.79,  0.27
+;AddSeat = -0.70, 1.07, -1.01
+;AddSeat =  0.70, 1.07, -1.01
+AddGunnerSeat =  0.01, 0.60, 0.05, 0.00, 4.65, -0.00, false, -40, 4
+;AddSeat = -0.70, 1.45, -2.35
+;AddSeat =  0.70, 1.45, -2.35
+
+TurretPosition = 0.0, 1.0, 0.0
+
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.2
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     = -1.16,  0.34,  3.04, 20
+AddPartWheel     = 1.19,  0.34,  3.04, 20
+AddPartWheel     = -1.16,  0.34, -0.19
+AddPartWheel     = 1.19,  0.34, -0.19
+AddPartWheel     = -1.16,  0.34, -3.21, -20
+AddPartWheel     = 1.19,  0.34, -3.21, -20
+
+;AddTurretWeapon = sa8,    -0.00, 2.95, 0.00, 0.0, 0.0, false, 5, 0, -360, 360, -35,  4
+
+
+AddTurretWeapon = sa8,    -1.4441, 3.9907, 0.3777, 0.0, 0.0, false, 2, 0, -360, 360, -35,  4
+AddTurretWeapon = sa8,    -1.0433, 3.9907, 0.3777, 0.0, 0.0, false, 2, 0, -360, 360, -35,  4
+AddTurretWeapon = sa8,    -0.6747, 3.9907, 0.3777, 0.0, 0.0, false, 2, 0, -360, 360, -35,  4
+
+AddTurretWeapon = sa8,    1.4441, 3.9907, 0.3777, 0.0, 0.0, false, 2, 0, -360, 360, -35,  4
+AddTurretWeapon = sa8,    1.0433, 3.9907, 0.3777, 0.0, 0.0, false, 2, 0, -360, 360, -35,  4
+AddTurretWeapon = sa8,    0.6747, 3.9907, 0.3777, 0.0, 0.0, false, 2, 0, -360, 360, -35,  4
+
+;AddTurretWeapon = gmw,    0.00, 2.95, -0.59, 0.0, 0.0, false, 5, 0, -360, 360, -25,  4
+;this should just work, it just doesn't
+
+AddPartWeapon = sa8, false, true, false,  -0.00, 2.30, 0.00, 0
+AddPartWeaponChild = false, true, -0.00, 2.33, 0.00
+
+InventorySize = 9
+
+;light 6x6 aa (modern) 2eng
+AddRecipe = "ABC", "DCF", "   ", A, mcheli:lightchassis, B, mcheli:advancedmechanicparts, C, mcheli:engine1, D, mcheli:wheel6, F, mcheli:fcs2
+
+;ヘッドライト
+;AddFixedSearchLight =  0.52, 0.90, 1.76,   0x50FFFFFF,   0x00FFFFC0,    27.0, 15.0,  -5,  0
+;AddFixedSearchLight = -0.52, 0.90, 1.76,   0x50FFFFFF,   0x00FFFFC0,    27.0, 15.0,   5,  0
+
+;テールランプ
+;AddFixedSearchLight =  0.36, 1.37,-5.35,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+;AddFixedSearchLight = -0.36, 1.37,-5.35,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -6.0,  0
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+ArmorMinDamage = 7
+
+
+AddRack = container, 0.00, 1.20, -1.06,  0.0, 0.0, 0.0, 5.0
+
+;BoundingBox =  0.0, 1.0,  1.5,   2.6, 1.0,   0.90
+;BoundingBox =  0.0, 1.5, -0.5,   2.6, 2.0,   1.00
+;BoundingBox =  0.0, 1.5, -1.5,   2.6, 2.0,   1.10
+
+BoundingBox = 0.0, 0.7, 0.0, 3.0, 0.5
+BoundingBox = 0.0, 0.7, 3.0, 3.0, 0.5
+BoundingBox = 0.0, 0.7, -3.0, 3.0, 0.5
+BoundingBox = 0.0, 0.7, -3.4, 3.0, 0.5
+
+BoundingBox = 0.0, 1.7, 0.0, 2.5, 2.5
+
+unmountposition = -0.45, 1.5,  3.23

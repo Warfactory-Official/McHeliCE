@@ -1,0 +1,39 @@
+DisplayName = 12.7mm M2 Heavy Machine Gun
+Power = 31
+Acceleration = 7.0
+Type = MachineGun2
+Flaming = false
+ReloadTime = 200
+Round = 110
+Sight = MoveSight
+Delay = 0
+;SoundDelay = 3
+;Accuracy = 2.0
+HeatCount = 1
+MaxHeatCount = 200
+SoundPitch = 0.8
+Sound = m2_snd
+SoundVolume = 0.8
+
+Gravity = -0.005
+
+SetCartridge = cartridge, 0.2, 90, -40, 1.2, -0.04, 0.4
+
+AddMuzzleFlash      =           0.1,   0.25,                  1,  220,254,219,104
+AddMuzzleFlashSmoke   =         0.3,   2,   3.0,  0.5,       15,  220,160,140,120
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US,
+SoundVolume = 15
+
+
+MaxAmmo = 1100
+SuppliedNum = 110
+Item =  4, iron_ingot
+Item =  8, gunpowder

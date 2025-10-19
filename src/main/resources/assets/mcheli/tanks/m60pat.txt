@@ -1,0 +1,154 @@
+DisplayName = M60 Patton
+AddDisplayName = zh_CN,M60 巴顿 主战坦克
+ItemID = 30100
+MaxHp = 270
+Speed = 0.45
+Sound = msixtytank
+MinRotationPitch = -20
+MaxRotationPitch = 10
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 8
+CameraPosition = 0.0,  3.9, 0.0, true
+CameraRotationSpeed = 13
+;EnableEntityRadar = true
+MaxFuel         = 3600
+FuelConsumption = 2.8
+DefaultFreelook = true
+
+Category = MBT
+
+EnableNightvision = true
+
+FlareType = 10
+ThirdPersonDist = 12
+
+
+ThrottleUpDown = 1.5
+MobilityYawOnGround = 2.5
+OnGroundPitchFactor = 5
+OnGroundRollFactor  = 5
+MotionFactor = 0.95
+
+
+
+SubmergedDamageHeight = 2
+
+HideEntity = true
+
+StepHeight = 1.8
+
+
+; Tank or Car or Unknown
+WeightType = tank
+
+WeightedCenterZ = 0.0
+
+
+HUD = mbt_hudtwo, gunnernone
+
+AddGunnerSeat =  0.00,  1.50,  0.00,    0.00,  2.50,  0.25,  false, -20, 10, true
+
+unmountposition = -0.0,  1.50,  0.0
+
+AddGunnerSeat = -0.4683,  2, -0.8113,   -0.587, 4.2, -0.8113, false, -90, 45, true
+
+
+
+
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+
+SetWheelPos =  1.65,  -0.24,  2.34, 1.23, 0.11, -0.91, -2.01, -3.11
+
+
+AddTrackRoller = -1.82,  1.0358,  3.3731
+AddTrackRoller = -1.82,  0.2122,  2.3434
+AddTrackRoller = -1.82,  0.2122,  1.2318
+AddTrackRoller = -1.82,  0.2122,  0.1156
+AddTrackRoller = -1.82,  0.2122, -0.9145
+AddTrackRoller = -1.82,  0.2122, -2.0182
+AddTrackRoller = -1.82,  0.2122, -3.1103
+AddTrackRoller = -1.82,  1.05, -4.05
+
+
+AddCrawlerTrack = false, 0.22, -1.5,  -0.2713/ 2.3816,  0.1/3.2,  0.8023/ 3.7773,  1.0358/ 3.84,  1.2692/ 3.7773,  1.5027/ 3.3731, 1.5027/  0.0,  1.5/ -4.0,  1.2552/ -4.3935,  1.0562/ -4.452,  0.7841/ -4.3935,  0.2/ -3.8,-0.2713/ -3.2,-0.2713/ 0.0
+
+AddPartWeapon = sm60m728/sm60m456/sm60m393a2, false, true, false,  0.00, 2.4475, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.41, 1.6383, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.41, 1.6383, 0.5
+AddTurretWeapon = sm60m728, 0.00, 2.4475, 0.0,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = sm60m456,     0.00, 2.4475, 0.0,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = sm60m393a2,      0.00, 2.4475, 0.0,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = sm607.62mm,      0.43, 2.6, 2.0,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+
+;-26.93
+
+AddPartTurretWeapon = m60m2, false, true, false, -0.587, 3.0, -0.8113
+AddPartWeaponChild = false, true, -0.587, 3.45, -0.0023, 0.0
+
+AddturretWeapon = m60m2,    -0.6067, 3.4729, -0.8113,   0.0, 0.0, false, 2, 0, -360,360, -60,15
+
+ArmorMinDamage = 20
+
+
+;side
+
+BoundingBox = 0.0, 1.0, 1.5, 2.5, 1.0, 0.28
+
+BoundingBox = 0.0, 1.0, 0.0, 2.5, 1.0, 0.28
+
+BoundingBox = 0.0, 1.0, -2.5, 2.5, 1.0, 0.28
+
+
+;back
+BoundingBox = 0.0, 1.45, -3.45, 2.45, 1.0, 0.8
+
+BoundingBox = 0.0, 0.65, -3.15, 2.45, 0.6, 0.5
+
+;side top
+
+BoundingBox = 0.0, 1.25, -1.0, 2.45, 1.0, 0.5
+
+;forward side top 
+
+BoundingBox = 0.0, 1.15, 1.45, 2.45, 1.0, 0.5
+
+
+;front lower 257
+BoundingBox = 0.0, 0.35, 1.95, 2.4, 0.2, 0.07
+;300
+BoundingBox = 0.0, 0.55, 2.05, 2.4, 0.2, 0.06
+;
+BoundingBox = 0.0, 0.75, 2.15, 2.4, 0.2, 0.06
+;285
+BoundingBox = 0.0, 0.95, 2.25, 2.4, 0.2, 0.07
+
+BoundingBox = 0.0, 1.15, 2.45, 2.4, 0.2, 0.07
+
+;220 upper
+BoundingBox = 0.0, 1.35, 2.25, 2.4, 0.2, 0.09
+
+;225
+BoundingBox = 0.0, 1.5, 2.0, 2.4, 0.2, 0.08
+
+;235
+BoundingBox = 0.0, 1.6, 1.75, 2.4, 0.2, 0.08
+
+;turret ring
+BoundingBox = 0.0, 1.8, 0.8, 2.4, 0.2, 0.17
+;side turret ring 70mm
+BoundingBox = 0.0, 1.8, 0.75, 2.45, 0.2, 0.28
+
+
+;turret 
+BoundingBox = 0.0, 2.35, 0.0, 1.7, 1.7, 0.10
+
+;slightly really less SEMI NOT modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "   ", A, mcheli:mediumchassis, B, mcheli:cannon2, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:map
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:m48, B, mcheli:cannon2, C, mcheli:electronics

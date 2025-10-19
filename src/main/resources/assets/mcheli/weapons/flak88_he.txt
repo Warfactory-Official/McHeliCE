@@ -1,0 +1,55 @@
+DisplayName = 88mm Flak 36 Cannon[Sprgr. L/4.5 - HE] 
+Type = MachineGun1
+ModelBullet = 88mm
+Power = 25
+Acceleration = 5.0
+
+Explosion = 2
+ExplosionBlock = 2
+ExplosionInWater = 1
+Flaming = false
+Sight = None
+Delay = 88
+ReloadTime = 88
+SoundPitch = 1.0
+SoundVolume = 10
+Sound = ww2tankshot_snd
+Gravity = -0.005
+
+Recoil = 0.02
+Group = MainGun
+
+Gravity = -0.001
+SoundVolume = 15
+
+SetCartridge = 800mmcartridge, 0.8,  90, 15, 0.11, -0.05, 0.5
+
+
+TrajectoryParticle = smoke
+TrajectoryParticleStartTick = 0
+
+DisplayMortarDistance = true
+
+RecoilBufCount = 25, 5
+
+Delay = 88
+ReloadTime = 88
+Group = MainGun
+Acceleration = 7.0
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+MaxAmmo = 20
+SuppliedNum = 4
+Item =   1, iron_ingot
+Item =  2, gunpowder
+;Item =   1, redstone

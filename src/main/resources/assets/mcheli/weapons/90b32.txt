@@ -1,0 +1,52 @@
+DisplayName = 30mm 2A42 Cannon [3UBR8 - APDS]
+Type = MachineGun2
+Power = 82
+
+Flaming = false
+Sight = MoveSight
+Delay = 1
+ReloadTime = 120
+Round = 250
+SoundVolume = 15
+SoundPitchRandom = 0.1
+SoundPitch = 1.0
+Sound = bmptwomain
+Accuracy = 1.5
+
+group = maingun
+
+Gravity = -0.005
+
+;2a42
+Delay = 1
+HeatCount = 7
+MaxHeatCount = 150
+
+;tracer
+;BulletColor = 230, 200, 20, 80 
+
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+AddMuzzleFlash      =  3.0,      0.50,        3,  200,254,129,44
+AddMuzzleFlash      =  3.0,      0.50,        3,  200,254,219,104
+
+AddMuzzleFlashSmoke =  1.6,  1,   5.0,  0.8, 55,  180,250,245,240
+AddMuzzleFlashSmoke =  2.6,  1,   3.0,  0.5, 75,  180,220,217,214
+AddMuzzleFlashSmoke =  3.6,  2,   2.0,  0.5, 85,  180,220,217,214
+AddMuzzleFlashSmoke =  4.6,  3,   1.0,  0.5, 95,  180,220,217,214
+
+MaxAmmo = 250
+SuppliedNum = 250
+Item =  2, iron_ingot
+Item =  2, gunpowder
+
+Acceleration = 7.5
+Piercing = 2
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+

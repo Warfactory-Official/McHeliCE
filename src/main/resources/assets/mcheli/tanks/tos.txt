@@ -1,0 +1,125 @@
+DisplayName = TOS-1A Buratino
+MaxHp = 250
+Speed = 0.37
+Sound = tninety
+ThrottleUpDown = 3.0
+throttleDownFactor = 0.4
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = true
+CameraRotationSpeed = 30
+StepHeight = 1.8
+MinRotationPitch = -60
+MaxRotationPitch = 1
+DefaultFreelook = false
+HideEntity = true
+CameraPosition = 0.00, 1.6, 2.15, false
+
+Category = MLRS
+
+MobilityYawOnGround = 2.5
+
+HUD = mbt_hudtwo, mbt_hud
+
+SubmergedDamageHeight = 2
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+
+HideEntity = true
+
+WeightType = Tank
+
+
+
+;wheel pos copy and pasted from t-90a
+
+AddGunnerSeat =  0.00, 0.50, 0.44,   0.00, 1.6, 2.15,  false, -60, 1, false
+
+unmountposition = 0.00, 1.58, 0.44
+
+;break and place vehicle after changing camera pos/gunner seat pos to update position
+
+AddCrawlerTrack = true, 0.23, -2.40,  -0.30/3.13, -0.17/3.46, 0.34/4.31, 0.61/4.42, 0.87/4.31, 0.98/4.04, 0.98/-3.32, 0.87/-3.59, 0.61/-3.70, 0.34/-3.59, -0.31/-2.12
+AddCrawlerTrack = true, 0.23,  2.40,  -0.30/3.13, -0.17/3.46, 0.34/4.31, 0.61/4.42, 0.87/4.31, 0.98/4.04, 0.98/-3.32, 0.87/-3.59, 0.61/-3.70, 0.34/-3.59, -0.31/-2.12
+
+SetWheelPos =  1.90,  -0.24,  3.13, 2.08, 1.03, -0.02, -1.07, -2.12
+
+AddTrackRoller = -2.32,  0.60,  4.04
+AddTrackRoller = -2.32,  0.16,  3.13
+AddTrackRoller = -2.32,  0.16,  2.08
+AddTrackRoller = -2.32,  0.16,  1.03
+AddTrackRoller = -2.32,  0.16, -0.02
+AddTrackRoller = -2.32,  0.16, -1.07
+AddTrackRoller = -2.32,  0.16, -2.12
+AddTrackRoller = -2.32,  0.60, -3.32
+
+AddTrackRoller = 2.32,  0.60,  4.04
+AddTrackRoller = 2.32,  0.16,  3.13
+AddTrackRoller = 2.32,  0.16,  2.08
+AddTrackRoller = 2.32,  0.16,  1.03
+AddTrackRoller = 2.32,  0.16, -0.02
+AddTrackRoller = 2.32,  0.16, -1.07
+AddTrackRoller = 2.32,  0.16, -2.12
+AddTrackRoller = 2.32,  0.60, -3.32
+
+AddWeapon = tos220mm,  1.2052, 2.7851, -1.9753,  0.0, 0.0,  true,1, 0,0,0, -60, 1
+AddWeapon = tos220mm,  0.4657, 2.7851, -1.9753,  0.0, 0.0,  true,1, 0,0,0, -60, 1
+AddWeapon = tos220mm,  -0.2739, 2.7851, -1.9753,  0.0, 0.0, true,1, 0,0,0, -60, 1
+AddWeapon = tos220mm,  -1.385, 2.7851, -1.9753,  0.0, 0.0,  true,1, 0,0,0, -60, 1
+AddWeapon = tos220mm,  1.2052, 2.2179, -1.9753,  0.0, 0.0,  true,1, 0,0,0, -60, 1
+AddWeapon = tos220mm,  0.4657, 2.2179, -1.9753,  0.0, 0.0,  true,1, 0,0,0, -60, 1
+AddWeapon = tos220mm,  -0.2739, 2.2179, -1.9753,  0.0, 0.0, true,1, 0,0,0, -60, 1
+AddWeapon = tos220mm,  -1.385, 2.2179, -1.9753,  0.0, 0.0, true,1, 0,0,0,  -60, 1
+AddPartWeapon = tos220mm, false, true, false,  0.00, 1.43, 0.3764, 0
+AddPartWeaponChild = false, true, 0.00, 1.5739, -3.2144
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+ArmorMinDamage = 10
+;ArmorDamageFactor = 3.0
+;ArmorMaxDamage = 250
+;ArmorDamageFactor = 0.98
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+;modern mbt tracked base to rocket bullshit 
+AddRecipe = "ABC", "DGF", "EHG", A, mcheli:mediumchassis, B, mcheli:rocket3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:lap, E, mcheli:complexmechanicparts, H, mcheli:fcs2
+
+;copy and pasted from t-90a
+;NO COMPOSITE
+
+;side armor 
+BoundingBox = 0.0, 0.65, 1.0, 3.1, 1.15, 0.37
+;front plate
+
+BoundingBox = 0.0, 0.60, 2.7, 3.0, 0.1, 0.5
+BoundingBox = 0.0, 0.65, 2.50, 3.0, 0.1, 0.5
+BoundingBox = 0.0, 0.80, 2.30, 3.0, 0.1, 0.5
+BoundingBox = 0.0, 0.85, 2.10, 3.0, 0.1, 0.5
+BoundingBox = 0.0, 0.90, 1.90, 3.0, 0.1, 0.6
+BoundingBox = 0.0, 0.95, 1.70, 3.0, 0.1, 0.8
+BoundingBox = 0.0, 1.05, 1.50, 3.0, 0.1, 0.8
+BoundingBox = 0.0, 1.10, 1.30, 3.0, 0.1, 0.11
+BoundingBox = 0.0, 1.175, 1.10, 3.0, 0.1, 0.29
+
+;lower plate 
+
+BoundingBox = 0.0, 0.30, 2.65, 3.0, 0.5, 0.16
+
+;back side armor 
+BoundingBox = 0.0, 0.65, -1.9, 3.1, 1.15, 0.37
+
+BoundingBox = 0.0, 0.70, -2.15, 3.0, 1.0, 0.62
+
+
+;new rockets followed by turret
+
+BoundingBox = 0.0, 2.465, 0.5, 2.6, 0.9, 1.8
+
+BoundingBox = 0.0, 1.565, 0.5, 2.6, 0.7, 0.37

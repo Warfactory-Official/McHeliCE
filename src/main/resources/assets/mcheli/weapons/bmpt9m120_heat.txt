@@ -1,0 +1,37 @@
+DisplayName = 9M120 Ataka [HEAT - ATGM]
+Type = ATMissile
+FixMode = 1
+Power = 800
+Acceleration = 7.0
+Piercing = 2
+Explosion = 5
+ExplosionInWater = 3
+ExplosionBlock = 2
+Flaming = false
+Sight = MoveSight
+Round = 4
+ModelBullet = 9M113
+Sound = bmptmissile
+ModeNum = 2
+
+Delay = 2
+ReloadTime = 2000
+Group = MainGun
+;Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  4, gunpowder
+Item =  2, redstone

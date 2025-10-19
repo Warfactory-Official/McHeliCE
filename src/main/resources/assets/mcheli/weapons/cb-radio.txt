@@ -1,0 +1,12 @@
+DisplayName = Radio roll call
+Type = MachineGun1
+Power = 0
+Accuracy = 0
+Flaming = true
+Sight = None
+Delay = 10
+ModelBullet = 0_none
+Particle = none
+Sound = cb-radio
+SoundVolume = 5.0
+SoundPitchRandom = 0

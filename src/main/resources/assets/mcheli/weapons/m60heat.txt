@@ -1,0 +1,32 @@
+DisplayName = 105mm M68 Cannon [M456 - HEAT-FS]
+Type = MachineGun2
+Power = 400
+ModelBullet = bullet105mm
+Acceleration = 4.5
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+ReloadTime = 140
+Delay = 140
+ModeNum = 1
+SoundPitch = 0.5
+SoundVolume = 20
+Sound = mbtshot
+Group = MainGun
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+Gravity = -0.001
+Round = 1
+DisplayMortarDistance = true
+
+Piercing  = 0
+MaxAmmo = 21
+SuppliedNum = 7
+Item =  2, iron_ingot
+Item =  2, gunpowder

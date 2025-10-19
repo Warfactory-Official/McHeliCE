@@ -1,0 +1,5 @@
+DisplayName = 4 Wheel Axle Configuration
+AddDisplayName = ja_JP, 4 Wheel Axle Configuration
+StackSize = 64
+AddRecipe = " AA", "AA ", "   ", A, hfr:item.part_wheel
+AddRecipe = " AA", "AA ", "   ", A, mcheli:wheel

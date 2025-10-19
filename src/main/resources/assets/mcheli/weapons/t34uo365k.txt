@@ -1,0 +1,42 @@
+DisplayName = 85mm ZIS-S-53 [O-365K - HE]
+Type = MachineGun2
+Power = 19
+Acceleration = 6.5
+Explosion = 2
+ExplosionInWater = 1
+ExplosionBlock = 4
+Sight = None
+ReloadTime = 140
+Round = 15
+Delay = 160
+SoundVolume = 15
+Accuracy = 1.5
+Gravity = -0.005
+Particle = largeexplode
+Sound = tthirtyfoureightyfive
+Recoil = 1.5
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+HeatCount = 1000
+MaxHeatCount = 2500
+
+
+group = maingun
+
+AddMuzzleFlash      =  10.2,      1.80,        7,  200,254,129,44
+AddMuzzleFlash      =  10.1,      1.75,        6,  200,254,219,104
+AddMuzzleFlash      =  10.0,      1.70,        5,  200,254,219,184
+AddMuzzleFlashSmoke =  12.2, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke = 14.2, 10,  11.0,  6.0, 35,  200,190,170,150
+
+MaxAmmo = 15
+SuppliedNum = 5
+Item =  2, iron_ingot
+Item =  2, gunpowder

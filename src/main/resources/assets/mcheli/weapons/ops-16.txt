@@ -1,0 +1,13 @@
+DisplayName = OPS-16 ‘Î…ã‘{õƒŒ[ƒ_[
+Type = TargetingPod
+Delay = 2
+Sight = MoveSight
+SoundPitch = 1.0
+Sound = lockon
+SoundVolume = 5.0
+SoundPitchRandom = 0.0
+Length = 500
+Radius = 20
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/tanks/vehicles/players/monsters/others
+MarkTime = 180

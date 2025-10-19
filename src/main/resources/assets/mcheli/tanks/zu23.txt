@@ -1,0 +1,97 @@
+DisplayName = 23mm ZU-23-2 Anti-Aircraft Twin Auto Cannon
+;with 23mm ZU-23-2 Anti-Aircraft Twin Auto Cannon
+AddDisplayName = ru_RU, ЗУ-23-2
+;и 
+MaxHp = 100
+ThrottleUpDown = 0.81
+Speed = 0.0
+MobilityYawOnGround = 0.0
+StepHeight = 0.0
+Sound = none
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1
+EnableNightVision = false
+MaxFuel           = 0
+FuelConsumption   = 0.0
+ThirdPersonDist = 10
+;WeightType = 
+WeightedCenterZ = 0.0
+
+Category = AAAC
+
+DefaultFreelook = true
+
+;-3.33
+;-2.22
+;5.55
+;0.0555
+
+OnGroundPitchFactor = 15.0
+OnGroundRollFactor  = 5.2
+
+;EnableBack = true
+
+;-6.25 y
+
+
+HUD = gunner
+
+;AddSeat =  0.7677, 0.9875, 2.2594
+
+AddGunnerSeat =  0.517, 0.6, -0.341, 0.0, 2.0, 0.0,  true, -90, 90, true
+
+Cameraposition = 0.0,  2.0,  0.0
+
+unmountposition = 0.521, 1.18, -0.27
+
+;AddSeat =  -0.7677, 1.0875, 2.2594
+;, 0.0,  2.0,  0.4193,  true, -90, 90, true
+
+;
+
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 40
+
+SetWheelPos =  0.20,  -0.20,  0.20, -0.20
+
+TurretPosition = 0.0, 1.0, 0.0
+
+
+AddTurretWeapon = zu23-2, 0.1072, 0.326, 0.0, 0.0, 0.0, false,1, 0,-360,360, -90, 10
+AddTurretWeapon = zu23-2, -0.1072, 0.326, 0.0, 0.0, 0.0, false,1, 0,-360,360, -90, 10
+
+AddTurretWeapon = zu23-2he, 0.1072, 0.326, 0.0, 0.0, 0.0, false,1, 0,-360,360, -90, 10
+AddTurretWeapon = zu23-2he, -0.1072, 0.326, 0.0, 0.0, 0.0, false,1, 0,-360,360, -90, 10
+
+AddPartWeapon = zu23-2/zu23-2he, false, true, false,  0.00, 0.9862, 0.0, 0
+AddPartWeaponChild = false, true, 0.00, 0.343, 0.103, 0.0
+AddPartWeaponChild = false, true, 0.00, 0.343, 0.103, 0.3
+AddPartWeaponChild = false, true, 0.00, 0.343, 0.103, 0.3
+
+;TurretPosition = 0.00, 0.9862, 0.430
+
+;178.95?
+
+;InventorySize = 9
+
+;basic quad cannon turret 
+AddRecipe = "   ", "GEF", "GF ", E, mcheli:electronics, F, mcheli:basicmechanicparts, G, mcheli:cannon2
+
+;AddFixedSearchLight =   0.878,  0.9808, 3.455,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+;AddFixedSearchLight =  -0.8793, 0.989, 3.4728,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25, -6.0,  0
+
+;AddFixedSearchLight =   1.0193, 0.6987, -2.8,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+;AddFixedSearchLight =   0.8069, 0.6987, -2.8,   0xFFFF0000,   0x10FF7F00,    0.05, 0.25,  6.0,  0
+
+;AddFixedSearchLight =  -1.14, 0.6987, -2.8,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+;AddFixedSearchLight =  -0.939, 0.6987, -2.8,   0xFFFF0000,   0x10FF7F00,    0.05, 0.25,  6.0,  0
+
+;AddPartSteeringWheel =  0.7677,  1.713,  2.6156,  0, 0.9296, -1,   80
+;;AddPartCanopy =  1.2968, 1.5635, 2.824, 0, -1, 0, 75
+;AddPartCanopy = -1.2968, 1.5635, 2.824, 0,  1, 0, 75

@@ -1,0 +1,64 @@
+DisplayName = DSHK
+AddDisplayName = en_US, DSHK
+AddDisplayName = ru_RU, DSHK
+MaxHp = 100
+ThrottleUpDown = 9.9
+Speed = 0.005
+MobilityYawOnGround = 1.0
+StepHeight = 0
+Sound = none
+MinRotationPitch = -30
+MaxRotationPitch =  1
+MobilityRoll     = 5
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.00
+;MaxFuel           = 0
+;FuelConsumption   = 0
+ThirdPersonDist = 3
+;WeightType = Unknown
+WeightedCenterZ = 0.0
+;emb4 when coding turrets separate from tanks for some fucking reason or something idk this code base is so shitted
+
+OnGroundPitchFactor = 0
+OnGroundRollFactor  = 0
+CameraZoom = 2
+
+EnableBack = true
+
+SetWheelPos =  0.20,  -0.20,  0.20, -0.20
+CameraRotationSpeed = 20
+
+;oh fuck -70.35 y
+
+HUD = gunner
+;, gunner
+
+;another -45.48
+
+;addseat = 1.40,  -0.3, -0.57
+
+AddGunnerSeat =  0.0,  0.2882,  -0.84,   0.0, 1.8452,0.0,  false, -30, 1, true
+
+Cameraposition = 0.0, 1.2452,-0.84
+
+TurretPosition = 0.0, 0.2, 0.0
+
+;AddTurretWeapon = dshk12_7mm, 0.0, 0.9085, 0.0, 0.0, 0.0, false,1, 0,-360,360, -30, 1
+
+AddTurretWeapon = dshk12_7mm,  0.0, 0.9085, 0.0,   0.0, -0.0,   true,1, 0,-360,360, -30, 1
+
+;TurretWeapon?
+AddPartTurretWeapon = dshk12_7mm, false, true, false, 0.0, 0.6165, 0.0, 0
+;y was 8016
+
+AddPartWeaponChild = false, true, 0.0, 0.6165, 0.0, 0.0
+
+
+PivotTurnThrottle = 0.0
+
+;basic turret 
+AddRecipe = "   ", "GEF", "   ", E, mcheli:lap, F, mcheli:basicmechanicparts, G, mcheli:cannon1
+
+
+unmountposition = 0.0,  1.2,  -0.84

@@ -1,0 +1,41 @@
+﻿DisplayName = 122mm Howitzer 2A18 D-30
+AddDisplayName = ja_JP, 122mm D-30
+AddDisplayName = en_US, 122mm Howitzer 2A18 D-30
+ItemID = 28602
+MaxHp = 100
+HideEntity = false
+MinRotationPitch = -70
+MaxRotationPitch =  7
+DamageFactor = 0.1
+CameraZoom = 2
+CameraPosition = 0.6, 1.20, -0.80
+Gravity = -9.81
+GravityInWater = -1.0
+
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = gunner
+
+AddGunnerSeat = 0.6,  -0.30, -0.80, 0.6,  1.20, -0.80, false, -70, -7, true
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;脚
+AddPart		 = false, true, false, 0,   0.00, 0.00, 0.00
+;本体
+AddChildPart = true,false,true,  0,   0.00, 0.95, -0.65
+;砲身
+AddChildPart = true,false,true,  2,   0.00, 0.95, -0.65, 0.4
+
+AddTurretWeapon =  d-30,     0.0, 0.95, 0, 0.00, 0.00 , true,1, 0, -360, 360, -70, 7
+AddTurretWeapon =  d-30he2,  0.0, 0.95, 0, 0.00, 0.00 , true,1, 0, -360, 360, -70, 7
+
+;anti tank turret, cold war
+AddRecipe = "ABA", "C  ", "   ", A, mcheli:cannon2, B, mcheli:lap, C, mcheli:electronics
+
+
+
+;BREEEEEEEEEEEEEEEEEEEEEEEECH
+BoundingBox =  0.0, 0.6, 0.0,  0.8, 1.45
+
+unmountposition = 0.00, 1.5, -0.0

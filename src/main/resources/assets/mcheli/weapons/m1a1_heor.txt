@@ -1,0 +1,73 @@
+DisplayName = 120mm M256 Cannon [M908 - HE-OR-T]
+Type = MachineGun1
+Power = 300
+Explosion = 4
+ExplosionBlock = 5
+
+ExplosionInWater = 2
+
+Sight = None
+
+Round = 1
+
+SoundPitchRandom = 0.1
+
+Sound = gheat
+
+ProximityFuseDist = 1
+ProximityDist = 1
+
+ModelBullet = bullet
+BulletColor        = 255, 255, 100, 100
+Recoil = 1.8
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Gravity = -0.005
+
+DisplayMortarDistance = true
+
+
+; AddMuzzleFlash = 発射元からの距離, サイズ, 表示時間,  A,  R,  G,  B
+AddMuzzleFlash      =           8.2,   2.10,        7,  220,254,159,74
+AddMuzzleFlash      =           8.1,   2.05,        6,  220,254,219,104
+AddMuzzleFlash      =           8.0,   2.00,        5,  220,254,219,184
+; AddMuzzleFlashSmoke = 発射元からの距離, 表示数, サイズ, 範囲, 表示時間,  A,  R,  G,  B
+AddMuzzleFlashSmoke   =              8.2,     30,   12.0,  4.0,       65,  220,160,140,120
+AddMuzzleFlashSmoke   =             10.2,     20,   13.0,  7.0,       55,  200,190,170,150
+
+RecoilBufCount = 40, 5
+
+Group = MainGun
+
+Delay = 140
+ReloadTime = 160
+
+
+
+HeatCount = 900
+MaxHeatCount = 2050
+
+
+
+Group = MainGun
+Acceleration = 6.5
+BulletColor        = 255, 255, 100, 100
+ModelBullet = bullet
+Piercing = 1
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+
+MaxAmmo = 8
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  6, gunpowder
+Item =  3, redstone

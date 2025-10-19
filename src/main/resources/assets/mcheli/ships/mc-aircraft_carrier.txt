@@ -1,0 +1,384 @@
+﻿DisplayName = CVN-68 USS Nimitz Aircraft Carrier
+AddDisplayName = en_US, CVN-68 USS Nimitz Aircraft Carrier
+AddDisplayName = ja_JP, CVN-68 Aircraft Carrier
+
+PivotTurnThrottle = 0.2
+
+MaxHp = 100000
+;displacement formula
+Speed = 0.36
+Float = true
+FloatOffset = -0.3
+Sound = big_ships
+ThrottleUpDown = 0.2
+MaxFuel         = 10
+FuelConsumption = 0.0
+;todo nuclear fuel sht
+Gravity = -0.15
+ArmorDamageFactor = 1.0
+DamageFactor = 0.1
+Regeneration = true
+MobilityYawOnGround = 0.6
+EnableNightVision = true
+EnableEntityRadar = true
+MotionFactor = 0.90
+ParticlesScale = 18.5
+Stealth = 0.0
+RotorSpeed = 3
+FuelSupplyRange = 80
+;fuel is fine, ammo isn't
+;AmmoSupplyRange = 80
+EnableBack = true
+ThirdPersonDist = 60
+CanMoveOnGround = false
+MinRotationPitch = -90
+MaxRotationPitch = 90
+
+InventorySize = 54
+
+
+; M = Military(軍用機).  C = Transport(輸送機)
+Category = M.C
+
+
+HUD = plane, gunner, gunner, gunner, gunner, gunner, gunner, none, none, none, none, none
+
+UnmountPosition = -2.00, 10.90, -0.00
+
+;　main
+AddSeat =  -5.00,  2.59, -5.0
+BoundingBox = -2.0, 1.0, 0.0, 3.5, 3.5, 1.0
+
+;AddSeat =  -1.5, 0.12, 2.26
+;UnmountPosition = -1.5, 1.98, 2.26
+;BoundingBox = -1.5, 1.0, 2.26, 3.5, 3.5, 1.0
+
+
+; steeringhundle
+AddPartSteeringWheel =   -38.89, 24.53, -30.59,   0, 1, -0.45,  80
+
+
+
+
+CameraPosition = -38.98, 25.64, -31.97, true
+
+
+; entry seat
+AddSeat =  0.61, 0.70, 0.00
+
+
+;front ciws, aam
+AddGunnerSeat =   0.50, 1.62, 0.25, -20.56, 20.00, 79.13, false, -90, 10, false
+
+;rear stuff
+AddGunnerSeat =   0.50, 1.62, -0.05, -21.47, 20.79, -84.61, false, -90, 10, false
+
+
+;mid sec ciws L
+AddGunnerSeat =   0.50, 1.62, -0.25, 10.70, 9.28, -10.91, false, -80, 25, false
+;10.69, 9.01, -10.91
+
+;other mid sec ciws R
+AddGunnerSeat =   0.50, 1.62, -0.45,  -53.82, 9.20, -25.80, false, -80, 25, false
+
+;fake bullshit in the storage deck
+AddGunnerSeat =   0.50, 1.62, -0.65, -20.86, 5.73, -75.25, false
+
+
+
+; guest seat
+AddSeat =  -41.83, 24.29, -31.60
+AddSeat =  -36.96, 24.29, -31.60
+AddSeat =  -37.03, 24.29, -37.20
+AddSeat =  -39.61, 24.29, -37.20
+AddSeat =  -41.80, 24.29, -37.20
+
+
+; rack seat
+AddSeat =  -35.24, 12.08, 26.03
+AddSeat =  -35.24, 12.08, 11.38
+AddSeat =  -35.24, 12.08, -2.09
+AddSeat =  -26.52, 11.86, 56.69
+AddSeat =  -12.29, 11.86, 56.69
+
+AddSeat =  -40.86,  11.53, -23.40
+AddSeat =  -40.97, 11.53, -10.48
+
+
+AddSeat =  -28.74, 4.09, 3.77
+AddSeat =  -28.74, 4.09, -7.77
+AddSeat =  -28.74, 4.09, -22.01
+
+AddSeat =  -14.61, 4.09, 3.77
+AddSeat =  -14.61, 4.09, -7.77
+AddSeat =  -14.61, 4.09, -22.01
+
+
+
+
+AddPartHatch =  -23.91, 11.41, 35.85, 1, 0, 0, 70
+AddPartHatch =  -11.23,  11.34, 31.73, 1, 0, 0, -40
+
+AddPartRotation  =  -41.26,  28.55,  -39.45,  0, 1, 0, 1.0,   false
+
+
+AddPartRotor =      -38.10, 22.82, -48.86,  0, 1, 0
+AddBlade = 1, 0,    -38.10, 22.82, -48.86,  0, 1, 0
+
+
+; screw
+AddPartRotor =      -16.80, -6.19, -66.81,  0, 0, 1
+AddBlade = 1, 0,    -16.80, -6.19, -66.81,  0, 0, 1
+
+AddPartRotor =      -23.91, -6.19, -66.81,  0, 0, 1
+AddBlade = 1, 0,    -23.91, -6.19, -66.81,  0, 0, 1
+
+
+; rudder
+AddPartSteeringWheel =   -16.84, -4.73, -69.96,   0, 1, 0,  -40
+AddPartSteeringWheel =   -23.52, -4.73, -69.96,   0, 1, 0,  -40
+
+
+
+
+
+; front weapon its like a fucking 50 cal or some 20mm bushmaster bs
+;nvm I literally do not think this even exists
+;AddPartWeapon    = 12_7cm,   false, true, false,  -4.47, 10.11, 87.63
+;AddPartWeapon    = 12_7cm,   false, true, true,  -4.47, 10.11, 87.63
+
+
+;AddPartWeapon    = 12_7cm,   false, true, false,  -36.44, 10.20, 87.63
+;AddPartWeapon    = 12_7cm,   false, true, true,  -36.44, 10.20, 87.63
+
+
+;AddTurretWeapon =  12_7cm,  -4.47, 10.11, 87.63,  0, 0, true,  3,   0,   180,  -360, -80, 40
+;AddTurretWeapon =  12_7cm,  -36.44, 10.20, 87.63,  0, 0, true,  3,   0,   180,  -360, -80, 40
+
+
+
+; rear aim7
+AddPartWeapon    = nimaim7_spa2,   false, true, false,  0.53, 8.99, -67.96
+AddPartWeapon    = nimaim7_spa2,   false, true, true,  0.53, 8.99, -67.96
+
+AddPartWeapon    = nimaim7_spa2,   false, true, false,  -39.70, 8.99, -67.96
+AddPartWeapon    = nimaim7_spa2,   false, true, true,   -39.70, 8.99, -67.96
+
+
+AddWeapon =  nimaim7_spa2,  1.69, 9.12, -67.99,    0, 0, true,  4,   0,   360,  -360, -90, 30
+AddWeapon =  nimaim7_spa2,   0.74, 9.12, -67.99,   0, 0, true,  4,   0,   360,  -360, -90, 30
+AddWeapon =  nimaim7_spa2,  -40.63, 9.22, -68.01,  0, 0, true,  4,   0,   360,  -360, -90, 30
+AddWeapon =  nimaim7_spa2,  -38.33, 9.22, -68.01,  0, 0, true,  4,   0,   360,  -360, -90, 30
+
+;also just not real
+;AddWeapon =  hydra70,  1.68, 9.12, -67.97,    0, 0, true,  4,   0,   360,  -360, -90, 30
+;AddWeapon =  hydra70,   0.73, 9.12, -67.97,   0, 0, true,  4,   0,   360,  -360, -90, 30
+;AddWeapon =  hydra70,  -40.65, 9.22, -68.00,  0, 0, true,  4,   0,   360,  -360, -90, 30
+;AddWeapon =  hydra70,  -38.32, 9.22, -68.00,  0, 0, true,  4,   0,   360,  -360, -90, 30
+
+;AddWeapon =  aim-9x,  1.67, 9.12, -67.96,    0, 0, true,  4,   0,   360,  -360, -90, 30
+;AddWeapon =  aim-9x,   0.72, 9.12, -67.96,   0, 0, true,  4,   0,   360,  -360, -90, 30
+;AddWeapon =  aim-9x,  -40.64, 9.22, -67.98,  0, 0, true,  4,   0,   360,  -360, -90, 30
+;AddWeapon =  aim-9x,  -38.31, 9.22, -67.98,  0, 0, true,  4,   0,   360,  -360, -90, 30
+
+
+
+; left side m61
+AddPartWeapon    = nimm61a1_1l,   false, true, false,   10.69, 9.01, -10.91
+AddPartWeapon = nimm61a1_1l,   false, true, true,    10.69, 9.01, -10.91
+AddPartRotWeapon = nimm61a1_1l,   false, true, true,    10.69, 9.01, -10.91, 0, 0, 1
+
+AddWeapon =  nimm61a1_1l, 10.69, 8.99, -10.72,  0, 0, true,  5,  0,   360, -360, -90, 80
+
+
+; right side m61
+AddPartWeapon    = nimm61a1_2,   false, true, false,   -53.82, 9.01, -25.80
+AddPartWeapon = nimm61a1_2,   false, true, true,     -53.82, 9.01, -25.80
+AddPartRotWeapon = nimm61a1_2,   false, true, true,    -53.82, 9.01, -25.80, 0, 0, 1
+
+AddWeapon =  nimm61a1_2, -53.82, 8.98, -25.62,  0, 0, true,  6,  0,  360, -360,  -90, 80
+
+
+
+; rear deck gau-19
+;ok that's just not real
+;AddPartWeapon    = gau-19_tw,   false, true, false,  -20.87, 5.49, -75.14
+;AddPartWeapon = gau-19_tw,   false, true, true,     -20.87, 5.49, -75.14
+;AddPartRotWeapon = gau-19_tw,   false, true, true,    -20.87, 5.49, -75.14, 0, 0, 1
+
+;AddWeapon =  gau-19_tw, -20.87, 5.49, -75.14,  0, 0, true,  7,  0,  360,  -360, -90, 80
+
+
+; horn
+AddWeapon =  ship_horn, 0.00, 0.10, 0.00,  0.0, 90
+
+
+;rework real: mk29 rim7
+AddPartWeapon    = nimaim7_spa,   false, true, false,  -36.5276, 10.9225, 88.0544
+AddPartWeapon    = nimaim7_spa,   false, true, true,  -36.5276, 10.9225, 88.0544
+
+AddWeapon =  nimaim7_spa,  -37.7945, 10.9225, 88.0544,    0, 0, true,  3,   0,   360,  -360, -90, 30
+AddWeapon =  nimaim7_spa,   -35.2607, 10.9225, 88.0544,   0, 0, true,  3,   0,   360,  -360, -90, 30
+
+
+;rework ciws
+AddPartWeapon    = nimm61a1_1,   false, true, false,   -4.6554, 10.8, 85.7888
+AddPartWeapon = nimm61a1_1,   false, true, true,    -4.6554, 10.8, 85.7888
+AddPartRotWeapon = nimm61a1_1,   false, true, true,    -4.6554, 10.8, 85.7888, 0, 0, 1
+
+AddWeapon =  nimm61a1_1, -4.6554, 10.8, 85.7888,  0, 0, true,  3,  0,   360, -360, -90, 80
+
+;rework/add rim116
+AddPartWeapon    = nimram116,   false, true, false,   12.3056, 9.8963, 0.1260
+AddPartWeapon = nimram116,   false, true, true,    12.3056, 11.87, 0.1260
+AddWeapon = nimram116, 12.3056, 9.8963, 0.1260, 0, 0, true, 5, 0, 360, -360, -90, 80
+
+;spam
+
+;l
+AddWeapon = nimmk38_l, -6.10, 11.87, 84.58, 0, 0, true, 5, 0, 360, 360, -90, 90
+AddWeapon = nimmk38_l, -6.10, 11.87, -75.33, 0, 0, true, 5, 0, 360, 360, -90, 90
+AddWeapon = nimmk38_l, 10.02, 11.87, -5.78, 0, 0, true, 5, 0, 360, 360, -90, 90
+;r
+AddWeapon = nimmk38_r, -34.80, 11.87, 84.58, 0, 0, true, 6, 0, 360, 360, -90, 90
+AddWeapon = nimmk38_r, -34.80, 11.87, -75.33, 0, 0, true, 6, 0, 360, 360, -90, 90
+AddWeapon = nimmk38_r, -53.49, 11.87, -5.78, 0, 0, true, 6, 0, 360, 360, -90, 90
+
+;front
+;AddWeapon = nimmk38_l, -6.10, 11.87, 84.58, 0, 0, true, 7, 0, 360, 360, -90, 90
+
+;AddWeapon = nimmk38_r, -34.80, 11.87, 84.58, 0, 0, true, 7, 0, 360, 360, -90, 90
+
+;rear
+;AddWeapon = nimmk38_l, -6.10, 11.87, -75.33, 0, 0, true, 7, 0, 360, 360, -90, 90
+
+;AddWeapon = nimmk38_r, -34.80, 11.87, -75.33, 0, 0, true, 7, 0, 360, 360, -90, 90
+
+;middle
+;AddWeapon = nimmk38_l, 10.02, 11.87, -5.78, 0, 0, true, 7, 0, 360, 360, -90, 90
+
+;AddWeapon = nimmk38_r, -53.49, 11.87, -5.78, 0, 0, true, 7, 0, 360, 360, -90, 90
+
+
+; on deck
+AddRack = plane,  -35.54, 12.08, 28.16, 18.80, 45.22, -5.75,  70, 100000,  -90.0, 0.0
+AddRack = plane,  -35.54, 12.08, 13.51, 18.80, 45.22, -5.75,  70, 100000,  -90.0, 0.0
+AddRack = plane,  -35.54, 12.08, 0.96, 18.80, 45.22, -5.75,  70, 100000,  -90.0, 0.0
+
+
+AddRack = plane,  -28.44, 11.86, 56.69, 18.80, 45.22, -5.75,  70
+AddRack = plane,  -14.25, 11.86, 56.69, 18.80, 45.22, -5.75,  70
+;needs MORE RACKS also launchrack = true would be good so we could launch jets instead of murdering them 
+
+
+; under
+AddRack = plane,  -29.04, 4.09, 6.20, 18.80, 45.22, -5.75,  70, 100000,  -90.0, 0.0
+AddRack = plane,  -29.04, 4.09, -5.34, 18.80, 45.22, -5.75,  70, 100000,  -90.0, 0.0
+AddRack = plane,  -29.04, 4.09, -19.58, 18.80, 45.22, -5.75,  70, 100000,  -90.0, 0.0
+
+AddRack = plane,  -14.91, 4.09, 6.20, 18.80, 45.22, -5.75,  70, 100000,  90.0, 0.0
+AddRack = plane,  -14.91, 4.09, -5.34, 18.80, 45.22, -5.75,  70, 100000,  90.0, 0.0
+AddRack = plane,  -14.91, 4.09, -19.58, 18.80, 45.22, -5.75,  70, 100000,  90.0, 0.0
+
+
+
+AddRack = helicopter / mv-22,  -42.14,  11.53, -21.07,  18.80, 45.22, -5.75,  70, 100000,  -90.0, 0.0
+AddRack = helicopter / mv-22,  -42.14, 11.53, -8.05,  18.80, 45.22, -5.75,  70, 100000,  -90.0, 0.0
+
+
+
+
+;sadly messes up nvg/therm
+
+;AddFixedSearchLight = -20.78, 11.63, 82.85,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+;AddFixedSearchLight = -20.78, 11.63, 62.35,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+;AddFixedSearchLight = -20.78, 11.63, 44.98,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+
+;AddFixedSearchLight = -1.19, 11.61, 19.58,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+;AddFixedSearchLight = -5.90, 11.61, 1.68,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+;AddFixedSearchLight = -11.51, 11.61, -20.50,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+;AddFixedSearchLight = -16.26, 11.61, -39.63,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+;AddFixedSearchLight = -20.20, 11.61, -55.75,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+;AddFixedSearchLight = -23.56, 11.61, -69.38,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0,  -90
+
+
+;AddFixedSearchLight = -31.79, 28.15, -25.70,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0, 0
+;AddFixedSearchLight = -47.88, 28.25, -25.68,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  0, 0
+;AddFixedSearchLight = -31.79, 28.15, -43.45,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  180, 0
+;AddFixedSearchLight = -47.88, 28.25, -43.48,   0x50FFFFFF,   0x10FFFFC0,    0.5, 6.5,  180, 0
+
+;AddFixedSearchLight = -33.64,  41.21, -35.77,   0x50FFFFFF,   0x10FFFFC0,    0.5, 2.5,  0, 0
+;AddFixedSearchLight = -44.98,  41.21, -35.77,   0x50FFFFFF,   0x10FFFFC0,    0.5, 2.5,  0, 0
+
+
+;AddFixedSearchLight = 4.35, 4.65, -0.21,   0x50FFFFFF,   0x10FFFFC0,    10.0, 10.0,  0, 90
+
+
+
+
+
+BoundingBox = -20.71, 3.84, 70.94,  28.0,  8.0
+BoundingBox = -20.71, 3.84, 64.53,  28.0,  8.0
+BoundingBox = -20.71, 3.84, 47.58,  28.0,  8.0
+BoundingBox = -20.71, 3.84, 29.50,  28.0,  8.0
+BoundingBox = -20.71, 3.84, 14.12,  40.0,  8.0
+BoundingBox = -20.71, 3.84, -2.44,  40.0,  8.0
+BoundingBox = -20.71, 3.84, -29.42,  40.0,  8.0
+BoundingBox = -20.71, 3.84, -48.87,  30.0,  8.0
+BoundingBox = -20.71, 3.84, -60.20,  30.0,  8.0
+
+BoundingBox = -20.71, 7.54, 70.94,  28.0,  8.0
+BoundingBox = -20.71, 7.54, 64.53,  28.0,  8.0
+BoundingBox = -20.71, 7.54, 47.58,  28.0,  8.0
+BoundingBox = -20.71, 7.54, 29.50,  28.0,  8.0
+BoundingBox = -20.71, 7.54, 14.12,  40.0,  8.0
+BoundingBox = -20.71, 7.54, -2.44,  40.0,  8.0
+BoundingBox = -20.71, 7.54, -29.42,  40.0,  8.0
+BoundingBox = -20.71, 7.54, -48.87,  30.0,  8.0
+BoundingBox = -20.71, 7.54, -60.20,  30.0,  8.0
+
+BoundingBox = -20.71, -3.5, 70.94,  20.0,  8.0
+BoundingBox = -20.71, -3.5, 64.53,  20.0,  8.0
+BoundingBox = -20.71, -3.5, 47.58,  20.0,  8.0
+BoundingBox = -20.71, -3.5, 29.50,  20.0,  8.0
+BoundingBox = -20.71, -3.5, 14.12,  32.0,  8.0
+BoundingBox = -20.71, -3.5, -2.44,  32.0,  8.0
+BoundingBox = -20.71, -3.5, -29.42,  32.0,  8.0
+BoundingBox = -20.71, -3.5, -48.87,  22.0,  8.0
+BoundingBox = -20.71, -3.5, -60.20,  22.0,  8.0
+
+
+BoundingBox = -39.67, 21.10, -36.75,  10.0,  8.0
+
+
+
+
+
+AddParticleSplash  =  11.60, 0.23, -31.20, 5, 10.5,  0.8, 40, 0.4, -0.03 
+AddParticleSplash  =  8.60, 0.23, -41.20, 5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  5.15, 0.23, -58.94, 5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  1.15, 0.23, -68.94, 5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -0.15, 0.23, -78.94, 5, 10.5,  0.8, 40, 0.4, -0.03
+
+AddParticleSplash  =  -3.15, 0.23, -80.73, 5, 10.3,  0.8, 80, 0.4,   -0.02
+AddParticleSplash  =  -12.87, 0.23, -98.53, 4, 10.0,  0.8, 80, 0.1,  -0.02
+AddParticleSplash  =  -12.87, 0.23, -102.53, 3, 10.0,  0.8, 80, 0.1, -0.01
+AddParticleSplash  =  -12.87, 0.23, -110.53, 3, 10.0,  0.8, 80, 0.1, -0.01
+
+
+
+AddParticleSplash  =  -52.93, 0.23, -31.20, 5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -48.93, 0.23, -41.20, 5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -44.63, 0.23, -58.94, 5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -40.63, 0.23, -68.94, 5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -38.63, 0.23, -78.94, 5, 10.5,  0.8, 40, 0.4, -0.03
+
+AddParticleSplash  =  -36.40, 0.23, -80.73, 5, 10.3,  0.8, 80, 0.4,  -0.02
+AddParticleSplash  =  -33.43, 0.23, -98.53, 4, 10.0,  0.8, 80, 0.1,  -0.02
+AddParticleSplash  =  -33.43, 0.23, -102.53, 3, 10.0,  0.8, 80, 0.1, -0.01
+AddParticleSplash  =  -33.43, 0.23, -110.53, 3, 10.0,  0.8, 80, 0.1, -0.01
+
+enableback = true
+
+;modern carrier
+AddRecipe = "AAC", "DEE", "BAD", A, mcheli:shiphull3, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:electronics, E, mcheli:cannon2

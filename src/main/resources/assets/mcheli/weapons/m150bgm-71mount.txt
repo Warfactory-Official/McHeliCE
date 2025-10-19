@@ -1,0 +1,41 @@
+﻿DisplayName = BGM-71D TOW
+;also bugged
+DisplayName = BGM-71D TOW
+FixMode = 1
+DisplayName = BGM-71D TOW
+Type = TVMissile
+Power = 900
+Acceleration = 3.2
+Explosion = 4
+ExplosionBlock = 2
+
+ExplosionInWater = 2
+
+Flaming = false
+Sight = MoveSight
+Delay = 100
+
+Round = 1
+
+Delay = 100
+ReloadTime = 200
+
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 2.0
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+Sound = tow
+SoundVolume = 15
+
+MaxAmmo = 1
+SuppliedNum = 1
+
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone
+
+ModeNum = 2

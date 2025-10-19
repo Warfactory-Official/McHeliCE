@@ -1,0 +1,74 @@
+DisplayName = MT-12 2A29 100mm Anti-Tank Gun
+MaxHp = 100
+Speed = 0.01
+ThrottleUpDown = 3.0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+Sound = none
+SoundVolume = 0
+HideEntity = false
+MinRotationPitch = -20
+MaxRotationPitch =  7
+WeightType = Tank
+DefaultFreelook = false
+ThirdPersonDist = 5
+SetWheelPos =  0.45,  -0.24,  -0.04, 0.04
+ThrottleUpDown = 0.81
+
+Category = ATG
+
+CameraZoom = 2
+
+AddTexture = MT-12_Rapira_2
+AddTexture = MT-12_Rapira_3
+
+EnableBack = true
+
+SubmergedDamageHeight = 2
+WeightedCenterZ = 0.0
+
+
+
+OnGroundPitchFactor = 3.5
+OnGroundRollFactor  = 3.5
+
+MobilityYawOnGround = 0.5
+PivotTurnThrottle = 0.0
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+TrackRollerRot = 2.5
+
+AddTrackRoller =   0.8845,  0.1680,  0.0005
+AddTrackRoller =  -0.8845,  0.1680,  0.0005
+
+HUD = none, vehicle
+
+
+CameraPosition = 0.0, 1.2306,  0.7524
+;CameraRotationSpeed = 5
+AddSeat = -0.4956,  0.2052, -0.8240
+
+unmountposition = -0.4956,  1.5, -0.8240
+
+AddGunnerSeat =  0.4956, 0.1052, -0.8240, 0.0, 1.2306,  0.7524, false, -20, 6, true
+
+AddWeapon = 2A29,   0.00, 0.6768, 0.00, 0.00, 0.00, false,2, 0, -27, 27, -20, 6
+AddWeapon = 2A29_2, 0.00, 0.6768, 0.00, 0.00, 0.00, false,2, 0, -27, 27, -20, 6
+AddWeapon = 2A29_3, 0.00, 0.6768, 0.00, 0.00, 0.00, false,2, 0, -27, 27, -20, 6
+AddWeapon = 2A299m, 0.00, 0.6768, 0.00, 0.00, 0.00, false,2, 0, -27, 27, -20, 6
+
+AddPartWeapon    = 2A29/2A29_2/2A29_3/2A299m, false, true, false,  0.00, 0.1847, 0.00
+AddPartWeaponChild  =                         false, true,  0.00, 0.1847, 0.00
+AddPartWeaponChild  =                         false, true,  0.00, 0.1847, 0.00, 0.5
+
+BoundingBox =  0.0, 0.7, 0.5, 0.5, 1.0
+BoundingBox =  0.5, 0.8, 0.5, 0.5, 1.0
+BoundingBox = -0.5, 0.8, 0.5, 0.5, 1.0
+BoundingBox =  1.0, 1.0, 0.2, 0.5, 0.5
+BoundingBox = -1.0, 1.0, 0.2, 0.5, 0.5
+
+;advanced anti tank turret (less)
+AddRecipe = "   ", "DEF", "G  ", D, mcheli:electronics, E, mcheli:lap, F, mcheli:advancedmechanicparts, G, mcheli:cannon2

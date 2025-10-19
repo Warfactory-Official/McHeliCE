@@ -1,0 +1,28 @@
+DisplayName = 9K118 Sheksna
+Type = TVMissile
+Power = 750
+Acceleration = 3.5
+Explosion = 3
+ExplosionInWater = 2
+Flaming = true
+Sight = MoveSight
+Delay = 5
+ModeNum = 2
+Sound = missile_1_snd
+
+ReloadTime = 100
+Group = MainGun
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+SoundVolume = 15
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  3, gunpowder
+Item =  2, redstone

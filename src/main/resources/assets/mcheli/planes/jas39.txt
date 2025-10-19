@@ -1,0 +1,99 @@
+﻿DisplayName = SAAB JAS39 Gripen
+AddDisplayName = en_US, SAAB JAS39 Gripen
+AddDisplayName = ja_JP, SAAB JAS39 グリペン
+ItemID = 28727
+MaxHp = 100
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.323
+FlareType = 4
+MaxFuel         = 1200
+FuelConsumption = 1.0
+MotionFactor = 0.968
+ThrottleUpDown = 0.3
+ThirdPersonDist = 16
+
+Sound = faeighteen
+
+MobilityRoll = 2.0
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+HUD = planenvg
+
+AddSeat = 0.00, 1.30, -0.60
+
+AddTexture = jas39_1
+
+AddPartSlideCanopy = 0.00, 0.15, -1.15,
+
+AddPartLG =  0.00,  1.185,  0.078, 1,0,0, 81
+AddPartLG = -2.11, 1.70, -5.80, -1,0,0, 95,  0,0,1, 28
+AddPartLG =  2.11, 1.70, -5.80, -1,0,0, 95,  0,0,-1, 28
+
+AddPartWeaponMissile =  jasaim120,  false,  false, false,   -3.24, 0.85, -6.00
+AddPartWeaponMissile =  jasaim120,  false,  false, false,    3.24, 0.85, -6.00
+AddPartWeaponMissile =  jasaim120,  false,  false, false,   -3.55, 1.27, -6.00
+AddPartWeaponMissile =  jasaim120,  false,  false, false,    3.55, 1.27, -6.00
+AddPartWeaponMissile =  aim9_mjas39,  false,  false, false,   -4.76, 1.67, -8.00
+AddPartWeaponMissile =  aim9_mjas39,  false,  false, false,    4.76, 1.67, -8.00
+
+AddWeapon =  jasbk27_1, -0.59, 1.23,  1.78, 0.0, 0.0
+AddWeapon =  jasaim120, -3.24, 0.85, -6.00,  0.0, 0.0
+AddWeapon =  jasaim120,  3.24, 0.85, -6.00,  0.0, 0.0
+AddWeapon =  jasaim120, -3.55, 1.27, -6.00,  0.0, 0.0
+AddWeapon =  jasaim120,  3.55, 1.27, -6.00,  0.0, 0.0
+AddWeapon =  aim9_mjas39, -4.76, 1.67, -8.00,  0.0, 0.0
+AddWeapon =  aim9_mjas39,  4.76, 1.67, -8.00,  0.0, 0.0
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0, 0.0
+
+BoundingBox =  0.00, 1.45,  2.65,   0.7, 0.7
+BoundingBox =  0.00, 1.52,  1.65,   0.9, 0.9
+BoundingBox =  0.00, 1.65,  0.65,   1.0, 1.2
+;BoundingBox =  0.00, 1.85, -0.37,   1.0, 1.6
+BoundingBox =  0.00, 1.65, -1.75,   2.0, 1.2
+BoundingBox =  0.00, 1.65, -3.80,   2.0, 1.2
+BoundingBox =  0.00, 1.70, -6.00,   2.0, 1.1
+BoundingBox =  0.00, 1.75, -8.10,   2.0, 1.0
+BoundingBox =  0.00, 1.85, -9.2,   1.2, 1.2
+BoundingBox =  0.00, 1.85, -10.2,   1.2, 1.2
+
+;canards (oh waiter more bloat)
+BoundingBox =  1.65, 1.95, -2.55,   1.05, 0.3
+
+
+BoundingBox =  -1.65, 1.95, -2.55,   1.05, 0.3
+
+
+
+BoundingBox =  1.32, 1.68, -4.55,   1.0, 0.2
+BoundingBox = -1.32, 1.68, -4.55,   1.0, 0.2
+
+BoundingBox =  1.70, 1.68, -5.70,   1.4, 0.2
+BoundingBox = -1.70, 1.68, -5.70,   1.4, 0.2
+BoundingBox =  2.25, 1.70, -7.65,   2.5, 0.3,   0.9
+BoundingBox = -2.25, 1.70, -7.65,   2.5, 0.3,   0.9
+BoundingBox =  4.10, 1.68, -8.20,   1.2, 0.15,  0.7
+BoundingBox = -4.10, 1.68, -8.20,   1.2, 0.15,  0.7
+
+BoundingBox =  0.00, 3.15, -10.2,   0.5, 3.2
+
+BoundingBox =  0.00, 3.08, -9.7,   0.5, 3.2
+BoundingBox =  0.00, 2.70, -9.2,   0.5, 3.2
+BoundingBox =  0.00, 2.8, -8.7,   0.5, 2.6
+BoundingBox =  0.00, 2.6, -8.2,   0.5, 1.9
+BoundingBox =  0.00, 2.0, -7.7,   0.5, 1.9
+
+
+
+
+UnmountPosition = 0.00, 1.50, -0.60
+
+
+;modern light plane (late jet), AOW3 style (none)
+AddRecipe = "ABC", "DE ", "GG ", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, G, mcheli:electronics 
+
+enableback = true
+DamageFactor = 0.8

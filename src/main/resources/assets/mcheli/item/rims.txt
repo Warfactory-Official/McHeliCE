@@ -1,0 +1,9 @@
+DisplayName = Steel Rims
+AddDisplayName = ja_JP, Steel Rims
+
+StackSize = 64
+;;AddRecipe = "A  ", "B  ", "A  ", A, coal, B, reeds
+
+
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_steel_wheel
+AddRecipe = " A ", " A ", " A ", A, mcheli:item.ingot_steel

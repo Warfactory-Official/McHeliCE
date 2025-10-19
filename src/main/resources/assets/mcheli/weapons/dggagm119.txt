@@ -1,0 +1,25 @@
+DisplayName = AGM-119B Penguin
+Type = TVMissile
+Power = 1000
+Acceleration = 1.9
+Explosion = 12
+ExplosionBlock = 10
+Flaming = true
+Sight = MoveSight
+Delay = 35
+ReloadTime = 350
+Sound = missile_cruise_snd
+SoundVolume = 15.0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  8, gunpowder
+Item =  2, redstone

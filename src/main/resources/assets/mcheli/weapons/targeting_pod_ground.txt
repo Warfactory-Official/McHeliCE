@@ -1,0 +1,10 @@
+DisplayName = Scouting
+Type = TargetingPod
+Sight = None
+Delay = 60
+Sound = lockon
+
+Length = 300
+Radius = 150
+Target = planes/helicopters/vehicles/players/monsters/others
+MarkTime = 100

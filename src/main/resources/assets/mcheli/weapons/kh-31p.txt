@@ -1,0 +1,21 @@
+DisplayName = Kh-31P Anti-Radar Missile
+Type = ATMissile
+Power = 1000
+Acceleration = 4.0
+Explosion = 10
+ExplosionInWater = 5
+Flaming = true
+Sight = MissileSight
+Delay = 20
+ModelBullet = Kh-31
+Sound = missile_2_snd
+Round = 4
+LockTime = 15
+ModeNum = 2
+ProximityFuseDist = 1
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  6, gunpowder
+Item =  3, redstone

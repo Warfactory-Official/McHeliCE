@@ -1,0 +1,38 @@
+DisplayName = SPLIKE-LR2 ATGM
+Type = TVMissile
+Power = 1200
+Acceleration = 1.4
+Explosion = 6
+ExplosionBLOCK = 2
+Flaming = false
+Sight = MissileSight 
+Delay = 10
+LockTime = 30
+FixMode = 1
+ModeNum = 2
+Round = 2
+reloadtime = 100
+ProximityFuseDist = 3
+ModelBullet = agm114
+Sound = missile_1_snd
+RidableOnly = false
+;TimeFuse = 200
+;it literally has ai integrated in it wtf
+
+heatcount = 900
+maxheatcount = 1500
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  5, iron_ingot
+Item =  10, gunpowder
+Item = 5, redstone
+;Gravity = 0.1

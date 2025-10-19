@@ -1,0 +1,40 @@
+DisplayName = 132mm M-13 Rocket
+Type = Rocket
+Power = 400
+Explosion = 4
+ExplosionInWater = 2
+ExplosionBlock = 5
+Acceleration = 4.0
+SoundVolume = 20.0
+Sound = missile_11_snd
+Accuracy = 5.0
+ModelBullet = bullet76mm
+Flaming = false
+Sight = None
+Delay = 6
+Round = 16
+Gravity = -0.065
+ReloadTime = 6000
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+DisplayMortarDistance = true
+FixCameraPitch = true
+CameraRotationSpeedPitch = 0.5
+
+AddMuzzleFlash      =           2.1,   1.05,        2,  220,254,219,104
+AddMuzzleFlash      =           2.0,   1.00,        1,  220,254,219,184
+
+AddMuzzleFlashSmoke   =             3.2,     10,    6.0,  3.0,       25,  220,160,140,120
+AddMuzzleFlashSmoke   =             2.2,      5,    6.0,  4.0,       35,  200,190,170,150
+
+MaxAmmo = 16
+SuppliedNum = 4
+Item =  4, iron_ingot
+Item =  4, gunpowder

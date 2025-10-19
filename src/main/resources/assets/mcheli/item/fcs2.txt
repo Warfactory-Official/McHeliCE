@@ -1,0 +1,12 @@
+DisplayName = Advanced Fire Control System
+AddDisplayName = ja_JP, Advanced Fire Control System
+
+StackSize = 64
+
+;;AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+
+;;AddRecipe = "ACA", "EXG", "T T", T, hfr:testcrashskibiditoilet, A, hfr:item.part_plating_1, C, hfr:item.part_chassis_1, E, hfr:item.part_engine_1, X, hfr:item.components_electronics, G, hfr:item.part_cannon_3
+
+;;AddRecipe = "A  ", "   ", "   ", A, hfr:item.ingot_steel
+AddRecipe = "CAC", " B ", "CCC", A, mcheli:fcs, B, gold_nugget, C, redstone
+

@@ -1,0 +1,29 @@
+DisplayName = 77N6-N [SAM]
+Type = AAMissile
+Power = 1000
+Acceleration = 7
+Explosion = 14
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+Round = 2
+LockTime = 10
+ProximityFuseDist = 0
+ModelBullet = 77h6h
+Sound = missile_3_snd
+
+
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+
+SoundVolume = 15
+RidableOnly = false
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  10, iron_ingot
+Item =  10, gunpowder
+Item =  10, redstone

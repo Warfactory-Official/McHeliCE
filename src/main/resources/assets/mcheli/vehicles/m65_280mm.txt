@@ -1,0 +1,53 @@
+﻿;DisplayName = unfunctional, M65 280mm Atomic Cannon
+AddDisplayName = ja_JP, M65 280mm カノン砲
+AddDisplayName = en_US, M65 280mm Atomic 'Annie'
+ItemID = 28601
+MaxHp = 100
+HideEntity = false
+MinRotationPitch = -55
+MaxRotationPitch =  0
+CameraZoom = 4
+CameraRotationSpeed = 1
+CameraPosition = -1.38, 3.15, 0.98
+
+Gravity = -9.81
+GravityInWater = -1.0
+
+DamageFactor = 1.0
+
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = mbt_hud
+
+;AddGunnerSeat = 1.38, 1.95, -1.51, 1.38, 3.15, 0.98, true,  0, 0
+
+AddGunnerSeat = -2.42, 0.85, -2.80, 1.38, 3.15, 0.98, true, -55, 0, true
+
+;-2.62, 1.85, -2.80
+
+;unmountposition = -1.31,  1.581, 0
+
+TurretPosition = 0, 0, 0
+
+;AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;脚
+AddPart      = true, true, false, 2, 0.0, 0.0, 0.0, 2.0
+;本体
+AddChildPart = true, false, true,  0, 0.0, 2.68, -2.03
+;砲身
+AddChildPart = true, false, true,  2, 0.0, 2.68, -2.03, 0.4
+
+AddTurretWeapon = w9, 0.0, 2.654, 0,  0.0, 0.0,  true,1, 0,-360,360, -55, 0
+
+;AddTurretWeapon = mg25mm,   0.40, 1.43, -0.04,   0.0, -1.0,   true,1, 0,-360,360, -80, 25
+
+;Big ass turret, cold war
+AddRecipe = "ABA", "ABB", "CD ", A, mcheli:cannon3, B, mcheli:hap, C, mcheli:electronics, D, mcheli:fcs
+
+
+;BoundingBox =  0.0, 0.9,  4.0,  4.0, 1.8
+BoundingBox =  0.0, 0.9,  0.0,  4.0, 1.8
+;BoundingBox =  0.0, 0.9, -4.0,  4.0, 1.8
+
+unmountposition = 0.00, 1.5, -0.0

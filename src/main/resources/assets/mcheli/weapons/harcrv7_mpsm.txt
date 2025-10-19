@@ -1,0 +1,34 @@
+DisplayName = 70mm CRV7 [WDU-5002/B - FAT]
+Type = Rocket
+Power = 300
+Acceleration = 5.0
+Flaming = false
+Sight = MoveSight
+Delay = 2
+ReloadTime = 1000
+Round = 38
+Bomblet = 5
+BombletSTime = 10
+BombletDiff = 0.4
+Sound = hydraseventy
+SoundPitch = 0.9
+;Piercing  = 2
+
+Gravity = -0.001
+
+Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+ModelBullet = crv7
+ModelBomblet = bullet
+
+MaxAmmo = 38
+SuppliedNum = 19
+Item =  4, iron_ingot
+Item =  4, gunpowder

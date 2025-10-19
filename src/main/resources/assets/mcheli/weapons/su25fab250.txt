@@ -1,0 +1,30 @@
+DisplayName = OFAB-100
+Type = Bomb
+Acceleration = 0.1
+Flaming = false
+Sight =  MoveSight
+Delay = 4
+ReloadTime = 1000
+Sound = bomb_snd
+ModelBullet = fab250
+DisplayMortarDistance = true
+
+Acceleration = 0.5
+Explosion = 11
+;Explosive mass	114kg
+Power = 540
+ExplosionBlock = 5
+ExplosionInWater = 6
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+Round = 8
+MaxAmmo = 8
+SuppliedNum = 1
+
+Item = 4, iron_ingot
+Item = 4, gunpowder

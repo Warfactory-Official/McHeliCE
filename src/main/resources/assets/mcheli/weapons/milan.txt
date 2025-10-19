@@ -1,0 +1,30 @@
+DisplayName = Milan ATGM
+Type = TVMissile
+Power = 530
+FixMode = 1
+Acceleration = 1.9
+ExplosionBlock = 2
+Explosion = 3
+ExplosionInWater = 2
+Flaming = true
+Sight = MoveSight
+Round = 4
+ModelBullet = agm114
+Sound = bmptmissile
+ModeNum = 2
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+Delay = 40
+ReloadTime = 200
+Group = MainGun
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  3, gunpowder
+Item =  2, redstone

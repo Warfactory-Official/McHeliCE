@@ -1,0 +1,48 @@
+DisplayName = Mk 24 Flare
+Type = Dispenser
+;Explosion = 0
+Acceleration = 3
+Sight = None
+Delay = 5
+Sound = smoke_snd
+SoundDelay = 4
+Gravity = -0.1
+
+;Bomblet = 1
+;BombletSTime = 1
+;BombletDiff = 0.2
+
+Round = 32
+ReloadTime = 2000
+
+SmokeSize   = 0.2
+
+;着弾時に使用するアイテムに水バケツを指定する。
+; 本来水バケツは使用すると水を設置するが、ヘリMOD内では特殊な処理を行って火を消していいる。
+;old depricated
+DispenseItem = hbm:item.grenade_flare
+DispenseRange = 2
+
+TrajectoryParticle = cloud
+;SmokeSize   = 5.0
+
+MaxAmmo = 32
+SuppliedNum = 8
+
+;chemYield = 5
+;it'd be too gassy sir -moc at some point or something
+;chemSpeed = 0.25
+;chemType = 3
+;0 = chlorine
+;1 = larp bullshit
+;2 = really unfunny larp bullshit
+;3 = agent orange
+;DAMMIT PAM WHERES THE MUSTARD GAS
+;fuck you bob
+
+
+
+Item =  8, redstone
+Item = 3, iron_ingot
+Item = 1, gunpowder
+;idk what else to put here so im just gonna use the poison item

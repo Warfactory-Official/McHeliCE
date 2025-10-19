@@ -1,0 +1,32 @@
+DisplayName = 7.62mm Gun
+Type = MachineGun1
+Power = 8
+Acceleration = 9.0
+Accuracy = 0.25
+Flaming = false
+Sight = MoveSight
+Delay = 0
+ReloadTime = 200
+;SoundDelay = 3
+;Accuracy = 4.0
+HeatCount = 1
+MaxHeatCount = 300
+SoundPitch = 1.0
+Sound = typesevenfourmachinegun
+Gravity = -0.001
+SoundVolume = 0.5
+AddMuzzleFlash      =           2.3,   0.25,        1,  220,254,219,104
+AddMuzzleFlashSmoke   =              2.5,     2,   3.0,  0.5,       15,  220,160,140,120
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+MaxAmmo = 4500
+SuppliedNum = 500
+Item =  2, iron_ingot
+Item =  2, gunpowder
+
+AddDisplayName = en_US, 7.62mm Gun
+Acceleration = 7.0

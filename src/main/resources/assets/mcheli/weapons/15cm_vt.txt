@@ -1,0 +1,42 @@
+DisplayName = 128mm Flak 40 Cannon [VT]
+Type = MachineGun2
+Power = 37
+ModelBullet = bullet76mm
+Acceleration = 7.0
+Explosion = 3	
+ExplosionBlock = 2
+
+ExplosionInWater = 2
+
+Flaming = false
+Sight = MoveSight
+Round = 1
+ReloadTime = 120
+SoundVolume = 2.0
+Sound = 150mmAA
+Particle = largeexplode
+ProximityFuseDist = 1
+ProximityDist = 1
+
+Gravity = -0.005
+
+Delay = 120
+ReloadTime = 120
+Group = MainGun
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+Accuracy = 1.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 15cm Gun [VT]
+SoundVolume = 15
+
+
+MaxAmmo = 32
+SuppliedNum = 16
+Item =  3, iron_ingot
+Item =  3, gunpowder

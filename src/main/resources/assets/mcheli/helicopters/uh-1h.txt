@@ -1,0 +1,87 @@
+DisplayName = UH-1H Iroquois with Agent Orange spray system
+AddDisplayName = ja_JP, UH-1H イロコイ (Agent Orange)
+;ItemID = 28821
+MaxHp = 100
+EnableGunnerMode = false
+EnableNightVision = true
+ThirdPersonDist = 20
+
+
+
+Speed = 1.35
+ThrottleUpDown = 0.8
+FlareType = 3
+;CameraPosition = 0.0, 0.7, 3.0
+MaxFuel         = 1350
+FuelConsumption = 1.0
+ConcurrentGunnerMode = true
+
+Sound = r44_heli
+soundpitch = 1.45
+soundvolume = 15
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = helinvg, heli_gnrnvg, none, none
+
+AddTexture = uh-1c-usam1
+AddTexture = uh-1c-usam2
+AddTexture = uh-1c-usmc
+AddTexture = uh-1c-usnv
+
+;pos
+
+;AddWeapon = m230,  0.00, 0.38, 0.90,  0,-1, true,2, 0,-360,360, -20,80
+
+AddWeapon = dispenser_aorange,  4.0997, 0.2303, -1.7844,   1.0, 0.0,  true,2,  0,0,0, 0, 0
+
+AddWeapon = dispenser_aorange,  3.0644, 0.4535, -1.7844,   1.0, 0.0,  true,2,  0,0,0, 0, 0
+
+AddWeapon = dispenser_aorange,  2.5593, 0.5650, -1.7844,   1.0, 0.0,  true,2,  0,0,0, 0, 0
+
+AddWeapon = dispenser_aorange,  2.0151, 0.6790, -1.7844,   1.0, 0.0,  true,2,  0,0,0, 0, 0
+
+
+
+;neg
+AddWeapon = dispenser_aorange,  -4.0997, 0.2303, -1.7844,   1.0, 0.0,  true,2,  0,0,0, 0, 0
+
+AddWeapon = dispenser_aorange,  -3.0644, 0.4535, -1.7844,   1.0, 0.0,  true,2,  0,0,0, 0, 0
+
+AddWeapon = dispenser_aorange,  -2.5593, 0.5650, -1.7844,   1.0, 0.0,  true,2,  0,0,0, 0, 0
+
+AddWeapon = dispenser_aorange,  -2.0151, 0.6790, -1.7844,   1.0, 0.0,  true,2,  0,0,0, 0, 0
+
+
+AddRotor= 1, 0,  0.00,  3.715,  -2.536,  0.0, 1.0, 0.0, false
+
+;-63.82
+AddRotor= 1, 0,  0.00,  3.715, -12.3657,  1.0, 0.0, 0.0, false
+
+AddSeat = -0.50,  0.80,  0.10
+AddSeat =  0.50,  0.80,  0.10
+AddSeat =  1.05,  0.70, -1.45
+AddSeat = -1.05,  0.70, -1.45
+
+;basic unarmed small modern helicopter NO WHEEL, AOW3 style
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:airframe2, B, mcheli:heliblade, C, mcheli:engine1, E, mcheli:electronics, D, mcheli:basicmechanicparts
+
+BoundingBox = 0.0, 3.3, -2.5, 0.5, 1.5, 1.5
+BoundingBox =  0.0, 2.0, -3.5,  2.8, 1.4
+BoundingBox =  0.0, 3.2,-12.0,  1.0, 1.5, 1.25
+
+BoundingBox = 0.0, 1.46, -5.50, 1.0, 1.0
+BoundingBox = 0.0, 1.46, -6.50, 1.0, 1.0
+BoundingBox = 0.0, 1.56, -7.50, 1.0, 1.0
+BoundingBox = 0.0, 1.56, -8.50, 1.0, 1.0
+BoundingBox = 0.0, 1.56, -9.50, 1.0, 1.0
+BoundingBox = 0.0, 1.86, -10.50, 1.0, 1.0
+BoundingBox = 0.0, 1.86, -11.50, 1.0, 1.0
+
+unmountposition = -0.50,  1.50,  0.10
+
+
+
+ThrottleUpDown = 0.5
+DamageFactor = 0.8

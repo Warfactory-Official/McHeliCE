@@ -1,0 +1,28 @@
+DisplayName = KH55 Clu [not real remove]
+Type = Rocket
+Power = 500
+Acceleration = 6
+Explosion = 5
+ExplosionBlock = 2
+Sight = MoveSight
+Delay = 80
+ModeNum = 2
+ModelBullet = x55at
+Sound = missile_1_snd
+SoundVolume = 10.0
+DisableSmoke = true
+
+Bomblet = 100
+BombletDiff = 1.2
+BombletSTime = 40
+ModelBomblet = cbc
+gravity = -0.001
+displaymortardistance= true
+DamageFactor = tank, 2.0
+
+
+MaxAmmo = 6
+SuppliedNum = 6
+Item =  5, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

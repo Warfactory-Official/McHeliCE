@@ -1,0 +1,254 @@
+DisplayName =  Airbus A400M Atlas
+AddDisplayName = en_US, Airbus A400M Atlas
+AddDisplayName = ja_JP, エアバス A400M アトラス
+ItemID = 30048
+EnableNightVision = true
+EnableEntityRadar = false
+Speed = 0.89262
+
+EnableParachuting = true
+MobDropOption  = 0.97, 1.10, -12.91, 2
+
+;513
+
+
+unmountposition = 0.58,  4.59,  1.75
+
+
+
+FlareType = 2
+MaxHP = 250
+InventorySize = 54
+ThrottleUpDown = 0.1
+Sound = airbus
+MaxFuel         = 6000
+FuelConsumption = 1.0
+ThirdPersonDist = 52
+
+;MinRotationRoll = -70
+;MaxRotationRoll =  70
+MobilityYaw = 0.4
+MobilityPitch = 0.4
+MobilityRoll = 0.3
+
+AddTexture = a400m_2
+AddTexture = a400m_3
+
+; M = Military(軍用機).  C = Transport(輸送機)
+Category = M.C
+
+HUD = planenvgonly, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none, none
+
+AddSeat =  0.58,  4.59,  1.75
+AddSeat = -0.58,  4.59,  1.75
+AddSeat =  0.71,  4.59, -0.49
+AddSeat = -0.71,  4.59,  0.31
+
+
+AddSeat =  1.60,  1.7,  -7.8
+AddSeat = -1.60,  1.7,  -7.8
+
+AddSeat =  1.60,  1.7,  -8.8
+AddSeat = -1.60,  1.7,  -8.8
+
+AddSeat =  1.60,  1.7,  -9.8
+AddSeat = -1.60,  1.7,  -9.8
+
+AddSeat =  1.60,  1.7,  -10.8
+AddSeat = -1.60,  1.7,  -10.8
+
+AddSeat =  1.60,  1.7,  -11.8
+AddSeat = -1.60,  1.7,  -11.8
+
+AddSeat =  1.60,  1.7,  -12.8
+AddSeat = -1.60,  1.7,  -12.8
+
+AddSeat =  1.60,  1.7,  -13.8
+AddSeat = -1.60,  1.7,  -13.8
+
+AddSeat =  1.60,  1.7,  -14.8
+AddSeat = -1.60,  1.7,  -14.8
+
+AddSeat =  1.60,  1.7,  -15.8
+AddSeat = -1.60,  1.7,  -15.8
+
+AddSeat =  0.00,  1.7,  -16
+
+
+AddPartLG =  2.77, 0.55, -17.63, 0, 0,-1, 120
+AddPartLG =  1.28, 0.54, -17.63, 0, 0, 1, 120
+AddPartLG = -2.77, 0.55, -17.63, 0, 0, 1, 120
+AddPartLG = -1.28, 0.54, -17.63, 0, 0,-1, 120
+AddPartLG =  2.4583, 0.4741, -14.9795, 0, 0,-1, 21.26, 1, 0, 0, 90
+AddPartLG =  2.4583, 0.4741, -17.1829, 0, 0,-1, 21.26, 1, 0, 0, 90
+AddPartLG =  2.4583, 0.4741, -19.4133, 0, 0,-1, 21.26, 1, 0, 0, 90
+AddPartLG = -2.4583, 0.4741, -14.9795, 0, 0, 1, 21.26, 1, 0, 0, 90
+AddPartLG = -2.4583, 0.4741, -17.1829, 0, 0, 1, 21.26, 1, 0, 0, 90
+AddPartLG = -2.4583, 0.4741, -19.4133, 0, 0, 1, 21.26, 1, 0, 0, 90
+AddPartLG =  1.41, 1.49, -0.79, -0.00849,-0.1786,-1, 122
+AddPartLG = -1.41, 1.49, -0.79, -0.00849, 0.1786, 1, 122
+AddPartLG =  0.00, 1.87,   0.10, 1, 0, 0, 120
+
+AddPartHatch =   0.00, 1.68, -27.31, -1, 0,0, 30
+AddPartHatch =   0.00, 5.91, -42.69, -1, 0,0, 15
+AddPartSlideHatch = -0.07, 0, 0
+AddPartSlideHatch =  0.07, 0, 0
+AddPartSlideHatch =   0, 0, 0.04
+AddPartSlideHatch =   0, 0,-0.04
+
+AddPartRotor =    14.10,  4.15, -13.93,   1,0, 0
+AddBlade = 1, 0,  14.10,  4.15, -13.93,   0,0,-1
+AddPartRotor =     7.36,  4.66, -11.97,  -1,0, 0
+AddBlade = 1, 0,   7.36,  4.66, -11.97,   0,0, 1
+AddPartRotor =    -7.36,  4.66, -11.97,   1,0, 0
+AddBlade = 1, 0,  -7.36,  4.66, -11.97,   0,0,-1
+AddPartRotor =   -14.10,  4.15, -13.93,  -1,0, 0
+AddBlade = 1, 0, -14.10,  4.15, -13.93,   0,0, 1
+
+
+AddRack = bnr32 / bnr32_police / impreza / growler / phantom / s15 / mxtmv / 350z / hel / humveewithweapon / hel2 / starion / rx7 / m2 / challenger / carrera_gt / bugattichiron / bnr34 / bcnr33 / altis / ae86 / m151 / m151_m2 / m151a1c / m151a2 / phantomarmored,   0.00,  1.98, -10.69,   0, 0, -34.93,   15,    5
+AddRack = bnr32 / bnr32_police / impreza / growler / phantom / s15 / mxtmv / 350z / hel / humveewithweapon / hel2 / starion / rx7 / m2 / challenger / carrera_gt / bugattichiron / bnr34 / bcnr33 / altis / ae86 / m151 / m151_m2 / m151a1c / m151a2 / phantomarmored,   0.00,  1.98, -17.47,   0, 0, -34.93,   15,    5
+AddRack = bnr32 / bnr32_police / impreza / growler / phantom / s15 / mxtmv / 350z / hel / humveewithweapon / hel2 / starion / rx7 / challenger / carrera_gt / bugattichiron / bnr34 / bcnr33 / altis / ae86 / m151 / m151_m2 / m151a1c / m151a2 / phantomarmored,   0.00,  1.98, -24.25,   0, 0, -34.93,   15,    5
+AddRack = bnr32 / bnr32_police / impreza / growler / phantom / s15 / mxtmv / 350z / hel / humveewithweapon / hel2 / starion / rx7 / challenger / carrera_gt / bugattichiron / bnr34 / bcnr33 / altis / ae86 / m151 / m151_m2 / m151a1c / m151a2 / phantomarmored,   0.00,  1.98, -20.47,   0, 0, -34.93,   15,    5
+AddRack = m1129 / strykericv / imshorad,   0.00,  1.98, -12.30,   0, 0, -34.93,   15,    5
+
+
+AddRack = container,     0.65,  2.19, -8.01,    0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -8.01,    0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -9.86,    0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -9.86,    0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -11.71,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -11.71,   0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -13.56,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -13.56,   0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -15.41,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -15.41,   0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -17.26,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -17.26,   0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -19.11,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -19.11,   0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -20.96,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -20.96,   0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -22.81,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -22.81,   0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -24.66,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -24.66,   0, 0, -34.93,   15,    5
+AddRack = container,     0.65,  2.19, -26.51,   0, 0, -34.93,   15,    5
+AddRack = container,    -0.65,  2.19, -26.51,   0, 0, -34.93,   15,    5
+
+ExclusionSeat = 5, 10
+ExclusionSeat = 5, 11
+ExclusionSeat = 5, 12
+ExclusionSeat = 5, 13
+ExclusionSeat = 5, 14
+ExclusionSeat = 5, 15
+ExclusionSeat = 5, 16
+ExclusionSeat = 5, 17
+
+ExclusionSeat = 6, 18
+ExclusionSeat = 6, 19
+ExclusionSeat = 6, 20
+ExclusionSeat = 6, 21
+ExclusionSeat = 6, 22
+ExclusionSeat = 6, 23
+ExclusionSeat = 7, 24
+ExclusionSeat = 7, 25
+
+ExclusionSeat = 7, 26
+ExclusionSeat = 7, 27
+ExclusionSeat = 7, 28
+ExclusionSeat = 7, 29
+ExclusionSeat = 7, 30
+ExclusionSeat = 7, 31
+
+ExclusionSeat = 8, 10
+ExclusionSeat = 8, 11
+ExclusionSeat = 8, 12
+ExclusionSeat = 8, 13
+ExclusionSeat = 8, 14
+ExclusionSeat = 8, 15
+ExclusionSeat = 8, 16
+ExclusionSeat = 8, 17
+ExclusionSeat = 8, 18
+ExclusionSeat = 8, 19
+
+ExclusionSeat = 8, 5
+ExclusionSeat = 8, 6
+ExclusionSeat = 8, 7
+
+ExclusionSeat = 9, 20
+ExclusionSeat = 9, 21
+ExclusionSeat = 9, 22
+ExclusionSeat = 9, 23
+ExclusionSeat = 9, 24
+ExclusionSeat = 9, 25
+ExclusionSeat = 9, 26
+ExclusionSeat = 9, 27
+
+
+BoundingBox =  0.00, 3.35,  3.00,   2.5, 2.5
+BoundingBox =  0.00, 3.90, -3.73,   4.5, 5.0
+BoundingBox =  0.00, 4.00, -6.50,   6.0, 6.0
+BoundingBox =  0.00, 4.40, -12.5,   6.0, 7.0
+BoundingBox =  0.00, 4.40, -18.5,   6.0, 7.0
+BoundingBox =  0.00, 4.00, -24.5,   5.5, 6.0
+BoundingBox =  0.00, 4.75, -30.2,   5.0, 5.0
+BoundingBox =  0.00, 5.85, -35.6,   4.2, 4.2
+BoundingBox =  0.00, 7.20, -40.2,   3.0, 3.0
+
+BoundingBox =  6.60, 6.85, -18.0,   7.0, 1.2
+BoundingBox = -6.60, 6.85, -18.0,   7.0, 1.2
+BoundingBox =  13.1, 6.45, -19.8,   6.0, 0.9
+BoundingBox = -13.1, 6.45, -19.8,   6.0, 0.9
+BoundingBox =  18.6, 6.10, -21.6,   4.0, 0.7,   0.8
+BoundingBox = -18.6, 6.10, -21.6,   4.0, 0.7,   0.8
+
+BoundingBox =  14.1, 4.00, -14.7,   1.5, 2.2,   1.25
+BoundingBox =  14.1, 4.20, -16.4,   1.5, 2.5,   1.25
+BoundingBox =  14.1, 4.35, -18.1,   1.5, 2.5,   1.25
+BoundingBox =  14.1, 4.75, -19.8,   1.5, 1.5,   1.25
+BoundingBox = -14.1, 4.00, -14.7,   1.5, 2.2,   1.25
+BoundingBox = -14.1, 4.20, -16.4,   1.5, 2.5,   1.25
+BoundingBox = -14.1, 4.35, -18.1,   1.5, 2.5,   1.25
+BoundingBox = -14.1, 4.75, -19.8,   1.5, 1.5,   1.25
+
+BoundingBox =  7.35, 4.51, -12.7,   1.5, 2.2,   1.25
+BoundingBox =  7.35, 4.71, -14.4,   1.5, 2.5,   1.25
+BoundingBox =  7.35, 4.81, -16.1,   1.5, 2.5,   1.25
+BoundingBox =  7.35, 5.26, -17.8,   1.5, 1.5,   1.25
+
+BoundingBox = -7.35, 4.51, -12.7,   1.5, 2.2,   1.25
+BoundingBox = -7.35, 4.71, -14.4,   1.5, 2.5,   1.25
+BoundingBox = -7.35, 4.81, -16.1,   1.5, 2.5,   1.25
+BoundingBox = -7.35, 5.26, -17.8,   1.5, 1.5,   1.25
+
+BoundingBox =  0.00, 12.20, -43.2,   3.0, 12.0
+BoundingBox =  0.00, 12.20, -45.2,   3.0, 12.0
+BoundingBox =  0.00, 12.20, -47.2,   3.0, 12.0
+BoundingBox =  0.00, 12.20, -49.2,   3.0, 12.0
+
+BoundingBox = 2.87, 16.69, -47.64, 3.5, 0.5
+BoundingBox = -2.87, 16.69, -47.64, 3.5, 0.5
+
+BoundingBox = 3.87, 16.69, -47.64, 3.5, 0.5
+BoundingBox = -3.87, 16.69, -47.64, 3.5, 0.5
+
+BoundingBox = 4.87, 16.69, -48.64, 3.5, 0.5
+BoundingBox = -4.87, 16.69, -48.64, 3.5, 0.5
+
+BoundingBox = 6.87, 16.69, -49.64, 3.5, 0.5
+BoundingBox = -6.87, 16.69, -49.64, 3.5, 0.5
+
+
+;basic unarmed transport mil large plane, AOW3 style
+AddRecipe = "ABC", "DA ", "E  ", A, mcheli:airframe3, B, mcheli:basicmechanicparts, C, mcheli:engine2, D, mcheli:wheelair, E, mcheli:electronics
+
+DamageFactor = 0.8
+
+enableback = true
+
+
+
+RotorSpeed = 2000
+
+DamageFactor = 0.8

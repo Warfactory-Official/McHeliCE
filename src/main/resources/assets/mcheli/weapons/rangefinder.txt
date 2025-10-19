@@ -1,0 +1,32 @@
+DisplayName = Rangefinder
+Type = MachineGun1
+
+Power = 0
+
+
+Round = 1
+Delay = 50000
+ReloadTime = 50000
+
+Gravity = -0.001
+
+
+Acceleration = 7
+
+Sight = None
+Delay = 6
+;Sound = lockon
+
+DisplayMortarDistance = true
+
+;Length = 100
+;Radius = 20
+;Target = planes/helicopters/vehicles/players/monsters/others
+;Target = monsters/others
+;MarkTime = 60
+
+
+MaxAmmo = 1
+SuppliedNum = 1
+
+Item =  1, bedrock

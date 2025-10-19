@@ -1,0 +1,32 @@
+DisplayName = Zircon Hypersonic Missile
+Type = TVMissile
+Power = 2000
+Acceleration = 30
+Explosion = 12
+ExplosionInWater = 6
+
+Sight = MissileSight 
+
+delay = 2
+reloadtime = 1000
+piercing= 6
+ModelBullet = Zircon
+Sound = hydraseventy
+SoundVolume = 10
+RidableOnly = true
+
+DisableSmoke = true
+gravity = -0.001
+displaymortardistance = true
+DamageFactor = tank, 2.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  5, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

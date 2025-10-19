@@ -1,0 +1,24 @@
+DisplayName = PL-2 [AAM]
+Type = AAMissile
+Power = 11
+Acceleration = 2.0
+Explosion = 10
+Flaming = false
+Sight = MissileSight
+Delay = 5
+LockTime = 30
+ReloadTime = 1000
+ProximityFuseDist = 1
+ModelBullet = aim9h
+Sound = missile_1_snd
+
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 2
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  2, redstone

@@ -1,0 +1,23 @@
+DisplayName = R-60 [AAM]
+Type = AAMissile
+Power = 9
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 2.5
+Explosion = 3
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1100
+Round = 4
+LockTime = 16
+ProximityFuseDist = 1
+Sound = missile_1_snd
+
+MaxAmmo = 4
+SuppliedNum = 4
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

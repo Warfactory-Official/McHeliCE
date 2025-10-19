@@ -1,0 +1,120 @@
+DisplayName = BM-27 Uragan MLRS
+MaxHp = 250
+Speed = 0.4
+Sound = dieselman
+
+SoundPitch = 0.8
+ThrottleUpDown = 2.0
+MobilityYawOnGround = 4.0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+
+MinRotationPitch = -90
+MaxRotationPitch = 90
+
+DamageFactor = 0.2
+CameraZoom = 4
+EnableNightVision = true
+CameraRotationSpeed = 40
+EnableEntityRadar = false
+MaxFuel  = 1200
+FuelConsumption = 2.0
+CameraPosition = 0.00,  7.42, -2.52
+HideEntity = false
+EnableBack = true
+;MinRotationPitch = -25
+;MaxRotationPitch = 2
+Category = MLRS
+DefaultFreelook = false
+StepHeight = 1.8
+
+WeightType = Tank
+
+AddSeat = 1.0, 1.5, 4.5
+
+AddSeat = 0.0, 1.5, 4.5
+
+unmountposition = 1.0, 1.5, 4.5
+
+AddGunnerSeat =  -1.0, 1.5, 4.5,   0.00, 7.42, -2.52,  false, -55, 5, false
+
+TurretPosition = 0, 1.0, -3
+
+HUD = mbt_hudtwo, nohud, mbt_gnr
+
+AddWeapon = uragan220mm,   0.97,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mm,   0.6,    3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mm,   0.21,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mm,  -0.1767, 3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mm,  -0.5632, 3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mm,  -0.94,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+
+
+AddWeapon = uragan220mmfrag,   0.97,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmfrag,   0.6,    3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmfrag,   0.21,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmfrag,  -0.1767, 3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmfrag,  -0.5632, 3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmfrag,  -0.94,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+
+AddWeapon = uragan220mmatm,   0.97,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm,   0.6,    3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm,   0.21,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm,  -0.1767, 3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm,  -0.5632, 3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm,  -0.94,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+
+AddWeapon = uragan220mmatm2,   0.97,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm2,   0.6,    3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm2,   0.21,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm2,  -0.1767, 3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm2,  -0.5632, 3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+AddWeapon = uragan220mmatm2,  -0.94,   3, -3.33, 0.0, 0.0, false,  3 , 0, -30, 30, -55, 5
+
+
+AddPartWeapon 		= uragan220mm / uragan220mmfrag / uragan220mmatm / uragan220mmatm2, false, true, false, 0.00, 1.73, -2.5459
+AddPartWeaponChild = false, true, 0.00, 2.5587, -3.339
+
+AddPartWheel =   1.83, 0.5, 3.8615, 20
+AddPartWheel =   -1.83, 0.5, 3.8615, 20
+AddPartWheel =   1.83, 0.5, 0.7531
+AddPartWheel =   -1.83, 0.5, 0.7531
+AddPartWheel =   1.83, 0.5, -1.2087
+AddPartWheel =   -1.83, 0.5, -1.2087 
+AddPartWheel =   1.83, 0.5, -4.3026
+AddPartWheel =   -1.83, 0.5, -4.3026
+PartWheelRot = 25
+
+SetWheelPos =  1.33,  -0.24,  3.86,  0.75, -1.2, -4.3
+
+;light 8x8 mlrs (2 eng)
+AddRecipe = "ABC", "DCG", "E  ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics, G, mcheli:rocket3, E, mcheli:fcs
+
+;ArmorMinDamage = 4
+;ArmorMaxDamage = 500
+ArmorDamageFactor = 1.00
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+DamageFactor = 0.0
+
+HideEntity = false
+
+BoundingBox = 0.0, 1.040, 4.20, 3.4, 0.3
+
+BoundingBox = 0.0, 0.8, 3.00, 2.5, 0.8
+BoundingBox = 0.0, 0.8, 0.50, 2.5, 0.8
+BoundingBox = 0.0, 0.8, -2.00, 2.5, 0.8
+BoundingBox = 0.0, 0.8, -4.10, 2.5, 0.8
+
+BoundingBox = 0.0, 1.2, 3.00, 2.5, 0.8
+BoundingBox = 0.0, 1.2, 0.50, 2.5, 0.8
+BoundingBox = 0.0, 1.2, -2.00, 2.5, 0.8
+BoundingBox = 0.0, 1.2, -4.10, 2.5, 0.8
+
+
+BoundingBox = 0.0, 2.6, -2.5, 1.5, 1.8, 1.5
+
+BoundingBox = 0.0, 1.95, 2.40, 2.8, 1.0, 1.5

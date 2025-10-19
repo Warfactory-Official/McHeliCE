@@ -1,0 +1,17 @@
+DisplayName = Fuel Tank
+Type = Bomb
+Power = 30
+Acceleration = 0.5
+Explosion = 2
+FAE = true
+Flaming = true
+Delay = 20
+Round = 1
+ReloadTime = 500
+Gravity = -0.03
+ModelBullet = fuel_tank
+Sound = bomb_snd
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  6, iron_ingot

@@ -1,0 +1,30 @@
+DisplayName = KH-101
+Type = TVMissile
+Power = 1000
+Acceleration = 2.7
+Explosion = 17
+ExplosionBlock = 3
+ExplosionInWater = 15
+Sight = MoveSight
+Delay = 5
+ModeNum = 2
+ModelBullet = kh101
+Sound = missile_1_snd
+DisableSmoke = true
+SoundVolume = 15
+
+ReloadTime = 2000
+
+Round = 8
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 1.0
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 8
+SuppliedNum = 1
+Item =  9, iron_ingot
+Item =  9, gunpowder
+Item =  4, redstone

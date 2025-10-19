@@ -1,0 +1,27 @@
+DisplayName = RIM-7 Sea Sparrow [AAM]
+Type = AAMissile
+Power = 40
+Acceleration = 2.6
+Explosion = 8
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+Round = 8
+LockTime = 24
+ProximityFuseDist = 2
+ModelBullet = aim7
+Sound = missile_1_snd
+
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+
+
+MaxAmmo = 8
+SuppliedNum = 4
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

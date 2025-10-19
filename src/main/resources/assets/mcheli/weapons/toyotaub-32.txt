@@ -1,0 +1,38 @@
+DisplayName = 57mm UB-32M [S-5K Rocket]
+Type = Rocket
+Power = 130
+ModelBullet = hydra70
+Acceleration = 7
+Explosion = 3
+ExplosionBlock = 3
+
+ExplosionInWater = 2
+
+Flaming = false
+Sight = MoveSight
+Sound = rocket_snd
+Delay = 1
+ReloadTime = 210
+Round = 32
+Gravity = -0.075
+Accuracy = 1.5
+
+
+
+Group = MainGun
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+Accuracy = 1.5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+MaxAmmo = 32
+SuppliedNum = 8
+Item =  3, iron_ingot
+Item =  3, gunpowder

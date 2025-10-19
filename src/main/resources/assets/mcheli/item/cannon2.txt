@@ -1,0 +1,5 @@
+DisplayName = Medium Caliber Cannon
+AddDisplayName = ja_JP, Medium Caliber Cannon
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_cannon_2
+AddRecipe = "A  ", " A ", "  A", A, mcheli:map

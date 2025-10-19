@@ -1,0 +1,122 @@
+﻿DisplayName = M163 VADS (M113)
+AddDisplayName = en_US, M163 VADS (M113)
+AddDisplayName = ja_JP, M163 対空自走砲 (M113)
+ItemID = 30191
+MaxHp = 200
+Speed = 0.40
+ThrottleUpDown = 2.0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 6
+EnableNightVision = true
+EnableEntityRadar = true
+Sound = moneonethreeapc
+;HUD = mbt_hud, 
+HUD = mbt_hudtherm
+WeightType = Tank
+DefaultFreelook = true
+
+Category = SPAAG
+
+
+CameraRotationSpeed = 45
+
+ThirdPersonDist = 8
+
+
+AddTexture = m163_1
+
+EnableBack = true
+SetWheelPos =  1.00,  -0.24, -1.85, -0.9137, 0.0018, 0.9168, 1.8519
+
+SubmergedDamageHeight = 1
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 2.0
+
+MobilityYawOnGround = 2.4
+PivotTurnThrottle = 0.0
+
+;AddGunnerSeat       =   0.00, 1.91,  -0.46, 0.00, 1.91,  -0.46, true, 90, -90, true
+;CameraPosition =  0.00, 3.37,  0.10, false
+
+;AddSeat       =   0.00, 2.91,  -0.46, true
+
+TurretPosition = 0.0, 1.0, 0.0
+AddGunnerSeat =  0.00,  1.9, 0.00, 0.0, 3.50, 0.00, false, -85, 5, false
+
+
+;;AddSeat       =   0.56, 0.85, -0.56
+;;AddSeat       =  -0.56, 0.85, -0.56
+;;AddSeat       =   0.56, 0.85, -1.60
+;;AddSeat       =  -0.56, 0.85, -1.60
+;;AddSeat       =   0.56, 0.85, -2.46
+;;AddSeat       =  -0.56, 0.85, -2.46
+
+CameraPosition =  0.00, 3.9,  -0.00, false
+
+
+StepHeight = 1.5
+InventorySize = 25
+ParticlesScale = 0.1
+SmoothShading = true
+HideEntity = false
+
+
+
+MotionFactor = 0.92
+
+MaxFuel         = 1000
+FuelConsumption = 1.5
+
+TrackRollerRot = 35
+
+AddTrackRoller = 0.00, 0.51, -2.68
+
+AddTrackRoller = 0.00, 0.2102, -1.8508
+
+;-16.06
+AddTrackRoller = 0.00, 0.0497, -0.9137
+AddTrackRoller = 0.00, 0.0497, 0.0018
+AddTrackRoller = 0.00, 0.0497,  0.9168
+
+AddTrackRoller = 0.00, 0.2102,  1.8519
+
+AddTrackRoller = 0.00, 0.64,  2.69
+
+AddCrawlerTrack = false, 0.14, -1.15,   1.07/ 2.64, 0.91/ 3.05, 0.59/ 3.11, 0.25/ 2.98, -0.14/ 2.03, -0.28/ 1.65, -0.28/ -1.77, -0.14/ -2.14, 0.22/ -2.96, 0.51/ -3.08, 0.80/ -2.96, 0.91/ -2.67,
+AddCrawlerTrack = false, 0.14,  1.15,   1.07/ 2.64, 0.91/ 3.05, 0.59/ 3.11, 0.25/ 2.98, -0.14/ 2.03, -0.28/ 1.65, -0.28/ -1.77, -0.14/ -2.14, 0.22/ -2.96, 0.51/ -3.08, 0.80/ -2.96, 0.91/ -2.67,
+
+MinRotationPitch = -80
+MaxRotationPitch = 5
+
+AddPartWeapon = 63m61a1_v, false, true, false, 0.00, 2.46, -0.0
+AddPartWeaponChild = false, true, 0.00, 3.04, -0.0, 0,0
+AddPartRotWeapon = 63m61a1_v, false, true, true,  0.00, 3.0707,  -0.0,
+
+AddTurretWeapon = 63m61a1_v, 0.00, 3.07, 0.71,  0.0, 0.0, true,1, 0,-360,360, -80, 5
+
+AddTurretWeapon = targeting_pod_mob,     0.60, 3.40, 0.60,   0.0, 0.0,  true, 1
+AddTurretWeapon = targeting_pod_pv10s,   0.60, 3.40, 0.60,   0.0, 0.0,  false,1
+
+
+;ArmorMinDamage = 29
+
+BoundingBox = 0.0, 1.25, -1.8, 3.0, 2.6, 1.0
+
+BoundingBox = 0.0, 1.25, 0.0, 3.0, 2.6, 1.0
+
+BoundingBox = 0.0, 1.35, 0.8, 3.0, 2.3, 1.0
+BoundingBox = 0.0, 1.25, 1.0, 3.0, 2.2, 1.0
+BoundingBox = 0.0, 1.05, 1.2, 3.0, 2.0, 1.0
+BoundingBox = 0.0, 0.80, 1.4, 3.0, 1.8, 1.0
+BoundingBox = 0.0, 0.60, 1.75, 3.0, 1.4, 1.0
+
+light tracked tank/apc (m163) (modern no composite)
+AddRecipe = "ABC", "DFF", "E  ", A, mcheli:lightchassis, B, mcheli:cannon2, C, mcheli:engine1, D, mcheli:tanktracks, F, mcheli:electronics, E, mcheli:cannon1
+
+AddRecipe = "ABC", "B  ", "   ", A, mcheli:m113unarmed, B, mcheli:electronics, C, mcheli:cannon1
+
+unmountposition = 0.00,  1.50,  0.00

@@ -1,0 +1,37 @@
+DisplayName = 37mmB-3 TankGun[AP]
+Type = MachineGun2
+Power = 64
+Acceleration = 6.5
+ModelBullet = bullet76mm
+Explosion = 0
+ExplosionBlock = 0
+Sight = MoveSight
+ReloadTime = 60
+Round = 1
+Sound = cannon_1_snd
+SoundVolume = 0.8
+Accuracy = 1.5
+Piercing = 0
+HeatCount = 225
+MaxHeatCount = 400
+Gravity = -0.01
+GravityInWater = -1.0
+Particle = flame
+RecoilBufCount = 20, 5
+DamageFactor = tank, 1.5
+DamageFactor = plane, 1.0
+DamageFactor = vehicle 1.0
+DamageFactor = heli, 1.0
+Recoil = 1.5
+Group = MainGun
+
+AddMuzzleFlash      =           2.0,   2.25,        2,  220,254,159,74
+AddMuzzleFlash      =           3.0,   1.50,        4,  220,254,219,104
+
+AddMuzzleFlashSmoke   =         2.75,    18,   7.0,  4.0,       50,  220,160,140,120
+AddMuzzleFlashSmoke   =         3.25,    12,   8.0,  6.0,       70,  200,190,170,150
+
+MaxAmmo = 90
+SuppliedNum = 10
+Item =  5, iron_ingot
+Item =  5, gunpowder

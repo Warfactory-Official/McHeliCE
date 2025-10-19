@@ -1,0 +1,98 @@
+﻿DisplayName = Up Armed Boeing ACH-47A "Guns A Go-Go" Chinook
+AddDisplayName = en_US, Up Armed Boeing ACH-47A "Guns A Go-Go" Chinook
+AddDisplayName = ja_JP, ACH47a アームド チヌーク
+ItemID = 28811
+MaxHp = 100
+EnableNightVision = true
+Float = true
+Speed = 1.7
+
+FlareType = 1
+MaxFuel         = 2400
+FuelConsumption = 1.0
+onGroundPitch = 2.5
+Float = true
+FloatOffset = -0.9
+
+sound = apache
+soundpitch = 1.0
+soundvolume = 15
+
+; M = Military(軍用機).  S = Multi-Mission(多目的機)
+Category = M.S
+
+HUD = helinvg, heli_gnrnvg, gunner, gunner, gunner, gunner,
+
+MobilityYaw = 0.7
+MobilityPitch = 0.7
+MobilityRoll = 0.7
+AddPartWeapon    = achm3m_l,    false, true, true,   -0.7,    1.4433,   -4.7
+
+AddPartWeapon    = achm134_l50,  false, true,  false,  -1.2859,  1.7843,  4.9367
+AddPartWeapon    = achm134_l50,  false, true,  true,   -1.2859,  1.7843,  4.9367
+AddPartRotWeapon = achm134_l50,  false, true,  true,   -1.2859,  1.7843,  4.9367, -1,0,0
+AddPartWeapon    = achm134_r50,  false, true,  false,   1.2859,  1.7843,  4.9367
+AddPartWeapon    = achm134_r50,  false, true,  true,    1.2859,  1.7843,  4.9367
+AddPartRotWeapon = achm134_r50,  false, true,  true,    1.2859,  1.7843,  4.9367,  1,0,0
+AddPartWeapon    = achm75_40mm,  false, false, true,    0.00,    0.4051,  6.8922
+AddPartWeapon    = achm134_l502, false, true,  false,   1.2859,  1.8159, -1.6054
+AddPartWeapon    = achm134_l502, false, true,  true,    1.2859,  1.8159, -1.6054
+AddPartRotWeapon = achm134_l502, false, true,  true,    1.2859,  1.8159, -1.6054, -1,0,0
+AddPartWeapon    = achm134_r502, false, true,  false,  -1.2859,  1.8159, -1.6054
+AddPartWeapon    = achm134_r502, false, true,  true,   -1.2859,  1.8159, -1.6054
+AddPartRotWeapon = achm134_r502, false, true,  true,   -1.2859,  1.8159, -1.6054,  1,0,0
+
+
+AddRotor = 3, 120, 0.0, 4.4943,   6.1578,  0.0,  1.0, 0.11, false
+AddRotor = 3, 120, 0.0, 5.7352,  -6.1578,  0.0, -1.0, -0.093, false
+
+AddSeat 	  =  0.79,  1.3433,   5.9559
+AddGunnerSeat = -0.79,  1.3433,   5.9559, -0.79,  2.3433,   5.9559, false
+AddGunnerSeat = -0.8278,1.1933,  -3.6641, -0.8278,2.1433,  -3.6641, false
+AddGunnerSeat = -0.68,  1.2933,   4.9336, -0.68,  2.3433,   4.9336, false
+AddGunnerSeat =  0.68,  1.2933,   4.9336,  0.68,  2.3433,   4.9336, false
+AddGunnerSeat =  0.68,  1.2933,  -1.6054,  0.68,  2.3433,  -1.6054, false
+AddGunnerSeat = -0.68,  1.2933,  -1.6054, -0.68,  2.3433,  -1.6054, false
+
+AddPartLG =  0.00, 0.4029,   1.9249,  1,0,0, 10
+AddPartLG =  0.00, 0.7219,  -5.2282,  1,0,0, 10
+
+AddWeapon = achm3m_l,     -0.7,    1.4433,    -4.695,   0.0, 0.0,  false, 3, -180,-70, 70, -5,   30
+AddWeapon = achm134_l50,  -1.2859, 1.8143,  4.9367,  0.0, 0.0,  false, 4,  90, -70, 70, -80,  80
+AddWeapon = achm134_r50,   1.2859, 1.8143,  4.9367,  0.0, 0.0,  false, 5, -90, -70, 70, -80,  80
+AddWeapon = achm3m_r,      2.9497, 0.8333,    3.1985,  0.0, 0.0,  true,  1,  0,   0,  0,   0,   0
+AddWeapon = achm3m_r,     -2.9497, 0.8333,    3.1985,  0.0, 0.0,  true,  1,  0,   0,  0,   0,   0
+AddWeapon = achffar,  2.3,    0.4913,   2.4526,  1.0, 0.0,  true,  1,  0,   0,  0,   0,   0
+AddWeapon = achffar, -2.3,    0.4913,   2.4526, -1.0, 0.0,  true,  1,  0,   0,  0,   0,   0
+AddWeapon = achm75_40mm,   0.00,   0.4051,  6.8922,  0.0, 0.0,  true,  1,  0,   0,  0,   0,   30
+AddWeapon = achm134_l502,  1.2859, 1.8159, -1.6054,  0.0, 0.0,  false, 6, -90, -70, 70, -80,  80
+AddWeapon = achm134_r502, -1.2859, 1.8159, -1.6054,  0.0, 0.0,  false, 7,  90, -70, 70, -80,  80
+
+
+
+;advanced large modern helicopter transport way armed, AOW3 style
+AddRecipe = "ABC", "DEF", "GH ", A, mcheli:airframe3, B, mcheli:heliblade2, C, mcheli:engine2, D, mcheli:wheelair, E, mcheli:electronics, F, mcheli:cannon2, G, mcheli:rocket, H, mcheli:cannon1
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:ch47, B, mcheli:cannon2, C, mcheli:rocket
+
+InventorySize = 9
+
+BoundingBox = 0.0, 3.50, 5.75, 2.0, 1.0
+BoundingBox = 0.0, 4.00, 6.15, 0.5, 1.0, 1.5
+
+BoundingBox = 0.0, 3.00, 3.70, 2.3, 0.5
+BoundingBox = 0.0, 3.00, 1.70, 2.3, 0.5
+BoundingBox = 0.0, 3.00, -0.50, 2.3, 0.5
+BoundingBox = 0.0, 3.00, -2.70, 2.3, 0.5
+
+BoundingBox = 0.0, 4.5, -7.00, 2.0, 2.0
+BoundingBox = 0.0, 4.5, -5.00, 2.0, 2.0
+BoundingBox = 0.0, 5.40, -6.15, 0.5, 1.0, 1.5
+
+Unmountposition = 0.79,  1.50,   5.9559
+
+DamageFactor = 0.8
+
+
+ThrottleUpDown = 0.3
+DamageFactor = 0.8

@@ -1,0 +1,22 @@
+DisplayName = 40mm Vickers S
+Type = MachineGun1
+Power = 32
+Acceleration = 5.8
+Explosion = 1
+ExplosionBlock = 0
+Sight = None
+Delay = 5
+ReloadTime = 160
+Round = 30
+SoundVolume = 4.0
+Accuracy = 3
+ModelBullet = bullet
+Gravity = -0.02
+Particle = largeexplode
+SetCartridge = cartridge, 0.0, 0, 0, 2.00, -0.04, 0.40
+
+MaxAmmo = 60
+SuppliedNum = 30
+Item =  13, iron_ingot
+Item =  15, gunpowder
+Item =  0, redstone

@@ -1,0 +1,103 @@
+DisplayName = OTR-21 Tochka 9P129 TEL/SS-21 Scarab
+AddDisplayName = en_US, OTR-21 Tochka 9P129 TEL/SS-21 Scarab
+AddDisplayName = ua_UA, OTR-21 Tochka 9P129 TEL/SS-21 Scarab
+ItemID = 197714
+MaxHp = 200
+Speed = 0.37
+Sound = bmpthreeeng
+ThrottleUpDown = 0.81
+MinRotationPitch = -50
+MaxRotationPitch =  20
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = 0.0
+
+Category = TEL/TBM
+
+;-11.80
+
+Float = true
+
+DamageFactor = 0.8
+EnableNightVision = true
+DefaultFreelook = false
+
+SubmergedDamageHeight = 4
+OnGroundPitchFactor = 3.0
+OnGroundRollFactor  = 3.0
+HideEntity = false
+unmountposition = 1.32, 1.5, 5
+;Made by TehNIck from McHeli Ukranie workshop  
+;PivotTurnThrottle = 0.1
+PivotTurnThrottle = 0.1
+WeightType = Tank
+
+MobilityYawOnGround = 4.5
+
+HUD = mbt_hudtwo, mbt_gnrnvg, none
+
+AddSeat =  1.32,  1.182, 5.0
+
+AddWeapon = none, 0.0, 3.00, 4.00, 0.0, 0.0, false, 1
+AddWeapon = thorn2,    0.00, 0.00, 0.00,  0.0,0.0
+
+AddGunnerSeat =  0.06, 1.382,  4.82,   0.09, 3.922,  4.29, true, -90, 90, false
+AddSeat = -1.24, 1.382,  4.82  
+
+MotionFactor = 0.95
+
+SetWheelPos =  1.45,  -0.24,  3.57, -0.24, -3.94
+
+AddPartWheel     =   1.70,  0.462, 3.57, 30
+AddPartWheel     =   1.70,  0.462, -0.25
+AddPartWheel     =   1.70,  0.462, -3.94
+AddPartWheel     =   -1.55, 0.462, 3.57, 30
+AddPartWheel     =   -1.55, 0.462, -0.24
+AddPartWheel     =   -1.55, 0.462, -3.94
+
+AddPartCanopy   =  0.72, 2.662, 5.20,  1, 0, 0, 60
+
+AddPartSteeringWheel =  1.31,  1.992,  5.66,  0.0, 0.882, -1.73,   90
+
+AddPartWeaponBay	= hetochka / nutochka / tvtochka,    0.98, 2.832, -1.28, 0.0, 0.0, 1.0, -160
+AddPartWeaponBay	= hetochka / nutochka / tvtochka,  -0.87,  2.832, -1.28, 0.0, 0.0, 1.0, 160
+
+
+AddTurretWeapon = hetochka, 0.06, 2.022, -5.86,  0.0,  0.0, false, 2, 0,0,0, -60, 0
+AddTurretWeapon = nutochka, 0.06, 2.022, -5.86,  0.0,  0.0, false, 2, 0,0,0, -60, 0
+AddTurretWeapon = tvtochka, 0.06, 2.022, -5.86,  0.0,  0.0, false, 2, 0,0,0, -60, 0
+
+
+AddPartWeaponMissile = hetochka / nutochka / tvtochka,   false, false, true,   0.07, 1.652, -5.65, 
+AddPartWeapon =        hetochka / nutochka / tvtochka,   false, false, true,   0.07, 1.652, -5.65, 0
+
+
+EnableBack = true
+
+ArmorMinDamage = 7
+
+ArmorDamageFactor = 1.00
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+
+StepHeight = 1.5
+
+;Price=5 USD, or 2-4USD in packs
+;you didn't even do the boundingboxes, this isn't worth 5 cents bro
+;light 6x6 rocket arty (modern)
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:mediumchassis, B, mcheli:rocket3, C, mcheli:engine2, D, mcheli:wheel6, E, mcheli:fcs3, F, mcheli:electronics
+;im gonna actually fucking kill someone
+
+BoundingBox = 0.0, 0.882, 0.0, 2.2, 1
+BoundingBox = 0.0, 0.882, 2.2, 2.2, 1
+BoundingBox = 0.0, 0.882, 4.4, 2.2, 1
+BoundingBox = 0.0, 0.882, -2.2, 2.2, 1
+BoundingBox = 0.0, 0.882, -4.4, 2.2, 1
+
+
+BoundingBox = 0.0, 1.882,  0.0,  2.15,  2, 2
+BoundingBox = 0.0, 1.882,  2.15,  2.15,  2, 2
+BoundingBox = 0.0, 1.882, -2.15, 2.15,  2, 2
+BoundingBox = 0.0, 1.882, -4.3, 2.15,  2, 2

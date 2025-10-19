@@ -1,0 +1,32 @@
+DisplayName = Type 5 75mm Tank Gun [APHE]
+Type = MachineGun2
+Power = 80
+Acceleration = 6.5
+ModelBullet = bullet76mm
+Explosion = 1
+ExplosionBlock = 0
+Sight = MoveSight
+ReloadTime = 160
+Round = 1
+Sound = cannon_5_snd
+SoundVolume = 1.0
+Accuracy = 1.25
+Piercing = 1
+HeatCount = 750
+MaxHeatCount = 1000
+Gravity = -0.005
+GravityInWater = -1.0
+Particle = flame
+RecoilBufCount = 20, 5
+Recoil = 2.0
+
+AddMuzzleFlash      =           4.6,   2.25,        3,  220,254,159,74
+AddMuzzleFlash      =           5.0,   1.50,        5,  220,254,219,104
+
+AddMuzzleFlashSmoke   =         4.8,     24,   7.0,  4.0,       50,  220,160,140,120
+AddMuzzleFlashSmoke   =         5.2,     16,   8.0,  6.0,       70,  200,190,170,150
+
+MaxAmmo = 40
+SuppliedNum = 5
+Item =  5, iron_ingot
+Item =  5, gunpowder

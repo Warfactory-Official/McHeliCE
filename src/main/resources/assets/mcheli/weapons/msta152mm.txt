@@ -1,0 +1,38 @@
+DisplayName = 152mm Msta-C Cannon [OF-45 - HE]
+Type = Rocket
+Power = 500
+ModelBullet = mstabhe
+Acceleration = 8.0
+Explosion = 5
+ExplosionInWater = 2
+ExplosionBlock = 5
+Flaming = false
+Sight = None
+Delay = 160
+ReloadTime = 200
+Round = 1
+SoundVolume = 10.0
+Sound = msta
+Accuracy = 1.8
+Gravity = -0.10
+Group = MainGun
+Recoil = 2.5
+DisplayMortarDistance = true
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+Group = MainGun
+
+
+
+RecoilBufCount = 40, 5
+
+MaxAmmo = 20
+SuppliedNum = 5
+Item =  5, iron_ingot
+Item =  3, gunpowder

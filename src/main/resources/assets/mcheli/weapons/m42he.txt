@@ -1,0 +1,36 @@
+DisplayName = 40mm M2A1 Twin Anti-Aircraft Gun [Mk.II - FI-T]
+Type = MachineGun2
+Power = 9
+ModelBullet = bullet76mm
+Acceleration = 7.0
+Explosion = 1
+ExplosionBlock = 1
+Flaming = true
+Sight = MoveSight
+Delay = 3
+SoundPitch = 0.6
+SoundVolume = 15
+Sound = bofors
+Gravity = -0.005
+Accuracy = 1.5
+HeatCount = 10
+MaxHeatCount = 300
+ReloadTime = 30
+Round = 16
+;SetCartridge = cartridge, 0.1,  180, 0, 5.0, -0.04, 0.40
+AddMuzzleFlash      =   6.1,      1,        2,  150,254,159,84
+AddMuzzleFlash      =   6.0,      1,        2,  150,254,219,184
+AddMuzzleFlashSmoke   = 8.2,  2,   5.0,  2.0, 15,  180,250,245,240
+AddMuzzleFlashSmoke   = 8.2,  2,   3.0,  3.0,  5,  180,220,217,214
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 600
+SuppliedNum = 120
+Item =  2, iron_ingot
+Item =  3, gunpowder

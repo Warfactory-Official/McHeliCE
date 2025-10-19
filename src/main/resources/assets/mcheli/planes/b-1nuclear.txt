@@ -1,0 +1,297 @@
+﻿DisplayName = B-1B Lancer (Nuclear Payload)
+AddDisplayName = en_US, B-1B Lancer (Nuclear Payload)
+AddDisplayName = ja_JP, B-1B ランサー (Nuclear Payload)
+ItemID = 28747
+MaxHp = 250
+Speed = 1.35
+
+;formula no work too big
+
+Sound = bone
+ThrottleUpDown = 0.1
+CameraPosition = -2.42, 4.18, -4.87
+EnableNightVision = true
+EnableEntityRadar = true
+EnableGunnerMode = true
+EnableEjectionSeat = true
+ConcurrentGunnerMode = true
+VariableSweepWing = true
+SweepWingSpeed = 2.0
+FlareType = 2
+AutoPilotRot = 0
+MaxFuel         = 7000
+FuelConsumption = 1.7
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+Stealth = 0.2
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = planenvg, plane_gnrnvg, 
+
+MobilityYaw = 0.3
+MobilityPitch = 0.3
+MobilityRoll = 0.2
+MinRotationPitch = -60
+MaxRotationPitch =  60
+;MinRotationRoll  = -60
+;MaxRotationRoll  =  60
+
+AddSeat       =  0.95, 7.16, 3.70
+AddGunnerSeat = -0.95, 7.16, 3.70
+
+AddPartWing =  -6.60, 5.16, -21.42,  0,-1,0, 45
+AddPartWing =   6.60, 5.16, -21.42,  0, 1,0, 45
+
+AddPartWeaponBay = b1b28/b1b61/b1b83, -1.88, 4.54,-6.49,  0, -0.04, 1.0, -90
+AddPartWeaponBay = b1b28/b1b61/b1b83,  1.88, 4.54,-6.49,  0, -0.04, 1.0,  90
+AddPartWeaponBay = b1b28/b1b61/b1b83, -1.88, 4.51,-13.71,  0, -0.04, 1.0, -90
+AddPartWeaponBay = b1b28/b1b61/b1b83,  1.88, 4.51,-13.71,  0, -0.04, 1.0,  90
+
+AddPartWeaponBay = b1agm86b/b1b28/b1b61/b1b83, -1.88, 4.47,-26.16,  0, -0.04, 1.0, -90
+AddPartWeaponBay = b1agm86b/b1b28/b1b61/b1b83,  1.88, 4.47,-26.16,  0, -0.04, 1.0,  90
+
+AddWeapon = dummy_bay_closed, 0,0,0,0,0         , true,  2
+
+;4
+AddWeapon = b1agm86b,   0.00,  6.01, -31.90,  0, 0, true,  2
+
+;4
+AddWeapon = b1b28,  0.00,  6.01, -8.87,  0, 0, true,  2
+AddWeapon = b1b28, 0.00,  6.01, -17.49,  0, 0, true,  2
+AddWeapon = b1b28,   0.00,  6.01, -31.90,  0, 0, true,  2
+
+;12
+AddWeapon = b1b61,  0.00,  6.01, -8.87,  0, 0, true,  2
+AddWeapon = b1b61,  0.00,  6.01, -17.49,  0, 0, true,  2
+AddWeapon = b1b61,  0.00,  6.01, -31.90,  0, 0, true,  2
+
+;18
+AddWeapon = b1b83,  0.00,  6.01, -8.87,  0, 0, true,  2
+AddWeapon = b1b83,  0.00,  6.01, -17.49,  0, 0, true,  2
+AddWeapon = b1b83,  0.00,  6.01, -31.90,  0, 0, true,  2
+
+AddWeapon = targeting_pod_block, 0.0, 0.9, 0.0,  0.0, 0.0
+
+
+AddPartLG =  0.00, 4.72,  -0.07,  1,0,0, -110
+AddPartLG =  0.56, 4.44,   6.95, 0,0,1,  -110
+AddPartLG = -0.56, 4.44,   6.95, 0,0,1,   110
+AddPartLG =  4.04, 4.86,  -22.74,  1,0,0,  70
+AddPartLG =  4.69, 4.93,  -25.24,  0,0,1, -90
+AddPartLG =  4.94, 4.89,  -26.32,  0,0,1, -110
+AddPartLG = -4.04, 4.86,  -22.74,  1,0,0,  70
+AddPartLG = -4.69, 4.93,  -25.24,  0,0,1,  90
+AddPartLG = -4.94, 4.89,  -26.32,  0,0,1,  110
+
+;large bomber aircraft semimodern, AOW3 style
+AddRecipe = "ABC", "DAC", "E  ", A, mcheli:airframebomb, B, mcheli:complexmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:fcs2
+
+BoundingBox =  0.0, 6.75,  -1.7, 5, 4.8
+;BoundingBox =  0.0, 6.5,  5.7,  7, 4
+BoundingBox =  0.0, 6.5,  -4.7, 5, 4.8
+BoundingBox =  0.0, 6.2,  -9.7, 5, 4.4
+BoundingBox =  0.0, 6.0, -14.7, 5, 3.95
+BoundingBox =  0.0, 6.0, -19.7, 5, 3.9
+BoundingBox =  0.0, 6.0, -24.7, 5, 3.95
+BoundingBox =  0.0, 6.0, -29.7, 5, 4.0
+BoundingBox =  0.0, 6.0, -34.7, 5, 4.1
+BoundingBox =  0.0, 6.0, -37.5, 4.8, 4.1
+BoundingBox =  0.0, 6.0, -41.7, 4.6, 4.1
+BoundingBox =  0.0, 6.0, -44.7, 3.95, 4.1
+BoundingBox =  0.0, 6.8, -48.7, 3.6, 4.2
+
+BoundingBox =  0.0, 7.2, -51.7, 3.6, 3.4
+BoundingBox =  0.0, 6.8, -54.7, 3.0, 2.0
+
+BoundingBox =  0.0, 13.0, -50.5,  1, 4
+BoundingBox =  0.0, 6.0, -42.5,  1, 4
+BoundingBox =  0.0, 12.4, -49.5,  1, 4
+BoundingBox =  0.0, 11.5, -48.5,  1, 4
+BoundingBox =  0.0, 10.7, -47.5,  1, 4
+BoundingBox =  0.0, 10.2, -46.5,  1, 4
+BoundingBox =  0.0, 9.2, -45.5,  1, 4
+BoundingBox =  0.0, 8.15, -44.5,  1, 4
+BoundingBox =  0.0, 7.55, -43.5,  1, 4
+BoundingBox =  0.0, 7.2, -42.5,  1, 4
+BoundingBox =  0.0, 6.8, -41.5,  1, 4
+
+
+
+BoundingBox =  0.0, 13.0, -50.5,  1, 4
+
+
+BoundingBox =  0.0, 13.7, -51.5,  1, 4
+
+
+BoundingBox =  0.0, 14.4, -52.5,  1, 4
+
+
+
+BoundingBox =  0.0, 15.0, -53.5,  1, 4
+
+
+BoundingBox =  0.0, 15.0, -54.5,  1, 4
+
+BoundingBox =  0.0, 11.0, -54.5,  1, 4
+
+
+BoundingBox =  0.0, 11.0, -53.5,  1, 4
+
+BoundingBox =  0.0, 11.0, -52.5,  1, 4
+
+BoundingBox =  0.0, 11.0, -51.5,  1, 4
+
+BoundingBox =  0.0, 11.0, -50.5,  1, 4
+
+BoundingBox =  0.0, 11.0, -49.5,  1, 4
+
+
+BoundingBox =  0.0, 16.0, -55.5,  1, 2
+
+
+
+
+
+
+
+BoundingBox =  2.6, 11.2, -49.8,  2.5, 0.2
+BoundingBox =  -2.6, 11.2, -49.8,  2.5, 0.2
+BoundingBox =  2.6, 11.2, -53,  2.5, 0.2
+BoundingBox =  -2.6, 11.2, -53,  2.5, 0.2
+BoundingBox =  4.5, 11.2, -52.5,  2.5, 0.2
+BoundingBox =  -4.5, 11.2, -52.5,  2.5, 0.2
+
+
+BoundingBox =  0.0, 11.2, -51.5,  6.0, 0.2
+
+BoundingBox =  -2.6, 11.2, -52,  3.5, 0.2
+
+BoundingBox =  2.6, 11.2, -52,  3.5, 0.2
+BoundingBox =  4.5, 11.2, -54.0,  2.5, 0.2
+BoundingBox =  -4.5, 11.2, -54.0,  2.5, 0.2
+
+
+BoundingBox =  7.0, 11.2, -54.25,  2.5, 0.2
+BoundingBox =  -7.0, 11.2, -54.25,  2.5, 0.2
+BoundingBox =  8.8, 11.2, -55.4,  2.5, 0.2
+BoundingBox =  -8.8, 11.2, -55.4,  2.5, 0.2
+
+
+BoundingBox = -9.5, 5.2, -26.6,  7.5, 0.4
+BoundingBox =  9.5, 5.2, -26.6,  7.5, 0.4
+BoundingBox = -16.7, 5.2, -28.1,  6, 0.4
+BoundingBox =  16.7, 5.2, -28.1,  6, 0.4
+BoundingBox = -25.5, 5.2, -29.1,  4, 0.3
+BoundingBox =  25.5, 5.2, -29.1,  4, 0.3
+BoundingBox = -28.5, 5.2, -29.5,  4, 0.3
+BoundingBox =  28.5, 5.2, -29.5,  4, 0.3
+BoundingBox = -30.5, 5.2, -30.5,  4, 0.3
+BoundingBox =  30.5, 5.2, -30.5,  4, 0.3
+BoundingBox = -22.5, 5.2, -30.5,  3.5, 0.3
+BoundingBox =  22.5, 5.2, -30.5,  3.5, 0.3
+
+BoundingBox = -21.3, 4.9, -26.8,  3, 0.2
+BoundingBox =  21.3, 4.9, -26.8,  3, 0.2
+BoundingBox = -21.3, 4.9, -27.3,  3, 0.2
+BoundingBox =  21.3, 4.9, -27.3,  3, 0.2
+
+
+
+
+
+
+
+BoundingBox =  7.8, 3.75, -36.8,  4.6, 3, 1.25
+BoundingBox =  -7.8, 3.75, -36.8,  4.6, 3, 1.25
+BoundingBox =  7.8, 3.75, -32.4,  4.6, 3, 1.25
+BoundingBox =  -7.8, 3.75, -32.4,  4.6, 3, 1.25
+BoundingBox =  7.8, 3.75, -27.8,  4.4, 3, 1.25
+BoundingBox =  -7.8, 3.75, -27.8,  4.4, 3, 1.25
+BoundingBox =  7.8, 3.75, -25.8,  4.4, 3, 1.25
+BoundingBox =  -7.8, 3.75, -25.8,  4.4, 3, 1.25
+
+
+
+BoundingBox =  2.95, 5.25, -12.8,  3, 1.5
+BoundingBox =  -2.95, 5.25, -12.8,  3, 1.5
+BoundingBox =  3.2, 5.25, -15.8,  3, 1.5
+BoundingBox =  -3.2, 5.25, -15.8,  3, 1.5
+BoundingBox =  3.2, 5.25, -18.8,  3, 1.5
+BoundingBox =  -3.2, 5.25, -18.8,  3, 1.5
+BoundingBox =  3.2, 5.25, -21.8,  3, 1.5
+BoundingBox =  -3.2, 5.25, -21.8,  3, 1.5
+BoundingBox =  3.2, 5.25, -24.8,  3, 1.5
+BoundingBox =  -3.2, 5.25, -24.8,  3, 1.5
+BoundingBox =  3.2, 5.25, -27.8,  3, 1.5
+BoundingBox =  -3.2, 5.25, -27.8,  3, 1.5
+BoundingBox =  3.2, 5.25, -30.8,  3, 1.5
+BoundingBox =  -3.2, 5.25, -30.8,  3, 1.5
+BoundingBox =  3.2, 5.25, -33.8,  3, 1.5
+BoundingBox =  -3.2, 5.25, -33.8,  3, 1.5
+
+
+BoundingBox =  2.95, 6.55, -12.8,  3, 1.5
+BoundingBox =  -2.95, 6.55, -12.8,  3, 1.5
+BoundingBox =  3.2, 6.55, -15.8,  3, 1.5
+BoundingBox =  -3.2, 6.55, -15.8,  3, 1.5
+BoundingBox =  3.2, 6.55, -18.8,  3, 1.5
+BoundingBox =  -3.2, 6.55, -18.8,  3, 1.5
+BoundingBox =  3.2, 6.55, -21.8,  3, 1.5
+BoundingBox =  -3.2, 6.55, -21.8,  3, 1.5
+BoundingBox =  3.2, 6.55, -24.8,  3, 1.5
+BoundingBox =  -3.2, 6.55, -24.8,  3, 1.5
+BoundingBox =  3.2, 6.55, -27.8,  3, 1.5
+BoundingBox =  -3.2, 6.55, -27.8,  3, 1.5
+BoundingBox =  3.2, 6.55, -30.8,  3, 1.5
+BoundingBox =  -3.2, 6.55, -30.8,  3, 1.5
+BoundingBox =  3.2, 6.55, -33.8,  3, 1.5
+BoundingBox =  -3.2, 6.55, -33.8,  3, 1.5
+
+
+
+
+
+
+
+
+
+BoundingBox =  2.6, 5.25, -35.8,  3, 1.5
+BoundingBox =  -2.6, 5.25, -35.8,  3, 1.5
+
+
+BoundingBox =  4.9, 5.25, -18.8,  3, 1.5
+BoundingBox =  -4.9, 5.25, -18.8,  3, 1.5
+BoundingBox =  5.1, 5.25, -21.8,  3, 1.5
+BoundingBox =  -5.1, 5.25, -21.8,  3, 1.5
+BoundingBox =  5.1, 5.25, -24.8,  3, 1.5
+BoundingBox =  -5.1, 5.25, -24.8,  3, 1.5
+
+BoundingBox =  5.1, 5.25, -27.8,  3, 1.5
+BoundingBox =  -5.1, 5.25, -27.8,  3, 1.5
+BoundingBox =  5.1, 5.25, -30.8,  3, 1.5
+BoundingBox =  -5.1, 5.25, -30.8,  3, 1.5
+
+
+BoundingBox =  5.1, 5.25, -33.8,  3, 1.5
+BoundingBox =  -5.1, 5.25, -33.8,  3, 1.5
+
+BoundingBox =  5.1, 5.25, -36.8,  3, 1.5
+BoundingBox =  -5.1, 5.25, -36.8,  3, 1.5
+
+BoundingBox =  5.1, 5.25, -39.8,  3, 1.5
+BoundingBox =  -5.1, 5.25, -39.8,  3, 1.5
+
+
+
+
+
+unmountposition = 0.95, 7.46, 3.70
+
+
+
+DamageFactor = 0.8
+
+enableback = true
+DamageFactor = 0.8

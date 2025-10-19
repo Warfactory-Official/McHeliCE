@@ -1,0 +1,58 @@
+DisplayName = 155mm M777 Lightweight Towed Howitzer
+AddDisplayName = ru_RU, 155mm M777 Lightweight Towed Howitzer
+AddDisplayName = en_US, 155mm M777 Lightweight Towed Howitzer
+MaxHp = 100
+Speed = 0.00
+ThrottleUpDown = 1.0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+MinRotationPitch = -70
+MaxRotationPitch =  3
+WeightType = Tank
+DefaultFreelook = true
+ThirdPersonDist = 10
+CameraRotationSpeed = 45
+Sound = none
+SoundVolume = 0
+
+Category = TH/H
+
+;CameraZoom = 3
+
+SetWheelPos =  0.20,  -0.20,  0.20, -0.20
+
+WeightType = Unknown
+
+EnableBack = true
+
+SubmergedDamageHeight = 1
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 3.5
+OnGroundRollFactor  = 3.5
+unmountposition = 2.20, 1.50, -2.20
+MobilityYawOnGround = 0.5
+PivotTurnThrottle = 0.0
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+HUD = gunner
+
+AddSeat =  0.20, -0.40, -2.20
+CameraPosition = 0.00, 3.7472, -1.2630, true
+
+AddWeapon = m77m107, 0.00, 1.5774, -1.1638, 0.00, 0.00, true,1, 0, -27, 27, -72, 0
+AddWeapon = m77m795, 0.00, 1.5774, -1.1638, 0.00, 0.00, true,1, 0, -27, 27, -72, 0
+AddWeapon = m77m549a1, 0.00, 1.5774, -1.1638, 0.00, 0.00, true,1, 0, -27, 27, -72, 0
+AddWeapon = m77m864, 0.00, 1.5774, -1.1638, 0.00, 0.00, true,1, 0, -27, 27, -72, 0
+
+;advanced arty turret (advanced)
+AddRecipe = "D  ", "DEF", "GGG", D, mcheli:electronics, E, mcheli:lap, F, mcheli:complexmechanicparts, G, mcheli:cannon3
+
+AddPartWeapon = m77m107 / m77m795 / m77m549a1 / m77m864, false, true, false,  0.00, 0.00, 0.00
+AddPartWeaponChild  =  false, true,  0.00, 0.00, 0.00
+AddPartWeaponChild  =  false, true,  0.00, 0.00, 0.00, 0.8
+
+BoundingBox =  0.0, 1.3, 0.0,  1.0, 2

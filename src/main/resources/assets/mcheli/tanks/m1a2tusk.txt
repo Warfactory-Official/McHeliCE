@@ -1,0 +1,178 @@
+DisplayName = M1A2 Abrams SEPv2 ARAT Reactive Armor TUSK II
+AddDisplayName = ja_JP, M1A2 SEPv2 エイブラムス ARAT Reactive Armor TUSK II
+ItemID = 30100
+MaxHp = 800
+Speed = 0.41
+Sound = abrams
+ThrottleUpDown = 4.0
+
+SoundPitch = 0.6
+MobilityYawOnGround = 2.7
+MinRotationPitch = -20
+MaxRotationPitch = 10
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+;DamageFactor = 0.8
+DamageFactor = 0.0
+CameraZoom = 10
+CameraPosition = -1.00,  3.00, 0.90, true
+EnableNightVision = true
+CameraRotationSpeed = 25
+;EnableEntityRadar = true
+MaxFuel         = 1200
+FuelConsumption = 3.0
+StepHeight = 1.6
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+FlareType = 10
+
+Category = MBT
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 4
+
+HideEntity = true
+
+AddTexture = m1a2_1
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+
+
+HUD = mbt_hud, mbt_gnr, gunner
+
+AddGunnerSeat =  0.00,  1.15,  0.0,    0.00,  2.50,  0.25,  false, -90, 90, true
+AddGunnerSeat = -0.55,  1.00, -0.96,   -0.846, 3.60,  0.373, false, -90, 90, true
+AddGunnerSeat =  0.55,  2.50, -0.96,    0.55,  3.60, -0.96,  false, -90, 90, true
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+;ArmorDamageFactor = 0.92
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+;転輪がなくても動作する
+AddCrawlerTrack = false, 0.37, -2.15,  1.14/ -4.62,  1.10/ -4.88,  0.80/ -4.90,  0.54/ -4.84,  -0.16/ -4.07,  -0.23/ -3.45,  -0.23/  2.17,  -0.11/ 2.73,  0.50/ 4.04,  0.78/ 4.12,  1.12/ 4.02,  1.22/ 3.73,
+AddCrawlerTrack = false, 0.37,  2.15,  1.14/ -4.62,  1.10/ -4.88,  0.80/ -4.90,  0.54/ -4.84,  -0.16/ -3.74,  -0.23/ -3.78,  -0.23/  2.49,  -0.11/ 2.86,  0.50/ 4.04,  0.78/ 4.12,  1.12/ 4.02,  1.22/ 3.73,
+
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+;TrackRollerRot = 30
+
+SetWheelPos =  1.72,  -0.24,  2.22,  1.02, 0.06, -0.90, -1.86, -2.82, -3.78
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+AddTrackRoller = -1.82,  0.81,  3.70
+AddTrackRoller = -1.82,  0.18,  2.22
+AddTrackRoller = -1.82,  0.18,  1.02
+AddTrackRoller = -1.82,  0.18,  0.06
+AddTrackRoller = -1.82,  0.18, -0.90
+AddTrackRoller = -1.82,  0.18, -1.86
+AddTrackRoller = -1.82,  0.18, -2.82
+AddTrackRoller = -1.82,  0.18, -3.78
+AddTrackRoller = -1.82,  0.81, -4.59
+
+AddTrackRoller =  1.82,  0.81,  3.70
+AddTrackRoller =  1.82,  0.18,  2.50
+AddTrackRoller =  1.82,  0.18,  1.30
+AddTrackRoller =  1.82,  0.18,  0.34
+AddTrackRoller =  1.82,  0.18, -0.62
+AddTrackRoller =  1.82,  0.18, -1.58
+AddTrackRoller =  1.82,  0.18, -2.54
+AddTrackRoller =  1.82,  0.18, -3.50
+AddTrackRoller =  1.82,  0.81, -4.59
+
+;主砲
+AddPartWeapon = abramslesserapfsds / abramsheat / m1a2_he / m1a2_can / m1a2_heor / m1a2apfsds, false, true, false,  0.00, 2.10, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.10, 2.02, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.10, 2.02, 0.5
+AddTurretWeapon = abramslesserapfsds, 0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = abramsheat,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a2_he,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a2_can,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a2_heor,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a2apfsds,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+
+AddTurretWeapon = abramscoax,      -0.43, 2.28, 2.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+
+;RWS M2
+AddPartTurretWeapon    = abramsm2_rws,   true, true, true,  -0.846, 3.68, 0.373
+AddPartTurretWeapon    = abramsm2_rws,  false, true, false, -0.846, 3.68, 0.373
+AddTurretWeapon = abramsm2_rws,   -0.846, 3.68,  0.373,   0.0, 0.0, false, 2, 0, -360,360, -60,20
+;lesser
+AddTurretWeapon = targeting_pod_block,      -0.846, 3.68, 0.373,  0.0, 0.0, false,2, 0,-360,360, -50, 10
+;AddTurretWeapon = mbt_cas,      -0.846, 3.68, 0.373,  0.0, 0.0, true,2, 0,-360,360, -20, 10
+AddTurretWeapon = targeting_pod_ground,   -0.846, 3.68, 0.373,   0.0, 0.0,  false, 2
+
+;M240
+AddPartTurretWeapon    = abramsm240_r,   false, true, true,   1.243, 3.24, -0.77
+AddPartTurretWeapon    = abramsm240_r,   false, true, false,  1.243, 3.24, -0.77
+AddTurretWeapon = abramsm240_r,    1.243, 3.24, -0.77,   0.0, 0.0, false, 3, 0, -220,30, -65,9
+
+; m1a2T 
+AddRecipe = "ABC", "DGF", "E  ", A, mcheli:heavychassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:fcs3, G, mcheli:composite4, E, mcheli:complexmechanicparts
+
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:heavychassis, B, mcheli:fcs3, C, mcheli:complexmechanicparts, D, mcheli:m1a1
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:heavychassis, B, mcheli:fcs3, C, mcheli:composite3, D, mcheli:m1a1nt
+
+;tusk
+;AddRecipe = "ABC", "DGF", "EH ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite3, E, mcheli:fcs2, H, mcheli:composite2
+
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+
+ArmorMinDamage = 25
+
+;american bias (DU factor) BASELINE M1A1HA++
+ArmorDamageFactor = 0.90
+
+;reactive armor tiles
+
+;front hull 360mm BASE+DU FUCK YOU GAIJIN 6S RELOAD IS NOT HOW YOU BALANCE AMERICA
+BoundingBox = 0.0, 0.5, 2.5, 3.0, 0.2, 0.02
+
+BoundingBox = 0.0, 0.9, 3.0, 3.0, 0.5, 0.03
+BoundingBox = 0.0, 1.1, 2.5, 3.0, 0.5, 0.04
+BoundingBox = 0.0, 1.2, 1.8, 3.0, 0.5, 0.11
+BoundingBox = 0.0, 1.3, 1.4, 3.0, 0.5, 0.09
+
+;turret
+BoundingBox = 0.0, 2.0, 0.1, 3.0, 1.0, 0.02
+
+
+
+
+
+;mid
+BoundingBox = 0.0, 0.9, 0.0, 3.1, 1.3, 0.15
+;back side
+BoundingBox = 0.0, 0.9, -3.0, 3.0, 1.3, 0.21
+BoundingBox = 0.0, 0.9, -3.8, 3.0, 1.3, 0.21
+;back back
+BoundingBox = 0.0, 1.1, -4.1, 2.99, 1.1, 2.0
+
+unmountposition = 0.00,  2.0,  0.8

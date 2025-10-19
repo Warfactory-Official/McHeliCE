@@ -1,0 +1,23 @@
+DisplayName = Type 3 No6 Mod 27 Rocket
+Type = Rocket
+Power = 25
+Acceleration = 4.0
+Explosion = 3
+Flaming = false
+Sight = MoveSight
+Delay = 5
+ReloadTime = 130
+Round = 4
+ModeNum = 1
+Bomblet = 15
+BombletDiff = 3.0
+Gravity = -0.03
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 12
+SuppliedNum = 4
+Item =  3, iron_ingot
+Item =  3, gunpowder

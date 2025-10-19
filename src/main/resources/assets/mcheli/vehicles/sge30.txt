@@ -1,0 +1,47 @@
+﻿DisplayName = Goalkeeper CIWS
+AddDisplayName = en_US, Goalkeeper CIWS
+AddDisplayName = ja_JP, SGE-30 ゴールキーパー
+ItemID = 28601
+MaxHp = 100
+Gravity = -9.81
+GravityInWater = -1.0
+EnableNightVision = true
+EnableEntityRadar = true
+HideEntity = false
+MinRotationPitch = -85
+MaxRotationPitch =  25
+DamageFactor = 1.0
+CameraZoom = 3
+CameraPosition = 0.0, 1.67, 0.0
+
+UAV = false
+
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = vehicle
+
+AddSeat = 0.00,  -1.47, 0.00
+
+AddPart		 = true, true, false, 0,   0, -0.07, 0.0
+
+AddPart		 = false,true, true,  0,   0, 0.67, 0.0
+
+AddChildPart = true, false,false, 1,   0, 0.67, 0.0
+
+AddTurretWeapon = gau-8s,  0.00, 0.6765, 0.0,   0.0, -3.0,   true,1, 0,-360,360, -85, 25
+
+
+unmountposition = -0.0, 0.2, -0.0
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AddTurretWeapon = m61a1,  0.00, 1.6764, 2.43,   0.0, -3.0,   true,1, 0,-360,360, -85, 25
+
+;light aa turret modern complex more
+AddRecipe = "ABC", "DCC", "CC ", A, mcheli:cannon1, B, mcheli:lap, C, mcheli:electronics, D, mcheli:fcs3
+
+unmountposition = 0.0, 1.5, -1.0
+
+BoundingBox =  0.0, 0.5, 0.0,  1.2, 1.2
+BoundingBox =  0.0, -0.25, 0.0,  1.2, 0.4
+

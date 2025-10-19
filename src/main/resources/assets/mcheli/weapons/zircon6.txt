@@ -1,0 +1,32 @@
+DisplayName = Zircon Hypersonic Missile
+Type = rocket
+Power = 2000
+Acceleration = 24
+Explosion = 12
+ExplosionInWater = 6
+
+Sight = MissileSight 
+
+
+reloadtime =100
+piercing= 8
+ModelBullet = Zircon
+Sound = kinjal
+soundvloume= 30
+RidableOnly = true
+
+DisableSmoke = true
+gravity = -0.001
+displaymortardistance = true
+DamageFactor = tank, 2.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 6
+SuppliedNum = 1
+Item =  5, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

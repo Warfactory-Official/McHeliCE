@@ -1,0 +1,33 @@
+DisplayName = KAB-500
+Type = ASMissile
+DisableSmoke = true
+;500kg:x
+;125:500
+Power = 2000
+Acceleration = 0.5
+Gravity = -0.01
+Explosion = 15
+ExplosionInWater = 8
+ExplosionBlock = 5
+Flaming = true
+;FAE = true
+;Bomblet = 25
+;BombletSTime = 20
+;BombletDiff = 1.3
+;ExplosionAltitude = 1
+ExplosionInWater = 0
+Sight = None
+Delay = 50
+Sound = bomb_snd
+
+ModelBullet = bomb
+;ModelBomblet = cbc
+
+ReloadTime = 150
+Round = 2
+
+MaxAmmo = 8
+SuppliedNum = 1
+
+Item = 6, iron_ingot
+Item = 6, gunpowder

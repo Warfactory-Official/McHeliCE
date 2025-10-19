@@ -1,0 +1,105 @@
+DisplayName = Ford Mondeo (NYPD)
+;(ru_RU)Слив от Мастерской W&K (Лучшая военная техника и не только) - https://vk.com/wk_workshop 
+;(en_EN)made in the Workshop of W&K (the Best military equipment and not only) - https://vk.com/wk_workshop
+;cool, nice 4,500kb model, now let's fix some problems I found with it
+
+;-11.27
+;-0.1127
+
+MaxHp = 200
+
+Speed = 1.55
+
+Sound = toyota
+SoundPitch = 0.8
+
+MobilityYawOnGround = 8.0
+
+ThrottleUpDown = 0.81
+;8.8s
+
+;MinRotationPitch = 0
+;MaxRotationPitch = 0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+WeightedCenterZ = 0.8
+
+DamageFactor = 0.8
+;MinRotationPitch = -90
+;MaxRotationPitch = 60
+EnableEntityRadar = false
+HUD = s15_hud, none, none,none, none
+SetWheelPos =  0.85,  -0.2,  2.11, -2.06
+
+AddSeat =  0.65,  0.1873, 0.23
+unmountposition = 0.65,  2.20, 0.23
+
+AddSeat =  -0.65,  0.2873, 0.23
+AddSeat =  0.6969,  0.2873, -1.24
+AddSeat =  0.0,  0.2873, -1.24
+AddSeat =  -0.7028,  0.2873, -1.24
+EnableBack = true
+Category = C
+WeightType = Car
+PivotTurnThrottle = 0.1
+
+;124.95, 9.723, 212.526
+
+AddPartWheel     = 1.2495,   0.1242, 2.1172, 30
+AddPartWheel     = -1.2495,  0.1242, 2.1172, 30
+AddPartWheel     = 1.2495,   0.09723, -2.0698
+AddPartWheel     = -1.2495,  0.09723, -2.0698
+
+;faster civ car polic
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts, E, mcheli:electronics, F, glass_pane
+
+;AddPartWheel     = 1.2495,  0.1232, 2.1113, 30
+;AddPartWheel     = -1.2495,  0.1232, 2.1113, 30
+;AddPartWheel     = 1.2495,  0.1115, -2.0698
+;AddPartWheel     = -1.2495,  0.1115, -2.0698
+AddPartCanopy =  1.3114, 0.4982, 1.3056, 0, -1, 0, 80
+AddPartCanopy =  -1.3114, 0.4982, 1.3056, 0, 1, 0, 80
+
+AddPartSteeringWheel =  0.6808,  0.9009,  0.7553,  0, 0.3196, -1,   100
+
+
+AddFixedSearchLight =  0.8935, 0.6618, 2.9554,   0xFFFFFFFF,   0x00FFFFC0,    0.4, 0.5,  6.0,  0
+AddFixedSearchLight =  -0.8935, 0.6618, 2.9554,   0xFFFFFFFF,   0x00FFFFC0,    0.4, 0.5,  -6.0,  0
+
+
+
+
+AddWeapon =  none, 0.00,  1.93,  -0.41,   0.0, 90,  true,  1
+
+
+AddWeapon =  simple_horn, 0.00,  0.42,  3.05, 0.0, 90
+
+AddWeapon =  uspolice, 0.00,  1.93,  -0.41,   0.0, 90,  true,  1
+MaxFuel         = 1200
+FuelConsumption = 1
+EntityWidth = 0.9
+EntityHeight = 0.9
+StepHeight = 1.2
+
+Regeneration = false
+ArmorDamageFactor = 1.0
+
+ArmorMinDamage = 2
+
+BoundingBox = 0.0, 0.1, 2.2, 1.8, 0.2
+
+BoundingBox = 0.0, 0.8, 2.0, 1.0, 0.8
+BoundingBox = 0.0, 0.1, 0.0, 2.5, 0.2
+BoundingBox = 0.0, 0.1, 1.0, 2.5, 0.2
+BoundingBox = 0.0, 0.1, 1.8, 2.0, 0.2
+BoundingBox = 0.0, 0.1, -1.0, 2.5, 0.2
+BoundingBox = 0.0, 0.1, -2.0, 2.0, 0.2
+
+InventorySize = 18
+
+BoundingBox = 0.0, 0.2, 0.0, 1.0, 0.2

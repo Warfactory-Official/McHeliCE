@@ -1,0 +1,11 @@
+DisplayName = Medium Ship Hull
+AddDisplayName = ja_JP, Medium Ship Hull
+
+StackSize = 64
+AddRecipe = "AAA", "   ", "   ", A, mcheli:map
+;;tard crafting:
+;25steelper*3map=75steel
+;default hfr:
+;15steelper*5lighthull=75
+;huh that's nice thanks math, I didn't do you!
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_hull_2

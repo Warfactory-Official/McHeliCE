@@ -1,0 +1,160 @@
+﻿DisplayName = Tu-160M Super Blackjack Conventional Bombs
+AddDisplayName = en_US, Tu-160M Super Blackjack Conventional Bombs
+AddDisplayName =  zh_CN, 图-160M 超级海盗旗 Conventional Bombs
+ItemID = 30714
+MaxHp = 250
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.3
+FlareType = 2
+VariableSweepWing = true
+SweepWingSpeed = 2.4
+MaxFuel         = 90000
+FuelConsumption = 6.2
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+ThirdPersonDist = 20
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+AutoPilotRot = 0
+;Stealth = 0.1
+;????
+;Sound = bone
+ThirdPersonDist = 68
+
+sound = tutwentytwo
+SoundPitch = 0.8
+;"The Tu-160's engine sound is generally lower pitched compared to the Tu-22M3"
+
+;ArmorMinDamage = 35
+SmoothShading = true
+ThrottleUpDown = 0.1
+MobilityYaw = 0.3
+MobilityPitch = 0.2
+MobilityRoll = 0.2
+AddTexture =tu160ukr
+CameraPosition = 0.00, 3.5, 2.0
+
+enableback = true
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = SSHB
+
+HUD = plane, plane_gnr, gunner, gunner
+
+AddSeat = 0.66, 5.4,  5.76
+unmountposition = 0.66, 1.5,  5.76
+AddgunnerSeat = -0.66, 5.3,  5.76,true
+
+
+AddPartSteeringWheel =  0.0,9.65,-47.1,  1, 0, 0.0,   10
+AddPartSteeringWheel =  0.0,9.65,-47.1,  1, 0, 0.0,   -10
+
+AddPartLG =  0.00, 4.9,  0.0,  1,0,0, 90
+AddPartLG =  -1.08, 4.04,  -1.0,  0,0,1, 110
+AddPartLG =  1.08, 4.04,  -1.0,  0,0,-1, 110
+AddPartLG =  -3.8568, 4.2294,  -30.0,  0,0,1, 90
+AddPartLG =  3.8568, 4.2294,  -30.0,  0,0,-1, 90
+AddPartLG =  3.0242, 4.65,  -30.0,  0,0,0, 98
+AddPartLG =  -3.0242, 4.65,  -30.0,  0,0,0, 98
+AddPartLG =  -1.4226, 4.0436,  -30.0,  0,0,-1, 90
+AddPartLG =  1.4226, 4.0436,  -30.0,  0,0,1, 90
+
+
+
+
+
+AddPartWing =  8.6423, 4.0, -19.9646,  0,1,0, 40
+AddPartWing =  -8.6423, 4.0, -19.9646,  0,-1,0, 40
+
+
+
+
+
+AddWeapon = dummy_bay_closed, 0,0,0,0,0         , true,  2
+AddWeapon = targeting_pod_block, 0.0, 4.0, 5.0,  0.0, 0.0
+AddWeapon = RDI,   -0.846, 3.68,  0.373,   0.0, 0.0, false, 2, 0, -90,90, -70,10
+
+AddWeapon = tu160FAB250t, 0.0, 4.0, -7.0, 0.0, 0.0, true, 2
+;8
+AddWeapon = tu160FAB500X, 0.0, 4.0, -7.0, 0.0, 0.0, true, 2
+;6
+AddWeapon = tu160r77m, 0.0, 4.0, -7.0, 0.0, 0.0, true, 2
+;4
+AddWeapon = tu160kAB500, 0.0, 4.0, -7.0, 0.0, 0.0, true, 2, 0,-90,90, -5,90
+;4
+AddWeapon = tu160kab1500kr, 0.0, 4.0, -7.0, 0.0, 0.0, true, 2, 0,-90,90, -5,90
+;2
+AddWeapon = tu160fab1500umpk_8, 0.0, 4.0, -7.0, 0.0, 0.0, true, 2, 0,-90,90, -5,90
+;2
+AddWeapon = odab9000, 0.0, 4.0, -7.0, 0.0, 0.0, true, 2
+;1
+
+
+AddWeapon = tu160rbk500umpk16, 0.0, 4.0, -30.0, 0.0, 0.0, true, 2, 0,-90,90, -5,90
+;8 
+AddWeapon = tu160fab3000umpk4, 0.0, 4.0, -30.0, 0.0, 0.0, true, 2, 0,-90,90, -5,90
+;2
+
+AddWeapon = tsarbombahalf, 0.0, 4.0, -30.0, 0.0, 0.0, true, 2
+AddWeapon = tsarbomba,0.0, 4.0, -30.0, 0.0, 0.0, true, 2
+;it didnt have it and this would be over payload cap but fuck it we ball
+
+
+;AddWeapon = fAB500umpk16, 0.0, 4.0, -7.0, 0.0, 0.0, true, 2, 0,-90,90, -5,90
+;im not adding it and i never got this weapon file so
+;AddWeapon = X55clu,    0.0, 4.0, -30.0, 0.0, 0.0, true, 2, 0,-90,90, -5,90
+;not real
+
+;==========================================================
+
+AddPartWeaponBay = tu160fab250t/tu160FAB500X/tu160r77m/tu160kAB500/tu160kab1500kr/tu160fab1500umpk_8/odab9000, -1.3338, 4.0209, -13.0, 0, 0, -1, 90
+AddPartWeaponBay = tu160fab250t/tu160FAB500X/tu160r77m/tu160kAB500/tu160kab1500kr/tu160fab1500umpk_8/odab9000, 1.3338, 4.0209, -13.0, 0, 0, 1, 90
+
+;;/tsarbombahalf/tsarbomba
+
+AddPartWeaponBay = tu160rbk500umpk16/tu160fab3000umpk4/tsarbombahalf/tsarbomba,-1.3, 4.228, -13.0, 0, 0, 1, -90
+AddPartWeaponBay = tu160rbk500umpk16/tu160fab3000umpk4/tsarbombahalf/tsarbomba, 1.3, 4.228, -13.0, 0, 0, 1, 90
+
+
+
+
+BoundingBox =  0.00, 4.9, 10.2,  2.0, 1.7
+BoundingBox =  0.00, 5.1, 8.2,  2.3, 2.0
+
+BoundingBox =  0.00, 5.1, 5.8,  2.8, 2.0
+BoundingBox =  0.00, 5.6, 3.0,  3.0, 3.4
+BoundingBox =  0.00, 5.6, -1.3,  5.0, 3.4
+
+BoundingBox =  0.00, 5.40, -6.8,  7.0, 3.0
+BoundingBox =  0.00, 5.40,-17.0,  14.0, 3.0
+BoundingBox =  0.00, 5.40,-29.0,  10.0, 3.0
+
+BoundingBox =  0.00, 6.0,-37.0,  6.0, 3.0
+BoundingBox =  0.00, 6.7,-41.50,  4.0, 4.5
+BoundingBox =  0.00, 7.7,-45.50,  3.0, 5.5
+BoundingBox =  0.00, 10.0,-48.0,  2.5, 9.0
+BoundingBox =  0.00, 10.0,-50.5,  2.5, 9.0
+
+BoundingBox = -6.5, 3.50, -26.0,  4.0, 3.0, 1.5
+BoundingBox = -6.5, 3.50, -30.0,  4.0, 3.0, 1.5
+BoundingBox = -6.5, 3.50, -34.0,  4.0, 3.0, 1.5
+BoundingBox = 6.5, 3.50, -26.0,  4.0, 3.0, 1.5
+BoundingBox = 6.5, 3.50, -30.0,  4.0, 3.0, 1.5
+BoundingBox = 6.5, 3.50, -34.0,  4.0, 3.0, 1.5
+
+BoundingBox = 5, 9.8, -49.0,  7, 0.5,1.5
+BoundingBox = -5, 9.8, -49.0,  7, 0.5,1.5
+BoundingBox = 12, 4.50, -25.0,  8.5, 1.0
+BoundingBox = -12, 4.50, -25.0,  8.5, 1.0
+
+BoundingBox = 13.5, 4.50, -32.0,  6, 1.0
+BoundingBox = -13.5, 4.50, -32.0,  6, 1.0
+
+;large bomber aircraft modern, AOW3 style
+AddRecipe = "ABC", "DAF", "E  ", A, mcheli:airframebomb, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:electronics, F, mcheli:fcs2
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:tu160mmsl, B, mcheli:fcs2, C, mcheli:airframe
+
+DamageFactor = 0.8

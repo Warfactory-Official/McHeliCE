@@ -1,0 +1,52 @@
+DisplayName = 500lb Suicide Bomb
+Type = Bomb
+Power = 1080
+
+Explosion = 10
+ExplosionBlock = 5
+ExplosionInWater = 5
+Flaming = true
+ModelBullet = 0_none
+Sight = None
+Delay = 5
+;Destruct = true
+
+DelayFuse = 0
+ProximityFuseDist = 2.0
+TimeFuse = 0
+;ExplosionAltitude = 800
+
+Gravity = -0.1
+BombletSTime = 0
+BombletDiff = 0.1
+Bomblet = 25
+
+
+
+
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+;bomb rewrite
+Acceleration = 0.0
+Explosion = 25
+;Explosive mass	125 kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  1, tnt

@@ -1,0 +1,110 @@
+﻿DisplayName = Nissan Silvia S14
+AddDisplayName = en_US, Nissan Silvia S14
+MaxHp = 200
+ThrottleUpDown = 0.84
+;6.4s
+Speed = 1.76
+MobilityYawOnGround = 9.0
+StepHeight = 1.2
+sound = srtwenty
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.0
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+
+AddTexture = silvia_s14b
+AddTexture = silvia_s14r
+AddTexture = silvia_s14dbl
+AddTexture = silvia_s14y
+
+;-16.21
+;-0.1621
+
+WeightedCenterZ = 1.0
+
+;-17.24
+;-0.1724
+
+;CameraZoom = 3
+;CameraPosition = -0.3178,  1.36, -0.1, false
+DefaultFreelook = false
+EntityWidth = 0.9
+EntityHeight = 0.9
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+EnableBack = true
+Category = C
+WeightType = Car
+
+SetWheelPos =  0.62,  -0.29,  1.7609, -1.8032
+
+HUD = bnr32_hud, none, none, none, none
+
+AddSeat =  -0.4902,   -0.0284, -0.22
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon = L_Claxon,    0.00, 0.00, 0.00,  0.0,0.0
+
+AddWeapon = drift,    1.3347, 0.0, -1.8048,  0.0,0.0
+AddWeapon = drift,   -1.3347, 0.0, -1.8048,  0.0,0.0
+
+UnmountPosition = -0.4902,   2.244, -0.22
+
+AddSeat =  0.4902,   0.0616, -0.22
+
+AddSeat =  -0.4902,  0.0616, -1.10 
+AddSeat =  -0.0,  0.0616, -1.10
+AddSeat =  0.4902,  0.0616, -1.10  
+
+PivotTurnThrottle = 1.0
+
+PartWheelRot = 60
+AddPartWheel     = -1.07,  0.0576,  1.76, 20
+AddPartWheel     =  1.4093,  0.0572,  1.7604, 20
+
+;rear wheels moved back -21.66
+;nvm we aren't doing that
+
+AddPartWheel     = -1.3347,  0.0602,  -1.8048, 0
+AddPartWheel     =  1.3347,  0.0602,  -1.8032, 0
+
+AddPartSteeringWheel =  -0.4902,  0.6717,  0.4543,  0.0, 0.3156, -1.00,  100
+
+AddFixedSearchLight =  0.75, 0.44, 2.86,   0x50FFFFFF,   0x00FFFFC0,    0.13, 0.6,  -5,  0
+AddFixedSearchLight = -0.75, 0.44, 2.86,   0x50FFFFFF,   0x00FFFFC0,    0.13, 0.6,   5,  0
+AddFixedSearchLight =  0.65, 0.44, 2.90,   0x50FFFFFF,   0x00FFFFC0,    0.13, 0.6,  -5,  0
+AddFixedSearchLight = -0.65, 0.44, 2.90,   0x50FFFFFF,   0x00FFFFC0,    0.13, 0.6,   5,  0
+
+
+AddFixedSearchLight =  -0.7822, 0.6288,-3.055,   0x80FF0000,   0x00FF0000,    0.02, 0.5,  -180.0,  0
+AddFixedSearchLight =  0.7822, 0.6288,-3.055,   0x80FF0000,   0x00FF0000,    0.02, 0.5,  -180.0,  0
+
+
+BoundingBox = 0.0, 0.4, 1.9, 1.0, 0.6
+
+BoundingBox = 0.0, 0.0, 1.9, 2.0, 0.2
+
+BoundingBox = 0.0, 0.0, 1.6, 2.2, 0.2
+
+BoundingBox = 0.0, 0.0, 0.0, 2.2, 0.2
+
+BoundingBox = 0.0, 0.15, -2.0, 2.2, 0.2
+
+Regeneration = false
+ArmorDamageFactor = 2.32
+
+ArmorMinDamage = 2
+
+
+InventorySize = 9
+
+;faster civ car
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:advancedmechanicparts, E, gold_nugget, F, glass_pane
+
+

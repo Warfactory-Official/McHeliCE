@@ -1,0 +1,31 @@
+DisplayName = Kh-47M2 [Nuclear Ballistic Missile - 50KT]
+Type = rocket
+Power = 1000
+Acceleration = 20.0
+Explosion = 10
+ExplosionBlock = 3
+ExplosionInWater = 3
+Sight = MoveSight
+Delay = 100
+soundvloume= 30
+ModeNum = 2
+ModelBullet = kh47m2
+Sound = kinjal
+DisableSmoke = true
+nukeyield = 45
+;50KT
+
+;DamageFactor = tank, 2.0
+;DamageFactor = plane, 1.0
+;DamageFactor = vehicle 4.5
+;DamageFactor = heli, 4.5
+;DamageFactor = player, 20.0
+
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  1, mcheli:genericnuclearwarhead
+Item = 9, gunpowder
+Item =  3, redstone
+

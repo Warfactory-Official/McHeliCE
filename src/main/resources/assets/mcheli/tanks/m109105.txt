@@ -1,0 +1,137 @@
+﻿DisplayName = M109 155mm Self Propelled Howitzer
+AddDisplayName = ja_JP, M109 155mm Self Propelled Howitzer
+AddDisplayName = en_US, M109 155mm Self Propelled Howitzer
+ItemID = 30100
+MaxHp = 200
+Speed = 0.38
+Sound = sphhowitzereng
+ThrottleUpDown = 5.0
+MobilityYawOnGround = 2.0
+MinRotationPitch = -75
+MaxRotationPitch = 3
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+CameraZoom = 4
+EnableNightVision = true
+CameraRotationSpeed = 10
+EnableEntityRadar = false
+MaxFuel         = 1200
+FuelConsumption = 3.0
+StepHeight = 1.8
+;FlareType = 10
+CameraPosition = 0.00,  3.50, 1.55, true
+HideEntity = true
+EnableBack = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+
+Category = SPH/SPA
+
+WeightType = Tank
+WeightedCenterZ = 0
+
+MotionFactor = 0.9
+AddGunnerSeat =  0.01,  1.5, 0,   0.01,  3,   0.00,  false, -90, 90, true
+AddGunnerSeat =  0.98,  2.40, -0.12,  0.98,  3.40, -0.12,  false, -90, 90, true
+;m107 bb
+HUD = mbt_hudtwo,gunnernvg
+
+;AddTurretWeapon =m107, 0, 2.17, 8.41,  0.0, 0.0, true,1, 0,-360,180, -80, 7
+
+
+AddPartWeapon = 109m107sh/109bbsh/109raamssh/109m795sh/109m795bbsh/109m549sh, false, true, false,  0.00, 0,0,0
+AddPartWeaponChild = false, true, 0.66, 2.06, 1.87, 0
+AddPartWeaponChild = false, true, 0.66, 2.06, 1.87, 0.5
+
+AddTurretWeapon = 109m107sh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360, -75, 3
+AddTurretWeapon = 109bbsh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360,   -75, 3
+AddTurretWeapon = 109raamssh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360,   -75, 3
+;;AddTurretWeapon = 109m107m712sh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360,   -75, 3
+;;AddTurretWeapon = 109excalibursh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360,   -75, 3
+AddTurretWeapon = 109m795sh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360,   -75, 3
+AddTurretWeapon = 109m795bbsh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360,   -75, 3
+AddTurretWeapon = 109m549sh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360,   -75, 3
+AddTurretWeapon = 109ncsh, -0.0289, 2.1748, 0.2037,  0.0, 0.0, true,1, 0,-360,360,   -75, 3
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AddTurretWeapon = m107,   0.00, 2.9709, 2.2037,  0.0, 0.0, true,1, 0,-360,360, -65, 6
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AddTurretWeapon = 155sgh1,  0.00, 2.9709, 2.2037,  0.0, 0.0, true,1, 0,-360,360, -65, 6
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AddTurretWeapon = 155sgh2,  0.00, 2.9709, 2.2037,  0.0, 0.0, true,1, 0,-360,360, -65, 6
+
+
+; AddPartWeapon = 連動する武器名(無しの時はnone), ガンナー時非表示？, Yaw連動, Pitch連動, 回転座標X,Y,Z, 駐退距離
+
+AddPartTurretWeapon    =  109m240_r,   false, true, true,  0.98, 3.18, 0.57
+AddPartTurretWeapon    =  109m240_r, false, true, false,   0.98, 3.02, 0.57
+AddTurretWeapon = 109m240_r,    0.98, 3.21, 0.57,   0.0, 0.0, false, 2, 0, -80,80, -50,10
+
+
+
+; パラメータは前から順に 武器設定ファイル名、位置(X,Y,Z)、回転角度(横,縦), パイロット使用可否, 座席, DefaultYaw, MinYaw, MaxYaw, MinPitch, MaxPitch
+
+
+
+
+;AddCrawlerTrack = true, 0.15, -1.28,  -2.71/-0.25, -2.98/-0.14, -3.1/0.13, -2.98/0.4, -2.71/0.52,  2.44/0.93,  2.64/0.85,  2.72/0.66,  2.64/0.47,  2.03/-0.14, 1.76/-0.25,
+;AddCrawlerTrack = true, 0.15, -1.28,  -0.25/-2.71, -0.14/-2.98, 0.13/-3.1, 0.4/-2.98, 0.52/-2.71,  0.93/2.44,  0.85/2.64,  0.66/2.72,  0.47/2.64,  -0.14/2.03,-0.25/1.76,
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+
+
+AddCrawlerTrack = true, 0.1, -1.14,  -0.28/ -1.16,  -0.07/ -2.03,  0.08/ -2.24,  0.32/ -2.32,  0.57/ -2.24,  0.72/ -2.03,  0.73/ 5.03,  0.73/ 5.26,  0.59/5.45,  0.37/5.52,  0.15/ 5.45,  0.01/ 5.26,-0.28/4.27,
+AddCrawlerTrack = true, 0.1, 1.14,  -0.28/ -1.16,  -0.07/ -2.03,  0.08/ -2.24,  0.32/ -2.32,  0.57/ -2.24,  0.72/ -2.03,  0.73/ 5.03,  0.73/ 5.26,  0.59/5.45,  0.37/5.52,  0.15/ 5.45,  0.01/ 5.26,-0.28/4.27,
+
+;AddCrawlerTrack = true, 0.1, -2.14,  -1.16/-0.28,  -2.03/ -0.07,  -2.24/0.08,  -2.32/0.32,  -2.24/ 0.57,  -2.03/0.72,  5.03/ 0.73,  5.26/ 0.73,  5.45/0.59,  5.52/0.37,  5.45/ 0.15,  5.26/ 0.01,4.27/-0.28,
+;AddCrawlerTrack = true, 0.1, 2.14,  -1.16/-0.28,  -2.03/ -0.07,  -2.24/0.08,  -2.32/0.32,  -2.24/ 0.57,  -2.03/0.72,  5.03/ 0.73,  5.26/ 0.73,  5.45/0.59,  5.52/0.37,  5.45/ 0.15,  5.26/ 0.01,4.27/-0.28,
+;AddCrawlerTrack = false, 0.1, -1.6,  -1.16/ -0.28,  -2.03/ -0.07,  2.24/0.08,  -2.32/0.32,  -2.24/0.57,  -2.03/0.72,  5.03/0.73,  5.26/0.73,  5.45/0.59,  5.52/0.37,  5.45/ 0.15,  5.26/0, 4.27/-0.28,
+;AddCrawlerTrack = false, 0.1, 1.6,  -1.16/ -0.28,  -2.03/ -0.07,  2.24/0.08,  -2.32/0.32,  -2.24/0.57,  -2.03/0.72,  5.03/0.73,  5.26/0.73,  5.45/0.59,  5.52/0.37,  5.45/ 0.15,  5.26/0, 4.27/-0.28,
+
+
+SetWheelPos =  1.72,  -0.24,  4.15,  3.03, 1.99, 1.01, 0.03, -1.05
+
+AddTrackRoller =  2.10 ,0.37 ,5.15
+AddTrackRoller =  2.10 ,0.07 ,4.15
+AddTrackRoller =  2.10,  0.07,  3.03
+AddTrackRoller = 2.10,  0.07,  1.99
+AddTrackRoller = 2.10,  0.07,  1.01
+AddTrackRoller = 2.10,  0.07,  0.03
+AddTrackRoller =  2.10,  0.07,  -1.05
+AddTrackRoller =  2.12,  0.32,  -1.9
+
+AddTrackRoller =  -2.10 ,0.37 ,5.15
+AddTrackRoller =  -2.10 ,0.07 ,4.15
+AddTrackRoller =  -2.10,  0.07,  3.03
+AddTrackRoller = -2.10,  0.07,  1.99
+AddTrackRoller =-2.10,  0.07,  1.01
+AddTrackRoller = -2.10,  0.07,  0.03
+AddTrackRoller =  -2.10,  0.07,  -1.05
+AddTrackRoller =  -2.12,  0.32,  -1.9
+MaxFuel = 600
+FuelConsumption = 2.0
+
+DefaultFreeLook = true
+
+BoundingBox = 0.0, 0.8, -0.3, 3.2, 1.55, 1.0
+
+BoundingBox = 0.0, 0.8, 1.5, 3.2, 1.55, 1.0
+
+BoundingBox = 0.0, 0.8, 2.3, 3.2, 1.55, 1.0
+
+BoundingBox = 0.0, 0.75, 2.5, 3.2, 1.50, 1.0
+BoundingBox = 0.0, 0.79, 2.65, 3.2, 1.40, 1.0
+BoundingBox = 0.0, 0.85, 2.75, 3.2, 1.30, 1.0
+BoundingBox = 0.0, 0.85, 2.85, 3.2, 1.20, 1.0
+BoundingBox = 0.0, 0.82, 2.95, 3.2, 1.30, 1.0
+BoundingBox = 0.0, 0.80, 3.15, 3.2, 1.20, 1.0
+BoundingBox = 0.0, 0.74, 3.25, 3.2, 1.30, 1.0
+BoundingBox = 0.0, 0.72, 3.35, 3.2, 1.20, 1.0
+BoundingBox = 0.0, 0.66, 3.45, 3.2, 1.30, 1.0
+BoundingBox = 0.0, 0.66, 3.85, 3.2, 1.20, 1.0
+
+BoundingBox = 0.0, 2.1, 0.0, 3.6, 1.3, 1.0
+
+unmountposition = 0.01,  1.5, 0
+
+
+;med tracked cannon arty (m109)
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, E, mcheli:lap, F, mcheli:electronics

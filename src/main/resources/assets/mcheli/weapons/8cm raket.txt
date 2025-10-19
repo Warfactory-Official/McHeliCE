@@ -1,0 +1,49 @@
+﻿DisplayName = 8cm Rocket
+
+Type = Rocket
+
+Power = 250
+
+ModelBullet = 8cm raket
+
+Acceleration = 3.5
+
+Explosion = 3
+
+Flaming = false
+
+Sound = rocket_snd
+
+Sight = MoveSight
+
+Delay = 4
+
+ReloadTime = 120
+
+Round = 10
+
+Accuracy = 1
+
+MaxAmmo = 50
+
+ReloadTime = 80
+
+Delay = 4
+ReloadTime = 120
+Group = MainGun
+;Acceleration = 7.0
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 8cm Rocket
+SoundVolume = 15
+
+SuppliedNum = 5
+Item =  2, iron_ingot
+Item =  2, gunpowder

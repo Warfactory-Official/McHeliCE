@@ -1,0 +1,28 @@
+DisplayName = 7.62mm M134D Minigun
+Type = MachineGun2
+Power = 9
+Flaming = false
+Sight = MoveSight
+Delay = 0
+ReloadTime = 80
+Round = 300
+SoundDelay = 3
+Accuracy = 4.0
+SetCartridge = cartridge, 0.0, 0, 0, 2.00, -0.04, 0.40
+Sound = minigun
+HeatCount = 1
+MaxHeatCount = 230
+
+Acceleration = 7.5
+Gravity = -0.005
+SoundVolume = 15
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+MaxAmmo = 3000
+SuppliedNum = 1000
+Item =  2, iron_ingot
+Item =  2, gunpowder

@@ -1,0 +1,42 @@
+DisplayName = M19 Incendiary Cluster Bomb
+Type = Bomb
+Acceleration = 0.1
+;ExplosionAltitude = 1
+Sight = None
+Delay = 5
+Sound = bomb_snd
+
+FAE = true
+
+ModelBullet = fab250
+ModelBomblet = blu10b
+BombletSTime = 15
+Bomblet = 38
+BombletDiff = 1.4
+Flaming = true
+
+Gravity = -0.08
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 3
+
+Power = 50
+ExplosionBlock = 2
+ExplosionInWater = 1
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+
+ReloadTime = 1500
+Round = 12
+
+MaxAmmo = 12
+SuppliedNum = 1
+
+Item = 6, iron_ingot
+Item = 6, gunpowder

@@ -1,0 +1,141 @@
+﻿DisplayName = Type 16 Maneuver Combat Vehicle
+AddDisplayName = en_US, Type 16 Maneuver Combat Vehicle
+AddDisplayName = ja_JP, 陸上自衛隊 機動戦闘車
+ItemID = 30070
+MaxHp = 200
+Speed = 0.62
+Sound = mcv
+ThrottleUpDown = 2
+MaxFuel         = 1000
+FuelConsumption = 0.8
+AddTexture = jgsdf-mcv-1
+AddTexture = jgsdf-mcv-2
+AddTexture = jgsdf-mcv-3
+
+Category = WTD/AAC/AAG/ATD/AWAFV
+
+AddGunnerSeat =  0.0, 1.0, -0.0
+
+AddGunnerSeat = -0.5150,  2.2502, -0.3848,   -0.5304, 2.9845, -0.1357, false, -90, 90, true
+
+CameraPosition = 0.0, 2.728, 0.0
+CameraZoom = 10
+
+
+;CameraPosition = 0.00, 3.40, 0.00, true
+;CameraZoom = 10
+CameraRotationSpeed = 18
+
+;, gunner, gunner
+;EnableGunnerMode = true
+EnableNightVision = true
+EnableEntityRadar = false
+
+
+
+MobilityYawOnGround = 6.0
+MinRotationPitch = -60
+MaxRotationPitch = 8
+MobilityRoll = 0
+InventorySize = 9
+StepHeight = 1.8
+EnableBack = true
+WeightType = Tank
+DefaultFreelook = true
+
+
+;Float = true
+;FloatOffset = -0.5
+;perhaps this will fix previous projects?
+Gravity = -0.61
+GravityInWater = -1.0
+
+;earth gravity is -9.81m/s^2 however minecraft and mcheli base off of different metric or something 
+;GravityInWater = 0.1
+
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+
+
+ArmorMinDamage = 5
+;ArmorMaxDamage = 400
+
+HUD = mbt_hud, mbt_gnr
+
+;AddGunnerSeat =  0.00, 1.00,  0.00
+
+;AddGunnerSeat =  0.0,  1.20,  -0.674, 0.00, 2.50, -0, true, -90, 90, true
+
+;AddGunnerSeat =  0.0,  1.20,  -0.674
+
+;AddSeat = 0.0, 1.0, 0.0
+
+TurretPosition = 0.0, 1.0, 0.0
+
+
+
+
+StepHeight = 1.8
+
+;  M = Military,  A = AAGun(対空砲)
+;;Category = M.A
+
+
+;, gunner
+
+AddPartWeapon = 105mm_apfsdsmcv / 105mm_heatmcv,       false, true, false,  0.00,1.401, 0
+AddPartWeaponChild   = false, true, 0.00, 1.802, 1.2667
+AddPartTurretWeapon = mcvh2hb, false, true, true,  -0.511,2.65, 0.130
+
+AddTurretWeapon = 105mm_apfsdsmcv,   0.00,1.73, 0.1147,           0.0, 0.0,    true,  1, 0, -360, 360, -15,6
+AddTurretWeapon = 105mm_heatmcv,     0.00,1.73, 0.1147,           0.0, 0.0,    true,  1, 0, -360, 360, -15,6
+AddTurretWeapon     = mcvm240_r,     0.2621,1.73, 0.2147,         0.0, 0.0,    true,  1, 0, -360, 360, -15,6
+AddTurretWeapon = mcvh2hb,             -0.5304, 2.7845, 0.2357,      0.0, 0.0, true,  2, 0, -360, 360, -60,8
+
+;light 8x8 with cannon
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine2, D, mcheli:electronics, E, mcheli:fcs2, F, mcheli:basicmechanicparts, G, mcheli:cannon3
+
+FlareType = 10
+DamageFactor = 0.1
+
+
+;AddPartWeaponChild   = false, true, -0.512, 2.662, -0.654
+
+;TurretPosition = 0.0, 1.0, -.763
+
+HideEntity = true
+
+;BoundingBox =  0.0, 0.462, 1.49,  2.98, 1.524
+;BoundingBox =  0.0, 0.544, -1.49,  2.98, 1.689
+;BoundingBox =  0.0, 1.68, -0.674,  2.76, 0.912
+
+
+
+PivotTurnThrottle = 0.4
+
+
+SetWheelPos =  1.02,  0.00,  3.14,  1.47, -0.05, -1.48
+
+;Category = M.A
+;Left
+AddPartWheel = 1.4292, 0.3000, 3.1473, 20
+AddPartWheel = 1.4293, 0.3000, 1.4789, 10
+AddPartWheel = 1.4292, 0.3000, -0.0533
+AddPartWheel = 1.4293, 0.3000, -1.4832
+
+;Right
+AddPartWheel = -1.4293, 0.3000, 3.1473, 20
+AddPartWheel = -1.4293, 0.3000, 1.4789, 10
+AddPartWheel = -1.4292, 0.3000, -0.0533
+AddPartWheel = -1.4292, 0.3000, -1.4832
+
+BoundingBox = 0.0, 1.7, 0.1137, 2.0, 1.0, 0.2
+
+BoundingBox = 0.0, 1.0, -1.0113, 2.8, 1.0, 0.5
+BoundingBox = 0.0, 1.0, 1.66, 2.9, 1.0, 0.5
+BoundingBox = 0.0, 1.0, 1.7887, 2.8, 1.0, 0.05
+BoundingBox = 0.0, 1.0, 3.1887, 2.6, 0.6, 0.12
+
+unmountposition = 0.0, 1.50, 0.1137

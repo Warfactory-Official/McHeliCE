@@ -1,0 +1,129 @@
+DisplayName = T-62
+MaxHp = 265
+Speed = 0.31
+Sound = bmpone
+ThrottleUpDown = 1.4
+throttleDownFactor = 0.4
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = true
+CameraZoom = 7
+CameraPosition = 0.00,  2.70, -0.0555, true
+CameraRotationSpeed = 10
+StepHeight = 1.8
+MinRotationPitch = -17
+MaxRotationPitch = 4
+DefaultFreelook = true
+HideEntity = true
+MobilityYawOnGround = 1.8
+
+HUD = mbt_hudtwo, gunnernvg
+
+Category = MED
+
+
+SubmergedDamageHeight = 2
+
+OnGroundPitchFactor = 4.0
+OnGroundRollFactor  = 4.8
+
+MobilityRoll = 0
+
+HideEntity = true
+WeightType = Tank
+
+
+
+
+AddGunnerSeat =  0.7,  0.80, 1.55,   0.00,  3.50, -0.0555,  false, -17, 4, true
+
+unmountposition = 0.7,  1.50, 1.55
+
+;AddGunnerSeat =  1.00,  2.20, 0.12,  1.00,  3.50,  0.12,  false, -90, 90, true
+
+AddCrawlerTrack = true, 0.2, -2.18,  -0.341/2.17, 0.27/3.1555, 0.5083/3.22, 0.72/3.125, 0.83/2.9, 0.83/-3.76, 0.71/-4.063, 0.4054/-4.19, 0.1/-4.0625, -0.02/-3.7607, -0.3418/-2.8371, -0.3147/-2.508, -0.341/1.8388
+AddCrawlerTrack = true, 0.2, 2.18,  -0.341/2.17, 0.27/3.1555, 0.5083/3.22, 0.72/3.125, 0.83/2.9, 0.83/-3.76, 0.71/-4.063, 0.4054/-4.19, 0.1/-4.0625, -0.02/-3.7607, -0.3418/-2.8371, -0.3147/-2.508, -0.341/1.8388
+
+SetWheelPos =  1.6,  -0.24,  2.0026, 0.886, -0.224, -1.455, -2.67
+
+AddTrackRoller = -1.98,  0.5083,  2.9168
+AddTrackRoller = -1.98,  0.1657,  2.0026
+AddTrackRoller = -1.98,  0.1657,  0.886
+AddTrackRoller = -1.98,  0.1657,  -0.224
+AddTrackRoller = -1.98,  0.1657,  -1.45525
+AddTrackRoller = -1.98,  0.1657,  -2.67285
+AddTrackRoller = -1.98,  0.4055,  -3.7607
+
+
+AddTrackRoller = 1.98,  0.5083,  2.9168
+AddTrackRoller = 1.98,  0.1657,  2.0026
+AddTrackRoller = 1.98,  0.1657,  0.886
+AddTrackRoller = 1.98,  0.1657,  -0.224
+AddTrackRoller = 1.98,  0.1657,  -1.45525
+AddTrackRoller = 1.98,  0.1657,  -2.67285
+AddTrackRoller = 1.98,  0.4055,  -3.7607
+
+AddTurretWeapon = t622A20_APFSDS,  0.00, 1.57, -0.0555,  0.0, 0.0, true,1, 0,-360,360, -17, 4
+AddTurretWeapon = t622A20_HEATMP,  0.00, 1.57, -0.0555,  0.0, 0.0, true,1, 0,-360,360, -17, 4
+AddTurretWeapon = t622A20_HE,      0.00, 1.57, -0.0555,  0.0, 0.0, true,1, 0,-360,360, -17, 4
+AddTurretWeapon = t62pkt7_62,      -0.40, 1.57, -0.0555,  0.0, 0.0, true,1, 0,-360,360, -17, 4
+AddTurretWeapon = t629k118,        0.00, 1.57, -0.0555,  0.0, 0.0, true,1, 0,-360,360, -17, 4
+AddPartWeapon = t622A20_APFSDS / t622A20_HEATMP / t622A20_HE, false, true, false,  0.00, 1.3175, -0.0555, 0
+AddPartWeaponChild = false, true, 0.00, 1.58, 1.4190
+
+TurretPosition = 0.0, 1.3, -0.0555
+
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+
+
+ArmorDamageFactor = 0.95
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+;slightly really less modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "EF ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:map, E, mcheli:advancedmechanicparts
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:t55, B, mcheli:advancedmechanicparts
+
+ArmorMinDamage = 10
+
+
+;siding
+BoundingBox =  0.0, 0.60, 0.80,   2.75, 1.3,    0.12
+BoundingBox =  0.0, 0.6,  -1.95,   2.75, 1.3,    0.12
+
+;turret
+BoundingBox =  0.0, 1.8,  -0.10,   1.90, 0.95,  0.05
+
+
+
+
+;ulp
+
+BoundingBox =  0, 1.25,  1.05,   2.65, 0.1,  0.05
+BoundingBox =  0, 1.15,  1.23,   2.65, 0.1,  0.05
+BoundingBox =  0, 1.05,  1.33,   2.65, 0.1,  0.05
+BoundingBox =  0, 0.95,  1.50,   2.65, 0.1,  0.05
+BoundingBox =  0, 0.85,  1.61,   2.65, 0.1,  0.05
+BoundingBox =  0, 0.75,  1.90,   2.65, 0.1,  0.05
+BoundingBox =  0, 0.60,  2.09,   2.65, 0.1,  0.05
+;lfp
+BoundingBox =  0, 0.18,  1.78,   2.65, 0.1,  0.13
+BoundingBox =  0, 0.25,  1.85,   2.65, 0.1,  0.05
+BoundingBox =  0, 0.35,  1.95,   2.65, 0.1,  0.05
+BoundingBox =  0, 0.45,  2.00,   2.65, 0.1,  0.05
+BoundingBox =  0, 0.55,  2.08,   2.65, 0.1,  0.05
+
+
+
+;rear
+BoundingBox =  0.0, 0.60, -2.6,   2.7, 1.3,  0.22
+
+

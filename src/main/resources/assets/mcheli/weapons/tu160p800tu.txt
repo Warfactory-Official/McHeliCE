@@ -1,0 +1,31 @@
+DisplayName = P-800 Oniks/Yakhont
+Type = TVmissile
+Power = 3000
+Acceleration = 16
+Accelerationinwater = 2
+Explosion = 15
+ExplosionInWater = 8
+piercing = 2
+Flaming = false
+Sight = MoveSight
+Delay = 2
+ModeNum = 2
+ModelBullet = p800
+;soundvloume= 30
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+ProximityFuseDist = 1
+
+Sound = hydraseventy
+SoundVolume = 10
+
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  16, gunpowder
+Item =  2, redstone

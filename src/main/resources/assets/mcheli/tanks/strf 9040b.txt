@@ -1,0 +1,136 @@
+DisplayName = Strf 9040B
+MaxHp = 200
+Speed = 0.43
+Sound = cvenglonger
+ThrottleUpDown = 2.0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.2
+EnableNightVision = true
+CameraRotationSpeed = 21
+StepHeight = 1.8
+CameraZoom = 8
+CameraPosition = 0.00, 2.58, 0.44, true
+MinRotationPitch = -27
+MaxRotationPitch = 8
+DefaultFreelook = true
+HideEntity = true
+FlareType = 10
+ThirdPersonDist = 8
+unmountposition = -0.0,  2.00,  0.25
+MobilityYawOnGround = 2.5
+
+Category = IFV
+
+TurretPosition = 0.24, 0.00, -0.36
+
+HUD = mbt_hud, none, none, none, none, none, none, none, none
+
+SubmergedDamageHeight = 2
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+
+HideEntity = true
+
+
+WeightType = Tank
+
+
+
+AddGunnerSeat =  0.00, 1.58, 0.44, 0.00, 1.58, 0.44, false, -90, 90, true
+;AddSeat =  0.00, 1.58, 0.44
+
+AddSeat = 0.5,  0.5, -1.8
+AddSeat = -0.5, 0.5, -1.8
+AddSeat = 0.5,  0.5, -2.3
+AddSeat = -0.5, 0.5, -2.3
+AddSeat = 0.5,  0.5,  -2.8
+AddSeat = -0.5, 0.5, -2.8
+AddSeat = 0.5,  0.5,  -3.3
+AddSeat = -0.5, 0.5, -3.3
+
+
+AddCrawlerTrack = true, 0.18, -1.60,  -0.30/0.05, -0.27/2.60, 0.44/3.40, 0.55/3.35, 0.99/2.45, 0.98/2.54, 0.98/-2.62, 0.87/-2.89, 0.61/-3.60, 0.38/-3.55, -0.29/-2.55
+AddCrawlerTrack = true, 0.18,  1.60,  -0.30/0.05, -0.27/2.60, 0.44/3.40, 0.55/3.35, 0.99/2.45, 0.98/2.54, 0.98/-2.62, 0.87/-2.89, 0.61/-3.60, 0.38/-3.55, -0.29/-2.55
+
+SetWheelPos =  1.1,  -0.24, 2.04, 1.33, 0.63,  -0.08, -0.78, -1.49, -2.21
+
+AddTrackRoller =  1.13,  0.43,  3.00
+AddTrackRoller =  1.37,  0.08,  2.04
+AddTrackRoller =  1.37,  0.08,  0.63
+AddTrackRoller =  1.37,  0.08,  -0.08
+AddTrackRoller =  1.37,  0.08,  -0.78
+AddTrackRoller =  1.37,  0.08,  -1.49
+AddTrackRoller =  1.36,  0.39,  -3.07
+AddTrackRoller =  -1.09,  0.43,  3.00
+AddTrackRoller =  -1.30,  0.08,  2.04
+AddTrackRoller =  -1.30,  0.08,  1.33
+AddTrackRoller =  -1.30,  0.08,  0.63
+AddTrackRoller =  -1.30,  0.08,  -0.08
+AddTrackRoller =  -1.30,  0.08,  -0.78
+AddTrackRoller =  -1.30,  0.08,  -1.49
+AddTrackRoller =  -1.30,  0.08,  -2.21
+AddTrackRoller =  -1.30,  0.39,  -3.07
+AddTrackRoller =  1.37,  0.08,  1.33
+AddTrackRoller =  1.37,  0.08,  -2.21
+
+
+AddTurretWeapon = strfSlpprj_m90,      0.24, 1.90,   -0.0,  0.0, 0.0, true,1, 0,-360,360, -25, 10
+AddTurretWeapon = strfSlsgr_m90,       0.24, 1.90,   -0.0,  0.0, 0.0, true,1, 0,-360,360, -25, 10
+AddTurretWeapon = strfSlsgr_m90vt,     0.24, 1.90, -0.0,  0.0, 0.0, true,1, 0,-360,360, -25, 10
+
+AddTurretWeapon = strfmg_coaxial,      0.93, 1.79, 0.58,  0.0, 0.0, true,1, 0,-360,360, -25, 10
+AddPartWeapon = strfSlpprj_m90 / strfSlsgr_m90/ strfSlsgr_m90vt, false, true, false,  0.24, 0.00, -0.36, 0
+AddPartWeaponChild = false, true, 0.00, 1.94, 0.47
+AddPartWeaponChild = false, true, 0.00, 1.94, 0.47, 0.5
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+
+
+
+;ArmorMaxDamage = 250
+
+;ArmorDamageFactor = 0.98
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+
+AddTexture = Strf 9040b_2
+
+AddTexture = Strf 9040b_3
+
+
+;light tracked tank/ifv (bradley family) (basic)
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:cannon2, C, mcheli:engine1, D, mcheli:tanktracks, E, mcheli:lap, F, mcheli:fcs2, G, mcheli:advancedmechanicparts
+
+ArmorMinDamage = 9
+
+;turret
+BoundingBox =  0.0, 1.85, -0.5,   1.8, 0.60,   0.25
+
+;hull
+BoundingBox =  0.0, 0.95, -2.5,   2.20, 1.2,   0.5
+
+BoundingBox =  0.0, 0.95, -2.0,   2.20, 1.2,   0.5
+BoundingBox =  0.0, 0.95, 0.05,   2.20, 1.2,   0.5
+;lfp
+BoundingBox =  0.0, 0.35, 1.9,   2.10, 0.2,   0.18
+BoundingBox =  0.0, 0.55, 2.0,   2.10, 0.2,   0.18
+BoundingBox =  0.0, 0.75, 2.2,   2.10, 0.2,   0.18
+BoundingBox =  0.0, 0.95, 2.3,   2.10, 0.2,   0.18
+
+;ulp
+BoundingBox =  0.0, 1.15, 2.15,   2.10, 0.1,   0.10
+BoundingBox =  0.0, 1.25, 1.75,   2.10, 0.1,   0.10
+BoundingBox =  0.0, 1.35, 1.45,   2.10, 0.1,   0.10
+BoundingBox =  0.0, 1.45, 1.15,   2.10, 0.1,   0.10
+BoundingBox =  0.0, 1.50, 0.85,   2.10, 0.1,   0.10
+
+
+

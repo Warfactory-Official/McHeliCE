@@ -1,0 +1,191 @@
+﻿DisplayName = PGZ04A Type 95 SPAAA
+AddDisplayName = en_US, PGZ04A Type 95 SPAAA
+
+AddDisplayName = ja_JP, PGZ04A Type 95 SPAAA
+ItemID = 9997
+MaxHp = 200
+Speed = 0.33
+Sound = chinesecrap
+ThrottleUpDown = 2.0
+MobilityYawOnGround = 2.8
+MinRotationPitch = -85
+MaxRotationPitch = 5
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.6
+CameraZoom = 6
+CameraPosition = 0.00,  4.55, 0.000, true
+EnableNightVision = true
+CameraRotationSpeed = 48
+FlareType = 10
+MaxFuel         = 1200
+FuelConsumption = 2.7
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 1.0
+FlareType = 10
+
+Category = SPAAG
+
+SubmergedDamageHeight = 2
+EnableEntityRadar = true
+
+
+
+HUD = mbt_hud, gunnernvg, none, none,
+
+
+;AddPartHatch = 0.5861, 1.0540, -2.6165,  0.00, -1.0, 0.00, 115
+
+
+
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+
+WeightedCenterZ = 0.0
+
+
+SetWheelPos =  1.45,  -0.32,  3.7007, 2.6048, 1.6238,0.5996,-0.4373,-1.4503
+
+
+AddGunnerSeat =  0.00,  0.6,  0.0,    0.00,  4.50,  0.0,  false, -90, 90, true
+
+;AddGunnerSeat =  0.00,  1.15,  2.0,    0.00,  2.50,  0.25,  false, -90, 90, true
+
+;AddGunnerSeat =  0.00, 0.33, 1.57, 0.00, 3.75, 0.000, true, -90, 90
+
+;AddSeat = -0.8898,  1.00, -0.9665
+;AddSeat =  0.8898,  1.00, -2.2665
+;AddSeat = -0.8898,  1.00, -0.9665
+;AddSeat =  0.8898,  1.00, -2.2665
+
+
+
+
+
+AddTexture = pgz-95_1
+AddTexture = pgz-95_2
+
+
+
+
+MotionFactor = 0.9
+
+
+
+
+;ArmorMaxDamage = 300
+
+ArmorDamageFactor = 1.00
+
+EnableBack = true
+
+
+PivotTurnThrottle = 0.0
+
+AddCrawlerTrack = false,  0.2502,  -1.702,  1.00/-2.23,  1.00/4.93,  0.95/5.12,  0.81/5.25,  0.63/5.28,  0.45/5.20,  -0.16/3.98,  -0.26/3.64,  -0.26/-1.26,  -0.18/-1.69,  0.44/-2.52,  0.61/-2.64,  0.80/-2.67,  0.96/-2.58,  1.02/2.42 
+
+
+
+
+AddCrawlerTrack = false,  0.2502,   1.702,  1.00/-2.23,  1.00/4.93,  0.95/5.12,  0.81/5.25,  0.63/5.28,  0.45/5.20,  -0.16/3.98,  -0.26/3.64,  -0.26/-1.26,  -0.18/-1.69,  0.44/-2.52,  0.61/-2.64,  0.80/-2.67,  0.96/-2.58,  1.02/2.42  
+
+
+
+
+
+TrackRollerRot = 40
+
+
+AddTrackRoller = 1.7269,  0.6855,  4.9713
+AddTrackRoller = 1.8296,  0.1413,  3.6843
+AddTrackRoller = 1.8296,  0.1437,  2.6270
+AddTrackRoller = 1.8296,  0.1462,  1.6073
+AddTrackRoller = 1.8296,  0.1486,  0.6108
+AddTrackRoller = 1.8296,  0.1510,  -0.4243
+AddTrackRoller = 1.8296,  0.1535,  -1.4587
+AddTrackRoller = 1.8326,  0.7178,  -2.3742
+
+
+
+AddTrackRoller = -1.7269,  0.6855,  4.9713
+AddTrackRoller = -1.8296,  0.1413,  3.6843
+AddTrackRoller = -1.8296,  0.1437,  2.6270
+AddTrackRoller = -1.8296,  0.1462,  1.6073
+AddTrackRoller = -1.8296,  0.1486,  0.6108
+AddTrackRoller = -1.8296,  0.1510,  -0.4243
+AddTrackRoller = -1.8296,  0.1535,  -1.4587
+AddTrackRoller = -1.8326,  0.7178,  -2.3742
+
+
+
+
+
+
+
+AddPartWeapon = pg25mm / pg25mmap / pghy6 , false, true, false,  0.00, 2.8397, 0.000, 0
+AddPartWeaponChild = false, true, 0.00, 2.8392, -0.9190
+AddPartWeaponChild = false, true, 0.7520, 2.8392, -0.9190
+AddPartWeaponChild = false, true, -0.7520, 2.8392, -0.9190
+AddPartWeaponChild = false, true, 0.7520, 2.8392, -0.9190
+AddPartWeaponChild = false, true, -0.7520, 2.8392, -0.9190
+
+AddTurretWeapon = pg25mm,   0.8798, 3.0467, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360, -85,  5
+AddTurretWeapon = pg25mm,   -0.8798, 3.0467, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360, -85,  5
+AddTurretWeapon = pg25mm,   0.8798, 2.777, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360, -85,  5
+AddTurretWeapon = pg25mm,   -0.8798, 2.777, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360, -85,  5
+
+AddTurretWeapon = pg25mmap,   0.8798, 3.0467, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360, -85,  5
+AddTurretWeapon = pg25mmap,   -0.8798, 3.0467, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360, -85,  5
+AddTurretWeapon = pg25mmap,   0.8798, 2.777, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360, -85,  5
+AddTurretWeapon = pg25mmap,   -0.8798, 2.777, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360, -85,  5
+
+
+AddTurretWeapon = pghy6,      0.8802, 3.5378, -0.9190, 0.0, 0.0, true, 1, 0,  -360, 360
+AddTurretWeapon = pghy6,      -0.8802, 3.5378, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360
+AddTurretWeapon = pghy6,      0.8802, 3.3506, -0.9190, 0.0, 0.0, true, 1, 0,  -360, 360
+AddTurretWeapon = pghy6,      -0.8802, 3.3506, -0.9190, 0.0, 0.0, true, 1, 0, -360, 360
+
+AddWeapon = op, 0.0, 0.0, 0.0
+AddPartWeaponBay = op,  0.5861, 1.0540, -2.6165,  0.00, -1.0, 0.00, 115
+
+AddTurretWeapon = targeting_pod_mob,     0.60, 3.40, 0.60,   0.0, 0.0,  true, 1
+AddTurretWeapon = targeting_pod_pv10s,   0.60, 3.40, 0.60,   0.0, 0.0,  false,1
+
+
+ArmorMinDamage = 4
+
+
+;staircase 130mm
+;BoundingBox = 0.0, 0.65, 4.125, 2.99, 0.9, 1.0
+BoundingBox = 0.0, 0.80, 3.75,  2.99, 1.0, 1.0
+BoundingBox = 0.0, 0.78, 3,  2.99, 1.1, 1.0
+BoundingBox = 0.0, 0.85, 2.25,  2.99, 1.5, 1.0
+BoundingBox = 0.0, 0.95, 1.5,  2.99, 1.6, 1.0
+BoundingBox = 0.0, 1.05, 0.75,  2.99, 1.7, 1.0
+
+;77mm lower pl8
+;BoundingBox = 0.0, 0.69, 2.8, 2.99, 0.8, 1.0
+
+BoundingBox = 0.0, 2.25, 0.0, 1.5, 1.0, 1.0
+
+
+
+BoundingBox = 0.0, 1.1, 0.0, 3.0, 1.8, 1.0
+BoundingBox = 0.0, 1.1, -1.25, 3.2, 1.8, 1.0
+
+
+
+
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+unmountposition = 0.00,  1.5, 0.00
+
+;light tracked spaa alt (modern)
+AddRecipe = "AFC", "DEF", "B  ", A, mcheli:lightchassis, C, mcheli:engine3, D, mcheli:tanktracks, E, mcheli:lap, F, mcheli:fcs2, B, mcheli:basicmechanicparts

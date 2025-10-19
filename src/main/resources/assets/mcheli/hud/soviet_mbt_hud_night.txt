@@ -1,0 +1,348 @@
+
+
+
+; パラメータ1  :テクスチャファイル名 (拡張子無し。assets\mcheli\textures\gui 内のファイル)
+; パラメータ2  : 画面の中央からのX座標
+; パラメータ3  : 画面の中央からのY座標
+; パラメータ4  : 画面上の幅
+; パラメータ5  : 画面上の高さ
+; パラメータ6  : 読み出すテクスチャのX座標
+; パラメータ7  : 読み出すテクスチャのY座標
+; パラメータ8  : 読み出すテクスチャの幅
+; パラメータ9  : 読み出すテクスチャの高さ
+; パラメータ10 : 画面上での回転角度(省略可)50,20,  0,0, 64,64,  90.0
+
+
+
+
+
+;tyawbs
+;autoloader
+
+;DrawString         = 0,  0, "MOTION Z=%f", MOTION_Z
+;DrawString         = 0,  20, "MOTION X=%f", MOTION_X
+;DrawString         = 0,  40, "YAW=%f", YAW
+;DrawString         = 0,  60, "PYAW%f", PLYR_YAW
+
+If=color==1
+;DrawString         = -70,  40, "color=1"
+EndIf
+
+If=color==2
+;DrawString         = -70,  40, "color=2"
+EndIf
+
+If=color==0
+;DrawString         = -70,  40, "color=0"
+EndIf
+
+
+
+DrawTexture = mbt1, 80,55,  32,32,  0, 0,64,64, yaw-plyr_yaw
+DrawTexture = mbt1, 80,55,  32,32, 64, 0,64,64, 
+;---------------------------------------------------------------------------------------------------------------------
+color=0
+If=(motion_x>0&&(plyr_yaw>yaw||plyr_yaw<=yaw+180))||(motion_x<0&&(plyr_yaw>yaw||plyr_yaw<=yaw-180))||(motion_x==0&&motion_z<0&&plyr_yaw<-2)||(motion_x==0&&motion_z>0&&plyr_yaw>2)
+color=1
+EndIf
+If=(motion_x>0&&(plyr_yaw<yaw||plyr_yaw>yaw+180))||(motion_x<0&&(plyr_yaw<yaw||plyr_yaw>yaw-180))||(motion_x==0&&motion_z<0&&plyr_yaw>2)||(motion_x==0&&motion_z>0&&plyr_yaw<-2)
+color=2
+EndIf
+If=((yaw<=0&&plyr_yaw>yaw+177)||(yaw>=0&&plyr_yaw<yaw-177))
+color=0
+EndIf
+
+If=(((yaw-plyr_yaw)<0)&&((yaw-plyr_yaw)>-70))
+color=0
+EndIf
+If=(((yaw-plyr_yaw)>0)&&((yaw-plyr_yaw)<70))
+color=0
+EndIf
+
+If=(((yaw-plyr_yaw)>110&&(yaw-plyr_yaw)>0))&&(color==1||color==2)&&sight_type==1&&(is_heat_wpn==0)
+color=3
+DrawString         = -70,  40, "color=3"
+EndIf
+If=(((yaw-plyr_yaw)<-110&&(yaw-plyr_yaw)<0))&&(color==1||color==2)&&sight_type==1&&(is_heat_wpn==0)
+color=3
+DrawString         = -70,  40, "color=3"
+EndIf
+
+;---------------------------------------------------------------------------------------------------------------------
+;(4-cam_zoom)
+;APFSDS START
+;[Body==Turret]車体と砲塔の角度が同じ場合 ※This is comment------------
+If=mt_dist<=270&&color==0&&sight_type==1&&(is_heat_wpn==0)
+DrawTexture = z1, -28,((-16-((4-cam_zoom)*(3-cam_zoom)))+((mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+EndIf
+
+If=mt_dist>270&&color==0&&sight_type==1&&(is_heat_wpn==0)
+DrawTexture = z1, -28-((mt_dist)/200),((-16-((4-cam_zoom)*(3-cam_zoom)))+((650-mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+EndIf
+
+
+;------------------------------------------------------------------------------
+;[Aim==Right&&yaw>=plyr_yaw]エイム右  ※This is comment---------------------------------
+If=sight_type==1&&(is_heat_wpn==0)&&yaw>=plyr_yaw&&color==1
+DrawTexture = z1, -28+((((yaw-plyr_yaw)/(15-(mt_dist/90))*throttle))/(4-cam_zoom)),((-14-((4-cam_zoom)*(3-cam_zoom)))+((mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+EndIf
+
+;If=sight_type==1&&(is_heat_wpn==0)&&yaw>=plyr_yaw&&color==1
+;DrawTexture = z1, -30+((((yaw-plyr_yaw)/(15-(mt_dist/90))*throttle))/(4-cam_zoom)),((-14-((4-cam_zoom)*(3-cam_zoom)))+((650-mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+;EndIf
+;------------------------------------------------------------------------------
+;[Aim==Right&&yaw<plyr_yaw]エイム右  ※This is comment---------------------------------
+If=sight_type==1&&(is_heat_wpn==0)&&yaw<plyr_yaw&&color==1
+DrawTexture = z1, -31+((((yaw-plyr_yaw)/(15-(mt_dist/90))*throttle))/(4-cam_zoom)),((-14-((4-cam_zoom)*(3-cam_zoom)))+((mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+EndIf
+
+;If=sight_type==1&&(is_heat_wpn==0)&&yaw<plyr_yaw&&color==1
+;DrawTexture = z1, -31+((((yaw-plyr_yaw)/(15-(mt_dist/90))*throttle))/(4-cam_zoom)),((-14-((4-cam_zoom)*(3-cam_zoom)))+((650-mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+;EndIf
+;------------------------------------------------------------------------------
+;[Aim==Left&&yaw>=plyr_yaw]エイム左  ※This is comment---------------------------------
+If=sight_type==1&&(is_heat_wpn==0)&&yaw>=plyr_yaw&&color==2
+DrawTexture = z1, ((mt_dist)/100)-31-((((yaw-plyr_yaw)/(15-(mt_dist/90))*throttle))/(4-cam_zoom)),((-14-((4-cam_zoom)*(3-cam_zoom)))+((mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+EndIf
+
+;------------------------------------------------------------------------------
+;[Aim==Left&&yaw<plyr_yaw]エイム左  ※This is comment---------------------------------
+If=sight_type==1&&(is_heat_wpn==0)&&yaw<plyr_yaw&&color==2
+DrawTexture = z1, ((mt_dist)/100)-31-((((yaw-plyr_yaw)/(15-(mt_dist/90))*throttle))/(4-cam_zoom)),((-14-((4-cam_zoom)*(3-cam_zoom)))+((mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+EndIf
+
+If=sight_type==1&&(is_heat_wpn==0)&&color==3
+DrawTexture = z1, -31,((-14-((4-cam_zoom)*(3-cam_zoom)))+((mt_dist)/30))+(100*motion_y),  63,33,  0,0,63,33,0
+EndIf
+
+;APFSDS END
+
+
+;-----------------------------------------------HEAT
+;DrawTexture = z1, -31+((((yaw-plyr_yaw)*throttle)/20)),-15+(mt_dist/90),  63,33,  0,0,63,33,0
+;DrawTexture = z1, -31+((((yaw-plyr_yaw)*throttle)/20)),-15+(mt_dist/780),  63,33,  0,0,63,33,0
+;DrawTexture = z1, -31+((((yaw-plyr_yaw)*throttle)/17)),-15+(mt_dist/110),  63,33,  0,0,63,33,0
+;DrawTexture = z1, -31+((((yaw-plyr_yaw)*throttle)/17)),-15+(mt_dist/780),  63,33,  0,0,63,33,0
+;------HEAT-AIM-PROGRAM-START-POINT--------------------------------------------------------------
+
+;[Body==Turret]車体と砲塔の角度が同じ場合 ※This is comment------------
+If=mt_dist<=850&&color==0&&sight_type==0&&(is_heat_wpn==0)
+DrawTexture = z1, -31+((((yaw-plyr_yaw)/(15-(mt_dist/100))*throttle))/(4-cam_zoom)),-9+((mt_dist/17.5)/(4-cam_zoom)),  63,33,  0,0,63,33,0
+EndIf
+;------------------------------------------------------------------------------
+
+;[Aim==Right&&yaw>=plyr_yaw]エイム右  ※This is comment---------------------------------
+If=cam_zoom==3&&sight_type==0&&(is_heat_wpn==0)&&(mt_dist<=850)&&yaw>=plyr_yaw&&color==1
+DrawTexture = z1, -31+((((yaw-plyr_yaw)/(15-(mt_dist/70))*throttle))/(4-cam_zoom)),-9+((mt_dist/17.5)/(4-cam_zoom)),  63,33,  0,0,63,33,0
+EndIf
+;------------------------------------------------------------------------------
+;[Aim==Right&&yaw<plyr_yaw]エイム右  ※This is comment---------------------------------
+If=cam_zoom==3&&sight_type==0&&(is_heat_wpn==0)&&(mt_dist<=850)&&yaw<plyr_yaw&&color==1
+DrawTexture = z1, -31+((((yaw-plyr_yaw)/(15-(mt_dist/70))*throttle))/(4-cam_zoom)),-9+((mt_dist/17.8)/(4-cam_zoom)),  63,33,  0,0,63,33,0
+EndIf
+;------------------------------------------------------------------------------
+
+;[Aim==Left&&yaw>=plyr_yaw]エイム左  ※This is comment---------------------------------
+If=cam_zoom==3&&sight_type==0&&(is_heat_wpn==0)&&(mt_dist<=850)&&yaw>=plyr_yaw&&color==2
+DrawTexture = z1, -31-((((yaw-plyr_yaw)/(15-(mt_dist/70))*throttle))/(4-cam_zoom)),-9+((mt_dist/17.8)/(4-cam_zoom)),  63,33,  0,0,63,33,0
+EndIf
+;------------------------------------------------------------------------------
+;[Aim==Left&&yaw<plyr_yaw]エイム左  ※This is comment---------------------------------
+If=cam_zoom==3&&sight_type==0&&(is_heat_wpn==0)&&(mt_dist<=850)&&yaw<plyr_yaw&&color==2
+DrawTexture = z1, -31-((((yaw-plyr_yaw)/(15-(mt_dist/70))*throttle))/(4-cam_zoom)),-9+((mt_dist/17.8)/(4-cam_zoom)),  63,33,  0,0,63,33,0
+EndIf
+;------HEAT-AIM-PROGRAM-END-POINT----------------------------------------------------------------
+
+;*-(plyr_yaw-yaw/5000)
+;弾類表示[0:AP][1:HEAT][2:ATGM][3:COAX]
+
+If=sight_type==0 &&(is_heat_wpn==0)
+DrawTexture = lw1, -70,-100,  6,9,  0,0,63,101,0
+EndIf
+If=sight_type==1&&(is_heat_wpn==0)
+DrawTexture = lw0, -70,-100,  6,9,  0,0,63,101,0
+EndIf
+If=(sight_type==1)&&(is_heat_wpn==1)
+DrawTexture = lw3, -70,-100,  6,9,  0,0,63,101,0
+EndIf
+If=sight_type==0&&(is_heat_wpn==1)
+DrawTexture = lw2, -70,-100,  6,9,  0,0,63,101,0
+EndIf
+
+
+If=reloading==0
+DrawTexture = rot, -93,-100,  18,8,  0,0,23,11,0
+EndIf
+
+;DrawTexture = lw0, -100,-87,  6,9,  0,0,63,101,0
+;DrawTexture = lw0, -93,-87,  6,9,  0,0,63,101,0
+;DrawTexture = lw0,-86,-87,  6,9,  0,0,63,101,0
+;DrawTexture = lw0, -79,-87,  6,9,  0,0,63,101,0
+
+If=mt_dist<0
+DrawTexture = none, -105,-86,  43,6,  0,0,43,6,0
+EndIf
+
+If=(mt_dist%10>=0&&mt_dist%10<1)
+DrawTexture = lw0, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=0&&mt_dist%100<1)||(mt_dist>=100&&mt_dist%10>=1&&mt_dist%10<=9)
+DrawTexture = lw0,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000==0)||(mt_dist%1000>=1&&mt_dist%1000<100&&mt_dist>=1000)
+DrawTexture = lw0, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=1&&mt_dist%10<2)
+DrawTexture = lw1, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=2&&mt_dist%10<3)
+DrawTexture = lw2, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=3&&mt_dist%10<4)
+DrawTexture = lw3, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=4&&mt_dist%10<5)
+DrawTexture = lw4, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=5&&mt_dist%10<6)
+DrawTexture = lw5, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=6&&mt_dist%10<7)
+DrawTexture = lw6, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=7&&mt_dist%10<8)
+DrawTexture = lw7, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=8&&mt_dist%10<9)
+DrawTexture = lw8, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10>=9&&mt_dist%10<10)
+DrawTexture = lw9, -79,-87,  6,9,  0,0,63,101,0
+EndIf
+;-----------------------------------------------------10の位
+If=(mt_dist%100>=10&&mt_dist%100<20)
+DrawTexture = lw1,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=20&&mt_dist%100<30)
+DrawTexture = lw2,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=30&&mt_dist%100<40)
+DrawTexture = lw3,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=40&&mt_dist%100<50)
+DrawTexture = lw4,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=50&&mt_dist%100<60)
+DrawTexture = lw5,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=60&&mt_dist%100<70)
+DrawTexture = lw6,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=70&&mt_dist%100<80)
+DrawTexture = lw7,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=80&&mt_dist%100<90)
+DrawTexture = lw8,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%100>=90&&mt_dist%100<100)
+DrawTexture = lw9,-86,-87,  6,9,  0,0,63,101,0
+EndIf
+;-------------------------------------------------------100の位
+If=(mt_dist%1000>=100&&mt_dist%1000<200)
+DrawTexture = lw1, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000>=200&&mt_dist%1000<300)
+DrawTexture = lw2, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000>=300&&mt_dist%1000<400)
+DrawTexture = lw3, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000>=400&&mt_dist%1000<500)
+DrawTexture = lw4, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000>=500&&mt_dist%1000<600)
+DrawTexture = lw5, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000>=600&&mt_dist%1000<700)
+DrawTexture = lw6, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000>=700&&mt_dist%1000<800)
+DrawTexture = lw7, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000>=800&&mt_dist%1000<900)
+DrawTexture = lw8, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%1000>=900&&mt_dist%1000<1000)
+DrawTexture = lw9, -93,-87,  6,9,  0,0,63,101,0
+EndIf
+;-----------------------------------1000の位
+If=(mt_dist%10000>=1000&&mt_dist%10000<2000)
+DrawTexture = lw1, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10000>=2000&&mt_dist%10000<3000)
+DrawTexture = lw2, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10000>=3000&&mt_dist%10000<4000)
+DrawTexture = lw3, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10000>=4000&&mt_dist%10000<5000)
+DrawTexture = lw4, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10000>=5000&&mt_dist%10000<6000)
+DrawTexture = lw5, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10000>=6000&&mt_dist%10000<7000)
+DrawTexture = lw6, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10000>=7000&&mt_dist%10000<8000)
+DrawTexture = lw7, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10000>=8000&&mt_dist%1000<9000)
+DrawTexture = lw8, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+If=(mt_dist%10000>=9000&&mt_dist%10000<10000)
+DrawTexture = lw9, -100,-87,  6,9,  0,0,63,101,0
+EndIf
+
+;----night
+DrawTexture = n2s, -460, -250,  900,500,  0,0,1366,768,0
+
+
+
+
+

@@ -1,0 +1,13 @@
+DisplayName = Plastic
+AddDisplayName = ja_JP, Plastic
+
+StackSize = 64
+;;compat
+;;AddRecipe = "A  ", "   ", "   ", A, HandmadeGuns:Prastic
+;;annnnndddd of course fucking handmadeguns has to use fucking CAPITAL LETTERS making this NOT FUCKING WORK!!!
+;;whatever fuck you
+AddRecipe = "A  ", "B  ", "A  ", A, coal, B, reeds
+AddRecipe = " A ", "   ", "   ", A, hbm:item.ingot_polymer
+AddRecipe = " A ", "   ", "   ", A, hbm:item.ingot_bakelite
+AddRecipe = " A ", "   ", "   ", A, hbm:item.ingot_pc
+

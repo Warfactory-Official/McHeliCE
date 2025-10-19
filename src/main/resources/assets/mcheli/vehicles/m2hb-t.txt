@@ -1,0 +1,38 @@
+﻿DisplayName = M2 Browning Twin Quadruple Mount
+AddDisplayName = en_US, M2 Browning Twin Quadruple Mount
+AddDisplayName = ja_JP, M2HB 二艇結合
+ItemID = 30033
+MaxHp = 100
+HideEntity = false
+RotationPitchMin = -80
+RotationPitchMax =  25
+DamageFactor = 1.0
+CameraZoom = 1
+CameraPosition = 0.00,  1.35, -0.80
+Gravity = -9.81
+GravityInWater = -1.0
+
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = vehicle
+
+AddGunnerSeat = 0.00,  0.30, -0.80, 0.00,  1.35, 0.00, false, -80, 25, true
+
+unmountposition = 0.0, 1.5, -0.80
+
+;quad, ww2
+AddRecipe = "ABA", "ABA", "   ", A, mcheli:cannon1, B, mcheli:lap
+
+
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;本体-砲身
+AddPart		 = true, true, false, 0,   0.00, 0.00, -0.02
+AddPart		 = true, true, true,  0,   0.00, 0.96, -0.02
+
+AddTurretWeapon = h2hb,  0.16, 0.99,  0,   0.0, 0, true, 1, 0, -360,360, -80,25
+AddTurretWeapon = h2hb,  -0.16, 0.99, 0,   0.0, 0, true, 1, 0, -360,360, -80,25
+
+
+BoundingBox =  0.00, 0.40,  0.00,  0.5, 1.5

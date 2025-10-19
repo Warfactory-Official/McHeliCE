@@ -1,0 +1,11 @@
+DisplayName = ESU-TZ (USoTC "a unified system of tactical control")
+Type = TargetingPod
+Sight = None
+Delay = 200
+Sound = lockon
+
+Length = 200
+Radius = 50
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/helicopters/vehicles/players
+MarkTime = 120

@@ -1,0 +1,50 @@
+﻿DisplayName = Shahed Trailer/Launcher
+AddDisplayName = en_US, Shahed Trailer/Launcher
+MaxHp = 50
+Gravity = -9.81
+GravityInWater = -1.0
+AddSeat = 1.2716 ,2.0906, 4.7137
+CameraPosition = 0,  3.7,  3.0
+HideEntity = false
+
+DamageFactor = 1.0
+
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = vehicle
+
+AddWeapon =  shahed136,  0, 2, 3
+AddPartWeaponMissile = shahed136, false, false, false,  -0.1730, 3.6852, 1.5855
+AddWeapon =  shahed136,  0, 2, 3
+AddPartWeaponMissile = shahed136, false, false, false,  -0.1730, 3.6852,  1.7654
+AddWeapon =  shahed136,  0, 2, 3
+AddPartWeaponMissile = shahed136, false, false, false,  -0.1730, 3.6852, -1.9772
+AddWeapon =  shahed136,  0, 2, 3
+AddPartWeaponMissile = shahed136, false, false, false,  -0.1730, 3.6852, -3.7821
+AddWeapon =  shahed136,  0, 2, 3
+AddPartWeaponMissile = shahed136, false, false, false,  -0.1730, 3.6852, -5.6069
+BoundingBox =  0.0, 1.5, -4.6,  3.3, 1.4
+BoundingBox =  0.0, 1.5, -7.2,  3.3, 1.4
+BoundingBox =  0.0, 1.8, -4.0,  3.3, 0.7
+BoundingBox =  0.0, 1.8, -1.0,  3.3, 0.7
+BoundingBox =  0.0, 1.8,  2.0,  3.3, 0.7
+BoundingBox =  0.0, 1.8, 3.5,  3.3, 0.7
+BoundingBox =  0.0, 0.5, -5.6,  3.3, 1.1
+BoundingBox =  0.0, 0.5, -6.7,  3.3, 1.1
+
+unmountposition = 0.00, 1.5, -0.0
+
+;launcher
+AddRecipe = "BBC", "DCC", "   ", B, mcheli:lap, C, mcheli:electronics, D, mcheli:fcs2
+
+
+BoundingBox =  0.0, 2.6,  1.6,  3.1, 0.25
+BoundingBox =  0.0, 2.6,  -1.5,  3.1, 0.25
+BoundingBox =  0.0, 2.6,  -3.1, 3.1, 0.25
+BoundingBox =  0.0, 2.6,  -5.95,  3.1, 0.25
+
+
+BoundingBox =  0.0, 3.0, -0.20,  3.0, 0.3
+BoundingBox =  0.0, 3.0, -3.20,  3.0, 0.3
+BoundingBox =  0.0, 3.0, -5.20,  3.0, 0.3

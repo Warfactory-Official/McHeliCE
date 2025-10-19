@@ -1,0 +1,28 @@
+DisplayName = 9M120 Ataka [ATGM]
+Type = TVMissile
+FixMode = 1
+Power = 950
+Piercing = 0
+Acceleration = 3.2
+Explosion = 4
+ExplosionInWater = 2
+Flaming = true
+Sight = MoveSight
+Delay = 100
+ModeNum = 2
+ModelBullet = 9m113
+Sound = missile_atgm2_snd
+
+;DamageFactor = tank, 2.0
+
+;DEBUG:Manual control only
+;FixMode = 1
+
+; DEBUG
+;RigidityTime = 30
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  8, gunpowder
+Item =  2, redstone

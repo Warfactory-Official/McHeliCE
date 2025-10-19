@@ -1,0 +1,31 @@
+DisplayName = FAB-3000 UMPK
+Type = Rocket
+Power = 8000
+Acceleration = 1.5
+Explosion = 26
+
+ExplosionInWater = 13
+Flaming = true
+Sight = None
+Delay = 6
+Sound = bomb_snd
+ModelBullet = fab3000umpk
+Gravity = -0.004
+;ExplosionAltitude = 6
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+disablesmoke = true
+displaymortardistance = true
+;accuracy = 20
+ReloadTime = 1000
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  8, iron_ingot
+Item =  8, gunpowder
+Item =  10, tnt

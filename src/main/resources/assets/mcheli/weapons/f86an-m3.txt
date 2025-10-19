@@ -1,0 +1,25 @@
+DisplayName = 12.7mm Browning AN/M3 Machine Gun
+Type = MachineGun1
+Power = 31
+Flaming = false
+Sight = MoveSight
+Delay = 0
+;SoundDelay = 3
+;Accuracy = 2.0
+HeatCount = 1
+MaxHeatCount = 50
+;SoundPitch = 0.8
+Sound = m2_snd
+
+Acceleration = 7.5
+Gravity = -0.005
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+MaxAmmo = 1800
+SuppliedNum = 900
+Item =  2, iron_ingot
+Item =  2, gunpowder

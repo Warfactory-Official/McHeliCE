@@ -1,0 +1,26 @@
+DisplayName = K-5 AA-1 Alkali [AAM]
+Type = AAMissile
+Power = 13
+Acceleration = 2.3
+Explosion = 4
+Sound = aimnine
+SoundPitch = 0.8
+SoundVolume = 15
+LockTime = 30
+Flaming = true
+Sight = MoveSight
+Delay = 5
+ReloadTime = 1000
+Round = 4
+ModelBullet = aim9h
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+; Particle test
+;TrajectoryParticle = heart
+;TrajectoryParticle = fireworksSpark
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  3, iron_ingot
+Item =  3, gunpowder

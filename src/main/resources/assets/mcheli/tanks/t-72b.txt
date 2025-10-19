@@ -1,0 +1,198 @@
+﻿DisplayName = T-72A MBT
+AddDisplayName = en_US, T-72A
+AddDisplayName = ja_JP, T-72A ウラル 主力戦車
+ItemID = 91129
+MaxHp = 400
+Speed = 0.37
+ThrottleUpDown = 1.4
+throttleDownFactor = 0.4
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = true
+EnableEntityRadar = false
+Sound = tseventytwopass
+HUD = mbt_hudtwo, gunnernvg
+WeightType = Tank
+DefaultFreelook = true
+FlareType = 10
+
+Category = MBT
+
+AddTexture = t-72b_2
+AddTexture = t-72b_3
+AddTexture = t-72b_4
+AddTexture = t-72b_5
+
+EnableBack = true
+
+;-4.14
+
+SubmergedDamageHeight = 2
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+
+MobilityYawOnGround = 2.3
+PivotTurnThrottle = 0.0
+
+
+
+;AddGunnerSeat = 0.00,  2.50,  0.25,   2.00,  3.50,  0.25, false, -90, 90, true
+;AddGunnerSeat = 0.00,  1.00, -1.25,  -0.55,  3.80, -1.16, false, -90, 90, true
+
+
+AddGunnerSeat =  0.0, 0.8, 1.5, -0.0, 1.78, 1.85,  false, -90, 90, true
+AddGunnerSeat = -0.75,2.1,-0.5, -0.75, 3.1, -0.5, false, -75, 4, true
+CameraPosition = -0.0, 2.5, 1.85, true
+
+TurretPosition = 0.0, 0.0, -0.0
+
+
+MinRotationPitch = -13
+MaxRotationPitch = 6
+
+
+
+AddPartWeapon  = t722A46M-1_APFSDS / t722A46M-1_HEATMP / t722A46M-1_HE, false, true,  false,  0.0, 1.4, 0.0, 0
+
+
+AddPartWeaponChild = false, true,  0.0, 1.706, 1.26, 0.0
+AddPartWeaponChild = false, true,  0.0, 1.706, 1.26, 0.5
+
+
+
+
+;AddPartWeaponChild = false, true, -0.58, 1.784, 1.74
+
+AddTurretWeapon = t722A46M-1_APFSDS,  0.0, 1.706, 0,  0.0, 0.0, false,1, 0,-360,360, -13, 6
+AddTurretWeapon = t722A46M-1_HEATMP,  0.0, 1.706, 0,  0.0, 0.0, false,1, 0,-360,360, -13, 6
+AddTurretWeapon = t722A46M-1_HE,      0.0, 1.706, 0,  0.0, 0.0, false,1, 0,-360,360, -13, 6
+;AddTurretWeapon = t729M119M,          0.0, 1.706, 0,  0.0, 0.0, false,1, 0,-360,360, -13, 6
+AddTurretWeapon = t72mg_coaxial, -0.35, 1.706, 1, 0.0, 0.0, false,1, 0,-360,360, -13, 6
+
+
+
+
+
+
+
+
+AddPartTurretWeapon = t72NSV, false, true, false, -0.75, 2.5, -0.5
+AddPartWeaponChild   = false, true, -0.75, 2.803, 0.019
+AddTurretWeapon = t72NSV, -0.7497, 2.7906, -0.5, 0.0, 0.0, false, 2, 0, -360,360, -75,4
+
+
+
+
+
+
+
+
+
+
+CameraRotationSpeed = 12
+
+StepHeight = 1.8
+HideEntity = true
+
+
+
+MotionFactor = 0.95
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+TrackRollerRot = 50
+
+AddCrawlerTrack = false, 0.23, -2.221,  -0.3/2.833, -0.24/3.07, 0.18/3.92, 0.34/4.08, 0.5522/4.132, 0.766/4.075, 0.923/3.92, 0.9798/3.847, 1.029/-3.35, 0.98/-3.55, 0.83/-3.7, 0.6233/-3.755, 0.42/-3.7, 0.27/-3.56, -0.24/-2.6, -0.3006/-2.361
+AddCrawlerTrack = false, 0.23,  2.221,  -0.3/2.833, -0.24/3.07, 0.18/3.92, 0.34/4.08, 0.5522/4.132, 0.766/4.075, 0.923/3.92, 0.9798/3.847, 1.029/-3.35, 0.98/-3.55, 0.83/-3.7, 0.6233/-3.755, 0.42/-3.7, 0.27/-3.56, -0.24/-2.6, -0.3006/-2.361
+
+
+SetWheelPos =  1.62,  -0.24,  2.83, 1.83, 0.77, -0.30, -1.36, -2.36
+
+AddTrackRoller =  -1.0,  0.5522,  3.704
+AddTrackRoller =  -1.0,  0.1705,  2.833
+AddTrackRoller =  -1.0,  0.1701,  1.833
+AddTrackRoller =  -1.0,  0.1700,  0.776
+AddTrackRoller =  -1.0,  0.1704, -0.301
+AddTrackRoller =  -1.0,  0.1698, -1.361
+AddTrackRoller =  -1.0,  0.1698, -2.361
+AddTrackRoller =  -1.0,  0.6233, -3.349
+
+AddTrackRoller =   1.0,  0.5522,  3.704
+AddTrackRoller =   1.0,  0.1705,  2.833
+AddTrackRoller =   1.0,  0.1701,  1.833
+AddTrackRoller =   1.0,  0.1700,  0.776
+AddTrackRoller =   1.0,  0.1704, -0.301
+AddTrackRoller =   1.0,  0.1698, -1.361
+AddTrackRoller =   1.0,  0.1698, -2.361
+AddTrackRoller =   1.0,  0.6233, -3.349
+
+
+
+
+
+
+
+
+
+
+
+
+
+;BoundingBox =  0.0, 0.65,  2.0, 4.0, 1.5,   0.75
+;BoundingBox =  0.0, 1.9,  -0.5, 3.0, 1.0,   1.25
+;BoundingBox =  0.0, 0.65, -2.0, 4.0, 1.5,   0.75
+
+
+
+
+ArmorMinDamage = 20
+
+
+;front slope
+BoundingBox = 0.0, 0.85, 0.45, 2.95, 1.1, 0.09
+BoundingBox = 0.0, 0.85, 0.55, 2.95, 1.0, 0.09
+BoundingBox = 0.0, 0.85, 0.65, 2.95, 0.9, 0.09
+BoundingBox = 0.0, 0.85, 0.75, 2.95, 0.8, 0.07
+BoundingBox = 0.0, 0.86, 0.85, 2.95, 0.7, 0.07
+BoundingBox = 0.0, 0.86, 0.95, 2.95, 0.6, 0.07
+BoundingBox = 0.0, 0.88, 1.05, 2.95, 0.5, 0.06
+BoundingBox = 0.0, 0.88, 1.15, 2.95, 0.4, 0.06
+BoundingBox = 0.0, 0.90, 1.25, 2.95, 0.3, 0.06
+BoundingBox = 0.0, 0.90, 1.35, 2.95, 0.2, 0.06
+BoundingBox = 0.0, 0.92, 1.45, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.90, 1.55, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.88, 1.65, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.86, 1.75, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.84, 1.85, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.82, 1.95, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.80, 2.05, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.78, 2.15, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.68, 2.25, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.66, 2.35, 2.95, 0.1, 0.04
+BoundingBox = 0.0, 0.64, 2.45, 2.95, 0.1, 0.04
+;underplate front
+BoundingBox = 0.0, 0.34, 2.43, 2.95, 0.5, 0.08
+
+;side armor 80mm
+BoundingBox = 0.0, 0.8, 0.20, 3.05, 1.2, 0.23
+
+BoundingBox = 0.0, 0.8, -2.75, 3.05, 1.2, 0.23
+;rear 110
+BoundingBox = 0.0, 0.8, -2.85, 3.03, 1.2, 0.18
+
+;turret
+BoundingBox = 0.0, 1.7, 0.0, 2.3, 0.7, 0.04
+
+
+
+
+
+
+;slightly really less modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "EF ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite2, E, mcheli:basicmechanicparts
+
+unmountposition = 0.0, 1.5, 0.3

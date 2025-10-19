@@ -1,0 +1,31 @@
+DisplayName = AGM-154 JSOW B
+Type = ASMissile
+Power = 300
+radius = 1000
+Acceleration = 2.0
+Explosion = 4
+ExplosionBlock = 3
+ExplosionInWater = 2
+Sight = MoveSight
+Delay = 5
+;ModeNum = 2
+ModelBullet = agm154
+Sound = missile_1_snd
+DisableSmoke = true
+
+Bomblet = 145
+BombletSTime = 30
+BombletDiff = 1.45
+ModelBomblet = bullet
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 1.0
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  6, iron_ingot
+Item =  12, gunpowder
+Item =  6, redstone

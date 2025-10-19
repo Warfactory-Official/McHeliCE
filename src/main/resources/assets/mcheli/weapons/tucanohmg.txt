@@ -1,0 +1,38 @@
+DisplayName = 12.7mm M3W Machine Gun
+Type = MachineGun2
+Power = 31
+Acceleration = 7.0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundVolume = 4
+SoundPitch = 1.0
+Sound = m2_snd
+Accuracy = 1.5
+HeatCount = 6
+MaxHeatCount = 150
+SetCartridge = cartridge, 0.1,  90, 30, 3.00, -0.04, 0.40
+
+Gravity = -0.005
+
+
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US,
+SoundVolume = 15
+
+Round = 500
+
+ReloadTime = 120
+
+
+MaxAmmo = 500
+SuppliedNum = 250 
+Item =  2, iron_ingot
+Item =  2, gunpowder

@@ -1,0 +1,25 @@
+DisplayName = KH-20 [Nuclear Cruise Missile - 800KT SURFACE]
+Type = TVMissile
+Power = 60
+Acceleration = 6.8
+Explosion = 20
+ExplosionBlock = 1
+Flaming = true
+Sight = MoveSight
+Delay = 5
+Round = 9
+ReloadTime = 1900
+SoundVolume = 8
+SoundPitch = 0.1
+Sound = missile_1_snd
+ModelBullet = kh22
+Gravity = -0.01
+DisableSmoke = false
+nukeyield = 150
+
+MaxAmmo = 8
+SuppliedNum = 1
+
+Item =  8, mcheli:genericnuclearwarheadhigh
+Item =  1, tnt
+Item =  3, redstone

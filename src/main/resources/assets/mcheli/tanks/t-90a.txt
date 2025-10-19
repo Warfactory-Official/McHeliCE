@@ -1,0 +1,162 @@
+﻿DisplayName = T-90A MBT
+AddDisplayName = en_US, T-90A MBT
+AddDisplayName = ja_JP, T-90A　主力戦車
+MaxHp = 800
+Speed = 0.37
+Sound = tninety
+ThrottleUpDown = 3.0
+throttleDownFactor = 0.6
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+EnableNightVision = true
+CameraRotationSpeed = 14
+FlareType = 10
+
+Category = MBT
+
+MinRotationPitch = -14
+MaxRotationPitch = 6
+
+
+
+DefaultFreelook = true
+
+HideEntity = true
+
+MobilityYawOnGround = 2.5
+
+HUD = mbt_hud, gunnernvg
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 3
+
+OnGroundPitchFactor = 4.0
+OnGroundRollFactor  = 4.8
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+
+
+;AddGunnerSeat =  0.00, 1.58, 0.44, 0.00, 1.58, 0.44, false, -90, 90, true
+
+AddGunnerSeat =  0.00, 1.58, 0.44, 0.00, 2.58, 0.44, false, -14, 6, false
+
+AddGunnerSeat =  0.0, 2.3877, 0.498, -0.8919, 3.2, 0.0226, false, -60, 5, true
+
+CameraPosition =  0.00, 2.58, 0.44, true
+
+CameraZoom = 10
+
+TurretPosition = 0.00, 1.58, 0.44
+
+AddCrawlerTrack = true, 0.23, -2.40,  -0.30/3.13, -0.17/3.46, 0.34/4.31, 0.61/4.42, 0.87/4.31, 0.98/4.04, 0.98/-3.32, 0.87/-3.59, 0.61/-3.70, 0.34/-3.59, -0.31/-2.12,
+AddCrawlerTrack = true, 0.23, 2.40,  -0.30/3.13, -0.17/3.46, 0.34/4.31, 0.61/4.42, 0.87/4.31, 0.98/4.04, 0.98/-3.32, 0.87/-3.59, 0.61/-3.70, 0.34/-3.59, -0.31/-2.12,
+
+SetWheelPos =  1.9,  -0.24,  3.13, 2.08, 1.03, -0.02, -1.07, -2.12
+
+AddTrackRoller = -2.32,  0.60,  4.04
+AddTrackRoller = -2.32,  0.16,  3.13
+AddTrackRoller = -2.32,  0.16,  2.08
+AddTrackRoller = -2.32,  0.16,  1.03
+AddTrackRoller = -2.32,  0.16,  -0.02
+AddTrackRoller = -2.32,  0.16,  -1.07
+AddTrackRoller = -2.32,  0.16,  -2.12
+AddTrackRoller = -2.32,  0.60,  -3.32
+
+AddTrackRoller = 2.32,  0.60,  4.04
+AddTrackRoller = 2.32,  0.16,  3.13
+AddTrackRoller = 2.32,  0.16,  2.08
+AddTrackRoller = 2.32,  0.16,  1.03
+AddTrackRoller = 2.32,  0.16,  -0.02
+AddTrackRoller = 2.32,  0.16,  -1.07
+AddTrackRoller = 2.32,  0.16,  -2.12
+AddTrackRoller = 2.32,  0.60,  -3.32
+
+AddTurretWeapon = t90a2A46M-1_APFSDS,  0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 6
+AddTurretWeapon = t90a2A46M-1_HEATMP,  0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 6
+AddTurretWeapon = t90a2A46M-1_HE,  0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 6
+AddTurretWeapon = t90a9M119M,  0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 6
+AddTurretWeapon = t90amg_coaxial,  -0.30, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 6
+AddPartWeapon = t90a2A46M-1_APFSDS / t90a2A46M-1_HEATMP / t90a2A46M-1_HE / t90a9M119M, false, true, false,  0.00, 1.58, 0.44, 0
+AddPartWeaponChild = false, true, 0.00, 1.60, 1.81
+
+AddTurretWeapon = t90amg12_7mm,  -0.943, 2.73, 0.0226,  0.0, 0.0, false,2, 0,-360,360, -75, 4
+AddPartTurretWeapon = t90amg12_7mm, false, true, false,  -0.8919, 2.3877, 0.0226, 0
+AddPartWeaponChild = false, true, 0.00, 2.64, 0.54
+
+;AddWeapon = none,  0.00, 0.00, 0.00,  0.0, 0.0, true,1, 0,-360,360, -14, 4
+;AddPartWeapon = none, false, true, false,  0.00, 1.58, 0.44, 0
+;AddPartWeaponChild = false, true, 0.00, 1.61, 2.18
+
+
+EnableBack = true
+
+MotionFactor = 0.95
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.98
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+AddTexture = t-90a
+AddTexture = t-90a_1
+AddTexture = t-90a_6
+AddTexture = t-90a_5
+;AddTexture = t-90a_4
+
+;BoundingBox =  0.0, 0.6, -2.4,  3.0, 1.2
+;BoundingBox =  0.0, 1.6, 0.0,  2.0, 0.8
+;BoundingBox =  0.0, 1.6, -1.0,  2.0, 0.8
+;BoundingBox =  0.0, 0.6, 0.8,  3.0, 1.2
+
+StepHeight = 1.8
+
+
+ArmorMinDamage = 30
+
+;side armor 
+BoundingBox = 0.0, 0.65, 1.0, 3.1, 1.15, 0.37
+;front plate
+
+BoundingBox = 0.0, 0.60, 2.7, 3.0, 0.1, 0.05
+BoundingBox = 0.0, 0.65, 2.50, 3.0, 0.1, 0.05
+BoundingBox = 0.0, 0.80, 2.30, 3.0, 0.1, 0.05
+BoundingBox = 0.0, 0.85, 2.10, 3.0, 0.1, 0.05
+BoundingBox = 0.0, 0.90, 1.90, 3.0, 0.1, 0.06
+BoundingBox = 0.0, 0.95, 1.70, 3.0, 0.1, 0.08
+BoundingBox = 0.0, 1.05, 1.50, 3.0, 0.1, 0.08
+BoundingBox = 0.0, 1.10, 1.30, 3.0, 0.1, 0.11
+BoundingBox = 0.0, 1.175, 1.10, 3.0, 0.1, 0.29
+
+;lower plate 
+
+BoundingBox = 0.0, 0.30, 2.65, 3.0, 0.5, 0.16
+
+;back side armor 
+BoundingBox = 0.0, 0.65, -1.9, 3.1, 1.15, 0.37
+
+BoundingBox = 0.0, 0.70, -2.15, 3.0, 1.0, 0.62
+
+BoundingBox = 0.0, 1.565, 0.44, 2.6, 0.7, 0.02
+
+
+unmountposition = 0.00, 1.58, 0.44
+
+
+;modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "EHG", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite3, E, mcheli:complexmechanicparts, H, mcheli:fcs2
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:t-90, B, mcheli:fcs2, C, mcheli:composite3

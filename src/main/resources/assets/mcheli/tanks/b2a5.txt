@@ -1,0 +1,170 @@
+﻿DisplayName = Leopard 2A5
+AddDisplayName = en_US, Leopard 2A5
+AddDisplayName = zh_CN, 豹 2A5
+ItemID = 37775
+MaxHp = 650
+Speed = 0.6
+Sound = leotwo
+ThrottleUpDown = 5.0
+MobilityYawOnGround = 2.5
+MinRotationPitch = -50
+MaxRotationPitch = 9
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 10
+CameraPosition = 0.00, 3.8241, 0, false
+EnableNightVision = true
+CameraRotationSpeed = 24
+StepHeight = 1.8
+DefaultFreelook = true
+TurretPosition = 0.0, 0.0, 0.0
+FlareType = 10
+ThirdPersonDist = 8
+
+Category = MBT
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+
+
+
+AddTexture = b2a6_1
+
+AddTexture = b2a6_2
+
+
+
+SubmergedDamageHeight = 3
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+
+WeightedCenterZ = 0.0
+
+
+
+
+
+HUD = mbt_hud, gunner
+
+AddGunnerSeat = 0.00,  2.50,  0.25,   2.00,  3.50,  0.25, false, -90, 90, true
+AddGunnerSeat = 0.00,  1.00, -1.25,  -0.40,  3.60, -0.90, false, -90, 90, true
+
+MotionFactor = 0.9
+
+
+
+
+;ArmorMaxDamage = 500
+
+
+EnableBack = true
+
+
+PivotTurnThrottle = 0.0
+
+
+AddCrawlerTrack = false, 0.15,  1.8854,  1.1780/3.8381, 1.1659/-5.0919, 1.1521/-5.2818, 1.0897/-5.4682, 0.9506/-5.6000, 0.7783/-5.6581, 0.5946/-5.6311, 0.4298/-5.5370, -0.1625/-4.6456, -0.2031/-4.4634, -0.2155/-4.3655, -0.2155/2.8545, -0.1496/3.0464, 0.5809/4.2136, 0.6521/4.2723, 0.7362/4.2965, 1.0179/4.3573, 1.1508/4.2471, 1.1677/4.0917, 1.1795/3.9848
+
+
+AddCrawlerTrack = false, 0.15, -1.8854,  1.1780/3.8381, 1.1659/-5.0919, 1.1521/-5.2818, 1.0897/-5.4682, 0.9506/-5.6000, 0.7783/-5.6581, 0.5946/-5.6311, 0.4298/-5.5370, -0.1625/-4.6456, -0.2031/-4.4634, -0.2155/-4.3655, -0.2155/2.8545, -0.1496/3.0464, 0.5809/4.2136, 0.6521/4.2723, 0.7362/4.2965, 1.0179/4.3573, 1.1508/4.2471, 1.1677/4.0917, 1.1795/3.9848
+
+
+
+
+TrackRollerRot = 30
+
+SetWheelPos =  1.7,  -0.24, 2.71, 1.54, 0.37, -0.79, -1.95, -3.12, -4.29
+
+AddTrackRoller =  2.1985,  0.8291,  3.9582
+AddTrackRoller =  2.1624,  0.2249,  2.7155
+AddTrackRoller =  2.1624,  0.2249,  1.5469
+AddTrackRoller =  2.1624,  0.2249,  0.3784
+AddTrackRoller =  2.1624,  0.2249, -0.7902
+AddTrackRoller =  2.1624,  0.2249, -1.9587
+AddTrackRoller =  2.1624,  0.2249, -3.1273
+AddTrackRoller =  2.1624,  0.2249, -4.2958
+AddTrackRoller =  2.1624,  0.8166, -5.1873
+
+AddTrackRoller = -2.1985,  0.8291,  3.9582
+AddTrackRoller = -2.1624,  0.2249,  2.7155
+AddTrackRoller = -2.1624,  0.2249,  1.5469
+AddTrackRoller = -2.1624,  0.2249,  0.3784
+AddTrackRoller = -2.1624,  0.2249, -0.7902
+AddTrackRoller = -2.1624,  0.2249, -1.9587
+AddTrackRoller = -2.1624,  0.2249, -3.1273
+AddTrackRoller = -2.1624,  0.2249, -4.2958
+AddTrackRoller = -2.1624,  0.8166, -5.1873
+
+AddPartWeapon = 2a4dm33 / 2a4dm12, false, true, false,  0.00, 1.73, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.26, 1.51, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.26, 1.51, 0.5
+AddTurretWeapon = 2a4dm33, 0.00, 2.26, 0.46,  0.0, 0.0, true,1, 0,-360,360, -20, 9
+AddTurretWeapon = 2a4dm12, 0.00, 2.26, 0.46,  0.0, 0.0, true,1, 0,-360,360, -20, 9
+AddTurretWeapon = 2a4mg3,      0.37, 2.22, 1.46,  0.0, 0.0, true,1, 0,-360,360, -20, 9
+
+AddWeapon = none, -0.40,  3.60, -0.90, 0, 0, false, 2, 0, -360, 360, -90,90
+AddWeapon = targeting_pod_block, -0.40,  3.60, -0.90, 0, 0, false, 2, 0, -360, 360, -90,90
+
+
+MaxFuel         = 1200
+FuelConsumption = 2.5
+
+
+RideRack = c5, 1
+RideRack = c5, 2
+
+
+;BoundingBox =  0.0, 1.0,  4.0,  2.1, 2.0, 0.75
+;BoundingBox = -0.8, 1.6,  2.5,  2.1, 4.0, 0.75
+;BoundingBox =  0.8, 1.6,  2.5,  2.1, 4.0, 0.75
+
+;BoundingBox =  0.0, 1.3, -0.5,  4.0, 3.2, 1.00
+;BoundingBox =  0.8, 1.3, -3.5,  2.0, 2.0, 1.20
+;BoundingBox = -0.8, 1.3, -3.5,  2.0, 2.0, 1.20
+
+;BoundingBox =  0.0, 3.0,  0.0,  2.0, 1.0, 1.20
+
+ArmorMinDamage = 20
+;mid section 35mm
+BoundingBox = 0.0, 1.15, 0.0, 3.11, 1.6, 0.57
+;520mm front
+BoundingBox = 0.0, 1.25, 0.3, 3.10, 1.4, 0.04
+BoundingBox = 0.0, 1.10, 0.5, 3.10, 1.359, 0.04
+BoundingBox = 0.0, 1.20, 0.7, 3.10, 1.299, 0.04
+BoundingBox = 0.0, 1.18, 0.9, 3.10, 1.189, 0.03
+BoundingBox = 0.0, 1.17, 1.1, 3.10, 1.079, 0.03
+BoundingBox = 0.0, 1.16, 1.3, 3.10, 0.969, 0.03
+BoundingBox = 0.0, 1.15, 1.5, 3.10, 0.859, 0.03
+BoundingBox = 0.0, 1.14, 1.7, 3.10, 1.049, 0.03
+BoundingBox = 0.0, 1.13, 1.9, 3.10, 0.969, 0.03
+BoundingBox = 0.0, 1.12, 2.1, 3.10, 0.859, 0.03
+BoundingBox = 0.0, 1.11, 2.3, 3.10, 1.079, 0.03
+BoundingBox = 0.0, 1.10, 2.5, 3.10, 0.969, 0.03
+BoundingBox = 0.0, 1.09, 2.9, 2.90, 0.859, 0.03
+
+;turret 1185mm
+BoundingBox = 0.0, 2.45, 0.0, 3.0, 1.0, 0.016
+
+;engine side 20mm
+BoundingBox = 0.0, 1.15, -3.1, 3.11, 1.6, 1.00
+
+;engine back 20mm lol
+BoundingBox = 0.0, 1.15, -4.5, 3.11, 1.6, 1.00
+
+
+;modern mbt tracked tank 
+AddRecipe = "ABC", "DGF", "EH ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite3, E, mcheli:basicmechanicparts, H, mcheli:fcs3
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:leopard2a4, B, mcheli:composite3, C, mcheli:fcs3
+
+;2a4 recipe:
+;AddRecipe = "ABC", "DGF", "EH ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite2, E, mcheli:basicmechanicparts, H, mcheli:fcs2
+
+
+UnmountPosition = 0.00,  1.50,  0.25

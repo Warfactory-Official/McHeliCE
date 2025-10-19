@@ -1,0 +1,35 @@
+DisplayName = 12.7mm GAU-19 Heavy Machine Gun (L)
+Type = MachineGun2
+ModelBullet = bullet
+Power = 31
+Acceleration = 7.0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+Sound = gau-19_snd
+SoundDelay = 3
+SoundPitch = 0.5
+Accuracy = 2.0
+HeatCount = 2
+MaxHeatCount = 130
+ModeNum = 2
+
+; SetCartridge = model_name, Acceleration, Yaw, Pitch, ModelScale, Gravity, Bound
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+Sound = gautwentytwo
+SoundVolume = 15
+SoundDelay = 3
+SoundPitch = 0.8
+Accuracy = 2.0
+Gravity = -0.001
+
+MaxAmmo = 1200
+SuppliedNum = 200
+Item =  1, iron_ingot
+Item =  2, gunpowder

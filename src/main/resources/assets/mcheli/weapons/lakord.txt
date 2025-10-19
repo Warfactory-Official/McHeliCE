@@ -1,0 +1,30 @@
+DisplayName = 12.7mm 6P60 "Kord" 
+AddDisplayName = ru_RU, 12.7 мм Зенитный пулемет "Корд"
+Type = MachineGun1
+Power = 31
+Accuracy = 1.2
+
+Flaming = false
+Sight = MoveSight
+Delay = 2
+HeatCount = 5
+MaxHeatCount = 90
+SoundPitch = 0.8
+Sound = dshk
+Round = 100
+
+Gravity = -0.005
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 200
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder

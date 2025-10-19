@@ -1,0 +1,35 @@
+DisplayName = FAB-500 SH
+Type = Bomb
+Acceleration = 0.2
+Explosion = 20
+ExplosionBlock = 20
+ExplosionInWater = 10
+Flaming = false
+Sight = None
+Delay = 2
+Sound = bomb_snd
+SoundVolume = 10
+ModelBullet = fab500sh
+Gravity = -0.03
+
+
+Acceleration = 0.5
+Explosion = 15
+;Explosive mass	269.9/around 2 kg kg
+Power = 1080
+ExplosionBlock = 5
+ExplosionInWater = 8
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+ReloadTime = 200
+
+
+MaxAmmo = 6
+SuppliedNum = 1
+Item =  6, iron_ingot
+Item =  6, gunpowder

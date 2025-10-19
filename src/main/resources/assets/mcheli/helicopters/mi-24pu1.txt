@@ -1,0 +1,97 @@
+DisplayName = Mi-24P Hind
+AddDisplayName = en_US, Mi-24P Hind
+AddDisplayName = ja_JP, Mi-24VP ハインド
+ItemID = 28809
+MaxHp = 100
+EnableGunnerMode = true
+EnableNightVision = true
+Speed = 2
+FlareType = 3
+CameraPosition = 0.00,  0.30,   5.937
+MaxFuel         = 1200
+FuelConsumption = 1.0
+onGroundPitch = 4.56
+ThirdPersonDist = 20
+
+sound = hind
+soundvolume = 15
+
+HUD = helinvg, heli_gnrnvg, none, none, none, none, none, none
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+MobilityYaw = 0.9
+MobilityPitch = 0.9
+MobilityRoll = 0.9
+
+AddSeat =  0.00,  0.90,  3.73
+AddGunnerSeat =  0.00,  0.44,  5.08,  0.00,  0.30,   5.937,  true
+AddSeat =  0.27,  1.08, -0.59
+AddSeat =  0.27,  1.08,  0.08
+AddSeat = -0.27,  1.08, -0.59
+AddSeat = -0.27,  1.08,  0.08
+AddSeat =  0.25,  0.87,  1.10
+AddSeat = -0.25,  0.87,  1.10
+
+unmountposition = 0.00,  1.90,  3.73
+
+AddPartLG =  0.00,  0.60,  4.00,  1, 0, 0, 43
+
+AddPartLG =  0.53,  0.59, -1.25,  0, 1, 0, 93, 0, 0, 1, 36
+AddPartLG = -0.53,  0.59, -1.25,  0,-1, 0, 93, 0, 0,-1, 36
+
+AddPartLG =  0.90,  0.75,  -1.40,  0, 0,-1,  127
+AddPartLG = -0.90,  0.75,  -1.40,  0, 0, 1,  127
+
+
+AddRotor= 1, 0,  0,  4.36,   -0.0476,  0,1,0
+AddRotor= 1, 0,  0.53,  4.38, -12.22,  1,0,0
+
+
+AddPartHatch =  1.02,  2.07,  1.83,  0, 0, 1, 85
+AddPartHatch =  0.94,  0.75,  1.83,  0, 0,-1, 130
+
+AddPartHatch = -1.02,  2.07,  1.83,  0, 0,-1, 85
+AddPartHatch = -0.94,  0.75,  1.83,  0, 0, 1, 130
+
+
+AddWeapon = 9m114mi24,  4.25, 1.14,  -0.37,  1, 0,  true, 2
+AddWeapon = 9m114mi24,  3.97, 1.14,  -0.37,  1, 0,  true, 2
+
+AddWeapon = 9m114mi24, -4.25, 1.14,  -0.37, -1, 0,  true, 2
+AddWeapon = 9m114mi24, -3.97, 1.14,  -0.37, -1, 0,  true, 2
+
+AddWeapon = s-8_hm,  2.92,  1.14, -2.32,  1, 0
+AddWeapon = s-8_hm,  2.02,  1.14, -2.32,  1, 0
+AddWeapon = s-8_hm,  -2.92,  1.14, -2.32,  1, 0
+AddWeapon = s-8_hm,  -2.02,  1.14, -2.32,  1, 0
+
+AddWeapon = hingsh-30-2, -1.00, 0.80,  4.87
+
+;AddWeapon = targeting_pod_mob,     0.00,  0.30, 5.94,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.00,  0.30, 5.94,   0.0, 0.0,  true,2
+EnableEntityRadar = true
+
+
+;advanced modern helicopter armed, AOW3 style
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:airframe2, B, mcheli:heliblade, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:fcs, F, mcheli:cannon1, G, mcheli:rocket2
+
+BoundingBox =  0.0,  0.80,  5.80,  1.2, 1.2
+BoundingBox =  0.0,  1.12,  4.59,  2.2, 2.2
+BoundingBox =  0.0,  1.72,  2.49,  2.2, 3.0
+BoundingBox =  0.0,  1.72,  2.00,  2.2, 3.0
+BoundingBox =  0.0,  1.96,  0.01,  2.2, 3.5
+BoundingBox =  0.0,  2.02, -5.06,  2.2, 2.2
+BoundingBox =  0.0,  4.26,-12.42,  2.2, 2.2, 1.25
+
+BoundingBox = 0.0, 3.7, 0.0, 1.0, 1.5, 1.5
+
+BoundingBox = 0.0, 2.02, -1.06,  2.2, 2.2
+BoundingBox = 0.0, 2.02, -3.06,  2.2, 2.2
+BoundingBox = 0.0, 2.02, -7.06,  2.2, 2.2
+BoundingBox = 0.0, 2.02, -9.06,  2.2, 2.2
+
+
+ThrottleUpDown = 0.5
+DamageFactor = 0.1

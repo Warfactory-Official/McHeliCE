@@ -1,0 +1,30 @@
+DisplayName = 500lb Mk82 Napalm B
+Type = Bomb
+Acceleration = 0.1
+Flaming = true
+Sight = None
+Delay = 3
+Sound = bomb_snd
+ModelBullet = mk82_b
+FAE = true
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 2
+;Explosive mass	? kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+ReloadTime = 1000
+Round = 24
+
+MaxAmmo = 24
+SuppliedNum = 3
+Item =  1, iron_ingot
+Item =  3, gunpowder

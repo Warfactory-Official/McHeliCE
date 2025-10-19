@@ -1,0 +1,11 @@
+DisplayName = Ping
+Type = TargetingPod
+Delay = 60
+Sight = MoveSight
+Sound = ping
+SoundVolume = 6.0
+Length = 1000
+Radius = 60
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/vehicles/players/monsters/others
+MarkTime = 180

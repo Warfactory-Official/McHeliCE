@@ -1,0 +1,17 @@
+DisplayName = CRASH DIVE
+Type = MachineGun1
+Power = 0
+Sight = None
+Delay = 200
+ModelBullet = none
+Sound = dive_alert
+SoundVolume = 6.0
+
+Accuracy = 0
+Flaming = false
+ModelBullet = 0_none
+Particle = none
+SoundVolume = 15.0
+SoundPitchRandom = 0
+Gravity = -9
+SoundVolume = 15

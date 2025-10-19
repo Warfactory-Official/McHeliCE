@@ -1,0 +1,13 @@
+DisplayName = RDY Radar
+Type = TargetingPod
+Delay = 2
+Sight = MoveSight
+SoundPitch = 1.0
+Sound = lockon
+SoundVolume = 5.0
+SoundPitchRandom = 0.0
+Length = 1800
+Radius = 130
+;Target = planes/helicopters/players
+Target = planes/helicopters/players
+MarkTime = 180

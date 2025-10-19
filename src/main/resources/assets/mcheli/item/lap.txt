@@ -1,0 +1,18 @@
+DisplayName = Light Armor Plate
+AddDisplayName = ja_JP, Light Armor Plate
+
+StackSize = 64
+
+;;AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+
+;AddRecipe = "ACA", "EXG", "T T", T, hfr:testcrashskibiditoilet, A, hfr:item.part_plating_1, C, hfr:item.part_chassis_1, E, hfr:item.part_engine_1, X, hfr:item.components_electronics, G, hfr:item.part_cannon_3
+
+AddRecipe = "AAA", "AA ", "   ", A, mcheli:item.ingot_steel
+
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_plating_1
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.plate_steel
+
+AddRecipe = " A ", "   ", "   ", A, hbm:item.plate_stainless
+
+

@@ -1,0 +1,102 @@
+DisplayName = Douglas C-47 Skytrain
+AddDisplayName = en_US, Douglas C-47 Skytrain
+AddDisplayName = ja_JP, C-47 スカイトレイン
+HUD = plane_wwii, plane_wwii, none, none, none, none, none, none, none, none, none, none, none, none
+EnableEntityRadar = false
+Speed = 2.3
+GravityInWater = -0.04
+MobilityRoll = 0.3
+MobilityYaw = 0.3
+MobilityPitch = 0.3
+;MinRotationRoll =-30
+;MaxRotationRoll =30
+MaxHP = 250
+InventorySize = 36
+Sound = prop
+OnGroundPitch = 11.62
+ThrottleUpDown = 0.1
+EnableParachuting = true
+MobDropOption  = 0.97, 1.52, -6.48, 2
+;Regeneration = true
+
+RotorSpeed = 2000.0
+
+enableback = true
+
+DamageFactor = 0.8
+
+AddSeat = 0.68, 5.0, 1.78
+AddSeat = -0.67, 5.0, 1.78
+
+AddSeat =  1.21, 4.64, -2.42
+AddSeat =  1.21, 4.64, -3.73
+AddSeat =  1.21, 4.64, -5.0
+AddSeat =  1.21, 4.64, -6.34
+AddSeat =  1.21, 4.64, -7.66
+AddSeat =  1.21, 4.64, -8.88
+AddSeat = -1.21, 4.64, -2.42
+AddSeat = -1.21, 4.64, -3.73
+AddSeat = -1.21, 4.64, -5.0
+AddSeat = -1.21, 4.64, -6.34
+AddSeat = -1.21, 4.64, -7.66
+AddSeat = -1.21, 4.64, -8.88
+
+AddPartRotor = -3.79, 3.47, 0.29,  0, 0, 1
+AddBlade =1, 0, -3.79, 3.47, 0.29,  0, 0, 1
+
+AddPartRotor = 3.77, 3.47, 0.29,  0, 0, 1
+AddBlade =1, 0, 3.77, 3.47, 0.29,  0, 0, 1
+
+AddRack = container,     0.0, 4.11, -2.42,  2.19, 4.39, -11.12,   15,    20
+AddRack = container,     0.0, 4.11, -3.95,  2.19, 4.39, -11.12,   15,    20
+AddRack = container,     0.0, 4.11, -5.68,  2.19, 4.39, -11.12,   15,    20
+AddRack = container,     0.0, 4.11, -7.4,  2.19, 4.39, -11.12,   15,    20
+AddRack = container,     0.0, 4.11, -9.19,  2.19, 4.39, -11.12,   15,    20
+AddRack = container,     0.0, 4.11, -11.35,  2.19, 4.39, -11.12,   15,    20
+
+AddPartLG    =  3.77, 2.78, -1.29,  -1,0,0,  -90
+AddPartLG    =  -3.77, 2.78, -1.29,  -1,0,0,  -90
+
+MaxFuel         = 1000
+FuelConsumption = 0.5
+
+BoundingBox = 0.0, 4.97, -0.65,3, 3
+BoundingBox = 0.0, 4.97, -3.65,3, 3
+BoundingBox = 0.0, 4.97, -6.65,3, 3
+BoundingBox = 0.0, 4.97, -9.65,3, 3
+BoundingBox = 0.0, 4.97, -12.65,3, 3
+BoundingBox = 0.0, 5.35, -15.65,3, 2.5
+
+BoundingBox = 2.96, 3.71, -4.25,3, 1
+BoundingBox = -2.96, 3.71, -4.25,3, 1
+
+BoundingBox = 5.96, 3.71, -4.25,3, 0.8
+BoundingBox = -5.96, 3.71, -4.25,3, 0.8
+
+BoundingBox = 8.96, 4.01, -4.25,3, 0.6
+BoundingBox = -8.96, 4.01, -4.25,3, 0.6
+
+BoundingBox = 0.0, 7.85, -16.15, 0.5, 2.5
+BoundingBox = 0.0, 7.85, -16.65, 0.5, 2.5
+BoundingBox = 0.0, 8.15, -17.15, 0.5, 3.2
+BoundingBox = 0.0, 8.15, -17.65, 0.5, 3.5
+BoundingBox = 0.0, 8.15, -18.15, 0.5, 3.8
+
+BoundingBox = 1.55, 5.80, -18.75, 1.5, 0.3
+BoundingBox = -1.55, 5.80, -18.75, 1.5, 0.3
+
+BoundingBox = 0.0, 5.75, -17.65,2, 1.5
+
+BoundingBox = 2.75, 5.80, -18.95, 1.0, 0.3
+BoundingBox = -2.75, 5.80, -18.95, 1.0, 0.3
+
+BoundingBox = 3.75, 3.45, -0.773, 1.3, 1.3, 1.5 
+BoundingBox = -3.75, 3.45, -0.773, 1.3, 1.3, 1.5 
+BoundingBox = 3.75, 3.45, -2.073, 1.3, 1.3, 1.5 
+BoundingBox = -3.75, 3.45, -2.073, 1.3, 1.3, 1.5 
+
+;large WW2 prop plane transport, AOW3 style
+AddRecipe = "ABC", "DA ", "   ", A, mcheli:airframebomb, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair
+
+UnmountPosition = 0.68, 2.2, 1.78
+DamageFactor = 0.8

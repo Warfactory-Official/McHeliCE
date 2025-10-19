@@ -1,0 +1,28 @@
+DisplayName = Kh-55 [Nuclear Cruise Missile - 200KT AIRBURST]
+Type = TVMissile
+Power = 1000
+Acceleration = 2.6
+Explosion = 15
+Sight = MoveSight
+Delay = 220
+ModeNum = 2
+ModelBullet = agm158
+Sound = missile_1_snd
+DisableSmoke = true
+SoundVolume = 15
+
+nukeyield = 100
+
+ProximityFuseDist = 30
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+
+
+MaxAmmo = 6
+SuppliedNum = 1
+Item = 2, mcheli:genericnuclearwarheadhigh
+Item = 3, redstone
+Item = 1, tnt

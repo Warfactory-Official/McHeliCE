@@ -1,0 +1,103 @@
+DisplayName = Mazda RX-8
+MaxHp = 200
+ThrottleUpDown = 0.86
+;5.9s
+Speed = 1.47
+MobilityYawOnGround = 9.0
+StepHeight = 1.2
+Sound = wankel
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.0
+HUD = bnr32_hud, none, none, none
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+;CameraZoom = 8
+CameraPosition = -0.645, 1.4,  0.075, false
+;CameraPosition = -0.645, 1.4,  0.075, true
+DefaultFreelook = false
+
+AddTexture = rx-8b
+
+WeightedCenterZ = 1.0
+
+;-9.06
+;-0.0906
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+EnableBack = true
+Category = C
+WeightType = Car
+
+SetWheelPos =  0.96,  -0.29,  1.9563, -1.5413
+
+AddSeat =  -0.645, 0.1015 , -0.1
+
+unmountposition = -0.645, 2.2015 , -0.1
+
+AddSeat =  0.645, 0.2215 , -0.1
+
+AddSeat = -0.645, 0.2415 , -1.1
+AddSeat = 0.645, 0.2415 , -1.1
+
+EntityWidth  = 0.90
+EntityHeight = 0.90
+
+PivotTurnThrottle = 1.0
+
+PartWheelRot = 60
+AddPartWheel = 1.36, 0.1343, 1.9563, 30
+AddPartWheel = -1.36, 0.1343, 1.9563, 30
+AddPartWheel = 1.36, 0.1343, -1.5413
+AddPartWheel = -1.36, 0.1343, -1.5413
+
+InventorySize = 9
+
+;faster civ car
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:advancedmechanicparts, E, gold_nugget, F, glass_pane
+
+AddPartSteeringWheel =  -0.6616,  0.7094,  0.5426,  0, 0.3196, -1,   90
+AddPartSteeringWheel =  1.36, 0.1343, 1.9563,  0, 1, 0,   30
+AddPartSteeringWheel =  -1.36, 0.1343, 1.9563,  0, 1, 0,   30
+AddFixedSearchLight =  1.05, 0.6297, 2.6644,   0x50FFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+AddFixedSearchLight =  0.855, 0.5997, 2.7544,   0x50FFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+AddFixedSearchLight =  -1.05, 0.6297, 2.6644,   0x50FFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+AddFixedSearchLight =  -0.855, 0.5997, 2.7544,   0x50FFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+
+
+AddFixedSearchLight =  1.0200, 0.9148,-2.5602,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  12.8
+AddFixedSearchLight =  0.8100, 0.9148,-2.6202,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  12.8
+
+AddFixedSearchLight =  -1.0200, 0.9148,-2.5602,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  12.8
+AddFixedSearchLight =  -0.8100, 0.9148,-2.6202,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  12.8
+
+
+
+BoundingBox = 0.0, 0.5, 1.8, 1.0, 0.75
+
+
+BoundingBox = 0.0, 0, -1.4, 2.5, 0.2
+BoundingBox = 0.0, -0.0, 0.0, 2.9, 0.2
+BoundingBox = 0.0, 0, 1.8, 2.5, 0.2
+
+ArmorMinDamage = 2
+
+ArmorDamageFactor = 2.32
+
+
+AddWeapon =  none, 0.00,  0.42,  3.05, 0.0, 90
+
+AddWeapon = L_Claxon,    0.00, 0.00, 0.00,  0.0,0.0
+
+AddWeapon = drift, 1.2642, 0.0, -1.7811,  0.0,0.0
+AddWeapon = drift,   -1.2642, 0.0, -1.7811,  0.0,0.0
+

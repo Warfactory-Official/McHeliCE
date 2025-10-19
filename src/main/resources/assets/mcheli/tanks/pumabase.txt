@@ -1,0 +1,163 @@
+DisplayName = Schützenpanzer (SPz) Puma
+AddDisplayName = zh_CN,美洲狮重型步兵战车
+AddDisplayName = en_US, Schützenpanzer (SPz) Puma
+
+ItemID = 91128
+MaxHp = 250
+Speed = 0.43
+ThrottleUpDown = 2.2
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.00
+EnableNightVision = true
+EnableEntityRadar = false
+Sound = puma
+HUD = mbt_hud, none, none, none, none, none, none
+WeightType = Tank
+DefaultFreelook = true
+
+;model shifted x 43.78 .4378
+
+;needs another +6.36 0.0636
+
+;this has aps
+;my entire APS design philosophy needs to be reworked but I still don't get how the APS feature works
+;so now I have to either wait or develop schizophrenia
+
+CameraZoom = 10
+;I should really add more zoom
+
+FlareType = 10
+
+;it has THINGS
+ArmorDamageFactor = 0.9
+
+
+
+EnableBack = true
+
+
+SubmergedDamageHeight = 2
+WeightedCenterZ = 0.0
+
+AddCrawlerTrack = true, 0.20, -2.0,  -0.2520/3.778,-0.2468/3.952,0.2156/4.782,0.5494/4.991,0.7281/4.991,1.062/4.782,1.097/4.649,1.124/4.5,1.124/-1.831,0.9573/-2.078,0.7456/-2.133,0.5279/-2.093,-0.1871/-1.279,-0.2491/-1.139,-0.2520/-0.7371,
+
+OnGroundPitchFactor = 3.5
+OnGroundRollFactor  = 3.5
+
+MobilityYawOnGround = 2.8
+PivotTurnThrottle = 0.0
+
+AddGunnerSeat =  0.5014, 1.18, 2.0,    0.0, 1.78, 0.0,  false, -90, 90, true
+
+AddSeat = 0.4488, 0.6733, -0.2461
+AddSeat = -0.4488, 0.6733, -0.2461
+AddSeat = 0.4488, 0.6733, -0.8608
+AddSeat = -0.4488, 0.6733, -0.8608
+AddSeat = 0.4488, 0.6733, -1.552
+AddSeat = -0.4488, 0.6733, -1.552
+
+unmountposition = 0.5014, 1.5, 2.0
+
+Entitywidth=0
+Entityheight=0
+
+HideEntity = true
+
+CameraPosition = 0.5014,  3.25, 0.428, true
+CameraRotationSpeed = 27
+
+StepHeight = 1.8
+HideEntity = true
+
+TurretPosition = 0.5014, 2.702, 0.0
+
+MotionFactor = 0.9
+
+MaxFuel         = 1500
+FuelConsumption = 1.0
+
+TrackRollerRot = 50
+
+SetWheelPos =  1.35,  -0.21,  3.583, 2.684, 1.806, 0.7388, -0.1249, -0.9801
+
+
+AddTrackRoller = -1.8186,  0.6755,  4.637
+AddTrackRoller = -1.8186,  0.1460,  3.583
+AddTrackRoller = -1.8186,  0.1460,  2.684
+AddTrackRoller = -1.8186,  0.1460,  1.806
+AddTrackRoller = -1.8186,  0.1460,  0.7388
+AddTrackRoller = -1.8186,  0.1460,  -0.1249
+AddTrackRoller = -1.8186,  0.1460,  -0.9801
+AddTrackRoller = -1.8186,  0.6975, -1.709
+;was -2.32
+
+
+MinRotationPitch = -45
+MaxRotationPitch =  10
+
+;alright, time for shitlow aps methodology
+
+;ArmorMaxDamage = 1000
+;nvm just softkill so uhhhhh
+;ah fuck how am I gonna implement this shit
+
+
+AddTurretWeapon = puma_ap, 0.0342, 2.5303,  0.0,  0.0, 0.0, true,1, 0,-360,360, -45, 10
+AddTurretWeapon = puma_he, 0.0342, 2.5303,  0.0,  0.0, 0.0, true,1, 0,-360,360, -45, 10
+
+AddTurretWeapon = pumamg4, -0.1462, 2.7115,  0.0,  0.0, 0.0, true,1, 0,-360,360, -45, 10
+
+;was -0.4672
+;AddTurretWeapon = puma_atgm, 1.4703,  2.5006, -0.0,  0.0, -55, true,1, 0,-360,360, -15, 0
+;was 0.9689
+;AddTurretWeapon = puma_atgm, 1.7026,  2.5006, -0.0,  0.0, -55, true,1, 0,-360,360, -15, 0
+;was 1.2012
+AddPartWeapon =puma_ap/puma_he, false, true, false,  0.5014, 2.702, 0.0, 0
+AddPartWeaponChild = false, true, 0.0342, 2.452, 0.6086
+;-0.4672
+AddPartWeaponChild = false, true, 0.0342,  2.452, 0.6086, 0.05
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AddPartWeaponChild = false, true, 0.82,  2.514,0.05
+;AddPartWeapon = puma_atgm, false, true, true,  0.5014, 2.702, 0.0, 0
+
+ArmorMinDamage = 15
+
+;side comp ~270 effective bc we dont differentiate between explosive and non explosive around here (medium balancing)
+BoundingBox = 0.0, 1.0, 0.0, 3.35, 1.75, 0.05
+BoundingBox = 0.0, 1.0, 1.2, 3.35, 1.75, 0.05
+
+;anti javelin/TA boundingbox
+BoundingBox = 0.0, 3.01, 0.0, 1.0, 0.1, 0.01
+;only seems to work at 1 any lower and you risk somehow taking damage
+;is this a shitty solution to a complex problem? yes
+;am I going to fix it eventually? also yes
+
+;front 
+;mdl 58
+BoundingBox = 0.0, 1.1, 4.2, 2.6, 0.2, 0.25
+;slope down time 120-100
+BoundingBox = 0.0, 0.9, 4.15, 2.6, 0.2, 0.12
+
+BoundingBox = 0.0, 0.7, 3.88, 2.6, 0.2, 0.13
+
+;then its 50mm idc im going based on warthunder fuck you
+BoundingBox = 0.0, 0.5, 3.68, 2.6, 0.2, 0.3
+BoundingBox = 0.0, 0.3, 3.58, 2.6, 0.2, 0.3
+
+;top fp 300
+BoundingBox = 0.0, 1.3, 4, 2.6, 0.2, 0.05
+;290
+BoundingBox = 0.0, 1.5, 3.2, 2.6, 0.2, 0.05
+;178
+BoundingBox = 0.0, 1.7, 2.8, 2.6, 0.2, 0.08
+;45
+BoundingBox = 0.0, 1.8, 2.0, 2.6, 0.2, 0.33
+
+
+;rear 30mm
+BoundingBox = 0.0, 1.0, -1.0, 3.3, 1.7, 0.5
+
+Category = IFV
+
+;light tracked tank/ifv (not bradley family) (heavier composite)
+AddRecipe = "ABC", "DEF", "GHH", A, mcheli:lightchassis, B, mcheli:cannon2, C, mcheli:engine2, D, mcheli:tanktracks, E, mcheli:composite2, F, mcheli:fcs, G, mcheli:advancedmechanicparts, H, mcheli:electronics

@@ -1,0 +1,39 @@
+DisplayName = 125mm 2A46M Cannon [3BM42 - APFSDS]
+Type = MachineGun1
+Power = 457
+ModelBullet = bullet105mm
+Sight = None
+Round = 12
+Sound = tseventytwomain
+Accuracy = 1.5
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+group = maingun
+Gravity = -0.001
+Recoil = 1.8
+DisplayMortarDistance = true
+AddMuzzleFlash      =  10.2,      1.80,        7,  200,254,129,44
+AddMuzzleFlash      =  10.1,      1.75,        6,  200,254,219,104
+AddMuzzleFlash      =  10.0,      1.70,        5,  200,254,219,184
+AddMuzzleFlashSmoke =  12.2, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =  15.2, 10,  11.0,  6.0, 35,  200,190,170,150
+
+MaxAmmo = 12
+SuppliedNum = 6
+Item =  1, iron_ingot
+Item =  1, gunpowder
+
+Delay = 155
+ReloadTime = 210
+Group = maingun
+Acceleration = 7.0
+ModelBullet = bullet105mm
+Piercing = 5
+Accuracy = 0.0
+DamageFactor = tank, 10.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+SoundVolume = 15
+

@@ -1,0 +1,24 @@
+﻿
+DisplayName = Plow Field
+
+Type = Dispenser
+Acceleration = 0
+Sight = None
+Delay = 0
+Sound = plow_snd
+SoundDelay = 1
+Gravity = -0.05
+
+Bomblet = 3
+BombletSTime = 2
+BombletDiff = 1
+
+
+SmokeSize   = 0.1
+
+
+DispenseItem = wooden_hoe
+DispenseRange = 4
+
+
+

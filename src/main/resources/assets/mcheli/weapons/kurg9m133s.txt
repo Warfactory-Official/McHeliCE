@@ -1,0 +1,46 @@
+DisplayName = 9M133M-2 Kornet-EM
+Type = TVMissile
+FixMode = 1
+ModeNum = 2
+Power = 1300
+Acceleration = 3
+Explosion = 4
+ExplosionInWater = 2
+ExplosionBlock = 5
+Flaming = false
+Sight = MissileSight
+
+Sound = bmptmissile
+SoundVolume = 3
+Round = 2
+
+LockTime = 30
+RigidityTime = 7
+ModelBullet = 9m113
+
+AddMuzzleFlash      =  8.2,     2.10,        7,  220,254,159,74
+AddMuzzleFlash      =  8.1,     2.05,        6,  220,254,219,104
+AddMuzzleFlash      =  8.0,     2.00,        5,  220,254,219,184
+AddMuzzleFlashSmoke =  8.2, 30, 12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 10.2, 20, 13.0,  7.0, 55,  200,190,170,150
+
+Delay = 10
+ReloadTime = 320
+
+BulletColor        = 255, 255, 100, 100
+
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 9M133 Kornet-M
+SoundVolume = 15
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

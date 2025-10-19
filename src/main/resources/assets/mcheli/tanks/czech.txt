@@ -1,0 +1,103 @@
+DisplayName = Pz.38(t) A
+AddDisplayName = Pz.38(t) A
+MaxHp = 165
+Speed = 0.28
+Sound = prop_tank
+ThrottleUpDown = 1.0
+MobilityYawOnGround = 2.5
+MinRotationPitch = -25
+MaxRotationPitch = 10
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 4
+
+Category = LT
+
+EnableNightVision = false
+CameraRotationSpeed = 10
+EnableEntityRadar = false
+MaxFuel         = 800
+FuelConsumption = 2
+StepHeight = 1.5
+DefaultFreelook = true
+OnGroundPitchFactor = 1.8
+OnGroundRollFactor  = 1.1
+SubmergedDamageHeight = 3
+HideEntity = true
+WeightType = Tank
+WeightedCenterZ = 0.0
+
+EntityWidth = 0.8
+EntityHeight = 0.8
+
+HUD = ww2tank_hud, gunner
+AddTexture = czech1
+AddTexture = czech2
+AddTexture = czech3
+
+CameraPosition = 0.00,  3,  0
+
+AddGunnerSeat =  0.00,  1.70,  0,    0.00,  3,  0,  false, -90, 45, false
+
+unmountposition = 0.00,  1.70,  0
+
+AddGunnerSeat = 0.3487, 0.1229, 1.0919, 0.72, 1.12, 1.70
+
+MotionFactor = 0.90
+ArmorMinDamage = 7
+
+TurretPosition = 0.0, 1.0, 0.0
+
+ArmorDamageFactor = 1
+EnableBack = true
+PivotTurnThrottle = 0.0
+TrackRollerRot = 15
+
+SetWheelPos =  0.82,  -0.24,  1.4928,  0.4447, -0.6839, -1.7228
+
+AddTrackRoller = -1.25,  0.4589,  2.3825
+AddTrackRoller = -1.25,  0.1312,  1.4928
+AddTrackRoller = -1.25,  0.1312,  0.4447
+AddTrackRoller = -1.25,  0.1312, -0.6839
+AddTrackRoller = -1.25,  0.1312, -1.7228
+AddTrackRoller = -1.25,  0.255,  -2.5798
+
+AddTrackRoller =  1.25,  0.4589,  2.3825
+AddTrackRoller =  1.25,  0.1312,  1.4928
+AddTrackRoller =  1.25,  0.1312,  0.4447
+AddTrackRoller =  1.25,  0.1312, -0.6839
+AddTrackRoller =  1.25,  0.1312, -1.7228
+AddTrackRoller =  1.25,  0.255,  -2.5798
+
+AddCrawlerTrack = false, 0.13, -1.15,   0.84/ 2.38,  0.76/ 2.69, 0.46/ 2.82, 0.15/ 2.69, -0.21/ 1.83, -0.28/ 1.49, -0.28/ -1.72, 0.0/ -2.84, 0.255/ -2.95, 0.52/ -2.84, 0.62/ -2.58, 0.73/ -0.26, 0.77/ 0.8,
+AddCrawlerTrack = false, 0.13,  1.15,   0.84/ 2.38,  0.76/ 2.69, 0.46/ 2.82, 0.15/ 2.69, -0.21/ 1.83, -0.28/ 1.49, -0.28/ -1.72, 0.0/ -2.84, 0.255/ -2.95, 0.52/ -2.84, 0.62/ -2.58, 0.73/ -0.26, 0.77/ 0.8,
+
+;light tracked tank ww2 EARLY
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:cannon1, C, mcheli:engine1, D, mcheli:tanktracks
+
+AddPartWeapon = 38tapcbc / 38tapcr, false, true, false,  0.0, 1.5582, 0.00, 0
+;/ 38the
+AddPartWeaponChild = false, true, 0.2253, 1.5582, 0.8464, 0.15
+AddPartWeaponChild = false, true, 0.01, 1.5582, 0.8464, 0
+AddPartWeaponChild = false, true, -0.3881, 1.8011, 0.9458, 0
+AddTurretWeapon = 38tapcbc, 0.22, 2.0239, 0,  0.0, 0.0, false,1, 0,-360,360,   -25, 10
+AddTurretWeapon = 38tapcr, 0.22, 2.0239, 0,  0.0, 0.0, false,1, 0,-360,360,    -25, 10
+;AddTurretWeapon = 38the, 0.22, 2.0239, 0,  0.0, 0.0, false,1, 0,-360,360,     -25, 10
+AddTurretWeapon = 38tvz37, -0.3883, 1.8187, 0,  0.0, 0.0, false,1, 0,-360,360, -25, 10
+
+
+
+AddPartWeapon = 38taltvz37, false, true, false,  0.3487, 1.1229, 1.5919, 0
+AddWeapon = 38taltvz37, 0.3487, 1.1229, 1.5919,  0.0, 0.0, false,2, 0,-10,5, -8, 0
+
+;turret
+BoundingBox =  0.0, 1.8,  0.0,   1.5, 0.8,  0.35
+;hull
+BoundingBox =  0.0, 0.8, -1.55,   2.1, 1.20,  0.90
+BoundingBox =  0.0, 0.8, 0.0,   2.1, 1.40,  0.90
+;frontplate
+BoundingBox =  0.0, 1.1, 0.55,   2.05, 0.55,  0.40
+BoundingBox =  0.0, 0.8, 1.0,   2.05, 0.3,  0.40
+BoundingBox =  0.0, 0.5, 1.55,   2.05, 0.3,  0.40

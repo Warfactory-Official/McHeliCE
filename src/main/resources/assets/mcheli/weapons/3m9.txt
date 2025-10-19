@@ -1,0 +1,30 @@
+DisplayName = 3M9M3 [SAM]
+Type = AAMissile
+Power = 59
+Acceleration = 2
+Explosion = 9
+Flaming = false
+Sight = MissileSight
+Delay = 2
+ReloadTime = 1000
+Round = 3
+LockTime = 12
+ProximityFuseDist = 3
+Sound = missile_1_snd
+
+
+
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 3
+
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  4, redstone

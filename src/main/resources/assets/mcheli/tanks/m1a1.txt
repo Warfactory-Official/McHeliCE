@@ -1,0 +1,191 @@
+DisplayName = M1A1SA Abrams TUSK II
+AddDisplayName = ja_JP, M1A1SA エイブラムス TUSK II
+ItemID = 30107
+MaxHp = 800
+Speed = 0.43
+Sound = abrams
+ThrottleUpDown = 4.5
+
+SoundPitch = 0.6
+MobilityYawOnGround = 2.7
+MinRotationPitch = -20
+MaxRotationPitch = 10
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+;DamageFactor = 0.8
+DamageFactor = 0.0
+CameraZoom = 10
+CameraPosition = -1.00,  3.00, 0.90, true
+EnableNightVision = true
+CameraRotationSpeed = 24
+;EnableEntityRadar = true
+MaxFuel         = 1200
+FuelConsumption = 3.0
+StepHeight = 1.7
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+FlareType = 10
+
+Category = MBT
+
+AddTexture = m1a1ntforest
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 4
+
+HideEntity = true
+
+
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+
+
+HUD = mbt_hud, mbt_gnrnvg, gunner, gunner
+
+AddGunnerSeat =  0.00,  1.1,  0.0,    0.00,  2.50,  0.25,  false, -90, 90, true
+
+unmountposition = 0.00,  1.5,  2.25
+
+;commander normal pos
+AddGunnerSeat = -0.55,  1.00, -0.96,   -0.6039, 3.4, -0.9611, false, -90, 90, true
+
+AddGunnerSeat = -0.6039, 2.6, -0.9611,   -0.6039, 3.6, -0.9611, false, -90, 90, true
+
+
+AddGunnerSeat =  0.55,  2.50, -0.96,    0.55,  3.60, -0.96,  false, -90, 90, true
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.92
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 800
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+;ArmorDamageFactor = 0.95
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+;転輪がなくても動作する
+AddCrawlerTrack = false, 0.37, -2.15,  1.14/ -4.62,  1.10/ -4.88,  0.80/ -4.90,  0.54/ -4.84,  -0.16/ -4.07,  -0.23/ -3.45,  -0.23/  2.17,  -0.11/ 2.73,  0.50/ 4.04,  0.78/ 4.12,  1.12/ 4.02,  1.22/ 3.73,
+AddCrawlerTrack = false, 0.37,  2.15,  1.14/ -4.62,  1.10/ -4.88,  0.80/ -4.90,  0.54/ -4.84,  -0.16/ -3.74,  -0.23/ -3.78,  -0.23/  2.49,  -0.11/ 2.86,  0.50/ 4.04,  0.78/ 4.12,  1.12/ 4.02,  1.22/ 3.73,
+
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+;TrackRollerRot = 30
+
+SetWheelPos =  1.72,  -0.24,  2.22,  1.02, 0.06, -0.90, -1.86, -2.82, -3.78
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+AddTrackRoller = -1.82,  0.81,  3.70
+AddTrackRoller = -1.82,  0.18,  2.22
+AddTrackRoller = -1.82,  0.18,  1.02
+AddTrackRoller = -1.82,  0.18,  0.06
+AddTrackRoller = -1.82,  0.18, -0.90
+AddTrackRoller = -1.82,  0.18, -1.86
+AddTrackRoller = -1.82,  0.18, -2.82
+AddTrackRoller = -1.82,  0.18, -3.78
+AddTrackRoller = -1.82,  0.81, -4.59
+
+AddTrackRoller =  1.82,  0.81,  3.70
+AddTrackRoller =  1.82,  0.18,  2.50
+AddTrackRoller =  1.82,  0.18,  1.30
+AddTrackRoller =  1.82,  0.18,  0.34
+AddTrackRoller =  1.82,  0.18, -0.62
+AddTrackRoller =  1.82,  0.18, -1.58
+AddTrackRoller =  1.82,  0.18, -2.54
+AddTrackRoller =  1.82,  0.18, -3.50
+AddTrackRoller =  1.82,  0.81, -4.59
+
+;主砲
+AddPartWeapon = m1a1apfsds / m1a1heat / m1a1_he / m1a1_heor / m1a1canistershell / m1a1m829a2apfsds, false, true, false,   0.00, 2.10, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.10, 2.02, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.10, 2.02, 0.5
+AddTurretWeapon = m1a1apfsds, 0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a1heat, 0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a1_he,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a1_heor,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a1canistershell,        0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a1m240,      -0.43, 2.28, 2.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = m1a1m829a2apfsds,     0.00, 2.10, 0.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+;AddTurretWeapon = mbt_cas,      -0.43, 2.28, 2.02,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+;AddTurretWeapon = targeting_pod_block,      -0.43, 2.28, 2.02,  0.0, 0.0, true,1, 0,-360,360, -50, 10
+
+
+AddPartTurretWeapon    = 105abramsm2_fifty,  false, true, false, -0.6039, 3.3332, -0.9611
+;;AddPartWeaponChild    = 105abramsm2_fifty,   true, true, true,  -0.6039, 3.3332, -0.3228
+AddPartWeaponChild    =   false, true, -0.6039, 3.3332, -0.3228, 0.0
+
+AddTurretWeapon = 105abramsm2_fifty,   -0.6039, 3.3332, -0.9611,   0.0, 0.0, false, 3, 0, -360,360, -65,9
+
+;AddPartTurretWeapon    = 105abramsm240_r,   false, true, false,   0.5456, 3.3332, -0.96
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AddPartTurretWeapon    = 105abramsm240_r,   false, true, true,  0.5456, 2.7161, -0.9694
+;AddPartWeaponChild    =   false, true, 0.5456, 3.0542, -0.3556, 0.0
+;AddTurretWeapon = 105abramsm240_r,    0.5456, 3.0916, -0.96,   0.0, 0.0, false, 3, 0, -180,24, -65,9
+
+
+;M240 shield
+AddPartTurretWeapon    = m1a1m240_r,   false, true, true,   1.243, 3.24, -0.77
+AddPartTurretWeapon    = m1a1m240_r,   false, true, true,  1.243, 3.24, -0.77
+AddTurretWeapon = m1a1m240_r,    1.243, 3.24, -0.77,   0.0, 0.0, false, 4, 0, -220,30, -65,9
+
+;tusk
+AddRecipe = "ABC", "DGF", "EH ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite3, E, mcheli:fcs2, H, mcheli:composite2
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:m1a1nt, B, mcheli:composite2
+
+;orign NT
+;AddRecipe = "ABC", "DGF", "E  ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, F, mcheli:electronics, G, mcheli:composite3, E, mcheli:fcs2
+
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+ArmorMinDamage = 20
+
+;american bias (DU factor) BASELINE M1A1HA+
+ArmorDamageFactor = 0.95
+
+
+;low lower plate
+BoundingBox = 0.0, 0.55, 2.5, 3.0, 0.2, 0.04
+
+
+;lower plate
+BoundingBox = 0.0, 0.9, 3.0, 3.0, 0.5, 0.03
+
+BoundingBox = 0.0, 1.1, 2.5, 3.0, 0.5, 0.04
+
+BoundingBox = 0.0, 1.2, 1.8, 3.0, 0.5, 0.17
+
+BoundingBox = 0.0, 1.3, 1.4, 3.0, 0.5, 0.2
+
+;turret
+BoundingBox = 0.0, 2.0, 0.1, 3.0, 1.0, 0.02
+
+
+
+;mid
+BoundingBox = 0.0, 0.9, 0.0, 3.1, 1.3, 0.17
+;back side
+BoundingBox = 0.0, 0.9, -3.0, 3.0, 1.3, 0.22
+BoundingBox = 0.0, 0.9, -3.8, 3.0, 1.3, 0.22
+;back back
+BoundingBox = 0.0, 1.1, -4.1, 2.95, 1.1, 2
+
+

@@ -1,0 +1,15 @@
+DisplayName = Generic Nuclear Bomb Payload
+AddDisplayName = ja_JP, Generic Nuclear Bomb Payload
+
+StackSize = 16
+
+
+
+
+
+;;AddRecipe = "ABB", "BBD", "   ", A, hbm:tile.nuke_tsar, B, hbm:item.explosive_lenses, D, hbm:item.man_core
+
+AddRecipe = "ABB", "BBD", "AC ", A, hbm:tile.bomb_multi, B, hbm:item.explosive_lenses, D, hbm:item.man_core, C, hbm:item.boy_igniter
+
+
+

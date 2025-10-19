@@ -1,0 +1,29 @@
+DisplayName = 7.62mm Type 74 Machine Gun
+Type = MachineGun2
+Power = 8
+Acceleration = 7.5
+Flaming = false
+Sight = MoveSight
+Delay = 1
+ReloadTime = 80
+SoundVolume = 0.6
+SoundPitch = 1.0
+Sound = typesevenfourmachinegun
+Accuracy = 0.4
+Gravity = -0.001
+Round = 250
+
+ReloadTime = 80
+
+ModelBullet = bullet
+
+HeatCount = 5
+MaxHeatCount = 350
+
+MaxAmmo = 4500
+SuppliedNum = 250
+Item =  2, iron_ingot
+Item =  2, gunpowder
+
+AddMuzzleFlash      =  1.0,      0.22,        1,  150,254,159,84
+AddMuzzleFlashSmoke =  1.2,  1,   2.0,  0.5, 15,  180,250,245,240

@@ -1,0 +1,62 @@
+DisplayName = 155mm M126 Cannon [W48 Nuclear Artillery Shell - 0.1KT]
+Type = MachineGun1
+Power = 1000
+ModelBullet = bullet105mm
+Explosion = 25
+ExplosionBlock = 5
+
+ExplosionInWater = 25
+
+NukeYield = 15
+
+Sight = None
+
+Round = 1
+Sound = moneonine
+
+ProximityDist = 1
+ProximityFuseDist = 1
+
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+;18.1km
+Gravity = -0.00198
+
+HeatCount = 4100
+MaxHeatCount = 8000
+
+Delay = 305
+ReloadTime = 305
+Group = MainGun
+Acceleration = 6.5
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+Accuracy = 0.5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 4.0
+SoundVolume = 15
+
+SoundPitch = 1.1
+
+; 着弾距離の表示
+DisplayMortarDistance = true
+; カメラの垂直方向を0に固定する
+FixCameraPitch = true
+; カメラの回転速度の倍率(小さくするとより細かく着弾地点が調整ができる)
+CameraRotationSpeedPitch = 0.4
+
+AddMuzzleFlash      =  12.0,      5.80,        7,  220,254,159,74
+AddMuzzleFlash      =  12.0,      5.75,        6,  220,254,219,104
+AddMuzzleFlash      =  12.0,      5.70,        5,  220,254,219,184
+AddMuzzleFlashSmoke =  12.0, 20,  30.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =  12.0, 10,  31.0,  6.0, 35,  200,190,170,150
+
+Recoil = 4.5
+RecoilBufCount = 40, 1400
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item = 1, mcheli:genericnuclearwarheadlow

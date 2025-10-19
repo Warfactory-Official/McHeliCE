@@ -1,0 +1,26 @@
+DisplayName = 70mm Hydra Rocket [M264RP]
+Type = MkRocket
+Power = 0
+Acceleration = 7.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Sound = hydraseventy
+Delay = 800
+ReloadTime = 1200
+Round = 2
+
+SoundVolume = 15
+
+Gravity = -0.005
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

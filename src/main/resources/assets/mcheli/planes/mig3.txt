@@ -1,0 +1,73 @@
+﻿DisplayName = MiG-3-15
+AddDisplayName = en_US, Mikoyan-Gurevich MiG-3-15
+AddDisplayName = ru_RU, MiG-3-15
+ItemID = 30020
+MaxHp = 100
+Speed = 0.69252
+
+;398
+
+Float = false
+Sound = prop_fighter
+onGroundPitch = 15
+ThrottleUpDown = 0.3
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+DamageFactor = 0.8
+
+RotorSpeed = 2000.0
+
+; W = WWII.  F = Fighter(戦闘機)
+Category = W.F
+
+HUD = plane_wwii
+
+AddSeat = 0.0,  1.65, -1.17
+unmountposition = 0.0,  1.95, -1.17
+enableback = true
+
+AddPartSlideCanopy = 0, 0.00, -0.8
+
+AddPartLG =    2.01, 1.15,  1.29,  0,0,-1, 88
+AddPartLG =   -2.01, 1.15,  1.29,  0,0, 1, 88
+AddPartLG =    0.00, 1.85, -5.33,  1,0,0, 90
+
+AddPartRotor =    0.00,  1.99, 4.51,   1,0, 0
+AddBlade = 1, 0,  0.00,  1.99, 4.51,   0,0,-1
+
+AddWeapon = mig3shkas,  0.23, 2.69, 2.94,  0.0, -3.0
+AddWeapon = mig3shkas, -0.23, 2.69, 2.94,  0.0, -3.0
+
+AddWeapon = mig3ubs,  0.00, 2.7, 4.41,   0.0, 2.0
+
+;;AddWeapon = rs82,  -2.32, 1.22, 2.08,   0.2, 0.0
+;;AddWeapon = rs82,   2.32, 1.22, 2.08,  -0.2, 0.0
+;find someone who cares enough to model ts
+
+AddWeapon = ,   0.00, 1.52, 4.41,  0.0, 0.0
+
+;basic ww2 prop plane, AOW3 style
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:airframe, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon2
+BoundingBox =  0.00,  1.99,  0.00,  1.2, 1.2
+BoundingBox =  0.00,  1.99,  1.13,  1.2, 1.2
+BoundingBox =  0.00,  1.99,  2.13,  1.2, 1.2
+BoundingBox =  0.00,  1.99,  3.13,  1.2, 1.2
+BoundingBox =  0.00,  1.99,  4.13,  1.0, 1.0, 1.5
+BoundingBox =  0.00,  1.99, -2.66,  1.2, 1.2
+BoundingBox =  0.00,  1.99, -3.86,  1.2, 1.2
+
+BoundingBox =  2.39,  1.39,  0.47,  2.8, 0.3
+BoundingBox = -2.39,  1.39,  0.47,  2.8, 0.3
+BoundingBox =  4.91,  1.72,  0.59,  2.5, 0.2
+BoundingBox = -4.91,  1.72,  0.59,  2.5, 0.2
+
+BoundingBox =  1.17,  2.11, -5.22,  1.5, 0.2
+BoundingBox = -1.17,  2.11, -5.22,  1.5, 0.2
+
+BoundingBox =  0.00,  2.95, -5.86,  0.5, 2.2
+BoundingBox =  0.00,  2.85, -6.36,  0.5, 1.8
+BoundingBox =  0.00,  2.85, -5.36,  0.5, 1.8
+BoundingBox =  0.00,  2.65, -4.86,  0.5, 1.8
+BoundingBox =  0.00,  2.35, -4.36,  0.5, 1.8
+DamageFactor = 0.8

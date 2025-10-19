@@ -1,0 +1,103 @@
+DisplayName = A-7 Corsair
+AddDisplayName = ja_JP, A-7 corsair
+ItemID = 28740
+MaxHp = 100
+Sound = asev
+
+onGroundPitch = 4
+EnableNightVision = false
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 0.9
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1300
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+ThrottleUpDown = 0.3
+DamageFactor = 0.8
+
+enableback = true
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+AddTexture = a72
+AddTexture = a73
+AddTexture = a74
+;AddTexture = a75
+;vanished or something
+AddTexture = a76
+
+HUD = plane
+
+AddSeat       = 0.00,  2.5,  1.252
+
+AddPartCanopy =  0.00, 3.783, -0.09655,  -1,0,0,  50
+
+;Front
+AddPartLG    =  0.00, 1.51, 0.5653,  1,0,0, 105
+;Right
+AddPartLG    = -0.5755, 1.932, -6.923,      1,0,0, -90,   0,1,0,  100
+;Left
+AddPartLG    =  0.5755, 1.932, -6.923,      1,0,0, -90,   0,1,0, -100
+
+
+; 使用直後は非表示
+AddPartWeaponMissile = agm84a7real,    false,  false,  false,    1.974, 2.152, -5.07
+AddPartWeaponMissile = agm84a7real,    false,  false,  false,   -1.974, 2.152, -5.07
+AddPartWeaponMissile = agm84a7real,    false,  false,  false,    3.381, 2.152, -5.591
+AddPartWeaponMissile = agm84a7real,    false,  false,  false,   -3.381, 2.152, -5.591
+AddPartWeaponMissile = agm84a7real,    false,  false,  false,    4.788, 2.152, -6.216
+AddPartWeaponMissile = agm84a7real,    false,  false,  false,   -4.788, 2.152, -6.216
+
+AddWeapon = m61a1_a7, 1.016, 2.653, 0.3788,   0.0, 0.0
+AddWeapon = agm84a7real,     1.974, 2.152, -5.07,   0.0, 0.0
+AddWeapon = agm84a7real,    -1.974, 2.152, -5.07,   0.0, 0.0
+AddWeapon = agm84a7real,     3.381, 2.152, -5.591,   0.0, 0.0
+AddWeapon = agm84a7real,    -3.381, 2.152, -5.591,   0.0, 0.0
+AddWeapon = agm84a7real,     4.788, 2.152, -6.216,   0.0, 0.0
+AddWeapon = agm84a7real,    -4.788, 2.152, -6.216,   0.0, 0.0
+
+
+
+AddWeapon = targeting_pod_ph50s,   0.0, 3.4, 0.0,    0.0, 0.0, true,  1
+
+;modern light plane (early jet), AOW3 style
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:airframe, B, mcheli:basicmechanicparts, C, mcheli:engine2, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:rocket, G, mcheli:electronics
+
+BoundingBox =  0.00, 2.80, -1.00,  2.1, 2.8
+BoundingBox =  0.00, 2.80, -3.10,  2.1, 2.8
+BoundingBox =  0.00, 2.80, -5.20,  2.1, 2.3
+BoundingBox =  0.00, 2.80, -6.20,  2.1, 2.3
+BoundingBox =  0.00, 2.80, -8.30,  2.1, 2.0
+
+BoundingBox = -2.92, 3.20, -5.80,  4.0, 0.6
+BoundingBox =  2.92, 3.20, -5.80,  4.0, 0.6
+
+BoundingBox = -6.15, 3.10, -7.86,  2.5, 0.2
+BoundingBox =  6.15, 3.10, -7.86,  2.5, 0.2
+
+BoundingBox =  0.00, 2.80, -9.3,  1.0, 2.8
+BoundingBox =  0.00, 3.10, -10,  1.0, 3.3
+BoundingBox =  0.00, 3.4, -11,  1.0, 3.5
+BoundingBox =  0.00, 3.8, -12,  1.0, 4.3
+BoundingBox =  0.00, 4.2, -13,  1.0, 4.6
+BoundingBox =  0.00, 4.5, -13.5,  0.5, 4.9
+BoundingBox =  0.00, 5.5, -13.8,  0.5, 4.0
+BoundingBox =  0.00, 6.3, -14.2,  0.5, 3.2
+
+BoundingBox = 0.0, 2.80, -13.60, 1.0, 1.0, 1.5
+BoundingBox = 0.0, 2.80, -13.90, 1.0, 1.0, 1.5
+
+BoundingBox = 3.07, 2.5, -13.9, 1.25, 0.2
+BoundingBox = -3.07, 2.5, -13.9, 1.25, 0.2
+
+
+BoundingBox = 1.47, 2.5, -13.0, 2, 0.2
+BoundingBox = -1.47, 2.5, -13.0, 2, 0.2
+
+
+unmountposition = 0.00,  2.5,  1.252
+DamageFactor = 0.8

@@ -1,0 +1,39 @@
+DisplayName = 100MM Smoothbore Cannon [HEATFS]
+Type = MachineGun1
+Power = 390
+ModelBullet =3bm42
+Explosion = 1
+ExplosionBlock = 1
+Acceleration = 7.0
+Sight = None
+Delay = 140
+ReloadTime = 160
+Round = 1
+SoundVolume = 10.0
+Sound = cannon_100mm_snd
+Accuracy = 1.5
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+Gravity = -0.005
+
+Recoil = 2.5
+
+Group = MainGun
+Acceleration = 7.0
+ModelBullet = bullet105mm
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+AddDisplayName = en_US, 105mm Cannon [HEAT]
+SoundVolume = 15
+
+
+
+MaxAmmo = 40
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  1, gunpowder

@@ -1,0 +1,33 @@
+DisplayName = 20mm GIAT THL Cannon
+Type = MachineGun2
+Power = 17
+Acceleration = 7.5
+Flaming = false
+Sight = MoveSight
+Delay = 1
+SoundVolume = 0.6
+SoundPitch = 1.0
+Accuracy = 1.6
+HeatCount = 5
+MaxHeatCount = 150
+ModeNum = 2
+Sound = gun_m61a1_snd
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.0
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 1.0
+;DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+; SetCartridge = model_name, Acceleration, Yaw, Pitch, ModelScale, Gravity, Bound
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+MaxAmmo = 250
+SuppliedNum = 250
+Item =  2, iron_ingot
+Item =  2, gunpowder

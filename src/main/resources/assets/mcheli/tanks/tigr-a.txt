@@ -1,0 +1,98 @@
+;общая инфа о технике
+DisplayName = "Gaz" Tigr with Arbalet RWS
+MaxHp = 150
+Speed = 0.87
+Sound = diesel
+InventorySize = 9
+StepHeight = 1.8
+DefaultFreelook = false
+EnableBack = true
+AddTexture = tigr_1
+HUD = super_duty_hud,mbt_gnr,none,none,none,none,none
+
+Category = IMV
+WeightType = car
+
+EnableEntityRadar = false
+MaxFuel         = 1200
+FuelConsumption = 1.0
+unmountposition = -0.0,  1.50,  -2.12
+;Поведение при езде
+
+
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.2
+ThrottleUpDown = 0.81
+MobilityYawOnGround = 6
+
+PivotTurnThrottle = 0.1
+
+MobilityRoll     = 0
+
+MotionFactor = 0.93
+WeightedCenterZ = 0.6
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+;Камера, места для ганнеров и пассажиров etc
+AddSeat =  0.76,   0.8859, 0.16
+
+AddWeapon = none, 0.0, 3.00, 4.00, 0.0, 0.0, false, 1
+AddWeapon = thorn2,    0.00, 0.00, 0.00,  0.0,0.0
+
+AddGunnerSeat =  -0.0,  1.093, -0.16, 0.0, 3.35, 0.14,  true, -70,20, false
+
+AddSeat =  -0.76,  0.8629, 0.16
+AddSeat = 0.63,    0.8629, -2.1231
+AddSeat = 0.63,    0.8629, -0.9726
+AddSeat = -0.60,   0.8629, -2.1231
+AddSeat = -0.60,   0.8629, -0.9726
+
+HideEntity = false
+EnableBack = true
+EnableNightVision = false
+
+MinRotationPitch = -90
+MaxRotationPitch = 45
+
+
+;Все о колесах
+AddPartWheel =   0.91,  0.3215, 2.1681, 30
+AddPartWheel =   -0.99, 0.3215, 2.1631, 30
+AddPartWheel =   0.91,  0.3215, -2.0703
+AddPartWheel =   -0.99, 0.3215, -2.0753
+PartWheelRot = 30
+SetWheelPos =  0.9,  0.32,  2.1681, -2.0703
+
+;подвижные части
+AddPartCanopy =  1.2879, 1.3766, 1.1223, 0, -1, 0, 75
+AddPartCanopy = -1.3153, 1.3765, 1.1201, 0,  1, 0, 75
+AddPartHatch = 0.9537, 1.5266, -3.0294, 0.0, -1.0, 0.00, 90
+AddPartHatch = -1.0347, 1.5266, -3.0294, 0.0, 1.0, 0.00, 90
+AddPartSteeringWheel =  0.7663, 1.5961, 0.6289,  0, 0.1554,-1,  110
+AddFixedSearchLight =  0.8426, 1.0296, 2.9332,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+AddFixedSearchLight = -0.8550, 1.0296, 2.9332,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25, -6.0,  0
+
+AddFixedSearchLight =   1.2179, 0.7841, -3.1010,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddFixedSearchLight =  -1.2179, 0.7841, -3.1010,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  0.0,  0
+AddPartCamera = 0.0, 2.84, -0.0277, true, false
+
+;оружие
+AddWeapon = dshk12_7mm,    0.00,  3.1327, 0.05, 0, 0,  false, 2, 0, -360, 360, -70,20
+AddPartWeapon = dshk12_7mm, false, true, false, 0.0,  2.5734, 0.1710
+AddPartWeaponChild = false, true,   -0.01, 3.1655, 0.0816
+
+ArmorMinDamage = 7
+
+BoundingBox = 0.0, 0.8, 2.0, 2.1, 1.2
+
+BoundingBox = 0.0, 1.2, -0.3, 3.0, 2.2
+
+BoundingBox = 0.0, 1.2, -1.6, 3.0, 2.2
+
+;basic armored gaz
+AddRecipe = "ABC", "DDD", "EFE", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:lap, E, mcheli:electronics, F, mcheli:cannon1
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:tigr, B, mcheli:cannon1, C, mcheli:wrench, D, mcheli:electronics

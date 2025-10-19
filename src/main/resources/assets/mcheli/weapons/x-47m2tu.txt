@@ -1,0 +1,33 @@
+DisplayName = Kh-47M2
+Type = rocket
+Power = 1000
+Explosion = 20
+ExplosionInWater = 10
+ExplosionBlock = 15
+Acceleration = 4.0
+SoundVolume = 10.0
+Sound = kinjal
+Accuracy = 0.3
+ModelBullet = kh47m2
+Flaming = false
+ModeNum = 2
+Sight = None
+Delay = 100
+DamageFactor = tank, 2.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+DamageFactor = player, 20.0
+;piercing = 4
+; 着弾距離の表示
+DisplayMortarDistance = true
+; カメラの垂直方向を0に固定する
+FixCameraPitch = true
+; カメラの回転速度の倍率(小さくするとより細かく着弾地点が調整ができる)
+CameraRotationSpeedPitch = 0.3
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  3, gunpowder

@@ -1,0 +1,21 @@
+DisplayName = Test Ballistic Missile - DO NOT USE
+Type = ballistic
+Power = 180
+Acceleration = 20.0
+Explosion = 25
+ExplosionBlock = 10
+Flaming = true
+Sight = MoveSight
+Delay = 180
+ModelBullet = topol
+Sound = missile_2_snd
+Group = MainGun
+radius = 1000
+
+DamageFactor = tank, 1.2
+
+MaxAmmo = 10
+SuppliedNum = 5
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

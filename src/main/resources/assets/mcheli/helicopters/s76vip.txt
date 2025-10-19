@@ -1,0 +1,68 @@
+﻿DisplayName = Sikorsky S-76 VIP
+AddDisplayName = en_US, Sikorsky S-76 VIP
+AddDisplayName = ja_JP, シコルスキー S-76 V.I.P仕様
+ItemID = 30046
+MaxHp = 100
+MaxFuel         = 1200
+FuelConsumption = 1.0
+Regeneration = false
+ThirdPersonDist = 20
+
+AddTexture = s76vip_white
+AddTexture = s76vip_green
+AddTexture = s76vip_black
+
+sound = sseventysix
+soundvolume = 15
+
+; C = Civilian(民間機)
+Category = C
+
+HUD = civilian_aircraft, civilian_aircraft, none, none, none, none, none
+
+Speed = 1.78
+
+AddRotor= 4, 90,  0.00,  3.89, -4.38,  0.0, 1.0, 0.0, false
+AddRotor= 1, 60,  0.68,  3.90, -14.06,  1.0, 0.0, 0.0
+
+AddPartLG =  0.87, 1.03, -5.99, -0.3, 0,-1, 100
+AddPartLG =  0.43, 0.81, -6.15,  1.0, 0, 0, 165,  0,-1,0, 100
+AddPartLG = -0.87, 1.03, -5.99, -0.3, 0, 1, 100
+AddPartLG = -0.43, 0.81, -6.15,  1.0, 0, 0, 165,  0, 1,0, 100
+AddPartLG =  0.25, 0.57,  0.32,  0.0, 0,-1, 100
+AddPartLG = -0.25, 0.57,  0.32,  0.0, 0, 1, 100
+AddPartLG =  0.00, 0.55,  0.07,  1.0, 0, 0, 120
+
+AddSeat =-0.62,  0.96, -1.27
+AddSeat = 0.62,  0.96, -1.27
+AddSeat =-0.65,  1.05, -2.64
+AddSeat = 0.65,  1.05, -2.64
+AddSeat =-0.79,  1.05, -4.24
+AddSeat = 0.00,  1.05, -4.24
+AddSeat = 0.79,  1.05, -4.24
+
+;basic unarmed modern helicopter, AOW3 style
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:airframe, B, mcheli:heliblade, C, mcheli:engine2, D, mcheli:wheelair, E, mcheli:electronics
+
+InventorySize = 27
+
+unmountposition = -0.62,  1.50, -1.27
+
+
+;BoundingBox =  0.0, 1.7, 1.5,  2.4, 2.5
+BoundingBox =  0.0, 2.1, -6.0,  2.4, 3.3
+BoundingBox =  0.0, 3.2, -14,  1.0, 2.4, 1.25
+BoundingBox = 0.0, 3.20, -4.38, 1.0, 1.5, 1.5
+
+BoundingBox = 0.0, 1.8, -7.18, 1.0, 1.0
+BoundingBox = 0.0, 1.8, -8.18, 1.0, 1.0
+BoundingBox = 0.0, 1.8, -9.18, 1.0, 1.0
+BoundingBox = 0.0, 1.8, -10.18, 1.0, 1.0
+BoundingBox = 0.0, 1.8, -11.18, 1.0, 1.0
+BoundingBox = 0.0, 1.8, -12.18, 1.0, 1.0
+BoundingBox = 0.0, 2.3, -13.18, 1.0, 1.0
+
+DamageFactor = 0.8
+
+ThrottleUpDown = 0.5
+DamageFactor = 0.8

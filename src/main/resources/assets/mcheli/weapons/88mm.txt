@@ -1,0 +1,47 @@
+DisplayName = 88mm Shell [HE]
+Type = MachineGun1
+ModelBullet = 88mm
+Power = 80
+Acceleration = 15
+AccelerationInWater = 9.0
+Explosion = 2
+ExplosionBlock = 5
+ExplosionInWater = 1
+Flaming = false
+Sight = None
+Delay = 80
+ReloadTime = 20
+SoundPitch = 1.0
+SoundVolume = 10
+Sound = ww2tankshot_snd
+Gravity = -0.005
+DamageFactor = helicopter, 1.0
+DamageFactor = plane,      1.0
+DamageFactor = vehicle,    1.0
+DamageFactor = tank,       3.0
+
+SetCartridge = 800mmcartridge, 0.8,  90, 15, 0.11, -0.05, 0.5
+
+; AddMuzzleFlash = distance, size, life time,   A,  R,  G,  B
+AddMuzzleFlash   =     4.2, 0.50,        27, 220,254,159, 74
+AddMuzzleFlash   =     4.0, 0.75,        20, 220,254,219,104
+AddMuzzleFlash   =     3.5, 1.50,        18, 220,254,219,184
+AddMuzzleFlash   =     3.3, 0.90,         8, 220,254, 51, 73
+
+; AddMuzzleFlashSmoke = Distance from source, number of displays, size, range, display time,   A,  R,  G,  B
+AddMuzzleFlashSmoke   =                 3.6,                 30, 3.0,   4.0,           62, 220, 50, 50, 50
+AddMuzzleFlashSmoke   =                 3.7,                 20, 2.0,   7.0,     	 55, 200, 10, 10, 10
+AddMuzzleFlashSmoke   =                 3.7,                 40, 4.0,  2.0,           75, 200, 30, 30, 30
+
+TrajectoryParticle = smoke
+TrajectoryParticleStartTick = 4
+
+DisplayMortarDistance = true
+
+RecoilBufCount = 25, 5
+
+MaxAmmo = 20
+SuppliedNum = 1
+Item =   1, iron_ingot
+Item =  2, gunpowder
+Item =   1, redstone

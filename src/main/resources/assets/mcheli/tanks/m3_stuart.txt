@@ -1,0 +1,142 @@
+﻿DisplayName = M3 Stuart
+AddDisplayName = ja_JP, M3 スチュアート
+AddDisplayName = en_US, M3 Stuart
+ItemID = 91021
+MaxHp = 100
+Speed = 0.36
+ThrottleUpDown = 1.5
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+EnableNightVision = false
+EnableEntityRadar = false
+Sound = stuart
+HUD = ww2tank_hud, gunner, gunner, gunner
+WeightType = Tank
+DefaultFreelook = true
+
+Category = LT
+
+AddTexture = m3_stuart1
+AddTexture = m3_stuart2
+
+EnableBack = true
+
+
+SubmergedDamageHeight = 1
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 4.5
+OnGroundRollFactor  = 4.0
+
+MobilityYawOnGround = 2.3
+PivotTurnThrottle = 0.0
+
+AddGunnerSeat =  0, 1.2, -0,   0.0, 2.5, -0.3,   false, -20, 10, true
+
+unmountposition = 0, 1.5, 0
+
+AddGunnerSeat =  0.0, 0.5, 0.0,     -0.5882, 1.5, 1.7,   false, -20, 10, false
+
+AddGunnerSeat =  0.0, 0.5, 0.0,     -0.484, 1.54, 1.3,   false, -20, 10, false
+AddGunnerSeat =  0.0, 0.5, 0.0,     0.484, 1.54, 1.3,   false, -20, 10, false
+
+CameraPosition = 0.0, 3.5, -0.73
+CameraRotationSpeed = 12
+
+CameraZoom = 4
+
+StepHeight = 1.5
+InventorySize = 9
+ParticlesScale = 0.1
+SmoothShading = true
+HideEntity = true
+
+
+
+MotionFactor = 0.95
+
+MaxFuel         = 1000
+FuelConsumption = 1.5
+
+TrackRollerRot = 35
+
+SetWheelPos =  0.85,  -0.24,  1.6331, 0.736, -0.0095, -0.9066, -2.2309, -1.2394
+
+AddTrackRoller = -1.8,  0.5996,  2.1569
+AddTrackRoller = -1.8, -0.0405,  1.6331
+AddTrackRoller = -1.8, -0.0405,  0.736
+AddTrackRoller = -1.8, -0.0405, -0.0095
+AddTrackRoller = -1.8, -0.0405, -0.9066
+AddTrackRoller = -1.8,  0.2012, -2.2309
+AddTrackRoller = -1.8,  0.8264, -1.2394
+AddTrackRoller = -1.8,  0.8923, -0.2293
+AddTrackRoller = -1.8,  0.8921,  0.9888
+
+AddTrackRoller = 1.8,  0.5996,  2.1569
+AddTrackRoller = 1.8, -0.0405,  1.6331
+AddTrackRoller = 1.8, -0.0405,  0.736
+AddTrackRoller = 1.8, -0.0405, -0.0095
+AddTrackRoller = 1.8, -0.0405, -0.9066
+AddTrackRoller = 1.8,  0.2012, -2.2309
+AddTrackRoller = 1.8,  0.8264, -1.2394
+AddTrackRoller = 1.8,  0.8923, -0.2293
+AddTrackRoller = 1.8,  0.8921,  0.9888
+
+AddCrawlerTrack = false, 0.19, -1.2,   1.01/ 2.157, 0.93/ 2.5, 0.599/ 2.7, 0.27/ 2.5, -0.28/ 1.67, -0.3/ -2.24, -0.18/ -2.62, 0.2/ -2.78, 0.59/ -2.62, 0.75/ -2.23, 0.92/ -1.24, 0.989/ -0.23, 0.989/ 0.988
+AddCrawlerTrack = false, 0.19,  1.2,   1.01/ 2.157, 0.93/ 2.5, 0.599/ 2.7, 0.27/ 2.5, -0.28/ 1.67, -0.3/ -2.24, -0.18/ -2.62, 0.2/ -2.78, 0.59/ -2.62, 0.75/ -2.23, 0.92/ -1.24, 0.989/ -0.23, 0.989/ 0.988
+
+MinRotationPitch = -70
+MaxRotationPitch =  20
+
+AddTurretWeapon = stuartap,  0.0,  2.2407, 1.742,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+AddTurretWeapon = stuartapc,     0.0,  2.2407, 1.742,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+
+AddTurretWeapon = stuartm1919cox,     -0.2,  2.2407, 1.742,  0.0, 0.0, true,1, 0,-360,360, -20, 10
+
+AddPartWeapon = stuartap/stuartapc, false, true, false,  0.0, 1.75, 0.0, 0
+AddPartWeaponChild = false, true, 0.0, 2.2407, 0.9862
+AddPartWeaponChild = false, true, 0.0, 2.2407, 0.9862, 0.3
+
+AddTurretWeapon = stuartm1919_1,   0.6037, 3.4, -0.5534,   0.0, 0.0, true, 1, 0, -360,360, -70,10
+AddPartWeapon    = stuartm1919_1,  false, true, false, 0.0, 0.0, 0.0
+AddPartWeaponChild = false, true, 0.6037, 3.3493, -0.6985
+
+AddWeapon = stuartm1919_2,  -0.5882, 1.17, 1.63,  0.0, 0.0, false,2, 0,-20,20, -15, 15
+AddPartWeapon = stuartm1919_2, false, true, true,  -0.5882, 1.17, 1.63, 0
+
+AddWeapon = stuartm1919_3,  -1.1508, 1.5550, 0.8447,  0.0, 0.0, false,3, 0,-0,0, -0, 0
+AddPartWeapon = stuartm1919_3, false, true, true,  -1.1508, 1.5550, 0.5, 0
+
+AddWeapon = stuartm1919_4,  1.1499, 1.5550, 0.8447,  0.0, 0.0, false,4, 0,-0,0, -0, 0
+AddPartWeapon = stuartm1919_4, false, true, true,  1.1499, 1.5550, 0.5, 0
+
+
+ArmorMinDamage = 4
+
+;turret
+BoundingBox  = 0.0, 2.2, 0.0, 1.2, 1.2, 0.10
+
+
+;side armor
+BoundingBox = 0.0, 1.0, -0.2, 2.0, 1.5, 0.16
+BoundingBox = 0.0, 1.0, -1.4, 2.0, 1.5, 0.16
+
+
+;front plate
+BoundingBox = 0.0, 1.05, 0.0, 1.95, 1.5, 0.1
+
+;lfp
+
+BoundingBox = 0.0, 0.6, 1.5, 1.95, 0.5, 0.08
+
+;sloping upper
+
+BoundingBox = 0.0, 0.9, 1.35, 1.95, 0.1, 0.10
+BoundingBox = 0.0, 1.0, 1.15, 1.95, 0.1, 0.10
+BoundingBox = 0.0, 1.1, 0.95, 1.95, 0.1, 0.1
+BoundingBox = 0.0, 1.2, 0.75, 1.95, 0.1, 0.09
+
+
+;light tracked tank ww2 EARLY
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:cannon1, C, mcheli:engine1, D, mcheli:tanktracks

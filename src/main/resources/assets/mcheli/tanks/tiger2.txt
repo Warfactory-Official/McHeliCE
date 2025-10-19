@@ -1,0 +1,179 @@
+DisplayName = Tiger II (H)
+AddDisplayName = Tiger II (H)
+;this is a comment, I like using comments
+AddDisplayName = en_US, Tiger II (H)
+ItemID = 32357
+;215mm sloped/2
+MaxHp = 185
+Speed = 0.26
+
+Category = HT
+
+Sound = V12TIGER
+StepHeight = 1.5
+DefaultFreelook = true
+
+;AddRecipe = "XX ",  "YXX", "XZY",  X, hbm:tile.block_steel, Y, hfr:item.ingot_steel, Z, mcheli:GenericV12
+;AddRecipe = "ABC",  "DEF", "GHI",  A, example, B, example, C, example, D, example, E, example
+;RIP AddRecipe = " B ",  "CDE", " FG",  B, glass, C, hfr:item.part_engine_2, D, hfr:item.part_chassis_3, E, hfr:item.part_cannon_3, F, hfr:item.part_treads, G, hfr:item.part_plating_3
+AddTexture = tiger2-2
+
+
+HUD = ww2tank_hud, gunner
+;, none, none
+
+unmountposition = -0.0,  1.50,  -0
+EnableNightVision = false
+EnableEntityRadar = false
+
+MobilityYawOnGround = 1.8
+MobilityYaw = 2.0
+MobilityPitch = 5.0
+MobilityRoll = 1.0
+MinRotationPitch = -15
+MaxRotationPitch = 8
+MinRotationRoll  = -90
+MaxRotationRoll  =  90
+
+
+
+ThrottleUpDown = 1.0
+
+AddGunnerSeat = 0.00,  1.55,  0.00, 0.00,  1.55,  0.00, false, -15,8, true
+
+AddGunnerSeat = -0.3495,  0.4678,  2.5256, -0.6495,  2.0678,  2.8256, false, -15,8, false
+
+
+;AddSeat = 0.40,  0.81,  2.25
+;AddSeat = -0.40, 0.81,  2.25
+HideEntity = true
+CameraZoom = 5
+CameraPosition = 0.0, 3.50, 0.0, false
+CameraRotationSpeed = 13
+
+;;just make a b+ tier mcheli don't fucking redo everything constantly at least be better than labj*c do something get something done
+;shut up
+
+
+AddPartWeapon = tiger288_ap/tiger288_he/tiger288_apcr/tiger288_heat, false, true, false,  0.0, 2.2915, 0.0, 0
+AddPartWeaponChild= false, true, 0.00,  2.3293, 1.8217
+AddPartWeaponChild= false, true, 0.00,  2.3293, 1.8217, 0.5
+
+AddTurretWeapon = tiger288_ap, 0.0, 2.3293, 0.0,   0, 0, true, 1,0,-360,360, -15,8
+AddTurretWeapon = tiger288_he, 0.0, 2.3293, 0.0,   0, 0, true, 1,0,-360,360, -15,8
+
+AddTurretWeapon = tiger288_apcr, 0.0, 2.3293, 0.0,   0, 0, true, 1,0,-360,360, -15,8
+AddTurretWeapon = tiger288_heat, 0.0, 2.3293, 0.0,   0, 0, true, 1,0,-360,360, -15,8
+
+AddTurretWeapon = Tiger2H1MG34Coax, -0.3338, 2.3293, 1,   0, -1, true, 1,0,-360,360, -15,8
+
+
+
+AddWeapon = Tiger2H1MG34,  -0.6495, 1.4678, 3.1860,  0.0, 0.0, false,2, 0,-20,20, -20, 20
+AddPartWeapon  = Tiger2H1MG34, false, true,  true,  -0.6495, 1.4678, 3.1860, 0
+;;;;;;;;;;;;;;;;;;;;;;;AddWeapon = TigerH1MG34, -0.6495, 1.4678, 3.1860,   2, -2, false, 1,0,-20,20, -20,20
+;;;;;;;;;;;;;;;;;;;;;;;AddPartWeapon = TigerH1MG34, false, true, true,  -0.6495, 1.4678, 3.1860, 3.0, 0
+;so somehow that extra 3.0 added on at the end of AddPartWeapon caused this weapon to be on the main driver turret, amazing
+
+
+ArmorMinDamage = 80
+
+;redo
+;upper front plate 217mm
+;BoundingBox = 0.0, 1.35, 2.9, 2.0, 1.1, 0.37
+
+
+;the unfuckening: staircase edition UFP
+
+BoundingBox = 0.0, 1.0, 2.9, 2.0, 0.1, 0.37
+BoundingBox = 0.0, 1.1, 2.8, 2.0, 0.1, 0.37
+BoundingBox = 0.0, 1.2, 2.7, 2.0, 0.1, 0.37
+BoundingBox = 0.0, 1.3, 2.6, 2.0, 0.1, 0.37
+BoundingBox = 0.0, 1.4, 2.5, 2.0, 0.1, 0.36
+BoundingBox = 0.0, 1.5, 2.4, 2.0, 0.1, 0.36
+BoundingBox = 0.0, 1.6, 2.3, 2.0, 0.1, 0.36
+BoundingBox = 0.0, 1.7, 2.2, 2.0, 0.1, 0.36
+BoundingBox = 0.0, 1.8, 2.1, 2.0, 0.1, 0.23
+
+;top of the armor on the hull
+BoundingBox = 0.0, 1.81, 2.05, 2.0, 0.1, 2
+
+
+;sides of upper front plate 217mm you mean angles and it's 300mm
+BoundingBox = 1.3, 1.60, 3.1, 0.6, 0.5,  0.26
+BoundingBox = -1.3, 1.60, 3.1, 0.6, 0.5, 0.26
+;lower front plate 
+BoundingBox = 0.0, 0.50, 2.75, 2.0, 0.7, 0.48
+;side armor 80mm ish
+BoundingBox = 0.0, 0.9, 1.5, 2.3, 1.8,  0.90
+BoundingBox = 0.0, 0.9, -0.3, 2.3, 1.8, 0.90
+BoundingBox = 0.0, 0.9, -2.0, 2.3, 1.8, 0.90
+;Turret 185mm correction 250 angled so wa wa wa
+BoundingBox = 0.0, 2.3, 0.0, 2.0, 1.2, 0.32
+
+
+
+
+
+
+Float  = false
+SubmergedDamageHeight = 1
+
+Gravity = -0.61
+GravityInWater = -1.0
+
+MaxFuel         = 2400
+FuelConsumption = 2.0
+
+
+
+
+EnableBack = true
+MotionFactor = 0.9
+
+DamageFactor = 0.0
+;ArmorDamageFactor = 1.0
+
+
+
+PivotTurnThrottle = 0.0
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 1.5
+OnGroundRollFactor  = 1.5
+WeightType = Tank 
+
+SetWheelPos =  1.4, -0.24, 2.81, 2.24, 1.67, 1.10, 0.53, -0.03, -0.60, -1.17, -1.74
+
+
+AddTrackRoller = 1.1470,  0.6370, 3.4561
+AddTrackRoller = 1.5778,  0.2199, 2.8142
+AddTrackRoller = 1.5778,  0.2199, 2.2442
+AddTrackRoller = 1.5778,  0.2199, 1.6742
+AddTrackRoller = 1.5778,  0.2199, 1.1042
+AddTrackRoller = 1.5778,  0.2199, 0.5342
+AddTrackRoller = 1.5778,  0.2199, -0.0358
+AddTrackRoller = 1.5778,  0.2199, -0.6058
+AddTrackRoller = 1.5778,  0.2199, -1.1758
+AddTrackRoller = 1.5778,  0.2199, -1.7458
+AddTrackRoller = 1.1470,  0.4055, -2.6599
+
+AddTrackRoller = -1.1470,  0.6370, 3.4561
+AddTrackRoller = -1.5778,  0.2199, 2.8142
+AddTrackRoller = -1.5778,  0.2199, 2.2442
+AddTrackRoller = -1.5778,  0.2199, 1.6742
+AddTrackRoller = -1.5778,  0.2199, 1.1042
+AddTrackRoller = -1.5778,  0.2199, 0.5342
+AddTrackRoller = -1.5778,  0.2199, -0.0358
+AddTrackRoller = -1.5778,  0.2199, -0.6058
+AddTrackRoller = -1.5778,  0.2199, -1.1758
+AddTrackRoller = -1.5778,  0.2199, -1.7458
+AddTrackRoller = -1.1470,  0.4055, -2.6599
+
+
+AddCrawlerTrack = true, 0.38, 1.6778, 1.0870/3.2560, 0.9452/3.6742, 0.6170/3.8960, 0.2988/3.7742, -0.23/2.9142, -0.23/-1.6058, 0.0981/-2.9562, 0.4055/-3.1649, 0.7019/-2.9962, 0.8205/-2.6599, 0.7385/-2.1036, 0.8177/2.5564
+AddCrawlerTrack = true, 0.38,-1.6778, 1.0870/3.2560, 0.9452/3.6742, 0.6170/3.8960, 0.2988/3.7742, -0.23/2.9142, -0.23/-1.6058, 0.0981/-2.9562, 0.4055/-3.1649, 0.7019/-2.9962, 0.8205/-2.6599, 0.7385/-2.1036, 0.8177/2.5564
+
+
+;heavier tracked tank ww2
+AddRecipe = "ABC", "DEE", "EAE", A, mcheli:heavychassis, B, mcheli:cannon2, C, mcheli:engine3, D, mcheli:tanktracks, E, mcheli:hap

@@ -1,0 +1,23 @@
+DisplayName = RIM-116 RAM
+Type = AAMissile
+Power = 11
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 1.5
+Explosion = 5
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+Round = 11
+LockTime = 2
+ProximityFuseDist = 1
+Sound = missile_1_snd
+
+MaxAmmo = 11
+SuppliedNum = 11
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

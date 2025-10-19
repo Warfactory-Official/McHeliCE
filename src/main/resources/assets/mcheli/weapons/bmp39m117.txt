@@ -1,0 +1,41 @@
+DisplayName = 9M117M1 Arkan [ATGM]
+Type = TVMissile
+FixMode = 1
+Power = 750
+Acceleration = 3
+Piercing = 2
+Explosion = 4
+ExplosionInWater = 2
+Flaming = false
+Sight = MoveSight
+
+Round = 1
+ModelBullet = 9M113
+Sound = bmpthreecannon
+ModeNum = 2
+
+Delay = 110
+ReloadTime = 150
+
+
+HeatCount = 1300
+MaxHeatCount = 1500
+
+Group = MainGun
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+CameraRotationSpeedPitch = 0.3
+
+MaxAmmo = 16
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

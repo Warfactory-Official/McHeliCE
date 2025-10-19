@@ -1,0 +1,150 @@
+DisplayName = Panther G
+AddDisplayName = Panther G
+ItemID = 32359
+
+MaxHp = 155
+
+Category = MED
+
+Speed = 0.285
+;1.0 = 46mph
+;0.5 = 23mph
+Sound = panthereng
+StepHeight = 1.8
+DefaultFreeLook = True
+
+;AddRecipe = "YX ",  "YXX", "   ",  X, iron_block, Y, iron_ingot
+;AddRecipe = "YXY",  "YXX", "XZY",  X, hbm:tile.block_steel, Y, hbm:item.ingot_steel, Z, mcheli:GenericV12
+;RIP AddRecipe = " B ",  "CDE", " F ",  B, glass, C, hfr:item.part_engine_2, D, hfr:item.part_chassis_2, E, hfr:item.part_cannon_3, F, hfr:item.part_treads
+AddTexture = panther2
+AddTexture = panther3
+AddTexture = panther4
+unmountposition = -0.0,  2.00,  -0.25
+CameraPosition = 0.0, 3.00, 0.0, true
+HUD = ww2tank_hud, gunner, none, none
+
+;medium heavier tracked tank ww2 less EARLY
+AddRecipe = "ABC", "DA ", "   ", A, mcheli:mediumchassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks
+
+EnableNightVision = false
+EnableEntityRadar = false
+
+MobilityYawOnGround = 2.5
+MobilityYaw = 1.9
+MobilityPitch = 1.5
+MobilityRoll = 1.0
+MinRotationPitch = -18
+MaxRotationPitch =  8
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+
+
+ThrottleUpDown = 1
+
+AddGunnerSeat = 0.00,  1.55,  0.00,  0.00,  1.55,  0.00, false, -8, 20, true
+;AddGunnerSeat = 0.00,  0.96,  0.80, false
+;AddSeat = 0.40,  0.81,  1.85
+AddGunnerSeat = -0.40, 0.65,  1.85, -0.6, 1.75, 3
+HideEntity = true
+CameraZoom = 5
+
+AddTurretWeapon = pantherap,   0.0, 2.2094, 0.0,   0, 0, true, 1,0,-360,360, -20,8
+AddTurretWeapon = pantherhe,   0.0, 2.2094, 0.0,   0, 0, true, 1,0,-360,360, -20,8
+AddTurretWeapon = pantherapcr, 0.0, 2.2094, 0.0,   0, 0, true, 1,0,-360,360, -20,8
+AddPartWeapon = pantherap / pantherhe / pantherapcr, false, true, false,  0.0, 2.2094, 0.0
+AddPartWeaponChild= false, true, 0.00,  2.2094, 1.1423
+AddPartWeaponChild= false, true, 0.00,  2.2094, 1.1423, 0.5
+
+AddTurretWeapon = pantherTigerH1MG34Coax, -0.4788, 2.2094, 0.0,   0, -1, true, 1,0,-360,360, -20,8
+
+AddWeapon = pantherTigerH1MG34hull, -0.5831, 1.3878, 2.9510,   0, 0, false, 2,0,-20,20, -20,20
+AddPartWeapon = pantherTigerH1MG34hull, false, true, true,  -0.5831, 1.3878, 2.9510
+
+ArmorMinDamage = 16
+
+;hull
+BoundingBox =  0.0, 0.98, -1.7,  2.1, 1.55, 0.45
+BoundingBox =  0.0, 0.98, 0.0,  2.1, 1.55, 0.30
+BoundingBox =  0.0, 0.98, 1.0,  2.1, 1.55, 0.30
+;frontplate
+BoundingBox =  0.0, 0.35, 2.35,  2.0, 0.2, 0.25
+BoundingBox =  0.0, 0.55, 2.45,  2.0, 0.2, 0.25
+BoundingBox =  0.0, 0.75, 2.55,  2.0, 0.1, 0.25
+;ulp
+BoundingBox =  0.0, 0.85, 2.55,  2.0, 0.1, 0.15
+BoundingBox =  0.0, 0.95, 2.35,  2.0, 0.2, 0.15
+BoundingBox =  0.0, 1.15, 2.25,  2.0, 0.2, 0.15
+BoundingBox =  0.0, 1.35, 2.15,  2.0, 0.2, 0.15
+BoundingBox =  0.0, 1.55, 1.95,  2.0, 0.2, 0.15
+;sideulp
+BoundingBox =  1.30, 1.40, 2.8,  0.5, 0.3, 0.15
+BoundingBox =  -1.30, 1.40, 2.8,  0.5, 0.3, 0.15
+
+
+
+;turret
+BoundingBox =  0.0, 2.1, 0.0,  1.9, 0.95, 0.16
+
+
+
+
+
+
+Float  = false
+SubmergedDamageHeight = 2
+
+Gravity = -1.0
+GravityInWater = -0.61
+
+MaxFuel         = 1800
+FuelConsumption = 0.5
+
+
+
+
+EnableBack = true
+MotionFactor = 0.92
+
+DamageFactor = 0.0
+
+
+CameraRotationSpeed = 12
+PivotTurnThrottle = 0.0
+WeightedCenterZ = 0.0
+SetWheelPos =  1.14, -0.24, 2.58, 1.98, 1.38, 0.78, 0.18, -0.42, -1.02, -1.62
+
+WeightType = Tank 
+
+
+AddTrackRoller = 1.3384,  0.6247, 3.2292
+AddTrackRoller = 1.3384,  0.2148, 2.58
+AddTrackRoller = 1.5778,  0.2148, 1.98
+AddTrackRoller = 1.5778,  0.2148, 1.38
+AddTrackRoller = 1.5778,  0.2148, 0.78
+AddTrackRoller = 1.5778,  0.2148, 0.18
+AddTrackRoller = 1.5778,  0.2148, -0.42
+AddTrackRoller = 1.5778,  0.2148, -1.02
+AddTrackRoller = 1.5778,  0.2148, -1.62
+AddTrackRoller = 1.5778,  0.3871, -2.3613
+
+
+AddTrackRoller = -1.3384,  0.6247, 3.2292
+AddTrackRoller = -1.3384,  0.2148, 2.58
+AddTrackRoller = -1.5778,  0.2148, 1.98
+AddTrackRoller = -1.5778,  0.2148, 1.38
+AddTrackRoller = -1.5778,  0.2148, 0.78
+AddTrackRoller = -1.5778,  0.2148, 0.18
+AddTrackRoller = -1.5778,  0.2148, -0.42
+AddTrackRoller = -1.5778,  0.2148, -1.02
+AddTrackRoller = -1.5778,  0.2148, -1.62
+AddTrackRoller = -1.5778,  0.3871, -2.3613
+
+
+AddCrawlerTrack = true, 0.17, 1.3384, 1.0683/3.2292, 0.9342/3.5387, 0.6247/3.6628, 0.3152/3.6287, -0.23/2.6798, -0.23/-1.7099, -0.0264/-2.3712, 0.0877/-2.6707, 0.3871/-2.7847, 0.6966/-2.6707, 0.8206/-2.3712, 0.7566/-1.7099, 0.8242/1.9800
+
+AddCrawlerTrack = true, 0.17,-1.3384, 1.0683/3.2292, 0.9342/3.5387, 0.6247/3.6628, 0.3152/3.6287, -0.23/2.6798, -0.23/-1.7099, -0.0264/-2.3712, 0.0877/-2.6707, 0.3871/-2.7847, 0.6966/-2.6707, 0.8206/-2.3712, 0.7566/-1.7099, 0.8242/1.9800
+
+
+
+

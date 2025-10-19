@@ -1,0 +1,99 @@
+﻿DisplayName = M151A2 FAV
+AddDisplayName = ja_JP, M151A2 FAV
+AddDisplayName = en_US, M151A2 Kennedy Jeep FAV
+ItemID = 28766
+MaxHp = 200
+ThrottleUpDown = 0.81
+Speed = 0.63
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = willyjeep
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.0
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+
+OnGroundPitchFactor = 15.0
+OnGroundRollFactor  = 5.2
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = LUV
+
+; Tank or Car or Unknown
+WeightType = Car
+
+AddTexture = m151a2_2
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  0.4,  -0.24,  1.65, -1.00
+
+HUD = bnr32_hud, gunner, gunner
+
+AddSeat =  0.45, 0.54,  0.18
+AddSeat = -0.45, 0.74,  0.18
+AddSeat =  0.00, 1.67, -1.60
+
+AddWeapon =  none, 0.00,  0.42,  3.05, 0.0, 90
+
+AddWeapon =  simple_horn, 0.00,  0.42,  3.05, 0.0, 90
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     =  0.58,  0.17,  1.64, 30
+AddPartWheel     = -0.58,  0.17,  1.64, 30
+AddPartWheel     =  0.00,  0.17, -1.04
+
+AddPartWeapon    = m2_1,   false, true, true,  0.01, 2.01, -0.73
+AddPartWeapon    = m2_1,   false, true, false, 0.01, 1.68, -0.73
+AddTurretWeapon =  m2_1, 0.02, 2.05, -0.73,   0.0, 0.0, false, 3, 0, -60, 60, -20,20
+AddPartWeapon    = favm60_r,   false, true, true, -0.51, 1.29, 0.93
+AddPartWeapon    = favm60_r,   false, true, false,-0.51, 1.11, 0.93
+AddTurretWeapon =  favm60_r, -0.51, 1.30, 0.93,   0.0, 0.0, false, 2, 0, 0, 90, -20 ,5
+
+InventorySize = 9
+
+;basic civ car offroad armed
+AddRecipe = "ABC", "DEE", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts, E, mcheli:cannon1
+
+AddRecipe = "ABB", "C  ", "   ", A, mcheli:m151, B, mcheli:cannon1, C, mcheli:wrench
+
+;ヘッドライト
+AddFixedSearchLight =  0.3724, 1.0090, 2.3010,   0x50FFFFFF,   0x00FFFFC0,    0.3, 0.6,  -5,  0
+AddFixedSearchLight = -0.3724, 1.0090, 2.3010,   0x50FFFFFF,   0x00FFFFC0,    0.3, 0.6,   5,  0
+
+AddFixedSearchLight =  0.7478, 0.6109,-1.9160,   0xFFFF0000,   0x10FF0000,    0.05, 0.20,  0.0,  0
+AddFixedSearchLight = -0.7478, 0.6109,-1.9160,   0xFFFF0000,   0x10FF0000,    0.05, 0.20, -0.0,  0
+
+AddPartSteeringWheel =  0.452,  1.07,  0.750,  0.0, 1.0, -1.73,   130
+
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+
+BoundingBox = 0.0, 0.78, 1.65, 1.00, 0.7
+BoundingBox = 0.0, 0.40, 1.50, 1.85, 0.2
+BoundingBox = 0.0, 0.40, 0.0, 1.85, 0.2
+BoundingBox = 0.0, 0.40, -0.95, 1.85, 0.2
+
+WeightedCenterZ = 0.5
+
+
+Regeneration = false
+ArmorDamageFactor = 1
+
+unmountposition = 0.45, 1.30,  0.38
+
+ArmorMinDamage = 2

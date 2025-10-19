@@ -1,0 +1,11 @@
+DisplayName = Spot Monster/Mob
+Type = TargetingPod
+Sight = None
+Delay = 10
+Sound = lockon
+
+Length = 500
+Radius = 20
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = monsters/others
+MarkTime = 120

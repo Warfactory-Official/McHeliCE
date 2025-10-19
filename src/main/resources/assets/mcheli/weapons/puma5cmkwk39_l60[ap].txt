@@ -1,0 +1,49 @@
+DisplayName = 50mm KwK.39/1 Cannon [PzGr 39 - APC]
+Type = MachineGun2
+Power = 106
+Acceleration = 7
+ModelBullet = bullet76mm
+Explosion = 1
+ExplosionBlock = 1
+Sight = MoveSight
+
+Round = 1
+Sound = shermanmain
+SoundVolume = 15
+Accuracy = 1.50
+
+
+ReloadTime = 80
+Delay = 80
+HeatCount = 500
+MaxHeatCount = 2500
+
+Gravity = -0.001
+
+;GravityInWater = -1.0
+Particle = flame
+RecoilBufCount = 40, 5
+
+Recoil = 2.5
+
+Group = MainGun
+
+DamageFactor = tank, 3.5
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+Piercing = 2
+ModelBullet = bullet
+
+
+AddMuzzleFlash      =           2.8,   1.10,        3,  220,254,159,74
+AddMuzzleFlash      =           2.4,   0.85,        2,  220,254,219,104
+
+AddMuzzleFlashSmoke   =              2.2,     7,   5.0,  2.0,       65,  220,160,140,120
+AddMuzzleFlashSmoke   =             2.6,     3,   6.0,  4.0,       55,  200,190,170,150
+
+MaxAmmo = 18
+SuppliedNum = 9
+Item =  2, iron_ingot
+Item =  3, gunpowder

@@ -1,0 +1,46 @@
+DisplayName = 36cm 41st Year Type Naval Gun [AA]
+DisableSmoke = True
+Type = Rocket
+Power = 23
+ModelBullet = rocket
+Acceleration = 2.7
+Explosion = 2
+Flaming = false
+Sight = MoveSight
+Delay = 80
+ReloadTime = 220
+Round = 2
+Bomblet = 20
+BombletDiff = 5.0
+MaxAmmo = 8
+SuppliedNum = 2
+
+HeatCount = 500
+MaxHeatCount = 1450
+
+;;delete
+
+Gravity = -0.005
+
+Delay = 80
+ReloadTime = 220
+Group = MainGun
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 36cm Gun
+Sound = 150mmAA
+SoundVolume = 15
+
+
+
+
+Item =  3, iron_ingot
+Item =  3, gunpowder
+Item =  1, redstone

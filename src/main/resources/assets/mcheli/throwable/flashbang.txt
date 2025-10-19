@@ -1,0 +1,43 @@
+DisplayName = Flash Bang Grenade
+;[BROKEN]
+AddDisplayName = ja_JP, Flash Bang Grenade 
+;[DEBUG]
+Power = 0
+StackSize = 2
+;Explosion = 1
+;ok maybe just one it does technically explode
+;nvm we cant do that
+;ExplosionBlock = 0
+;let's just not actually
+TimeFuse = 1
+Particle = largeexplode
+;BombletSTime = 0
+;Bound = 0.3
+;Bomblet = 25
+;BombletDiff = 5.0
+;ModelBomblet = none
+;idk if bomblets are allowed here but we're going to find out
+
+SmokeMaxAge = 0.1
+AliveTime = 1
+SmokeSize = 145
+SmokeNum = 3
+;9
+SmokeColor = 225, 225, 225
+SmokeVelocityVertical   = 0
+SmokeVelocityHorizontal = 0.1
+
+
+DamageFactor = tank, 0.0
+DamageFactor = plane, 0.0
+DamageFactor = vehicle, 0.0
+DamageFactor = heli, 0.0
+DamageFactor = player, 0.0
+DamageFactor = other, 0.0
+DamageFactor = living, 0.0
+
+;AddRecipe = "DY",  Y, iron_ingot, D, gunpowder
+
+Gravity = -0.08
+GravityInWater = -1.00
+DispenseAcceleration = 0.95

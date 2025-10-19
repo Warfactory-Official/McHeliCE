@@ -1,0 +1,29 @@
+DisplayName = FAB-1500
+Type = Bomb
+Power = 6722
+Acceleration = 0.5
+Explosion = 21
+ExplosionBlock = 15
+ExplosionInWater = 10
+Flaming = true
+Sight = None
+Delay = 8
+Sound = bomb_snd
+ModelBullet = fab500sh
+Gravity = -0.01
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+ReloadTime = 200
+;Round = 4
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  5, gunpowder
+Item =  5, tnt

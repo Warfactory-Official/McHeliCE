@@ -1,0 +1,29 @@
+DisplayName = Kh-55M2 Cruise Missile REMOVE
+Type = Rocket
+Power = 2000
+Acceleration = 4.0
+Explosion = 17
+ExplosionInWater = 9
+ExplosionBlock = 15
+Sight = MoveSight
+Delay = 2
+ModeNum = 2
+ModelBullet = x55at
+Sound = hydraseventy
+SoundVolume = 10
+DisableSmoke = true
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+DamageFactor = player, 20.0
+gravity = -0.001
+displaymortardistance= true
+ExplosionAltitude = 4
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  5, iron_ingot
+Item =  5, gunpowder
+Item =  5, redstone

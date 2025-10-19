@@ -1,0 +1,36 @@
+DisplayName = RGM-84-1D-EX SSM [RGM-84 - HE]
+Type = ATMissile
+Power = 1080
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Acceleration = 0.71
+Explosion = 14
+ExplosionInWater = 16
+Flaming = true
+;Sight = MoveSight
+Sight = none
+Delay = 20
+ModelBullet = harpoonmissle
+Sound = aimnine
+SoundPitch = 0.6
+
+Round = 4
+
+ReloadTime = 1000
+
+SoundVolume = 15
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

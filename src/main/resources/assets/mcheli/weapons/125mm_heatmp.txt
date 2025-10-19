@@ -1,0 +1,49 @@
+DisplayName = 125mm HEAT_MP
+Type = MachineGun2
+Power = 550
+ModelBullet = bullet105mm
+Acceleration = 8.0
+Explosion = 2
+ExplosionBlock = 2
+Flaming = false
+Sight = MoveSight
+Delay = 170
+ModeNum = 1
+;SoundPitch = 0.5
+SoundVolume = 20
+Sound = tseventytwomain
+group = maingun
+
+DisplayMortarDistance = true
+
+
+Gravity = -0.001
+
+AddMuzzleFlash      =  10.2,      1.80,        7,  200,254,129,44
+AddMuzzleFlash      =  10.1,      1.75,        6,  200,254,219,104
+AddMuzzleFlash      =  10.0,      1.70,        5,  200,254,219,184
+AddMuzzleFlashSmoke =  12.2, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke = 15.2, 10,  11.0,  6.0, 35,  200,190,170,150
+
+Round = 11
+
+MaxAmmo = 11
+SuppliedNum = 11
+Item =  3, iron_ingot
+Item =  2, gunpowder
+
+Delay = 80
+ReloadTime = 80
+Group = MainGun
+Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+ModelBullet = bullet105mm
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+SoundVolume = 15
+AddDisplayName = en_US, 2A46M-1 Smoothbore Gun[HEAT-MP]

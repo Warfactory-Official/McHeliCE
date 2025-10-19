@@ -1,0 +1,26 @@
+DisplayName = RGD-5 Grenade
+Type = Bomb
+Power = 100
+Acceleration = 0
+Explosion = 1
+ExplosionBlock = 1
+Flaming = false
+Sight = None
+Delay = 1
+ModelBullet = rgd5mavic
+Sound = bomb_snd
+
+
+DelayFuse = 15
+
+DamageFactor = tank, 3.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  1, gunpowder

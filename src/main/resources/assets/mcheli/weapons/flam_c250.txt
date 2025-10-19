@@ -1,0 +1,27 @@
+DisplayName = 250kg FLAM-C250B Incendiary
+Type = Bomb
+Acceleration = 1.3
+Flaming = true
+Sight = None
+Delay = 7
+Round = 1
+ReloadTime = 200
+FAE = True
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 9
+;Explosive mass	125 kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  2, gunpowder

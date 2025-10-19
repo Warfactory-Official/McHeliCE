@@ -1,0 +1,92 @@
+﻿DisplayName = SuperMarine Spitfire Mk.Vb
+AddDisplayName = en_US, Supermarine Spitfire Mk.Vb
+AddDisplayName = ru_RU, SuperMarine Spitfire Mk.Vb
+ItemID = 30061
+MaxHp = 100
+Speed = 0.8
+Float = flase
+Sound = prop_fighter
+onGroundPitch = 13.0
+ThrottleUpDown = 0.3
+MaxFuel         = 1000
+FuelConsumption = 1.0
+
+RotorSpeed = 2000.0
+
+DamageFactor = 0.8
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+enableback = true
+unmountposition = 0.0,  1.90, -2.27
+
+AddTexture = spitfire-mkvb_skalski
+
+; W = WWII.  F = Fighter(戦闘機)
+Category = W.F
+
+HUD = plane_wwii
+
+;AddSeat =  X, Y, Z
+AddSeat = 0.0,  2.00, -2.27
+
+AddPartCanopy =  0.48, 2.09, -2.04, 0,0,-1,  100
+AddPartSlideCanopy = 0, 0.00, -1.0
+
+;Right
+AddPartLG =   0.81, 1.23, -0.31,  0,0, 1, 79.0,  1,0,0, 20
+AddPartLG =  -0.81, 1.23, -0.31,  0,0,-1, 79.0,  1,0,0, 20
+
+AddPartRotor =    0.00,  2.34, 2.51,   1,0, 0
+AddBlade = 1, 0,  0.00,  2.34, 2.51,   0,0,-1
+
+AddWeapon = sfirhs404,  2.91, 1.57, 1.48,  1.5, -3.5
+AddWeapon = sfirhs404, -2.91, 1.57, 1.48, -1.5, -3.5
+AddWeapon = sfirblowning1919, 3.87, 1.64, 0.72, 2.0, -4.0
+AddWeapon = sfirblowning1919,-3.87, 1.64, 0.72,-2.0, -4.0
+AddWeapon = sfirblowning1919, 6.06, 1.81, 0.42, 3.3, -4.0
+AddWeapon = sfirblowning1919,-6.06, 1.81, 0.42,-3.3, -4.0
+
+BoundingBox =  0.00, 2.20, 2.30,  1.0, 1.0, 1.5
+BoundingBox =  0.00, 2.10, 1.50,  1.2, 1.4
+BoundingBox =  0.00, 2.10, 1.00,  1.2, 1.6
+BoundingBox =  0.00, 2.10, -0.00,  1.2, 1.6
+BoundingBox =  0.00, 2.10, -1.00,  1.2, 1.6
+
+
+BoundingBox =  0.00, 2.10, -2.20,  1.0, 1.6
+
+BoundingBox =  0.00, 2.10, -2.00,  1.0, 1.6
+
+BoundingBox =  0.00, 2.10, -3.20,  1.0, 1.6
+BoundingBox =  0.00, 2.20, -4.20,  1.0, 1.6
+BoundingBox =  0.00, 2.30, -5.20,  1.0, 1.5
+BoundingBox =  0.00, 2.40, -6.20,  1.0, 1.4
+BoundingBox =  0.00, 2.40, -7.20,  1.0, 1.3
+BoundingBox =  0.00, 2.50, -8.00,  0.8, 1.1
+BoundingBox =  0.00, 3.00, -8.50,  0.5, 1.6
+BoundingBox =  0.00, 3.30, -8.85,  0.5, 1.8
+BoundingBox =  0.00, 3.00, -9.0,  0.5, 1.6
+
+
+
+BoundingBox = -1.76, 1.60,  -1.10,  2.5, 0.4
+BoundingBox =  1.76, 1.60,  -1.10,  2.5, 0.4
+
+BoundingBox = -3.56, 1.70,  -1.00,  2.5, 0.4
+BoundingBox =  3.56, 1.70,  -1.00,  2.5, 0.4
+
+
+BoundingBox = -5.40, 1.75,  -1.00,  2.25, 0.4
+BoundingBox =  5.4, 1.75,  -1.00,  2.25, 0.4
+
+BoundingBox = 0.7, 2.8, -8.6, 1.0, 0.3
+BoundingBox = -0.7, 2.8, -8.6, 1.0, 0.3
+
+BoundingBox = 1.3, 2.8, -8.6, 1.0, 0.3
+BoundingBox = -1.3, 2.8, -8.6, 1.0, 0.3
+
+;basic ww2 prop plane, AOW3 style
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:airframe, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon2
+DamageFactor = 0.8

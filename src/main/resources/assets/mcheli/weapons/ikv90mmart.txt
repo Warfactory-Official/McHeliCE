@@ -1,0 +1,50 @@
+DisplayName = 90mm KV90S73 Cannon [slsgr m/72 - HE]
+Type = MachineGun2
+Power = 24
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 2
+Acceleration = 6.0
+SoundVolume = 15.0
+Sound = big
+Accuracy = 1.5
+ModelBullet = bullet105mm
+Flaming = false
+Sight = None
+Delay = 150
+Gravity = -0.005
+ReloadTime = 150
+Recoil = 1.5
+
+Group = maingun
+
+Round = 16
+
+HeatCount = 900
+MaxHeatCount = 2050
+
+Piercing = 0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+
+DisplayMortarDistance = true
+;FixCameraPitch = true
+;CameraRotationSpeedPitch = 0.2
+
+AddMuzzleFlash      =  8.2,     2.10,        9,  220,254,159,74
+AddMuzzleFlash      =  8.1,     2.05,        8,  220,254,219,104
+AddMuzzleFlash      =  8.0,     2.00,        7,  220,254,219,184
+AddMuzzleFlashSmoke =  8.2, 30, 12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 10.2, 20, 13.0,  7.0, 55,  200,190,170,150
+RecoilBufCount = 40, 5
+
+MaxAmmo = 30
+SuppliedNum = 6
+Item =  1, iron_ingot
+Item =  2, gunpowder

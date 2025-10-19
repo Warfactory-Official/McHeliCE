@@ -1,0 +1,111 @@
+DisplayName = ASLAV-C Type II
+MaxHp = 200
+Speed = 0.62
+Sound = moneonethreeapc
+InventorySize = 36
+StepHeight = 1.8
+DefaultFreelook = false
+EnableBack = true
+HUD = mbt_hudtwo, mbt_gnrtwo
+EnableEntityRadar = false
+MaxFuel         = 1200
+FuelConsumption = 1.0
+;CameraZoom = 1
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+ThrottleUpDown = 2.0
+MobilityYawOnGround = 3.5
+
+Category = RCV
+
+;light 8x8 with mg
+AddRecipe = "ABC", "DEG", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics, E, mcheli:lap, G, mcheli:cannon1
+
+FlareType = 10
+
+CameraZoom = 0
+
+;MinRotationPitch = -90
+;MaxRotationPitch = 90
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+
+PivotTurnThrottle = 0.1
+
+CameraPosition = -0.4753,  2.8, 2.0133
+
+AddGunnerSeat = -0.0753, 0.90, 2.0133, -0.4753,  2.8, 2.0133, false, -90, 90, false
+
+unmountposition = -0.0753, 2.20, 2.0133
+
+;
+
+AddGunnerSeat =  -0.6530,  2.6144, 0.9494,  -0.6530,  3.6, 0.9494, false, -90, 90, false
+
+;AddGunnerSeat =  -0.6530,  2.4144, 0.9494
+HideEntity = false
+EnableBack = true
+EnableNightVision = true
+CameraRotationSpeed = 30
+
+AddWeapon = none, -0.4753,  2.8, 2.0133, 0, 0, false, 1, 0, -360, 360, -90,90
+AddWeapon = targeting_pod_block, -0.4753,  2.8, 2.0133, 0, 0, false, 1, 0, -360, 360, -90,90
+AddWeapon = targeting_pod_ground, -0.4753,  2.8, 2.0133, 0, 0, false, 1, 0, -360, 360, -90,90
+
+
+AddWeapon = slavmg12_7mm, -0.653,  3.3331, 0.9494, 0, 0, false, 2, 0, -360, 360, -14,12
+AddPartWeapon = slavmg12_7mm, false, true, false, -0.653,  2.3135, 0.9494
+AddPartWeaponChild = false, true, -0.8144,  3.32, 1.91
+
+WeightType = Tank
+
+PartWheelRot = 25
+SetWheelPos =  1.2,  -0.24,  2.38,  0.83, -1.06, -2.60
+AddPartWheel = 1.71, 0.3747, 2.385, 20
+AddPartWheel = -1.71, 0.3747, 2.385, 20
+AddPartWheel = 1.71, 0.3747, 0.831, 10
+AddPartWheel = -1.71, 0.3747, 0.831, 10
+AddPartWheel = 1.71, 0.3747, -1.0619
+AddPartWheel = -1.71, 0.3747, -1.0619
+AddPartWheel = 1.71, 0.3747, -2.6038
+AddPartWheel = -1.71, 0.3747, -2.6038
+
+AddPartCanopy =  0, 2.95, -1.57, -1, 0, 0, 90
+AddPartCanopy = 0, 2.99, -2.97, 1, 0, 0, 90
+
+BoundingBox =  0.0, 1.2, 0.5,   3.0, 1.8,  0.8
+BoundingBox =  0.0, 1.2, 0.1,   3.0, 1.8,  0.8
+BoundingBox =  0.0, 1.2, -1.5,   3.0, 1.8,  0.8
+
+BoundingBox =  0.0, 1.9, -0.8,   3.0, 1.8,  0.8
+
+BoundingBox =  0.0, 1.9, -1.5,   3.0, 1.8,  0.8
+BoundingBox =  0.0, 1.9, -2.5,   3.0, 1.8,  0.8
+
+BoundingBox =  0.0, 2.4, 0.1,   1.85, 0.6,  0.8
+
+
+BoundingBox =  0.0, 0.9, 2.35,   2.8, 0.2,  0.5
+BoundingBox =  0.0, 1.1, 2.6,   2.8, 0.2,  0.5
+
+BoundingBox =  0.0, 1.2, 2.70,   2.8, 0.1,  0.35
+BoundingBox =  0.0, 1.3, 2.70,   2.8, 0.1,  0.35
+BoundingBox =  0.0, 1.4, 2.85,   2.8, 0.1,  0.35
+BoundingBox =  0.0, 1.5, 2.85,   2.8, 0.1,  0.35
+BoundingBox =  0.0, 1.6, 2.85,   2.8, 0.1,  0.35
+BoundingBox =  0.0, 1.7, 2.55,   2.8, 0.1,  0.35
+BoundingBox =  0.0, 1.8, 2.30,   2.8, 0.1,  0.35
+BoundingBox =  0.0, 1.9, 2.20,   2.8, 0.1,  0.35
+BoundingBox =  0.0, 2.0, 2.00,   2.8, 0.1,  0.35
+
+BoundingBox =  0.0, 2.1, 1.85,   2.8, 0.1,  0.35
+
+BoundingBox =  0.0, 2.2, 1.65,   2.8, 0.1,  0.35
+
+BoundingBox =  0.0, 2.3, 1.40,   2.8, 0.1,  0.35
+
+
+

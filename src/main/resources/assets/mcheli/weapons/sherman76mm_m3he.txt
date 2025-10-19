@@ -1,0 +1,51 @@
+DisplayName = 76mm M1 Cannon [M48 - HE]
+Type = MachineGun1
+Power = 16
+Acceleration = 6.5
+Explosion = 2
+ExplosionInWater = 1
+ExplosionBlock = 2
+Sight = None
+ReloadTime = 100
+Round = 1
+SoundVolume = 10
+Accuracy = 1.2
+
+Gravity = -0.01
+Particle = largeexplode
+Sound = meighteenhellcat
+BulletColor        = 255, 255, 100, 100
+HeatCount = 400
+MaxHeatCount = 1000
+
+Delay = 100
+ReloadTime = 100
+Group = MainGun
+
+BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+Gravity = -0.005
+
+SoundVolume = 15
+
+
+; AddMuzzleFlash = 発射元からの距離, サイズ, 表示時間,  A,  R,  G,  B
+AddMuzzleFlash      =           8.2,   2.10,        7,  220,254,159,74
+AddMuzzleFlash      =           8.1,   2.05,        6,  220,254,219,104
+AddMuzzleFlash      =           8.0,   2.00,        5,  220,254,219,184
+; AddMuzzleFlashSmoke = 発射元からの距離, 表示数, サイズ, 範囲, 表示時間,  A,  R,  G,  B
+AddMuzzleFlashSmoke   =              8.2,     30,   12.0,  4.0,       65,  220,160,140,120
+AddMuzzleFlashSmoke   =             10.2,     20,   13.0,  7.0,       55,  200,190,170,150
+
+MaxAmmo = 36
+SuppliedNum = 9
+Item =  2, iron_ingot
+Item =  3, gunpowder

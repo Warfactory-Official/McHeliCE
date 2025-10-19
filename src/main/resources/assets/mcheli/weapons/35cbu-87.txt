@@ -1,0 +1,31 @@
+DisplayName = CBU-87/B Cluster Bomb
+Type = Bomb
+Power = 80
+Acceleration = 0.1
+Explosion = 2
+ExplosionInWater = 1
+Flaming = true
+Sight = None
+Delay = 5
+Bomblet = 202
+BombletSTime = 20
+BombletDiff = 1.1
+Sound = bomb_snd
+ReloadTime = 200
+Round = 2
+
+Acceleration = 0.5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+ModelBullet = cbu87
+ModelBomblet = bullet
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item = 1, redstone

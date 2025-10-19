@@ -1,0 +1,31 @@
+DisplayName = FAB-250
+Type = Bomb
+Power = 500
+Acceleration = 0.8
+gravity = -0.01
+Flaming = false
+Sight =  MoveSight
+Delay = 5
+ReloadTime = 200
+Sound = bomb_snd
+ModelBullet = fab250
+DisplayMortarDistance = true
+
+Acceleration = 0.5
+Explosion = 11
+;Explosive mass	269.9/around 2 kg kg
+Power = 540
+ExplosionBlock = 5
+ExplosionInWater = 6
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 32
+SuppliedNum = 8
+
+Item = 4, iron_ingot
+Item = 4, gunpowder

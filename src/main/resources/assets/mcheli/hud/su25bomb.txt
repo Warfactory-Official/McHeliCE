@@ -1,0 +1,62 @@
+color=56
+
+If=(altitude<=25)&&(pitch>20)&&(-7.5-(roll/1)<=18&&-7.5-(roll/1)>=-27)&&((((altitude /1.6)+100)-((pitch*3.7)+(throttle*56)))>=-90&&(((altitude /1.6)+100)-((pitch*3.7)+(throttle*56)))<=15)
+DrawTexture = kasoru, -7.5-(roll/2), (( altitude /1.6)+100)-((pitch*3.7)+(throttle*56)), 15,15 , 0,0, 256,256
+;DrawTexture = boming, -6-color, -49+((altitude/1.5)+100)-((pitch*3.7)+(throttle*56)), 11,120, 0,0,184,2048,(motion_x*5)
+EndIf
+
+
+If=(altitude<=65)&&(pitch>20)&&altitude>25&&(-7.5-(roll/1)<=18&&-7.5-(roll/1)>=-27)&&((((altitude /1.6)+100)-((pitch*3.5)+(throttle*56)))>=-90&&(((altitude /1.6)+100)-((pitch*3.5)+(throttle*56)))<=15)
+DrawTexture = kasoru, -7.5-(roll/1), (( altitude /1.6)+100)-((pitch*3.5)+(throttle*56)), 15,15 , 0,0, 256,256
+;DrawTexture = boming, -6-color, -49+((altitude/1.6)+100)-((pitch*3.5)+(throttle*56)), 11,120, 0,0,184,2048-color,(motion_x*5)
+EndIf
+
+
+If=(altitude<=80)&&(pitch>20)&&altitude>65&&(-7.5-(roll/1)<=18&&-7.5-(roll/1)>=-27)&&((((altitude /1.6)+100)-((pitch*3.12)+(throttle*56)))>=-90&&(((altitude /1.6)+100)-((pitch*3.12)+(throttle*56)))<=15)
+DrawTexture = kasoru, -7.5-(roll/1), (( altitude /1.6)+100)-((pitch*3.12)+(throttle*56)), 15,15 , 0,0, 256,256
+;DrawTexture = boming, -6-color, -49+((altitude/1.6)+100)-((pitch*3.12)+(throttle*56)), 11,120, 0,0,184,2048-color,(motion_x*5)
+EndIf
+
+
+If= altitude>80&&pitch>20&&altitude<90&&(-7.5-(roll/1)<=18&&-7.5-(roll/1)>=-27)&&((((altitude /1.6)+100)-((pitch*3.12)+(throttle*56+3)))>=-90&&(((altitude /1.6)+100)-((pitch*3.12)+(throttle*56+3)))<=15)
+DrawTexture = kasoru, -7.5-(roll/1), ((altitude/1.6)+100)-((pitch*3.12)+(throttle*56+3)), 15,15 , 0,0, 256,256
+;DrawTexture = boming, -6-color, -49+((altitude/1.6)+100)-((pitch*3.12)+(throttle*56+3)), 11,120, 0,0,184,2048-color,(motion_x*5)
+EndIf
+
+
+If= altitude>=90&&pitch>20&&altitude<140&&(-7.5-(roll/1)<=18&&-7.5-(roll/1)>=-27)&&((((altitude /1.6)+100)-((pitch*3.3)+(throttle*56+3)))>=-90&&(((altitude /1.6)+100)-((pitch*3.3)+(throttle*56+3)))<=15)
+DrawTexture = kasoru, -7.5-(roll/1), ((altitude/1.6)+100)-((pitch*3.3)+(throttle*56+3)), 15,15 , 0,0, 256,256
+;DrawTexture = boming, -6-color, -49+((altitude/1.6)+100)-((pitch*3.3)+(throttle*56+3)), 11,120, 0,0,184,2048-color,(motion_x*5)
+EndIf
+
+
+If= altitude>=140&&pitch>20&&altitude<200&&(-7.5-(roll/1)<=18&&-7.5-(roll/1)>=-27)&&((((altitude /2)+100)-((pitch*3.4)+(throttle*56+6)))>=-90&&(((altitude /2)+100)-((pitch*3.4)+(throttle*56+6)))<=15)
+DrawTexture = kasoru, -7.5, ((altitude/2)+100)-((pitch*3.4)+(throttle*56+6)), 15,15 , 0,0, 256,256
+;DrawTexture = boming, -6-color, -49+((altitude/2)+100)-((pitch*3.4)+(throttle*56+6)), 11,120, 0,0,184,2048-color,(motion_x*5)
+EndIf
+
+
+If=altitude>=200&& altitude>20&&altitude<260&&(-7.5-(roll/1)<=18&&-7.5-(roll/1)>=-27)&&((((altitude /2)+100)-((pitch*2.7)+(throttle*56+9)))>=-90&&(((altitude /2)+100)-((pitch*2.7)+(throttle*56+9)))<=15)
+DrawTexture = kasoru, -7.5, ((altitude/2)+100)-((pitch*2.7)+(throttle*56+9)), 15,15 , 0,0, 256,256
+;DrawTexture = boming, -6-color, -49+((altitude/2)+100)-((pitch*3.5)+(throttle*56+9)), 11,120, 0,0,184,2048-color,(motion_x*5)
+EndIf
+
+
+
+If=altitude>260&& altitude>20&&altitude<300&&(-7.5-(roll/1)<=18&&-7.5-(roll/1)>=-27)&&((((altitude /2.5)+100)-((pitch*2)+(throttle*81)))>=-90&&(((altitude /2.5)+100)-((pitch*2)+(throttle*81)))<=15)
+DrawTexture = kasoru, -7.5, ((altitude/2.5)+100)-((pitch*2)+(throttle*81)), 15,15 , 0,0, 256,256
+;DrawTexture = boming, -6, -49+((altitude/2.5)+100)-((pitch*2.6)+(throttle*81)), 11,120, 0,0,184,2048,(motion_x*5)
+EndIf
+
+;高度130mでスロットルMAXの場合 Y:150
+;高度120mでスロットルMAXの場合 Y:140
+
+
+
+;DrawTexture = kasoru, 18, 0, 15,15 , 0,0, 256,256
+
+;DrawTexture = kasoru, -27, 0, 15,15 , 0,0, 256,256
+
+;DrawTexture = kasoru, 0, -90, 15,15 , 0,0, 256,256
+
+;DrawTexture = kasoru, 0, 15, 15,15 , 0,0, 256,256

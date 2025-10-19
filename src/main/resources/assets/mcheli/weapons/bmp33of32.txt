@@ -1,0 +1,51 @@
+DisplayName = 100mm 2A70 Rifled Cannon [3OF32 - HE-frag]
+Type = MachineGun2
+Power = 36
+ModelBullet = bullet105mm
+
+Explosion = 3
+ExplosionInWater = 1
+ExplosionBlock = 3
+Flaming = false
+Sight = MoveSight
+Delay = 110
+
+ReloadTime = 80
+
+Accuracy = 0.0
+
+;ModeNum = 1
+;SoundPitch = 0.5
+
+Sound = bmpthreecannon
+group = maingun
+
+Gravity = -0.005
+
+AddMuzzleFlash      =  10.2,      1.80,        7,  200,254,129,44
+AddMuzzleFlash      =  10.1,      1.75,        6,  200,254,219,104
+AddMuzzleFlash      =  10.0,      1.70,        5,  200,254,219,184
+AddMuzzleFlashSmoke =  12.2, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke = 15.2, 10,  11.0,  6.0, 35,  200,190,170,150
+
+Recoil = 2.5
+
+Round = 22
+
+DisplayMortarDistance = true
+
+MaxAmmo = 16
+SuppliedNum = 4
+Item =  3, iron_ingot
+Item =  2, gunpowder
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+

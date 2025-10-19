@@ -1,0 +1,125 @@
+﻿DisplayName = WZ-10
+AddDisplayName = en_US, WZ-10
+AddDisplayName = ja_JP, WZ  10 
+ItemID = 8994
+MaxHp = 100
+EnableGunnerMode = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 1.86
+FlareType = 3
+
+ThirdPersonDist = 20
+
+
+sound = littlebird
+soundpitch = 0.8
+soundvolume = 15
+
+
+AddSeat       = 0.00,  1.9816,  2.5010
+
+
+AddGunnerSeat = 0.00,  3.0346, -0.1576, 0.0, 1.4311, 5.8707, true
+
+
+
+
+
+
+CameraPosition = 0.0, 1.4311, 5.8707
+onGroundPitch = 1.5
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = heli, heli_gnr
+
+MaxFuel         = 1000
+FuelConsumption = 0.5
+
+AddPartCamera = 0.0, 1.4311, 5.8707, true, false
+AddPartCamera = 0.0, 1.4311, 5.8707, true, true
+
+
+;AddPartCanopy =  0.4165, 3.5305, 0.3958, 0.1, 0.055, -1.115,  100
+;AddPartCanopy =  0.4167, 2.7653, 1.6891, 0.1, 0.06, -0.9,  100
+
+
+
+AddPartWeapon = type23,    true,  true, false,   0.00, 0.5809, 4.8309
+AddPartWeaponChild  =           false, true,   0.00, 0.5809, 4.8309
+
+AddPartWeapon = 70, false, false, true,   0.00,  1.2932, -1.8411
+
+
+AddPartWeaponMissile = HJ10,   false,  false,  false,    3.5984,  1.6648, -0.9029
+AddPartWeaponMissile = HJ10,   false,  false,  false,    -3.5984,  1.6648, -0.9029
+AddPartWeaponMissile = HJ10,   false,  false,  false,    3.0435,  1.6648, -0.9029
+AddPartWeaponMissile = HJ10,   false,  false,  false,    -3.0435,  1.6648, -0.9029
+AddPartWeaponMissile = HJ10TV, false,  false,  false,    3.5984,  1.0231, -0.9029
+AddPartWeaponMissile = HJ10TV, false,  false,  false,    -3.5984,  1.0231, -0.9029
+AddPartWeaponMissile = HJ10TV, false,  false,  false,    2.9974,  1.0231, -0.9029
+AddPartWeaponMissile = HJ10TV, false,  false,  false,    -2.9974,  1.0231, -0.9029
+
+AddPartWeaponMissile = ty90, false,  false,  false,    -2.4589,  1.3057, -3.5398
+AddPartWeaponMissile = ty90, false,  false,  false,    2.4589,  1.3057, -3.5398
+
+
+AddRotor= 1, 0,   0.00,  5.8782,  -1.4331,     0.0, 1.0, 0.0
+AddRotor= 1, 0,   0.00,  5.0426, -13.5825,     1.0, 0.0, 0.0
+ 
+
+
+AddWeapon = targeting_pod1,  0.00, 0.38, 0.90,  0,-1, true,2, 0,-360,360, -25,80
+
+
+AddWeapon = type23,  0.00, 0.5809, 4.8309,  0,-1, true,2, 0,-360,360, -25,80
+
+
+AddWeapon = 70,        2.1397,  1.2932, -1.8411,  1, 0,  true,1,  0,0,0, 0, 35
+AddWeapon = 70,       -2.1397,  1.2932, -1.8411,  1, 0,  true,1,  0,0,0, 0, 35
+AddWeapon = 70_mpsm,   2.1397,  1.2932, -1.8411,  1, 0,  true,1,  0,0,0, 0, 35
+AddWeapon = 70_mpsm,  -2.1397,  1.2932, -1.8411,  1, 0,  true,1,  0,0,0, 0, 35
+
+AddWeapon = HJ10,  3.7984,  1.6648, -1.5,  1, 0,  true,2
+AddWeapon = HJ10, -3.7984,  1.6648, -1.5, -1, 0,  true,2
+AddWeapon = HJ10,  3.2435,  1.6648, -1.5,  1, 0,  true,2
+AddWeapon = HJ10, -3.2435,  1.6648, -1.5, -1, 0,  true,2
+
+AddWeapon = HJ10TV,  3.7984,  1.0231, -1.5,  1, 0,  true,2
+AddWeapon = HJ10TV, -3.7984,  1.0231, -1.5, -1, 0,  true,2
+AddWeapon = HJ10TV,  3.1974,  1.0231, -1.5,  1, 0,  true,2
+AddWeapon = HJ10TV, -3.1974,  1.0231, -1.5, -1, 0,  true,2
+
+AddWeapon = ty90,  3.8479,  2.6975, -2.76,  1, 0
+AddWeapon = ty90, -3.7193,  2.6975, -2.76, -1, 0
+
+AddWeapon = uhf_radar,  0.00, 3.0, 0.0,    0.0
+
+
+BoundingBox =  0.0, 2.9, -1.7,  2.6, 3.8
+BoundingBox =  0.0, 2.4, -4.5,  2.4, 2.4
+BoundingBox =  0.0, 2.7,-13.0,  1.7, 5.0, 1.25
+BoundingBox =  0.0, 3.0,  0.8,  2.3, 3.3
+BoundingBox =  0.0, 2.3,  3.0,  2.2, 2.6
+BoundingBox =  0.0, 1.7,  5.1,  1.8, 2.0
+
+BoundingBox = 0.0, 5.3, -1.45, 1.0, 1.5, 1.5
+
+
+BoundingBox =  0.0, 2.5, -6.2,  1.5, 2.1
+BoundingBox =  0.0, 2.5, -7.8,  1.5, 2.0
+BoundingBox =  0.0, 2.6, -9.3,  1.5, 1.9
+BoundingBox =  0.0, 2.6, -10.8,  1.5, 1.9
+
+;advanced armored modern helicopter armed, AOW3 style
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:airframe2, B, mcheli:heliblade, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:fcs3, F, mcheli:cannon2, G, mcheli:rocket3
+
+
+DamageFactor = 0.8
+
+unmountposition = 0.00,  1.50,  2.5010
+
+ThrottleUpDown = 0.8
+DamageFactor = 0.8

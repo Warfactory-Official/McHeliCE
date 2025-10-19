@@ -1,0 +1,25 @@
+DisplayName = Poison
+AddDisplayName = ja_JP, Poison
+
+StackSize = 64
+;;AddRecipe = "A  ", "B  ", "A  ", A, coal, B, reeds
+AddRecipe = " A ", "   ", "   ", A, hbm:item.powder_poison
+AddRecipe = " A ", "   ", "   ", A, hbm:item.pellet_gas
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,4
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,5
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,6
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,7
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,8
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,9
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,10
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,11
+;AddRecipe = " A ", "   ", "   ", A, hbm:item.circuit,12
+;AddRecipe = " A ", "   ", "   ", A, hfr:item.components_electronics
+
+;idiot compat tm
+;AddRecipe = "AAA", "BBB, "AAA", A, gold_ingot, B, redstone
+AddRecipe = " A ", "   ", "   ", A, poisonous_potato
+
+;;AddRecipe = " A ", "   ", "   ", A, hbm:item.ingot_bakelite
+;;AddRecipe = " A ", "   ", "   ", A, hbm:item.ingot_pc
+

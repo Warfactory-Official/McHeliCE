@@ -1,0 +1,44 @@
+DisplayName = 100mm D-10T2S Cannon [3BK17M - HEATFS]
+Type = MachineGun1
+Power = 390
+ModelBullet = 3bm42
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 2
+Acceleration = 7.0
+Sight = None
+Delay = 200
+ReloadTime = 200
+Round = 1
+SoundVolume = 10.0
+Sound = tfiftyfive
+Accuracy = 1.5
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+Gravity = -0.005
+DisplayMortarDistance = true
+Recoil = 2.5
+
+Group = MainGun
+Acceleration = 7.0
+ModelBullet = bullet105mm
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+
+SoundVolume = 15
+
+
+
+MaxAmmo = 14
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+
+

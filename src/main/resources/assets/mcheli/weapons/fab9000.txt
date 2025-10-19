@@ -1,0 +1,34 @@
+DisplayName = FAB-9000
+Type = Bomb
+Power = 23444
+Acceleration = 0.8
+Explosion = 38
+ExplosionBlock = 50
+ExplosionInWater = 19
+Flaming = true
+Sight = None
+Delay = 8
+Sound = bomb_snd
+ModelBullet = fab9000
+Gravity = -0.01
+;Bomblet = 3
+;BombletSTime = 150
+;BombletDiff = 0.3
+ModelBomblet =none
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+
+ReloadTime = 1200
+;Round = 4
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  32, gunpowder
+Item =  2, redstone_block

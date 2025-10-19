@@ -1,0 +1,47 @@
+DisplayName = 13.2mm Automatkanon
+
+Type = MachineGun1
+
+Power = 12
+
+Acceleration = 8.0
+
+Explosion = 0
+
+Flaming = false
+
+Sight = MoveSight
+
+Delay = 0
+
+SoundVolume = 10
+
+;SoundDelay = 3
+
+;Accuracy = 2.0
+
+HeatCount = 1
+
+MaxHeatCount = 500
+
+SoundPitch = 0.8
+
+Sound = gun_l1_snd
+
+MaxAmmo = 1000
+
+SuppliedNum = 200
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 13.2mm Automatkanon
+SoundVolume = 15
+
+
+Item =  2, iron_ingot
+Item =  2, gunpowder

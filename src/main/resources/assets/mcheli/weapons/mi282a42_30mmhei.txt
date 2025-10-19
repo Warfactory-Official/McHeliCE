@@ -1,0 +1,50 @@
+DisplayName = 30mm 2A42 Cannon [3UOR6 - HE-T]
+Type = MachineGun2
+Power = 9
+Acceleration = 5.0
+Explosion = 2
+ExplosionBlock = 2
+Flaming = false
+Sight = MoveSight
+
+ReloadTime = 120
+Round = 150
+SoundVolume = 15
+SoundPitch = 1.0
+Sound =  bmptwomain
+Accuracy = 1.5
+ModeNum = 1
+group = maingun
+
+Gravity = -0.005
+
+TimeFuse = 560
+
+ProximityFuseDist = 1
+
+;2a42
+Delay = 1
+HeatCount = 7
+MaxHeatCount = 150
+
+
+
+;tracer
+BulletColor = 230, 200, 20, 80 
+
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+MaxAmmo = 150
+SuppliedNum = 75
+Item =  2, iron_ingot
+Item =  2, gunpowder
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15

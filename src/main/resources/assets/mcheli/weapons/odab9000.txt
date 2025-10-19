@@ -1,0 +1,40 @@
+DisplayName = ODAB-9000
+Type = bomb
+Power = 23444
+ModelBullet = odab9000
+Acceleration = 0.1
+AccelerationInWater = 2.5
+Explosion = 38
+ExplosionBlock = 50
+ExplosionInWater = 19
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+Flaming = true
+FAE = true
+Sight = None
+Delay = 10
+GuidedTorpedo = false
+Gravity = -0.08
+GravityInWater = -1
+ReloadTime = 10000
+Round = 1
+DisableSmoke = false
+Sound = bomb_snd
+SoundVolume = 10
+ExplosionAltitude = 6
+displaymortardistance = true
+;Bomblet = 8
+;BombletSTime = 140
+;BombletDiff = 0.5
+ModelBomblet = cbc
+
+
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  32, gunpowder
+Item =  2, redstone_block

@@ -1,0 +1,194 @@
+DisplayName = 2K22 2S6 Tunguska SPAAG
+AddDisplayName = en_US, 2K22 2S6 Tunguska SPAAG
+AddDisplayName = ja_JP, 2K22 ツングーツカ
+ItemID = 30100
+MaxHp = 250
+Speed = 0.4
+;Sound = tseventytwopass
+Sound = tthirtyfour
+ThrottleUpDown = 2
+MobilityYawOnGround = 2.5
+MinRotationPitch = -90
+MaxRotationPitch = 10
+MobilityRoll = 5
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 8
+EnableNightVision = true
+CameraRotationSpeed = 48
+EnableEntityRadar = true
+MaxFuel         = 1200
+FuelConsumption = 3.0
+StepHeight = 1.8
+FlareType = 10
+AddTexture = 2k22_1
+
+Category = SPAAG
+
+MotionFactor = 0.9
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+
+
+WeightedCenterZ = 0.0
+
+
+
+
+HideEntity = true
+EnableBack = true
+
+WeightType = Tank
+
+
+
+;AddGunnerSeat =  0.00,  0, -0,   0.00,  3.5, -0,  false, -90, 5, true
+
+AddGunnerSeat =  0.00,  1.80, 0.00, 0.0, 3.50, 0.00, false, -90, 10, true
+
+CameraPosition = 0.0, 3.50, 0.50, true
+
+;CameraPosition = 0.00,  3.5, -0.0, true
+
+;0.00, 2.01, 0.64
+HUD = mbt_hudtherm,vehicle
+
+
+;RotorSpeed = 10
+
+;AddPartRotation  =  0.0057, 3.4417, -1.7465,  0, 1, 0, 1.0, false
+
+
+ 
+
+
+
+
+AddTurretWeapon = tung2a38_ap,  -0.875, 2.71, 0.169,  1.0, 0.0, true,1, 0,-360,360,  -87,  10
+AddTurretWeapon = tung2a38_ap,  -0.964,2.71, 0.169,  1.0, 0.0, true,1, 0,-360,360,   -87,  10
+AddTurretWeapon = tung2a38_ap,  0.875, 2.71, 0.169,  -1.0, 0.0, true,1, 0,-360,360,  -87,  10
+AddTurretWeapon = tung2a38_ap,  0.964,2.71, 0.169,  -1.0, 0.0, true,1, 0,-360,360,   -87,  10
+
+AddTurretWeapon = tung2a38_hei,  -0.875, 2.71, 0.169,  1.0, 0.0, true,1, 0,-360,360, -87,  10
+AddTurretWeapon = tung2a38_hei,  -0.964,2.71, 0.169,  1.0, 0.0, true,1, 0,-360,360,  -87,  10
+AddTurretWeapon = tung2a38_hei,  0.875, 2.71, 0.169,  -1.0, 0.0, true,1, 0,-360,360, -87,  10
+AddTurretWeapon = tung2a38_hei,  0.964,2.71, 0.169,  -1.0, 0.0, true,1, 0,-360,360,  -87,  10
+
+AddTurretWeapon = tung9M113M,  -1.1413, 2.5736, -0,  1.0, 0.0, true,1, 0,-360,360,   -85,   0
+AddTurretWeapon = tung9M113M,  -1.3654,2.5736,  -0,  1.0, 0.0, true,1, 0,-360,360,   -85,   0
+AddTurretWeapon = tung9M113M,  -1.1413, 2.3454, -0,  1.0, 0.0, true,1, 0,-360,360,   -85,   0
+AddTurretWeapon = tung9M113M,  -1.3654,2.3454,  -0,  1.0, 0.0, true,1, 0,-360,360,   -85,   0
+
+AddTurretWeapon = tung9M113M,  1.1413, 2.5736, -0,  1.0, 0.0, true,1, 0,-360,360,    -85,   0
+AddTurretWeapon = tung9M113M,  1.3654,2.5736,  -0,  1.0, 0.0, true,1, 0,-360,360,    -85,   0
+AddTurretWeapon = tung9M113M,  1.1413, 2.3454, -0,  1.0, 0.0, true,1, 0,-360,360,    -85,   0
+AddTurretWeapon = tung9M113M,  1.3654,2.3454,  -0,  1.0, 0.0, true,1, 0,-360,360,    -85,   0
+
+
+
+
+;AddTurretWeapon = tung9M113M,  -1.14, 2.6, -1.11,  -1.0, 0.0, true,1, 0,-360,360, -85,   0
+;AddTurretWeapon = tung9M113M,  -1.36,2.6, -1.11,  -1.0, 0.0, true,1, 0,-360,360, -85,    0
+
+;AddTurretWeapon = tung9M113MGA,  -1.14, 2.4, -1.11,  -1.0, 0.0, true,1, 0,-360,360, -85, 0
+;AddTurretWeapon = tung9M113MGA,  -1.36,2.4, -1.11,  -1.0, 0.0, true,1, 0,-360,360, -85,  0
+;AddTurretWeapon = tung9M113MGA,  1.41, 2.4, -1.11,  1.0, 0.0, true,1, 0,-360,360, -85, 0
+;AddTurretWeapon = tung9M113MGA,  1.19,2.4, -1.11,  1.0, 0.0, true,1, 0,-360,360, -85,  0
+
+
+;this is how you fix scuffed camera 0, y value, 0
+;later note, thing has bs and therefor edit
+
+;weapon0
+AddPartWeapon = tung2a38_ap/tung2a38_hei, false, true, false, 0.0057, 2.1969, 0.5350, 0
+
+;child shit
+AddPartWeaponChild = false, true,  0.82, 2.75, -0.78
+AddPartWeaponChild = false, true, 0.00, 2.75, -0.78, 0.1
+AddPartWeaponChild = false, true, 0.00, 2.75, -0.78, 0.1
+AddPartWeaponChild = false, true, 0.00, 2.75, -0.78, 0.1
+AddPartWeaponChild = false, true, 0.00, 2.75, -0.78, 0.1
+;AddPartWeaponChild = false, true,   0.01, 2.79, -1.16
+
+AddPartWeapon = tung9m113m, false, true, false, 0.0057, 2.1969, 0.5350, 0
+AddPartWeaponChild = false, true,   0.82, 2.75, -0.78
+AddPartWeaponChild = false, true,   0.82, 2.75, -0.78
+
+
+;AddPartWeaponChild = false, true,   0.00, 2.63, 2.13
+; パラメータは前から順に 武器設定ファイル名、位置(X,Y,Z)、回転角度(横,縦), パイロット使用可否, 座席, DefaultYaw, MinYaw, MaxYaw, MinPitch, MaxPitch
+
+
+
+
+AddCrawlerTrack = true, 0.15, -1.12,  -0.30/-2.65, 0.22/-3.85, 0.33/-4.12, 0.6/-4.23, 0.87/-4.12, 0.98/-3.85, 0.98/3.5, 0.87/3.77, 0.6/3.88, 0.33/3.77, -0.3/2.6,
+AddCrawlerTrack = true, 0.15, 1.12,  -0.30/-2.65,0.22/-3.85, 0.33/-4.12, 0.6/-4.23, 0.87/-4.12, 0.98/-3.85, 0.98/3.5, 0.87/3.77, 0.6/3.88, 0.33/3.77, -0.3/2.6,
+
+
+AddTrackRoller = -1.71,  0.60,  3.5
+AddTrackRoller = -1.71,  0.16,  2.59
+AddTrackRoller = -1.71,  0.16,  1.54
+AddTrackRoller = -1.71,  0.16,  0.5
+AddTrackRoller = -1.71,  0.16,  -0.55
+AddTrackRoller = -1.71,  0.16,  -1.6
+AddTrackRoller = -1.71,  0.16,  -2.65
+AddTrackRoller = -1.71,  0.60,  -3.85
+
+AddTrackRoller = 1.71,  0.60,  3.5
+AddTrackRoller = 1.71,  0.16,  2.59
+AddTrackRoller = 1.71,  0.16,  1.54
+AddTrackRoller = 1.71,  0.16,  0.5
+AddTrackRoller = 1.71,  0.16,  -0.55
+AddTrackRoller = 1.71,  0.16,  -1.6
+AddTrackRoller = 1.71,  0.16,  -2.65
+AddTrackRoller = 1.71,  0.60,  -3.85
+
+SetWheelPos =  1.3,  -0.24,  2.5,  1.54, 0.5, -0.55, -1.6, -2.65
+
+
+
+
+MaxFuel         = 500
+FuelConsumption = 2.0
+
+
+;BoundingBox =  0.0, 0.6,  2.2,   3.4, 1.8,  0.70
+;BoundingBox = -0.9, 1.6,  1.0,   2.4, 3.2,  0.70
+;BoundingBox =  0.9, 1.6,  1.0,   2.4, 3.2,  0.70
+;BoundingBox =  0.0, 1.4, -2.2,   3.8, 3.0,  1.00
+;BoundingBox =  0.0, 3.0, -2.0,   2.0, 1.0,  1.25
+;BoundingBox = -0.9, 1.2, -4.5,   2.4, 1.6,  1.25
+;BoundingBox =  0.9, 1.2, -4.5,   2.4, 1.6,  1.25
+
+;BoundingBox = 0.0, 1.0, 0.0, 2.3, 1.8, 1.0
+BoundingBox = 0.0, 1.6, 0.0, 3.3, 0.5, 1.0
+;BoundingBox = 0.0, 1.0, 2.3, 2.3, 1.8, 1.0
+BoundingBox = 0.0, 1.6, 2.3, 3.3, 0.5, 1.0
+BoundingBox = 0.0, 1.1, 3.0, 3.3, 0.5, 1.0
+
+
+;bottom half top part
+BoundingBox = 0.0, 1.3, 0.0, 3.3, 0.3, 1.0
+BoundingBox = 0.0, 1.3, -2.95, 3.3, 0.3, 1.0
+;bottom part
+BoundingBox = 0.0, 1.1, -2.90, 2.3, 1.5, 1.0
+BoundingBox = 0.0, 1.1, -0.60, 2.3, 1.5, 1.0
+BoundingBox = 0.0, 1.1, 1.70, 2.3, 1.5, 1.0
+BoundingBox = 0.0, 1.1, 2.80, 2.3, 1.5, 1.0
+
+BoundingBox = 0.0, 1.6, -2.90, 3.3, 0.5, 1.0
+
+BoundingBox = 0.0, 2.5, 0.64, 2.0, 1.3, 1.0
+
+TurretPosition = 0.0057, 2.1969, 0.5350
+
+ArmorMinDamage = 25
+
+
+UnmountPosition = 0.00,  2.5, -0.35
+DefaultFreeLook = true
+
+;light tracked spaa (modern)
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:rocket, C, mcheli:engine3, D, mcheli:tanktracks, E, mcheli:fcs3, F, mcheli:electronics

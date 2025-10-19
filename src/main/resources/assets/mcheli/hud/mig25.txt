@@ -1,0 +1,44 @@
+
+
+;1m~10000m
+If=time>0&&time<=12000
+DrawTexture = sightsupport, -30, -40, 60,55 ,0,0, 256,256
+EndIf
+Call=yaw
+Call=koudo
+Call=sokudo
+Call=pitch
+If=sight_type==1
+Call=heatcount
+EndIf
+If=sight_type==2&&dsp_mt_dist==1
+Call=Missile
+DrawTexture = 7, -13, 5, 5,5 ,0,0, 256,256
+DrawTexture = 3, -10, 5, 5,5 ,0,0, 256,256
+DrawTexture = p, -7, 5, 5,5 ,0,0, 256,256
+EndIf
+If=sight_type==2&&dsp_mt_dist==0
+Call=Missile
+DrawTexture = 3, -13, 5, 5,5 ,0,0, 256,256
+DrawTexture = 3, -10, 5, 5,5 ,0,0, 256,256
+DrawTexture = p, -7, 5, 5,5 ,0,0, 256,256
+EndIf
+DrawTexture = normal, -40, -40, 60,55 ,0,0, 256,256
+DrawTexture = suihei, -15, -35, 32,55 ,0,0, 256,256,roll
+DrawEntityRadar = -yaw-180, -25, -30,  50,45
+Color=0xffffff
+DrawCenteredString =-333,-170,"THR"
+If=throttle==1
+Color=0xff0000
+EndIf
+DrawCenteredString =-310,-170,"%.0f",THROTTLE 
+Color=0xffffff
+DrawCenteredString =-333,-160,"REA"
+DrawCenteredString =-311,-160,"%s",WPN_AMMO
+DrawCenteredString =-333,-150,"H P"
+DrawCenteredString =-310,-150,"%d",HP
+DrawTexture = hud, -340, -140, 32,32,  64, 64, 64,64
+DrawTexture = hud, -340, -140, 32,32,  64,128, 64,64, fuel*270-135
+
+
+

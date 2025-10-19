@@ -1,0 +1,26 @@
+DisplayName = 20mm MG151/20 Automatic Cannon
+Type = MachineGun1
+Power = 21
+Acceleration = 4.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+HeatCount = 10
+MaxHeatCount = 500
+
+Acceleration = 8.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+Sound = mg151_20_snd
+
+
+MaxAmmo = 250
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder

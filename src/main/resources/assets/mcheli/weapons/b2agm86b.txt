@@ -1,0 +1,30 @@
+DisplayName = AGM-86B/C W80 Nuclear Warhead [150KT - SURFACE]
+Type = TVMissile
+;Power = 1000
+Acceleration = 2.4
+Explosion = 10
+ExplosionBlock = 3
+ExplosionInWater = 3
+Sight = MoveSight
+Delay = 220
+ReloadTime = 1000
+Round = 12
+ModeNum = 2
+ModelBullet = alcm
+Sound = missile_1_snd
+DisableSmoke = true
+nukeyield = 90
+;I hate hbm proportions
+;150kt
+
+;DamageFactor = tank, 2.0
+;DamageFactor = plane, 1.0
+;DamageFactor = vehicle 4.5
+;DamageFactor = heli, 4.5
+;DamageFactor = player, 20.0
+
+MaxAmmo = 12
+SuppliedNum = 1
+Item =  1, mcheli:genericnuclearwarheadhigh
+Item =  1, mcheli:genericnuclearwarhead
+Item =  3, redstone

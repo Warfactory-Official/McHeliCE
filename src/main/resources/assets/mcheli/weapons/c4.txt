@@ -1,0 +1,17 @@
+DisplayName = Self-Destruct (C4)
+Type = Bomb
+Power = 30
+Acceleration = 0.1
+Explosion = 5
+ExplosionInWater = 3
+ExplosionBlock = 3
+Sight = None
+Delay = 1200
+ModelBullet = 0_none
+Destruct = true
+Gravity = -9
+
+MaxAmmo = 1
+SuppliedNum = 1
+;Item = 2, iron_ingot
+Item = 5, gunpowder

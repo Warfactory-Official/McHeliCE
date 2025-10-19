@@ -1,0 +1,24 @@
+DisplayName = 9K116 Kobra
+Type = ATMissile
+Power = 200
+Acceleration = 4.0
+Explosion = 3
+ExplosionInWater = 2
+Flaming = true
+Sight = MissileSight
+Delay = 100
+ModelBullet = atmissle
+Sound = ATGM_shot
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

@@ -1,0 +1,44 @@
+DisplayName = POM-2S Anti-Personell Mine
+Type = MachineGun1
+Power = 100
+Acceleration = 0.0
+Explosion = 2
+ExplosionBlock = 0
+ExplosionInWater = 1
+Flaming = false
+Sight = None
+Delay = 0
+Sound = bomb_snd
+
+;do not murder the server tps actually
+HeatCount = 15
+MaxHeatCount = 150
+
+DisableSmoke = true
+
+Gravity = -0.6
+
+ReloadTime = 700
+Round = 15
+
+;DelayFuse = 72000
+;yay now i only have to wait an hour to figure out if it works
+
+;this shit doesn't use ticks for some reason amazing.
+DelayFuse = 43200
+
+ProximityFuseDist = 4.0
+
+ModelBullet = pom2
+
+
+DamageFactor = player, 10.0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 96
+SuppliedNum = 24
+Item =  3, iron_ingot
+Item =  3, gunpowder

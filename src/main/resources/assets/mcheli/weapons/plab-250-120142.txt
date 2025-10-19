@@ -1,0 +1,37 @@
+DisplayName = PLAB-250-120 Depth Charge
+Type = Bomb
+Power = 1000
+Acceleration = 0.1
+Explosion = 6
+ExplosionInWater = 12
+Flaming = true
+Sight = None
+Sound = bomb_snd
+Delay = 5
+
+GravityInWater = -0.01
+
+ProximityFuseDist = 8
+
+ReloadTime = 1200
+
+
+Acceleration = 0.5
+;Explosion = 50
+;Explosive mass	269.9 kg kg
+Power = 1080
+ExplosionBlock = 5
+;ExplosionInWater = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+Round = 18
+
+
+MaxAmmo = 18
+SuppliedNum = 6
+Item =  2, iron_ingot
+Item =  2, gunpowder

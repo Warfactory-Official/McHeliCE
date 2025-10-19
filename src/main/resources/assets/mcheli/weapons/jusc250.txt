@@ -1,0 +1,28 @@
+DisplayName = SC-250
+Type = Bomb
+
+Sight = None
+Delay = 5
+ReloadTime = 1500
+Round = 2
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  4, gunpowder
+ModelBullet = us_500lb
+
+;bomb rewrite
+Acceleration = 0.5
+Explosion = 12
+;Explosive mass	125 kg
+Power = 500
+ExplosionBlock = 2
+ExplosionInWater = 6
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+Sound = 540pound_snd

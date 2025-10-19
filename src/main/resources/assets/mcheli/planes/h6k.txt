@@ -1,0 +1,180 @@
+﻿DisplayName = Xi'an H-6K "God Of War"
+AddDisplayName = zh_CN, 轰6K“战神”
+AddDisplayName = en_US, Xi'an H-6K "God of War"
+ItemID = 45600
+MaxHp = 250
+Speed = 1.131
+sound = ilsevensix
+DamageFactor = 0.8
+ThrottleUpDown = 0.1
+MaxFuel = 4000
+FuelConsumption = 1.8
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+EnableNightVision  = true
+EnableEntityRadar  = true
+EnableEjectionSeat = true
+EnableGunnerMode = true
+HUD = planenvg, plane_gnr, none, none, none, none, none
+CameraPosition  = 0.0, 2.00, 4.78
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+AutoPilotRot = -0.10
+ThirdPersonDist = 30
+
+EnableBack = true
+
+MobilityYaw = 0.5
+MobilityPitch = 0.5
+MobilityRoll = 0.3
+FlareType = 2
+;MinRotationPitch = -40
+;MaxRotationPitch =  40
+AddSeat       =  0.5, 3.0,3.55
+AddGunnerSeat = -0.5, 3.0,3.55
+
+unmountposition = 0.5, 1.5, 3.55
+
+AddPartWeaponMissile =cj-10n, false, false, false, 12.09, 2.373,-13.1236
+AddPartWeaponMissile =cj-10n, false, false, false, 8.329, 2.37,-10.4126
+
+AddPartWeaponMissile =cj-10tv, false, false, false, 3.3475, 2.3475,-7.318
+AddPartWeaponMissile =cj-10tv, false, false, false,-3.3475, 2.3475,-7.318
+
+AddPartWeaponMissile =cj-10r, false, false, false,-8.329, 2.37,-10.4126
+AddPartWeaponMissile =cj-10r, false, false, false,-12.09, 2.373,-13.1236
+
+
+
+
+AddWeapon = dummy_bay_closed, 0,0,0,0,0         , true,  2
+
+AddWeapon = cj-10n,   12.09, 2.373,-13.1236,  0, 0,true,  2, 0,-360,360, -5,180,true,  2, 0,-360,360, -5,180
+AddWeapon = cj-10n,    8.329, 2.37,-10.4126, 0, 0,true,  2, 0,-360,360, -5,180,true,  2, 0,-360,360, -5,180
+AddWeapon = cj-10r,  -8.329, 2.37,-10.4126,  0, 0,true,  2, 0,-360,360, -5,180,true,  2, 0,-360,360, -5,180
+AddWeapon = cj-10r,  -12.09, 2.37,-10.4126,  0, 0,true,  2, 0,-360,360, -5,180,true,  2, 0,-360,360, -5,180
+AddWeapon = cj-10tv,  3.3475, 2.3475,-7.318,  0, 0,true,  2, 0,-360,360, -5,180
+AddWeapon = cj-10tv,  -3.3475, 2.3475,-7.318,  0, 0,true,  2, 0,-360,360, -5,180
+
+
+
+;large bomber aircraft semimodern, AOW3 style
+AddRecipe = "ABC", "DAC", "EEE", A, mcheli:airframebomb, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:electronics
+
+; AddPartRotation = 位置X, Y, Z        回転軸X,Y,Z   回転速度, 常に回転させるか
+AddPartRotation = 0.00, 9.00, -31.17,  0,-1,0,       1.3,      false
+
+AddPartLG =  0.00, 2.953,  0.292,  1,0,0, 90
+AddPartLG = -0.714, 2.306,  -0.52,  0,0,1,  95
+AddPartLG =  0.714, 2.306,  -0.52,  0,0,1,  95
+AddPartLG = -5.53, 2.98,  -12.39,  0,0,1,  90
+AddPartLG =  5.53, 2.98,  -12.39,  0,0,1,  -90
+
+
+BoundingBox =  0.0, 3.28,  0.4,  2.0, 2.1
+BoundingBox =  0.0, 3.28,  -1.6,  2.0, 2.1
+BoundingBox =  0.0, 3.28,  -3.6,  2.0, 2.1
+BoundingBox =  0.0, 3.28,  -5.6,  2.0, 2.1
+BoundingBox =  0.0, 3.28,  -7.6,  2.0, 2.1
+BoundingBox =  0.0, 3.28, -10.6,  4.0, 2.1
+BoundingBox =  0.0, 3.28,  -12.6,  2.0, 2.1
+BoundingBox =  0.0, 3.28,  -14.6,  2.0, 2.1
+BoundingBox =  0.0, 3.28,  -16.6,  2.0, 2.1
+BoundingBox =  0.0, 3.28,  -18.6,  2.0, 2.1
+BoundingBox =  0.0, 3.28,  -20.6,  2.0, 2.1
+BoundingBox =  0.0, 3.3,  -22.6,  2.0, 2.1
+BoundingBox =  0.0, 3.5,  -24.6,  2.0, 2.1
+BoundingBox =  0.0, 3.85,  -26.6,  2.0, 2.5
+BoundingBox =  0.0, 4.7,  -28.6,  2.0, 3.8
+
+
+BoundingBox =  0.0, 5.15,  -30.6,  2.0, 3.0
+
+BoundingBox =  0.0, 10.2,  -32.5,  1.0, 3.7
+BoundingBox =  0.0, 9.15,  -31.5,  1.0, 5.7
+BoundingBox =  0.0, 8.8,  -30.5,  1.0, 5.7
+
+BoundingBox =  0.0, 7.95,  -29.5,  1.0, 5.7
+BoundingBox =  0.0, 7.0,  -28.5,  1.0, 5.7
+BoundingBox =  0.0, 5.85,  -27.5,  1.0, 5.45
+BoundingBox =  0.0, 5.4,  -26.5,  1.0, 5.2
+BoundingBox =  0.0, 4.7,  -25.5,  1.0, 2.2
+BoundingBox =  0.0, 4.4,  -24.5,  1.0, 2.2
+BoundingBox =  0.0, 4.2,  -23.5,  1.0, 2.2
+
+BoundingBox =  0.0, 4.05,  -22.5,  1.0, 2.2
+
+
+
+BoundingBox =  2.0, 5.35, -29.8,  3.0, 0.3
+BoundingBox =  -2.0, 5.35,  -29.8,  3.0, 0.3
+
+BoundingBox =  3.5, 5.35,  -30.5,  3.0, 0.3
+BoundingBox =  -3.5, 5.35,  -30.5,  3.0, 0.3
+
+
+BoundingBox =  -4.4, 3.4, -12.6,  5.0, 1.0, 
+BoundingBox =   4.4, 3.4, -12.6,  5.0, 1.0, 
+BoundingBox =  -4.4, 3.4, -10.4,  5.0, 1.0, 
+BoundingBox =   4.4, 3.4, -10.4,  5.0, 1.0, 
+
+BoundingBox =  -2, 3.7, -4.2,  1.1, 1.4, 1.25
+BoundingBox =   2, 3.7, -4.2,  1.1, 1.4, 1.25
+
+BoundingBox =  -2, 3.7, -5.6,  1.1, 1.4, 1.25
+BoundingBox =   2, 3.7, -5.6,  1.1, 1.4, 1.25
+
+BoundingBox =  -2, 3.7, -7,  1.1, 1.4, 1.25
+BoundingBox =   2, 3.7, -7,  1.1, 1.4, 1.25
+
+
+BoundingBox =  -2, 3.7, -8.4,  1.1, 1.4, 1.25
+BoundingBox =   2, 3.7, -8.4,  1.1, 1.4, 1.25
+
+
+BoundingBox =  -2, 3.7, -9.8,  1.1, 1.4, 1.25
+BoundingBox =   2, 3.7, -9.8,  1.1, 1.4, 1.25
+
+
+BoundingBox =  -2, 3.7, -11.2,  1.1, 1.4, 1.25
+BoundingBox =   2, 3.7, -11.2,  1.1, 1.4, 1.25
+
+
+BoundingBox =  -2.3, 3.7, -12.6,  1.4, 1.4, 1.25
+BoundingBox =   2.3, 3.7, -12.6,  1.4, 1.4, 1.25
+
+BoundingBox =  -2.3, 3.7, -14,  1.4, 1.4, 1.25
+BoundingBox =   2.3, 3.7, -14,  1.4, 1.4, 1.25
+
+BoundingBox =  -2.3, 3.7, -15.4,  1.4, 1.4, 1.25
+BoundingBox =   2.3, 3.7, -15.4,  1.4, 1.4, 1.25
+
+BoundingBox =  -2.3, 3.7, -16.8,  1.4, 1.4, 1.25
+BoundingBox =   2.3, 3.7, -16.8,  1.4, 1.4, 1.25
+
+
+
+BoundingBox =  -4.6, 5.35, -32.4,  3.0, 0.3
+BoundingBox =   4.6, 5.35, -32.4,  3.0, 0.3
+
+
+
+BoundingBox = -9.0, 3.3, -14.6,  5.0, 1.0, 
+BoundingBox =  9.0, 3.3, -14.6,  5.0, 1.0, 
+
+
+BoundingBox = -13.5, 3.2, -16.0,  4.4, 1.0, 0.6
+BoundingBox =  13.5, 3.2, -16.0,  4.4, 1.0, 0.6
+BoundingBox = -17.0, 3.1, -19.5,  4.4, 1.0, 0.4
+BoundingBox =  17.0, 3.1, -19.5,  4.4, 1.0, 0.4
+
+
+
+
+
+
+
+
+DamageFactor = 0.8
+
+DamageFactor = 0.8

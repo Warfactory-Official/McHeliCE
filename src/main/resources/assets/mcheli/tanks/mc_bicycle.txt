@@ -1,0 +1,83 @@
+DisplayName = Bicycle
+AddDisplayName = ja_JP, 自転車
+;until i fix how mcheli applies damage to entites this is staying uncraftable
+
+MaxHp = 20
+;Speed = 0.16
+Speed = 0.3
+;balancing
+Sound = bicycle
+ThrottleUpDown = 0.32
+MaxFuel         = 1
+;its a bicycle
+FuelConsumption = 0.0
+Gravity = -0.1
+MobilityYawOnGround = 8
+PartWheelRot = 30.0
+PivotTurnThrottle = 0.1
+MotionFactor = 0.9
+StepHeight = 1.2
+HUD = none, none
+EntityPitch = 10
+InventorySize = 9
+EnableBack = true
+
+WeightType = none
+
+
+; C = Civilian(民間機)
+Category = C
+
+
+VariableSweepWing  = true
+SweepWingSpeed  = -1.0
+
+AddWeapon = none, 0.0, 0.0, 0.0
+AddWeapon = bellsound, -0.01, 0.94, 1.00, 0.0, 90
+
+
+;AddTexture =  mc_bicycle-blue
+;AddTexture =  mc_bicycle-brown
+;AddTexture =  mc_bicycle-green
+;AddTexture =  mc_bicycle-pink
+;AddTexture =  mc_bicycle-purple
+;AddTexture =  mc_bicycle-red
+;AddTexture =  mc_bicycle-silver
+;AddTexture =  mc_bicycle-yellow
+;AddTexture =  mc_bicycle-black
+;we dont need all that actually
+
+
+AddSeat =  -0.01, 0.64, 0.00
+unmountposition = -0.01, 1.3, 0.0
+
+AddSeat =  0.02, 0.85,  -0.85
+
+
+AddPartWheel     = -0.007, 0.177, 1.229,  20
+AddPartWheel     = -0.028, 0.144, 0.064
+AddPartWheel     = -0.007, 0.177, -0.635
+
+
+AddPartHatch =   0.06, 0.18, -0.61, 1, 0, 0, -85
+
+AddPartSteeringWheel =   -0.004, 0.419, 1.079,   0, 1, -0.66,  20
+AddPartSteeringWheel =   0.00, 10.29,  0.78,   0, 1, 0,  30
+
+
+
+AddSteeringSearchLight = -0.12, 0.48, 1.11,  0x99FFFFFF,   0x00FFFFC0,  10.0, 4.0, 0, 0, 20 
+
+
+OnGroundPitchFactor = 4.8
+OnGroundRollFactor  = 2.2
+
+SetWheelPos =  -0.007,  -0.24,  1.229, -0.635
+
+
+ArmorDamageFactor = 1.0
+DamageFactor = 1.0
+
+
+
+

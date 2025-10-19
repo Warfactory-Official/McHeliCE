@@ -1,0 +1,91 @@
+DisplayName = Fairchild AU-23A Peacemaker
+AddDisplayName = en_US, Fairchild AU-23A Peacemaker
+AddDisplayName = ja_JP, フェアチャイルド AU-23A ピースメーカー
+ItemID = 28750
+MaxHp = 150
+Speed = 0.2958
+
+
+
+;170mph
+
+Sound = peacemaker
+ThrottleUpDown = 0.2
+AutoPilotRot = -0.1
+CameraPosition = 1.13, 2.29, -0.32, false
+EnableNightVision = false
+EnableEntityRadar = false
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+MaxFuel         = 4800
+FuelConsumption = 2.0
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+OnGroundPitch = 7.5
+RotorSpeed = 2000.0
+ZoomLevel = 1
+
+EntityWidth  = 0.83
+EntityHeight = 0.83
+
+MobilityRoll = 0.50
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = plane, plane_gnr, none
+
+AddSeat =  0.41,  1.55, -0.73
+AddGunnerSeat =  -0.40,  1.23, -2.60, -0.40, 2.15, -2.60, false
+AddSeat = -0.41,  1.65, -0.73
+
+AddPartRotor =    0.00,  2.00, 3.47,   1,0, 0
+AddBlade = 1, 0,  0.00,  2.00, 3.47,   0,0,-1
+
+AddWeapon = none, 0, 0, 0
+
+AddWeapon = auxm197,         0.42,  1.63,  -2.68,  0, 0, true,  2, -90, -50,50,  -15,70
+AddWeapon = auxm197_api,     0.42,  1.63,  -2.68,  0, 0, true,  2, -90, -50,50,  -15,70
+AddWeapon = aumk24,  5.01, 2.57, -1.31, 0.0, 80.0
+AddWeapon = aumk24, -5.01, 2.57, -1.31, 0.0, 80.0
+AddWeapon = aumk24,  5.01, 2.57, -2.32, 0.0, 80.0
+AddWeapon = aumk24, -5.01, 2.57, -2.32, 0.0, 80.0
+AddWeapon = lau-10, 6.05, 2.72, -1.81,  4.0, 0.0
+AddWeapon = lau-10,-6.05, 2.72, -1.81, -4.0, 0.0
+
+AddPartWeapon = auxm197/auxm197_api, false, true, false,  0.42,  1.46,  -2.68, 0
+AddPartWeapon = auxm197/auxm197_api, false, true, true,  0.42,  1.73,  -2.68, 0
+AddPartRotWeapon = auxm197/auxm197_api,  false,  true,  true,   0.42,  1.73,  -2.68, -1,0,0
+AddPartWeaponMissile = aumk24,     false, false,false,  5.01, 2.57, -1.31
+AddPartWeaponMissile = aumk24,     false, false,false, -5.01, 2.57, -1.31
+AddPartWeaponMissile = aumk24,     false, false,false,  5.01, 2.57, -2.32
+AddPartWeaponMissile = aumk24,     false, false,false, -5.01, 2.57, -2.32
+;AddPartWeapon = 連動する武器名(無しの時はnone), ガンナー時非表示？, Yaw連動, Pitch連動, 回転座標X,Y,Z, 駐退距離
+
+
+
+;medium aircraft CAS, AOW3 style
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:airframe2, B, mcheli:basicmechanicparts, C, mcheli:engine1, D, mcheli:wheelair, E, mcheli:cannon2, F, mcheli:rocket, G, mcheli:electronics
+
+BoundingBox =  -1.70, 2.22, -9.00,  2.0, 1.8
+BoundingBox =  0.00, 2.22, -9.00,  2.0, 1.8
+BoundingBox =  1.70, 2.22, -9.00,  2.0, 1.8
+BoundingBox =  0.00, 3.92, -9.00,  2.0, 1.8
+
+BoundingBox =  0.00, 1.82, -5.00,  3.0, 1.8
+BoundingBox = -2.92, 3.25, -1.50,  2.0, 0.6
+BoundingBox = -4.92, 3.25, -1.50,  2.0, 0.6
+BoundingBox =  2.92, 3.25, -1.50,  2.0, 0.6
+BoundingBox =  4.92, 3.25, -1.50,  2.0, 0.6
+
+BoundingBox =  1.00, 3.25, -1.50,  2.0, 0.6
+BoundingBox = -1.00, 3.25, -1.50,  2.0, 0.6
+
+BoundingBox = 0.0, 1.84, 1.09, 2.0, 1.5
+
+unmountposition = 0.41,  1.50, -0.73
+
+DamageFactor = 0.4
+
+enableback = true
+DamageFactor = 0.8

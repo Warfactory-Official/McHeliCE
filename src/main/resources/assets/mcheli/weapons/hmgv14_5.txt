@@ -1,0 +1,27 @@
+DisplayName = 14.5mm Vladimirov MG
+Type = MachineGun1
+Power = 39
+Acceleration = 8.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+;SoundDelay = 3
+;Accuracy = 1.0
+HeatCount = 1
+MaxHeatCount = 100
+SoundPitch = 1.2
+Sound = gun_l1_snd
+
+SetCartridge = cartridge, 0.1,  90, 30, 3.00, -0.04, 0.40
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+
+Gravity = -0.001
+
+MaxAmmo = 600
+SuppliedNum = 200
+Item =  2, iron_ingot
+Item =  2, gunpowder

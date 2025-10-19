@@ -1,0 +1,29 @@
+DisplayName = Kh-58
+Type = TVMissile
+Power = 1000
+Acceleration = 10
+Explosion = 12
+
+ExplosionInWater = 6
+
+Flaming = true
+Sight = MissileSight 
+Delay = 5
+ReloadTime = 1500
+LockTime = 20
+ModeNum = 2
+ProximityFuseDist = 1
+Sound = missile_1_snd
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  10, iron_ingot
+Item =  12, gunpowder
+Item =  8, redstone

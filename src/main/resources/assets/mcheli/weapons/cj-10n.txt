@@ -1,0 +1,37 @@
+DisplayName = CJ-10 [Nuclear Warhead - 150KT]
+AddDisplayName = zh_CN, 长剑10核弹头（150万吨当量）
+Type = TVMissile
+;Power = 100000
+Acceleration = 2.7
+Explosion = 10
+ExplosionBlock = 3
+ExplosionInWater = 3
+Sight = MoveSight
+Delay = 5
+Round = 2
+ModeNum = 2
+ModelBullet = CJ-10
+Sound = missile_2_snd
+SoundVolume = 15
+DisableSmoke = true
+nukeyield = 100
+;I hate hbm proportions
+;150kt
+ReloadTime = 200
+;DamageFactor = tank, 2.0
+;DamageFactor = plane, 1.0
+;DamageFactor = vehicle 4.5
+;DamageFactor = heli, 4.5
+;DamageFactor = player, 20.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+
+;350kt eg
+;Item =  3, mcheli:genericnuclearwarheadhigh
+;Item =  16, tnt
+;Item =  1, mcheli:genericnuclearwarhead
+
+Item =  2, mcheli:genericnuclearwarheadhigh
+Item =  3, iron_ingot
+Item =  3, redstone

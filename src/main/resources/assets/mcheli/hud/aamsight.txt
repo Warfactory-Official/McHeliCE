@@ -1,0 +1,221 @@
+If = sight_type==1
+	DrawLineStipple = 0xCCCC, 1,  -25,  0,   -8, 0
+	DrawLineStipple = 0xCCCC, 1,   25,  0,    8, 0
+	DrawLineStipple = 0xCCCC, 1,    0,-15,    0,-8
+	DrawLineStipple = 0xCCCC, 1,    0, 15,    0, 8
+	
+	DrawLine = -30, -10,   -30, -20,   -10, -20
+	DrawLine =  30, -10,    30, -20,    10, -20
+	DrawLine = -30,  10,   -30,  20,   -10,  20
+	DrawLine =  30,  10,    30,  20,    10,  20
+EndIf
+
+If= sight_type==2 
+DrawTexture = notlock, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.01
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.05
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.1
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.11
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.15
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.2
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.21
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.25
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.3
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+
+If=lock==0.31
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.35
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.4
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.41
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.45
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.5
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.51
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.52
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.53
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.54
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.55
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.56
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.57
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.58
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.59
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.6
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.61
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.62
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.63
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.64
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.65
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.66
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.67
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.68
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.69
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.7
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.71
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.72
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.73
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.74
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.75
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.76
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.77
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.78
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.79
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.8
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.81
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.82
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.83
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.84
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.85
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.86
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.87
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.88
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.89
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.9
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+
+If=lock==0.91
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.92
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.93
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.94
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.95
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.96
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.97
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.98
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==0.99
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf
+If=lock==1
+DrawTexture = lockon, -75, -75, 150,150 , 0,0, 256,256
+EndIf

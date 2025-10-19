@@ -1,0 +1,33 @@
+﻿DisplayName = Shahed 136/Geran 2 Drone
+DisplayName = Shahed 136/Geran 2 Drone
+DisplayName = Shahed 136/Geran 2 Drone
+DisplayName = Shahed 136/Geran 2 Drone
+DisplayName = Shahed 136/Geran 2 Drone
+Type = TVMissile
+Power = 450
+Acceleration = 1
+Explosion = 9
+
+ExplosionInWater = 5
+
+Flaming = false
+Sound = radicon_heli
+Sight = MoveSight
+ModelBullet = Shahed136
+Delay = 1
+
+Round = 5
+
+ReloadTime = 800
+
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+ModeNum = 2
+
+MaxAmmo = 5
+SuppliedNum = 1
+Item =  5, iron_ingot
+Item =  5, gunpowder
+Item = 2, redstone

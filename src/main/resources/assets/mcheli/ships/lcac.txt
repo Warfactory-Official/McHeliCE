@@ -1,0 +1,90 @@
+﻿DisplayName = LCAC
+AddDisplayName = en_US, Landing Craft Air Cushion (LCAC)
+AddDisplayName = ja_JP, LCACエアクッション艇
+ItemID = 30112
+MaxHp = 182
+Speed = 0.46
+Sound = vehicle_drive
+ThrottleUpDown = 0.8
+MinRotationPitch = 0
+MaxRotationPitch = 0
+MobilityRoll = 0
+Gravity = -0.1
+GravityInWater = 0.1
+Float = true
+EnableNightVision = true
+MobilityYawOnGround = 3.5
+DamageFactor = 0.5
+; 羽
+AddPartRotor =    4.65,  4.905, -9.64,   0,0,1
+AddBlade = 1, 0,  4.65,  4.905, -9.64,   0,0,1
+AddPartRotor =    -4.65,  4.905, -9.64,   0,0,-1
+AddBlade = 1, 0,  -4.65,  4.905, -9.64,   0,0,-1
+; レーダー
+AddPartRotor =    -5.15,  4.905, 8.26,   0,1,0
+AddBlade = 1, 0,  -5.15,  4.905, 8.26,   0,1,0
+
+PivotTurnThrottle = 0.2
+
+; 燃料搭載可能量
+MaxFuel         = 1000
+; 1秒間に消費する燃料
+FuelConsumption = 0.8
+
+AddPartWing =  0.00, 2.0183, -10.8808,  -1,0,0, 100
+AddPartWing =   0.00, 2.16, 10.9575,  1,0, 0, 100
+; ゴム部分
+AddPartWing =   0, 0, -0.3,  0,0, 0, 100
+
+; 座席位置１番上がコックピットです。
+AddSeat = -5.3, 4.0, 8.0
+AddSeat = -4.5, 4.0, 8.0
+AddSeat = -4.5, 4.0, 6.5
+AddSeat = -5.3, 4.0, 6.5
+;インベントリサイズ９倍数で
+InventorySize = 54
+
+;水しぶきです、重ければ消してください。
+AddParticleSplash =   1.56, -0.84,  -4.62,   3,   20.0,  1.2, 80, 0.02, -0.001
+AddParticleSplash =  -1.56, -0.84,  -4.62,   3,   20.0,  1.2, 80, 0.02, -0.001
+AddParticleSplash =  -1.56, -0.84,  -5.82,   1,   40.0,  1.1, 3,  1.20, -0.402
+AddParticleSplash =   1.56, -0.84,  -5.82,   1,   40.0,  1.1, 3,  1.20, -0.402
+AddParticleSplash =  8.09, -0.39,  5.47,   2,   15.0,  1.1, 60, 0.02, -0.001
+AddParticleSplash =  -8.09, -0.39,  5.47,   2,   15.0,  1.1, 60, 0.02, -0.001
+
+;搭載関係です、積める物を指定していますが、お好みで変えてください。
+
+AddRack = impreza/S15/container/M1A2,       1.66,  3.20,  5.84,   0, 0, -2.5,   11,    100000
+AddRack = impreza/S15/container/M1A2,      -1.66,  3.20,  5.84,   0, 0, -2.5,   11,    100000
+AddRack = impreza/S15/container,       1.66,  3.20, -0.70,   0, 0, -2.5,   11,    100000
+AddRack = impreza/S15/container,      -1.66,  3.20, -0.70,   0, 0, -2.5,   11,    100000
+AddRack = impreza/S15/container,       0.00,  3.00, -7.46,   0, 0, -2.5,   11,    100000,  0.0, -8.39
+
+;レシピです。対応する大文字が素材を指定しています。上中下の順。
+
+
+;AddRecipe = "AIQ",  "QAQ",  "ABQ",     B, boat, A, iron_block, Q, iron_ingot
+
+;large light transport rubber
+AddRecipe = "ACC", "CCD", "DDB", A, mcheli:shiphull3, C, mcheli:engine2, D, mcheli:rubber, B, mcheli:electronics
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+;段差超え
+StepHeight = 1.5
+
+BoundingBox = 0.0, 0.0, 0.0, 14, 1.0
+
+BoundingBox = 0.0, 0.0, 5.0, 14, 1.0
+
+BoundingBox = 0.0, 0.0, -5.0, 14, 1.0
+
+Unmountposition = 0.00,  14.00, -14.46
+
+regeneration = false
+
+EnableBack = true
+
+ThrottleUpDown = 10
+
+enableback = true

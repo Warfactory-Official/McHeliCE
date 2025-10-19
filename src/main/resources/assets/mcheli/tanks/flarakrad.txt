@@ -1,0 +1,106 @@
+DisplayName = 15T MAN KAT 1 8x8 Truck with Roland SAM System 'FlaRakRad'
+MaxHp = 200
+Speed = 0.62
+Sound = flarakrad
+ThrottleUpDown = 0.81
+MobilityYawOnGround = 4.0
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 4
+CameraPosition = 0.00,  5.0, 0.0
+EnableNightVision = true
+CameraRotationSpeed = 50
+FlareType = 10
+MaxFuel         = 1200
+FuelConsumption = 2.7
+StepHeight = 1.8
+DefaultFreelook = false
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 1.0
+FlareType = 10
+ThirdPersonDist = 16
+
+Category = SPAAMS
+
+
+SubmergedDamageHeight = 4
+
+
+HUD = bnr32_hudnotherm, gunnernvg, none
+
+MotionFactor = 0.925
+ArmorMinDamage = 5
+;ArmorMaxDamage = 600
+ArmorDamageFactor = 1.00
+EnableBack = true
+PivotTurnThrottle = 0.1
+
+WeightType = Car
+
+
+
+AddSeat = 0.7, 1.0, 5.56
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon = thorn2,    0.00, 0.00, 0.00,  0.0,0.0
+
+unmountposition = 0.7, 1.5, 5.56
+
+AddGunnerSeat = 0.02, 1.0, 5.56, 0.00,  5.0, 0.0, false, -80, 10, false
+AddSeat = -0.79, 1.0, 5.56
+
+AddPartCanopy = 1.25, 1.65, 6.31, 0.0, 21.2, 0.0, -60
+AddPartCanopy = -1.21, 1.65, 6.30, 0.0, 21.2, 0.0, 60
+
+
+SetWheelPos =  0.9,  -0.32,  4.70, 2.52, -2.97, -1.25
+
+AddPartWheel = 1.15,  0.35,  4.70, 30
+AddPartWheel = 1.15,  0.35,  2.52, 
+AddPartWheel = 1.15,  0.35,  -2.97,
+AddPartWheel = 1.15,  0.35,  -1.25, 
+AddPartWheel = -1.12,  0.35,  4.75, 30 
+AddPartWheel = -1.12,  0.35,  2.48,
+AddPartWheel = -1.12,  0.35,  -1.19,
+AddPartWheel = -1.12,  0.35,  -3.02,
+
+AddPartSteeringWheel =  0.885,  1.59,  6.06,  0, 1.3196, -1,   130
+
+
+AddPartWeapon = VT1, false, true, false,  0.0, 0.0, 0.0, 0
+AddPartWeaponChild = false, true, 0.0, 4.0, -0.2, 0.0,
+AddPartWeaponChild = false, true, 0.0, 4.0, -0.2, 0.0,
+AddTurretWeapon = VT1, -1.22, 3.7, 1.0,  0.0, 0.0, false, 2, 0,-360,360, -80, 10
+AddTurretWeapon = VT1, 1.22, 3.7, 1.0,  0.0, 0.0, false, 2, 0,-360,360, -80, 10
+
+
+BoundingBox =  0.0, 1.8,  3.9,   2.8, 1.5
+BoundingBox =  0.0, 1.9, -2.8,   3.0, 2.0
+BoundingBox =  0.0, 1.9, 0.0,   3.0, 2.0
+BoundingBox =  0.0, 1.9, 1.7,   3.0, 2.0
+
+BoundingBox = 0.0, 3.5, 0.0, 1.2, 1.2
+
+BoundingBox = 0.0, 0.7, 0.0, 2.8, 0.4
+
+BoundingBox = 0.0, 0.8, 3.0, 1.8, 0.4
+BoundingBox = 0.0, 0.8, 2.0, 1.8, 0.4
+
+
+BoundingBox = 0.0, 0.8, 4.8, 1.8, 0.4
+
+BoundingBox = 0.0, 0.95, 5.0, 2.8, 0.2
+
+BoundingBox = 0.0, 0.8, -2.0, 1.8, 0.4
+
+BoundingBox = 0.0, 0.8, -3.0, 1.8, 0.4
+
+InventorySize = 9
+
+
+;light 8x8 spaa (modern)
+AddRecipe = "ABC", "DEG", "G  ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:fcs2, E, mcheli:lap, G, mcheli:complexmechanicparts

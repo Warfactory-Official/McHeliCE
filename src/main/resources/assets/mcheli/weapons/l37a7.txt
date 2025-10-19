@@ -1,0 +1,42 @@
+DisplayName = 120mm L30A1 [Shell L31A7 HESH]
+ModelBullet = bullet105mm
+Type = MachineGun1
+Power = 152
+Explosion = 4
+ExplosionInWater = 2
+ExplosionBlock = 4
+Acceleration = 7.0
+Sight = None
+ReloadTime = 80
+Round = 25
+SoundVolume = 10.0
+Sound = chalmain
+Accuracy = 0.5
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+Gravity = -0.005
+
+DisplayMortarDistance = true
+
+
+Delay = 100
+ReloadTime = 80
+Group = MainGun
+;Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+ModelBullet = bullet105mm
+Piercing = 5
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+MaxAmmo = 25
+SuppliedNum = 15
+Item =  1, iron_ingot
+Item =  1, gunpowder

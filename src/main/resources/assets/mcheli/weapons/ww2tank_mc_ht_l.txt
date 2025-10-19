@@ -1,0 +1,22 @@
+DisplayName = Medium-Caliber Gun [HT] Left
+Type = MachineGun2
+Power = 75
+Acceleration = 9.0
+Explosion = 2
+ExplosionBlock = 3
+Sight = None
+ReloadTime = 150
+Round = 1
+Delay = 150
+SoundVolume = 6.0
+Accuracy = 1.5
+ModeNum = 2
+Gravity = -0.02
+Particle = largeexplode
+Sound = ww2tankshot_snd
+ModeNum = 2
+
+MaxAmmo = 50
+SuppliedNum = 10
+Item =  2, iron_ingot
+Item =  3, gunpowder

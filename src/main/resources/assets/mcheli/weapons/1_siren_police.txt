@@ -1,0 +1,17 @@
+DisplayName = Japanese Police Siren
+Type = MachineGun1
+Power = 0
+Accuracy = 0
+Sight = None
+Delay = 80
+ModelBullet = 0_none
+Particle = none
+Sound = policesiren_j_snd
+
+
+
+Flaming = false
+SoundVolume = 15.0
+SoundPitchRandom = 0
+Gravity = -9
+AddDisplayName = en_US, Police Siren

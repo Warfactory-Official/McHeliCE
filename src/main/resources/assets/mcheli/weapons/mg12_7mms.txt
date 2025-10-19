@@ -1,0 +1,32 @@
+DisplayName = 12.7mm Machine Gun
+Type = MachineGun1
+Power = 31
+Acceleration = 8.0
+Flaming = false
+Sight = MissileSight
+Delay = 0
+;SoundDelay = 3
+;Accuracy = 2.0
+HeatCount = 1
+MaxHeatCount = 100
+SoundPitch = 0.8
+Sound = gun_l1_snd
+Accuracy = 1.5
+
+;12.7
+Power = 31
+
+Acceleration = 7.5
+Piercing = 0
+DamageFactor = tank, 1.0
+DamageFactor = plane, 0.5
+DamageFactor = vehicle, 1.0
+DamageFactor = heli, 0.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+MaxAmmo = 800
+SuppliedNum = 200
+Item =  2, iron_ingot
+Item =  2, gunpowder

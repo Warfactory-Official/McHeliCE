@@ -1,0 +1,20 @@
+DisplayName = Mk45 Mk91 [Illum-MT] 127mm gun
+Type = Rocket
+Power = 0
+ModelBullet = illum
+Acceleration = 0
+Sight = MoveSight
+Delay = 60
+HeatCount = 20
+MaxHeatCount = 120
+SoundVolume = 1.6
+Gravity = 0
+TimeFuse = 1400
+Sound = mk45_snd
+; RecoilBufCount = 駐退カウント, 後退中のカウント倍率
+RecoilBufCount = 18, 6
+BulletColor = 250, 255, 127, 39
+
+MaxAmmo = 12
+SuppliedNum = 4
+Item =  1, redstone

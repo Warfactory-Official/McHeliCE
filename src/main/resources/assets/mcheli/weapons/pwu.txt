@@ -1,0 +1,19 @@
+DisplayName = 7.92mm PWU Machine Gun
+Type = MachineGun1
+Power = 8
+Acceleration = 7.0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+Accuracy = 1.5
+HeatCount = 2
+MaxHeatCount = 250
+SoundPitch = 1.0
+SetCartridge = cartridge, 0.0, 0, 0, 2.00, -0.04, 0.40
+Particle = explode
+
+MaxAmmo = 600
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder

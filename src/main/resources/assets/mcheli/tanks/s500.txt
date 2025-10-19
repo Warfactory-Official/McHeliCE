@@ -1,0 +1,111 @@
+DisplayName = BAZ-69096 with S-500 Prometheus Missile System
+AddDisplayName = en_US, BAZ-69096 with S-500 Prometheus Missile System
+AddDisplayName = ja_JP, S-500
+ItemID = 35403
+MaxHp = 200
+Speed = 0.43
+Sound = zilonethreefive
+ThrottleUpDown = 2
+MobilityYawOnGround = 5.8
+MaxFuel         = 1800
+FuelConsumption = 1.2
+EnableNightVision = true
+EnableEntityRadar = true
+Gravity = -0.61
+GravityInWater = -1
+CameraRotationSpeed = 35
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll = 0
+InventorySize = 10
+StepHeight = 1.8
+DefaultFreelook = false
+MotionFactor = 0.9
+SubmergedDamageHeight = 2
+
+ThirdPersonDist = 16
+
+
+
+
+;;-0.2488
+
+DamageFactor = 1.0
+
+CameraPosition = 0.00,  15.7512, -13.2526, false, -0, 5
+;,-90,90
+;EntityWidth = 0
+;EntityHeight = 0
+
+AddTexture = s500d
+AddTexture = s500s
+
+AddSeat = 1.0189,  1.6512, 3.2554
+AddGunnerSeat =  -1.0189,  1.6512, 3.2554, 0.00,  15.7512, -13.2526, true,-90,90,false
+
+AddPartCanopy = 1.5415, 1.7798, 4.2705,  0.00,  1.0, 0.00,  -70
+AddPartCanopy =  -1.5415, 1.7798, 4.2705,  0.00,  1.0, 0.00, 70
+AddPartSteeringWheel =  1.1008,  2.0152,  3.9710,  0, 0.7, -1,   90
+AddFixedSearchLight =  1.6737, 1.1225, 4.4859,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5, 0, 0
+AddFixedSearchLight = -1.6737, 1.1225, 4.4859,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5, 0, 0
+Category = MSAM
+
+WeightType = Car
+WeightedCenterZ = 0.0
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+HUD = mbt_hud, heli_gnr
+
+SetWheelPos =  1.4540,  -0.24,1.5075,  -1.6011, -6.9260, -8.9309,-10.9384
+
+
+AddPartWheel =   1.5540,  0.4046, 1.5075, 30
+AddPartWheel =   1.5540,  0.4046, -1.6011, 30
+AddPartWheel =   1.5540,  0.4046, -6.9260, 0
+AddPartWheel =   1.5540,  0.4046, -8.9309, 0
+AddPartWheel =   1.5540,  0.4046, -10.9384, 0
+
+
+AddPartWheel =   -1.5540,  0.4046, 1.5075, 30
+AddPartWheel =   -1.5540,  0.4046, -1.6011, 30
+AddPartWheel =   -1.5540,  0.4046, -6.9260, 0
+AddPartWheel =   -1.5540,  0.4046, -8.9309, 0
+AddPartWheel =   -1.5540,  0.4046, -10.9384, 0
+
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+TrackRollerRot = 30
+
+AddPartWeaponBay	= 77h6h,  0, 1.4849, -13.1935, 1.0, 0.0, 0.0, -90
+AddPartWeaponBay	= 77h6h,  0, 1.4849, -13.1935, 1.0, 0.0, 0.0, -90
+
+AddWeapon	     = none,    0.00,  29.7512, -24,  1, 0,  true,1,-360,360, -360, 360
+AddWeapon	     = 77h6h,  -2.2653,  13.6012, -15.03, 1, 0,  false,2,-360,360, -360, 360
+AddWeapon	     = 77h6h,   2.2653,  13.6012, -15.03,  1, 0, false,2,-360,360, -360, 360
+AddWeapon	     = dummy_bay_closed,   2.2653,  13.6012, -15.03,  1, 0, false,2,-360,360, -360, 360
+
+
+BoundingBox = 0.0, 1.2, 0.0, 2.5, 0.5
+BoundingBox = 0.0, 1.2, 2.85, 3.5, 0.5
+BoundingBox = 0.0, 0.9512, -2.45, 2.5, 0.5
+BoundingBox = 0.0, 0.9512, -4.95, 2.5, 0.5
+BoundingBox = 0.0, 0.9512, -6.55, 2.5, 0.5
+BoundingBox = 0.0, 0.9512, -8.95, 2.5, 0.5
+BoundingBox = 0.0, 0.9512, -10.55, 2.5, 0.5
+BoundingBox = 0.0, 0.9512, -12.45, 2.5, 0.5
+
+BoundingBox = 0.0, 2.5, -12.45, 3.5, 3.5
+
+
+
+unmountposition = 1.0189,  1.5, 3.2554
+
+ArmorMinDamage = 2
+
+
+;light 10x10 spaa SAM system (modern)
+AddRecipe = "ABC", "D G", "AHH", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine3, D, mcheli:electronics, G, mcheli:rocket, H, mcheli:wheel

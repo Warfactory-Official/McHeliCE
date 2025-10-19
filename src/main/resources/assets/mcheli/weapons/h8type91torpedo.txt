@@ -1,0 +1,24 @@
+DisplayName = Type 91 Torpedo
+Type = Torpedo
+Power = 850
+ModelBullet = type93torpedo
+Acceleration = 0.0
+AccelerationInWater = 2.5
+Explosion = 7
+ExplosionInWater = 14
+Flaming = false
+Sight = None
+Delay = 5
+GuidedTorpedo = false
+Gravity = -0.04
+GravityInWater = 0
+ReloadTime = 1800
+Round = 2
+DisableSmoke = true
+Sound = bomb_snd
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  6, iron_ingot
+Item =  3, gunpowder
+Item =  2, redstone

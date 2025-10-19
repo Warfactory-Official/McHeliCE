@@ -1,0 +1,47 @@
+DisplayName = 30mm 2A72 Automatic Cannon [3UBR8 - APDS]
+Type = MachineGun2
+Power = 82
+Flaming = false
+Sight = MoveSight
+
+ReloadTime = 120
+Round = 250
+
+SoundPitch = 1.0
+Sound = bmptwomain
+Accuracy = 0.5
+;ModeNum = 1
+group = maingun
+
+
+
+Gravity = -0.005
+
+DisplayMortarDistance = true
+
+;2a72
+Delay = 2
+HeatCount = 5
+MaxHeatCount = 150
+
+;tracer
+;BulletColor = 230, 200, 20, 80 
+
+
+SetCartridge = cartridge, 0,   0, 0, 3.50, -0.04, 0.50
+
+MaxAmmo = 250
+SuppliedNum = 50
+Item =  2, iron_ingot
+Item =  2, gunpowder
+
+Acceleration = 7.5
+Piercing = 2
+DamageFactor = tank, 1.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+

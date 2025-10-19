@@ -1,0 +1,34 @@
+DisplayName = EGBU-24 Paveway III
+Type = ASMissile
+;Acceleration = .3
+Flaming = true
+Sight = MoveSight
+radius = 1000
+Delay = 5
+Round = 2
+ReloadTime = 1000
+SoundVolume = 3
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = egbu-24
+Gravity = -0.001
+DisableSmoke = true
+
+Acceleration = 7.0
+Explosion = 17
+;Explosive mass	269.9*2 kg kg
+Power = 2080
+ExplosionBlock = 5
+ExplosionInWater = 9
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  8, gunpowder
+Item =  6, redstone

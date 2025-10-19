@@ -1,0 +1,24 @@
+DisplayName = KH-22 [Nuclear Cruise Missile - 350KT SURFACE]
+Type = TVMissile
+Power = 60
+Acceleration = 17
+Explosion = 20
+ExplosionBlock = 1
+Flaming = true
+Sight = MoveSight
+Delay = 5
+Round = 9
+ReloadTime = 190
+SoundVolume = 15
+SoundPitch = 0.1
+Sound = missile_1_snd
+ModelBullet = kh22
+Gravity = -0.01
+DisableSmoke = false
+nukeyield = 125
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  3, mcheli:genericnuclearwarheadhigh
+Item =  16, tnt
+Item =  1, mcheli:genericnuclearwarhead

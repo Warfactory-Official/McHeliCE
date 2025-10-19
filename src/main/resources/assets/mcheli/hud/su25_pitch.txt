@@ -1,0 +1,146 @@
+; パラメータ1  :テクスチャファイル名 (拡張子無し。assets\mcheli\textures\gui 内のファイル)
+; パラメータ2  : 画面の中央からのX座標
+; パラメータ3  : 画面の中央からのY座標
+; パラメータ4  : 画面上の幅
+; パラメータ5  : 画面上の高さrt
+; パラメータ6  : 読み出すテクスチャのX座標
+; パラメータ7  : 読み出すテクスチャのY座標
+; パラメータ8  : 読み出すテクスチャの幅
+; パラメータ9  : 読み出すテクスチャの高さ
+; パラメータ10 : 画面上での回転角度(省略可)
+
+;DrawTexture = 0, 15 , -24, 4,4 ,0,0, 256,256,0
+;DrawTexture = 0, 15 , -12.5, 4,4 ,0,0, 256,256,0
+;DrawTexture = 0, 15 , 0, 4,4 ,0,0, 256,256,0
+
+;DrawTexture = 0, 19 , -24, 4,4 ,0,0, 256,256,0
+;DrawTexture = 0, 19 , -12.5, 4,4 ,0,0, 256,256,0
+;DrawTexture = 0, 19 , 0, 4,4 ,0,0, 256,256,0
+
+;DrawTexture = bou, 11.5 , -23.5, 4,3 ,0,0, 256,256,0
+;DrawTexture = bou, -10 , -11.5, 25,3 ,0,0, 256,256,0
+;DrawTexture = bou, 0.5 , 0.5, 4,3 ,0,0, 256,256,0
+
+;pitch
+
+
+If=pitch<=0
+DrawTexture = bou, 10.5 , -23.5-(pitch%10), 4,3 ,0,0, 256,256,0
+DrawTexture = bou, 10.5 , -11.5-(pitch%10), 4,3 ,0,0, 256,256,0
+DrawTexture = 0, 19 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+
+If=pitch==0||(pitch>-3&&pitch<3)
+DrawTexture = bou, 11.5 , 0.5-(pitch%10), 4,3 ,0,0, 256,256,0
+DrawTexture = 1, 15 , 0-(pitch%10), 4,4 ,0,0, 256,256,0
+DrawTexture = 0, 19 , 0-(pitch%10), 4,4 ,0,0, 256,256,0
+DrawTexture = bou, 11.5 , -23.5-(pitch%10), 4,3 ,0,0, 256,256,0
+DrawTexture = 1, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+DrawTexture = 0, 19 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+DrawTexture = bou, -10 , -11.5-(pitch%10), 25,3 ,0,0, 256,256,0
+DrawTexture = 0, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+
+If=pitch>-10&&pitch<0
+DrawTexture = bou, -10 , -11.5-(pitch%10), 25,3 ,0,0, 256,256,0
+DrawTexture = 0, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+
+If=pitch<10&&pitch>0
+DrawTexture = bou, -10 , -11.5-(pitch%10), 25,3 ,0,0, 256,256,0
+DrawTexture = 0, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+
+If=pitch>0
+DrawTexture = bou, 10.5 , -11.5-(pitch%10), 4,3 ,0,0, 256,256,0
+DrawTexture = bou, 10.5 , 0.5-(pitch%10), 4,3 ,0,0, 256,256,0
+DrawTexture = 0, 19 , 0-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+
+If=pitch>10||pitch<-10
+DrawTexture = 0, 19 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+
+If=(pitch<0&&pitch>-10)
+DrawTexture = 1, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-10&&pitch>-20)
+DrawTexture = 2, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-20&&pitch>-30)
+DrawTexture = 3, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-30&&pitch>-40)
+DrawTexture = 4, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-40&&pitch>-50)
+DrawTexture = 5, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-50&&pitch>-60)
+DrawTexture = 6, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-60&&pitch>-70)
+DrawTexture = 7, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-70&&pitch>-80)
+DrawTexture = 8, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-80&&pitch>-90)
+DrawTexture = 9, 15 , -24-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+
+If=(pitch<-10&&pitch>-20)||(pitch>10&&pitch<20)
+DrawTexture = 1, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-20&&pitch>-30)||(pitch>20&&pitch<30)
+DrawTexture = 2, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-30&&pitch>-40)||(pitch>30&&pitch<40)
+DrawTexture = 3, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-40&&pitch>-50)||(pitch>40&&pitch<50)
+DrawTexture = 4, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-50&&pitch>-60)||(pitch>50&&pitch<60)
+DrawTexture = 5, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-60&&pitch>-70)||(pitch>60&&pitch<70)
+DrawTexture = 6, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-70&&pitch>-80)||(pitch>70&&pitch<80)
+DrawTexture = 7, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch<-80&&pitch>-90)||(pitch>80&&pitch<90)
+DrawTexture = 8, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=pitch>80&&pitch<90
+DrawTexture = 9, 15 , -12.5-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+
+If=(pitch<10&&pitch>0)
+DrawTexture = 1, 15 , 0-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch>10&&pitch<20)
+DrawTexture = 2, 15 , 0-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch>20&&pitch<30)
+DrawTexture = 3, 15 , 0-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch>30&&pitch<40)
+DrawTexture = 4, 15 , 0-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch>40&&pitch<50)
+DrawTexture = 5, 15 , 0-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch>50&&pitch<60)
+DrawTexture = 6, 15 , -(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch>60&&pitch<70)
+DrawTexture = 7, 15 ,-(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=(pitch>70&&pitch<80)
+DrawTexture = 8, 15 , -(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf
+If=pitch>80&&pitch<90
+DrawTexture = 9, 15 , -(pitch%10), 4,4 ,0,0, 256,256,0
+EndIf

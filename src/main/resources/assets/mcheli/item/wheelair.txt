@@ -1,0 +1,6 @@
+DisplayName = Aircraft Wheels
+AddDisplayName = ja_JP, Aircraft Wheels
+StackSize = 64
+;;they're harder to make!
+AddRecipe = "AAA", "AAA", "AAA", A, hfr:item.part_wheel
+AddRecipe = "AAA", "AAA", "AAA", A, mcheli:wheel

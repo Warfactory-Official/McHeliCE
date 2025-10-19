@@ -1,0 +1,135 @@
+DisplayName = M50 Ontos 'thing'
+AddDisplayName = ja_JP, M50 Ontos 'thing'
+AddDisplayName = en_US, M50 Ontos 'thing'
+ItemID = 30100
+MaxHp = 100
+Speed = 0.30
+Sound = mbt_run
+ThrottleUpDown = 1.0
+MobilityYawOnGround = 2.0
+MinRotationPitch = -20
+MaxRotationPitch = 10
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 6
+EnableNightVision = false
+CameraRotationSpeed = 13
+EnableEntityRadar = false
+MaxFuel         = 1200
+FuelConsumption = 3.0
+StepHeight = 1.5
+;FlareType = 10
+CameraPosition =  0.0070,  2.85, -1.4493
+HideEntity = false
+EnableBack = true
+DefaultFreeLook = true
+
+Category = TD
+
+OnGroundPitchFactor = 1.5
+OnGroundRollFactor  = 1.3
+
+
+
+unmountposition = 0.0070,  1.5, -1.4493
+AddGunnerSeat =  0.0070,  1.75, -1.4493,   0.0070,  2.85, -1.4493,  false, -90, 90, false
+
+
+TurretPosition = 0.0070,  2.85, -1.4493
+
+HUD = ww2tank_hud
+
+AddPartTurretWeapon = m50heat, false, true, false, 0.0070, 2.27, -1.4493
+AddPartWeaponChild = false, true, 0.0070, 2.27, -1.4493, 0.0
+
+AddWeapon = ontosm8c,  1.8670, 2.6512, -1.9740, 1.0, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = ontosm8c,  1.3028, 2.6512, -1.9740, 1.0, 0.0, false,1, 0,-40,40, -20, 10
+
+AddWeapon = ontosm8c,  -1.8670, 2.6512, -1.9740, 1.0, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = ontosm8c,  -1.3028, 2.6512, -1.9740, 1.0, 0.0, false,1, 0,-40,40, -20, 10
+
+
+
+AddWeapon = m50heat,  1.8679, 2.4493, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = m50heat,  1.8679, 1.8953, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = m50heat,  1.3022, 2.4493, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+
+AddWeapon = m50heat,  -1.8679, 2.4493, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = m50heat,  -1.8679, 1.8953, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = m50heat,  -1.3022, 2.4493, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+
+AddWeapon = m50hesh,  1.8679, 2.4493, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = m50hesh,  1.8679, 1.8953, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = m50hesh,  1.3022, 2.4493, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+
+AddWeapon = m50hesh,  -1.8679, 2.4493, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = m50hesh,  -1.8679, 1.8953, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = m50hesh,  -1.3022, 2.4493, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+
+AddWeapon = ontosm581,  1.8679, 2.4493, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = ontosm581,  1.8679, 1.8953, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = ontosm581,  1.3022, 2.4493, -0.9511, 0.5, 0.0, false,1, 0,-40,40, -20, 10
+
+AddWeapon = ontosm581,  -1.8679, 2.4493, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = ontosm581,  -1.8679, 1.8953, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+AddWeapon = ontosm581,  -1.3022, 2.4493, -0.9511, -0.5, 0.0, false,1, 0,-40,40, -20, 10
+
+
+
+;AddTurretWeapon = m50heat, 0.00,  2.27, -1.44, 0.0, 0.0, false,1, 0,-40,40, -20, 10
+
+;AddPartTurretWeapon    = shermanM2_12.7mm,   false, true, true,   -0.57, 3.47, 0.18
+;AddTurretWeapon = shermanM2_12.7mm,    -0.57, 3.57, 0.30,   0.0, 0.0, false, 2, 0, -60,60, -25,10
+
+
+AddPartWeapon = ontosmg7_62mm, false, true, false, 0.0070,  2.85, -1.4493, 0
+AddPartWeaponChild = false, true, 0.0261, 2.34, -0.597, 0.0
+AddWeapon = ontosmg7_62mm,   0.0261, 2.6461, -1.4493,  0.0, 0.0, false,1, 0,-40,40, -25, 10
+
+
+
+; パラメータは前から順に 武器設定ファイル名、位置(X,Y,Z)、回転角度(横,縦), パイロット使用可否, 座席, DefaultYaw, MinYaw, MaxYaw, MinPitch, MaxPitch
+
+SetWheelPos =  1.55,  -0.24,  0.25, -1.27,  -2.71, 1.76
+
+
+;AddCrawlerTrack = true, 0.15, -1.28,  -2.71/-0.25, -2.98/-0.14, -3.1/0.13, -2.98/0.4, -2.71/0.52,  2.44/0.93,  2.64/0.85,  2.72/0.66,  2.64/0.47,  2.03/-0.14, 1.76/-0.25,
+AddCrawlerTrack = true, 0.15, -1.28,  -0.25/-2.71, -0.14/-2.98, 0.13/-3.1, 0.4/-2.98, 0.52/-2.71,  0.93/2.44,  0.85/2.64,  0.66/2.72,  0.47/2.64,  -0.14/2.03,-0.25/1.76,
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+
+
+AddTrackRoller = 1.93,  0.13,  1.76
+AddTrackRoller = 1.93,  0.13,  0.25
+AddTrackRoller = 1.93,  0.13,  -1.27
+AddTrackRoller = 1.93,  0.13,  -2.71
+AddTrackRoller = 1.92,  0.66,  2.44
+
+AddTrackRoller = -1.93,  0.13,  1.76
+AddTrackRoller = -1.93,  0.13,  0.25
+AddTrackRoller = -1.93,  0.13,  -1.27
+AddTrackRoller = -1.93,  0.13,  -2.71
+AddTrackRoller = -1.92,  0.66,  2.44
+
+MaxFuel = 600
+FuelConsumption = 2.0
+
+BoundingBox = 0.0, 0.5, -1.6, 3.0, 0.8
+BoundingBox = 0.0, 0.7, -1.45, 3.0, 0.8
+BoundingBox = 0.0, 0.9, -1.35, 3.0, 0.8
+BoundingBox = 0.0, 1.1, -1.25, 2.8, 0.8
+BoundingBox = 0.0, 1.3, -1.25, 2.6, 0.8
+
+
+BoundingBox = 0.0, 0.7, 1.2, 3.0, 0.8
+BoundingBox = 0.0, 1.1, 0.4, 3.0, 0.1
+BoundingBox = 0.0, 1.2, 0.25, 3.0, 0.1
+BoundingBox = 0.0, 1.3, 0.1, 3.0, 0.1
+BoundingBox = 0.0, 1.4, -0.2, 3.0, 0.1
+BoundingBox = 0.0, 1.5, -0.4, 3.0, 0.1
+BoundingBox = 0.0, 1.6, -0.6, 2.8, 0.1
+BoundingBox = 0.0, 1.7, -0.8, 2.6, 0.1
+
+;vietnam era rkt bullshit meme
+AddRecipe = "ABC", "DEE", "EF ", A, mcheli:lightchassis, B, mcheli:cannon1, C, mcheli:engine1, D, mcheli:tanktracks, E, mcheli:rocket2, F, mcheli:electronics

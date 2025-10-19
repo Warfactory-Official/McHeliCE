@@ -1,0 +1,65 @@
+DisplayName = Improvised Weaponized Drone
+AddDisplayName = en_US, Improvised Weaponized Drone
+AddDisplayName = ja_JP, ??RC????UAV
+
+
+MaxHp = 20
+Speed = 0.4
+CameraPosition = -0.02, -0.06, 0.77
+SmallUAV = true
+Sound = radicon_heli
+ThrottleUpDown = 5.0
+ParticlesScale = 0.2
+MaxFuel         = 500
+FuelConsumption = 0.5
+
+
+
+MobilityYaw = 2.4
+MobilityPitch = 1.4
+MobilityRoll = 1.4
+
+
+HUD = heli
+
+AddTexture = MC_Drone_military_black
+AddTexture = MC_Drone_military_camo2
+
+
+AddPartCamera =  -0.03, 0.015, 0.281, true, true
+AddPartCamera =  -0.03, 0.015, 0.281, true, false
+
+
+
+; M = Military(???).  M = Multi-Mission(????)
+;Category = M.M
+
+
+AddSeat =  -0.03, 0.36, 0.00
+
+
+
+AddRotor = 1, 0,  0.57,  0.38, -0.49,  0, -1, 0
+AddRotor = 1, 0,  -0.53, 0.38, -0.60,  0, -1, 0
+
+AddRotor = 1, 0,  0.45, 0.38, 0.60,  0, -1, 0
+AddRotor = 1, 0,  -0.61,  0.38, 0.49,  0, -1, 0
+
+
+;basic unarmed drone
+AddRecipe = "ABC", "   ", "   ", A, mcheli:item.ingot_aluminum, B, mcheli:fcs2, C, mcheli:basicmechanicparts, D, mcheli:cannon1
+
+AddRecipe = "AB ", "   ", "   ", A, mcheli:mc_drone_farmer, B, mcheli:cannon1
+
+AddPartWeapon    = mg7_7mmdr,      false, true, false,  -0.027,  -0.133,  -0.002
+AddPartWeapon    = mg7_7mmdr,      false, true, true,  -0.027,  -0.133,  -0.002
+
+
+AddWeapon = mg7_7mmdr,  -0.029,  -0.127,  0.228,   0.0,  0.0,   true, 1, 0, -90, 90, 0, 90
+
+
+
+
+BoundingBox =  -0.03, 0.36, 0.00, 1.0, 1.0
+
+ThrottleUpDown = 0.8

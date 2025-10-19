@@ -1,0 +1,155 @@
+DisplayName = M3A3 Bradley IFV
+AddDisplayName = en_US, M3A3 Bradley IFV
+AddDisplayName = ru_RU, M3 Брэдли
+MaxHp = 200
+Speed = 0.41
+Sound = bradeng
+ThrottleUpDown = 2.0
+MobilityYawOnGround = 3.0
+MinRotationPitch = -59
+MaxRotationPitch = 20
+MobilityRoll = 0
+Gravity = -0.61
+;Float = true
+;FloatOffset = 0.0
+
+Category = RIFV/ARV
+
+;GravityInWater = -0.2
+
+;too fat
+
+GravityInWater = -1.0
+DamageFactor = 0.0
+
+
+EnableNightVision = true
+CameraRotationSpeed = 36
+EnableEntityRadar = false
+MaxFuel         = 1300
+FuelConsumption = 4.0
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.4
+FlareType = 10
+CameraZoom = 10
+SubmergedDamageHeight = 4
+HideEntity = true
+WeightType = Tank
+WeightedCenterZ = 0.0
+SetWheelPos =  0.90,  -0.24,   2.7549,  1.9609,  1.21729,  0.2849, -0.5194, -1.2981
+ThirdPersonDist = 8
+HUD = mbt_hud, nohudbmp, none,none,none,none, none, none,none,none,none
+EntityWidth  = 0.7
+EntityHeight = 0.7
+;AddSeat =  0.00,  2.70,  -0.5
+;;;;;;;;;;;;;;;;;;;;;;;TurretPosition = -0.0738, 3.0225, -0.1302
+
+
+CameraPosition = -0.161,  3.1, -0.0414
+
+TurretPosition = -0.0, 2.14, 0.0
+AddGunnerSeat =  0.00,  1.70,  -0.0, -0.161,  3.1, -0.0414, false, -90, 90, true
+;AddSeat = -0.87, 0.5, -1.0
+;AddSeat = -0.87, 0.5, -1.4
+AddSeat = -0.87, 0.5, -2.0
+;AddSeat = 0.87, 0.5, -1
+;AddSeat = 0.87, 0.5, -1.4
+AddSeat = 0.87, 0.5, -2.0
+
+
+
+
+MotionFactor = 0.9
+
+;ArmorMaxDamage = 600
+ArmorDamageFactor = 1.00
+EnableBack = true
+AddPartWeaponBay = op, -0.0939, 0.9925, -2.9184, 0.05, 1.0, -0.1, 110
+PivotTurnThrottle = 0.0
+
+AddCrawlerTrack = true, 0.22, -1.4326,  -0.2263/2.7704, -0.1948/2.8829, 0.1949/3.8482, 0.2906/4.0317, 0.4763/4.12480, 0.6817/4.0911, 0.8276/3.9432, 0.8626/3.7651, 0.7027/-0.9401, 0.6421/-2.3212, 0.6221/-2.4189, 0.5662/-2.5015, 0.4829/-2.5566, 0.385/-2.5755, 0.2873/-2.57550, 0.2046/-2.4995, 0.1497/-2.4165, -0.2143/-1.414, -0.2365/-1.2949, -0.2365/-1.2945, -0.2263/2.7645
+AddCrawlerTrack = true, 0.22, -1.4326,  -0.2263/2.7704, -0.1948/2.8829, 0.1949/3.8482, 0.2906/4.0317, 0.4763/4.12480, 0.6817/4.0911, 0.8276/3.9432, 0.8626/3.7651, 0.7027/-0.9401, 0.6421/-2.3212, 0.6221/-2.4189, 0.5662/-2.5015, 0.4829/-2.5566, 0.385/-2.5755, 0.2873/-2.57550, 0.2046/-2.4995, 0.1497/-2.4165, -0.2143/-1.414, -0.2365/-1.2949, -0.2365/-1.2945, -0.2263/2.7645
+AddTrackRoller = -1.4634,  0.5269,  3.7918
+AddTrackRoller = -1.4634,  0.0825,  2.7549
+AddTrackRoller = -1.4634,  0.0892,  1.9609
+AddTrackRoller = -1.4634,  0.0955,  1.21729
+AddTrackRoller = -1.4634,  0.0947,  0.2849
+AddTrackRoller = -1.4634,  0.0837, -0.5194 
+AddTrackRoller = -1.4634,  0.0731, -1.2981
+AddTrackRoller = -1.4634,  0.3864, -2.3195
+
+AddTrackRoller = 1.4634,  0.5269,  3.7918
+AddTrackRoller = 1.4634,  0.0825,  2.7549
+AddTrackRoller = 1.4634,  0.0892,  1.9609
+AddTrackRoller = 1.4634,  0.0955,  1.21729
+AddTrackRoller = 1.4634,  0.0947,  0.2849
+AddTrackRoller = 1.4634,  0.0837, -0.5194 
+AddTrackRoller = 1.4634,  0.0731, -1.2981
+AddTrackRoller = 1.4634,  0.3864, -2.3195
+
+AddPartWeapon = bradm242 / bradhem242 / bradm242apfsds / bradbgm71a, false, true, false,  -0.0, 1.7572, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.1874, 0.672, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.1874, 0.672, 0.15
+AddTurretWeapon = bradm242,  -0.0588, 2.1874, 0.672,  0.0, 0.0, true,1, 0,-360,360, -59, 9
+AddTurretWeapon = bradhem242,  -0.0588, 2.1874, 0.672,  0.0, 0.0, true,1, 0,-360,360, -59, 9
+AddTurretWeapon = bradm242apfsds,  -0.0588, 2.1874, 0.672,  0.0, 0.0, true,1, 0,-360,360, -59, 9
+
+AddPartWeapon=bradm240_r, true, true, false,-0.0, 4.2079, 0.00
+;AddPartWeaponChild = false,true, 0.00, 2.335, 0.672
+;AddPartWeaponChild = false,true, -1.2286, 3.1561, -0.8627, 0
+AddTurretWeapon = bradm240_r, -0.4928, 2.3652, 0.672, 0,0,true,1,0,-360,360,-59,9
+AddTurretWeapon = bradbgm71a,     1.3285, 3.0382, -0.7165,  0.0, 0.0, true,1, 0,-360,360, -20, 30
+AddTurretWeapon = bradbgm71a,     1.0565, 3.0382, -0.7165,  0.0, 0.0, true,1, 0,-360,360, -20, 30
+AddWeapon = targeting_pod_tank, 0.00, 3.50, 0.00, 0.0, 0.0, false, 1, 0, -360, 360, -90, 90
+AddWeapon = op, 0.00, 3.50, 0.00, 0.0, 0.0, false, 1, 0, -360, 360, -90, 90
+
+AddPartWeapon = bradbgm71a, true, true, false,0.0, 2.72, 0.0
+AddPartWeaponChild = false, true, 1.21, 2.98, 0.0360
+AddPartWeaponChild = false, true, 1.21, 2.29, 0.385
+AddPartWeaponChild = false, true, 1.21, 2.29, 0.385
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+InventorySize = 9
+
+
+ArmorMinDamage = 5
+
+;light tracked tank/ifv (bradley family) (modern composite)
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:lightchassis, B, mcheli:cannon2, C, mcheli:engine1, D, mcheli:tanktracks, E, mcheli:composite, F, mcheli:fcs, G, mcheli:advancedmechanicparts
+
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:bradleym2, B, mcheli:advancedmechanicparts, C, mcheli:composite, D, mcheli:fcs
+
+;BoundingBox =  0.0, 0.6,  2,   4, 1.9,  1
+;BoundingBox = -0.35, 1.6,  0.0,   2.4, 3.2,  1
+;BoundingBox =  0.0, 1, -1,   3.8, 1.9,  1.00
+
+
+;hull
+BoundingBox = 0.0, 0.8, -1.0, 3.5, 1.8, 0.25
+BoundingBox = 0.0, 0.8, 0.75, 3.3, 1.45, 0.25
+;turret
+BoundingBox = 0.0, 2.0, 0.0, 2.0, 1.0, 0.12
+;frontplate
+BoundingBox = 0.0, 0.3, 2.85, 2.0, 0.2, 0.08
+BoundingBox = 0.0, 0.5, 2.95, 2.0, 0.2, 0.08
+BoundingBox = 0.0, 0.7, 3.05, 2.0, 0.2, 0.08
+BoundingBox = 0.0, 0.9, 3.20, 2.0, 0.2, 0.08
+
+BoundingBox = 0.0, 1.1, 2.95, 2.0, 0.2, 0.12
+
+BoundingBox = 0.0, 1.3, 2.55, 2.0, 0.2, 0.12
+
+BoundingBox = 0.0, 1.5, 2.10, 2.0, 0.2, 0.12
+
+
+
+
+UnmountPosition = 0.0, 1.5, -2.0
+
+
+

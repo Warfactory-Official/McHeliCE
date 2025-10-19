@@ -1,0 +1,123 @@
+DisplayName = Il-28Sh
+AddDisplayName = ja_JP, Il-28Sh
+MaxHp = 150
+Speed = 0.90132
+
+;518
+
+ThrottleUpDown = 0.15
+AutoPilotRot = 0.00
+CameraPosition = 0.0, 1.10, -4.47
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+MaxFuel         = 2400
+FuelConsumption = 2.0
+ThirdPersonDist = 28
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+Sound = migfifteen
+
+AddTexture = il28_ddr
+AddTexture = il28_dprk
+AddTexture = il28_cs
+AddTexture = il28_pla
+AddTexture = il28_none
+
+
+HUD = plane_wwii, gunner, none
+
+MobilityYaw = 1.0
+MobilityRoll = 1.0
+MobilityPitch = 3.0
+
+MobilityYawOnGround = 2.0
+
+AddSeat = 0,  2.71,  -2.10
+AddGunnerSeat = 0, 2.48, -18.7,   0.0, 3.50, -19.5,   true,-60,45
+AddSeat = 0,  1.92,  -0.10
+
+AddPartWeapon = il28nr23_g,false, true, false,       0, 2.4023, -19.4921
+AddPartWeaponChild  =        false, true,  0.0000, 2.4023, -19.4921
+AddPartWeaponChild  =        false, true,  0.0000, 2.4023, -19.4921
+
+AddPartLG = 0, 1.7228, 0.4158, 1, 0, 0, 90
+AddPartSlideRotLG = 0, 0.5, -0.7, 0, 1.8, -1, -1,0,0,40
+AddPartLG = 0.3119, 1.6016, -0.7964, 0, 0, -1, 90
+AddPartLG =-0.3119, 1.6016, -0.7964, 0, 0, 1, 90
+AddPartLG = 2.8161, 1.5758, -6.8931, 0, 0, 1, 90
+AddPartLG = 4.8231, 1.5758, -6.8931, 0, 0,-1, 90
+AddPartLG = 3.8523,    1.6, -9.1522, -1,-0.3, 0, 135
+AddPartLG =-2.8161, 1.5758, -6.8931, 0, 0,-1, 90
+AddPartLG =-4.8231, 1.5758, -6.8931, 0, 0, 1, 90
+AddPartLG =-3.8523,    1.6, -9.1522, -1, 0.3, 0, 135
+
+AddPartNozzle =  3.8196, 2.3235, -13.7, 1, 0, 0
+AddPartNozzle = -3.8196, 2.3235, -13.7, 1, 0, 0
+
+AddWeapon = il28nr23_g,  0.1851, 2.4023, -19.4021,   0.0, 0.0, false, 2,180,-70,70,-60,40
+AddWeapon = il28nr23_g, -0.1851, 2.4023, -19.4021,   0.0, 0.0, false, 2,180,-70,70,-60,40
+
+AddWeapon = il28nr23_n,  0.61, 2.0967, -0.4,   0.0, 0.0, true, 1
+AddWeapon = il28nr23_n, -0.61, 2.0967, -0.4,   0.0, 0.0, true, 1
+
+AddWeapon = il28s-5k,      8.1715,2.3793, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,     -8.1715,2.3793, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,      7.4516,2.3527, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,     -7.4516,2.3527, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,      6.7758,2.3128, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,     -6.7758,2.3128, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,      6.0990,2.2995, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,     -6.0990,2.2995, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,      5.4475,2.2728, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,     -5.4475,2.2728, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,      1.8944,2.2728, -8.1181, 0, 0, true,  1
+AddWeapon = il28s-5k,     -1.8944,2.2728, -8.1181, 0, 0, true,  1
+
+BoundingBox =  0, 2.56, 0,  2.0, 2, 1.0
+;BoundingBox =  0, 2.56, -2,  2.0, 3, 1.0
+BoundingBox =  0, 2.56, -4,  2.0, 2, 0.8
+BoundingBox =  0, 2.56, -6,  2.0, 2, 0.8
+BoundingBox =  0, 2.56, -8,  2.0, 2, 0.8
+BoundingBox =  0, 2.56, -10,  2.0, 2, 0.8
+BoundingBox =  0, 2.56, -12,  2.0, 2, 0.8
+BoundingBox =  0, 2.56, -14,  2.0, 2, 1.0
+BoundingBox =  0, 2.56, -16,  2.0, 2, 1.0
+BoundingBox =  0, 2.56, -18,  2.0, 2, 1.0
+BoundingBox =  3.82, 2.29, -4.65,  1.9, 1.7, 1.0
+BoundingBox =  3.82, 2.06, -6,  2.0, 2, 1.2
+BoundingBox =  3.82, 2.06, -8,  2.0, 2, 1.2
+BoundingBox =  3.82, 2.06, -10,  2.0, 2, 1.2
+BoundingBox =  3.82, 2.06, -12,  2.0, 2, 0.8
+BoundingBox = -3.82, 2.29, -4.65,  1.9, 1.7, 1.0
+BoundingBox = -3.82, 2.06, -6,  2.0, 2, 1.2
+BoundingBox = -3.82, 2.06, -8,  2.0, 2, 1.2
+BoundingBox = -3.82, 2.06, -10,  2.0, 2, 1.2
+BoundingBox = -3.82, 2.06, -12,  2.0, 2, 0.8
+BoundingBox =  0, 3.0, -10,  5, 0.5, 1.0
+BoundingBox =  6, 3.2, -10,  3, 0.5, 0.8
+BoundingBox =  -6, 3.2, -10,  3, 0.5, 0.8
+
+BoundingBox =  9, 3.2, -9.5,  3, 0.5, 1.0
+BoundingBox =  -9, 3.2, -9.5,  3, 0.5, 1.0
+
+BoundingBox = 2.05, 4.33, -18.54, 2.5, 0.5
+BoundingBox = -2.05, 4.33, -18.54, 2.5, 0.5
+
+BoundingBox = 0.0, 5.56, -18.16, 1.0, 2.5
+BoundingBox = 0.0, 5.76, -19.16, 1.0, 2.5
+
+BoundingBox = 0.0, 4.96, -17.16, 1.0, 2.5
+
+BoundingBox = 0.0, 4.06, -16.16, 1.0, 2.5
+
+BoundingBox = 0.0, 3.16, -15.16, 1.0, 2.5
+
+BoundingBox = 0.0, 3, -14.16, 1.0, 1.5
+
+unmountposition = 0,  1.50,  -2.10
+
+;large WW2ish prop plane attacker, AOW3 style
+AddRecipe = "ABC", "DEF", "   ", A, mcheli:airframe2, B, mcheli:basicmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon2, F, mcheli:rocket3
+
+enableback = true
+DamageFactor = 0.8

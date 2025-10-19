@@ -1,0 +1,113 @@
+﻿DisplayName = Shenyang J-8 II
+AddDisplayName = en_US, Shenyang J-8 II
+AddDisplayName = ja_JP, J-8 II
+ItemID = 25547
+MaxHp = 100
+Speed = 1.453
+Sound = migtwentyone
+EnableNightVision = false
+EnableEntityRadar = true
+EnableEjectionSeat = true
+ThrottleUpDown = 0.2
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+HUD = planenvg
+
+AddSeat = 0.0, 3.58, 0.00
+
+AddPartCanopy = 0.00,4.9452,-1.3530,-1,0,0,55
+
+AddPartLGRev =  0.4231, 1.8255, 1.3338,  0,0, 1,  110
+AddPartLGRev = -0.4231, 1.8255, 1.3338,  0,0, 1, -110
+AddPartLG =  0.00, 2.2372, -0.5028, -1,0, 0,  102
+AddPartLGRev =  1.2123, 1.8014, -13.1667,  0,0, 1,  -90
+AddPartLGRev = -1.2123, 1.8014, -13.1667,  0,0, 1,   90
+AddPartLG =  4.0550, 2.7858, -14.3797,  0,0, 1,  -90
+AddPartLG = -4.0550, 2.7858, -14.3797,  0,0, 1,   90
+AddPartLGRev =  4.3505, 2.6217, -13.7400,  0,0, 1,   90
+AddPartLGRev = -4.3505, 2.6217, -13.7400,  0,0, 1,  -90
+
+
+
+
+AddPartSteeringWheel =  0,  6.4981,  -23.3436,  0.0, -1.0, 0.725,   -20
+
+
+AddPartSteeringWheel =  -4.0287, 2.9102, -16.2396,  -1,-0.08,0.0, -25
+AddPartSteeringWheel =   4.0287, 2.9102, -16.2396,   1,-0.08,0.0, -25
+
+
+AddPartSteeringWheel =  0,  1.8045,  -20.7450,  0.0, 0.0, -1.0,   -20
+
+
+
+AddPartWeaponMissile = j8pl-9_2,  false, false, false,   5.7508, 2.2305, -13.0962
+AddPartWeaponMissile = j8pl-9_2,  false, false, false,  -5.7508, 2.2305, -13.0962
+AddPartWeaponMissile = j8pl-9_2,  false, false, false,   3.3858, 2.2826, -11.1230
+AddPartWeaponMissile = j8pl-9_2,  false, false, false,  -3.3858, 2.2826, -11.1230
+
+AddWeapon = j8gsh-23-2,  -0.5, 1.8, -0.60,   0.0, -1.0
+AddWeapon = j8pl-9_2,     5.7508, 2.2305, -13.0962,   0.0, -1.0
+AddWeapon = j8pl-9_2,    -5.7508, 2.2305, -13.0962,   0.0, -1.0
+AddWeapon = j8pl-9_2,     3.3858, 2.2826, -11.1230,   0.0, -1.0
+AddWeapon = j8pl-9_2,    -3.3858, 2.2826, -11.1230,   0.0, -1.0
+
+AddWeapon = targeting_pod_ph50s,   0.0, 3.1,-0.6,    0.0, 0.0
+
+
+BoundingBox =  0.00, 2.70, 1.60,  1.5, 2.5
+
+BoundingBox =  0.00, 3.30, -2.80,  3.0, 3.3
+BoundingBox =  0.00, 3.30, -5.80,  3.0, 3.3
+BoundingBox =  0.00, 3.30, -8.80,  3.0, 3.3
+
+
+
+BoundingBox =  0.00, 3.30, -11.8,  3.0, 3.3
+BoundingBox =  0.00, 3.20, -14.8,  3.0, 3.0
+BoundingBox =  0.00, 3.20, -17.8,  3.0, 3.0
+BoundingBox =  0.00, 3.20, -20.8,  3.0, 3.0
+BoundingBox =  0.00, 3.20, -22.4,  3.0, 3.0
+
+
+BoundingBox =  0.00, 6.20, -21.8,  3.0, 3.0
+
+BoundingBox =  0.00, 6.20, -23.4,  3.0, 3.0
+
+
+BoundingBox =  1.70, 3.20, -22.4,  3.0, 0.5
+BoundingBox =  -1.70, 3.20, -22.4,  3.0, 0.5
+
+BoundingBox =  2.70, 3.20, -23.4,  3.0, 0.5
+BoundingBox =  -2.70, 3.20, -23.4,  3.0, 0.5
+
+BoundingBox =  4.90, 3.20, -25.4,  3.0, 0.5
+BoundingBox =  -4.90, 3.20, -25.4,  3.0, 0.5
+
+
+
+
+BoundingBox = -5.7, 2.50, -14.80,  5.5, 1.0
+BoundingBox =  5.7, 2.50, -14.80,  5.5, 1.0
+
+BoundingBox = -4.5, 2.50, -14.80,  5.5, 1.0
+BoundingBox =  4.5, 2.50, -14.80,  5.5, 1.0
+
+;modern light plane (late jet), AOW3 style (fcs)
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:fcs, G, mcheli:electronics 
+
+
+UnmountPosition = 0.0, 1.58, 0.00
+
+enableback = true
+
+
+DamageFactor = 0.8

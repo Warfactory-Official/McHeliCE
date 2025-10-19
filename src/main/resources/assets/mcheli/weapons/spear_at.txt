@@ -1,0 +1,24 @@
+DisplayName = SPEAR 3
+Type = ATMissile
+Power =120
+Acceleration = 2.0
+Explosion = 6
+ExplosionBlock = 3
+Flaming = false
+Sight = MissileSight 
+Delay = 10
+ReloadTime = 300
+LockTime = 10
+ProximityFuseDist = 1
+ModelBullet = SPEAR
+Sound = missile_1_snd
+RidableOnly = true
+DisableSmoke = true
+
+Round = 4
+
+MaxAmmo = 8
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  2, redstone

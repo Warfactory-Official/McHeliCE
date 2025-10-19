@@ -1,0 +1,33 @@
+DisplayName = Fuel Tank
+Type = Bomb
+Power = 50
+Acceleration = 0.1
+Explosion = 2
+ExplosionBlock = 3
+ExplosionInWater = 0
+Flaming = true
+Sight = None
+Delay = 5
+Sound = bomb_snd
+FuelSupplyRange = 20
+
+ReloadTime = 1000
+Round = 2
+MaxAmmo = 2
+SuppliedNum = 0
+
+Acceleration = 0.5
+;Explosion = 50
+;Explosive mass	269.9 kg kg
+;Power = 1080
+ExplosionBlock = 1
+ExplosionInWater = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+Item = 4, iron_ingot
+Item = 1, mcheli:fuel
+;coal

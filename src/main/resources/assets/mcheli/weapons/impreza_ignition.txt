@@ -1,0 +1,12 @@
+DisplayName = Ignition
+Type = MachineGun2
+Power = 0
+Acceleration = 0.0
+Flaming = false
+Sight = None
+Delay = 20
+ReloadTime = 0
+Particle = largesmoke
+TimeFuse = 1
+ModelBullet = 0_none
+Sound = impreza_ignition

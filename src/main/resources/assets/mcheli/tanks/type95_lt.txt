@@ -1,0 +1,141 @@
+﻿DisplayName = Type 95 Ha-Go
+AddDisplayName = en_US, Type 95 Ha-Go
+AddDisplayName = ru_RU, Type 95 Ro-Go
+ItemID = 191990
+MaxHp = 100
+Speed = 0.28
+Sound = hagolt
+ThrottleUpDown = 1.0
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.6
+EnableNightVision = false
+Gravity = -0.61
+CameraZoom = 4
+CameraRotationSpeed = 9
+MinRotationPitch = -20
+MaxRotationPitch = 15
+DefaultFreeLook = true
+HideEntity = true
+CameraPosition = 0.13,  2.80, 0.34, true
+
+Category = LT
+
+MobilityYawOnGround = 3.0
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+HUD = ww2tank_hud, gunner
+
+
+AddGunnerSeat =  0.13,  1.10, 0.34,  0.13,  1.10, 0.34, false, -90, 90, true
+
+AddGunnerSeat =  0.33, 0.4, 1.0,  0.35, 1.75, 1.65, false, -90, 90, false
+
+unmountposition = 0.13,  1.90, 0.34
+
+AddCrawlerTrack = false, 0.22, -1.34,  -0.25/1.72, 0.35/2.61,  0.58/2.84, 0.91/2.84, 1.14/2.61, 1.14/2.29, 0.93/0.84, 0.85/-0.93, 0.73/-2.52, 0.53/-2.72, 0.25/-2.72, 0.04/-2.52, -0.25/-1.62
+AddCrawlerTrack = false, 0.22, 1.34,  -0.25/1.72, 0.35/2.61,  0.58/2.84, 0.91/2.84, 1.14/2.61, 1.14/2.29, 0.93/0.84, 0.85/-0.93, 0.73/-2.52, 0.53/-2.72, 0.25/-2.72, 0.04/-2.52, -0.25/-1.62
+
+SetWheelPos = 0.82, 0.12, 1.56, 0.57, -0.47, -1.46
+
+TrackRollerRot = 30
+
+AddTrackRoller = -1.04,  0.74,   2.45
+AddTrackRoller = -1.06,  0.12,   1.56
+AddTrackRoller = -1.06,  0.12,   0.57
+AddTrackRoller = -1.06,  0.12,  -0.47
+AddTrackRoller = -1.06,  0.12,  -1.46
+AddTrackRoller = -1.12,  0.76,   0.91
+AddTrackRoller = -1.12,  0.68,  -0.86
+AddTrackRoller = -1.07,  0.39,  -2.38
+
+AddTrackRoller = 1.04,  0.74,   2.45
+AddTrackRoller = 1.06,  0.12,   1.56
+AddTrackRoller = 1.06,  0.12,   0.57
+AddTrackRoller = 1.06,  0.12,  -0.47
+AddTrackRoller = 1.06,  0.12,  -1.46
+AddTrackRoller = 1.12,  0.76,   0.91
+AddTrackRoller = 1.12,  0.68,  -0.86
+AddTrackRoller = 1.07,  0.39,  -2.38
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+AddPartWeapon = 95lttype94_mbt, false, true, false,  0.13, 1.71, 0.34, 0
+
+TurretPosition = 0.13, 1.71, 0.34
+
+AddPartWeaponChild = false, true, 0.13, 2.04, 0.99
+AddPartWeapon = 95lttype97_mbt, false, true, false,  0.33, 1.42, 1.59, 0
+AddPartWeaponChild = false, true, 0.33, 1.42, 1.59
+
+
+AddWeapon = 95lttype94_mbt,  0.00, 1.57, 0.00, 0.0, 0.0, true,1, 0, -360, 360, -20, 15
+AddWeapon = 95lttype97_mbt,  0.33, 1.42, 1.59,  0.0, 0.0, false,2, 0,-7,7, -10, 10
+
+
+;AddWeapon = targeting_pod_block,     0.0, 0.6, 4.8,   0.0, 0.0,  true, 2
+;AddWeapon = targeting_pod_tank,   0.0, 0.6, 4.8,   0.0, 0.0,  false,2
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 6
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+;front lower plate 12
+
+
+BoundingBox = 0.0, 0.7, 1.8, 1.7, 0.5, 0.5
+
+
+BoundingBox = 0.0, 1.5, 0.5, 1.5, 0.5, 0.5
+
+
+;upper front plate 23
+BoundingBox = 0.0, 1.0, 1.8, 1.8, 0.1, 0.26
+BoundingBox = 0.0, 1.28, 0.35, 1.7, 0.5, 0.26
+
+;left side plate 12
+
+;where the little angles are is gonna be 35 because angles
+
+BoundingBox = 0.714, 1.48, 1.33, 0.3, 0.5, 0.17
+BoundingBox = -0.0, 1.48, 1.33, 0.3, 0.5, 0.17
+
+BoundingBox = 0.34, 1.48, 1.38, 0.5, 0.5, 0.5
+
+;rest is 12
+
+;turret is 30
+BoundingBox = 0.0, 2.0, 0.3, 1.0, 1.0, 0.2
+
+;side is 12
+
+BoundingBox = 0.0, 0.8, 0.0, 1.8, 1.0, 0.5
+BoundingBox = 0.0, 0.8, -1.3, 1.8, 1.0, 0.5
+BoundingBox = 0.0, 0.8, -1.6, 1.8, 1.0, 0.5
+BoundingBox = 0.0, 1.2, -1.0, 1.5, 1.0, 0.5
+;lip thing
+BoundingBox = 0.0, 1.2, -0.0, 1.5, 1.0, 0.5
+
+;rear is 10
+BoundingBox = 0.0, 0.8, -1.7, 1.7, 1.0, 0.6
+
+;top is 6
+
+;light tracked tank ww2 EARLY
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:cannon1, C, mcheli:engine1, D, mcheli:tanktracks
+
+StepHeight = 1.5

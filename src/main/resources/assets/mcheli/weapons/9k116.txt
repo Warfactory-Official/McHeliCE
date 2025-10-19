@@ -1,0 +1,25 @@
+DisplayName = 9K116-2 "Sheksna"
+Type = ATMissile
+Power = 600
+Acceleration = 2.0
+Explosion = 3
+ExplosionInWater = 2
+Flaming = true
+Sight = MissileSight
+Delay = 100
+ModeNum = 2
+Sound = missile_1_snd
+RidableOnly = true
+Delay = 100
+ReloadTime = 100
+;DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 8
+SuppliedNum = 1
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

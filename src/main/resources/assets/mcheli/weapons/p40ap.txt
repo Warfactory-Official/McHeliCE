@@ -1,0 +1,57 @@
+DisplayName =  75mm Ansaldo 75 L/34 Cannon [Granata Perforante 75/32 - APCBC]
+Type = MachineGun1
+ModelBullet = 75mm
+Power = 79
+Acceleration = 6.0
+Explosion = 1
+ExplosionBlock = 1
+ExplosionInWater = 1
+Flaming = false
+Sight = None
+
+SoundPitch = 0.8
+SoundVolume = 15
+Sound = shermanmain
+Gravity = -0.005
+DamageFactor = tank, 3.5
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+Recoil = 0.45
+Group = MainGun
+
+ReloadTime = 90
+Round = 1
+Delay = 90
+HeatCount = 500
+MaxHeatCount = 2000
+
+ModelBullet = bullet
+
+Piercing = 2
+; AddMuzzleFlash = distance, size, life time,   A,  R,  G,  B
+AddMuzzleFlash   =     9.2, 1.00,        4, 220,254,159, 74
+AddMuzzleFlash   =     9.1, 1.25,        4, 220,254,219,104
+AddMuzzleFlash   =     9.3, 0.70,        4, 220,254,219,184
+AddMuzzleFlash   =     9.25, 0.90,         4, 220,254, 51, 73
+
+Accuracy = 1.5
+
+; AddMuzzleFlashSmoke = Distance from source, number of displays, size, range, display time,   A,  R,  G,  B
+AddMuzzleFlashSmoke   =                 9.1,                 30, 1.5,   4.0,           62, 220, 50, 50, 50
+AddMuzzleFlashSmoke   =                 9.3,                 20, 2.0,   7.0,     	 55, 200, 10, 10, 10
+AddMuzzleFlashSmoke   =                 9.2,                 40, 1.0,  2.0,           75, 200, 30, 30, 30
+
+TrajectoryParticle = smoke
+TrajectoryParticleStartTick = 0
+
+DisplayMortarDistance = true
+
+RecoilBufCount = 50, 2
+
+MaxAmmo = 21
+SuppliedNum = 7
+Item =   2, iron_ingot
+Item =  2, gunpowder
+

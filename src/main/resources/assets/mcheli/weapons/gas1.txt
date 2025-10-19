@@ -1,0 +1,28 @@
+DisplayName = GAS
+Type = Dispenser
+Acceleration = 1
+Sight = None
+Delay = 15
+Sound = smoke_snd
+SoundDelay = 4
+Gravity = -0.01
+disablesmoke = true
+Bomblet = 16
+BombletDiff = 0.8
+BombletSTime = 20
+ModelBomblet = cbc
+
+Round = 20
+ReloadTime = 200
+
+SmokeSize   = 0
+
+;着弾時に使用するアイテムに水バケツを指定する。
+; 本来水バケツは使用すると水を設置するが、ヘリMOD内では特殊な処理を行って火を消していいる。
+DispenseItem = hbm:item.disperser_canister, 5
+DispenseRange = 1
+;hmm
+
+MaxAmmo = 20
+SuppliedNum = 4
+Item =  16, hbm:item.disperser_canister, 5

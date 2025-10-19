@@ -1,0 +1,127 @@
+DisplayName = M1126 Stryker Infantry Carrier Vehicle with M2 Browning Protector RWS
+AddDisplayName = en_US, M1126 Stryker Infantry Carrier Vehicle with M2 Browning Protector RWS
+AddDisplayName = ja_JP, M1126 M2 RWS
+MaxHp = 200
+Speed = 0.62
+Sound = stryker
+ThrottleUpDown = 2
+MobilityYawOnGround = 6.5
+MaxFuel         = 1000
+FuelConsumption = 0.8
+CameraPosition = 0.86, 2.80,  2.12
+CameraZoom = 10
+EnableNightVision = true
+EnableEntityRadar = false
+Gravity = -0.61
+GravityInWater = -1.0
+CameraRotationSpeed = 35
+MinRotationPitch = 90
+MaxRotationPitch = -90
+MobilityRoll = 0
+InventorySize = 10
+StepHeight = 1.5
+DefaultFreelook = false
+MotionFactor = 0.9
+
+AddTexture = strykericvdes
+
+SubmergedDamageHeight = 2
+
+;  M = Military,  A = AAGun(対空砲)
+Category = APC/ICV
+
+WeightType = Tank
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+HUD = mbt_hud, mbt_gnr, none, none, none, none, none, none, none, none, none
+
+AddSeat =  0.86, 1.54,  2.12
+AddGunnerSeat = -0.75, 1.52, -0.62,  -0.743, 3.68,  0.3869, false, -90,  90, false
+
+AddSeat =  0.82, 1.0, -1.5
+AddSeat =  0.0, 1.0, -1.5
+AddSeat = -0.82, 1.0, -1.5
+AddSeat =  0.82, 1.0, -2.5
+AddSeat =  0.0, 1.0, -2.5
+AddSeat = -0.82, 1.0, -2.5
+AddSeat =  0.82, 1.0, -3.5
+AddSeat =  0.0, 1.0, -3.5
+AddSeat = -0.82, 1.0, -3.5
+
+SetWheelPos =  1.28,  -0.35,  2.72, 1.09, -0.76, -2.42
+
+AddPartWheel =   -1.53,  0.39, 2.72, 40
+AddPartWheel =    1.53,  0.39, 2.72, 40
+AddPartWheel =   -1.53,  0.39, 1.09, 20
+AddPartWheel =    1.53,  0.39, 1.09, 20
+AddPartWheel =   -1.53,  0.39,-0.76
+AddPartWheel =    1.53,  0.39,-0.76
+AddPartWheel =   -1.53,  0.39,-2.42
+AddPartWheel =   -1.53,  0.39,-2.42
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 12
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+TrackRollerRot = 30
+
+AddPartCanopy	= -1.03, 2.61, -2.70, 0.0, 0.0, 1.0, 110
+AddPartCanopy	=  1.03, 2.61, -2.70, 0.0, 0.0, 1.0,-110
+AddPartCanopy	=  -0.7504, 2.7969, -0.9051, 1.0, 0.0, 0.0,-80
+
+;AddWeapon			= 2981mm_mortar,    0.00,  1.80, -2.67,  0.0,0.0, false, 3, 0, -360,360, -90, -45
+;AddWeapon			= 2981mm_mortar2,    0.00,  1.80, -2.67,  0.0,0.0, false, 3, 0, -360,360, -90, -45
+
+;AddPartWeapon 		= 2981mm_mortar,    false, true,  false, 0.00, 1.80, -2.67
+;AddPartWeaponChild 	= false, true, 0.00,  1.80, -2.67
+
+AddPartWeapon    = strykerm2_rws,   true, true, true,  -0.743, 3.6549, 0.3869
+AddPartWeapon    = strykerm2_rws,  false, true, false, -0.743, 3.0549, 0.3869
+AddWeapon = strykerm2_rws,   -0.743, 3.68,  0.3869,   0.0, 0.0, false, 2, 0, -360,360, -60,20
+
+
+DamageFactor = 0.5
+
+HideEntity = true
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+;BoundingBox =  0.0, 1.0,  4.0,   3.4, 2.0,  0.90
+;BoundingBox =  0.0, 1.4,  1.0,   3.4, 3.8,  1.00
+;BoundingBox =  0.0, 1.0, -2.0,   3.4, 2.3,  1.25
+
+;BoundingBox = 0.0, 1.35, -1.5, 3.3, 2.5, 1.0
+
+;rear
+BoundingBox = 0.0, 1.4, -2.5, 3.4, 1.8, 1.0
+
+
+
+
+BoundingBox = 0.0, 1.4, 0.6, 3.2, 1.6, 1.0
+
+BoundingBox = 0.0, 1.4, 1.5, 3.2, 1.6, 1.0
+BoundingBox = 0.0, 1.4, 1.8, 3.2, 1.4, 1.0
+BoundingBox = 0.0, 1.3, 2.0, 3.2, 1.3, 1.0
+BoundingBox = 0.0, 1.3, 2.5, 2.8, 1.2, 1.0
+BoundingBox = 0.0, 1.4, 3.0, 2.8, 0.8, 1.0
+BoundingBox = 0.0, 1.5, 3.3, 2.8, 0.4, 1.0
+
+UnmountPosition = -0.0,  1.5,-3.5
+
+
+;light 8x8 with mg
+AddRecipe = "ABC", "DEG", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:fcs, E, mcheli:lap, G, mcheli:cannon1
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:m1129, B, mcheli:cannon1, C, mcheli:wrench

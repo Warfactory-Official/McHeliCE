@@ -1,0 +1,56 @@
+﻿DisplayName = Generic Farming Drone UAV
+AddDisplayName = en_US, Generic Farming Drone UAV
+AddDisplayName = ja_JP, 農業用RCドローンUAV
+
+
+MaxHp = 20
+Speed = 0.4
+;idk what it'd be bc i have no idea what this is but I think I have one its just not a crop duster obv
+CameraPosition = -0.02, -0.06, 0.77
+SmallUAV = true
+Sound = radicon_heli
+ThrottleUpDown = 5.0
+ParticlesScale = 0.2
+MaxFuel         = 500
+FuelConsumption = 0.1
+
+
+MobilityYaw = 2.4
+MobilityPitch = 1.4
+MobilityRoll = 1.4
+
+
+HUD = heli
+
+; C = Civilian(民間機)
+Category = C
+
+
+AddPartCamera =  -0.02, -0.06, 0.00, true, true
+AddPartCamera =  -0.02, -0.06, 0.00, true, false
+
+
+
+AddSeat =  -0.03, 0.36, 0.00
+
+
+AddRotor = 1, 0,  0.57,  0.38, -0.49,  0, -1, 0
+AddRotor = 1, 0,  -0.53, 0.38, -0.60,  0, -1, 0
+
+AddRotor = 1, 0,  0.45, 0.38,  0.60,  0, -1, 0
+AddRotor = 1, 0,  -0.61,  0.38, 0.49,  0, -1, 0
+
+
+
+AddWeapon = fdronedispenser_water_till,  0.04, -0.14, -0.47,   1.0, 0.0
+AddWeapon = fdronedispenser_seed,        0.04, -0.14, -0.47,   1.0, 0.0
+AddWeapon = fdronedispenser_fertilizer,  0.04, -0.14, -0.47,   1.0, 0.0
+
+
+;basic unarmed drone
+AddRecipe = "ABC", "   ", "   ", A, mcheli:item.ingot_aluminum, B, mcheli:fcs, C, mcheli:basicmechanicparts
+
+
+BoundingBox =  -0.03, 0.36, 0.00, 1.0, 1.0
+
+ThrottleUpDown = 0.8

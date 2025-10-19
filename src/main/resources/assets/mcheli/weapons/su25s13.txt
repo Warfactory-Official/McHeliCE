@@ -1,0 +1,35 @@
+DisplayName = 122mm S-13 Rocket
+Type = Rocket
+Power = 500
+DamageFactor = tank, 1.0
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+ModelBullet = hydra70
+Acceleration = 5.0
+Explosion = 4
+ExplosionInWater = 2
+Flaming = false
+Sight = MoveSight
+Delay = 1
+ReloadTime = 1000
+Round = 10
+Sound = rocket_snd
+
+Gravity = -0.005
+
+Acceleration = 7.0
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+MaxAmmo = 10
+SuppliedNum = 5
+Item =  4, iron_ingot
+Item =  3, gunpowder

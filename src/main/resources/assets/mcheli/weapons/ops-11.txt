@@ -1,0 +1,13 @@
+DisplayName = OPS-11 ‘Î‹ó‘{õƒŒ[ƒ_[
+Type = TargetingPod
+Delay = 2
+Sight = MoveSight
+SoundPitch = 1.0
+Sound = lockon
+SoundVolume = 5.0
+SoundPitchRandom = 0.0
+Length = 4500
+Radius = 60
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/helicopters/players/monsters/others
+MarkTime = 180

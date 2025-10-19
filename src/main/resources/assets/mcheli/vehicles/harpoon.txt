@@ -1,0 +1,30 @@
+﻿DisplayName = RGM-84 Harpoon Missile Launching Platform
+AddDisplayName = en_US, RGM-84 Harpoon Missile Launching Platform
+AddDisplayName = ja_JP, ハープーン
+ItemID = 28698
+AddTexture = harpoon
+CameraPosition = 0.0, 4.50, 0.0
+CameraZoom = 5
+MinRotationPitch = -50
+MaxRotationPitch = 50
+AddSeat = 0.0,  1.0, 0.0
+HideEntity = true
+EnableGunnerMode = false
+EnableNightVision = true
+Gravity = -9.81
+GravityInWater = -1.0
+
+DamageFactor = 1.0
+
+AddTurretWeapon = rgm84,  -0.51, 2.68, -0, 0.00, 0.00, false, 1, 0, 0, 0, -30, 0
+RigidityTime = 20
+
+HUD = vehicle
+BoundingBox = 0.0, 2.0, 1.5, 1.8, 1.4
+BoundingBox = 0.0, 0.7, 0.0, 1.8, 3.2
+BoundingBox = 0.0, 0.3, -0.6, 1.8, 3.2
+
+;launcher advanced
+AddRecipe = "BBC", "DCC", "   ", B, mcheli:map, C, mcheli:electronics, D, mcheli:fcs3
+
+unmountposition = 0.0, 1.5, 0.0

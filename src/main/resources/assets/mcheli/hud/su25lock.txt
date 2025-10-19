@@ -1,0 +1,9 @@
+If=(lock<0.1&&lock>0)||(lock<0.3&&lock>=0.2)||(lock<0.5&&lock>=0.4)||(lock<0.7&&lock>=0.6)||(lock<0.9&&lock>=0.8)
+DrawTexture = tag, -2.5, 7, 7,3.5 ,0,0, 16,8,0
+EndIf
+
+
+
+
+
+

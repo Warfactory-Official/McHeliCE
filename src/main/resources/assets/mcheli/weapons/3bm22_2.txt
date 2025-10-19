@@ -1,0 +1,40 @@
+DisplayName = 125mm 2A46 Smoothbore Cannon [3BM22 - APFSDS]
+Type = MachineGun2
+Power = 425
+ModelBullet = 3bm42
+Flaming = false
+Sight = MoveSight
+Delay = 150
+ModeNum = 1
+SoundPitch = 1
+SoundVolume = 15
+Sound = tsixtyfourmain
+Gravity = -0.001
+DisplayMortarDistance = true
+group = maingun
+
+DisplayMortarDistance = true
+
+
+
+
+MaxAmmo = 15
+SuppliedNum = 5
+Item =  2, iron_ingot
+Item =  2, gunpowder
+
+
+AddDisplayName = en_US, 3BM22
+
+Delay = 80
+ReloadTime = 80
+Group = MainGun
+Acceleration = 7.0
+ModelBullet = bullet105mm
+Piercing = 5
+Accuracy = 0.0
+DamageFactor = tank, 10.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0

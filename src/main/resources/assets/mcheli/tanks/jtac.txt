@@ -1,0 +1,59 @@
+DisplayName = Lightweight Laser Designator Rangefinder AN/PED-1 [Advanced 'JTAC' System]
+AddDisplayName = en_US, Lightweight Laser Designator Rangefinder AN/PED-1 [Advanced 'JTAC' System]
+
+MaxHP = 50
+Speed = 0
+Gravity = -0.61
+GravityInWater = -1.0
+CameraPosition = 0.0, 1.4, 0.0
+CameraZoom = 16
+MinRotationPitch = -10
+MaxRotationPitch = 30
+EnableNightVision = true
+DefaultFreelook = true
+HUD = vehicle
+
+Category = JTAC
+
+CameraRotationSpeed = 10
+
+;RotationPitchMin = -70
+;RotationPitchMax =  60
+CanMoveOnGround = false
+
+SetWheelPos =  0.20,  -0.20,  0.20, -0.20
+
+;AddGunnerSeat =  0.00,  2.00,  0.25,    0.00,  2.50,  0.25,  false, -90, 90, true
+
+;
+;AddPart = false, true, true, 0, 0.00, 0.4851, 0.1174
+;AddChildPart	= false, true, false, 0, 0.00, 0.615, 0.00
+
+
+AddPartWeapon = false, true, true, 0, 0.0, 0, 0.0
+
+AddPartWeaponChild = false, true, 0.0, 1.4, 0, 0.0
+
+;AddChildPart	= false, true, false, 0, 0.00, 0.615, 0.00
+
+
+AddWeapon = a10gau8,  0.00, 2.39, 0.00, 0.0, 0.0, true,  1 , 0, -360, 360, -10,30
+AddWeapon = rangefinder,  0.00, 2.39, 0.00, 0.0, 0.0, true,  1 , 0, -360, 360, -10,30
+AddWeapon = targeting_pod_block,  0.00, 2.39, 0.00, 0.0, 0.0, true,  1 , 0, -360, 360, -10,30
+AddWeapon = targeting_pod_all100s,  0.00, 2.39, 0.00, 0.0, 0.0, true,  1 , 0, -360, 360, -10,30
+
+Speed = 0
+
+Sound = none
+
+SmallUAV = true
+
+BoundingBox = 0.0, 1.4, 0.0, 0.3, 0.3, 1.5
+BoundingBox = 0.0, 1.1, 0.0, 0.3, 0.3, 1.5
+BoundingBox = 0.0, 0.8, 0.0, 0.3, 0.3, 1.5
+BoundingBox = 0.0, 0.5, 0.0, 0.3, 0.3, 1.5
+BoundingBox = 0.0, 0.2, 0.0, 0.3, 0.3, 1.5
+
+
+;basic ground stationary drone
+AddRecipe = "CAC", "ACA", "   ", A, mcheli:item.ingot_aluminum, C, mcheli:electronics

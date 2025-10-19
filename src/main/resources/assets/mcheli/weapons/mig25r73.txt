@@ -1,0 +1,23 @@
+DisplayName = R-40 [AAM]
+Type = AAMissile
+Power = 28
+Acceleration = 2.5
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+Explosion = 8
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1000
+Round = 2
+LockTime = 14
+ProximityFuseDist = 2
+Sound = missile_1_snd
+MaxAmmo = 2
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone
+

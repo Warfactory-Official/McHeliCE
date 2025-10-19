@@ -1,0 +1,134 @@
+﻿DisplayName = Type 82 CCV
+AddDisplayName = en_US, Type 82 CCV
+AddDisplayName = ja_JP, 82式指揮通信車
+ItemID = 30102
+MaxHp = 200
+Speed = 0.65
+Sound = dieselman
+SoundPitch = 0.3
+ThrottleUpDown = 2
+MobilityYawOnGround = 5.5
+MaxFuel         = 1000
+FuelConsumption = 0.8
+CameraZoom = 0
+EnableNightVision = true
+EnableEntityRadar = false
+Gravity = -0.61
+GravityInWater = -1.0
+;CameraRotationSpeed = 35
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll = 0
+InventorySize = 27
+MotionFactor = 0.9
+Float = false
+FloatOffset = -2.0
+StepHeight = 2.0
+FlareType = 10
+EntityWidth  = 0.7
+EntityHeight = 0.7
+DefaultFreelook = false
+
+SubmergedDamageHeight = 1
+
+;  M = Military,  A = AAGun(対空砲)
+Category = CCV
+
+WeightType = Tank
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+HUD = mbt_hudtwo, gunnernvg, gunner, none, none, none, none, none
+
+AddSeat = -0.36, 0.85,  1.60
+AddSeat =  0.45, 0.90,  1.60
+AddGunnerSeat = -0.63, 2.15, -2.31, -0.63, 3.30, -2.31, false, -50, 10
+
+;;AddGunnerSeat =  0.00, 2.20,-0.59, 0.00, 3.40, -0.59, false, -25, 4
+
+AddSeat =  0.68, 0.85, -3.13
+AddSeat =  0.68, 0.85, -3.63
+AddSeat =  -0.68, 0.85, -3.63
+AddSeat =  -0.68, 0.85, -3.13
+
+AddSeat =  -0.0, 0.85, -3.93
+
+
+SetWheelPos =  0.90,  -0.24,  0.90, 0.90, -1.25, -3.31
+
+AddPartWheel =    0.92,  0.43, 0.86, 20
+AddPartWheel =    0.92,  0.43,-1.23, 10
+AddPartWheel =    0.00,  0.43,-3.33
+
+AddPartWheel =   -0.92,  0.43, 0.86, 20
+AddPartWheel =   -0.92,  0.43,-1.23, 10
+AddPartWheel =   -0.00,  0.43,-3.33
+
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+;ArmorMinDamage = 9
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+TrackRollerRot = 30
+
+AddTurretWeapon = targeting_pod_block,      -0.36, 1,  1.60,  0.0, 0.0, true,1, 0,-360,360, -90, 90
+AddTurretWeapon = mbt_cas,      -0.36, 1,  1.60,  0.0, 0.0, true,1, 0,-360,360, -90, 90
+AddTurretWeapon = targeting_pod_ground,   -0.36, 1,  1.60,   0.0, 0.0,  true, 1
+
+
+AddPartWeapon    = 82m2_1,   false, true, true,  -0.5957, 2.6538, -2.0184
+AddPartWeapon    = 82m2_1,   false, true, false, -0.5957, 2.6538, -2.0184
+
+
+
+
+AddWeapon = 82m2_1,    -0.4940, 3.0028, -1.8746,   0.0, 0.0, false, 3, 0, -90,90, -50,10
+
+
+
+AddTurretWeapon = targeting_pod_block, 0.0, 2.0, 0.0, 0.0, 0.0, false, 2
+AddTurretWeapon = targeting_pod_ground, 0.0, 0.0, 0.0, 0.0, 0.0, false, 2
+
+
+
+
+
+;;AddPartWeapon    = m2_1,   false, true, false,  -0.5957, 2.6538, -2.0184
+;;AddPartWeapon    = m2_1,   false, true, true, -0.5957, 2.6538, -2.0184
+
+
+
+AddPartSteeringWheel =  -.355, 1.61,1.90,  -0, 1.0,-1,  130
+
+DamageFactor = 0.3
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+;AddRecipe = "AC ", "EXG", "W W", W, hfr:item.part_wheel, A, hfr:item.part_plating_2, C, hfr:item.part_chassis_2, E, hfr:item.part_engine_2, X, hfr:item.components_electronics, G, hfr:item.part_cannon_1
+
+;armored armed 6x6
+AddRecipe = "ABC", "DDE", "   ", A, mcheli:lightchassis, B, mcheli:wheel6, C, mcheli:engine3, D, mcheli:lap, E, mcheli:cannon1
+
+Regeneration = false
+ArmorMinDamage = 35
+ArmorDamageFactor = 1.00
+
+
+BoundingBox = 0.0, 1.3, 1.7, 2.4, 1.8, 1.0
+
+BoundingBox = 0.0, 1.0, 0.0, 2.8, 2.6, 1.0
+
+BoundingBox = 0.0, 1.5, -3.2, 2.9, 2.3, 1.0
+BoundingBox = 0.0, 1.5, -2.8, 2.9, 2.3, 1.0
+
+UnmountPosition = -0.36, 1.50,  1.60

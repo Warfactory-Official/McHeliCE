@@ -1,0 +1,34 @@
+DisplayName = Mark 13 Guided Missile Launching System
+AddDisplayName = ja_JP, ミサイル発射機 Mk13
+ItemID = 28612
+MaxHP = 100
+CameraPosition = 0.0, 5.5, 1.52
+CameraZoom = 5
+MinRotationPitch = -90
+MaxRotationPitch = 0
+AddSeat = 0.0,  0.0, 0.0
+HideEntity = true
+ThirdPersonDist = 12
+DamageFactor = 1
+EnableNightVision = true
+
+Gravity = -9.81
+GravityInWater = -1.0
+
+unmountposition = 0.00, 1.5, -0.0
+; M = Military,  M = Missile(ミサイル)
+Category = M.M
+
+HUD = vehicle
+
+AddTurretWeapon = RIM-66mk13, 0.0, 1.96, 1.52, 0.0, 0.0
+
+AddPart	= true, true, false, 0,   0.00, 0.00, 1.52
+AddChildPart = true,false,true,  0,  0.00, 2.25, 1.00
+
+AddChildPart = true,false,true,  3,  0.00, 2.25, 1.00, 
+
+;basic aa launcher
+AddRecipe = "BBC", "DC ", "   ", B, mcheli:lap, C, mcheli:electronics, D, mcheli:fcs
+
+BoundingBox =  0.0, 1.5, 1.52,  2.0, 2.6

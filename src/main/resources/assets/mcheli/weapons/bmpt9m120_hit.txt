@@ -1,0 +1,39 @@
+DisplayName = 9M120F Ataka [Thermoberic - ATGM]
+Type = TVMissile
+FixMode = 1
+Power = 150
+Acceleration = 3.2
+Explosion = 6
+ExplosionBlock = 2
+Flaming = true
+Sight = MoveSight
+ReloadTime = 200
+
+Round = 4
+ModelBullet = 9M113
+Sound = bmptmissile
+ModeNum = 2
+FAE = true
+
+;Piercing = 2
+;why
+
+
+Delay = 2
+ReloadTime = 20000
+Group = MainGun
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+SoundVolume = 15
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  3, gunpowder
+Item =  1, redstone_block

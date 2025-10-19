@@ -1,0 +1,44 @@
+DisplayName = Blue Danube Nuclear Bomb "Small Boy" [12KT SURFACE]
+;Type = Nuke
+Type = bomb
+nukeYield = 33
+modelbullet = LilBoy1
+;479
+
+;chemYield = 10
+Explosion = 1
+
+;debug
+;50 is equivelent to 82m in width
+;50*1.64=82m
+;82m/1.64=50
+;little boy was 1287.48m wide
+;I corrupted a world for this...
+;785.04
+;785=868m block damage
+;540m actually...
+;540/1.64
+
+ReloadTime = 12000
+
+Group = maingun
+
+
+
+;600m above
+;576 actually according to chatgpt (1800ft)
+;ProximityFuseDist = 576.0
+;ExplosionAltitude = 576
+
+
+;Power = 329
+Acceleration = 0.6
+Sight = None
+Sound = bomb_snd
+Delay = 5
+SoundVolume = 8
+Gravity = -0.01
+;Piercing = 10
+MaxAmmo = 1
+SuppliedNum = 1
+Item = 1, mcheli:genericnuclearbomb

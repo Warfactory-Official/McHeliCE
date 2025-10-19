@@ -1,0 +1,85 @@
+DisplayName = M983 HEMTT Heavy Expanded Mobility Tactical Truck
+AddDisplayName = ja_JP, M983 HEMTT Heavy Expanded Mobility Tactical Truck
+MaxHp = 250
+Speed = 0.62
+Sound = hemtt
+ThrottleUpDown = 2
+MobilityYawOnGround = 6.5
+StepHeight = 1.8
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 0.85
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+ThirdPersonDist = 8
+DefaultFreelook = false
+MotionFactor = 0.9
+;FlareType = 10
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+
+PivotTurnThrottle = 0.2
+
+AddTexture = HEMTTd
+
+EnableBack = true
+;  M = Military
+Category = HTT
+
+WeightType = Car
+
+HUD = mbt_hud, 
+
+AddSeat =  0.70, 0.85,  3.40
+
+unmountposition = 0.70, 2.85,  3.40
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon = thorn2,    0.00, 0.00, 0.00,  0.0,0.0
+
+AddFixedSearchLight =   0.9832, 1.3267, 4.5084,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -0.9832, 1.3267, 4.5084,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+
+AddSeat = -0.70, 0.95,  3.40
+
+EntityWidth  = 0.85
+EntityHeight = 0.85
+
+; AddRack=Entity type, RackPos X,Y,Z,   EntryPos X,Y,Z,   Range, ParaAlt
+AddRack = patriot_t,      0.0, 0.0, -2.70,  0.0, 0.0, -0.3, 5.0,   3
+AddRack = patriot_radar_t,      0.0, 0.0, -2.70,  0.0, 0.0, -0.3, 5.0,   3
+
+AddPartWheel =    0.5838,  0.3523, 2.628, 20
+AddPartWheel =    -0.5838,  0.3523, 2.628, 20
+AddPartWheel =    0.5838,  0.3523, 1.093, 10
+AddPartWheel =    -0.5838,  0.3523, 1.093, 10
+AddPartWheel =   0.5838,  0.3523, -1.97
+AddPartWheel =   -0.5838,  0.3523, -1.97
+AddPartWheel =   0.5838,  0.3523, -3.506
+AddPartWheel =   -0.5838,  0.3523, -3.506
+
+SetWheelPos =  0.75,  -0.24,  2.6,  1.09, -1.97, -3.5
+
+;light 8x8 unarmed mil modern
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics
+
+BoundingBox = 0.0, 0.8, -3.7, 1.0, 0.6
+BoundingBox = 0.0, 1.0, -3.0, 1.0, 0.8
+BoundingBox = 0.0, 1.0, -2.0, 1.0, 0.8
+BoundingBox = 0.0, 1.0, -1.0, 1.0, 1.0
+
+BoundingBox = 0.0, 1.0, 0.0, 1.0, 1.0
+BoundingBox = 0.0, 1.0, 1.0, 1.0, 1.0
+BoundingBox = 0.0, 1.0, 2.0, 1.0, 1.0
+BoundingBox = 0.0, 1.0, 3.0, 1.0, 1.0
+BoundingBox = 0.0, 1.0, 4.0, 1.0, 1.0
+
+BoundingBox = 0.0, 1.8, 2.2, 1.5, 1.0, 1.5
+
+InventorySize = 10

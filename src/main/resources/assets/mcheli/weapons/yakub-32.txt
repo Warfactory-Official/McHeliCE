@@ -1,0 +1,35 @@
+DisplayName = 57mm S-5K Rocket
+Type = Rocket
+Power = 150
+ModelBullet = hydra70
+Acceleration = 5
+Explosion = 2
+ExplosionInWater = 1
+Flaming = false
+Sight = MoveSight
+Sound = rocket_snd
+Delay = 2
+ReloadTime = 1100
+Round = 64
+Gravity = -0.005
+Acceleration = 4.0
+
+
+
+Group = MainGun
+BulletColor        = 255, 255, 100, 100
+Piercing = 0
+Accuracy = 0.5
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+
+
+MaxAmmo = 64
+SuppliedNum = 16
+Item =  3, iron_ingot
+Item =  3, gunpowder

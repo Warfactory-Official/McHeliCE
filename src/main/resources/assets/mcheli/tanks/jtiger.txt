@@ -1,0 +1,141 @@
+﻿DisplayName = Jagdpanzer VI Jagdtiger
+AddDisplayName = en_US, Jagdpanzer VI Jagdtiger
+MaxHp = 210
+Speed = 0.21
+Sound = V12TIGER
+ThrottleUpDown = 1
+MobilityYawOnGround = 1.2
+MinRotationPitch = -14
+MaxRotationPitch = 7
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.0
+CameraZoom = 10
+CameraPosition = 0.00, 3.5, 1.00
+HideEntity = false
+EnableNightVision = false
+CameraRotationSpeed = 3
+MaxFuel         = 4200
+FuelConsumption = 3.0
+StepHeight = 1.5
+DefaultFreelook = false
+OnGroundPitchFactor = 3.0
+OnGroundRollFactor  = 3.0
+FlareType = 10
+ThirdPersonDist = 12
+
+AddTexture = jtiger1
+AddTexture = jtiger2
+;AddTexture = jtiger3
+
+
+;AddTexture = jtigerdesert
+;AddTexture = jtigerwinter
+
+SubmergedDamageHeight = 1
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+AddGunnerSeat = 0.0, 1.5, 0.0, 0.00, 3.5, 1.00, false, -14,7, true
+
+unmountposition = 0.0, 1.5, 0.0
+
+AddGunnerSeat = -0.3495,  0.4678,  2.5256, -0.6895,  2.0678,  2.6556, false, -8,15, false
+
+
+
+
+MotionFactor = 0.9
+
+EnableBack = true
+
+Category = TD
+
+HUD = ww2tank_hud, gunner
+
+TrackRollerRot = 15
+SetWheelPos =  1.40, -0.24, 2.81, 2.24, 1.67, 1.10, 0.53, -0.03, -0.60, -1.17, -1.74
+
+AddTrackRoller = 1.1470,  0.6370, 3.4561
+AddTrackRoller = 1.5778,  0.2199, 2.8142
+AddTrackRoller = 1.5778,  0.2199, 2.2442
+AddTrackRoller = 1.5778,  0.2199, 1.6742
+AddTrackRoller = 1.5778,  0.2199, 1.1042
+AddTrackRoller = 1.5778,  0.2199, 0.5342
+AddTrackRoller = 1.5778,  0.2199, -0.0358
+AddTrackRoller = 1.5778,  0.2199, -0.6058
+AddTrackRoller = 1.5778,  0.2199, -1.1758
+AddTrackRoller = 1.5778,  0.2199, -1.7458
+AddTrackRoller = 1.1470,  0.4055, -2.6599
+
+AddTrackRoller = -1.1470,  0.6370, 3.4561
+AddTrackRoller = -1.5778,  0.2199, 2.8142
+AddTrackRoller = -1.5778,  0.2199, 2.2442
+AddTrackRoller = -1.5778,  0.2199, 1.6742
+AddTrackRoller = -1.5778,  0.2199, 1.1042
+AddTrackRoller = -1.5778,  0.2199, 0.5342
+AddTrackRoller = -1.5778,  0.2199, -0.0358
+AddTrackRoller = -1.5778,  0.2199, -0.6058
+AddTrackRoller = -1.5778,  0.2199, -1.1758
+AddTrackRoller = -1.5778,  0.2199, -1.7458
+AddTrackRoller = -1.1470,  0.4055, -2.6599
+
+
+AddCrawlerTrack = true, 0.38, 1.6778, 1.0870/3.2560, 0.9452/3.6742, 0.6170/3.8960, 0.2988/3.7742, -0.23/2.9142, -0.23/-1.6058, 0.0981/-2.9562, 0.4055/-3.1649, 0.7019/-2.9962, 0.8205/-2.6599, 0.7385/-2.1036, 0.8177/2.5564
+AddCrawlerTrack = true, 0.38,-1.6778, 1.0870/3.2560, 0.9452/3.6742, 0.6170/3.8960, 0.2988/3.7742, -0.23/2.9142, -0.23/-1.6058, 0.0981/-2.9562, 0.4055/-3.1649, 0.7019/-2.9962, 0.8205/-2.6599, 0.7385/-2.1036, 0.8177/2.5564
+
+
+
+
+
+WeightedCenterZ = 0.0
+
+
+AddPartWeapon = j128_ap / j128_he, false, true, true, 0.00, 2.37, 1.09, 0
+AddPartWeaponChild = false, false, 0.00, 2.37, 1.09, 1
+AddWeapon = j128_ap, 0.00, 2.37, 1.09, 0.0, 0.0, true, 1, 0,-10,10, -14, 7
+AddWeapon = j128_he, 0.00, 2.37, 1.09, 0.0, 0.0, true, 1, 0,-10,10, -14, 7
+
+
+
+AddWeapon = jtigerh1mg34,  -0.6495, 1.4678, 3.1860,  0.0, 0.0, false,2, 0,-20,20, -20, 20
+AddPartWeapon  = jtigerh1mg34, false, true,  true,  -0.6495, 1.4678, 3.1860, 0
+
+ArmorMinDamage = 30
+
+
+;front higher
+
+BoundingBox = 0.0, 1.35, 1.7, 2.8, 1.0, 0.13
+
+;front lower
+BoundingBox = 0.0, 0.55, 2.5, 2.5, 0.65, 0.17
+
+;side front, middle, back and rear 80mm
+
+BoundingBox = 0.0, 1.345, 1.6, 2.81, 1.0, 0.37
+BoundingBox = 0.0, 0.545, 2.45, 2.51, 0.65, 0.37
+
+BoundingBox = 0.0, 1.345, -1.21, 2.81, 1.0, 0.37
+BoundingBox = 0.0, 0.545, -0.06, 2.51, 0.65, 0.37
+
+BoundingBox = 0.0, 1.345, -2.52, 2.81, 1.0, 0.37
+BoundingBox = 0.0, 0.545, -2.37, 2.51, 0.65, 0.37
+
+;turret
+
+BoundingBox = 0.0, 2.3, 0.2, 2.4, 1.2, 0.12
+;tside
+BoundingBox = 0.0, 2.3, 0.15, 2.41, 1.2, 0.35
+
+BoundingBox = 0.0, 2.3, -0.50, 2.41, 1.2, 0.35
+
+;rear of turret
+BoundingBox = 0.0, 2.29, -0.60, 2.38, 1.2, 0.37
+
+;AddRecipe = "ACA", "EXG", "TAT", T, hfr:item.part_treads, A, hfr:item.part_plating_3, C, hfr:item.part_chassis_3, E, hfr:item.part_engine_3, X, hfr:item.components_electronics, G, hfr:item.part_cannon_3
+
+;heavy tracked TD ww2
+AddRecipe = "ABC", "DEE", "   ", A, mcheli:heavychassis, B, mcheli:cannon3, C, mcheli:engine3, D, mcheli:tanktracks, E, mcheli:hap

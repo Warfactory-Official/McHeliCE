@@ -1,0 +1,36 @@
+DisplayName = CN-105-F1 Rifled Gun [OCC 105 F1 - HEAT]
+Type = MachineGun1
+Power = 400
+ModelBullet = bullet105mm
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 1
+Acceleration = 4.2
+Sight = None
+ReloadTime = 134
+Round = 1
+SoundVolume = 10.0
+Sound = mbtshot
+Accuracy = 1.5
+BulletColor        = 255, 255, 100, 100
+Particle = largeexplode
+Gravity = -0.005
+Recoil = 2
+Delay = 134
+Piercing = 0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+;AddDisplayName = en_US,
+SoundVolume = 15
+DisplayMortarDistance = true
+
+
+
+
+MaxAmmo = 16
+SuppliedNum = 8
+Item =  2, iron_ingot
+Item =  2, gunpowder

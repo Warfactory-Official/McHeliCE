@@ -1,0 +1,14 @@
+DisplayName = Bell
+Type = MachineGun1
+Power = 0
+Accuracy = 0
+Flaming = false
+Sight = None
+Delay = 10
+Gravity = -5
+TimeFuse = 1
+ModelBullet = 0_none
+Particle = none
+Sound = bellsound
+SoundVolume = 10.0
+SoundPitchRandom = 0

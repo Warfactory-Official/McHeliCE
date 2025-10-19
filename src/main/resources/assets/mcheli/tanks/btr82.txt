@@ -1,0 +1,134 @@
+﻿DisplayName = BTR-82 APC
+AddDisplayName = ru_RU, BTR-82 APC
+AddDisplayName = en_US, BTR-82 APC
+ItemID = 30102
+MaxHp = 200
+Speed = 0.62
+Sound = turbobtr
+ThrottleUpDown = 2
+MobilityYawOnGround = 7.5
+MaxFuel         = 1000
+FuelConsumption = 0.8
+CameraZoom = 5
+EnableNightVision = true
+EnableEntityRadar = false
+Gravity = -0.61
+GravityInWater = -0.2
+CameraRotationSpeed = 18
+GravityInWater = -1.0
+MinRotationPitch = -70
+MaxRotationPitch = 5
+MobilityRoll = 0
+InventorySize = 25
+StepHeight = 1.8
+DefaultFreelook = true
+MotionFactor = 0.9
+FlareType = 10
+ThirdPersonDist = 8
+CameraPosition = 0.2, 3, -0, true
+
+TurretPosition = 0.0, 1.0, 0.0
+
+SubmergedDamageHeight = 3
+
+Float = true
+FloatOffset = -2.0
+
+
+;  M = Military,  A = AAGun(対空砲)
+Category = APC
+
+WeightType = Tank
+
+AddTexture = btr82_1
+AddTexture = btr82_2
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+HUD = mbt_hudtwo, none, none, none, none, none, none
+
+AddGunnerSeat =  0.00, 1.48,  0.00, 0.2, 3.8, -0, false, -70, 5, true
+AddSeat = -0.31, 0.75, -1.62 
+AddSeat =  0.31, 0.75, -1.62 
+AddSeat = -0.31, 0.75, -2.48
+AddSeat =  0.31, 0.75, -2.48
+
+AddSeat = -0.31, 0.75, -3.14
+AddSeat =  0.31, 0.75, -3.14
+
+SetWheelPos =  1.30,  -0.24,  1.04, -1.02, -3.42, -5.36
+
+AddPartWheel =    1.30,  0.43, 1.05, 20
+AddPartWheel =    1.30,  0.43,-1.05, 10
+AddPartWheel =    0.00,  0.43,-3.46
+AddPartWheel =    0.00,  0.43,-5.41
+
+AddPartWheel =   -1.30,  0.43, 1.05, 20
+AddPartWheel =   -1.30,  0.43,-1.05, 10
+AddPartWheel =   -0.00,  0.43,-3.46
+AddPartWheel =   -0.00,  0.43,-5.41
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 6
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+;ArmorMaxDamage = 550
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+TrackRollerRot = 30
+
+AddPartWeapon    = 823ubr8/823ubr6/823yof8,   false, true, false,  0.00, 2.96, 0.00
+AddPartWeaponChild = false, true, 0.00, 2.95, -0.682
+AddPartWeaponChild = false, true, 0.00, 2.95, -0.682
+AddTurretWeapon = 823ubr8,   0.00, 2.96, -0.90,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+AddTurretWeapon = 823ubr6,   0.00, 2.96, -0.90,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+AddTurretWeapon = 823yof8,   0.00, 2.96, -0.90,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+AddTurretWeapon = 82pkt,  -0.6306, 2.9768, -0.60,   0.0, 0.0, false, 1, 0, -360,360, -70,5
+
+AddWeapon = op, 0.0, 0.0, 0.0
+
+
+;AddPartWeaponBay	= targeting_pod_pv10s,  1.1792, 2.6453, 0.1941, 0.0, 0.7,  1.00,   90
+
+AddPartWeaponBay = op,  -1.30,  1.90,  -1.61, 0,1, 0, 60
+AddPartWeaponBay = op,  1.30,  1.90,  -1.61, 0,1, 0, -60
+AddPartWeaponBay = op, -1.31,  0.53,  -1.92, 0,0, 1, 140
+AddPartWeaponBay = op,  1.31,  0.53,  -1.92, 0,0, 1, -140
+
+DamageFactor = 0.1
+
+HideEntity = true
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+;IFV armed light 8x8
+AddRecipe = "ABC", "DEG", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:fcs, E, mcheli:lap, G, mcheli:cannon2
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:fcs, B, mcheli:cannon2, C, mcheli:btr80
+
+;;start of btr family
+;;AddRecipe = "ABC", "DEF", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics, E, mcheli:lap, F, mcheli:cannon1
+
+
+
+BoundingBox = 0.0, 2.3, 0.0, 1.0, 1.0, 0.2
+
+BoundingBox = 0.0, 1.2, 0.0, 3.0, 2.0, 0.75
+BoundingBox = 0.0, 1.2, 1.0, 2.7, 1.8, 0.33
+BoundingBox = 0.0, 1.2, 1.5, 2.5, 1.6, 0.33
+BoundingBox = 0.0, 1.2, 2.4, 2.3, 0.4, 0.27
+
+BoundingBox = 0.0, 1.2, -2.5, 3.0, 2.0, 0.75
+BoundingBox = 0.0, 1.2, -5.4, 3.0, 2.0, 0.75
+
+
+unmountposition = 0.00, 1.98,  0.00
+
+

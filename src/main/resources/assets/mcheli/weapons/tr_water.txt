@@ -1,0 +1,26 @@
+﻿
+DisplayName = Pesticide Sprayer
+
+Type = Dispenser
+Acceleration = 0
+Sight = None
+Delay = 0
+Sound = smoke_snd
+SoundDelay = 4
+Gravity = -0.05
+
+Bomblet = 5
+BombletSTime = 3
+BombletDiff = 1
+
+SmokeSize   = 1.0
+
+
+MaxAmmo = 512
+SuppliedNum = 64
+Item =  2, dye, 15
+Item = 1, hbm:item.powder_poison
+
+DispenseItem = wooden_hoe
+DispenseRange = 6
+

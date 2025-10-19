@@ -1,0 +1,18 @@
+DisplayName = Horn
+Type = MachineGun1
+
+
+
+Sound = beep
+
+Sight = None
+Delay = 10
+Power = 0
+Accuracy = 0
+Flaming = false
+ModelBullet = 0_none
+Particle = none
+SoundVolume = 15.0
+SoundPitchRandom = 0
+Gravity = -9
+AddDisplayName = en_US, Horn

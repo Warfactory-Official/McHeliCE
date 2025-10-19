@@ -1,0 +1,102 @@
+;DrawTexture = 0, 8, -29, 5,5 ,0,0, 256,256
+;DrawTexture = 0, 13, -29, 5,5 ,0,0, 256,256
+;DrawTexture = 0, 18, -29, 5,5 ,0,0, 256,256
+;0.0005=1km
+;DEFAULT---
+DrawTexture = 0, 23, -29, 5,5 ,0,0, 256,256
+;------------
+If=(throttle>0&&throttle<=0.1&&altitude>0&&altitude<=20)||(altitude>3&&altitude<=10)||(altitude>100&&altitude<=120)||(altitude>270&&altitude<=280)||(altitude>340&&altitude<=350)||(altitude>440&&altitude<=450)||(altitude>500&&altitude<=505)||(altitude>550&&altitude<=555)||(altitude>600&&altitude<=602)||(altitude>620&&altitude<=622)||(altitude>640&&altitude<=642)
+DrawTexture =1, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.1&&throttle<=0.2&&altitude>0&&altitude<=20)||(altitude>10&&altitude<=20)||(altitude>120&&altitude<=140)||(altitude>280&&altitude<=290)||(altitude>350&&altitude<=360)||(altitude>450&&altitude<=460)||(altitude>505&&altitude<=510)||(altitude>555&&altitude<=560)||(altitude>602&&altitude<=604)||(altitude>622&&altitude<=624)||(altitude>642&&altitude<=644)
+DrawTexture =2, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.2&&throttle<=0.3&&altitude>0&&altitude<=20)||(altitude>20&&altitude<=30)||(altitude>140&&altitude<=160)||(altitude>290&&altitude<=300)||(altitude>360&&altitude<=370)||(altitude>460&&altitude<=465)||(altitude>510&&altitude<=515)||(altitude>560&&altitude<=565)||(altitude>604&&altitude<=606)||(altitude>624&&altitude<=626)||(altitude>644&&altitude<=646)
+DrawTexture =3, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.3&&throttle<=0.4&&altitude>0&&altitude<=20)||(altitude>30&&altitude<=40)||(altitude>160&&altitude<=180)||(altitude>300&&altitude<=310)||(altitude>370&&altitude<=380)||(altitude>465&&altitude<=470)||(altitude>515&&altitude<=520)||(altitude>565&&altitude<=570)||(altitude>606&&altitude<=608)||(altitude>626&&altitude<=628)||(altitude>646&&altitude<=648)||(altitude>660&&altitude<=670)||(altitude>680&&altitude<=690)||(altitude>700&&altitude<=710)||(altitude>720&&altitude<=730)||(altitude>740)
+DrawTexture =4, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.4&&throttle<=0.5&&altitude>0&&altitude<=20)||(altitude>40&&altitude<=50)||(altitude>180&&altitude<=200)||(altitude>310&&altitude<=320)||(altitude>380&&altitude<=390)||(altitude>470&&altitude<=475)||(altitude>520&&altitude<=525)||(altitude>570&&altitude<=575)||(altitude>608&&altitude<=610)||(altitude>628&&altitude<=630)||(altitude>648&&altitude<=650)
+DrawTexture =5, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.5&&throttle<=0.55&&altitude>0&&altitude<=20)||(altitude>50&&altitude<=60)||(altitude>200&&altitude<=220)||(altitude>320&&altitude<=330)||(altitude>390&&altitude<=400)||(altitude>475&&altitude<=480)||(altitude>525&&altitude<=530)||(altitude>575&&altitude<=580)||(altitude>610&&altitude<=612)||(altitude>630&&altitude<=632)||(altitude>650&&altitude<=652)
+DrawTexture =6, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.55&&throttle<=0.6&&altitude>0&&altitude<=20)||(altitude>60&&altitude<=70)||(altitude>220&&altitude<=240)||(altitude>300&&altitude<=310)||(altitude>400&&altitude<=410)||(altitude>480&&altitude<=485)||(altitude>530&&altitude<=535)||(altitude>580&&altitude<=585)||(altitude>612&&altitude<=614)||(altitude>632&&altitude<=634)||(altitude>652&&altitude<=654)
+DrawTexture =7, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.6&&throttle<=0.65&&altitude>0&&altitude<=20)||(altitude>70&&altitude<=80)||(altitude>240&&altitude<=250)||(altitude>310&&altitude<=320)||(altitude>410&&altitude<=420)||(altitude>485&&altitude<=490)||(altitude>535&&altitude<=540)||(altitude>585&&altitude<=590)||(altitude>614&&altitude<=616)||(altitude>634&&altitude<=636)||(altitude>654&&altitude<=656)||(altitude>670&&altitude<=680)||(altitude>690&&altitude<=700)||(altitude>710&&altitude<=720)||(altitude>730&&altitude<=740)
+DrawTexture =8, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.65&&throttle<=0.8&&altitude>0&&altitude<=20)||(altitude>80&&altitude<=90)||(altitude>250&&altitude<=260)||(altitude>320&&altitude<=330)||(altitude>420&&altitude<=430)||(altitude>490&&altitude<=495)||(altitude>540&&altitude<=545)||(altitude>590&&altitude<=595)||(altitude>616&&altitude<=618)||(altitude>636&&altitude<=638)||(altitude>656&&altitude<=658)
+DrawTexture =9, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.8&&throttle<=1&&altitude>0&&altitude<=20)||(altitude>90&&altitude<=100)||(altitude>260&&altitude<=270)||(altitude>330&&altitude<=340)||(altitude>430&&altitude<=440)||(altitude>495&&altitude<=500)||(altitude>545&&altitude<=550)||(altitude>595&&altitude<=600)||(altitude>618&&altitude<=620)||(altitude>638&&altitude<=640)||(altitude>658&&altitude<=660)
+DrawTexture =0, 18, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(throttle>0.8&&throttle<=1&&altitude<90)||(altitude>1&&altitude<=90)||(altitude>660&&altitude<=670)
+DrawTexture =1, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=altitude>90&&altitude<=270||(altitude>670&&altitude<=680)
+DrawTexture =2, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=altitude>270&&altitude<=340||(altitude>680&&altitude<=690)
+DrawTexture =3, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=altitude>340&&altitude<=440||(altitude>690&&altitude<=700)
+DrawTexture =4, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=altitude>440&&altitude<=500||(altitude>700&&altitude<=710)
+DrawTexture =5, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=altitude>500&&altitude<=550||(altitude>710&&altitude<=720)
+DrawTexture =6, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=altitude>500&&altitude<=600||(altitude>720&&altitude<=730)
+DrawTexture =7, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=altitude>600&&altitude<=620||(altitude>=730)
+DrawTexture =8, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=altitude>620&&altitude<=640&&pitch<35
+DrawTexture =9, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(altitude>640&&altitude<=660)
+DrawTexture =0, 13, -29, 5,5 ,0,0, 256,256
+EndIf
+
+If=(altitude>640)
+DrawTexture =1, 8, -29, 5,5 ,0,0, 256,256
+EndIf
+
+
+
+
+
+
+
+
+
+
+
+

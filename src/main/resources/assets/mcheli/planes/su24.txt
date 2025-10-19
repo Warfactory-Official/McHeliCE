@@ -1,0 +1,146 @@
+DisplayName = Su-24
+AddDisplayName = en_US, Su-24
+AddDisplayName = ua_UA, Su-24
+AddDisplayName = en_EN, Su-24
+ItemID = 28731
+MaxHp = 250
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.42158
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+VariableSweepWing = true
+SweepWingSpeed = 1.2
+MaxFuel         = 1600
+FuelConsumption = 1.1
+ThirdPersonDist = 16
+
+Sound = migtwentythree
+
+ThrottleUpDown = 0.3
+
+enableback = true
+
+Category = M.A
+
+HUD = planesu24, plane_gnrsu24
+
+MobilityYaw = 30.0
+MobilityRoll = 0.5
+MobilityPitch = 8.5
+
+AddSeat = 0.31, 3.0, 7.37
+unmountposition = 0.31, 2.0, 7.37
+AddGunnerSeat = -0.35, 3.0, 7.37, -0.70, 1.99, 10.56, true
+
+AddPartCanopy = 0.03, 3.87, 9.10, 1,0,0,  40
+
+AddPartWing =  2.14, 4.02, -1.95,  0,-1,0, -30
+AddPartWing =  -2.14, 4.02, -1.95,  0,-1,0, 30
+
+AddPartLG    =  -0.70, 1.88, -0.17,  -1,0,0,  -101
+AddPartLG    =  0.10, 2.05,  8.67,   -1,0,0,  -90
+AddPartLG    =  0.00, 2.74, 8.41,    -1,0,0,  -90
+AddPartLG    =  0.41, 2.04,  7.03,   0,0,1,   -90
+AddPartLG    =  -0.45, 2.04, 7.03,   0,0,1,    90
+AddPartLG    =  0.61, 2.06, -1.94,   0,0,1,    105
+AddPartLG    =  1.71, 2.29, -2.02,   0,0,1,   -105
+AddPartLG    =  0.64, 2.34, -2.71,   1,0,0,   -125
+AddPartLG    =  -0.62, 2.06, -1.94,  0,0,1,   -105
+AddPartLG    =  -1.71, 2.28, -1.94,  0,0,1,    105
+AddPartLG    =  -0.62, 2.34, -2.71,   1,0,0,  -125
+
+AddPartWeaponMissile = r60, false,  false,  false,  6.75,  1.84, -7.59
+AddPartWeaponMissile = r60, false,  false,  false, -6.75,  1.84, -7.59
+AddPartWeaponMissile = su24fb250, false,  false,  false,  5.09,  1.91, -6.73
+AddPartWeaponMissile = su24fb250, false,  false,  false, -5.09,  1.91, -6.73
+AddPartWeaponMissile = su24fb250, false,  false,  false, -5.09,  1.91, -6.73
+AddPartWeaponMissile = su24fb250, false,  false,  false, -5.09,  1.91, -6.73
+
+
+;200rnds
+AddWeapon = gsh-6-23,  0.08,  3.68,  10.08,   2.0, -3.0
+;2
+AddWeapon = kh-25,     7.64,  3.68, -1.75,   0.0,  0.0 , true,  2
+AddWeapon = kh-25,    -7.64,  3.68, -1.75,   0.0,  0.0 , true,  2
+;2
+AddWeapon = r60mk,     2.43,  2.93, -1.32,   0.0,  0.0 , true,  1
+AddWeapon = r60mk,    -2.43,  2.93, -1.32,   0.0,  0.0 , true,  1
+;12 (wrong there's 2 on model)
+AddWeapon = su24fb500,     9.44,  2.93, -3.51,   0.0,  0.0 , true,  2
+AddWeapon = su24fb500,    -9.44,  2.93, -3.51,   0.0,  0.0 , true,  2
+;8 (4 on model)
+AddWeapon = su24fb250,  0.08,  1.16, -3.31,   0.0,  0.0 , true,  2
+AddWeapon = su24fb250,  0.00,  1.16, -3.31,   0.0,  0.0 , true,  2
+AddWeapon = su24fb250,  -0.08,  1.16, -3.31,   0.0,  0.0 , true,  2
+AddWeapon = su24fb250,  0.08,  1.16,  0.27,   0.0,  0.0 , true,  2
+;2
+AddWeapon = korshun, 6.09,  2.89, -3.32,   0.0,  0.0 , true,  2
+AddWeapon = korshun, -6.09,  2.89, -3.32,   0.0,  0.0 , true,  2
+;80
+AddWeapon = s8k, 4.36,  2.68, -0.76,   0.0,  0.0 , true,  2
+AddWeapon = s8k, -4.36,  2.68, -0.76,   0.0,  0.0 , true,  2
+
+
+AddWeapon = targeting_pod_block, -5.09,  1.91, -6.73,   0.0,  0.0
+AddWeapon = targeting_pod_mob, -5.09,  1.91, -6.73,   0.0,  0.0
+
+;modern medium light plane (jet), AOW3 style
+AddRecipe = "ABC", "DEI", "GH ", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, G, mcheli:electronics, H, mcheli:fcs, I, mcheli:rocket2
+
+
+BoundingBox = 0.0, 3.4, 6.0, 2.0, 2.0
+BoundingBox = 0.0, 3.4, 5.0, 2.0, 2.0
+
+BoundingBox =  0.00, 3.00, 2.60,  3.0, 2.0
+BoundingBox =  0.00, 3.00, 0.40,  3.0, 2.0
+BoundingBox =  0.00, 3.00, -2.60,  3.0, 2.0
+BoundingBox =  0.00, 3.00, -5.60,  3.0, 2.0
+BoundingBox =  0.00, 3.00, -5.80,  3.0, 2.0
+BoundingBox =  0.00, 3.10, -8.90,  3.2, 2.0
+
+BoundingBox = -2.92, 3.50, -3.10,  3.0, 0.4
+BoundingBox =  2.92, 3.50, -3.10,  3.0, 0.4 
+
+BoundingBox = -5.92, 3.50, -3.90,  3.0, 0.4
+BoundingBox =  5.92, 3.50, -3.90,  3.0, 0.4 
+
+BoundingBox = -7.92, 3.50, -4.60,  2.0, 0.4
+BoundingBox =  7.92, 3.50, -4.60,  2.0, 0.4 
+
+
+
+
+BoundingBox = 2.82, 3.75, -10.56, 2.3, 0.3
+BoundingBox = -2.82, 3.75, -10.56, 2.3, 0.3
+
+BoundingBox = 1.42, 3.75, -9.06, 2.3, 0.3
+BoundingBox = -1.42, 3.75, -9.06, 2.3, 0.3
+
+BoundingBox = 1.92, 3.75, -9.76, 2.3, 0.3
+BoundingBox = -1.92, 3.75, -9.76, 2.3, 0.3
+;tail
+
+
+
+BoundingBox = 0.0, 4.90, -9.56, 0.5, 2.5
+
+BoundingBox = 0.0, 4.60, -9.06, 0.5, 2.5
+
+BoundingBox = 0.0, 4.2, -8.56, 0.5, 2.5
+
+BoundingBox = 0.0, 3.9, -8.06, 0.5, 2.5
+
+BoundingBox = 0.0, 3.6, -7.56, 0.5, 2.5
+
+
+BoundingBox = 0.0, 5.20, -10.06, 0.5, 2.5
+BoundingBox = 0.0, 5.50, -10.56, 0.5, 2.5
+BoundingBox = 0.0, 5.80, -11.06, 0.5, 2.5
+BoundingBox = 0.0, 5.85, -11.56, 0.5, 2.5
+BoundingBox = 0.0, 6.45, -12.06, 0.5, 2.5
+BoundingBox = 0.0, 6.75, -12.56, 0.5, 2.5
+BoundingBox = 0.0, 6.90, -13.06, 0.5, 2.0
+DamageFactor = 0.8

@@ -1,0 +1,13 @@
+DisplayName = Radar
+Type = TargetingPod
+Delay = 2
+Sight = MoveSight
+SoundPitch = 1.0
+Sound = pi
+SoundVolume = 5.0
+SoundPitchRandom = 0.0
+Length = 300
+Radius = 360
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/helicopters/players/monsters/others
+MarkTime = 180

@@ -1,0 +1,51 @@
+DisplayName = 203mm 2A44 Cannon L/56.2 [3BV2 Nuclear Artillery Shell - 5KT SURFACE]
+Type = Rocket
+Power = 800
+Explosion = 6
+ExplosionBlock = 5
+Acceleration = 7.0
+SoundVolume = 15.0
+Sound = artillery_gun_snd
+Accuracy = 1.5
+ModelBullet = bullet105mm
+Flaming = false
+Sight = None
+Delay = 180
+Gravity = -0.00099
+ReloadTime = 180
+Recoil = 1.5
+Round = 1
+DisableSmoke = true
+
+HeatCount = 41000
+MaxHeatCount = 80000
+
+;60 crater radius
+NukeYield = 30
+
+Group = Maingun
+
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle, 1.5
+DamageFactor = heli, 1.5
+DamageFactor = player, 20.0
+
+
+
+DisplayMortarDistance = true
+FixCameraPitch = true
+CameraRotationSpeedPitch = 0.2
+
+AddMuzzleFlash      =  12.2,     2.10,        9,  220,254,159,74
+AddMuzzleFlash      =  12.1,     2.05,        8,  220,254,219,104
+AddMuzzleFlash      =  12.0,     2.00,        7,  220,254,219,184
+AddMuzzleFlashSmoke =  12.2, 30, 12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 16.2, 20, 13.0,  7.0, 55,  200,190,170,150
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item = 1, mcheli:genericnuclearwarheadlow
+Item = 3, iron_ingot
+Item =  5, gunpowder

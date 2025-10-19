@@ -1,0 +1,238 @@
+﻿DisplayName = DGG-1000 Zumwalt Destroyer
+AddDisplayName = en_US, DGG-1000 Zumwalt Destroyer
+AddDisplayName = ja_JP, DGG-1000 ズムウォルト駆逐艦
+
+PivotTurnThrottle = 0.2
+
+MaxHp = 15656
+Speed = 0.39
+Float = true
+FloatOffset = 0.0
+Sound = warship_snd
+SoundVolume = 50
+ThrottleUpDown = 0.2
+MaxFuel         = 3000
+FuelConsumption = 5.2
+Gravity = -0.5
+GravityInWater = -0.2
+StepHeight = 5.0
+DamageFactor = 0.1
+MobilityYawOnGround = 0.8
+EnableNightVision = true
+EnableEntityRadar = true
+MotionFactor = 0.90
+ParticlesScale = 18.5
+Stealth = 0.8
+RotorSpeed = 10
+EnableBack = true
+ThirdPersonDist = 60
+CanMoveOnGround = false
+CameraPosition = -8.61, 10.88, 64.41, true
+
+InventorySize = 54
+
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+
+HUD = plane, gunner, gunner, gunner, gunner, gunner, gunner, none, none, none, none, none
+
+
+
+AddPartRotation  =  -11.24, 15.05, 62.75,  0, 1, 0, 1.0,   false
+
+UnmountPosition = -1.0, 1.98, 1.76
+
+BoundingBox = -1.0, 1.0, 1.7, 3.5, 3.5, 1.0
+
+;　main seat
+;captain
+AddSeat =  -8.84, 1.98, 5.76
+
+
+; entry seat
+AddSeat =  -0.25, 0.56, -0.03
+
+
+
+AddPartSteeringWheel =   -5.299, -2.795, 5.54,   0, -1, 0,  50
+AddPartSteeringWheel =   -12.16, -2.795, 5.54,   0, -1, 0,  50
+
+
+
+
+; weapon seat
+;cannons
+AddGunnerSeat =   -0.25, 0.65, 0.39,  -8.84, 8.40, 88.95,  false
+
+;30mm
+AddGunnerSeat =   -8.84, 0.71, 10.39,  -8.84, 11.04, 34.91,  false
+
+;annoying
+AddGunnerSeat =   -8.84, 0.75, 8.13,  -8.84, 18.00, 52.82,  false,  -90, 20, false
+
+AddGunnerSeat =   -0.25, 0.80, 0.39,  -8.68, -1.46, 131.35,  false
+
+
+; inside seat
+AddSeat =  -6.80, 6.45, 51.24
+AddSeat =  -9.50, 6.45, 51.24
+AddSeat =  -12.04, 6.45, 51.24
+AddSeat =  -12.04, 6.45, 46.22
+AddSeat =  -9.50, 6.45, 46.22
+AddSeat =  -6.80, 6.45, 46.22
+
+
+; heliport seat
+AddSeat =  -6.92, 4.29, 21.61
+
+
+; boat dock seat
+AddSeat =  -5.87, 0.33, 7.08
+
+
+; ship front seat
+AddSeat =  -6.22, 4.31, 118.65
+
+
+; on sea seat
+AddSeat =  -6.91, 0.20, 16.54
+AddSeat =  -6.91, 0.20, 46.50
+AddSeat =  -6.91, 0.20, 72.26
+AddSeat =  -6.91, 0.20, 102.50
+
+
+
+AddPartSlideHatch =  3.43, 0.00, -0.03
+AddPartSlideHatch =  -3.57, 0.00, -0.03
+
+
+
+AddPartRotor =      -5.49, -3.31, 8.50,  0, 0, 1
+AddBlade = 1, 0,    -5.49, -3.31, 8.50,  0, 0, 1
+
+AddPartRotor =       -12.15, -3.31, 8.50,  0, 0, 1
+AddBlade = 1, 0,     -12.15, -3.31, 8.50,  0, 0, 1
+
+AddPartRotor =     -6.14, 15.06, 62.76,  0, 1, 0
+AddBlade = 1, 0,   -6.14, 15.06, 62.76,  0, 1, 0
+
+
+
+; front weapon they were technically removed but fuck you its an older model
+AddPartWeapon    = dgg155mm,   false, true, false,  -8.75, 5.44, 78.05
+AddPartWeapon    = dgg155mm,   false, true, true,  -8.75, 5.44, 78.05
+
+
+AddPartWeapon    = dgg155mm,   false, true, false,  -8.75, 5.44, 95.17
+AddPartWeapon    = dgg155mm,   false, true, true,  -8.75, 5.44, 95.17
+
+
+AddWeapon =  dgg155mm,  -8.75, 5.44, 78.05,  0, 0, true,  3,   0,   -90,  90, -70, 5
+AddWeapon =  dgg155mm,  -8.75, 5.44, 95.17,  0, 0, true,  3,   0,   -90,  90, -70, 5
+
+
+
+
+; rear weapon WRONG
+AddPartWeapon    = dgg30mm,   false, true, false,  -13.73,  8.93, 33.39
+AddPartWeapon    = dgg30mm,   false, true, true,   -13.73,  8.93, 33.39
+
+
+AddPartWeapon    = dgg30mm,   false, true, false,  -4.14, 8.93, 33.39
+AddPartWeapon    = dgg30mm,   false, true, true,   -4.14, 8.93, 33.39
+
+
+AddWeapon =  dgg30mm,  -13.73,  8.93, 33.39,  0, 0, true,  4,   0,   360,  -360, -80, 10
+AddWeapon =  dgg30mm,  -4.14,  8.93, 33.39,  0, 0, true,  4,   0,   360,  -360, -80, 10
+
+
+
+; missile
+;;AddWeapon =  sam2,   -0.67, 4.58, 19.38,    0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  sam2,   -16.54, 4.58, 19.38,   0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  sam2,   -0.67, 4.58, 4.95,    0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  sam2,   -16.54, 4.58, 4.95,   0, 0, true,  5,   0,   360,  -360, -90, 20
+
+
+;;AddWeapon =  agm158,   -0.67, 4.58, 19.38,    0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  agm158,   -16.54, 4.58, 19.38,   0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  agm158,   -0.67, 4.58, 4.95,    0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  agm158,   -16.54, 4.58, 4.95,   0, 0, true,  5,   0,   360,  -360, -90, 20
+
+
+;;AddWeapon =  dggagm119,   -0.67, 4.58, 19.38,    0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  dggagm119,   -16.54, 4.58, 19.38,   0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  dggagm119,   -0.67, 4.58, 4.95,    0, 0, true,  5,   0,   360,  -360, -90, 20
+;;AddWeapon =  dggagm119,   -16.54, 4.58, 4.95,   0, 0, true,  5,   0,   360,  -360, -90, 20
+
+;this isn't even where these fucking are wtf
+
+AddWeapon =  dggbgm109,   -5.86, 14.23, 57.01,    0, 0, true,  5,   0,   360,  -360, -90, 20
+AddWeapon =  dggbgm109,   -11.90, 14.23, 57.01,   0, 0, true,  5,   0,   360,  -360, -90, 20
+AddWeapon =  dggbgm109nc,   -5.86, 14.23, 52.82,    0, 0, true,  5,   0,   360,  -360, -90, 20
+AddWeapon =  dggbgm109nc,   -11.90, 14.23, 52.82,   0, 0, true,  5,   0,   360,  -360, -90, 20
+
+AddWeapon =  dggsm2,   -5.86, 14.23, 52.82,    0, 0, true,  5,   0,   360,  -360, -90, 20
+AddWeapon =  dggsm2,   -11.90, 14.23, 57.01,   0, 0, true,  5,   0,   360,  -360, -90, 20
+AddWeapon =  dggsm2,   -5.86, 14.23, 52.82,    0, 0, true,  5,   0,   360,  -360, -90, 20
+AddWeapon =  dggsm2,   -11.90, 14.23, 52.82,   0, 0, true,  5,   0,   360,  -360, -90, 20
+
+AddWeapon =  targeting_pod_block,   -16.54, 4.58, 4.95,   0, 0, true,  5,   0,   360,  -360, -90, 20
+
+
+
+; torpedo
+AddWeapon =  dggmk46,   -8.68, -7.27, 131.35,    0, 0, true,  6,   0,   -50,  50, -5, 5
+
+
+; horn
+AddWeapon =  ship_horn, 0.00, 0.10, 0.00,  0.0, 90
+
+
+
+
+AddRack = helicopter / mv-22,  -9.52, 4.45, 21.56,   -9.52, 13.20, 15.09,  15
+
+AddRack =  zodiac /  stinger_390x /  mc_RHIB / mc_jetski_military,  -8.46, 0.53, 6.64,  -8.46, 0.28, -5.02, 10
+
+
+
+BoundingBox = -9.29, 0.80, 99.81,  10.0,  8.0
+BoundingBox = -9.29, 0.80, 85.34,  10.0,  8.0
+BoundingBox = -9.29, 0.80, 70.32,  10.0,  8.0
+BoundingBox = -9.29, 0.80, 53.02,  15.0,  15.0
+BoundingBox = -8.7, 0.80, 33.02,  20.0,  8.0
+;AddRack = test, -9.29, 0.80, 33.02,  -9.29, 0.80, 33.02,   15,    20
+;AddRack = test, 5.0, 1.0, 1.0,  0, 0,  -4.3,   15,    20
+BoundingBox = -8.7, 0.80, 13.82,  18.0,  8.0
+
+;destroyer
+AddRecipe = "ABC", "DEA", "BCE", A, mcheli:shiphull3, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:electronics, E, mcheli:cannon3
+
+
+AddParticleSplash  =  4.16, 0.25, 1.38,    5, 10.5,  0.8, 40, 0.4, -0.03 
+AddParticleSplash  =  2.67, 0.25, -2.16,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -0.34, 0.25, -5.52,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -2.78, 0.25, -10.00,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -2.78, 0.25, -13.86,   4, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -2.78, 0.25, -15.72,   4, 10.3,  0.8, 80, 0.1,   -0.02
+AddParticleSplash  =  -2.78, 0.25, -17.42,   4, 10.0,  0.8, 80, 0.1,  -0.02
+
+
+
+AddParticleSplash  =  -20.75, 0.25, 1.38,    5, 10.5,  0.8, 40, 0.4, -0.03 
+AddParticleSplash  =  -18.73, 0.25, -2.16,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -16.73, 0.25, -5.52,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -12.67, 0.25, -10.00,   5, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -12.67, 0.25, -13.86,   4, 10.5,  0.8, 40, 0.4, -0.03
+AddParticleSplash  =  -12.67, 0.25, -15.72,   4, 10.3,  0.8, 80, 0.1,   -0.02
+AddParticleSplash  =  -12.67, 0.25, -17.42,   4, 10.0,  0.8, 80, 0.1,  -0.02
+
+enableback = true
+
+
+
+
+Regeneration = true

@@ -1,0 +1,30 @@
+DisplayName = Storm Shadow Cruise Missile
+Type = TVMissile
+Power = 1000
+Acceleration = 2.7
+Explosion = 18
+Sight = MoveSight
+Delay = 5
+Piercing = 5
+Round = 2
+ModeNum = 2
+ModelBullet = StormShadow
+Sound = missile_1_snd
+DisableSmoke = true
+Particle = largeexplode
+
+ExplosionBlock = 10
+ExplosionInWater = 9
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+ReloadTime = 240
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item = 8, iron_ingot
+Item = 20, gunpowder
+Item = 10, redstone

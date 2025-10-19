@@ -1,0 +1,46 @@
+DisplayName = 3O13 Shell [DPICM]
+Type = Rocket
+Power = 18
+ModelBullet = 152mm
+Explosion = 3
+ExplosionInWater = 2
+ExplosionBlock = 2
+Acceleration = 6.0
+Sight = None
+ReloadTime = 100
+Delay = 100
+Round = 1
+SoundVolume = 15.0
+Sound = artillery_shot2_snd
+Accuracy = 1.5
+Gravity = -0.045
+
+DamageFactor = player, 2.0
+
+SetCartridge = cartridge_2, 0.2, 180, 0, 0.3, -0.02, 0.65
+
+Bomblet = 30
+BombletDiff = 0.4
+BombletSTime = 25
+ModelBomblet = cbc
+
+DisableSmoke = true
+
+DisplayMortarDistance = true
+FixCameraPitch = true
+CameraRotationSpeedPitch = 0.2
+
+AddMuzzleFlash      =  0,      1.80,        7,  220,254,159,74
+AddMuzzleFlash      =  0,      1.75,        6,  220,254,219,104
+AddMuzzleFlash      =  0,      1.70,        5,  220,254,219,184
+AddMuzzleFlashSmoke = 0, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke =0, 10,  11.0,  6.0, 35,  200,190,170,150
+Particle - largeexplode
+
+Recoil = 4.5
+RecoilBufCount = 40, 5
+
+MaxAmmo = 45
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  5, gunpowder

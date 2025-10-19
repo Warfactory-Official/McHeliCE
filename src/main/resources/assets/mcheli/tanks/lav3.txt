@@ -1,0 +1,102 @@
+DisplayName = LAV III (Light Armoured Vehicle 3)
+MaxHp = 200
+Speed = 0.62
+Sound = stryker
+ThrottleUpDown = 3.0
+HideEntity = true
+MobilityYawOnGround = 6.5
+MinRotationPitch = -30
+MaxRotationPitch = 5
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 0.8
+CameraZoom = 4
+CameraPosition = 0.65,  3.6, 0.5, true
+EnableNightVision = true
+CameraRotationSpeed = 20
+FlareType = 10
+MaxFuel = 1200
+FuelConsumption = 2.7
+StepHeight = 1.8
+DefaultFreelook = true
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 1.0
+FlareType = 10
+ThirdPersonDist = 8
+
+Category = IFV
+
+;stryker -122.65
+
+
+SubmergedDamageHeight = 2
+
+
+HUD = mbt_hud, nohudbmp, none, none, none, none, none
+
+MotionFactor = 0.925
+ArmorMinDamage = 14
+;ArmorMaxDamage = 600
+;ArmorDamageFactor = 0.90
+EnableBack = true
+PivotTurnThrottle = 0.1
+
+WeightType = Tank
+
+
+
+AddGunnerSeat =  0.00,  1.50, 1.55,   0.00,  3.50, 1.00,  false, -90, 90, true
+unmountposition = 0.00,  1.50, -2.5
+
+AddSeat =  0.82, 1.0, -1.3
+AddSeat = -0.82, 1.0, -1.3
+AddSeat =  0.82, 1.0, -1.9
+AddSeat = -0.82, 1.0, -1.9
+AddSeat =  0.82, 1.0, -2.5
+AddSeat = -0.82, 1.0, -2.5
+
+
+
+SetWheelPos =  1.28,  -0.32,  3.3451, 1.7177, -0.1335, -1.7905
+
+AddPartWheel = -1.53,  0.3927,  3.3451, 40
+AddPartWheel =  1.53,  0.3927,  3.3451, 40
+AddPartWheel = -1.53,  0.3927,  1.7177, 20
+AddPartWheel =  1.53,  0.3927,  1.7177, 20
+AddPartWheel =  1.7598,    0.3927,  -0.1335, 
+AddPartWheel =  -1.7598,    0.3927,  -0.1335,
+AddPartWheel =  1.7598,    0.3927,  -1.7905, 
+AddPartWheel =  -1.7598,    0.3927,  -1.7905,
+
+
+AddPartWeapon = lav3M791 / lav3M919 / lav3he, false, true, false,  0.0, 2.0, 0.0, 0
+AddPartWeaponChild = false, true, -0.0, 2.6, 1.10, 0.0,
+AddPartWeaponChild = false, true, -0.0, 2.6, 1.10, 0.0,
+AddPartWeaponChild = false, true, -0.0, 2.6, 1.10, 0.2,
+AddTurretWeapon = lav3M791,  0.0760, 2.8418, 0.7,  0.0, 0.0, false, 1, 0,-360,360,  -30,  5
+AddTurretWeapon = lav3M919,  0.0760, 2.8418, 0.7,  0.0, 0.0, false, 1, 0,-360,360, -30, 5
+AddTurretWeapon = lav3he,    0.0760, 2.8418, 0.7,  0.0, 0.0, false, 1, 0,-360,360, -30, 5
+AddTurretWeapon = lav3fnmag, -0.179, 2.8405, 0.7, 0.0, 0.0, false, 1, 0,-360,360, -30, 5
+
+
+
+BoundingBox = 0.0, 1.4, 2.4, 3.2, 1.6, 1.0
+BoundingBox = 0.0, 1.4, 2.8, 3.2, 1.4, 1.0
+BoundingBox = 0.0, 1.3, 3.0, 3.2, 1.3, 1.0
+BoundingBox = 0.0, 1.3, 3.4, 2.8, 1.2, 1.0
+BoundingBox = 0.0, 1.4, 3.8, 2.8, 0.8, 1.0
+BoundingBox = 0.0, 1.5, 4.2, 2.8, 0.4, 1.0
+
+
+BoundingBox = 0.0, 1.6, 0.0, 3.2, 1.8, 1.0
+BoundingBox = 0.0, 1.4, 0.5, 3.2, 1.8, 1.0
+BoundingBox = 0.0, 1.4, -2.2, 3.2, 1.8, 1.0
+
+;turret
+BoundingBox = 0.0, 2.75, 0.0, 1.8, 0.8, 1.0
+
+
+
+;light 8x8 with autocan
+AddRecipe = "ABC", "DEG", "   ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine1, D, mcheli:electronics, E, mcheli:fcs2, G, mcheli:cannon1

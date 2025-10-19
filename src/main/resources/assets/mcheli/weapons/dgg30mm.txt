@@ -1,0 +1,48 @@
+DisplayName = 30mm Mk46 Cannon (GDLS) IRCPS [HEI-T]
+Type = MachineGun2
+Power = 25
+ModelBullet = bullet
+Explosion = 2
+ExplosionBlock = 3
+
+ExplosionInWater = 2
+
+Flaming = false
+Sight = MoveSight
+Delay = 0
+Round = 400
+
+HeatCount = 1
+MaxHeatCount = 160
+SoundVolume = 15
+Sound = dggthircan
+
+Gravity = -0.005
+
+ReloadTime = 150
+Group = MainGun
+Acceleration = 7.0
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+Accuracy = 0.0
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 12.7cm Gun
+SoundVolume = 15
+
+AddMuzzleFlash      =  3.3,      2.10,        3,  220,254,159,74
+AddMuzzleFlash      =  3.2,      2.05,        4,  220,254,219,104
+AddMuzzleFlash      =  3.1,      2.00,        3,  220,254,219,184
+AddMuzzleFlashSmoke =  3.3, 30,  12.0,  4.0, 2,  220,160,140,120
+AddMuzzleFlashSmoke = 6.3, 20,  13.0,  7.0, 3,  200,190,170,150
+
+
+
+MaxAmmo = 400
+SuppliedNum = 50
+Item =  3, iron_ingot
+Item =  3, gunpowder

@@ -1,0 +1,36 @@
+DisplayName = GBU-27 Paveway III
+Type = ASMissile
+Power = 1000
+radius = 3000
+Acceleration = 1.7
+Flaming = true
+Sight = MoveSight
+Delay = 5
+Round = 2
+ReloadTime = 1000
+SoundVolume = 3
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = gbu28
+Gravity = -0.01
+DisableSmoke = true
+Piercing  = 1
+
+;bomb rewrite
+;Acceleration = 0.5
+Explosion = 15
+;Explosive mass	269.9*5 kg kg
+Power = 5580
+ExplosionBlock = 15
+ExplosionInWater = 8
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  8, gunpowder
+Item =  4, redstone

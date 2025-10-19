@@ -1,0 +1,37 @@
+DisplayName = B28 Nuclear Bomb [1.45MT SURFACE]
+Type = Bomb
+Power = 500000
+Acceleration = 0.01
+Explosion = 20000
+ExplosionBlock = 10000
+ExplosionInWater = 1
+;DamageFactor = tank, 10000.0
+;DamageFactor = plane, 30000.0
+;DamageFactor = vehicle 20000.0
+;DamageFactor = heli, 30000.0
+;Flaming = true
+Sight = None
+Delay = 10
+Sound = bomb_snd
+ModelBullet = tsarbomba
+;ModelBomblet = 0_none
+nukeyield = 240
+;ivy mike was only 10.4MT
+
+ReloadTime = 150
+;Bomblet = 90
+;BombletSTime = 30
+;BombletDiff = 2.5
+;DamageFactor = tank, 10000.0
+;DamageFactor = plane, 30000.0
+;DamageFactor = vehicle 20000.0
+;DamageFactor = heli, 30000.0
+;SmokeColor = 219, 155, 17
+;SoundVolume = 50
+
+ReloadTime = 300
+Round = 8
+MaxAmmo = 8
+SuppliedNum = 1
+Item = 14, mcheli:genericnuclearbomb
+Item = 1, tnt

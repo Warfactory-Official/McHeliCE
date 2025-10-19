@@ -1,0 +1,33 @@
+DisplayName = 7.62mm M60 Machine Gun Tripod Mount
+AddDisplayName = ja_JP, M60 汎用機関銃
+MaxHp = 80
+HideEntity = false
+RotationPitchMin = -5
+RotationPitchMax =  5
+DamageFactor = 1
+CameraZoom = 1
+CameraPosition = 0.00,  0.90, -1.00
+
+Gravity = -9.81
+GravityInWater = -1.0
+
+; M = Military
+Category = M
+
+HUD = gunner
+
+AddGunnerSeat = 0.00,  -0.3, -1.0, 0.00,  0.90, -1.00, false, -90, 90, true
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;本体-砲身
+
+AddPart	       = true, true, false,  0,   0.00, 0.12, 0.00
+AddChildPart   = true, false, true,  2,   0.00, 0.12, -0.06, 0.01
+AddWeapon = m60_100,  0.00, 0.168, 0.00,   0.0, 0.0,   true,1, 0,-360,360, -5, 5
+
+;basic turret low cal
+AddRecipe = "   ", "GEE", "   ", E, mcheli:lap, G, mcheli:cannon1
+
+BoundingBox =  0.00, 0.00,  0.00,  0.75, 0.50
+
+unmountposition = 0.00,  1.5, -1.0

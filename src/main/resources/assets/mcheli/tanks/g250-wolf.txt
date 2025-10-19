@@ -1,0 +1,97 @@
+DisplayName = Mercedes G250 Wolf
+MaxHp = 230
+ThrottleUpDown = 0.81
+Speed = 0.85
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = uaz_loop
+;MinRotationPitch = -90
+;MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 0.85
+EnableNightVision = false
+MaxFuel           = 1500
+FuelConsumption   = 1.0
+ThirdPersonDist = 5
+DefaultFreelook = false
+
+SetWheelPos =  0.45,  -0.24,  1.47, -1.19
+
+WeightedCenterZ = 0.8
+
+AddTexture = G250-wolf_2
+AddTexture = G250-wolf_3
+
+OnGroundPitchFactor = 10.0
+OnGroundRollFactor  = 4.8
+
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+EnableBack = true
+
+Category = LUV
+
+WeightType = Car
+
+HUD =  bnr32_hud, none, none, none, none, none
+
+;basic civ car offroad
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, mcheli:basicmechanicparts
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+AddSeat =  0.4493,  0.25, -0.0483
+
+UnmountPosition = 0.4493,  2.25, -0.0483
+
+AddSeat = -0.4493,  0.35, -0.0483
+
+AddSeat =  0.3949,  0.55, -1.0305
+AddSeat = -0.3949,  0.55, -1.0305
+
+AddWeapon = none, 0.00,  0.42,  3.05, 0.0, 90
+
+AddWeapon =  simple_horn, 0.00,  0.42,  3.05, 0.0, 90
+
+PivotTurnThrottle = 0.1
+
+PartWheelRot = 25
+
+AddPartWheel     =  0.6575,   0.0831,  1.4755, 25
+AddPartWheel     = -0.6575,   0.0831,  1.4755, 25
+AddPartWheel     =  0.6575,   0.0831, -1.1940
+AddPartWheel     = -0.6575,   0.0831, -1.1940
+
+InventorySize = 9
+
+AddPartSteeringWheel =  0.4493, 1.0086,  0.3569,  0, 0.405, -1,  180
+
+BoundingBox = 0.0, 0.55, 1.5, 0.7, 0.8
+
+BoundingBox = 0.0, 0.30, 0.0, 1.9, 0.2
+BoundingBox = 0.0, 0.30, 1.35, 1.7, 0.2
+BoundingBox = 0.0, 0.30, -0.6, 1.7, 0.2
+BoundingBox = 0.0, 0.30, -1.2, 1.7, 0.2
+
+AddFixedSearchLight =  -0.697, 0.669, 2.22,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.75,  -5,  0
+AddFixedSearchLight = 0.697, 0.669, 2.22,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.75,   5,  0
+
+AddFixedSearchLight =  0.7789, 0.5242,-2.0940,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+AddFixedSearchLight =  -0.7609, 0.5242,-2.0940,   0xFFFF0000,   0x10FF0000,    0.05, 0.15,  0.0,  0
+
+ArmorMinDamage = 2
+
+Regeneration = false
+ArmorDamageFactor = 1.0
+
+
+AddPartThrottle = 0.5346, 1.1099, 0.5593,  0,0.200, -1.73, -270
+
+AddPartCanopy =  0.9161, 1.0659,  0.7560,  0,1,0, -65
+AddPartCanopy =  0.9161, 1.0659,  0.7560,  0,1,0, -65
+
+AddPartCanopy =  0, 0, 0, 0, 0, 0, 0

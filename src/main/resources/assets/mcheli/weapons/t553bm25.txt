@@ -1,0 +1,45 @@
+DisplayName = 100mm D-10T2S Cannon [3BM25 - APFSDS]
+Type = MachineGun1
+Power = 335
+ModelBullet = bullet105mm
+Flaming = false
+Sight = None
+SoundVolume = 15
+Sound = tfiftyfive
+BulletColor        = 255, 255, 100, 100
+Group = MainGun
+Gravity = -0.001
+;DisplayMortarDistance = true
+Group = MainGun
+Acceleration = 7.0
+Piercing = 5
+Accuracy = 0.0
+DamageFactor = tank, 10.0
+DamageFactor = plane, 1.5
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 2.0
+DamageFactor = player, 10.0
+
+HeatCount = 3000
+MaxHeatCount = 5500
+
+
+Delay = 300
+ReloadTime = 350
+Round = 15
+
+
+
+AddMuzzleFlash      =  9.3,      2.10,        7,  220,254,159,74
+AddMuzzleFlash      =  9.2,      2.05,        6,  220,254,219,104
+AddMuzzleFlash      =  9.1,      2.00,        5,  220,254,219,184
+AddMuzzleFlashSmoke =  9.3, 30,  12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 11.3, 20,  13.0,  7.0, 55,  200,190,170,150
+
+Recoil = 2.5
+RecoilBufCount = 40, 5
+
+MaxAmmo = 15
+SuppliedNum = 5
+Item =  2, iron_ingot
+Item =  1, gunpowder

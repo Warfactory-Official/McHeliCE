@@ -1,0 +1,27 @@
+DisplayName = RIM-174 SM-6 Dual-Purpose [Dual purpose]
+Type = TVMissile
+Power = 500
+Acceleration = 12
+Explosion = 9
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 110
+LockTime = 12
+ProximityFuseDist = 3
+ModelBullet = aim7
+Sound = missile_cruise_snd
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+Round = 8
+
+MaxAmmo = 8
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  3, gunpowder
+Item =  4, redstone

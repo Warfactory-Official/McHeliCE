@@ -1,0 +1,42 @@
+DisplayName = 45cm Torpedo
+Type = Torpedo
+Power = 450
+ModelBullet = oxygen_torpedo
+Acceleration = 1.5
+AccelerationInWater = 2.5
+Explosion = 4
+ExplosionInWater = 12
+Flaming = false
+Sight = MoveSight
+Delay = 10
+Gravity = -0.04
+GravityInWater = 0
+ReloadTime = 160
+Round = 2
+Sound = missile_1_snd
+SoundPitch = 0.1
+SoundVolume = 3
+
+
+
+TrajectoryParticle = cloud
+
+Delay = 10
+ReloadTime = 160
+;Group = MainGun
+;BulletColor        = 255, 255, 100, 100
+;ModelBullet = bullet105mm
+Piercing = 0
+;Accuracy = 0.0
+DamageFactor = tank, 5.0
+DamageFactor = plane, 6.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+AddDisplayName = en_US, 45cm Torpedo
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

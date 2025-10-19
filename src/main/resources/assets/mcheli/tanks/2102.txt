@@ -1,0 +1,82 @@
+DisplayName = VAZ-2102
+AddDisplayName = ru_RU, ВАЗ 2102
+MaxHp = 200
+Speed = 0.85
+Sound = lada
+MobilityYawOnGround = 10.0
+ThrottleUpDown = 0.81
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor = 1.0
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+HUD = bnr32_hud, none, none, none, none
+
+AddSeat =  0.6040,  0.22, 0.1
+
+unmountposition = 0.6040,  2.12, 0.1
+
+AddSeat =  -0.6040,  0.32, 0.1
+
+AddSeat =  -0.6040,  0.32, -0.9
+AddSeat =  -0.0,  0.32, -0.9
+AddSeat =  0.6040,  0.32, -0.9
+
+
+EnableBack = true
+Category = C
+WeightType = Car
+
+PivotTurnThrottle = 0.1
+
+WeightedCenterZ = 0.8
+
+PartWheelRot = 50
+SetWheelPos =  0.8024,  -0.2,  2.0891, -1.3754
+AddPartSteeringWheel =  0.5989,  0.8763, 0.9007,  0.0, 1.0, -3.5,   90
+AddPartWheel     =  1.1024,  0.1766, 2.0891, 35
+AddPartWheel     =  -1.1024,  0.1766, 2.0891, 35
+AddPartWheel     =  1.1024,  0.1766, -1.3754
+AddPartWheel     = -1.1024,  0.1766, -1.3754
+
+AddFixedSearchLight =  0.9865, 0.6135, 2.9087,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5, 0, 0
+AddFixedSearchLight =  -0.9865, 0.6135, 2.9087,   0x50FFFFFF,   0x00FFFFC0,    0.1, 0.5,0,0
+
+AddFixedSearchLight =  1.056, 0.6601,-2.8904,   0x80FF0000,   0x00FF0000,    0.02, 0.35,  180.0,  -20
+AddFixedSearchLight =  -1.056, 0.6601,-2.8904,   0x80FF0000,   0x00FF0000,    0.02, 0.35,  180.0,  -20
+AddFixedSearchLight =  1.056, 0.7413,-2.8604,   0x80FF0000,   0x00FF0000,    0.02, 0.35,  180.0,  -20
+AddFixedSearchLight =  -1.056, 0.7413,-2.8604,   0x80FF0000,   0x00FF0000,    0.02, 0.35,  180.0,  -20
+
+MaxFuel         = 1000
+FuelConsumption = 2
+
+InventorySize = 18
+
+;AddRecipe = " G ",  "I I",  "RIR",   G, glass, I, iron_ingot, R, redstone
+
+;basic civ car
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, glass_pane
+
+;engine?
+BoundingBox =  0.0, 0.80,  2.2,   1.0, 0.6
+;mid
+BoundingBox = 0.0, 0.20, 0.0, 2.5, 0.2
+;front
+BoundingBox = 0.0, 0.20, 1.8, 2.5, 0.2
+;rear
+BoundingBox = 0.0, 0.20, -1.6, 2.5, 0.2
+Regeneration = false
+ArmorDamageFactor = 2.32
+
+AddWeapon = none, 0.0, 0.0, 0.0, 0, 0
+
+AddWeapon = l_Claxon, 0, -0.5, 0, 1.0, 0.0
+
+AddWeapon = drift,    0.9283, 0.0, -1.44,  0.0,0.0
+AddWeapon = drift,   -0.9283, 0.0, -1.44,  0.0,0.0
+
+StepHeight = 1.2

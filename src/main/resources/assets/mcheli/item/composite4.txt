@@ -1,0 +1,6 @@
+DisplayName = DU Composite Armor
+AddDisplayName = ja_JP, DU Composite Armor
+
+StackSize = 64
+;;AddRecipe = "A  ", "   ", "   ", A, hfr:item.ingot_steel
+AddRecipe = "   ", "ABA", " C ", A, mcheli:item.ingot_steel, B, mcheli:composite3, C, mcheli:du

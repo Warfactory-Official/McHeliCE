@@ -1,0 +1,28 @@
+DisplayName = RIM-66 Standard SM-2 Block III/IV [Anti-Aircraft Missile]
+Type = AAMissile
+Power = 70
+Acceleration = 3.5
+Explosion = 10
+Flaming = false
+Sight = MissileSight
+Delay = 20
+ReloadTime = 110
+LockTime = 15
+ProximityFuseDist = 2
+ModelBullet = sm2
+Sound = missile_cruise_snd
+SoundVolume = 15.0
+
+DamageFactor = tank, 2.0
+DamageFactor = plane, 4.5
+DamageFactor = vehicle 4.5
+DamageFactor = heli, 4.5
+DamageFactor = player, 20.0
+
+Round = 24
+
+MaxAmmo = 24
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

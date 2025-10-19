@@ -1,0 +1,17 @@
+DisplayName = Tsar Bomba Payload
+AddDisplayName = ja_JP, Tsar Bomba Payload
+
+StackSize = 1
+
+
+
+
+
+;;AddRecipe = "ABB", "BBD", "   ", A, hbm:tile.nuke_tsar, B, hbm:item.explosive_lenses, D, hbm:item.man_core
+
+;;nyet comrad, american designs are not in big ass russian bomb
+
+AddRecipe = "ABB", "BBD", "   ", A, hbm:tile.nuke_tsar, B, hbm:item.explosive_lenses, D, hbm:item.tsar_corereal
+
+
+

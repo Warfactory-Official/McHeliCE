@@ -1,0 +1,123 @@
+DisplayName = Mirage 2000C
+AddDisplayName = en_US, Mirage 2000C
+AddDisplayName = ja_JP, Mirage 2000C
+MaxHp = 200
+Speed = 1.75
+Sound = miragetwothousand
+ThrottleUpDown = 0.3
+MaxFuel = 1200
+FuelConsumption = 1.0
+FlareType = 3
+EnableNightVision = false
+EnableEntityRadar = true
+EnableEjectionSeat = true
+EnableSeaSurfaceParticle = true
+ParticlesScale = 0.7
+ThirdPersonDist = 20
+Category = M.F
+
+AddSeat = 0.00,  1.75,  0.5
+unmountposition = 0.00,  1.5,  0.5
+
+AddPartCanopy = 0.0, 3.14, -0.30,  -1,0,0,  60
+HUD = plane
+
+;main-lg
+AddPartLG =  0.0, 1.40, 1.04,  1,0,0, 90
+AddPartLG =  2.10, 1.55, -5.13,  0,0,-1, 90
+AddPartLG =  -2.10, 1.55, -5.13,  0,0,1, 90
+
+;front-etc
+AddPartLG = 0.0, 1.25, 1.35, 1,0,0, 75
+AddPartLG = 0.18, 1.182, 0.994, 0,0,-1, 90
+AddPartLG = 0.18, 1.182, 0.994, 0,0,-1, 90
+
+EntityHeight = 0.8
+EntityWidth = 0.8
+
+MobilityYaw = 1.5
+MobilityPitch = 1.5
+MobilityRoll = 1.5
+;OnGroundPitch = 3
+
+AddTexture = m2000c2_5
+AddTexture = m2000c_vend
+AddTexture = m2000c_cig1984
+AddTexture = m2000c_spa172
+AddTexture = m2000c_corse
+AddTexture = m2000_braz
+AddTexture = m2000h
+AddTexture = m2000EG
+AddTexture = m2000rad
+
+;modern light plane (late jet), AOW3 style (fcs)
+AddRecipe = "ABC", "DEF", "G  ", A, mcheli:airframe2, B, mcheli:advancedmechanicparts, C, mcheli:engine3, D, mcheli:wheelair, E, mcheli:cannon1, F, mcheli:fcs, G, mcheli:electronics
+
+
+;weapon
+AddWeapon = mirdefa554,  0.663, 1.29, -1.07,  0.0, 0.0
+AddWeapon = mirdefa554,  -0.663, 1.29, -1.07,  0.0, 0.0
+
+AddWeapon = mirmica,  0.97, 0.87, -2.36,   1.0, 0.0
+AddWeapon = mirmica,  -0.97, 0.87, -2.36,   1.0, 0.0
+AddWeapon = mirmica,  0.97, 0.86, -6.30,   1.0, 0.0
+AddWeapon = mirmica,  -0.97, 0.86, -6.30,   1.0, 0.0
+
+AddWeapon = mirr550_2, 3.72, 0.78, -5.96, 0.0, 0.0
+AddWeapon = mirr550_2, -3.72, 0.78, -5.96, 0.0, 0.0
+
+;todo replace with 1 250kg
+AddWeapon = ft_m2k, 0.0, 0.574, -3.4, 0.0, 0.0
+
+;weapon-parts
+AddPartWeaponMissile = mica,  false, false, false, 0.97, 0.87, -2.36
+AddPartWeaponMissile = mica,  false, false, false, -0.97, 0.87, -2.36
+AddPartWeaponMissile = mica,  false, false, false, 0.97, 0.86, -6.30
+AddPartWeaponMissile = mica,  false, false, false, -0.97, 0.86, -6.30
+
+AddPartWeaponMissile = mirr550_2,  false, false, false, 3.72, 0.78, -5.96
+AddPartWeaponMissile = mirr550_2,  false, false, false, -3.72, 0.78, -5.96
+
+AddPartWeaponMissile = ft_m2k, false, false, false, 0.0, 0.574, -3.4
+
+AddWeapon = RDI,   0.0, 2.25, 10.6,  0.0, 0.0
+DamageFactor = 0.8
+
+enableback = true
+
+BoundingBox =  0.00, 2.1, -1,  2.0, 1.8
+BoundingBox =  0.00, 2.1, -2.4,  2.0, 1.8
+BoundingBox =  0.00, 2.1, -4.4,  2.0, 1.8
+BoundingBox =  0.00, 2.1, -6.3,  1.8, 1.8
+BoundingBox =  0.00, 2.1, -7.8,  1.7, 1.8
+BoundingBox =  0.00, 2.1, -9.4,  1.5, 1.8
+BoundingBox =  0.00, 2.25, -10.8,  1.3, 1.3, 1.5
+
+BoundingBox = 2.0, 1.5, -7.2, 3.5, 0.3
+BoundingBox = -2.0, 1.5, -7.2, 3.5, 0.3
+
+
+
+
+BoundingBox = 1.4, 1.5, -4.2, 3.0, 0.3
+BoundingBox = -1.4, 1.5, -4.2, 3.0, 0.3
+
+
+BoundingBox = 0.0, 2.9, -7.0, 0.5, 1.5
+BoundingBox = 0.0, 3.1, -7.5, 0.5, 1.5
+BoundingBox = 0.0, 3.3, -8.0, 0.5, 1.5
+BoundingBox = 0.0, 3.5, -8.5, 0.5, 1.5
+BoundingBox = 0.0, 3.8, -9.0, 0.5, 1.5
+BoundingBox = 0.0, 4.0, -9.5, 0.5, 2.2
+BoundingBox = 0.0, 4.2, -10.0, 0.5, 2.3
+BoundingBox = 0.0, 4.3, -10.5, 0.5, 2.7
+BoundingBox = 0.0, 4.7, -11, 0.5, 2.3
+
+;BoundingBox = 0.0, 4.5, -11.5, 0.5, 2.1
+;BoundingBox = 0.0, 5.05, -12, 0.5, 1.0
+
+BoundingBox = 0.0, 1.8, 0.0, 1.1, 1.1
+BoundingBox = 0.0, 1.8, 1.0, 1.1, 1.1
+BoundingBox = 0.0, 1.8, 2.1, 1.1, 1.1
+BoundingBox = 0.0, 1.8, 3.2, 1.1, 1.1
+BoundingBox = 0.0, 1.7, 4.0, 0.85, 0.85

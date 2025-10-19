@@ -1,0 +1,84 @@
+DisplayName = BRDM-2 9P148 Konkurs "BRDM-3"
+MaxHp = 200
+Speed = 0.62
+Sound = apc_run
+InventorySize = 0
+StepHeight = 1.5 
+DefaultFreelook = true
+EnableBack = true
+HUD = mbt_hudtwo
+HideEntity = true
+
+Category = AASC
+
+PivotTurnThrottle = 0.1
+
+EnableEntityRadar = false
+MaxFuel         = 1200
+FuelConsumption = 1.0
+
+FlareType = 10
+
+MobilityRoll = 0
+Gravity = -0.61
+GravityInWater = -0.2
+CameraZoom = 4
+DamageFactor = 0.8
+ThrottleUpDown = 2.0
+MobilityYawOnGround = 6.0 
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+CameraPosition = 0.0, 2.8065, 0.215, true
+AddGunnerSeat =  0.0, 1.51, 0.6343, 0.0, 3.12, 0.215,  false, -40, 3, true
+
+UnmountPosition = 0.00, 1.68,  0.63
+
+WeightType = Tank
+
+Float = true
+FloatOffset = -2.0
+
+TurretPosition = 0.0, 2.19, 0.215
+
+EnableBack = true
+EnableNightVision = true
+CameraRotationSpeed = 10
+
+;Все о колесах
+AddPartWheel =    1.1675, 0.4246,  1.7779, 30
+AddPartWheel =    1.1675, 0.4246, -1.9130
+AddPartWheel =   -1.0272, 0.4246,  1.7779, 30
+AddPartWheel =   -1.0272, 0.4246, -1.9130
+PartWheelRot = 30
+SetWheelPos =  0.9,  -0.24,  1.7779, -1.9130
+
+;подвижные части
+;AddPartCanopy =  0, 1.94, 2.19, -1, 0, 0, 60
+;AddFixedSearchLight =  0.7577, 1.575, 2.9346,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25,  6.0,  0
+;AddFixedSearchLight = -0.7516, 1.5725, 2.939,   0xFFFFFFFF,   0x00FFFFC0,    0.15, 0.25, -6.0,  0
+
+AddTurretWeapon = konkurs,    0.4655,  3.1327, -0.53, 0, 0,  false, 1, 0, -360, 360, -45, 3
+AddTurretWeapon = konkurs,    0.2308,  3.1327, -0.53, 0, 0,  false, 1, 0, -360, 360, -45, 3
+AddTurretWeapon = konkurs,    0.00,  3.1327, -0.53, 0, 0,  false, 1, 0, -360, 360, -45, 3
+AddTurretWeapon = konkurs,    -0.2386,  3.1327, -0.53, 0, 0,  false, 1, 0, -360, 360, -45, 3
+AddTurretWeapon = konkurs,    -0.4733,  3.1327, -0.53, 0, 0,  false, 1, 0, -360, 360, -45, 3
+AddPartWeapon =   konkurs, false, true, false, 0.0,  2.21, 0.22
+AddPartWeaponChild = false, true,   0.0, 2.34, 0.04
+
+;IFV armed light rkt 4x4
+AddRecipe = "ABC", "DE ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:rocket, D, mcheli:electronics, E, mcheli:fcs2
+
+AddRecipe = "ABC", "   ", "   ", A, mcheli:brdm2, B, mcheli:fcs2, C, mcheli:wrench
+
+ArmorMinDamage = 2
+
+BoundingBox = 0.0, 2.7, 0.2, 1.0, 1.0, 1.5
+
+BoundingBox = 0.0, 1.2, 0.0, 3.0, 2.0, 0.28
+BoundingBox = 0.0, 1.2, -2.1, 3.0, 2.0, 0.28
+
+
+BoundingBox = 0.0, 1.2, 1.0, 2.7, 1.8, 0.4
+BoundingBox = 0.0, 1.2, 1.5, 2.5, 1.6, 0.14
+BoundingBox = 0.0, 1.2, 2.4, 2.3, 0.4, 0.14
+

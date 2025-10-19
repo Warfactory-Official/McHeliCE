@@ -1,0 +1,174 @@
+﻿﻿DisplayName = Dacia Sandero (2009)
+AddDisplayName = en_US, Dacia Sandero (2009)
+ 
+ItemID = 28745
+MaxHp = 200
+ThrottleUpDown = 0.81
+;5.9s 0-60
+Speed = 1.09
+MobilityYawOnGround = 6.5
+StepHeight = 1.2
+Sound = dacia
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity = -0.61
+GravityInWater = -1.0
+DamageFactor   = 1.00
+;EnableNightVision = true
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+ThirdPersonDist = 8
+
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+EntityWidth  = 0.85
+EntityHeight = 0.85
+
+;VariableSweepWing  = true
+;SweepWingSpeed  = 0.0
+
+
+
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = C
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  0.60,  -0.24,  1.72, -1.64
+
+HUD = bnr32_hud, none, none, none
+
+
+UnmountPosition = 0.638, 1.5, 0
+
+AddSeat =  0.638, 0.414, -0.2
+
+AddSeat = -0.638, 0.514, -0.2
+
+AddSeat =  0.638, 0.514, -1.18
+
+AddSeat = -0.638, 0.514, -1.18
+
+
+AddWeapon = smoke_none, 1.2,  -0.3,-1.7592,   1.0, 0.0
+AddWeapon = l_claxon,    0.00, 0.00, 0.00,  0.0,0.0
+
+
+
+;AddSeat = -0.54,  0.22, -1.10
+;AddSeat =  0.54,  0.22, -1.10
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     = -1.2634,  0.1158,  1.9076, 30
+AddPartWheel     =  1.2634,  0.1158,  1.9076, 30
+AddPartWheel     = 1.2894,  0.1125, -2.1091
+AddPartWheel     =  -1.2894,  0.1125, -2.1091
+
+;AddPartSteeringWheel =   0.5751,  0.7766,  0.416,  0.0,  0.9766,  0.0416,   130
+;AddPartSteeringWheel =  -0.691,  1.46,  0.626,  0, 0.3196, -1,   130
+;AddPartSteeringWheel =   1.05,  0.157,  1.965,  0.0, 1.0, 0.0,   30
+;AddPartSteeringWheel =  -1.05,  0.157,  1.965,  0.0, 1.0, 0.0,   30
+
+AddPartSteeringWheel =  0.708,  1.08,  0.405,  0, 0.0, -1,   160
+
+WeightedCenterZ = 1.0
+
+
+;AddPartSteeringWheel =  0.549,  0.797,  0.0503,  0, 0.3196, -1,   160
+
+;AddPartThrottle =  0.623, 0.782, 0.800,  0,1,-1.73, -220
+;AddPartThrottle =  0.453, 0.782, 0.800,  0,1,-1.73, -175
+;AddPartThrottle = -0.623, 0.782, 0.800,  0,1,-1.73, 0
+;0.8
+
+;AddPartCanopy   =  1.18, 0.32, 1.20,  0, 1, 0, -70
+;AddPartCanopy   =  1.18, 0.32, 1.20,  0, 1, 0, -70
+;AddPartCanopy   =  1.18, 0.32, 1.20,  0, 1, 0, -70
+AddPartCanopy   =  0.000, 0.000, 0.000,  0,0,0, 0
+
+;AddPartHatch    =     0.00,   0.62,   1.28,   1,0,0,   5
+
+InventorySize = 18
+
+;basic civ car
+AddRecipe = "ABC", "D  ", "   ", A, mcheli:lightchassis, B, mcheli:wheel4, C, mcheli:engine1, D, glass_pane
+
+;ヘッドライト
+AddFixedSearchLight =  0.826, 0.947, 2.88,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -0.826, 0.947, 2.88,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+AddFixedSearchLight =  0.826, 0.867, 2.93,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,  -5,  0
+AddFixedSearchLight = -0.826, 0.867, 2.93,   0x50FFFFFF,   0x00FFFFC0,    0.25, 0.55,   5,  0
+
+
+
+
+
+;テールランプ
+
+
+AddFixedSearchLight = -1.2,  1.288,  -2.70,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  -60.0,   26
+AddFixedSearchLight =  1.2,  1.288,  -2.70,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,   60.0,   26
+
+AddFixedSearchLight =  1.1, 1.283,  -2.84,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,   40.0,  28
+AddFixedSearchLight = -1.1, 1.283,  -2.84,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  -40.0,  28
+
+AddFixedSearchLight =  0.9, 1.283,  -2.96,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,   10.0,  22
+AddFixedSearchLight = -0.9, 1.283,  -2.96,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  -10.0,  22
+
+
+
+
+;AddFixedSearchLight = -0.660, 0.748, -2.57,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  -30.0,  10
+;AddFixedSearchLight = 0.660, 0.748, -2.57,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  30.0,  10
+
+
+
+
+;AddFixedSearchLight = -0.854, 0.929, -3.00,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  -30.0,  35
+;AddFixedSearchLight = 0.854, 0.929, -3.00,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  30.0,  35
+
+
+;AddFixedSearchLight = -0.954, 0.989, -2.90,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  -48.0,  35
+;AddFixedSearchLight = 0.954, 0.989, -2.90,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  48.0,  35
+
+;AddFixedSearchLight = -0.994, 1.089, -2.66,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  -65.0,  40
+;AddFixedSearchLight = 0.994, 1.089, -2.66,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  65.0,  40
+
+
+
+;AddFixedSearchLight = -1.054, 0.959, -0.88,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  -45.0,  65
+;AddFixedSearchLight = 1.054, 0.959, -0.88,   0xFFFF0000,   0x10FF0000,    0.05, 0.35,  45.0,  65
+
+
+
+;AddWeapon = drift,    1.0807, 0.0, -1.6403,  0.0,0.0
+;AddWeapon = drift,   -1.0807, 0.0, -1.6403,  0.0,0.0
+
+;engine?
+BoundingBox =  0.0, 0.50,  1.7,   0.8, 0.6
+;mid
+BoundingBox = 0.0, 0.20, 0.0, 2.1, 0.2
+;front
+BoundingBox = 0.0, 0.20, 1.65, 2.1, 0.2
+;rear
+BoundingBox = 0.0, 0.20, -1.6, 2.1, 0.2
+Regeneration = false
+ArmorDamageFactor = 2.32
+
+ArmorMinDamage = 2
+

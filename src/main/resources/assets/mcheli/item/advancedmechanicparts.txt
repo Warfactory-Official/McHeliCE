@@ -1,0 +1,5 @@
+DisplayName = Advanced Mechanic Parts
+AddDisplayName = ja_JP, Advanced Mechanic Parts
+StackSize = 64
+AddRecipe = " A ", "   ", "   ", A, hfr:item.part_mechanism_2
+AddRecipe = " A ", "AAA", " A ", A, mcheli:basicmechanicparts

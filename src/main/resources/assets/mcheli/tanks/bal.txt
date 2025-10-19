@@ -1,0 +1,148 @@
+DisplayName = MZKT-7930 heavy high mobility chassis with Bal-e Kh-35 Coastal Defense System
+AddDisplayName = en_US, MZKT-7930 heavy high mobility chassis with Bal-e Kh-35 Coastal Defense System
+MaxHp = 230
+Speed = 0.8
+Sound = dieselman
+SoundPitch = 0.3
+ThrottleUpDown = 2
+MobilityYawOnGround = 6.5
+MaxFuel         = 1000
+FuelConsumption = 1.0
+CameraPosition = 0.0, 4.2, -1, false
+EnableNightVision = true
+EnableEntityRadar = false
+Gravity = -0.61
+GravityInWater = -1.0
+CameraRotationSpeed = 35
+MinRotationPitch = -45
+MaxRotationPitch = 45
+MobilityRoll = 0
+InventorySize = 10
+StepHeight = 1.8
+DefaultFreelook = false
+MotionFactor = 0.9
+ThirdPersonDist = 12
+
+SubmergedDamageHeight = 2
+
+;  M = Military,  A = AAGun(対空砲)
+Category = TEL/TMT
+
+WeightType = Car
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+HUD = mbt_hudtwo, mbt_gnrtwo, none, none
+
+AddSeat = -0.9612, 1.325, 4.7212
+
+AddGunnerSeat =  0.0, 1.325, 0.0
+
+AddSeat = 0.9612, 1.325, 4.7212
+
+AddSeat = -0.0, 1.325, 4.7212
+
+
+
+SetWheelPos =  0.90,  -0.35,  3.055, 0.63, -3.33, -5.50
+
+AddPartWheel =   1.3983, 0.4388, 3.0778, 40
+AddPartWheel =   -1.3983, 0.4388, 3.0778, 40
+AddPartWheel =   1.3983, 0.4388, 0.6719, 20
+AddPartWheel =   -1.3983, 0.4388, 0.6719, 20
+AddPartWheel =   1.3983, 0.4388, -3.2297
+AddPartWheel =   -1.3983, 0.4388, -3.2297
+AddPartWheel =   1.3983, 0.4388, -5.4502
+AddPartWheel =   -1.3983, 0.4388, -5.4502
+
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+TrackRollerRot = 30
+
+AddPartWeaponBay	= balkh35, 0.66, 1.4930, -7.0575, 1.0, 0.0, 0.0, -45
+
+AddWeapon = none, 0,0,0,0,0         , true,  1
+
+AddTurretWeapon = balkh35,    1.1037, 4.0304, -5.6102,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+AddTurretWeapon = balkh35,    0.3686, 4.0304, -5.6102,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+AddTurretWeapon = balkh35,   -0.3663, 4.0304, -5.6102,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+AddTurretWeapon = balkh35,   -1.1013, 4.0304, -5.6102,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+AddTurretWeapon = balkh35,    1.1037, 4.6216, -6.2015,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+AddTurretWeapon = balkh35,    0.3686, 4.6216, -6.2015,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+AddTurretWeapon = balkh35,   -0.3663, 4.6216, -6.2015,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+AddTurretWeapon = balkh35,   -1.1013, 4.6216, -6.2015,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+
+
+
+AddTurretWeapon = dummy_bay_closed,    -1.1013, 4.6216, -6.2015,   0.0, 0.0, false, 2, 0, -0,0, -20,20
+
+
+
+;AddWeapon = Kh35, 1.1037, 4.0304, -5.6102, 0, 0
+;AddWeapon = Kh35, 0.3686, 4.0304, -5.6102, 0, 0
+;AddWeapon = Kh35, -0.3663, 4.0304, -5.6102, 0, 0
+;AddWeapon = Kh35, -1.1013, 4.0304, -5.6102, 0, 0
+;AddWeapon = Kh35, 1.1037, 4.6216, -6.2015, 0, 0
+;AddWeapon = Kh35, 0.3686, 4.6216, -6.2015, 0, 0
+;AddWeapon = Kh35, -0.3663, 4.6216, -6.2015, 0, 0
+;AddWeapon = Kh35, -1.1013, 4.6216, -6.2015, 0, 0
+
+
+
+DamageFactor = 0.85
+
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+
+
+;BoundingBox =  0.0, 1.8, -6.5,   3.4, 3.8,  1.00
+;BoundingBox =  0.0, 1.8, -3.0,   3.4, 3.8,  1.00
+;BoundingBox =  0.0, 1.8,  0.5,   3.4, 3.8,  1.00
+;BoundingBox =  0.0, 1.4,  4.0,   3.4, 3.0,  1.00
+
+
+BoundingBox = 0.00, 1.0737, 5.5, 1.0, 1.2, 1.0
+BoundingBox = 1.00, 1.0737, 5.5, 1.0, 1.2, 1.0
+BoundingBox = -1.00, 1.0737, 5.5, 1.0, 1.2, 1.0
+BoundingBox = 0.0, 2.317, -1, 2.7, 1.8, 15.0
+
+BoundingBox = 0.0, 2.317, -6.5, 2.0, 1.8, 15.0
+
+
+BoundingBox = 0.0, 1.40, 4.0, 3.0, 0.2
+BoundingBox = 0.0, 1.40, 2.0, 3.0, 0.2
+BoundingBox = 0.0, 1.40, 1.0, 3.0, 0.2
+BoundingBox = 0.0, 1.40, 0.0, 3.0, 0.2
+BoundingBox = 0.0, 1.40, -1.5, 3.0, 0.2
+BoundingBox = 0.0, 1.40, -2.5, 3.0, 0.2
+BoundingBox = 0.0, 1.40, -4.0, 3.0, 0.2
+BoundingBox = 0.0, 1.40, -5.0, 3.0, 0.2
+
+
+
+
+BoundingBox = 0.0, 0.70, -5.3, 1.0, 1.0
+BoundingBox = 0.0, 0.70, -5.0, 1.0, 1.0
+BoundingBox = 0.0, 0.70, -4.0, 1.0, 1.0
+BoundingBox = 0.0, 0.7, -3.0, 1.0, 1.0
+BoundingBox = 0.0, 0.7, -2.0, 1.0, 1.0
+BoundingBox = 0.0, 0.7, -1.0, 1.0, 1.0
+BoundingBox = 0.0, 0.7, 0.0, 1.0, 1.0
+BoundingBox = 0.0, 0.7, 1.0, 1.0, 1.0
+BoundingBox = 0.0, 0.7, 2.0, 1.0, 1.0
+BoundingBox = 0.0, 0.7, 3.0, 1.0, 1.0
+BoundingBox = 0.0, 0.7, 4.0, 1.0, 1.0
+
+
+AddPartSteeringWheel =  -.962, 1.88,5.37,  -0, 1.88,-1,  130
+
+
+
+;rocket transport armed 8x8
+AddRecipe = "ABC", "DAE", "F  ", A, mcheli:lightchassis, B, mcheli:wheel8, C, mcheli:engine2, D, mcheli:electronics, E, mcheli:rocket2, F, mcheli:fcs2
+
+unmountposition = -0.9612, 1.5, 4.7212
+

@@ -1,0 +1,25 @@
+DisplayName = MBDA MICA [AAM]
+Type = AAMissile
+Power = 250
+Acceleration = 4
+Explosion = 4
+Flaming = false
+Sight = MissileSight
+Delay = 5
+ReloadTime = 1200
+Round = 4
+LockTime = 15
+ProximityFuseDist = 1
+ModelBullet = r550
+Sound = missile_1_snd
+
+DamageFactor = tank, 1.5
+DamageFactor = plane, 3.0
+DamageFactor = vehicle 2.0
+DamageFactor = heli, 3.0
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone
