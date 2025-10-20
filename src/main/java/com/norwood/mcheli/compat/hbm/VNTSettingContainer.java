@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class VNTSettingContainer {
 
@@ -20,15 +21,11 @@ public class VNTSettingContainer {
     private final Map<String, Object> rawEntry;
     //ONLY ASSIGNABLE AT RUNTIME
     private Object blockAllocator;
+    private Object blockProcessor;
     private Object entityProcessor;
     private Object playerProcessor;
     private Object[] sfx;
-    private Object damageHandler;
-    private Object rangeMutator;
-    private Object blockProcessor;
-    private Object blockMutator;
-    private Object fortuneMutator;
-    private Object dropChanceMutator;
+
 
     public VNTSettingContainer(Map<String, Object> rawEntry) {
         this.rawEntry = rawEntry;
@@ -38,7 +35,12 @@ public class VNTSettingContainer {
     public void loadRuntimeInstances() {
         if (vanillantClassSet == null || vanillantClassSet.isEmpty())
             vanillantClassSet = ModCompatManager.getClassesInPackage(ModCompatManager.MODID_HBM);
-        processMap(rawEntry);
+
+        blockProcessor = processMap((Map<String, Object>) rawEntry.get("BlockProcessor"));
+        blockAllocator = processMap((Map<String, Object>) rawEntry.get("BlockAllocator"));
+        entityProcessor = processMap((Map<String, Object>) rawEntry.get("EntityProcessor"));
+        playerProcessor = processMap((Map<String, Object>) rawEntry.get("PlayerProcessor"));
+        sfx = ((List<Map<String,Object>>) rawEntry.get("SFX")).stream().map((x)-> processMap(x)).collect(Collectors.toList()).toArray();
     }
 
 
@@ -51,6 +53,7 @@ public class VNTSettingContainer {
         vnt.setSFX((com.hbm.explosion.vanillant.interfaces.IExplosionSFX[]) sfx);
         return vnt;
     }
+
     public Object processMap(Map<String, Object> map) {
         if (map == null || map.isEmpty()) return null;
 
