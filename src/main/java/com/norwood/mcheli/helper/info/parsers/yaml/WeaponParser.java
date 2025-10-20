@@ -145,7 +145,6 @@ public class WeaponParser {
                 case "EffectOnly" -> info.effectOnly =  (Boolean) entry.getValue();
                 case "VNT" -> info.vntSettingContainer = new VNTSettingContainer((Map<String,Object>) entry.getValue());
                 case "FluidType" -> info.fluidTypeNTM = (String)entry.getValue();
-
             }}
     }
 

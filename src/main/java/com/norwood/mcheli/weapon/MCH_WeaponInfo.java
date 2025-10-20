@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class MCH_WeaponInfo extends MCH_BaseInfo {
 
-    //Type of effect
+    //HBM compat
     public Payload payloadNTM = Payload.NONE;
     public boolean effectOnly = false;
     public String fluidTypeNTM = null;
@@ -453,6 +453,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         NONE,
         NTM_EXP_SMALL,
         NTM_EXP_LARGE,
+        NTM_MINI_NUKE,
         NTM_NUKE,
     }
 
