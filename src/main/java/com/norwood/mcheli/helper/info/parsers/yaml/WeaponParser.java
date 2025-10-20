@@ -6,10 +6,7 @@ import com.norwood.mcheli.weapon.MCH_SightType;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.getClamped;
@@ -19,6 +16,20 @@ import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEn
 @SuppressWarnings("unchecked")
 public class WeaponParser {
 
+    public static MCH_WeaponInfo.Payload parsePayload(String s) {
+        if (s == null || s.isEmpty())
+            return MCH_WeaponInfo.Payload.NONE;
+
+        return switch (s.trim().toUpperCase(Locale.ROOT)) {
+            case "NTM_EXP_SMALL", "SMALL" -> MCH_WeaponInfo.Payload.NTM_EXP_SMALL;
+            case "NTM_EXP_LARGE", "LARGE" -> MCH_WeaponInfo.Payload.NTM_EXP_LARGE;
+            case "NTM_NUKE", "NUKE" -> MCH_WeaponInfo.Payload.NTM_NUKE;
+            case "NTM_CHLORINE", "CHLORINE" -> MCH_WeaponInfo.Payload.NTM_CHLORINE;
+            case "NTM_MIST", "MIST" -> MCH_WeaponInfo.Payload.NTM_MIST;
+            default -> MCH_WeaponInfo.Payload.NONE;
+        };
+    }
+
     public MCH_WeaponInfo parse(MCH_WeaponInfo info, Map<String, Object> root) {
         for (Map.Entry<String, Object> entry : root.entrySet()) {
             switch (entry.getKey()) {
@@ -27,8 +38,9 @@ public class WeaponParser {
                 case "Type" -> info.type = ((String) entry.getValue()).trim().toLowerCase(Locale.ROOT);
                 case "Recoil" -> parseRecoil(info, (Map<String, Object>) entry.getValue());
                 case "Damage" -> parseDamage(info, (Map<String, Object>) entry.getValue());
-                case "NTM" -> parseHBM(info, (Map<String,Object>)entry.getValue());
-                case "MarkerRocket" -> parseMarkerRocket(info, (Map<String,Object>)entry.getValue());
+                case "NTM" -> parseHBM(info, (Map<String, Object>) entry.getValue());
+                case "MarkerRocket" -> parseMarkerRocket(info, (Map<String, Object>) entry.getValue());
+                case "Render" -> parseRender(info, (Map<String, Object>) entry.getValue());
 
                 case "DisplayName" -> info.displayName = ((String) entry.getValue()).trim();
                 case "Group" -> info.group = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
@@ -97,15 +109,6 @@ public class WeaponParser {
                 case "PredictTargetPos" -> info.predictTargetPos = (Boolean) entry.getValue();
                 case "HitSoundRange" -> info.hitSoundRange = ((Number) entry.getValue()).intValue();
                 case "NumLockedChaffMax" -> info.numLockedChaffMax = ((Number) entry.getValue()).intValue();
-                case "ExplosionDamageVsLiving" ->
-                        info.explosionDamageVsLiving = ((Number) entry.getValue()).floatValue();
-                case "ExplosionDamageVsPlayer" ->
-                        info.explosionDamageVsPlayer = ((Number) entry.getValue()).floatValue();
-                case "ExplosionDamageVsPlane" -> info.explosionDamageVsPlane = ((Number) entry.getValue()).floatValue();
-                case "ExplosionDamageVsVehicle" ->
-                        info.explosionDamageVsVehicle = ((Number) entry.getValue()).floatValue();
-                case "ExplosionDamageVsTank" -> info.explosionDamageVsTank = ((Number) entry.getValue()).floatValue();
-                case "ExplosionDamageVsHeli" -> info.explosionDamageVsHeli = ((Number) entry.getValue()).floatValue();
                 case "DisableDestroyBlock" -> info.disableDestroyBlock = (Boolean) entry.getValue();
                 case "RailgunSound" -> info.railgunSound = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
                 case "CanBeIntercepted" -> info.canBeIntercepted = (Boolean) entry.getValue();
@@ -130,6 +133,14 @@ public class WeaponParser {
                 case "BombletSTime" -> info.bombletSTime = getClamped(0, 1000, (Number) entry.getValue());
                 case "BombletDiff" -> info.bombletDiff = getClamped(0.0F, 1000.0F, (Number) entry.getValue());
 
+                case "Mode" -> info.modeNum = getClamped(1000, (Number) entry.getValue());
+                case "FixMode" -> info.fixMode = getClamped(10, (Number) entry.getValue());
+                case "HeatCount" -> info.heatCount = getClamped(100000, (Number) entry.getValue());
+                case "MaxHeatCount" -> info.maxHeatCount = getClamped(100000, (Number) entry.getValue());
+
+                case "FAE" -> info.isFAE = (Boolean) entry.getValue();
+                case "GuidedTorpedo" -> info.isGuidedTorpedo = (Boolean) entry.getValue();
+                case "Destruct" -> info.destruct = (Boolean) entry.getValue();
 
 
                 default -> logUnkownEntry(entry, "Weapon");
@@ -138,14 +149,53 @@ public class WeaponParser {
         return info;
     }
 
+    private void parseRender(MCH_WeaponInfo info, Map<String, Object> value) {
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "MuzzleFlashes" ->
+                        info.listMuzzleFlash = parseMuzzleFlashes((List<Map<String, Object>>) entry.getValue());
+                case "MuzzleSmoke" ->
+                        info.listMuzzleFlashSmoke = parseMuzzleFlashes((List<Map<String, Object>>) entry.getValue());
+                case "BulletModel" -> info.bulletModelName = ((String) entry.getValue()).trim();
+                case "BombletModel" -> info.bombletModelName = ((String) entry.getValue()).trim();
+            }
+        }
+    }
+
+    private List<MCH_WeaponInfo.MuzzleFlash> parseMuzzleFlashes(List<Map<String, Object>> rawList) {
+        if (rawList == null) return Collections.emptyList();
+
+        return rawList.stream()
+                .map(map -> {
+                    MCH_WeaponInfo.MuzzleFlashRaw rawFlash = new MCH_WeaponInfo.MuzzleFlashRaw();
+                    rawFlash.setDistance(((Number) map.get("Distance")).floatValue());
+                    rawFlash.setSize(((Number) map.get("Size")).floatValue());
+                    rawFlash.setRange(((Number) map.get("Range")).floatValue());
+                    rawFlash.setAge(((Number) map.get("Age")).intValue());
+                    rawFlash.setCount(((Number) map.get("Count")).intValue());
+                    rawFlash.setColor((String) map.get("Color"));
+                    return rawFlash;
+                })
+                .map(MCH_WeaponInfo.MuzzleFlash::new)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * Payload type - Decides the type of the explosion and its effect;
+     * EffectOnly  - Whenever to only use the particle effect, but default to the explosion sfx selected by PayloadType
+     * Fluid - Fluid to disperse on impact, works like the canisters
+     */
     private void parseHBM(MCH_WeaponInfo info, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "PayloadType" -> info.payloadNTM =  parsePayload((String) entry.getValue());
-                case "EffectOnly" -> info.effectOnly =  (Boolean) entry.getValue();
-                case "VNT" -> info.vntSettingContainer = new VNTSettingContainer((Map<String,Object>) entry.getValue());
-                case "FluidType" -> info.fluidTypeNTM = (String)entry.getValue();
-            }}
+                case "PayloadType" -> info.payloadNTM = parsePayload((String) entry.getValue());
+                case "EffectOnly" -> info.effectOnly = (Boolean) entry.getValue();
+                case "VNT" ->
+                        info.vntSettingContainer = new VNTSettingContainer((Map<String, Object>) entry.getValue());
+                case "FluidType" -> info.fluidTypeNTM = (String) entry.getValue();
+            }
+        }
     }
 
     private void parseMarkerRocket(MCH_WeaponInfo info, Map<String, Object> map) {
@@ -157,19 +207,8 @@ public class WeaponParser {
                 case "MarkerRocketSpawnHeight" -> info.markerRocketSpawnHeight = ((Number) entry.getValue()).intValue();
                 case "MarkerRocketSpawnSpeed" -> info.markerRocketSpawnSpeed = ((Number) entry.getValue()).intValue();
 
-            }}
-    }
-
-    public static MCH_WeaponInfo.Payload parsePayload(String s) {
-        if (s == null || s.isEmpty())
-            return MCH_WeaponInfo.Payload.NONE;
-
-        return switch (s.trim().toUpperCase(Locale.ROOT)) {
-            case "NTM_EXP_SMALL", "SMALL" -> MCH_WeaponInfo.Payload.NTM_EXP_SMALL;
-            case "NTM_EXP_LARGE", "LARGE" -> MCH_WeaponInfo.Payload.NTM_EXP_LARGE;
-            case "NTM_NUKE", "NUKE" -> MCH_WeaponInfo.Payload.NTM_NUKE;
-            default -> MCH_WeaponInfo.Payload.NONE;
-        };
+            }
+        }
     }
 
     //TODO: Oredict
@@ -182,35 +221,50 @@ public class WeaponParser {
     }
 
 
-   private void parseBallisitcs(MCH_WeaponInfo info, Map<String,Object> map){
-       for (Map.Entry<String, Object> entry : map.entrySet()) {
-           switch (entry.getKey()) {
-               case "Acceleration", "Accel" -> info.acceleration = getClamped(0.0F, 100.0F, (Number) entry.getValue());
-               case "AccelerationInWater" ->
-                       info.accelerationInWater = getClamped(0.0F, 100.0F, (Number) entry.getValue());
-               case "Gravity" -> info.gravity = getClamped(-50.0F, 50.0F, (Number) entry.getValue());
-               case "GravityInWater" -> info.gravityInWater = getClamped(-50.0F, 50.0F, (Number) entry.getValue());
-               case "VelocityInWater" -> info.velocityInWater = ((Number) entry.getValue()).floatValue();
-               case "Power" -> info.power = ((Number) entry.getValue()).intValue();
-               case "SpeedFactor" -> info.speedFactor = ((Number) entry.getValue()).floatValue();
-               case "SpeedFactorStartTick" -> info.speedFactorStartTick = ((Number) entry.getValue()).intValue();
-               case "SpeedFactorEndTick" -> info.speedFactorEndTick = ((Number) entry.getValue()).intValue();
-               case "SpeedDependsAircraft" -> info.speedDependsAircraft = (Boolean) entry.getValue();
-           }}
-   }
-
-    private void parseRecoil(MCH_WeaponInfo info, Map<String,Object> map){
+    private void parseBallisitcs(MCH_WeaponInfo info, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Pitch" -> info.recoilPitch = ((Number) entry.getValue()).floatValue();
-                case "Yaw" -> info.recoilYaw = ((Number) entry.getValue()).floatValue();
-                case "PitchRange" -> info.recoilPitchRange = ((Number) entry.getValue()).floatValue();
-                case "YawRange" -> info.recoilYawRange = ((Number) entry.getValue()).floatValue();
-                case "RecoverFactor" -> info.recoilRecoverFactor = ((Number) entry.getValue()).floatValue();
-            }}
+                case "Acceleration", "Accel" -> info.acceleration = getClamped(0.0F, 100.0F, (Number) entry.getValue());
+                case "AccelerationInWater" ->
+                        info.accelerationInWater = getClamped(0.0F, 100.0F, (Number) entry.getValue());
+                case "Gravity" -> info.gravity = getClamped(-50.0F, 50.0F, (Number) entry.getValue());
+                case "GravityInWater" -> info.gravityInWater = getClamped(-50.0F, 50.0F, (Number) entry.getValue());
+                case "VelocityInWater" -> info.velocityInWater = ((Number) entry.getValue()).floatValue();
+                case "Power" -> info.power = ((Number) entry.getValue()).intValue();
+                case "SpeedFactor" -> info.speedFactor = ((Number) entry.getValue()).floatValue();
+                case "SpeedFactorStartTick" -> info.speedFactorStartTick = ((Number) entry.getValue()).intValue();
+                case "SpeedFactorEndTick" -> info.speedFactorEndTick = ((Number) entry.getValue()).intValue();
+                case "SpeedDependsAircraft" -> info.speedDependsAircraft = (Boolean) entry.getValue();
+                case "Piercing" -> info.piercing = getClamped(1_000, (Number) entry.getValue());
+            }
+        }
     }
 
-    private void parseSound(MCH_WeaponInfo info, Map<String,Object> map){
+    private void parseRecoil(MCH_WeaponInfo info, Map<String, Object> map) {
+        info.recoilBufCount = 1;
+        info.recoilBufCountSpeed = 1;
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            switch (key) {
+                case "Pitch" -> info.recoilPitch = ((Number) value).floatValue();
+                case "Yaw" -> info.recoilYaw = ((Number) value).floatValue();
+                case "PitchRange" -> info.recoilPitchRange = ((Number) value).floatValue();
+                case "YawRange" -> info.recoilYawRange = ((Number) value).floatValue();
+                case "RecoverFactor" -> info.recoilRecoverFactor = ((Number) value).floatValue();
+
+                case "BufferCount" -> info.recoilBufCount = ((Number) value).intValue();
+                case "BufferSpeed" -> info.recoilBufCountSpeed = ((Number) value).intValue();
+            }
+        }
+
+        if (info.recoilBufCountSpeed > info.recoilBufCount / 2) {
+            info.recoilBufCountSpeed = info.recoilBufCount / 2;
+        }
+    }
+
+    private void parseSound(MCH_WeaponInfo info, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "Name" -> info.soundFileName = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
@@ -220,14 +274,24 @@ public class WeaponParser {
                 case "PitchRandom" -> info.soundPitchRandom = getClamped(0.0F, 1.0F, (Number) entry.getValue());
                 case "HitSound" -> info.hitSound = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
                 case "HitSoundIron" -> info.hitSoundIron = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
-            }}
+            }
+        }
     }
-    private void parseDamage(MCH_WeaponInfo info, Map<String,Object> map){
+
+    private void parseDamage(MCH_WeaponInfo info, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-
-
-            }}
+                case "ExplosionDamageVsLiving" ->
+                        info.explosionDamageVsLiving = ((Number) entry.getValue()).floatValue();
+                case "ExplosionDamageVsPlayer" ->
+                        info.explosionDamageVsPlayer = ((Number) entry.getValue()).floatValue();
+                case "ExplosionDamageVsPlane" -> info.explosionDamageVsPlane = ((Number) entry.getValue()).floatValue();
+                case "ExplosionDamageVsVehicle" ->
+                        info.explosionDamageVsVehicle = ((Number) entry.getValue()).floatValue();
+                case "ExplosionDamageVsTank" -> info.explosionDamageVsTank = ((Number) entry.getValue()).floatValue();
+                case "ExplosionDamageVsHeli" -> info.explosionDamageVsHeli = ((Number) entry.getValue()).floatValue();
+            }
+        }
     }
 
 }

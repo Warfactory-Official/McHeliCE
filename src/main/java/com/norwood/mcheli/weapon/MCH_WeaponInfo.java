@@ -6,10 +6,14 @@ import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
 import com.norwood.mcheli.compat.hbm.VNTSettingContainer;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -455,6 +459,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         NTM_EXP_LARGE,
         NTM_MINI_NUKE,
         NTM_NUKE,
+        NTM_CHLORINE,
+        NTM_MIST
     }
 
 
@@ -471,15 +477,16 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         }
     }
 
-    @Desugar
-    public record MuzzleFlashRaw(
-            float Distance,
-            float Size,
-            float Range,
-            int Age,
-            int Count,
-            int Color //ARGB
-    ) {
+    @Getter
+    @Setter
+    public static class MuzzleFlashRaw
+     {
+        float Distance;
+        float Size;
+        float Range;
+        int Age;
+        int Count;
+        String Color; //ARGB
     }
 
     public static class MuzzleFlash {
@@ -496,13 +503,13 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
 
 
         public MuzzleFlash(MuzzleFlashRaw raw) {
-            this.dist = raw.Distance();
-            this.size = raw.Size();
-            this.range = raw.Range();
-            this.age = raw.Age();
-            this.num = raw.Count();
+            this.dist = raw.getDistance();
+            this.size = raw.getSize();
+            this.range = raw.getRange();
+            this.age = raw.getAge();
+            this.num = raw.getCount();
 
-            int color = raw.Color();
+            int color = YamlParser.parseHexColor(raw.getColor());
             this.a = ((color >> 24) & 0xFF) / 255.0F;
             this.r = ((color >> 16) & 0xFF) / 255.0F;
             this.g = ((color >> 8) & 0xFF) / 255.0F;
