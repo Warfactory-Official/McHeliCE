@@ -29,6 +29,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.google.common.base.Predicates.instanceOf;
 
 @SuppressWarnings("AutoBoxing")
 public class YamlEmitter implements IEmitter {
@@ -41,7 +44,12 @@ public class YamlEmitter implements IEmitter {
         opts.setPrettyFlow(true);
         InlineAwareRepresenter rep = new InlineAwareRepresenter(opts);
         rep.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        YAML = new Yaml(rep, opts);
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setWidth(Integer.MAX_VALUE);
+        options.setSplitLines(false);
+        YAML = new Yaml(new InlineAwareRepresenter(options), options);
+
     }
 
     public static void writeTo(Path out, CharSequence content) throws IOException {
@@ -209,9 +217,12 @@ public class YamlEmitter implements IEmitter {
         var dummyInfo = new MCH_VehicleInfo(info.getLocation(), info.getContentPath());
         Map<String, Object> root = baseAircraft(info, dummyInfo);
         Map<String, Object> veh = new LinkedHashMap<>();
-        veh.put("CanMove", info.isEnableMove);
-        veh.put("CanRotate", info.isEnableRot);
-        root.put("VehicleFeatures", veh);
+        if (info.isEnableMove != dummyInfo.isEnableMove)
+            veh.put("CanMove", info.isEnableMove);
+        if (info.isEnableRot != dummyInfo.isEnableRot)
+            veh.put("CanRotate", info.isEnableRot);
+        if (!veh.isEmpty())
+            root.put("VehicleFeatures", veh);
         Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
         addCommonComponents(components, info);
         if (!info.partList.isEmpty()) {
@@ -480,9 +491,9 @@ public class YamlEmitter implements IEmitter {
             root.put("Recepie", rec);
         }
 
-        if(info.canRide != dummyInfo.canRide)root.put("CanRide", info.canRide);
-        if(info.rotorSpeed != dummyInfo.rotorSpeed)root.put("RotorSpeed", info.rotorSpeed);
-        if (info.turretPosition != Vec3d.ZERO) root.put("TurretPosition", vec(info.turretPosition));
+        if (info.canRide != dummyInfo.canRide) root.put("CanRide", info.canRide);
+        if (info.rotorSpeed != dummyInfo.rotorSpeed) root.put("RotorSpeed", info.rotorSpeed);
+        if (!info.turretPosition.equals( Vec3d.ZERO)) root.put("TurretPosition", vec(info.turretPosition));
         if (info.unmountPosition != null) root.put("GlobalUnmountPos", vec(info.unmountPosition));
         if (info.creativeOnly != dummyInfo.creativeOnly) root.put("CreativeOnly", info.creativeOnly);
         if (info.regeneration != dummyInfo.regeneration) root.put("Regeneration", info.regeneration);
@@ -748,13 +759,35 @@ public class YamlEmitter implements IEmitter {
                 }
                 seats.add(sm);
             }
+            if (info.hudList != null && !info.hudList.isEmpty()) {
+                int smallerListSize = 0;
+                int hudSize = info.hudList.size();
+                int seatSize = info.getNumSeat();
+                //Content creators cannot adhere to their own fucking rules sometimes
+                if (hudSize > seatSize || hudSize == seatSize) {
+                    smallerListSize = seatSize;
+                } else smallerListSize = hudSize;
+
+                for (int index = 0; index < smallerListSize; index++) {
+                    var hud = info.hudList.get(index);
+                    if (hud == null) continue;
+                    String name = hud.name;
+                    if ("none".equals(name)) continue;
+                    seats.get(index).put("Hud", name);
+                }
+            }
+           if(info.exclusionSeatList != null &&  !info.exclusionSeatList.isEmpty())
+               appendExlusionEntries(seats,info,false);
+
+
             root.put("Seats", seats);
         }
 
         // Racks
-        if (info.entityRackList != null && !info.entityRackList.isEmpty()) {
+        if (info.getNumSeat() < info.getNumSeatAndRack()) {
             List<Map<String, Object>> racks = new ArrayList<>();
-            for (MCH_SeatRackInfo r : info.entityRackList) {
+            List<MCH_SeatRackInfo> rackInfos =   info.seatList.stream().filter(instanceOf(MCH_SeatRackInfo.class)).map(MCH_SeatRackInfo.class::cast).collect(Collectors.toList());
+            for (MCH_SeatRackInfo r : rackInfos) {
                 Map<String, Object> rm = new LinkedHashMap<>();
                 rm.put("Position", vec(r.pos));
                 if (r.getCamPos() != null) {
@@ -773,6 +806,9 @@ public class YamlEmitter implements IEmitter {
                 if (r.range != 0.0f) rm.put("Range", r.range);
                 if (r.openParaAlt != 0.0f) rm.put("OpenParaAlt", r.openParaAlt);
             }
+//            if(info.exclusionSeatList != null && !info.exclusionSeatList.isEmpty())
+//                appendExlusionEntries(racks,info,true);
+
             root.put("Racks", racks);
         }
 
@@ -790,11 +826,11 @@ public class YamlEmitter implements IEmitter {
             List<Map<String, Object>> boxes = new ArrayList<>();
             for (MCH_BoundingBox bb : info.extraBoundingBox) {
                 Map<String, Object> bm = new LinkedHashMap<>();
+                if (bb.boundingBoxType != null) bm.put("Type", bb.boundingBoxType.name());
                 bm.put("Position", inline(bb.offsetX, bb.offsetY, bb.offsetZ));
                 bm.put("Size", inline(bb.width, bb.height, bb.widthZ));
                 if (bb.getDamageFactor() != 1.0f) bm.put("DamageFactor", bb.getDamageFactor());
                 if (bb.name != null && !bb.name.isEmpty()) bm.put("Name", bb.name);
-                if (bb.boundingBoxType != null) bm.put("Type", bb.boundingBoxType.name());
                 boxes.add(bm);
             }
             root.put("BoundingBoxes", boxes);
@@ -880,6 +916,37 @@ public class YamlEmitter implements IEmitter {
         if (p.rot != Vec3d.ZERO) m.put("Rotation", vec(p.rot));
         if (notBlank(p.modelName)) m.put("PartName", p.modelName);
         return m;
+    }
+
+    private void appendExlusionEntries(List<Map<String,Object>> listSeatMap, MCH_AircraftInfo info, boolean isRackList){
+        final int startIndex = isRackList ? info.getNumSeat() + 1 : 0;
+        final int endIndex = isRackList ? info.getNumSeatAndRack() : info.getNumSeat();
+        int  index = startIndex;
+        while ( index < endIndex ) {
+            Integer[] exclusion = info.exclusionSeatList.get(startIndex);
+            assert exclusion.length > 1;
+            int affectedSeatIndex = exclusion[0];
+
+            List<Integer> seatExclusions = new ArrayList<>();
+            List<Integer> rackExclusions = new ArrayList<>();
+            for (Integer anInt : exclusion) {
+                if(anInt > info.mobSeatNum)
+                    rackExclusions.add(anInt);
+                else if (anInt <= info.mobSeatNum)
+                    seatExclusions.add(anInt);
+
+            }
+            var seatListMapIndex = isRackList? affectedSeatIndex - startIndex : affectedSeatIndex;
+            Map<String,Object> seatMap = listSeatMap.get(seatListMapIndex);
+            Map<String,Object> excusionMap = new LinkedHashMap<>();
+            if(!seatExclusions.isEmpty()) excusionMap.put("Seats", seatExclusions);
+            if(!rackExclusions.isEmpty()) excusionMap.put("Racks", rackExclusions);
+
+            if(!excusionMap.isEmpty())
+                seatMap.put("ExcludeWith", excusionMap);
+            index++;
+        }
+
     }
 
     private void addCommonComponents(Map<String, List<Map<String, Object>>> components, MCH_AircraftInfo info) {
