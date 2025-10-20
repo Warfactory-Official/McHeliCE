@@ -1,10 +1,22 @@
 package com.norwood.mcheli.command;
 
 import com.google.gson.JsonParseException;
+import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.info.ContentRegistries;
+import com.norwood.mcheli.helper.info.ContentRegistry;
+import com.norwood.mcheli.helper.info.emitters.IEmitter;
+import com.norwood.mcheli.helper.info.emitters.YamlEmitter;
+import com.norwood.mcheli.helicopter.MCH_HeliInfo;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.tank.MCH_TankInfo;
+import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
+import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.multiplay.MultiplayerHandler;
 import com.norwood.mcheli.networking.packet.PacketHandleCommand;
 import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
@@ -35,8 +47,13 @@ import net.minecraftforge.event.CommandEvent;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 public class MCH_Command extends CommandBase {
     public static final String CMD_GET_SS = "sendss";
@@ -51,10 +68,12 @@ public class MCH_Command extends CommandBase {
     public static final String CMD_SHOW_BB = "showboundingbox";
     public static final String CMD_DELAY_BB = "delayhitbox";
     public static final String CMD_LIST = "list";
+    public static final String CMD_DUMP_YAML = "dumpyaml";
     public static final String[] ALL_COMMAND = new String[]{
-            "sendss", "modlist", "reconfig", "title", "fill", "status", "killentity", "removeentity", "attackentity", "showboundingbox", "list", "delayhitbox"
+            "sendss", "modlist", "reconfig", "title", "fill", "status", "killentity", "removeentity", "attackentity", "showboundingbox", "list", "delayhitbox", "dumpyaml"
     };
     public static final MCH_Command instance = new MCH_Command();
+    private static final Pattern sanitize = Pattern.compile("[^a-zA-Z0-9._-]");
 
     public static boolean canUseCommand(Entity player) {
         return player instanceof EntityPlayer && instance.canCommandSenderUseCommand(player);
@@ -135,6 +154,7 @@ public class MCH_Command extends CommandBase {
             case "showboundingbox" -> handleShowBoundingBox(sender, prm);
             case "list" -> handleList(sender);
             case "delayhitbox" -> handleDelayHitbox(sender, prm);
+            case "dumpyaml" -> handleDumpYaml(sender, prm);
             default -> throw new CommandException("Unknown mcheli command. Please type /mcheli list");
         }
     }
@@ -199,6 +219,105 @@ public class MCH_Command extends CommandBase {
     private void handleList(ICommandSender sender) {
         String msg = String.join(", ", ALL_COMMAND);
         sender.sendMessage(new TextComponentString("/mcheli command list : " + msg));
+    }
+
+    private static String sanitizeFileName(String key) {
+        return sanitize.matcher(key).replaceAll("_");
+    }
+
+    private void handleDumpYaml(ICommandSender sender, String[] prm) throws CommandException {
+        // Usage: /mcheli dumpyaml [outputDir]
+        String outDir = prm.length >= 2 ? prm[1] : "mcheli_yaml_dump";
+        Path base = Paths.get(outDir);
+        IEmitter emitter = new YamlEmitter();
+        int written = 0;
+        try {
+            // Ensure base exists
+            Files.createDirectories(base);
+
+            // Dump each registry
+            written += dumpRegistry(emitter, base.resolve("helicopters"), ContentRegistries.heli());
+            written += dumpRegistry(emitter, base.resolve("planes"), ContentRegistries.plane());
+            written += dumpRegistry(emitter, base.resolve("ships"), ContentRegistries.ship());
+            written += dumpRegistry(emitter, base.resolve("tanks"), ContentRegistries.tank());
+            written += dumpRegistry(emitter, base.resolve("vehicles"), ContentRegistries.vehicle());
+            written += dumpWeapons(emitter, base.resolve("weapons"), ContentRegistries.weapon());
+            written += dumpThrowable(emitter, base.resolve("throwable"), ContentRegistries.throwable());
+            written += dumpHud(emitter, base.resolve("hud"), ContentRegistries.hud());
+
+            sender.sendMessage(new TextComponentString("Dumped " + written + " YAML files to " + base.toAbsolutePath()));
+        } catch (IOException e) {
+            throw new CommandException("Failed to dump YAML: " + e.getMessage());
+        } catch (Exception e) {
+            throw new CommandException("YAML emission error: " + e.getMessage());
+        }
+    }
+
+    private int dumpRegistry(IEmitter emitter, Path dir, ContentRegistry<? extends MCH_BaseInfo> reg) throws IOException {
+        int count = 0;
+        if (reg == null) return 0;
+        Files.createDirectories(dir);
+        for (Entry<String, ? extends MCH_BaseInfo> e : reg.entries()) {
+            String key = sanitizeFileName(e.getKey());
+            Path out = dir.resolve(key + ".yml");
+            MCH_BaseInfo info = e.getValue();
+            String content;
+            if (info instanceof MCH_HeliInfo) {
+                content = emitter.emitHelicopter((MCH_HeliInfo) info);
+            } else if (info instanceof MCH_PlaneInfo) {
+                content = emitter.emitPlane((MCH_PlaneInfo) info);
+            } else if (info instanceof MCH_ShipInfo) {
+                content = emitter.emitShip((MCH_ShipInfo) info);
+            } else if (info instanceof MCH_TankInfo) {
+                content = emitter.emitTank((MCH_TankInfo) info);
+            } else if (info instanceof MCH_VehicleInfo) {
+                content = emitter.emitVehicle((MCH_VehicleInfo) info);
+            } else {
+                continue;
+            }
+            YamlEmitter.writeTo(out, content);
+            count++;
+        }
+        return count;
+    }
+
+    private int dumpWeapons(IEmitter emitter, Path dir, ContentRegistry<MCH_WeaponInfo> reg) throws IOException {
+        int count = 0;
+        if (reg == null) return 0;
+        Files.createDirectories(dir);
+        for (Entry<String, MCH_WeaponInfo> e : reg.entries()) {
+            String key = sanitizeFileName(e.getKey());
+            Path out = dir.resolve(key + ".yml");
+            YamlEmitter.writeTo(out, emitter.emitWeapon(e.getValue()));
+            count++;
+        }
+        return count;
+    }
+
+    private int dumpThrowable(IEmitter emitter, Path dir, ContentRegistry<MCH_ThrowableInfo> reg) throws IOException {
+        int count = 0;
+        if (reg == null) return 0;
+        Files.createDirectories(dir);
+        for (Entry<String, MCH_ThrowableInfo> e : reg.entries()) {
+            String key = sanitizeFileName(e.getKey());
+            Path out = dir.resolve(key + ".yml");
+            YamlEmitter.writeTo(out, emitter.emitThrowable(e.getValue()));
+            count++;
+        }
+        return count;
+    }
+
+    private int dumpHud(IEmitter emitter, Path dir, ContentRegistry<com.norwood.mcheli.hud.MCH_Hud> reg) throws IOException {
+        int count = 0;
+        if (reg == null) return 0;
+        Files.createDirectories(dir);
+        for (Entry<String, com.norwood.mcheli.hud.MCH_Hud> e : reg.entries()) {
+            String key = sanitizeFileName(e.getKey());
+            Path out = dir.resolve(key + ".yml");
+            YamlEmitter.writeTo(out, emitter.emitHud(e.getValue()));
+            count++;
+        }
+        return count;
     }
 
     private void handleDelayHitbox(ICommandSender sender, String[] prm) throws CommandException {

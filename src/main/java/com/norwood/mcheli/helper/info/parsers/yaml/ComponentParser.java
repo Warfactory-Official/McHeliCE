@@ -493,6 +493,6 @@ public class ComponentParser {
 
 
     public static enum VpartType {
-        NORMAL, ROTATES_WEAPON, RECOILS_WEAPON
+        NORMAL, ROTATES_WEAPON, RECOILS_WEAPON, TYPE_3
     }
 }

@@ -1264,8 +1264,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class PartWheel extends MCH_AircraftInfo.DrawnPart {
-        final float rotDir;
-        final Vec3d pos2;
+        public final float rotDir;
+        public final Vec3d pos2;
 
         public PartWheel(DrawnPart other, float rotDir, Vec3d pos2) {
             super(other);
@@ -1630,7 +1630,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public static class WeaponBay extends MCH_AircraftInfo.DrawnPart {
         public final float maxRotFactor;
         public final boolean isSlide;
-        private final String weaponName;
+        public final String weaponName;
         public Integer[] weaponIds;//TODO, get rid of that shit and just use hashmaps once the fucking old parser is dead
 
         public WeaponBay(
