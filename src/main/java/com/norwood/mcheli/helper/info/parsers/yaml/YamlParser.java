@@ -370,8 +370,8 @@ public class YamlParser implements IParser {
 
                 case "GlobalUnmountPos" -> info.unmountPosition = parseVector(entry.getValue());
                 case "PhysicalProperties" -> {
-                    Map<String, Object> phisicalProperties = (Map<String, Object>) entry.getValue();
-                    phisicalProperties.entrySet().forEach((physEntry) -> parsePhisProperties(physEntry, info));
+                    Map<String, Object> physicalProperties = (Map<String, Object>) entry.getValue();
+                    physicalProperties.entrySet().forEach((physEntry) -> parsePhisProperties(physEntry, info));
                 }
                 case "Render" -> {
                     Map<String, Object> renderProperties = (Map<String, Object>) entry.getValue();
@@ -653,11 +653,9 @@ public class YamlParser implements IParser {
             case "ArmorMinDamage" -> info.armorMinDamage = getClamped(1_000_000F, (Number) entry.getValue());
             case "ArmorMaxDamage" -> info.armorMaxDamage = getClamped(1_000_000F, (Number) entry.getValue());
             case "DamageFactor" -> info.damageFactor = getClamped(1F, (Number) entry.getValue());
-            case "SubmergedDamageHeight" ->
-                    info.submergedDamageHeight = getClamped(-1000F, 1000F, (Number) entry.getValue());
+            case "SubmergedDamageHeight" -> info.submergedDamageHeight = getClamped(-1000F, 1000F, (Number) entry.getValue());
             default -> logUnkownEntry(entry, "Armor");
         }
-
     }
 
     @SuppressWarnings("unboxing")
@@ -665,38 +663,41 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "GunnerMode" -> info.isEnableGunnerMode = ((Boolean) entry.getValue()).booleanValue();
-                case "InventorySize" ->
-                        info.inventorySize = getClamped(54, (Number) entry.getValue()); //FIXME: Capped due to inventory code being fucking ass
+                case "InventorySize" -> info.inventorySize = getClamped(54, (Number) entry.getValue()); //FIXME: Capped due to inventory code being fucking ass
                 case "NightVision" -> info.isEnableNightVision = ((Boolean) entry.getValue()).booleanValue();
                 case "EntityRadar" -> info.isEnableEntityRadar = ((Boolean) entry.getValue()).booleanValue();
                 case "CanReverse" -> info.enableBack = ((Boolean) entry.getValue()).booleanValue();
-                case "CanRotateOnGround", "CanRotOnGround" -> ((Boolean) entry.getValue()).booleanValue();
-
-                case "ConcurrentGunner" ->
-                        info.isEnableConcurrentGunnerMode = ((Boolean) entry.getValue()).booleanValue();
+                case "CanRotateOnGround", "CanRotOnGround" -> info.canRotOnGround = ((Boolean) entry.getValue()).booleanValue();
+                case "ConcurrentGunner" -> info.isEnableConcurrentGunnerMode = ((Boolean) entry.getValue()).booleanValue();
                 case "EjectionSeat" -> info.isEnableEjectionSeat = ((Boolean) entry.getValue()).booleanValue();
                 case "ThrottleUpDown" -> info.throttleUpDown = getClamped(3F, (Number) entry.getValue());
-                case "ThrottleUpDownEntity" ->
-                        info.throttleUpDownOnEntity = getClamped(100_000F, (Number) entry.getValue());
-                case "Parachuting" -> {
-                    if (entry.getValue() instanceof Boolean bool) info.isEnableParachuting = bool.booleanValue();
-                    else if (entry.getValue() instanceof Map<?, ?> parachuteMapRaw) {
-                        info.isEnableParachuting = true;
-                        for (Map.Entry<String, Object> mobEntry : ((Map<String, Object>) parachuteMapRaw).entrySet()) {
-                            switch (mobEntry.getKey()) {
-                                case "Pos", "Position" -> info.mobDropOption.pos = parseVector(mobEntry.getValue());
-                                case "Interval" ->
-                                        info.mobDropOption.interval = ((Number) mobEntry.getValue()).intValue();
-                                default -> logUnkownEntry(mobEntry, "Parachuting");
-                            }
-                        }
-                    } else
-                        throw new IllegalArgumentException("Parachuting type must be a boolean or map, got: " + entry.getValue().getClass());
-                }
+                case "ThrottleUpDownEntity" -> info.throttleUpDownOnEntity = getClamped(100_000F, (Number) entry.getValue());
+                case "Parachuting" -> parseParachuting(entry, info);
                 case "Flare" -> info.flare = parseFlare((Map<String, Object>) entry.getValue());
                 default -> logUnkownEntry(entry, "AircraftFeatures");
             }
         }
+    }
+
+    private void parseParachuting(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
+        //I have no idea what im doing
+        Object value = entry.getValue();
+        if (value instanceof Boolean bool) {
+            info.isEnableParachuting = bool;
+            return;
+        }
+        if (value instanceof Map<?, ?> parachuteMapRaw) {
+            info.isEnableParachuting = true;
+            for (Map.Entry<String, Object> mobEntry : ((Map<String, Object>) parachuteMapRaw).entrySet()) {
+                switch (mobEntry.getKey()) {
+                    case "Pos", "Position" -> info.mobDropOption.pos = parseVector(mobEntry.getValue());
+                    case "Interval" -> info.mobDropOption.interval = ((Number) mobEntry.getValue()).intValue();
+                    default -> logUnkownEntry(mobEntry, "Parachuting");
+                }
+            }
+            return;
+        }
+        throw new IllegalArgumentException("Parachuting type must be a boolean or map, got: " + value.getClass());
     }
 
     private Flare parseFlare(Map<String, Object> value) {
