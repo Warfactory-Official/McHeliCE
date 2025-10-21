@@ -78,6 +78,10 @@ public class YamlEmitter implements IEmitter {
         return Math.round(value * 1000.0) / 1000.0;
     }
 
+    private static float round3(float value) {
+        return Math.round(value * 1000.0f) / 1000.0f;
+    }
+
     private static InlineSeq<Double> inline(double... values) {
         InlineSeq<Double> seq = new InlineSeq<>(values.length);
         for (double v : values) seq.add(round3(v));
@@ -475,6 +479,13 @@ public class YamlEmitter implements IEmitter {
         return YAML.dump(root);
     }
 
+    private float convertRotorSpeed(float speed){
+        float rounded = round3(speed);
+            if (rounded < 0.01F) rounded -= 0.01F;
+        if (rounded > -0.01F) rounded += 0.01F;
+        return rounded;
+    }
+
     private Map<String, Object> baseAircraft(MCH_AircraftInfo info, MCH_AircraftInfo dummyInfo) {
 
         Map<String, Object> root = new LinkedHashMap<>();
@@ -498,7 +509,7 @@ public class YamlEmitter implements IEmitter {
         }
 
         if (info.canRide != dummyInfo.canRide) root.put("CanRide", info.canRide);
-        if (info.rotorSpeed != dummyInfo.rotorSpeed) root.put("RotorSpeed", info.rotorSpeed);
+        if (info.rotorSpeed != dummyInfo.rotorSpeed) root.put("RotorSpeed", convertRotorSpeed(info.rotorSpeed));
         if (!info.turretPosition.equals( Vec3d.ZERO)) root.put("TurretPosition", vec(info.turretPosition));
         if (info.unmountPosition != null) root.put("GlobalUnmountPos", vec(info.unmountPosition));
         if (info.creativeOnly != dummyInfo.creativeOnly) root.put("CreativeOnly", info.creativeOnly);

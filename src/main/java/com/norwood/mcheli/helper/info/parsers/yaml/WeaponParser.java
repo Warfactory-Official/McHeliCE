@@ -2,6 +2,7 @@ package com.norwood.mcheli.helper.info.parsers.yaml;
 
 import com.norwood.mcheli.compat.hbm.VNTSettingContainer;
 import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.weapon.MCH_Cartridge;
 import com.norwood.mcheli.weapon.MCH_SightType;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import lombok.NoArgsConstructor;
@@ -141,12 +142,36 @@ public class WeaponParser {
                 case "FAE" -> info.isFAE = (Boolean) entry.getValue();
                 case "GuidedTorpedo" -> info.isGuidedTorpedo = (Boolean) entry.getValue();
                 case "Destruct" -> info.destruct = (Boolean) entry.getValue();
+                case "Cartridge" -> info.cartridge = parseCardridge((Map<String, Object>) entry.getValue());
 
 
                 default -> logUnkownEntry(entry, "Weapon");
             }
         }
         return info;
+    }
+
+    private MCH_Cartridge parseCardridge(Map<String,Object> map){
+        String name = null;
+        float accel = 0F;
+        float yaw = 0F;
+        float pitch = 0.0F;
+        float scale = 1F;
+        float gravity = -0.04F;
+        float bound = 0.5F;
+
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "Name" -> name = ((String)entry.getValue()).toLowerCase();
+                case "Accel", "Acceleration" -> ((Number) accel).floatValue();
+                case "Yaw" -> yaw = ((Number) entry.getValue()).floatValue();
+                case "Pitch" -> pitch = ((Number) entry.getValue()).floatValue();
+                case "Scale" -> scale = ((Number) entry.getValue()).floatValue();
+                case "Gravity" -> gravity = ((Number) entry.getValue()).floatValue();
+                case "Bound" -> bound = ((Number) entry.getValue()).floatValue();
+            }
+        }
+        return new MCH_Cartridge(name, accel, yaw, pitch, bound, gravity, scale);
     }
 
     private void parseRender(MCH_WeaponInfo info, Map<String, Object> value) {
@@ -158,6 +183,12 @@ public class WeaponParser {
                         info.listMuzzleFlashSmoke = parseMuzzleFlashes((List<Map<String, Object>>) entry.getValue());
                 case "BulletModel" -> info.bulletModelName = ((String) entry.getValue()).trim();
                 case "BombletModel" -> info.bombletModelName = ((String) entry.getValue()).trim();
+                case "TrajectoryParticle" -> {
+                   var rawString  =  ((String) entry.getValue()).trim().toLowerCase();
+                    info.trajectoryParticleName = "none".equals(rawString) ? "" : rawString;
+                }
+                case "TrajectoryParticleStartTick" -> info.trajectoryParticleStartTick = getClamped(10_000,(Number)entry.getValue());
+                case "DisableSmoke" -> info.disableSmoke = (Boolean) entry.getValue();
             }
         }
     }
