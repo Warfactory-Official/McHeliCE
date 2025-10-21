@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public float smokeSize;
     public int smokeNum;
     public int smokeMaxAge;
+    public String dispenseItemLoc = null;
     public Item dispenseItem;
     public int dispenseDamege;
     public int dispenseRange;
@@ -375,6 +377,10 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     @Override
     public void onPostReload() {
         MCH_WeaponInfoManager.setRoundItems();
+        if(dispenseItemLoc != null){
+            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(dispenseItemLoc));
+            if(item != null) dispenseItem = item;
+        }
     }
 
 

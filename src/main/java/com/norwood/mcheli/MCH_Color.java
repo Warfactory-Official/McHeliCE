@@ -12,6 +12,13 @@ public class MCH_Color {
         this.g = this.round(gg);
         this.b = this.round(bb);
     }
+    public MCH_Color(int argb) {
+        this.a = ((argb >> 24) & 0xFF) / 255.0F;
+        this.r = ((argb >> 16) & 0xFF) / 255.0F;
+        this.g = ((argb >> 8) & 0xFF) / 255.0F;
+        this.b = (argb & 0xFF) / 255.0F;
+    }
+
 
     public MCH_Color(float rr, float gg, float bb) {
         this(1.0F, rr, gg, bb);

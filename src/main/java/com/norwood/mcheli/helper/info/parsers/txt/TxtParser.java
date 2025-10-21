@@ -42,6 +42,7 @@ import net.minecraft.util.math.Vec3d;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Supplier;
 
 // TODO: refactor the if-else chain with a massive switch or something
@@ -1269,7 +1270,7 @@ public class TxtParser implements IParser {
                     info.dispenseDamege = info.toInt(sx[1], 0, 100000000);
                 }
 
-                info.dispenseItem = W_Item.getItemByName(sx[0]);
+                info.dispenseItemLoc = sx[0].toLowerCase().trim();
             } else if (item.equalsIgnoreCase("DispenseRange")) {
                 info.dispenseRange = info.toInt(data, 1, 100);
             } else if (item.equalsIgnoreCase("Length")) {

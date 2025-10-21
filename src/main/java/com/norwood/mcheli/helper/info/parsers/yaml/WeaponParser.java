@@ -1,17 +1,26 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
+import com.norwood.mcheli.MCH_Color;
+import com.norwood.mcheli.MCH_DamageFactor;
 import com.norwood.mcheli.compat.hbm.VNTSettingContainer;
+import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.plane.MCP_EntityPlane;
+import com.norwood.mcheli.ship.MCH_EntityShip;
+import com.norwood.mcheli.tank.MCH_EntityTank;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.weapon.MCH_Cartridge;
 import com.norwood.mcheli.weapon.MCH_SightType;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import lombok.NoArgsConstructor;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.getClamped;
-import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEntry;
+import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 
 @NoArgsConstructor
 @SuppressWarnings("unchecked")
@@ -29,6 +38,18 @@ public class WeaponParser {
             case "NTM_MIST", "MIST" -> MCH_WeaponInfo.Payload.NTM_MIST;
             default -> MCH_WeaponInfo.Payload.NONE;
         };
+    }
+
+    public static @Nullable Class<? extends Entity> tryLoadClass(String fullClassName) {
+        try {
+            Class<?> clazz = Class.forName(fullClassName);
+            if (Entity.class.isAssignableFrom(clazz)) {
+                return clazz.asSubclass(Entity.class);
+            }
+            return null;
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 
     public MCH_WeaponInfo parse(MCH_WeaponInfo info, Map<String, Object> root) {
@@ -73,10 +94,6 @@ public class WeaponParser {
                 }
                 case "Delay" -> info.delay = ((Number) entry.getValue()).intValue();
                 case "ExplosionType" -> info.explosionType = (String) entry.getValue();
-//                case "NukeYield" -> info.nukeYield = getClamped(100000, (Number) entry.getValue());
-//                case "ChemYield" -> info.chemYield = getClamped(100000, (Number) entry.getValue());
-//                case "EffectYield" -> info.effectYield = getClamped(100000, (Number) entry.getValue());
-//                case "NukeEffectOnly" -> info.nukeEffectOnly = ((Boolean) entry.getValue());
                 case "MaxDegreeOfMissile" -> info.maxDegreeOfMissile = getClamped(100000, (Number) entry.getValue());
                 case "TickEndHoming" -> info.tickEndHoming = getClamped(-1, 100000, (Number) entry.getValue());
                 case "FlakParticlesCrack" -> info.flakParticlesCrack = getClamped(300, (Number) entry.getValue());
@@ -143,6 +160,12 @@ public class WeaponParser {
                 case "GuidedTorpedo" -> info.isGuidedTorpedo = (Boolean) entry.getValue();
                 case "Destruct" -> info.destruct = (Boolean) entry.getValue();
                 case "Cartridge" -> info.cartridge = parseCardridge((Map<String, Object>) entry.getValue());
+                case "DispenseItem" -> parseDispenseItem(info, (Map<String, Object>) entry.getValue());
+                case "Length" -> info.length = getClamped(1, 300, (Number) entry.getValue());
+                case "Radius" -> info.radius = getClamped(1, 1000, (Number) entry.getValue());
+                case "Target" -> info.target = parseTarget((String) entry.getValue());
+                case "MarkTime" -> info.markTime = getClamped(1, 30000, (Number) entry.getValue()) + 1;
+                case "DamageFactor" -> parseDamageFactor(info, (Map<String, Number>) entry.getValue());
 
 
                 default -> logUnkownEntry(entry, "Weapon");
@@ -151,7 +174,51 @@ public class WeaponParser {
         return info;
     }
 
-    private MCH_Cartridge parseCardridge(Map<String,Object> map){
+    private void parseDispenseItem(MCH_WeaponInfo info, Map<String, Object> value) {
+        String loc = ((String) MCH_Utils.getAny(value, Arrays.asList("Location", "Loc", "Name"), null)).toLowerCase().trim();
+        if (loc != null && !loc.isEmpty()) ;
+        info.dispenseItemLoc = loc;
+        info.dispenseDamege = ((Number) MCH_Utils.getAny(value, Arrays.asList("Meta", "Damage"), 0)).intValue();
+        if (value.containsKey("DispenseRange"))
+            info.dispenseRange = getClamped(1, 100, (Number) value.get("DispenseRange"));
+    }
+
+    // Okay..?
+    private int parseTarget(String str) {
+        str = str.toLowerCase(Locale.ROOT);
+        int flags = 0;
+        if (str.contains("block")) return 64;
+        if (str.contains("planes")) flags |= 32;
+        if (str.contains("helicopters")) flags |= 16;
+        if (str.contains("vehicles") || str.contains("tanks")) flags |= 8;
+        if (str.contains("players")) flags |= 4;
+        if (str.contains("monsters")) flags |= 2;
+        if (str.contains("others")) flags |= 1;
+        return flags;
+    }
+
+    private void parseDamageFactor(MCH_WeaponInfo info, Map<String, Number> map) {
+        Map<Class<? extends Entity>, Integer> damageFactorMap = new HashMap<>();
+        for (Map.Entry<String, Number> entry : map.entrySet()) {
+            var clazz = switch (entry.getKey()) {
+                case "Player" -> EntityPlayer.class;
+                case "Heli", "Helicopter" -> MCH_EntityHeli.class;
+                case "Plane" -> MCP_EntityPlane.class;
+                case "Ship" -> MCH_EntityShip.class;
+                case "Tank" -> MCH_EntityTank.class;
+                case "Vehicle" -> MCH_EntityVehicle.class;
+                default -> tryLoadClass(entry.getKey());
+            };
+            if (clazz == null) continue;
+            damageFactorMap.put(clazz, entry.getValue().intValue());
+        }
+        if (!damageFactorMap.isEmpty()) {
+            info.damageFactor = new MCH_DamageFactor();
+            damageFactorMap.forEach(info.damageFactor::add);
+        }
+    }
+
+    private MCH_Cartridge parseCardridge(Map<String, Object> map) {
         String name = null;
         float accel = 0F;
         float yaw = 0F;
@@ -162,7 +229,7 @@ public class WeaponParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Name" -> name = ((String)entry.getValue()).toLowerCase();
+                case "Name" -> name = ((String) entry.getValue()).toLowerCase();
                 case "Accel", "Acceleration" -> ((Number) accel).floatValue();
                 case "Yaw" -> yaw = ((Number) entry.getValue()).floatValue();
                 case "Pitch" -> pitch = ((Number) entry.getValue()).floatValue();
@@ -184,11 +251,28 @@ public class WeaponParser {
                 case "BulletModel" -> info.bulletModelName = ((String) entry.getValue()).trim();
                 case "BombletModel" -> info.bombletModelName = ((String) entry.getValue()).trim();
                 case "TrajectoryParticle" -> {
-                   var rawString  =  ((String) entry.getValue()).trim().toLowerCase();
+                    var rawString = ((String) entry.getValue()).trim().toLowerCase();
                     info.trajectoryParticleName = "none".equals(rawString) ? "" : rawString;
                 }
-                case "TrajectoryParticleStartTick" -> info.trajectoryParticleStartTick = getClamped(10_000,(Number)entry.getValue());
+                case "Smoke" -> parseSmoke(info, (Map<String, Object>) entry.getValue());
+                case "TrajectoryParticleStartTick" ->
+                        info.trajectoryParticleStartTick = getClamped(10_000, (Number) entry.getValue());
+
+            }
+        }
+    }
+
+    private void parseSmoke(MCH_WeaponInfo info, Map<String, Object> value) {
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
                 case "DisableSmoke" -> info.disableSmoke = (Boolean) entry.getValue();
+                case "SmokeSize" -> info.smokeSize = getClamped(0F, 100F, (Number) entry.getValue());
+                case "SmokeNum" -> info.smokeNum = getClamped(1, 100, (Number) entry.getValue());
+                case "SmokeMaxAge" -> info.smokeMaxAge = getClamped(2, 1000, (Number) entry.getValue());
+                case "BulletColorInWater" ->
+                        info.colorInWater = new MCH_Color(parseHexColor((String) entry.getValue()));
+                case "BulletColor" -> info.color = new MCH_Color(parseHexColor((String) entry.getValue()));
+                //Apparently Smoke color and bullet color set the same variable
             }
         }
     }
@@ -279,6 +363,7 @@ public class WeaponParser {
             Object value = entry.getValue();
 
             switch (key) {
+                case "Power" -> info.recoil = getClamped(100F, (Number) entry.getValue());
                 case "Pitch" -> info.recoilPitch = ((Number) value).floatValue();
                 case "Yaw" -> info.recoilYaw = ((Number) value).floatValue();
                 case "PitchRange" -> info.recoilPitchRange = ((Number) value).floatValue();
