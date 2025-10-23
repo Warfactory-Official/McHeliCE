@@ -166,7 +166,7 @@ public class YamlEmitter implements IEmitter {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_PlaneInfo.Rotor r : info.rotorList) {
                 Map<String, Object> m = drawnPart(r);
-                if (r.maxRotFactor != 0) m.put("RotFactor", r.maxRotFactor);
+                if (r.maxRotFactor != 0) m.put("RotFactor", r.maxRotFactor * 90.0F);
                 list.add(m);
             }
             components.put("PlaneRotor", list);
@@ -271,93 +271,128 @@ public class YamlEmitter implements IEmitter {
         if (notBlank(info.displayName)) root.put("DisplayName", info.displayName);
         if (notBlank(info.type)) root.put("Type", info.type);
         if (notBlank(info.group)) root.put("Group", info.group);
+        if (info.power != 0) root.put("BaseDamage", info.power);
 
+        // Ballistics
         Map<String, Object> ball = new LinkedHashMap<>();
         ball.put("Acceleration", info.acceleration);
         ball.put("AccelerationInWater", info.accelerationInWater);
         ball.put("Gravity", info.gravity);
         ball.put("GravityInWater", info.gravityInWater);
         ball.put("VelocityInWater", info.velocityInWater);
-        ball.put("Power", info.power);
         if (info.speedFactor != 0.0f) ball.put("SpeedFactor", info.speedFactor);
         if (info.speedFactorStartTick != 0) ball.put("SpeedFactorStartTick", info.speedFactorStartTick);
         if (info.speedFactorEndTick != 0) ball.put("SpeedFactorEndTick", info.speedFactorEndTick);
         if (info.speedDependsAircraft) ball.put("SpeedDependsAircraft", true);
         if (info.piercing != 0) ball.put("Piercing", info.piercing);
+        if (info.flakParticlesDiff != 0.3F) ball.put("FlakSpread", info.flakParticlesDiff);
         root.put("Ballistics", ball);
 
+        // Sound
         Map<String, Object> snd = new LinkedHashMap<>();
-        if (notBlank(info.soundFileName)) snd.put("Name", info.soundFileName.toLowerCase(Locale.ROOT));
-        snd.put("Delay", info.soundDelay);
+        if (info.soundDelay != 0) snd.put("Delay", info.soundDelay);
         snd.put("Volume", info.soundVolume);
         snd.put("Pitch", info.soundPitch);
         if (info.soundPitchRandom != 0.0f) snd.put("PitchRandom", info.soundPitchRandom);
-        if (notBlank(info.hitSound)) snd.put("HitSound", info.hitSound.toLowerCase(Locale.ROOT));
-        if (notBlank(info.hitSoundIron)) snd.put("HitSoundIron", info.hitSoundIron.toLowerCase(Locale.ROOT));
+        if (info.hitSoundRange != 100) snd.put("HitSoundRange", info.hitSoundRange);
+        if (notBlank(info.soundFileName)) snd.put("Name", info.soundFileName.toLowerCase(Locale.ROOT));
+        Map<String, Object> sndLoc = new LinkedHashMap<>();
+        if (notBlank(info.hitSound)) sndLoc.put("Hit", info.hitSound.toLowerCase(Locale.ROOT));
+        if (notBlank(info.hitSoundIron)) sndLoc.put("HitMetal", info.hitSoundIron.toLowerCase(Locale.ROOT));
+        if (notBlank(info.railgunSound)) sndLoc.put("Railgun", info.railgunSound.toLowerCase(Locale.ROOT));
+        if (notBlank(info.weaponSwitchSound)) sndLoc.put("WeaponSwitch", info.weaponSwitchSound.toLowerCase(Locale.ROOT));
+        if (!sndLoc.isEmpty()) snd.put("Locations", sndLoc);
         if (!snd.isEmpty()) root.put("Sound", snd);
 
-        if (notBlank(info.explosionType)) root.put("ExplosionType", info.explosionType);
-        if (info.explosion != 0) root.put("Explosion", info.explosion);
-        if (info.explosionBlock >= 0) root.put("ExplosionBlock", info.explosionBlock);
-        if (info.explosionInWater != 0) root.put("ExplosionInWater", info.explosionInWater);
-        if (info.explosionAltitude != 0) root.put("ExplosionAltitude", info.explosionAltitude);
-        if (info.timeFuse != 0) root.put("TimeFuse", info.timeFuse);
-        if (info.delayFuse != 0) root.put("DelayFuse", info.delayFuse);
-        if (info.bound != 0.0f) root.put("Bound", info.bound);
-        if (info.flaming) root.put("Flaming", true);
-        if (info.displayMortarDistance) root.put("DisplayMortarDistance", true);
-        if (info.fixCameraPitch) root.put("FixCameraPitch", true);
-        if (info.cameraRotationSpeedPitch != 1.0F) root.put("CameraRotationSpeedPitch", info.cameraRotationSpeedPitch);
+        // Explosion
+        Map<String, Object> expl = new LinkedHashMap<>();
+        if (info.explosion != 0) expl.put("Power", info.explosion);
+        if (notBlank(info.explosionType)) expl.put("Type", info.explosionType);
+        if (info.explosionBlock >= 0) expl.put("DestructionPower", info.explosionBlock);
+        if (info.explosionInWater != 0) expl.put("PowerUnderwater", info.explosionInWater);
+        if (info.explosionAltitude != 0) expl.put("ExplosionAltitude", info.explosionAltitude);
+        if (info.timeFuse != 0) expl.put("FuseTime", info.timeFuse);
+        if (info.delayFuse != 0) expl.put("FuseDelay", info.delayFuse);
+        if (info.bound != 0.0f) expl.put("FuseRebound", info.bound);
+        if (info.flaming) expl.put("Flaming", true);
+        if (info.canAirburst) expl.put("CanAirburst", true);
+        if (info.explosionAirburst > 0) expl.put("ExplosionAirburst", info.explosionAirburst);
+        if (info.proximityFuseDist != 0.0F) expl.put("ProximityFuseDist", info.proximityFuseDist);
+        expl.put("CanDestroyBlocks", !info.disableDestroyBlock);
+        if (!expl.isEmpty()) root.put("Explosion", expl);
+
+        // Camera
+        Map<String, Object> cam = new LinkedHashMap<>();
+        if (info.hasMortarRadar) cam.put("EnableMortarRadar", true);
+        if (info.mortarRadarMaxDist != -1) cam.put("MortarRadarMaxDist", info.mortarRadarMaxDist);
+        if (info.displayMortarDistance) cam.put("DisplayMortarDistance", true);
+        if (info.fixCameraPitch) cam.put("FixPitch", true);
+        if (info.cameraRotationSpeedPitch != 1.0F) cam.put("RotationSpeedPitch", info.cameraRotationSpeedPitch);
         String sight = sightToString(info.sight);
-        if (sight != null) root.put("Sight", sight);
+        if (sight != null) cam.put("Sight", sight);
+        if (info.zoom != null && info.zoom.length > 0) cam.put("Zoom", Floats.asList(info.zoom));
+        if (!cam.isEmpty()) root.put("Camera", cam);
 
-        if (info.maxDegreeOfMissile != 60) root.put("MaxDegreeOfMissile", info.maxDegreeOfMissile);
-        if (info.tickEndHoming != -1) root.put("TickEndHoming", info.tickEndHoming);
-        if (info.flakParticlesCrack != 10) root.put("FlakParticlesCrack", info.flakParticlesCrack);
-        if (info.numParticlesFlak != 3) root.put("ParticlesFlak", info.numParticlesFlak);
-        if (info.flakParticlesDiff != 0.3F) root.put("FlakParticlesDiff", info.flakParticlesDiff);
-        if (info.isRadarMissile) root.put("IsRadarMissile", true);
-        if (!info.isHeatSeekerMissile) root.put("IsHeatSeekerMissile", false);
-        if (info.maxLockOnRange != 300) root.put("MaxLockOnRange", info.maxLockOnRange);
-        if (info.maxLockOnAngle != 10) root.put("MaxLockOnAngle", info.maxLockOnAngle);
-        if (info.pdHDNMaxDegree != 1000.0f) root.put("PDHDNMaxDegree", info.pdHDNMaxDegree);
-        if (info.pdHDNMaxDegreeLockOutCount != 10)
-            root.put("PDHDNMaxDegreeLockOutCount", info.pdHDNMaxDegreeLockOutCount);
-        if (info.antiFlareCount != -1) root.put("AntiFlareCount", info.antiFlareCount);
-        if (info.lockMinHeight != 25) root.put("LockMinHeight", info.lockMinHeight);
-        if (info.passiveRadar) root.put("PassiveRadar", true);
-        if (info.passiveRadarLockOutCount != 20) root.put("PassiveRadarLockOutCount", info.passiveRadarLockOutCount);
-        if (info.laserGuidance) root.put("LaserGuidance", true);
-        if (!info.hasLaserGuidancePod) root.put("HasLaserGuidancePod", false);
-        if (info.activeRadar) root.put("ActiveRadar", true);
-        if (!info.enableOffAxis) root.put("EnableOffAxis", false);
-        if (info.turningFactor != 0.5) root.put("TurningFactor", info.turningFactor);
-        if (info.enableChunkLoader) root.put("EnableChunkLoader", true);
-        if (info.scanInterval != 20) root.put("ScanInterval", info.scanInterval);
-        if (info.weaponSwitchCount != 0) root.put("WeaponSwitchCount", info.weaponSwitchCount);
-        if (notBlank(info.weaponSwitchSound))
-            root.put("WeaponSwitchSound", info.weaponSwitchSound.toLowerCase(Locale.ROOT));
-        if (info.canLockMissile) root.put("CanLockMissile", true);
-        if (info.enableBVR) root.put("EnableBVR", true);
-        if (info.minRangeBVR != 300) root.put("MinRangeBVR", info.minRangeBVR);
-        if (!info.predictTargetPos) root.put("PredictTargetPos", false);
-        if (info.hitSoundRange != 100) root.put("HitSoundRange", info.hitSoundRange);
-        if (info.numLockedChaffMax != 2) root.put("NumLockedChaffMax", info.numLockedChaffMax);
-        if (!info.disableDestroyBlock) root.put("DisableDestroyBlock", false);
-        if (notBlank(info.railgunSound)) root.put("RailgunSound", info.railgunSound.toLowerCase(Locale.ROOT));
-        if (info.canBeIntercepted) root.put("CanBeIntercepted", true);
-        if (info.canAirburst) root.put("CanAirburst", true);
-        if (info.explosionAirburst > 0) root.put("ExplosionAirburst", info.explosionAirburst);
-        if (info.crossType != 0) root.put("CrossType", info.crossType);
-        if (info.hasMortarRadar) root.put("EnableMortarRadar", true);
-        if (info.mortarRadarMaxDist != -1) root.put("MortarRadarMaxDist", info.mortarRadarMaxDist);
-        if (info.round != 0) root.put("Round", info.round);
-        if (info.suppliedNum != 1) root.put("SuppliedNum", info.suppliedNum);
+        // Missile
+        Map<String, Object> missile = new LinkedHashMap<>();
+        if (info.laserGuidance) missile.put("LaserGuidance", true);
+        if (!info.hasLaserGuidancePod) missile.put("HasLaserGuidancePod", false);
+        if (!info.enableOffAxis) missile.put("IsOffAxis", info.enableOffAxis);
+        if (info.isGuidedTorpedo) missile.put("GuidedTorpedo", true);
+        if (!info.predictTargetPos) missile.put("PredictTargetPos", false);
+        if (info.enableBVR) missile.put("EnableBVR", true);
+        if (info.minRangeBVR != 300) missile.put("MinRangeBVR", info.minRangeBVR);
+        if (info.scanInterval != 20) missile.put("ScanInterval", info.scanInterval);
+        if (info.tickEndHoming != -1) missile.put("TickEndHoming", info.tickEndHoming);
+        if (info.pdHDNMaxDegree != 1000.0f) missile.put("PDHDNMaxDegree", info.pdHDNMaxDegree);
+        if (info.pdHDNMaxDegreeLockOutCount != 10) missile.put("PDHDNMaxDegreeLockOutCount", info.pdHDNMaxDegreeLockOutCount);
+        if (info.turningFactor != 0.5) missile.put("TurningFactor", info.turningFactor);
+        if (info.maxDegreeOfMissile != 60) missile.put("MaxDegreeOfMissile", info.maxDegreeOfMissile);
+        if (info.canBeIntercepted) missile.put("CanBeIntercepted", true);
 
-        root.put("Delay", info.delay);
-        root.put("ReloadTime", info.reloadTime);
-        root.put("MaxAmmo", info.maxAmmo);
+        // LockOn
+        Map<String, Object> lockOn = new LinkedHashMap<>();
+        if (info.canLockMissile) lockOn.put("CanLockMissile", true);
+        if (info.lockTime != 30) lockOn.put("Time", info.lockTime);
+        if (info.rigidityTime != 7) lockOn.put("Delay", info.rigidityTime);
+        if (info.maxLockOnRange != 300) lockOn.put("MaxRange", info.maxLockOnRange);
+        if (info.maxLockOnAngle != 10) lockOn.put("MaxAngle", info.maxLockOnAngle);
+        if (info.lockMinHeight != 25) lockOn.put("MinHeight", info.lockMinHeight);
+        if (info.passiveRadarLockOutCount != 20) lockOn.put("PassiveRadarLockOutCount", info.passiveRadarLockOutCount);
+        if (info.numLockedChaffMax != 2) lockOn.put("LockedChaffMax", info.numLockedChaffMax);
+        if (!lockOn.isEmpty()) missile.put("LockOn", lockOn);
 
+        // Radar
+        Map<String, Object> radar = new LinkedHashMap<>();
+        if (info.isRadarMissile) radar.put("IsRadarMissile", true);
+        if (info.activeRadar) radar.put("ActiveRadar", true);
+        if (info.passiveRadar) radar.put("PassiveRadar", true);
+        if (!radar.isEmpty()) missile.put("Radar", radar);
+
+        // Heat
+        Map<String, Object> heat = new LinkedHashMap<>();
+        if (!info.isHeatSeekerMissile) heat.put("isHeatMissile", false);
+        if (info.heatCount != 0) heat.put("HeatCount", info.heatCount);
+        if (info.maxHeatCount != 0) heat.put("MaxHeatCount", info.maxHeatCount);
+        if (info.antiFlareCount != -1) heat.put("AntiFlareCount", info.antiFlareCount);
+        if (!heat.isEmpty()) missile.put("Heat", heat);
+
+        // Marker Rocket params under missile
+        Map<String, Object> marker = new LinkedHashMap<>();
+        if (info.markerRocketSpawnNum != 5) marker.put("Count", info.markerRocketSpawnNum);
+        if (info.markerRocketSpawnDiff != 15) marker.put("Spread", info.markerRocketSpawnDiff);
+        if (info.markerRocketSpawnHeight != 200) marker.put("SpawnHeight", info.markerRocketSpawnHeight);
+        if (info.markerRocketSpawnSpeed != 5) marker.put("Acceleration", info.markerRocketSpawnSpeed);
+        if (!marker.isEmpty()) missile.put("MarkerRocket", marker);
+
+        if (!missile.isEmpty()) root.put("Missile", missile);
+
+        // Ammo
+        Map<String, Object> ammo = new LinkedHashMap<>();
+        if (info.reloadTime != 30) ammo.put("ReloadTime", info.reloadTime);
+        if (info.round != 0) ammo.put("MagSize", info.round);
+        if (info.maxAmmo != 0) ammo.put("MaxAmmo", info.maxAmmo);
+        if (info.suppliedNum != 1) ammo.put("ResupplyCount", info.suppliedNum);
         if (info.roundItems != null && !info.roundItems.isEmpty()) {
             List<Map<String, Object>> rounds = new ArrayList<>();
             for (MCH_WeaponInfo.RoundItem ri : info.roundItems) {
@@ -367,20 +402,21 @@ public class YamlEmitter implements IEmitter {
                 rm.put("Meta", ri.damage);
                 rounds.add(rm);
             }
-            root.put("AmmoItems", rounds);
+            ammo.put("AmmoItems", rounds);
         }
-        if (info.lockTime != 30) root.put("LockTime", info.lockTime);
-        if (info.ridableOnly) root.put("RidableOnly", true);
-        if (info.proximityFuseDist != 0.0F) root.put("ProximityFuseDist", info.proximityFuseDist);
-        if (info.rigidityTime != 7) root.put("RigidityTime", info.rigidityTime);
-        if (info.accuracy != 0.0F) root.put("Accuracy", info.accuracy);
-        if (info.bomblet != 0) root.put("Bomblet", info.bomblet);
-        if (info.bombletSTime != 10) root.put("BombletSTime", info.bombletSTime);
-        if (info.bombletDiff != 0.3F) root.put("BombletDiff", info.bombletDiff);
+        if (!ammo.isEmpty()) root.put("Ammo", ammo);
+        if (info.delay != 0) root.put("FireCooldown", info.delay);
+
+        // Top-level toggles and misc
+        if (info.target != 0) root.put("Target", targetToString(info.target));
         if (info.modeNum != 0) root.put("Mode", info.modeNum);
         if (info.fixMode != 0) root.put("FixMode", info.fixMode);
-        if (info.heatCount != 0) root.put("HeatCount", info.heatCount);
-        if (info.maxHeatCount != 0) root.put("MaxHeatCount", info.maxHeatCount);
+        if (info.ridableOnly) root.put("RidableOnly", true);
+        if (info.accuracy != 0.0F) root.put("Accuracy", info.accuracy);
+        if (info.destruct) root.put("SelfDestruct", true);
+        if (info.enableChunkLoader) root.put("CanLoadChunks", true);
+        if (info.weaponSwitchCount != 0) root.put("SwitchCooldown", info.weaponSwitchCount);
+        if (info.crossType != 0) root.put("CrossType", info.crossType);
 
         // HBM compat
         Map<String, Object> ntm = new LinkedHashMap<>();
@@ -390,14 +426,6 @@ public class YamlEmitter implements IEmitter {
         if (info.effectOnly) ntm.put("EffectOnly", true);
         if (info.fluidTypeNTM != null) ntm.put("FluidType", info.fluidTypeNTM);
         if (!ntm.isEmpty()) root.put("NTM", ntm);
-
-        // Marker Rocket params
-        Map<String, Object> marker = new LinkedHashMap<>();
-        if (info.markerRocketSpawnNum != 5) marker.put("MarkerRocketSpawnNum", info.markerRocketSpawnNum);
-        if (info.markerRocketSpawnDiff != 15) marker.put("MarkerRocketSpawnDiff", info.markerRocketSpawnDiff);
-        if (info.markerRocketSpawnHeight != 200) marker.put("MarkerRocketSpawnHeight", info.markerRocketSpawnHeight);
-        if (info.markerRocketSpawnSpeed != 5) marker.put("MarkerRocketSpawnSpeed", info.markerRocketSpawnSpeed);
-        if (!marker.isEmpty()) root.put("MarkerRocket", marker);
 
         // Damage block
         Map<String, Object> dmg = new LinkedHashMap<>();
@@ -449,9 +477,32 @@ public class YamlEmitter implements IEmitter {
         }
         if (notBlank(info.bulletModelName)) render.put("BulletModel", info.bulletModelName);
         if (notBlank(info.bombletModelName)) render.put("BombletModel", info.bombletModelName);
+        if (notBlank(info.trajectoryParticleName)) render.put("TrajectoryParticle", info.trajectoryParticleName);
+        if (info.trajectoryParticleStartTick != 0) render.put("TrajectoryParticleStartTick", info.trajectoryParticleStartTick);
+        if (info.flakParticlesCrack != 10) render.put("FlakParticlesCrack", info.flakParticlesCrack);
+        if (info.numParticlesFlak != 3) render.put("ParticlesFlak", info.numParticlesFlak);
+        // Smoke sub-block
+        Map<String, Object> smoke = new LinkedHashMap<>();
+        if (info.disableSmoke) smoke.put("DisableSmoke", true);
+        if (info.smokeSize != 2.0F) smoke.put("SmokeSize", info.smokeSize);
+        if (info.smokeNum != 1) smoke.put("SmokeNum", info.smokeNum);
+        if (info.smokeMaxAge != 100) smoke.put("SmokeMaxAge", info.smokeMaxAge);
+        if (info.colorInWater != null) {
+            int r = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.r)) * 255.0);
+            int g = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.g)) * 255.0);
+            int b = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.b)) * 255.0);
+            int rgb = (r << 16) | (g << 8) | b;
+            smoke.put("BulletColorInWater", String.format("#%06X", rgb));
+        }
+        if (info.color != null) {
+            int r2 = (int) Math.round(Math.max(0, Math.min(1, info.color.r)) * 255.0);
+            int g2 = (int) Math.round(Math.max(0, Math.min(1, info.color.g)) * 255.0);
+            int b2 = (int) Math.round(Math.max(0, Math.min(1, info.color.b)) * 255.0);
+            int rgb2 = (r2 << 16) | (g2 << 8) | b2;
+            smoke.put("BulletColor", String.format("#%06X", rgb2));
+        }
+        if (!smoke.isEmpty()) render.put("Smoke", smoke);
         if (!render.isEmpty()) root.put("Render", render);
-
-        if (info.zoom != null && info.zoom.length > 0) root.put("Zoom", Floats.asList(info.zoom));
 
         return YAML.dump(root);
     }
@@ -479,10 +530,22 @@ public class YamlEmitter implements IEmitter {
         return YAML.dump(root);
     }
 
+    private static String targetToString(int flags) {
+        if ((flags & 64) != 0) return "Block";
+        List<String> parts = new ArrayList<>();
+        if ((flags & 32) != 0) parts.add("Planes");
+        if ((flags & 16) != 0) parts.add("Helicopters");
+        if ((flags & 8) != 0) parts.add("Vehicles");
+        if ((flags & 4) != 0) parts.add("Players");
+        if ((flags & 2) != 0) parts.add("Monsters");
+        if ((flags & 1) != 0) parts.add("Others");
+        return String.join(",", parts);
+    }
+
     private float convertRotorSpeed(float speed){
         float rounded = round3(speed);
-            if (rounded < 0.01F) rounded -= 0.01F;
-        if (rounded > -0.01F) rounded += 0.01F;
+            if (rounded > 0.01F) rounded -= 0.01F;
+        if (rounded < -0.01F) rounded += 0.01F;
         return rounded;
     }
 
@@ -1054,7 +1117,7 @@ public class YamlEmitter implements IEmitter {
                 if (!notBlank(weaponNameStr)) continue;
                 Map<String, Object> m = drawnPart(wb);
                 m.put("WeaponName", weaponNameStr);
-                m.put("MaxRotation", wb.maxRotFactor * 90.0F);
+                m.put("MaxRotation", wb.maxRotFactor);
                 if (wb.isSlide) m.put("IsSliding", true);
                 list.add(m);
             }
@@ -1198,6 +1261,17 @@ public class YamlEmitter implements IEmitter {
                 }
                 components.put("HeliRotor", list);
             }
+        }
+        // Repelling hooks
+        if (info.repellingHooks != null && !info.repellingHooks.isEmpty()) {
+            List<Map<String, Object>> list = new ArrayList<>();
+            for (MCH_AircraftInfo.RepellingHook hook : info.repellingHooks) {
+                Map<String, Object> m = new LinkedHashMap<>();
+                m.put("Position", vec(hook.pos));
+                if (hook.interval != 0) m.put("Interval", hook.interval);
+                list.add(m);
+            }
+            if (!list.isEmpty()) components.put("RepelHook", list);
         }
     }
 

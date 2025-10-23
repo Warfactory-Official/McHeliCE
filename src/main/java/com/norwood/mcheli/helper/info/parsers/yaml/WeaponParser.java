@@ -192,7 +192,7 @@ public class WeaponParser {
                 case "ExplosionAirburst" -> info.explosionAirburst = getClamped(50, entry.getValue());
                 case "Flaming" -> info.flaming = ((Boolean) entry.getValue());
                 case "FAE", "FuelAir" -> info.isFAE = (Boolean) entry.getValue();
-                case "CanDestroyBlocks" -> info.disableDestroyBlock = (Boolean) entry.getValue();
+                case "CanDestroyBlocks" -> info.disableDestroyBlock = !(Boolean) entry.getValue();
             }
         }
     }
@@ -294,7 +294,7 @@ public class WeaponParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "Name" -> name = ((String) entry.getValue()).toLowerCase();
-                case "Accel", "Acceleration" -> ((Number) accel).floatValue();
+                case "Accel", "Acceleration" -> accel = ((Number) entry.getValue()).floatValue();
                 case "Yaw" -> yaw = ((Number) entry.getValue()).floatValue();
                 case "Pitch" -> pitch = ((Number) entry.getValue()).floatValue();
                 case "Scale" -> scale = ((Number) entry.getValue()).floatValue();
@@ -449,7 +449,7 @@ public class WeaponParser {
     private void parseSound(MCH_WeaponInfo info, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-
+                case "Name" -> info.soundFileName = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();//for txt parser this field is "Sound"
                 case "Locations" -> parseSoundLoc(info, (Map<String, Object>) entry.getValue());
                 case "Delay" -> info.soundDelay = getClamped(0, 1000, entry.getValue());
                 case "Volume" -> info.soundVolume = getClamped(0.0F, 1000.0F, entry.getValue());
