@@ -61,23 +61,23 @@ public class YamlParser implements IParser {
         return (int) (Long.decode(t).longValue());
     }
 
-    public static float getClamped(float min, float max, Number value) {
-        return Math.max(min, Math.min(max, value.floatValue()));
+    public static float getClamped(float min, float max, Object value) {
+        return Math.max(min, Math.min(max, ((Number)value).floatValue()));
     }
 
-    public static int getClamped(int min, int max, Number value) {
-        return Math.max(min, Math.min(max, value.intValue()));
+    public static int getClamped(int min, int max, Object value) {
+        return Math.max(min, Math.min(max, ((Number)value).intValue()));
     }
 
     public static double getClamped(double min, double max, Number value) {
-        return Math.max(min, Math.min(max, value.doubleValue()));
+        return Math.max(min, Math.min(max, ((Number)value).doubleValue()));
     }
 
-    public static float getClamped(float max, Number value) {
+    public static float getClamped(float max, Object value) {
         return getClamped(0, max, value);
     }
 
-    public static int getClamped(int max, Number value) {
+    public static int getClamped(int max, Object value) {
         return getClamped(0, max, value);
     }
 
@@ -173,7 +173,7 @@ public class YamlParser implements IParser {
                         throw new IllegalArgumentException("Invalid Weight type: " + (String) entry.getValue() + ". Allowed values: " + Arrays.stream(TankWeight.values()).map(Enum::name).collect(Collectors.joining(", ")));
                     }
                 }
-                case "WeightedCenterZ", "CenterZ" -> getClamped(-1000F, 1000F, (Number) entry.getValue());
+                case "WeightedCenterZ", "CenterZ" -> getClamped(-1000F, 1000F,entry.getValue());
                 default -> logUnkownEntry(entry, "TankFeatures");
             }
 
@@ -239,7 +239,7 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "VariableSweepWing" -> info.isVariableSweepWing = (Boolean) entry.getValue();
-                case "SweepWingSpeed" -> info.sweepWingSpeed = getClamped(5.0F, (Number) entry.getValue());
+                case "SweepWingSpeed" -> info.sweepWingSpeed = getClamped(5.0F,entry.getValue());
                 case "EnableVtol" -> {
                     Object vtol = entry.getValue();
                     if (vtol instanceof Boolean)
@@ -248,8 +248,8 @@ public class YamlParser implements IParser {
                         for (Map.Entry<String, Object> vtolEntry : map.entrySet()) {
                             switch (vtolEntry.getKey()) {
                                 case "IsDefault" -> info.isDefaultVtol = (Boolean) entry.getValue();
-                                case "Yaw" -> info.vtolYaw = getClamped(1.0F, (Number) entry.getValue());
-                                case "Pitch" -> info.vtolPitch = getClamped(0.01F, 1.0F, (Number) entry.getValue());
+                                case "Yaw" -> info.vtolYaw = getClamped(1.0F,entry.getValue());
+                                case "Pitch" -> info.vtolPitch = getClamped(0.01F, 1.0F,entry.getValue());
                             }
                         }
                     }
@@ -310,7 +310,7 @@ public class YamlParser implements IParser {
                 }
                 case "CanRide" -> info.canRide = ((Boolean) entry.getValue()).booleanValue();
                 case "RotorSpeed" -> {
-                    info.rotorSpeed = getClamped(-10000.0F, 10000.0F, (Number) entry.getValue());
+                    info.rotorSpeed = getClamped(-10000.0F, 10000.0F,entry.getValue());
                     if (info.rotorSpeed > 0.01F) info.rotorSpeed -= 0.01F;
                     if (info.rotorSpeed < -0.01F) info.rotorSpeed += 0.01F; //Interesting
                 }
@@ -319,18 +319,18 @@ public class YamlParser implements IParser {
                 case "CreativeOnly" -> info.creativeOnly = ((Boolean) entry.getValue()).booleanValue();
                 case "Regeneration" -> info.regeneration = ((Boolean) entry.getValue()).booleanValue();
                 case "Invulnerable" -> info.invulnerable = ((Boolean) entry.getValue()).booleanValue();
-                case "MaxFuel" -> info.maxFuel = getClamped(100_000_000, (Number) entry.getValue());
-                case "MaxHP" -> info.maxHp = getClamped(1, 1000_000_000, (Number) entry.getValue());
-                case "Stealth" -> info.stealth = getClamped(1F, (Number) entry.getValue());
-                case "FuelConsumption" -> info.fuelConsumption = getClamped(10_000.0F, (Number) entry.getValue());
-                case "FuelSupplyRange" -> info.fuelSupplyRange = getClamped(1_000.0F, (Number) entry.getValue());
-                case "AmmoSupplyRange" -> info.ammoSupplyRange = getClamped(1000, (Number) entry.getValue());
+                case "MaxFuel" -> info.maxFuel = getClamped(100_000_000,entry.getValue());
+                case "MaxHP" -> info.maxHp = getClamped(1, 1000_000_000,entry.getValue());
+                case "Stealth" -> info.stealth = getClamped(1F,entry.getValue());
+                case "FuelConsumption" -> info.fuelConsumption = getClamped(10_000.0F,entry.getValue());
+                case "FuelSupplyRange" -> info.fuelSupplyRange = getClamped(1_000.0F,entry.getValue());
+                case "AmmoSupplyRange" -> info.ammoSupplyRange = getClamped(1000,entry.getValue());
                 case "RepairOtherVehicles" -> {
                     Map<String, Number> repairMap = (HashMap<String, Number>) entry.getValue();
                     if (repairMap.containsKey("range"))
-                        info.repairOtherVehiclesRange = getClamped(1_000.0F, repairMap.get("range"));
+                        info.repairOtherVehiclesRange = getClamped(1_000.0F, (Object) repairMap.get("range"));
                     if (repairMap.containsKey("value"))
-                        info.repairOtherVehiclesValue = getClamped(10_000_000, repairMap.get("value"));
+                        info.repairOtherVehiclesValue = getClamped(10_000_000, (Object) repairMap.get("value"));
                 }
 
                 //UNUSED in reforged too,
@@ -356,8 +356,8 @@ public class YamlParser implements IParser {
                 case "NameOnEarlyAARadar" -> info.nameOnEarlyAARadar = ((String) entry.getValue()).trim();
                 case "NameOnModernASRadar" -> info.nameOnModernASRadar = ((String) entry.getValue()).trim();
                 case "NameOnEarlyASRadar" -> info.nameOnEarlyASRadar = ((String) entry.getValue()).trim();
-                case "ExplosionSizeByCrash" -> info.explosionSizeByCrash = getClamped(100, (Number) entry.getValue());
-                case "ThrottleDownFactor" -> info.throttleDownFactor = getClamped(10F, (Number) entry.getValue());
+                case "ExplosionSizeByCrash" -> info.explosionSizeByCrash = getClamped(100,entry.getValue());
+                case "ThrottleDownFactor" -> info.throttleDownFactor = getClamped(10F, entry.getValue());
                 case "HUDType", "WeaponGroupType" -> {
                     //Unimplemented
                 }
@@ -471,9 +471,9 @@ public class YamlParser implements IParser {
                     List<Map<String, Object>> wheels = (List<Map<String, Object>>) entry.getValue();
                     info.wheels.addAll(wheels.stream().map(this::parseWheel).sorted((o1, o2) -> o1.pos.z > o2.pos.z ? -1 : 1).collect(Collectors.toList()));
                 }
-                case "WheelRotation" -> info.partWheelRot = getClamped(-10000.0F, 10000.0F, (Number) entry.getValue());
+                case "WheelRotation" -> info.partWheelRot = getClamped(-10000.0F, 10000.0F,entry.getValue());
                 case "TrackRotation" ->
-                        info.trackRollerRot = getClamped(-10000.0F, 10000.0F, (Number) entry.getValue());
+                        info.trackRollerRot = getClamped(-10000.0F, 10000.0F,entry.getValue());
 
                 default -> logUnkownEntry(entry, "Wheels");
             }
@@ -535,9 +535,9 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : soundSettings.entrySet()) {
             switch (entry.getKey()) {
                 case "MoveSound" -> info.soundMove = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
-                case "Volume", "Vol" -> info.soundVolume = getClamped(10F, (Number) entry.getValue());
-                case "Pitch" -> info.soundVolume = getClamped(1F, 10F, (Number) entry.getValue());
-                case "Range" -> info.soundRange = getClamped(1F, 1000.0F, (Number) entry.getValue());
+                case "Volume", "Vol" -> info.soundVolume = getClamped(10F,entry.getValue());
+                case "Pitch" -> info.soundVolume = getClamped(1F, 10F,entry.getValue());
+                case "Range" -> info.soundRange = getClamped(1F, 1000.0F,entry.getValue());
             }
 
         }
@@ -556,7 +556,7 @@ public class YamlParser implements IParser {
                 case "ModelHeight" -> info.entityHeight = ((Number) entry.getValue()).floatValue();
                 case "ModelPitch" -> info.entityPitch = ((Number) entry.getValue()).floatValue();
                 case "ModelRoll" -> info.entityRoll = ((Number) entry.getValue()).floatValue();
-                case "ParticleScale" -> info.particlesScale = getClamped(50f, (Number) entry.getValue());
+                case "ParticleScale" -> info.particlesScale = getClamped(50f,entry.getValue());
                 case "OneProbeScale" -> info.oneProbeScale = ((Number) entry.getValue()).floatValue();
                 case "EnableSeaSurfaceParticle" -> info.enableSeaSurfaceParticle = (Boolean) entry.getValue();
                 case "SplashParticles" -> {
@@ -571,27 +571,27 @@ public class YamlParser implements IParser {
 
     private void parsePhisProperties(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
         switch (entry.getKey()) {
-            case "Speed" -> info.speed = getClamped(info.getMaxSpeed(), (Number) entry.getValue());
+            case "Speed" -> info.speed = getClamped(info.getMaxSpeed(),entry.getValue());
             case "CanFloat" -> info.isFloat = (Boolean) entry.getValue();
             case "FloatOffset" -> info.floatOffset = -((Number) entry.getValue()).floatValue();
-            case "MotionFactor" -> info.motionFactor = getClamped(1F, (Number) entry.getValue());
-            case "Gravity" -> info.gravity = getClamped(-50F, 50F, (Number) entry.getValue());
-            case "RotationSnapValue" -> info.autoPilotRot = getClamped(-5F, 5F, (Number) entry.getValue());
-            case "GravityInWater" -> info.gravityInWater = getClamped(-50F, 50F, (Number) entry.getValue());
-            case "StepHeight" -> info.stepHeight = getClamped(0F, 1000F, (Number) entry.getValue());
+            case "MotionFactor" -> info.motionFactor = getClamped(1F,entry.getValue());
+            case "Gravity" -> info.gravity = getClamped(-50F, 50F,entry.getValue());
+            case "RotationSnapValue" -> info.autoPilotRot = getClamped(-5F, 5F,entry.getValue());
+            case "GravityInWater" -> info.gravityInWater = getClamped(-50F, 50F,entry.getValue());
+            case "StepHeight" -> info.stepHeight = getClamped(0F, 1000F,entry.getValue());
             case "CanRotOnGround" -> info.canRotOnGround = (Boolean) entry.getValue();
             case "CanMoveOnGround" -> info.canMoveOnGround = (Boolean) entry.getValue();
-            case "OnGroundPitch" -> info.onGroundPitch = getClamped(-90F, 90F, (Number) entry.getValue());
-            case "PivotTurnThrottle" -> info.pivotTurnThrottle = getClamped(1F, (Number) entry.getValue());
+            case "OnGroundPitch" -> info.onGroundPitch = getClamped(-90F, 90F,entry.getValue());
+            case "PivotTurnThrottle" -> info.pivotTurnThrottle = getClamped(1F,entry.getValue());
 
             case "Mobility" -> {
                 Map<String, Object> mob = (Map<String, Object>) entry.getValue();
                 for (Map.Entry<String, Object> mobEntry : mob.entrySet()) {
                     switch (mobEntry.getKey()) {
-                        case "Yaw" -> info.mobilityYaw = getClamped(100F, (Number) mobEntry.getValue());
-                        case "Pitch" -> info.mobilityPitch = getClamped(100F, (Number) mobEntry.getValue());
-                        case "Roll" -> info.mobilityRoll = getClamped(100F, (Number) mobEntry.getValue());
-                        case "YawOnGround" -> info.mobilityYawOnGround = getClamped(100F, (Number) mobEntry.getValue());
+                        case "Yaw" -> info.mobilityYaw = getClamped(100F, mobEntry.getValue());
+                        case "Pitch" -> info.mobilityPitch = getClamped(100F, mobEntry.getValue());
+                        case "Roll" -> info.mobilityRoll = getClamped(100F, mobEntry.getValue());
+                        case "YawOnGround" -> info.mobilityYawOnGround = getClamped(100F, mobEntry.getValue());
                         default -> logUnkownEntry(mobEntry, "Mobility");
                     }
                 }
@@ -601,8 +601,8 @@ public class YamlParser implements IParser {
                 Map<String, Object> factors = (Map<String, Object>) entry.getValue();
                 for (Map.Entry<String, Object> rotEntry : factors.entrySet()) {
                     switch (rotEntry.getKey()) {
-                        case "Pitch" -> info.onGroundPitchFactor = getClamped(0F, 180F, (Number) rotEntry.getValue());
-                        case "Roll" -> info.onGroundRollFactor = getClamped(0F, 180F, (Number) rotEntry.getValue());
+                        case "Pitch" -> info.onGroundPitchFactor = getClamped(0F, 180F,  rotEntry.getValue());
+                        case "Roll" -> info.onGroundRollFactor = getClamped(0F, 180F,  rotEntry.getValue());
                         default -> logUnkownEntry(rotEntry, "GroundPitchFactors");
                     }
                 }
@@ -611,8 +611,8 @@ public class YamlParser implements IParser {
                 Map<String, Object> factors = (Map<String, Object>) entry.getValue();
                 for (Map.Entry<String, Object> bodyEntry : factors.entrySet()) {
                     switch (bodyEntry.getKey()) {
-                        case "Height" -> info.bodyHeight = getClamped(0.1F, 1000F, (Number) bodyEntry.getValue());
-                        case "Width" -> info.bodyWidth = getClamped(0.1F, 1000F, (Number) bodyEntry.getValue());
+                        case "Height" -> info.bodyHeight = getClamped(0.1F, 1000F, bodyEntry.getValue());
+                        case "Width" -> info.bodyWidth = getClamped(0.1F, 1000F, bodyEntry.getValue());
                         default -> logUnkownEntry(bodyEntry, "GroundPitchFactors");
                     }
                 }
@@ -627,16 +627,16 @@ public class YamlParser implements IParser {
                         case "Pitch" -> {
                             Map<String, Object> pitchMap = (Map<String, Object>) rotEntry.getValue();
                             if (pitchMap.containsKey("Min"))
-                                info.minRotationPitch = getClamped(info.getMinRotationPitch(), 0F, (Number) pitchMap.get("Min"));
+                                info.minRotationPitch = getClamped(info.getMinRotationPitch(), 0F,  pitchMap.get("Min"));
                             if (pitchMap.containsKey("Max"))
-                                info.maxRotationPitch = getClamped(0F, info.getMaxRotationPitch(), (Number) pitchMap.get("Max"));
+                                info.maxRotationPitch = getClamped(0F, info.getMaxRotationPitch(),  pitchMap.get("Max"));
                         }
                         case "Roll" -> {
                             Map<String, Object> rollMap = (Map<String, Object>) rotEntry.getValue();
                             if (rollMap.containsKey("Min"))
-                                info.minRotationRoll = getClamped(info.getMinRotationRoll(), 0F, (Number) rollMap.get("Min"));
+                                info.minRotationRoll = getClamped(info.getMinRotationRoll(), 0F,  rollMap.get("Min"));
                             if (rollMap.containsKey("Max"))
-                                info.maxRotationRoll = getClamped(0F, info.getMaxRotationRoll(), (Number) rollMap.get("Max"));
+                                info.maxRotationRoll = getClamped(0F, info.getMaxRotationRoll(),  rollMap.get("Max"));
                         }
                         default -> logUnkownEntry(rotEntry, "RotationLimits");
                     }
@@ -649,11 +649,11 @@ public class YamlParser implements IParser {
 
     private void parseArmor(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
         switch (entry.getKey()) {
-            case "ArmorDamageFactor" -> info.armorDamageFactor = getClamped(10_000F, (Number) entry.getValue());
-            case "ArmorMinDamage" -> info.armorMinDamage = getClamped(1_000_000F, (Number) entry.getValue());
-            case "ArmorMaxDamage" -> info.armorMaxDamage = getClamped(1_000_000F, (Number) entry.getValue());
-            case "DamageFactor" -> info.damageFactor = getClamped(1F, (Number) entry.getValue());
-            case "SubmergedDamageHeight" -> info.submergedDamageHeight = getClamped(-1000F, 1000F, (Number) entry.getValue());
+            case "ArmorDamageFactor" -> info.armorDamageFactor = getClamped(10_000F,entry.getValue());
+            case "ArmorMinDamage" -> info.armorMinDamage = getClamped(1_000_000F,entry.getValue());
+            case "ArmorMaxDamage" -> info.armorMaxDamage = getClamped(1_000_000F,entry.getValue());
+            case "DamageFactor" -> info.damageFactor = getClamped(1F,entry.getValue());
+            case "SubmergedDamageHeight" -> info.submergedDamageHeight = getClamped(-1000F, 1000F,entry.getValue());
             default -> logUnkownEntry(entry, "Armor");
         }
     }
@@ -663,15 +663,15 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "GunnerMode" -> info.isEnableGunnerMode = ((Boolean) entry.getValue()).booleanValue();
-                case "InventorySize" -> info.inventorySize = getClamped(54, (Number) entry.getValue()); //FIXME: Capped due to inventory code being fucking ass
+                case "InventorySize" -> info.inventorySize = getClamped(54,entry.getValue()); //FIXME: Capped due to inventory code being fucking ass
                 case "NightVision" -> info.isEnableNightVision = ((Boolean) entry.getValue()).booleanValue();
                 case "EntityRadar" -> info.isEnableEntityRadar = ((Boolean) entry.getValue()).booleanValue();
                 case "CanReverse" -> info.enableBack = ((Boolean) entry.getValue()).booleanValue();
                 case "CanRotateOnGround", "CanRotOnGround" -> info.canRotOnGround = ((Boolean) entry.getValue()).booleanValue();
                 case "ConcurrentGunner" -> info.isEnableConcurrentGunnerMode = ((Boolean) entry.getValue()).booleanValue();
                 case "EjectionSeat" -> info.isEnableEjectionSeat = ((Boolean) entry.getValue()).booleanValue();
-                case "ThrottleUpDown" -> info.throttleUpDown = getClamped(3F, (Number) entry.getValue());
-                case "ThrottleUpDownEntity" -> info.throttleUpDownOnEntity = getClamped(100_000F, (Number) entry.getValue());
+                case "ThrottleUpDown" -> info.throttleUpDown = getClamped(3F,entry.getValue());
+                case "ThrottleUpDownEntity" -> info.throttleUpDownOnEntity = getClamped(100_000F,entry.getValue());
                 case "Parachuting" -> parseParachuting(entry, info);
                 case "Flare" -> info.flare = parseFlare((Map<String, Object>) entry.getValue());
                 default -> logUnkownEntry(entry, "AircraftFeatures");
@@ -747,10 +747,10 @@ public class YamlParser implements IParser {
     @SuppressWarnings("unboxing")
     private void parseGlobalCamera(MCH_AircraftInfo info, Map.Entry<String, Object> entry) {
         switch (entry.getKey()) {
-            case "ThirdPersonDist" -> info.thirdPersonDist = getClamped(4f, 100f, (Number) entry.getValue());
-            case "Zoom", "CameraZoom" -> info.cameraZoom = getClamped(1, 10, (Number) entry.getValue());
+            case "ThirdPersonDist" -> info.thirdPersonDist = getClamped(4f, 100f,entry.getValue());
+            case "Zoom", "CameraZoom" -> info.cameraZoom = getClamped(1, 10,entry.getValue());
             case "DefaultFreeLook" -> info.defaultFreelook = ((Boolean) entry.getValue()).booleanValue();
-            case "RotationSpeed" -> info.cameraRotationSpeed = getClamped(10000.0F, (Number) entry.getValue());
+            case "RotationSpeed" -> info.cameraRotationSpeed = getClamped(10000.0F,entry.getValue());
             case "Pos", "Positons" -> {
                 List<Map<String, Object>> cameraList = (List<Map<String, Object>>) entry.getValue();
                 info.cameraPosition.addAll(cameraList.stream().map(camera -> parseCameraPosition(camera, info)).collect(Collectors.toList()));
@@ -871,10 +871,10 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "Pos", "Position" -> pos = parseVector(entry.getValue());
-                case "Count" -> num = getClamped(1, 100, (Number) entry.getValue());
+                case "Count" -> num = getClamped(1, 100,entry.getValue());
                 case "Size" -> size = ((Number) entry.getValue()).floatValue();
                 case "Accel","Acceleration" -> acceleration = ((Number) entry.getValue()).floatValue();
-                case "Age" -> age = getClamped(1, 100_000, (Number) entry.getValue());
+                case "Age" -> age = getClamped(1, 100_000,entry.getValue());
                 case "Motion" -> motionY = ((Number) entry.getValue()).floatValue();
                 case "Gravity" -> gravity = ((Number) entry.getValue()).floatValue();
                 default -> logUnkownEntry(entry, "SplashParticles");

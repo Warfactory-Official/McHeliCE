@@ -64,18 +64,18 @@ public class ComponentParser {
                                         new HashSet<>(Arrays.asList("YawSync", "PitchSync")))).forEachOrdered(info.cameraList::add);
 
                 case "Canopy" ->
-                        componentList.stream().map(component -> parseDrawnPart(MCH_AircraftInfo.Canopy.class, component, drawnPart -> new MCH_AircraftInfo.Canopy(drawnPart, getClamped(-180F, 180F, (Number) component.getOrDefault("MaxRotation", 90F)), (Boolean) component.getOrDefault("IsSliding", false)), info.canopyList, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding")))).forEachOrdered(info.canopyList::add);
+                        componentList.stream().map(component -> parseDrawnPart(MCH_AircraftInfo.Canopy.class, component, drawnPart -> new MCH_AircraftInfo.Canopy(drawnPart, getClamped(-180F, 180F,  component.getOrDefault("MaxRotation", 90F)), (Boolean) component.getOrDefault("IsSliding", false)), info.canopyList, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding")))).forEachOrdered(info.canopyList::add);
 
                 case "Hatch" ->
-                        componentList.stream().map(component -> parseDrawnPart(MCH_AircraftInfo.Hatch.class, component, drawnPart -> new MCH_AircraftInfo.Hatch(drawnPart, getClamped(-180F, 180F, (Number) component.getOrDefault("MaxRotation", 90F)), (Boolean) component.getOrDefault("IsSliding", false)), info.hatchList, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding")))).forEachOrdered(info.hatchList::add);
+                        componentList.stream().map(component -> parseDrawnPart(MCH_AircraftInfo.Hatch.class, component, drawnPart -> new MCH_AircraftInfo.Hatch(drawnPart, getClamped(-180F, 180F,  component.getOrDefault("MaxRotation", 90F)), (Boolean) component.getOrDefault("IsSliding", false)), info.hatchList, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding")))).forEachOrdered(info.hatchList::add);
 
                 case "LightHatch" ->
-                        componentList.stream().map(component -> parseDrawnPart("light_hatch", component, drawnPart -> new MCH_AircraftInfo.Hatch(drawnPart, getClamped(-180F, 180F, (Number) component.getOrDefault("MaxRotation", 90F)), (Boolean) component.getOrDefault("IsSliding", false)), info.hatchList, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding")))).forEachOrdered(info.lightHatchList::add);
+                        componentList.stream().map(component -> parseDrawnPart("light_hatch", component, drawnPart -> new MCH_AircraftInfo.Hatch(drawnPart, getClamped(-180F, 180F,  component.getOrDefault("MaxRotation", 90F)), (Boolean) component.getOrDefault("IsSliding", false)), info.hatchList, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding")))).forEachOrdered(info.lightHatchList::add);
 
                 case "WeaponBay" -> componentList.stream().map(component -> {
                     String weaponName = ((String) component.get("WeaponName")).trim();
                     if (weaponName == null) throw new IllegalArgumentException("WeaponName is required!");
-                    return parseDrawnPart("wb", component, drawnPart -> new MCH_AircraftInfo.WeaponBay(drawnPart, getClamped(-180F, 180F, (Number) component.getOrDefault("MaxRotation", 90F)), (Boolean) component.getOrDefault("IsSliding", false), weaponName), info.partWeaponBay, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding", "WeaponName")));
+                    return parseDrawnPart("wb", component, drawnPart -> new MCH_AircraftInfo.WeaponBay(drawnPart, getClamped(-180F, 180F,  component.getOrDefault("MaxRotation", 90F)), (Boolean) component.getOrDefault("IsSliding", false), weaponName), info.partWeaponBay, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding", "WeaponName")));
                 }).forEachOrdered(info.partWeaponBay::add);
 
 
@@ -101,7 +101,7 @@ public class ComponentParser {
                         switch (wheelEntry.getKey()) {
                             case "Position" -> pos = parseVector(wheelEntry.getValue());
                             case "Rotation" -> rot = parseVector(wheelEntry.getValue());
-                            case "Direction" -> dir = getClamped(-1800.0F, 1800.0F, (Number) wheelEntry.getValue());
+                            case "Direction" -> dir = getClamped(-1800.0F, 1800.0F,  wheelEntry.getValue());
                             case "Pivot" -> pivot = parseVector(wheelEntry.getValue());
                             case "PartName" -> name = ((String) wheelEntry.getValue()).toLowerCase(Locale.ROOT).trim();
                             default -> logUnkownEntry(wheelEntry, "PartWheel");
@@ -113,7 +113,7 @@ public class ComponentParser {
 
                 case "LandingGear" ->
                         componentList.stream().map(component -> parseDrawnPart("lg", component, drawnPart -> {
-                            float maxRot = getClamped(-180F, 180F, (Number) component.getOrDefault("MaxRotation", 90F)) / 90F;
+                            float maxRot = getClamped(-180F, 180F,  component.getOrDefault("MaxRotation", 90F)) / 90F;
                             boolean reverse = (Boolean) component.getOrDefault("IsReverse", false);
                             boolean hatch = (Boolean) component.getOrDefault("IsHatch", false);
                             MCH_AircraftInfo.LandingGear gear = new MCH_AircraftInfo.LandingGear(drawnPart, maxRot, reverse, hatch);
@@ -121,7 +121,7 @@ public class ComponentParser {
                             if (component.containsKey("ArticulatedRotation")) {
                                 gear.enableRot2 = true;
                                 gear.rot2 = parseVector(component.get("ArticulatedRotation"));
-                                gear.maxRotFactor2 = getClamped(-180F, 180F, (Number) component.getOrDefault("MaxArticulatedRotation", 90F)) / 90F;
+                                gear.maxRotFactor2 = getClamped(-180F, 180F,  component.getOrDefault("MaxArticulatedRotation", 90F)) / 90F;
                             }
 
                             if (component.containsKey("SlideVec")) {
@@ -356,7 +356,7 @@ public class ComponentParser {
                 case "PlaneRotor" ->
                         componentList.stream().map(component -> parseDrawnPart("rotor", component, drawnPart -> {
 
-                            float rotFactor = component.containsKey("RotFactor") ? getClamped(-180F, 180F, ((Number) component.get("RotFactor")).floatValue()) / 90F : 1F;
+                            float rotFactor = component.containsKey("RotFactor") ? getClamped(-180F, 180F,  component.get("RotFactor")) / 90F : 1F;
 
                             var rotor = new MCH_PlaneInfo.Rotor(drawnPart, rotFactor);
 
@@ -391,7 +391,7 @@ public class ComponentParser {
                                 switch (entryWing.getKey()) {
 
                                     case "MaxRotation", "MaxRot" ->
-                                            maxRot = getClamped(-180F, 180F, (Number) entryWing.getValue());
+                                            maxRot = getClamped(-180F, 180F,  entryWing.getValue());
                                     case "Pylons" -> {
                                         var pylonList = (List<Map<String, Object>>) entryWing.getValue();
                                         pylonList.stream().map(pylonMap -> parseDrawnPart("wing" + info.wingList.size() + "_pylon", pylonMap, drawnPylon -> new MCH_PlaneInfo.Pylon(drawnPylon, (Float) MCH_Utils.getAny(pylonMap, Arrays.asList("MaxRot", "MaxRotation"), 0F)), pylons, new HashSet<>(Arrays.asList("MaxRotation", "MaxRot")))).forEach(pylons::add);
