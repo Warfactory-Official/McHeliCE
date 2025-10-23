@@ -124,7 +124,7 @@ public class WeaponParser {
                 case "MarkerRocket" -> parseMarkerRocket(info, (Map<String, Object>) entry.getValue());
                 case "LaserGuidance" -> info.laserGuidance = (Boolean) entry.getValue();
                 case "HasLaserGuidancePod" -> info.hasLaserGuidancePod = (Boolean) entry.getValue();
-                case "isOffAxis" -> info.enableOffAxis = (Boolean) entry.getValue();
+                case "IsOffAxis" -> info.enableOffAxis = (Boolean) entry.getValue();
                 case "GuidedTorpedo" -> info.isGuidedTorpedo = (Boolean) entry.getValue();
                 case "PredictTargetPos" -> info.predictTargetPos = (Boolean) entry.getValue();
                 case "EnableBVR" -> info.enableBVR = (Boolean) entry.getValue();
