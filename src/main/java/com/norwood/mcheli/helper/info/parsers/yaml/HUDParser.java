@@ -5,9 +5,11 @@ import net.minecraft.util.Tuple;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEntry;
 import static com.norwood.mcheli.hud.MCH_HudItem.toFormula;
 
 //Dude this is so fucking stupid, we should just move to groovy but muh 1.7 compat... ugh
@@ -48,9 +50,13 @@ public class HUDParser {
 
     public void parse(MCH_Hud info, LinkedHashMap<String, Object> root) {
         for (Map.Entry<String, Object> entry : root.entrySet()) {
-            switch (entry.getKey()) {
-                case "Conditional" -> parseConditional(info, (LinkedHashMap<String, Object>) entry.getValue());
-                default -> info.list.add(parseHUDCommands(entry));
+            if (entry.getKey().equals("Conditional")) {
+                parseConditional(info, (LinkedHashMap<String, Object>) entry.getValue());
+            } else {
+                var element  = parseHUDCommands(entry);
+                if(element == null)
+                    logUnkownEntry(entry, "Hud");
+                else info.list.add(element);
             }
         }
 
@@ -79,12 +85,115 @@ public class HUDParser {
                 return parseRact((Map<String, Object>) entry.getValue());
             }
 
+            case "DrawLine" -> {
+                return parseLine((Map<String, Object>) entry.getValue());
+            }
+
+            case "Call" -> {
+                return new MCH_HudItemCall(0, (String) entry.getValue());
+            }
+            case "DrawRadar" -> {
+                return parseRadar((Map<String,Object>) entry.getValue());
+            }
+
+            case "DrawGraduation" -> {
+                return parseGraduation((Map<String,Object>) entry.getValue());
+            }
+
             default -> {
                 return null;
             }
         }
 
     }
+
+    private MCH_HudItem parseGraduation(Map<String, Object> value) {
+        GraduationType type = null;
+        String xCoord = null;
+        String yCoord = null;
+        String rot = "0";
+        String roll = "0";
+
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Type" -> type = GraduationType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim());
+                case "Pos", "Position" -> {
+                    Tuple<String, String> pos = setTuple(List.of("x", "y"), entry.getValue());
+                    xCoord = MCH_HudItem.toFormula(pos.getFirst());
+                    yCoord = MCH_HudItem.toFormula(pos.getSecond());
+                }
+                case "Rotation", "Rot" -> rot = (String) entry.getValue();
+                case "Roll"  -> roll = (String) entry.getValue();
+                default -> logUnkownEntry(entry, "VehicleFeatures");
+            }
+        }
+
+        if (xCoord == null || yCoord == null)
+            throw new IllegalArgumentException("Texture, Pos fields are required for drawTexture element.");
+        return new MCH_HudItemGraduation(0, type == null? -1:type.ordinal(), rot,roll,xCoord,yCoord);
+    }
+
+    public static enum GraduationType{
+        YAW,PITCH,PITCH_ROLL,PITCH_ROLL_ALT;
+    }
+
+    private MCH_HudItemRadar parseRadar(Map<String, Object> value) {
+        boolean isEntityRadar = false;
+        String xCoord = null;
+        String yCoord = null;
+        String width = null;
+        String height = null;
+        String rot = "0";
+
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "EntityRadar" -> isEntityRadar = (Boolean) entry.getValue();
+                case "Pos", "Position" -> {
+                    Tuple<String, String> pos = setTuple(List.of("x", "y"), entry.getValue());
+                    xCoord = MCH_HudItem.toFormula(pos.getFirst());
+                    yCoord = MCH_HudItem.toFormula(pos.getSecond());
+                }
+                case "Size" -> {
+                    Tuple<String, String> size = setTuple(List.of("width", "height"), entry.getValue());
+                    width = MCH_HudItem.toFormula(size.getFirst());
+                    height = MCH_HudItem.toFormula(size.getSecond());
+                }
+                case "Rotation", "Rot" -> rot = toFormula((String) entry.getValue());
+                default -> logUnkownEntry(entry, "VehicleFeatures");
+            }
+        }
+
+        if (xCoord == null || yCoord == null)
+            throw new IllegalArgumentException("Texture, Pos fields are required for drawTexture element.");
+
+        return new MCH_HudItemRadar(0, isEntityRadar, rot, xCoord, yCoord, width, height);
+    }
+
+    private MCH_HudItem parseLine(Map<String, Object> value) {
+        String xCoord = null;
+        String yCoord = null;
+        boolean isStriped = false;
+
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Striped" -> isStriped = (Boolean) entry.getValue();
+                case "Pos", "Position" -> {
+                    Tuple<String, String> pos = setTuple(List.of("x", "y"), entry.getValue());
+                    xCoord = MCH_HudItem.toFormula(pos.getFirst());
+                    yCoord = MCH_HudItem.toFormula(pos.getSecond());
+                }
+                default -> logUnkownEntry(entry, "VehicleFeatures");
+            }
+        }
+
+        if (xCoord == null || yCoord == null)
+            throw new IllegalArgumentException("Pos fields are required for Line element.");
+        String[] coordsArr = new String[]{xCoord,yCoord};
+       if(isStriped) return new MCH_HudItemLineStipple(0, coordsArr);
+       else return new MCH_HudItemLine(0, coordsArr);
+    }
+
+
 
     private MCH_HudItem parseCameraRot(Map<String, Object> value) {
         String xCoord = null;
@@ -97,6 +206,7 @@ public class HUDParser {
                     xCoord = MCH_HudItem.toFormula(pos.getFirst());
                     yCoord = MCH_HudItem.toFormula(pos.getSecond());
                 }
+                default -> logUnkownEntry(entry, "VehicleFeatures");
             }
         }
 
@@ -124,6 +234,7 @@ public class HUDParser {
                     width = MCH_HudItem.toFormula(size.getFirst());
                     height = MCH_HudItem.toFormula(size.getSecond());
                 }
+                default -> logUnkownEntry(entry, "VehicleFeatures");
             }
         }
 
@@ -150,6 +261,7 @@ public class HUDParser {
                     xCoord = pos.getFirst();
                     yCoord = pos.getSecond();
                 }
+                default -> logUnkownEntry(entry, "VehicleFeatures");
 
             }
         }
@@ -197,6 +309,7 @@ public class HUDParser {
                     vHeight = MCH_HudItem.toFormula(uvSize.getSecond());
                 }
                 case "Rotation", "Rot" -> rot = toFormula((String) entry.getValue());
+                default -> logUnkownEntry(entry, "VehicleFeatures");
             }
         }
 
