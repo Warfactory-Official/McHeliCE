@@ -97,6 +97,12 @@ public class MCH_ShipInfo extends MCH_AircraftInfo {
             this.numBlade = num;
             this.rotBlade = r;
         }
+
+        public Blade(DrawnPart other, int numBlade, int rotBlade) {
+            super(other);
+            this.numBlade = numBlade;
+            this.rotBlade = rotBlade;
+        }
     }
 
     public static class Pylon extends MCH_AircraftInfo.DrawnPart {
@@ -106,6 +112,12 @@ public class MCH_ShipInfo extends MCH_AircraftInfo {
         public Pylon(MCH_ShipInfo paramMCH_ShipInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name) {
             super(paramMCH_ShipInfo, px, py, pz, rx, ry, rz, name);
             this.maxRot = mr;
+            this.maxRotFactor = this.maxRot / 90.0F;
+        }
+
+        public Pylon(DrawnPart other, float maxRot) {
+            super(other);
+            this.maxRot = maxRot;
             this.maxRotFactor = this.maxRot / 90.0F;
         }
     }
@@ -118,6 +130,11 @@ public class MCH_ShipInfo extends MCH_AircraftInfo {
             super(paramMCH_ShipInfo, x, y, z, rx, ry, rz, model);
             this.maxRotFactor = mrf;
         }
+
+        public Rotor(DrawnPart other, float maxRotFactor) {
+            super(other);
+            this.maxRotFactor = maxRotFactor;
+        }
     }
 
     public static class Wing extends MCH_AircraftInfo.DrawnPart {
@@ -128,6 +145,13 @@ public class MCH_ShipInfo extends MCH_AircraftInfo {
         public Wing(MCH_ShipInfo paramMCH_ShipInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name) {
             super(paramMCH_ShipInfo, px, py, pz, rx, ry, rz, name);
             this.maxRot = mr;
+            this.maxRotFactor = this.maxRot / 90.0F;
+            this.pylonList = null;
+        }
+
+        public Wing(DrawnPart other, float maxRot) {
+            super(other);
+            this.maxRot = maxRot;
             this.maxRotFactor = this.maxRot / 90.0F;
             this.pylonList = null;
         }

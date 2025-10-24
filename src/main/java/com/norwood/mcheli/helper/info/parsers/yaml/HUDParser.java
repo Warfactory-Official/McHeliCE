@@ -2,8 +2,6 @@ package com.norwood.mcheli.helper.info.parsers.yaml;
 
 import com.norwood.mcheli.hud.*;
 import net.minecraft.util.Tuple;
-import net.minecraftforge.common.util.JsonUtils;
-import org.codehaus.plexus.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,8 +50,8 @@ public class HUDParser {
             if (entry.getKey().equals("Conditional")) {
                 parseConditional(info, (LinkedHashMap<String, Object>) entry.getValue());
             } else {
-                var element  = parseHUDCommands(entry);
-                if(element == null)
+                var element = parseHUDCommands(entry);
+                if (element == null)
                     logUnkownEntry(entry, "Hud");
                 else info.list.add(element);
             }
@@ -92,11 +90,11 @@ public class HUDParser {
                 return new MCH_HudItemCall(0, (String) entry.getValue());
             }
             case "DrawRadar" -> {
-                return parseRadar((Map<String,Object>) entry.getValue());
+                return parseRadar((Map<String, Object>) entry.getValue());
             }
 
             case "DrawGraduation" -> {
-                return parseGraduation((Map<String,Object>) entry.getValue());
+                return parseGraduation((Map<String, Object>) entry.getValue());
             }
 
             default -> {
@@ -115,25 +113,22 @@ public class HUDParser {
 
         for (Map.Entry<String, Object> entry : value.entrySet()) {
             switch (entry.getKey()) {
-                case "Type" -> type = GraduationType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim());
+                case "Type" ->
+                        type = GraduationType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim());
                 case "Pos", "Position" -> {
                     Tuple<String, String> pos = setTuple(Arrays.asList("x", "y"), entry.getValue());
                     xCoord = MCH_HudItem.toFormula(pos.getFirst());
                     yCoord = MCH_HudItem.toFormula(pos.getSecond());
                 }
                 case "Rotation", "Rot" -> rot = (String) entry.getValue();
-                case "Roll"  -> roll = (String) entry.getValue();
+                case "Roll" -> roll = (String) entry.getValue();
                 default -> logUnkownEntry(entry, "VehicleFeatures");
             }
         }
 
         if (xCoord == null || yCoord == null)
             throw new IllegalArgumentException("Texture, Pos fields are required for drawTexture element.");
-        return new MCH_HudItemGraduation(0, type == null? -1:type.ordinal(), rot,roll,xCoord,yCoord);
-    }
-
-    public static enum GraduationType{
-        YAW,PITCH,PITCH_ROLL,PITCH_ROLL_ALT;
+        return new MCH_HudItemGraduation(0, type == null ? -1 : type.ordinal(), rot, roll, xCoord, yCoord);
     }
 
     private MCH_HudItemRadar parseRadar(Map<String, Object> value) {
@@ -187,12 +182,10 @@ public class HUDParser {
 
         if (xCoord == null || yCoord == null)
             throw new IllegalArgumentException("Pos fields are required for Line element.");
-        String[] coordsArr = new String[]{xCoord,yCoord};
-       if(isStriped) return new MCH_HudItemLineStipple(0, coordsArr);
-       else return new MCH_HudItemLine(0, coordsArr);
+        String[] coordsArr = new String[]{xCoord, yCoord};
+        if (isStriped) return new MCH_HudItemLineStipple(0, coordsArr);
+        else return new MCH_HudItemLine(0, coordsArr);
     }
-
-
 
     private MCH_HudItem parseCameraRot(Map<String, Object> value) {
         String xCoord = null;
@@ -331,5 +324,9 @@ public class HUDParser {
         info.list.add(conditional);
         info.list.addAll(parsedDo);
         info.list.add(new MCH_HudItemConditional(0, true, null));
+    }
+
+    public static enum GraduationType {
+        YAW, PITCH, PITCH_ROLL, PITCH_ROLL_ALT;
     }
 }

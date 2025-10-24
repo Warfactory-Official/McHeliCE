@@ -154,7 +154,19 @@ public class YamlParser implements IParser {
 
     @Override
     public @Nullable MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        return null;
+        Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
+        var info = new MCH_ShipInfo(location, filepath);
+        mapToAircraft(info, root);
+        for (Map.Entry<String, Object> entry : root.entrySet()) {
+            switch (entry.getKey()) {
+                case "ShipFeatures" -> parseShipFeatures((Map<String, Object>) entry.getValue(), info);
+                case "Components" -> {
+                    var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
+                    COMPONENT_PARSER.parseComponentsShip(components, info);
+                }
+            }
+        }
+        return info;
     }
 
     @Override
@@ -268,6 +280,33 @@ public class YamlParser implements IParser {
                 }
                 case "EnableAutoPilot" -> info.isEnableAutoPilot = (Boolean) entry.getValue();
                 default -> logUnkownEntry(entry, "PlaneFeatures");
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void parseShipFeatures(Map<String, Object> map, MCH_ShipInfo info) {
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "VariableSweepWing" -> info.isVariableSweepWing = (Boolean) entry.getValue();
+                case "SweepWingSpeed" -> info.sweepWingSpeed = getClamped(5.0F, entry.getValue());
+                case "EnableVtol" -> {
+                    Object vtol = entry.getValue();
+                    if (vtol instanceof Boolean)
+                        info.isEnableVtol = (Boolean) entry.getValue();
+                    else if (vtol instanceof Map<?, ?>) {
+                        for (Map.Entry<String, Object> vtolEntry : map.entrySet()) {
+                            switch (vtolEntry.getKey()) {
+                                case "IsDefault" -> info.isDefaultVtol = (Boolean) entry.getValue();
+                                case "Yaw" -> info.vtolYaw = getClamped(1.0F, entry.getValue());
+                                case "Pitch" -> info.vtolPitch = getClamped(0.01F, 1.0F, entry.getValue());
+                            }
+                        }
+                    }
+
+                }
+                case "EnableAutoPilot" -> info.isEnableAutoPilot = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "ShipFeatures");
             }
         }
     }

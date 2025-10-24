@@ -4,6 +4,7 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import net.minecraft.util.math.Vec3d;
 
@@ -346,6 +347,77 @@ public class ComponentParser {
         return new MCH_AircraftInfo.SearchLight(pos, colorStart, colorEnd, height, width, fixedDirection, yaw, pitch, steering, stRot);
 
 
+    }
+
+    //Yeah yeah its code duplication... Whatever. Ragex made it and now I need to deal with it
+    //TODO: Turn it into something thats worthy of being more than a plane rename
+    public void parseComponentsShip(Map<String, List<Map<String, Object>>> components, MCH_ShipInfo info) {
+        for (Map.Entry<String, List<Map<String, Object>>> entry : components.entrySet()) {
+            String type = entry.getKey();
+            var componentList = entry.getValue();
+            switch (type) {
+                case "ShipRotor" ->
+                        componentList.stream().map(component -> parseDrawnPart("rotor", component, drawnPart -> {
+
+                            float rotFactor = component.containsKey("RotFactor") ? getClamped(-180F, 180F,  component.get("RotFactor")) / 90F : 1F;
+
+                            var rotor = new MCH_ShipInfo.Rotor(drawnPart, rotFactor);
+
+                            if (component.containsKey("Blades")) {
+                                var rawBladeList = (List<Map<String, Object>>) component.get("Blades");
+
+                                rawBladeList.stream().map(partBlade -> parseDrawnPart("blade", partBlade, drawnPartBlade -> {
+                                    int bladeNum = 1;
+                                    Integer bladeRot = null;
+
+                                    for (Map.Entry<String, Object> partBladeEntry : partBlade.entrySet()) {
+                                        switch (partBladeEntry.getKey()) {
+                                            case "BladeNum" ->
+                                                    bladeNum = ((Number) partBladeEntry.getValue()).intValue();
+                                            case "BladeRot" ->
+                                                    bladeRot = ((Number) partBladeEntry.getValue()).intValue();
+                                        }
+                                    }
+                                    if (bladeRot != null)
+                                        return new MCH_ShipInfo.Blade(drawnPartBlade, bladeNum, bladeRot);
+                                    return null;
+                                }, rotor.blades, new HashSet<>(Arrays.asList("BladeNum", "BladeRot")))).forEach(rotor.blades::add);
+                            }
+
+                            return rotor;
+                        }, info.rotorList, new HashSet<>())).forEachOrdered(info.rotorList::add);
+                case "Wing" -> componentList.stream().map(component -> parseDrawnPart("wing", component, drawnPart -> {
+                            float maxRot = 0;
+                            List<MCH_ShipInfo.Pylon> pylons = new ArrayList<>();
+
+                            for (Map.Entry<String, Object> entryWing : component.entrySet()) {
+                                switch (entryWing.getKey()) {
+
+                                    case "MaxRotation", "MaxRot" ->
+                                            maxRot = getClamped(-180F, 180F,  entryWing.getValue());
+                                    case "Pylons" -> {
+                                        var pylonList = (List<Map<String, Object>>) entryWing.getValue();
+                                        pylonList.stream().map(pylonMap ->
+                                                parseDrawnPart("wing" + info.wingList.size() + "_pylon", pylonMap, drawnPylon ->
+                                                        new MCH_ShipInfo.Pylon(drawnPylon, (Float) MCH_Utils.getAny(pylonMap, Arrays.asList("MaxRot", "MaxRotation"), 0F)),
+                                                        pylons, new HashSet<>(Arrays.asList("MaxRotation", "MaxRot")))).forEach(pylons::add);
+                                    }
+                                }
+                            }
+                            var wing = new MCH_ShipInfo.Wing(drawnPart, maxRot);
+                            if (!pylons.isEmpty()) wing.pylonList = pylons;
+                            return wing;
+
+                        }, info.wingList, new HashSet<>(Arrays.asList("MaxRotation", "MaxRot")))
+
+
+                ).forEach(info.wingList::add);
+                case "Nozzle" ->
+                        componentList.stream().map(component -> parseDrawnPart("nozzle", component, drawnPart -> drawnPart, info.nozzles, new HashSet<>())).forEach(info.nozzles::add);
+
+            }
+
+        }
     }
 
     public void parseComponentsPlane(Map<String, List<Map<String, Object>>> components, MCH_PlaneInfo info) {
