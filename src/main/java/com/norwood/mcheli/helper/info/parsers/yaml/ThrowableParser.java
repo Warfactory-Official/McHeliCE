@@ -1,19 +1,15 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
 import com.norwood.mcheli.MCH_Color;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.aircraft.MCH_BoundingBox;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
-import net.minecraft.util.math.AxisAlignedBB;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 
+@SuppressWarnings("unchecked")
 public class ThrowableParser {
 
     public void parse(MCH_ThrowableInfo info, Map<String,Object> root){
@@ -92,7 +88,7 @@ public class ThrowableParser {
                 case "Accuracy" ->
                         info.accuracy = getClamped(1000.0F, entry.getValue());
 
-                case "Alivetime" ->
+                case "AliveTime" ->
                         info.aliveTime = getClamped(0, 1_000_000, entry.getValue());
 
                 case "Bomblet" ->
@@ -101,17 +97,6 @@ public class ThrowableParser {
                 case "BombletSpread" ->
                         info.bombletDiff = getClamped(1000.0F, entry.getValue());
 
-                case "SmokeSize" ->
-                        info.smokeSize = getClamped(1000.0F, entry.getValue());
-
-                case "SmokeCount" ->
-                        info.smokeNum = getClamped(0, 1000, entry.getValue());
-
-                case "SmokeVelocityVertical" ->
-                        info.smokeVelocityVertical = getClamped(-100.0F, 100.0F, entry.getValue());
-
-                case "SmokeVelocityHorizontal" ->
-                        info.smokeVelocityHorizontal = getClamped(1000.0F, entry.getValue());
 
                 case "Gravity" ->
                         info.gravity = getClamped(-50.0F, 50.0F, entry.getValue());
@@ -119,15 +104,9 @@ public class ThrowableParser {
                 case "GravityInWater" ->
                         info.gravityInWater = getClamped(-50.0F, 50.0F, entry.getValue());
 
-                case "Particle" -> {
-                }
+                case "Particle" -> info.particleName = ((String) entry.getValue()).trim().toLowerCase();
 
-                case "DisableSmoke" ->
-                        info.disableSmoke = (Boolean) entry.getValue();
-
-                case "SmokeColor" -> { info.smokeColor = new MCH_Color(parseHexColor(((String)entry.getValue()).trim()));
-                }
-
+                case "Smoke" -> parseSmoke(info, (Map<String,Object>) entry.getValue());
                 default -> logUnkownEntry(entry, "ThrowableInfo");
             }
         }
@@ -136,12 +115,48 @@ public class ThrowableParser {
 
     }
 
+    private void parseSmoke( MCH_ThrowableInfo info, Map<String, Object> soundSettings) {
+
+        for (Map.Entry<String, Object> entry : soundSettings.entrySet()) {
+            switch (entry.getKey()) {
+                case "DisableSmoke" ->
+                        info.disableSmoke = (Boolean) entry.getValue();
+                case "Size" ->
+                        info.smokeSize = getClamped(1000.0F, entry.getValue());
+
+                case "Count" ->
+                        info.smokeNum = getClamped(0, 1000, entry.getValue());
+
+                case "Color" -> { info.smokeColor = new MCH_Color(parseHexColor(((String)entry.getValue()).trim()));
+                }
+                case "Velocity" -> {
+                    var velMap = (Map<String,Object>) entry.getValue();
+
+                    for (Map.Entry<String, Object> velEntry : velMap.entrySet()) {
+                        switch (entry.getKey()) {
+                            case "Vertical", "Y" ->
+                                    info.smokeVelocityVertical = getClamped(-100.0F, 100.0F, velEntry.getValue());
+                            case "Horizontal", "X" ->
+                                    info.smokeVelocityHorizontal = getClamped(1000.0F, velEntry.getValue());
+                        }
+
+                    }
+                }
+
+
+                default -> logUnkownEntry(entry, "Smoke");
+            }
+
+        }
+    }
+
     private void parseSound(Map<String, Object> soundSettings, MCH_ThrowableInfo info) {
 
         for (Map.Entry<String, Object> entry : soundSettings.entrySet()) {
             switch (entry.getKey()) {
                 case "Volume", "Vol" -> info.soundVolume = getClamped(10F, entry.getValue());
                 case "Pitch" -> info.soundPitch = getClamped(1F, 10F, entry.getValue());
+                default -> logUnkownEntry(entry, "Sound");
             }
 
         }
