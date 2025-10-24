@@ -23,6 +23,7 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.apache.logging.log4j.core.impl.ThrowableProxy;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.Yaml;
 
@@ -41,6 +42,7 @@ public class YamlParser implements IParser {
     public static final ComponentParser COMPONENT_PARSER = new ComponentParser();
     public static final WeaponParser WEAPON_PARSER = new WeaponParser();
     public static final HUDParser HUD_PARSER = new HUDParser();
+    public static final ThrowableParser THROWABLE_PARSER = new ThrowableParser();
 
 
     private YamlParser() {
@@ -223,7 +225,10 @@ public class YamlParser implements IParser {
 
     @Override
     public @Nullable MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        return null;
+        Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
+        var throwable = new MCH_ThrowableInfo(location,filepath);
+        THROWABLE_PARSER.parse(throwable,root);
+        return throwable;
     }
 
     @Override
@@ -540,7 +545,7 @@ public class YamlParser implements IParser {
             switch (entry.getKey()) {
                 case "MoveSound" -> info.soundMove = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
                 case "Volume", "Vol" -> info.soundVolume = getClamped(10F, entry.getValue());
-                case "Pitch" -> info.soundVolume = getClamped(1F, 10F, entry.getValue());
+                case "Pitch" -> info.soundPitch = getClamped(1F, 10F, entry.getValue());
                 case "Range" -> info.soundRange = getClamped(1F, 1000.0F, entry.getValue());
             }
 
