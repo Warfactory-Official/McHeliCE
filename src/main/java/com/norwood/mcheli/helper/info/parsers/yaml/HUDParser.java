@@ -293,7 +293,7 @@ public class HUDParser {
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Texture" -> name = (String) entry.getValue();
+                case "Texture", "Name" -> name = (String) entry.getValue();
                 case "Pos", "Position" -> {
                     Tuple<String, String> pos = setTuple(Arrays.asList("x", "y"), entry.getValue());
                     xCoord = MCH_HudItem.toFormula(pos.getFirst());
@@ -331,7 +331,7 @@ public class HUDParser {
             if (map.containsKey("If")) {
                 parseConditional(info, (LinkedHashMap<String, Object>) map);
             } else {
-                Map.Entry<String,Object> entry = ((Map<String,Object>) map).entrySet().iterator().next();
+                Map.Entry<String, Object> entry = ((Map<String, Object>) map).entrySet().iterator().next();
                 var element = parseHUDCommands(entry);
                 if (element == null) logUnkownEntry(entry, "Hud");
                 else info.list.add(element);
@@ -356,7 +356,7 @@ public class HUDParser {
 
         for (Object obj : doBlock) {
             if (obj instanceof Map<?, ?> objMap) {
-                for (Map.Entry<String, Object> entry : ((Map<String,Object>) objMap).entrySet()) {
+                for (Map.Entry<String, Object> entry : ((Map<String, Object>) objMap).entrySet()) {
                     MCH_HudItem element = parseHUDCommands(entry);
                     if (element != null) info.list.add(element);
                     else logUnkownEntry(entry, "Hud");

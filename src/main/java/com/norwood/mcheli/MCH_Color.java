@@ -6,6 +6,15 @@ public class MCH_Color {
     public final float g;
     public final float b;
 
+    public String toHexString() {
+        int ia = Math.round(a * 255);
+        int ir = Math.round(r * 255);
+        int ig = Math.round(g * 255);
+        int ib = Math.round(b * 255);
+        return String.format("#%02X%02X%02X%02X", ia, ir, ig, ib);
+    }
+
+
     public MCH_Color(float aa, float rr, float gg, float bb) {
         this.a = this.round(aa);
         this.r = this.round(rr);

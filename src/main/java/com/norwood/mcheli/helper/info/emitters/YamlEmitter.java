@@ -534,7 +534,83 @@ public class YamlEmitter implements IEmitter {
     @Override
     public String emitThrowable(MCH_ThrowableInfo info) {
         Map<String, Object> root = new LinkedHashMap<>();
-        root.put("DisplayName", info.displayName);
+        var dummy = new MCH_ThrowableInfo(info.location,info.filePath); //Contains default values
+
+        // DisplayName
+        if (!Objects.equals(info.displayName, dummy.displayName) || !info.displayNameLang.isEmpty()) {
+            if (info.displayNameLang.isEmpty()) {
+                root.put("DisplayName", info.displayName);
+            } else {
+                Map<String, String> nameMap = new LinkedHashMap<>(info.displayNameLang);
+                nameMap.put("DEFAULT", info.displayName);
+                root.put("DisplayName", nameMap);
+            }
+        }
+
+        // ItemID
+        if (info.itemID != dummy.itemID) root.put("ItemID", info.itemID);
+
+        // Sound
+        Map<String, Object> soundMap = new LinkedHashMap<>();
+        if (info.soundVolume != dummy.soundVolume) soundMap.put("Volume", info.soundVolume);
+        if (info.soundPitch != dummy.soundPitch) soundMap.put("Pitch", info.soundPitch);
+        if (!soundMap.isEmpty()) root.put("Sound", soundMap);
+
+        // Recepie
+        if (info.isShapedRecipe != dummy.isShapedRecipe || info.recipeString != null && !info.recipeString.isEmpty()) {
+            Map<String, Object> recipeMap = new LinkedHashMap<>();
+            recipeMap.put("isShaped", info.isShapedRecipe);
+            if (info.recipeString != null && !info.recipeString.isEmpty()) {
+                List<String> pattern = new ArrayList<>();
+                for (String s : info.recipeString) {
+                    pattern.add(s.trim().toUpperCase());
+                }
+                recipeMap.put("Pattern", pattern);
+            }
+            root.put("Recepie", recipeMap);
+        }
+
+        // Numeric & boolean fields
+        if (info.power != dummy.power) root.put("Power", info.power);
+        if (info.acceleration != dummy.acceleration) root.put("Acceleration", info.acceleration);
+        if (info.accelerationInWater != dummy.accelerationInWater) root.put("AccelerationInWater", info.accelerationInWater);
+        if (info.dispenseAcceleration != dummy.dispenseAcceleration) root.put("DispenseAcceleration", info.dispenseAcceleration);
+        if (info.explosion != dummy.explosion) root.put("Explosion", info.explosion);
+        if (info.delayFuse != dummy.delayFuse) root.put("DelayFuse", info.delayFuse);
+        if (info.bound != dummy.bound) root.put("Bound", info.bound);
+        if (info.timeFuse != dummy.timeFuse) root.put("TimeFuse", info.timeFuse);
+        if (info.flaming != dummy.flaming) root.put("Flaming", info.flaming);
+        if (info.stackSize != dummy.stackSize) root.put("StackSize", info.stackSize);
+        if (info.proximityFuseDist != dummy.proximityFuseDist) root.put("ProximityFuseDist", info.proximityFuseDist);
+        if (info.accuracy != dummy.accuracy) root.put("Accuracy", info.accuracy);
+        if (info.aliveTime != dummy.aliveTime) root.put("AliveTime", info.aliveTime);
+        if (info.bomblet != dummy.bomblet) root.put("Bomblet", info.bomblet);
+        if (info.bombletDiff != dummy.bombletDiff) root.put("BombletSpread", info.bombletDiff);
+        if (info.gravity != dummy.gravity) root.put("Gravity", info.gravity);
+        if (info.gravityInWater != dummy.gravityInWater) root.put("GravityInWater", info.gravityInWater);
+
+        // Particle
+        if (!Objects.equals(info.particleName, dummy.particleName)) root.put("Particle", info.particleName);
+
+        // Smoke
+        if (info.disableSmoke != dummy.disableSmoke || info.smokeSize != dummy.smokeSize
+                || info.smokeNum != dummy.smokeNum || info.smokeColor != null
+                || info.smokeVelocityHorizontal != dummy.smokeVelocityHorizontal
+                || info.smokeVelocityVertical != dummy.smokeVelocityVertical) {
+            Map<String, Object> smokeMap = new LinkedHashMap<>();
+            if (info.disableSmoke != dummy.disableSmoke) smokeMap.put("DisableSmoke", info.disableSmoke);
+            if (info.smokeSize != dummy.smokeSize) smokeMap.put("Size", info.smokeSize);
+            if (info.smokeNum != dummy.smokeNum) smokeMap.put("Count", info.smokeNum);
+            if (info.smokeColor != null) smokeMap.put("Color", info.smokeColor.toHexString());
+
+            Map<String, Object> velMap = new LinkedHashMap<>();
+            if (info.smokeVelocityVertical != dummy.smokeVelocityVertical) velMap.put("Vertical", info.smokeVelocityVertical);
+            if (info.smokeVelocityHorizontal != dummy.smokeVelocityHorizontal) velMap.put("Horizontal", info.smokeVelocityHorizontal);
+            if (!velMap.isEmpty()) smokeMap.put("Velocity", velMap);
+
+            root.put("Smoke", smokeMap);
+        }
+
         return YAML.dump(root);
     }
 
