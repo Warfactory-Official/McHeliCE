@@ -864,6 +864,7 @@ public class YamlEmitter implements IEmitter {
         // Global camera section
         Map<String, Object> camera = new LinkedHashMap<>();
         if (info.thirdPersonDist != dummyInfo.thirdPersonDist) camera.put("ThirdPersonDist", info.thirdPersonDist);
+        if (info.alwaysCameraView != dummyInfo.alwaysCameraView) camera.put("AlwaysCameraView", true);
         if (info.cameraZoom != dummyInfo.cameraZoom) camera.put("Zoom", info.cameraZoom);
         if (info.defaultFreelook != dummyInfo.defaultFreelook) camera.put("DefaultFreeLook", info.defaultFreelook);
         if (info.cameraRotationSpeed != dummyInfo.cameraRotationSpeed)
@@ -882,7 +883,6 @@ public class YamlEmitter implements IEmitter {
             camera.put("Pos", camList);
         }
         if (!camera.isEmpty()) root.put("Camera", camera);
-        if (info.alwaysCameraView) root.put("AlwaysCameraView", true);
 
         // Sound
         Map<String, Object> sound = new LinkedHashMap<>();

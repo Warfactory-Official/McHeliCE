@@ -997,7 +997,7 @@ public class YamlParser implements IParser {
         }
 
         if (type == null || !MCH_WeaponInfoManager.contains(type)) {
-            throw new IllegalArgumentException("Weapon type is uknown or missing!");
+            throw new IllegalArgumentException("Weapon " + type + " type is unknown or missing!");
         }
 
         if (seatID <= 0) {

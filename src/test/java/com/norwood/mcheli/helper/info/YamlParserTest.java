@@ -389,36 +389,90 @@ class YamlParserTest {
         assertEquals("Wheel must have a position!", ex.getCause().getMessage());
     }
 
-//    @Test
-//    void parseSeatRackInfo_acceptsMultipleNameRepresentations() throws Exception {
-//        Method parseSeatRackInfo = getAccessibleMethod("parseSeatRackInfo", Map.class);
-//        Map<String, Object> rackMap = new HashMap<>();
-//        rackMap.put("Pos", vector(2.0, 3.0, 4.0));
-//        rackMap.put("Camera", camera(0.0, 1.0, 2.0, true, 12.5f, -7.5f));
-//        rackMap.put("Names", Arrays.asList("seatA", "seatB"));
-//        rackMap.put("Range", 6.0f);
-//        rackMap.put("OpenParaAlt", 9.0f);
-//        rackMap.put("Yaw", 45.0f);
-//        rackMap.put("Pitch", -10.0f);
-//        rackMap.put("RotSeat", true);
-//
-//        MCH_SeatRackInfo rack = (MCH_SeatRackInfo) parseSeatRackInfo.invoke(YamlParser.INSTANCE, rackMap);
-//
-//        assertArrayEquals(new String[]{"seatA", "seatB"}, rack.names);
-//        assertEquals(6.0f, rack.range);
-//        assertEquals(9.0f, rack.openParaAlt);
-//        assertEquals(45.0f, rack.fixYaw);
-//        assertEquals(-10.0f, rack.fixPitch);
-//        assertTrue(rack.rotSeat);
-//        assertVecEquals(new Vec3d(2.0, 3.0, 4.0), rack.pos);
-//        assertNotNull(rack.getCamPos());
-//        assertTrue(rack.getCamPos().fixRot);
-//        assertEquals(12.5f, rack.getCamPos().yaw);
-//        assertEquals(-7.5f, rack.getCamPos().pitch);
-//        assertVecEquals(new Vec3d(0.0, 1.0 + W_Entity.GLOBAL_Y_OFFSET, 2.0), rack.getCamPos().pos);
-//    }
+    @Test
+    void parseSeatInfo_parsesAllSeatAttributesCorrectly() throws Exception {
+        Method parseSeatInfo = ComponentParser.class.getDeclaredMethod(
+                "parseSeatInfo", Map.class, MCH_AircraftInfo.class, int.class, int.class
+        );
+        parseSeatInfo.setAccessible(true);
+
+        Map<String, Object> seatMap = new HashMap<>();
+        seatMap.put("Position", vector(1.0, 2.0, 3.0));
+        seatMap.put("Gunner", true);
+        seatMap.put("SwitchGunner", true);
+        seatMap.put("FixRot", true);
+        seatMap.put("FixYaw", 30.0f);
+        seatMap.put("FixPitch", -15.0f);
+        seatMap.put("MinPitch", -45.0f);
+        seatMap.put("MaxPitch", 60.0f);
+        seatMap.put("RotSeat", true);
+        seatMap.put("InvCamPos", true);
+        seatMap.put("Hud", "testhud");
+
+        Map<String, Object> cam = camera(0.0, 1.0, 2.0, true, 12.5f, -7.5f);
+        seatMap.put("Cam", cam);
+
+        Map<String, List<Integer>> excludeMap = new HashMap<>();
+        excludeMap.put("Seats", Arrays.asList(1, 3)); // seats indices
+        excludeMap.put("Racks", Arrays.asList(2));    // racks indices
+        seatMap.put("ExcludeWith", excludeMap);
+
+        MCH_AircraftInfo info = new MCH_HeliInfo(new AddonResourceLocation("test"), "test");
+
+        parseSeatInfo.invoke(YamlParser.COMPONENT_PARSER, seatMap, info, /*rackCount=*/2, /*seatCount=*/4);
+
+        assertEquals(1, info.seatList.size());
+        MCH_SeatInfo seat = info.seatList.get(0);
+
+        assertVecEquals(new Vec3d(1.0, 2.0, 3.0), seat.pos);
+        assertTrue(seat.gunner);
+        assertTrue(seat.switchgunner);
+        assertTrue(seat.fixRot);
+        assertEquals(30.0f, seat.fixYaw);
+        assertEquals(-15.0f, seat.fixPitch);
+        assertEquals(-45.0f, seat.minPitch);
+        assertEquals(60.0f, seat.maxPitch);
+        assertTrue(seat.rotSeat);
+        assertTrue(seat.invCamPos);
+
+        assertNotNull(seat.getCamPos());
+        assertTrue(seat.getCamPos().fixRot);
+        assertEquals(12.5f, seat.getCamPos().yaw);
+        assertEquals(-7.5f, seat.getCamPos().pitch);
+        assertVecEquals(new Vec3d(0.0, 1.0 + W_Entity.GLOBAL_Y_OFFSET, 2.0), seat.getCamPos().pos);
+
+        assertTrue(info.hudList.isEmpty() || info.hudList.get(0) != null);
+
+        assertEquals(3, info.exclusionSeatList.size());
+        Integer[][] expectedPairs = {
+                {0, 0},  // seat 1 (1-based) -> 0
+                {0, 2},  // seat 3 -> 2
+                {0, 5}   // rack 2 -> seatCount + (2-1) = 5
+        };
+        for (int i = 0; i < expectedPairs.length; i++) {
+            assertArrayEquals(expectedPairs[i], info.exclusionSeatList.get(i));
+        }
+    }
 
 //    @Test
+//    void parseSeatInfo_requiresPosition() throws Exception {
+//        Method parseSeatInfo = ComponentParser.class.getDeclaredMethod(
+//                "parseSeatInfo", Map.class, MCH_AircraftInfo.class, int.class, int.class
+//        );
+//        parseSeatInfo.setAccessible(true);
+//
+//        Map<String, Object> incomplete = new HashMap<>();
+//        MCH_AircraftInfo info = new MCH_HeliInfo();
+//
+//        InvocationTargetException ex = assertThrows(
+//                InvocationTargetException.class,
+//                () -> parseSeatInfo.invoke(YamlParser.COMPONENT_PARSER, incomplete, info, 0, 0)
+//        );
+//        assertInstanceOf(IllegalArgumentException.class, ex.getCause());
+//        assertTrue(ex.getCause().getMessage().contains("Seat must have a position"));
+//    }
+
+    //    @Test
 //    void parseSeatRackInfo_withoutCameraThrows() throws Exception {
 //        Method parseSeatRackInfo = getAccessibleMethod("parseSeatRackInfo", Map.class);
 //        Map<String, Object> rackMap = new HashMap<>();
@@ -536,26 +590,21 @@ class YamlParserTest {
 //        assertEquals(1.0f, seat.getCamPos().pitch);
 //    }
 //
-//    @Test
-//    void parseHook_requiresPosition() throws Exception {
-//        Method parseHook = ComponentParser.class.getDeclaredMethod("parseHook", Map.class);
-//        parseHook.setAccessible(true);
-//        Map<String, Object> hookMap = new HashMap<>();
-//        hookMap.put("Interval", 10);
-//
-//        MCH_AircraftInfo.RepellingHook hook = (MCH_AircraftInfo.RepellingHook) parseHook.invoke(YamlParser.COMPONENT_PARSER, hookMap);
-//
-////        Field posField = MCH_AircraftInfo.RepellingHook.class.getDeclaredField("pos"); //Huh?
-////        posField.setAccessible(true);
-////        assertVecEquals(new Vec3d(1.0, 0.0, 0.0), (Vec3d) posField.get(hook));
-//
-//        Field intervalField = MCH_AircraftInfo.RepellingHook.class.getDeclaredField("interval");
-//        intervalField.setAccessible(true);
-//        assertEquals(0, intervalField.getInt(hook));
-//
-//        RuntimeException ex = assertThrows(IllegalArgumentException.class, () -> parseHook.invoke(YamlParser.INSTANCE, new HashMap<>()));
-//        assertInstanceOf(IllegalArgumentException.class, ex.getCause());
-//    }
+
+    @Test
+    void parseHook_requiresPosition() throws Exception {
+        Method parseHook = ComponentParser.class.getDeclaredMethod("parseHook", Map.class);
+        parseHook.setAccessible(true);
+
+        Map<String, Object> emptyHookMap = new HashMap<>();
+
+        InvocationTargetException ex = assertThrows(
+                InvocationTargetException.class,
+                () -> parseHook.invoke(YamlParser.COMPONENT_PARSER, emptyHookMap)
+        );
+
+        assertInstanceOf(IllegalArgumentException.class, ex.getCause());
+    }
 
     @Test
     void mapToAircraft_withInvalidDisplayNameTypeThrows() {

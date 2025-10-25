@@ -161,7 +161,7 @@ public class ComponentParser {
                                     weapon.child.add(child);
 
                                     for (Map.Entry<String, Object> argument : childPart.entrySet()) {
-                                        if (!Arrays.asList("Position", "Yaw", "Pitch", "RecoilBuf").contains(argument.getKey())) {
+                                        if (!Arrays.asList("Position", "Yaw", "Pitch", "RecoilBuf", "Rotation").contains(argument.getKey())) {
                                             logUnkownEntry(argument, "PartWeaponChild");
                                         }
                                     }
