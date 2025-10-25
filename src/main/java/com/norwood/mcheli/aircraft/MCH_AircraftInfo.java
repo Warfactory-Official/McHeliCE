@@ -1273,11 +1273,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.pos2 = pos2;
         }
 
-        public PartWheel(DrawnPart other, float rotDir, Vec3d pos2) {
-            super(other);
-            this.rotDir = rotDir;
-            this.pos2 = pos2;
-        }
+
 
         public PartWheel(
                 MCH_AircraftInfo paramMCH_AircraftInfo,
