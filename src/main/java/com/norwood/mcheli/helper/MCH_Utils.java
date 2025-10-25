@@ -13,6 +13,8 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class MCH_Utils {
     public static ResourceLocation suffix(String name) {
@@ -35,6 +37,7 @@ public class MCH_Utils {
         }
         return defReturn;
     }
+
 
 
     public static File getSource() {
