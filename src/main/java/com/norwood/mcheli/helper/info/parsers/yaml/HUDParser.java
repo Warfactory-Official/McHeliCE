@@ -1,12 +1,14 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
 import com.norwood.mcheli.helper.MCH_Logger;
+import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.hud.*;
 import lombok.extern.log4j.Log4j2;
 import net.minecraft.util.Tuple;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEntry;
 import static com.norwood.mcheli.hud.MCH_HudItem.toFormula;
@@ -259,31 +261,40 @@ public class HUDParser {
     }
 
     private MCH_HudItemString parseDrawString(Map<String, Object> map) {
-        String format = null;
+        String text = null;
+        List<String> varSubstitute = null;
         String xCoord = null;
         String yCoord = null;
-        String[] args = null;
         boolean center = false;
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Format" -> format = toFormula((String) entry.getValue());
-                case "Arguments", "Arg" -> args = ((List<String>) entry.getValue()).toArray(new String[0]);
+                case "Text" -> {
+                    var formatEntry = (Map<String, Object>) entry.getValue();
+                    text = (String) MCH_Utils.getAny(formatEntry, Arrays.asList("Fmt", "Format"), null);
+                    varSubstitute = (List<String>) MCH_Utils.getAny(formatEntry, Arrays.asList("Vars", "Variables"), null);
+                }
                 case "Center" -> center = (Boolean) entry.getValue();
                 case "Pos", "Position" -> {
                     Tuple<String, String> pos = setTuple(Arrays.asList("x", "y"), entry.getValue());
                     xCoord = pos.getFirst();
                     yCoord = pos.getSecond();
                 }
-                default -> logUnkownEntry(entry, "VehicleFeatures");
+                default -> logUnkownEntry(entry, "DrawString");
 
             }
         }
 
-        if (xCoord == null || yCoord == null || args == null)
-            throw new IllegalArgumentException("Pos, Arguments fields are required for drawTexture element.");
+        if (xCoord == null || yCoord == null || text == null)
+            throw new IllegalArgumentException("Pos, Format, fields are required for drawTexture element.");
 
-        return new MCH_HudItemString(0, xCoord, yCoord, format, args, center);
+        String[] args = Stream.concat(
+                Stream.of(xCoord, yCoord, text),
+                varSubstitute != null ? varSubstitute.stream() : Stream.empty()
+        ).toArray(String[]::new);
+
+
+        return new MCH_HudItemString(0, xCoord, yCoord, text, args, center);
 
     }
 
@@ -323,7 +334,7 @@ public class HUDParser {
                     vHeight = MCH_HudItem.toFormula(uvSize.getSecond());
                 }
                 case "Rotation", "Rot" -> rot = toFormula((String) entry.getValue());
-                default -> logUnkownEntry(entry, "VehicleFeatures");
+                default -> logUnkownEntry(entry, "DrawTexture");
             }
         }
 

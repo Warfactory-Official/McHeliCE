@@ -694,14 +694,20 @@ public class YamlEmitter implements IEmitter {
         if (hudItem instanceof MCH_HudItemString) {
             MCH_HudItemString string = (MCH_HudItemString) hudItem;
             Map<String, Object> stringSettings = new LinkedHashMap<>();
-            stringSettings.put("Format", string.getFormat());
+            Map<String, Object> textMap = new LinkedHashMap<>();
+
+
+
+            textMap.put("Fmt", string.getFormat());
+            textMap.put("Vars",
+                   inline(Arrays.stream(string.getArgs()).map(Enum::name).toArray(String[]::new))
+                    );
+
+            stringSettings.put("Text",textMap);
+
             stringSettings.put("Position", inline(string.getPosX(), string.getPosY()));
-            stringSettings.put("Arguments", inline(
-                    Arrays.stream(string.getArgs())
-                            .map(x -> x.name().toLowerCase())
-                            .toArray(String[]::new)
-            ));
             stringSettings.put("Center", string.isCenteredString());
+
             return new AbstractMap.SimpleEntry<>("DrawString", stringSettings);
         }
 
