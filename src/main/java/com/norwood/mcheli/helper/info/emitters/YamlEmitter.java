@@ -288,6 +288,7 @@ public class YamlEmitter implements IEmitter {
 
     @Override
     public String emitWeapon(MCH_WeaponInfo info) {
+        var dummy = new MCH_WeaponInfo(info.location,info.filePath);
         Map<String, Object> root = new LinkedHashMap<>();
         if (notBlank(info.displayName)) root.put("DisplayName", info.displayName);
         if (notBlank(info.type)) root.put("Type", info.type);
@@ -497,6 +498,19 @@ public class YamlEmitter implements IEmitter {
                 flashes.add(mm);
             }
             render.put("MuzzleSmoke", flashes);
+        }
+        if(info.cartridge != null){
+            var casing = info.cartridge;
+
+            var casingMap = new LinkedHashMap<String,Object>();
+            casingMap.put("Name", info.cartridge.name);
+                casingMap.put("Acceleration", casing.acceleration);
+                casingMap.put("Yaw", casing.yaw);
+                casingMap.put("Pitch", casing.pitch);
+                casingMap.put("Scale", casing.scale);
+                casingMap.put("Gravity", casing.gravity);
+                casingMap.put("Bound", casing.bound);
+            render.put("SpentCasings",casingMap);
         }
         if (notBlank(info.bulletModelName)) render.put("BulletModel", info.bulletModelName);
         if (notBlank(info.bombletModelName)) render.put("BombletModel", info.bombletModelName);

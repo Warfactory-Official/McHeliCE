@@ -121,6 +121,7 @@ public class YamlParser implements IParser {
 
 
         }
+        info.validate();
         return info;
     }
 
@@ -147,6 +148,7 @@ public class YamlParser implements IParser {
                 }
             }
         }
+        info.validate();
         return info;
     }
 
@@ -165,6 +167,7 @@ public class YamlParser implements IParser {
                 }
             }
         }
+        info.validate();
         return info;
     }
 
@@ -175,6 +178,7 @@ public class YamlParser implements IParser {
         mapToAircraft(info, root);
         if (root.containsKey("TankFeatures"))
             parseTankFeat((Map<String, Object>) root.get("TankFeatures"), info);
+        info.validate();
         return info;
     }
 
@@ -231,6 +235,7 @@ public class YamlParser implements IParser {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_WeaponInfo(location, filepath);
         WEAPON_PARSER.parse(info, root);
+        info.validate();
         return info;
     }
 
@@ -239,6 +244,7 @@ public class YamlParser implements IParser {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var throwable = new MCH_ThrowableInfo(location, filepath);
         THROWABLE_PARSER.parse(throwable, root);
+        throwable.validate();
         return throwable;
     }
 
@@ -247,6 +253,7 @@ public class YamlParser implements IParser {
         Object root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_Hud(location, filepath);
         HUD_PARSER.parse(info, root);
+        info.validate();
         return info;
     }
 

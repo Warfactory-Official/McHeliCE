@@ -91,49 +91,49 @@ public class TxtParser implements IParser {
     @Override
     @Nullable
     public MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_WeaponInfo(location, filepath), this::applyWeaponLine);
-    }
+            return parse(location, filepath, lines, reload, () -> new MCH_WeaponInfo(location, filepath), this::applyWeaponLine);
+        }
 
-    @Override
-    @Nullable
-    public MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_ThrowableInfo(location, filepath), this::applyThrowableLine);
-    }
+        @Override
+        @Nullable
+        public MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+            return parse(location, filepath, lines, reload, () -> new MCH_ThrowableInfo(location, filepath), this::applyThrowableLine);
+        }
 
-    @Override
-    @Nullable
-    public MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-        MCH_Hud info = new MCH_Hud(location, filepath);
-        int lineNumber = 0;
-        try {
-            for (String raw : lines) {
-                lineNumber++;
-                String str = raw.trim();
-                if (str.equalsIgnoreCase("endif")) {
-                    str = "endif=0";
-                } else if (str.equalsIgnoreCase("exit")) {
-                    str = "exit=0";
-                }
+        @Override
+        @Nullable
+        public MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+            MCH_Hud info = new MCH_Hud(location, filepath);
+            int lineNumber = 0;
+            try {
+                for (String raw : lines) {
+                    lineNumber++;
+                    String str = raw.trim();
+                    if (str.equalsIgnoreCase("endif")) {
+                        str = "endif=0";
+                    } else if (str.equalsIgnoreCase("exit")) {
+                        str = "exit=0";
+                    }
 
-                int eqIdx = str.indexOf('=');
-                if (eqIdx >= 0 && str.length() > eqIdx + 1) {
-                    String item = str.substring(0, eqIdx).trim().toLowerCase();
-                    String data = str.substring(eqIdx + 1).trim();
-                    if (!reload || info.canReloadItem(item)) {
-                        applyHudLine(info, lineNumber, item, data);
+                    int eqIdx = str.indexOf('=');
+                    if (eqIdx >= 0 && str.length() > eqIdx + 1) {
+                        String item = str.substring(0, eqIdx).trim().toLowerCase();
+                        String data = str.substring(eqIdx + 1).trim();
+                        if (!reload || info.canReloadItem(item)) {
+                            applyHudLine(info, lineNumber, item, data);
+                        }
                     }
                 }
+                return info;
+            } catch (Exception ex) {
+                throw new ContentParseException(ex, lineNumber);
             }
-            return info;
-        } catch (Exception ex) {
-            throw new ContentParseException(ex, lineNumber);
         }
-    }
 
 
-    @Override
-    @Nullable
-    public MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+        @Override
+        @Nullable
+        public MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
         String name = location.getPath();
         return parse(location, filepath, lines, reload, () -> new MCH_ItemInfo(location, filepath, name), this::applyItemLine);
     }

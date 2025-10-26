@@ -384,7 +384,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     }
 
 
-    public void checkData() {
+    public boolean validate() {
         if (this.explosionBlock < 0) {
             this.explosionBlock = this.explosion;
         }
@@ -422,6 +422,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         }
 
         this.angle = (float) (Math.atan2(this.radius, this.length) * 180.0D / 3.141592653589793D);
+        return true;
     }
 
     public float getDamageFactor(Entity e) {
