@@ -675,6 +675,9 @@ public class YamlEmitter implements IEmitter {
             MCH_HudItemColor color = (MCH_HudItemColor) hudItem;
             return new AbstractMap.SimpleEntry<>("Color", color.getUpdateColor());
         }
+        if (hudItem instanceof MCH_HudItemExit) {
+            return new AbstractMap.SimpleEntry<>("Exit", "exit");
+        }
 
         if (hudItem instanceof MCH_HudItemTexture) {
             MCH_HudItemTexture texture = (MCH_HudItemTexture) hudItem;

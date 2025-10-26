@@ -42,7 +42,7 @@ public class ComponentParser {
                             }
 
                             return new MCH_HeliInfo.Rotor(drawnPart, bladeNum, bladeRot, haveFoldFunc, oldRenderMethod);
-                        }, info.rotorList, new HashSet<>(Arrays.asList("BladeNum", "BladeRot", "CanFold", "OldRenderer")))).forEachOrdered(info.rotorList::add);
+                        }, info.rotorList, new HashSet<>(Arrays.asList("Count", "BladeCount", "BladeRotation","BladeRot","CanFold","OldRenderer")))).forEachOrdered(info.rotorList::add);
             }
         }
     }
@@ -451,7 +451,7 @@ public class ComponentParser {
                                     if (bladeRot != null)
                                         return new MCH_PlaneInfo.Blade(drawnPartBlade, bladeNum, bladeRot);
                                     return null;
-                                }, rotor.blades, new HashSet<>(Arrays.asList("BladeNum", "BladeRot")))).forEach(rotor.blades::add);
+                                }, rotor.blades, new HashSet<>(Arrays.asList("BladeNum", "BladeRot", "RotFactor")))).forEach(rotor.blades::add);
                             }
 
                             return rotor;

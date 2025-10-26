@@ -58,6 +58,11 @@ public class HUDParser {
 
     private MCH_HudItem parseHUDCommands(Map.Entry<String, Object> entry) {
         switch (entry.getKey()) {
+
+            case "Exit" -> {
+                return new MCH_HudItemExit(0);
+
+            }
             case "Color" -> {
                 return new MCH_HudItemColor(0, toFormula((String) entry.getValue()));
 

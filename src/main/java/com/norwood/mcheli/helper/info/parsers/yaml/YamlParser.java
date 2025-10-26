@@ -23,7 +23,6 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import org.apache.logging.log4j.core.impl.ThrowableProxy;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.Yaml;
 
@@ -238,8 +237,8 @@ public class YamlParser implements IParser {
     @Override
     public @Nullable MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
-        var throwable = new MCH_ThrowableInfo(location,filepath);
-        THROWABLE_PARSER.parse(throwable,root);
+        var throwable = new MCH_ThrowableInfo(location, filepath);
+        THROWABLE_PARSER.parse(throwable, root);
         return throwable;
     }
 
@@ -506,7 +505,8 @@ public class YamlParser implements IParser {
                 }
 
 
-                case "PlaneFeatures","TankFeatures","HeliFeatures","VehicleFeatures"->{}
+                case "PlaneFeatures", "TankFeatures", "HeliFeatures", "VehicleFeatures" -> {
+                }
                 default -> logUnkownEntry(entry, "AircraftInfo");
             }
         }
@@ -570,12 +570,12 @@ public class YamlParser implements IParser {
             }
         }
 
-            if (pos == null) throw new IllegalArgumentException("Bounding box must have a position!");
-            if (size == null) throw new IllegalArgumentException("Bounding box must have a size!");
+        if (pos == null) throw new IllegalArgumentException("Bounding box must have a position!");
+        if (size == null) throw new IllegalArgumentException("Bounding box must have a size!");
 
-            var parsedBox = new MCH_BoundingBox(pos.x, pos.y, pos.z, (float) size.x, (float) size.y, (float) size.z, damageFact);
-            parsedBox.setBoundingBoxType(type);
-            info.extraBoundingBox.add(parsedBox);
+        var parsedBox = new MCH_BoundingBox(pos.x, pos.y, pos.z, (float) size.x, (float) size.y, (float) size.z, damageFact);
+        parsedBox.setBoundingBoxType(type);
+        info.extraBoundingBox.add(parsedBox);
 
 
     }
