@@ -37,7 +37,7 @@ public class YamlParser implements IParser {
 
     public static final Yaml YAML_INSTANCE = new Yaml();
     public static final YamlParser INSTANCE = new YamlParser();
-    public static final Set<String> DRAWN_PART_ARGS = new HashSet<>(Arrays.asList("Type", "Position", "Rotation", "PartName"));
+    public static final Set<String> DRAWN_PART_ARGS = new HashSet<>(Arrays.asList("Type", "Position", "Rotation", "PartName","Rot","Pos"));
     public static final ComponentParser COMPONENT_PARSER = new ComponentParser();
     public static final WeaponParser WEAPON_PARSER = new WeaponParser();
     public static final HUDParser HUD_PARSER = new HUDParser();

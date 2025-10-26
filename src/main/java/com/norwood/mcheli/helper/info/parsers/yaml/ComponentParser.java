@@ -8,6 +8,7 @@ import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import net.minecraft.util.math.Vec3d;
 
+import java.sql.Array;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -37,7 +38,6 @@ public class ComponentParser {
                                             bladeRot = ((Number) bladeEntry.getValue()).intValue();
                                     case "CanFold" -> haveFoldFunc = (Boolean) bladeEntry.getValue();
                                     case "OldRenderer" -> oldRenderMethod = (Boolean) bladeEntry.getValue();
-                                    default -> logUnkownEntry(bladeEntry, "Rotor");
                                 }
                             }
 
@@ -278,7 +278,7 @@ public class ComponentParser {
         var built = fillChildFields.apply(base);
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = entry.getKey();
-            if (!knownKeys.contains(key) && !YamlParser.DRAWN_PART_ARGS.contains(key))
+            if ( !YamlParser.DRAWN_PART_ARGS.contains(key) && !knownKeys.contains(key) )
                 logUnkownEntry(entry, built.getClass().getSimpleName());
 
         }
@@ -427,35 +427,47 @@ public class ComponentParser {
             var componentList = entry.getValue();
             switch (type) {
                 case "PlaneRotor" ->
-                        componentList.stream().map(component -> parseDrawnPart("rotor", component, drawnPart -> {
+                        componentList.stream()
+                                .map(component -> parseDrawnPart("rotor", component, drawnPart -> {
 
-                            float rotFactor = component.containsKey("RotFactor") ? getClamped(-180F, 180F,  component.get("RotFactor")) / 90F : 1F;
+                                    float rotFactor = component.containsKey("RotFactor")
+                                            ? getClamped(-180F, 180F, component.get("RotFactor")) / 90F
+                                            : 1F;
 
-                            var rotor = new MCH_PlaneInfo.Rotor(drawnPart, rotFactor);
+                                    var rotor = new MCH_PlaneInfo.Rotor(drawnPart, rotFactor);
 
-                            if (component.containsKey("Blades")) {
-                                var rawBladeList = (List<Map<String, Object>>) component.get("Blades");
+                                    if (component.containsKey("Blades")) {
+                                        var rawBladeList = (List<Map<String, Object>>) component.get("Blades");
 
-                                rawBladeList.stream().map(partBlade -> parseDrawnPart("blade", partBlade, drawnPartBlade -> {
-                                    int bladeNum = 1;
-                                    Integer bladeRot = null;
+                                        rawBladeList.stream()
+                                                .map(partBlade -> parseDrawnPart("blade", partBlade, drawnPartBlade -> {
+                                                    int bladeNum = 1;
+                                                    Integer bladeRot = null;
 
-                                    for (Map.Entry<String, Object> partBladeEntry : partBlade.entrySet()) {
-                                        switch (partBladeEntry.getKey()) {
-                                            case "BladeNum" ->
-                                                    bladeNum = ((Number) partBladeEntry.getValue()).intValue();
-                                            case "BladeRot" ->
-                                                    bladeRot = ((Number) partBladeEntry.getValue()).intValue();
-                                        }
+                                                    for (Map.Entry<String, Object> partBladeEntry : partBlade.entrySet()) {
+                                                        switch (partBladeEntry.getKey()) {
+                                                            case "BladeNum" ->
+                                                                    bladeNum = ((Number) partBladeEntry.getValue()).intValue();
+                                                            case "BladeRot" ->
+                                                                    bladeRot = ((Number) partBladeEntry.getValue()).intValue();
+                                                        }
+                                                    }
+
+                                                    if (bladeRot != null)
+                                                        return new MCH_PlaneInfo.Blade(drawnPartBlade, bladeNum, bladeRot);
+                                                    return null;
+
+                                                }, rotor.blades, new HashSet<>(Arrays.asList("BladeNum", "BladeRot", "RotFactor"))))
+                                                .filter(Objects::nonNull)
+                                                .forEach(rotor.blades::add);
                                     }
-                                    if (bladeRot != null)
-                                        return new MCH_PlaneInfo.Blade(drawnPartBlade, bladeNum, bladeRot);
-                                    return null;
-                                }, rotor.blades, new HashSet<>(Arrays.asList("BladeNum", "BladeRot", "RotFactor")))).forEach(rotor.blades::add);
-                            }
 
-                            return rotor;
-                        }, info.rotorList, new HashSet<>())).forEachOrdered(info.rotorList::add);
+                                    return rotor;
+
+                                }, info.rotorList, new HashSet<>(Arrays.asList("Blades", "RotFactor"))))
+                                .filter(Objects::nonNull)
+                                .forEachOrdered(info.rotorList::add);
+
                 case "Wing" -> componentList.stream().map(component -> parseDrawnPart("wing", component, drawnPart -> {
                             float maxRot = 0;
                             List<MCH_PlaneInfo.Pylon> pylons = new ArrayList<>();

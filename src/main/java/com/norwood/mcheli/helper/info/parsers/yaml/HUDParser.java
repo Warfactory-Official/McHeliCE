@@ -1,6 +1,8 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.hud.*;
+import lombok.extern.log4j.Log4j2;
 import net.minecraft.util.Tuple;
 
 import java.util.*;
@@ -10,6 +12,7 @@ import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEn
 import static com.norwood.mcheli.hud.MCH_HudItem.toFormula;
 
 //Dude this is so fucking stupid, we should just move to groovy but muh 1.7 compat... ugh
+@Log4j2
 @SuppressWarnings("unchecked")
 public class HUDParser {
 
@@ -357,7 +360,7 @@ public class HUDParser {
 
         List<Object> doBlock = (List<Object>) map.get("Do");
         if (doBlock.isEmpty())
-            throw new IllegalArgumentException("Conditional cannot do nothing!");
+            MCH_Logger.get().warn("Hud " + info.getLocation().getPath() + " contains empty conditionals!");
 
         for (Object obj : doBlock) {
             if (obj instanceof Map<?, ?> objMap) {
