@@ -188,15 +188,15 @@ public class YamlEmitter implements IEmitter {
             for (MCH_PlaneInfo.Rotor rotor : info.rotorList) {
                 Map<String, Object> rotMap = drawnPart(rotor);
                 if (rotor.maxRotFactor != 0) rotMap.put("RotFactor", rotor.maxRotFactor * 90.0F);
-                if(!rotor.blades.isEmpty()){
-                    List<Map<String,Object>> blades = new ArrayList<>();
-                   for(var blade : rotor.blades) {
-                       var bladeMap = drawnPart(blade);
-                       bladeMap.put("BladeNum",blade.numBlade);
-                       bladeMap.put("BladeRot",blade.rotBlade);
-                       blades.add(bladeMap);
-                   }
-                   rotMap.put("Blades",blades);
+                if (!rotor.blades.isEmpty()) {
+                    List<Map<String, Object>> blades = new ArrayList<>();
+                    for (var blade : rotor.blades) {
+                        var bladeMap = drawnPart(blade);
+                        bladeMap.put("BladeNum", blade.numBlade);
+                        bladeMap.put("BladeRot", blade.rotBlade);
+                        blades.add(bladeMap);
+                    }
+                    rotMap.put("Blades", blades);
 
                 }
                 list.add(rotMap);
@@ -299,12 +299,12 @@ public class YamlEmitter implements IEmitter {
 
     @Override
     public String emitWeapon(MCH_WeaponInfo info) {
-        var dummy = new MCH_WeaponInfo(info.location,info.filePath);
+        var dummy = new MCH_WeaponInfo(info.location, info.filePath);
         Map<String, Object> root = new LinkedHashMap<>();
         if (notBlank(info.displayName)) root.put("DisplayName", info.displayName);
         if (notBlank(info.type)) root.put("Type", info.type);
         if (notBlank(info.group)) root.put("Group", info.group);
-        if (info.power != 0) root.put("BaseDamage", info.power);
+        if (info.power != dummy.power) root.put("BaseDamage", info.power);
 
         // Ballistics
         Map<String, Object> ball = new LinkedHashMap<>();
@@ -326,7 +326,7 @@ public class YamlEmitter implements IEmitter {
         if (info.flakParticlesDiff != dummy.flakParticlesDiff)
             ball.put("FlakSpread", info.flakParticlesDiff);
         root.put("Ballistics", ball);
-            // Sound
+        // Sound
         Map<String, Object> snd = new LinkedHashMap<>();
         if (info.soundDelay != dummy.soundDelay)
             snd.put("Delay", info.soundDelay);
@@ -581,16 +581,16 @@ public class YamlEmitter implements IEmitter {
             }
             render.put("MuzzleSmoke", flashes);
         }
-        if (info.cartridge != null && !Objects.equals(info.cartridge, dummy.cartridge)) {
+        if (info.cartridge != null) {
             var casing = info.cartridge;
             var casingMap = new LinkedHashMap<String, Object>();
             casingMap.put("Name", casing.name);
-            if (casing.acceleration != dummy.cartridge.acceleration) casingMap.put("Acceleration", casing.acceleration);
-            if (casing.yaw != dummy.cartridge.yaw) casingMap.put("Yaw", casing.yaw);
-            if (casing.pitch != dummy.cartridge.pitch) casingMap.put("Pitch", casing.pitch);
-            if (casing.scale != dummy.cartridge.scale) casingMap.put("Scale", casing.scale);
-            if (casing.gravity != dummy.cartridge.gravity) casingMap.put("Gravity", casing.gravity);
-            if (casing.bound != dummy.cartridge.bound) casingMap.put("Bound", casing.bound);
+            casingMap.put("Acceleration", casing.acceleration);
+            casingMap.put("Yaw", casing.yaw);
+            casingMap.put("Pitch", casing.pitch);
+            casingMap.put("Scale", casing.scale);
+            casingMap.put("Gravity", casing.gravity);
+            casingMap.put("Bound", casing.bound);
             render.put("SpentCasings", casingMap);
         }
         if (!Objects.equals(info.bulletModelName, dummy.bulletModelName) && notBlank(info.bulletModelName))
