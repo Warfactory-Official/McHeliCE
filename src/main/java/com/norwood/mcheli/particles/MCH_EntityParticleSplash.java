@@ -5,10 +5,12 @@ import com.norwood.mcheli.wrapper.W_McClient;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
 
 public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
     public MCH_EntityParticleSplash(World par1World, double x, double y, double z, double mx, double my, double mz) {
@@ -68,39 +70,73 @@ public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
         this.motionZ *= 0.9;
     }
 
-    public void renderParticle(BufferBuilder buffer, @NotNull Entity entityIn, float par2, float par3, float par4, float par5, float par6, float par7) {
+    @Override
+    public void renderParticle(
+            BufferBuilder buffer,
+            @NotNull Entity entity,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ) {
+
+        // Bind smoke particle texture
         W_McClient.MOD_bindTexture("textures/particles/smoke.png");
-        float f6 = this.particleTextureIndexX / 8.0F;
-        float f7 = f6 + 0.125F;
-        float f8 = 0.0F;
-        float f9 = 1.0F;
-        float f10 = 0.1F * this.particleScale;
-        float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * par2 - interpPosX);
-        float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * par2 - interpPosY);
-        float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * par2 - interpPosZ);
-        float f14 = 1.0F;
-        int i = this.getBrightnessForRender(par2);
-        int j = i >> 16 & 65535;
-        int k = i & 65535;
-        buffer.pos(f11 - par3 * f10 - par6 * f10, f12 - par4 * f10, f13 - par5 * f10 - par7 * f10)
-                .tex(f7, f9)
-                .color(this.particleRed * f14, this.particleGreen * f14, this.particleBlue * f14, this.particleAlpha)
-                .lightmap(j, k)
+
+        // Compute texture coordinates (8x8 atlas)
+        float textureUStart = this.particleTextureIndexX / 8.0F;
+        float textureUEnd = textureUStart + 0.125F;
+        float textureVStart = 0.0F;
+        float textureVEnd = 1.0F;
+
+        // Particle scaling
+        float scale = 0.1F * this.particleScale;
+
+        // Interpolated position relative to camera
+        float renderX = (float) (this.prevPosX + (this.posX - this.prevPosX) * partialTicks - interpPosX);
+        float renderY = (float) (this.prevPosY + (this.posY - this.prevPosY) * partialTicks - interpPosY);
+        float renderZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * partialTicks - interpPosZ);
+
+        // Light and color setup
+        float brightnessFactor = 1.0F;
+        int brightness = this.getBrightnessForRender(partialTicks);
+        int lightU = (brightness >> 16) & 0xFFFF;
+        int lightV = brightness & 0xFFFF;
+
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+
+        buffer.pos(renderX - rotationX * scale - rotationXY * scale,
+                        renderY - rotationZ * scale,
+                        renderZ - rotationYZ * scale - rotationXZ * scale)
+                .tex(textureUEnd, textureVEnd)
+                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor, this.particleBlue * brightnessFactor, this.particleAlpha)
+                .lightmap(lightU, lightV)
                 .endVertex();
-        buffer.pos(f11 - par3 * f10 + par6 * f10, f12 + par4 * f10, f13 - par5 * f10 + par7 * f10)
-                .tex(f7, f8)
-                .color(this.particleRed * f14, this.particleGreen * f14, this.particleBlue * f14, this.particleAlpha)
-                .lightmap(j, k)
+
+        buffer.pos(renderX - rotationX * scale + rotationXY * scale,
+                        renderY + rotationZ * scale,
+                        renderZ - rotationYZ * scale + rotationXZ * scale)
+                .tex(textureUEnd, textureVStart)
+                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor, this.particleBlue * brightnessFactor, this.particleAlpha)
+                .lightmap(lightU, lightV)
                 .endVertex();
-        buffer.pos(f11 + par3 * f10 + par6 * f10, f12 + par4 * f10, f13 + par5 * f10 + par7 * f10)
-                .tex(f6, f8)
-                .color(this.particleRed * f14, this.particleGreen * f14, this.particleBlue * f14, this.particleAlpha)
-                .lightmap(j, k)
+
+        buffer.pos(renderX + rotationX * scale + rotationXY * scale,
+                        renderY + rotationZ * scale,
+                        renderZ + rotationYZ * scale + rotationXZ * scale)
+                .tex(textureUStart, textureVStart)
+                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor, this.particleBlue * brightnessFactor, this.particleAlpha)
+                .lightmap(lightU, lightV)
                 .endVertex();
-        buffer.pos(f11 + par3 * f10 - par6 * f10, f12 - par4 * f10, f13 + par5 * f10 - par7 * f10)
-                .tex(f6, f9)
-                .color(this.particleRed * f14, this.particleGreen * f14, this.particleBlue * f14, this.particleAlpha)
-                .lightmap(j, k)
+
+        buffer.pos(renderX + rotationX * scale - rotationXY * scale,
+                        renderY - rotationZ * scale,
+                        renderZ + rotationYZ * scale - rotationXZ * scale)
+                .tex(textureUStart, textureVEnd)
+                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor, this.particleBlue * brightnessFactor, this.particleAlpha)
+                .lightmap(lightU, lightV)
                 .endVertex();
     }
+
 }

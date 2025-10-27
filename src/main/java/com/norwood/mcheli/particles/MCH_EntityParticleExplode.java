@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
 
 public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
     private static final VertexFormat VERTEX_FORMAT = new VertexFormat()
@@ -35,62 +36,98 @@ public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
         this.size = (float) size;
     }
 
+    @Override
     public void renderParticle(
-            @NotNull BufferBuilder buffer, @NotNull Entity entityIn, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_
+            @NotNull BufferBuilder buffer,
+            @NotNull Entity cameraEntity,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ
     ) {
-        int i = (int) ((this.nowCount + p_70539_2_) * 15.0F / this.endCount);
-        if (i <= 15) {
-            GlStateManager.enableBlend();
-            int srcBlend = GlStateManager.glGetInteger(3041);
-            int dstBlend = GlStateManager.glGetInteger(3040);
-            GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-            GlStateManager.disableCull();
-            this.theRenderEngine.bindTexture(texture);
-            float f6 = i % 4 / 4.0F;
-            float f7 = f6 + 0.24975F;
-            float f8 = (float) (float) i / 4 / 4.0F;
-            float f9 = f8 + 0.24975F;
-            float f10 = 2.0F * this.size;
-            float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * p_70539_2_ - interpPosX);
-            float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * p_70539_2_ - interpPosY);
-            float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * p_70539_2_ - interpPosZ);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderHelper.disableStandardItemLighting();
-            int j = 15728880;
-            int k = j >> 16 & 65535;
-            int l = j & 65535;
-            buffer.begin(7, VERTEX_FORMAT);
-            buffer.pos(f11 - p_70539_3_ * f10 - p_70539_6_ * f10, f12 - p_70539_4_ * f10, f13 - p_70539_5_ * f10 - p_70539_7_ * f10)
-                    .tex(f7, f9)
-                    .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                    .lightmap(k, l)
-                    .normal(0.0F, 1.0F, 0.0F)
-                    .endVertex();
-            buffer.pos(f11 - p_70539_3_ * f10 + p_70539_6_ * f10, f12 + p_70539_4_ * f10, f13 - p_70539_5_ * f10 + p_70539_7_ * f10)
-                    .tex(f7, f8)
-                    .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                    .lightmap(k, l)
-                    .normal(0.0F, 1.0F, 0.0F)
-                    .endVertex();
-            buffer.pos(f11 + p_70539_3_ * f10 + p_70539_6_ * f10, f12 + p_70539_4_ * f10, f13 + p_70539_5_ * f10 + p_70539_7_ * f10)
-                    .tex(f6, f8)
-                    .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                    .lightmap(k, l)
-                    .normal(0.0F, 1.0F, 0.0F)
-                    .endVertex();
-            buffer.pos(f11 + p_70539_3_ * f10 - p_70539_6_ * f10, f12 - p_70539_4_ * f10, f13 + p_70539_5_ * f10 - p_70539_7_ * f10)
-                    .tex(f6, f9)
-                    .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                    .lightmap(k, l)
-                    .normal(0.0F, 1.0F, 0.0F)
-                    .endVertex();
-            Tessellator.getInstance().draw();
-            GlStateManager.doPolygonOffset(0.0F, 0.0F);
-            GlStateManager.enableLighting();
-            GlStateManager.enableCull();
-            GlStateManager.blendFunc(srcBlend, dstBlend);
-            GlStateManager.disableBlend();
+        int currentFrame = (int) ((this.nowCount + partialTicks) * 15.0F / this.endCount);
+        if (currentFrame > 15) {
+            return;
         }
+
+        GlStateManager.enableBlend();
+        int prevSrcBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_SRC);
+        int prevDstBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_DST);
+        GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableCull();
+        this.theRenderEngine.bindTexture(texture);
+
+        // Texture coordinates for 4x4 explosion sheet
+        final int framesPerRow = 4;
+        final float frameSize = 1.0F / framesPerRow;
+
+        int frameRow = currentFrame / framesPerRow;
+        int frameCol = currentFrame % framesPerRow;
+
+        float uMin = frameCol * frameSize;
+        float uMax = uMin + frameSize;
+        float vMin = frameRow * frameSize;
+        float vMax = vMin + frameSize;
+
+        float scaledSize = 2.0F * this.size;
+
+        // Interpolated position relative to camera
+        float relX = (float) (this.prevPosX + (this.posX - this.prevPosX) * partialTicks - interpPosX);
+        float relY = (float) (this.prevPosY + (this.posY - this.prevPosY) * partialTicks - interpPosY);
+        float relZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * partialTicks - interpPosZ);
+
+        RenderHelper.disableStandardItemLighting();
+
+        int brightness = 15728880;
+        int lightU = brightness >> 16 & 0xFFFF;
+        int lightV = brightness & 0xFFFF;
+
+        buffer.begin(GL11.GL_QUADS, VERTEX_FORMAT);
+
+        buffer.pos(relX - rotationX * scaledSize - rotationXY * scaledSize,
+                        relY - rotationYZ * scaledSize,
+                        relZ - rotationZ * scaledSize - rotationXZ * scaledSize)
+                .tex(uMax, vMax)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(lightU, lightV)
+                .normal(0.0F, 1.0F, 0.0F)
+                .endVertex();
+
+        buffer.pos(relX - rotationX * scaledSize + rotationXY * scaledSize,
+                        relY + rotationYZ * scaledSize,
+                        relZ - rotationZ * scaledSize + rotationXZ * scaledSize)
+                .tex(uMax, vMin)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(lightU, lightV)
+                .normal(0.0F, 1.0F, 0.0F)
+                .endVertex();
+
+        buffer.pos(relX + rotationX * scaledSize + rotationXY * scaledSize,
+                        relY + rotationYZ * scaledSize,
+                        relZ + rotationZ * scaledSize + rotationXZ * scaledSize)
+                .tex(uMin, vMin)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(lightU, lightV)
+                .normal(0.0F, 1.0F, 0.0F)
+                .endVertex();
+
+        buffer.pos(relX + rotationX * scaledSize - rotationXY * scaledSize,
+                        relY - rotationYZ * scaledSize,
+                        relZ + rotationZ * scaledSize - rotationXZ * scaledSize)
+                .tex(uMin, vMax)
+                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
+                .lightmap(lightU, lightV)
+                .normal(0.0F, 1.0F, 0.0F)
+                .endVertex();
+
+        Tessellator.getInstance().draw();
+
+        GlStateManager.enableLighting();
+        GlStateManager.enableCull();
+        GlStateManager.blendFunc(prevSrcBlend, prevDstBlend);
+        GlStateManager.disableBlend();
     }
 
     public int getBrightnessForRender(float p_70070_1_) {

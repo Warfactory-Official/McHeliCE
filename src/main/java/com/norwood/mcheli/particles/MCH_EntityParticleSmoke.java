@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -124,57 +125,90 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
         return i;
     }
 
-    public void renderParticle(BufferBuilder buffer, @NotNull Entity entityIn, float par2, float par3, float par4, float par5, float par6, float par7) {
+    @Override
+    public void renderParticle(
+            @NotNull BufferBuilder buffer,
+            @NotNull Entity entity,
+            float partialTicks,
+            float rotationX,
+            float rotationZ,
+            float rotationYZ,
+            float rotationXY,
+            float rotationXZ) {
+
         W_McClient.MOD_bindTexture("textures/particles/smoke.png");
         GlStateManager.enableBlend();
-        int srcBlend = GlStateManager.glGetInteger(3041);
-        int dstBlend = GlStateManager.glGetInteger(3040);
+
+        int srcBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_SRC);
+        int dstBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_DST);
+
         GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.disableCull();
-        float f6 = this.particleTextureIndexX / 8.0F;
-        float f7 = f6 + 0.125F;
-        float f8 = 0.0F;
-        float f9 = 1.0F;
-        float f10 = 0.1F * this.particleScale;
-        float f11 = (float) (this.prevPosX + (this.posX - this.prevPosX) * par2 - interpPosX);
-        float f12 = (float) (this.prevPosY + (this.posY - this.prevPosY) * par2 - interpPosY);
-        float f13 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * par2 - interpPosZ);
-        int i = this.getBrightnessForRender(par2);
-        int j = i >> 16 & 65535;
-        int k = i & 65535;
-        buffer.begin(7, VERTEX_FORMAT);
-        buffer.pos(f11 - par3 * f10 - par6 * f10, f12 - par4 * f10, f13 - par5 * f10 - par7 * f10)
-                .tex(f7, f9)
+
+        float texUStart = this.particleTextureIndexX / 8.0F;
+        float texUEnd = texUStart + 0.125F;
+        float texVStart = 0.0F;
+        float texVEnd = 1.0F;
+
+        float scale = 0.1F * this.particleScale;
+        float renderX = (float) (this.prevPosX + (this.posX - this.prevPosX) * partialTicks - interpPosX);
+        float renderY = (float) (this.prevPosY + (this.posY - this.prevPosY) * partialTicks - interpPosY);
+        float renderZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * partialTicks - interpPosZ);
+
+        // Lighting information
+        int brightness = this.getBrightnessForRender(partialTicks);
+        int lightU = (brightness >> 16) & 0xFFFF;
+        int lightV = brightness & 0xFFFF;
+
+        // Start drawing a quad
+        buffer.begin(GL11.GL_QUADS, VERTEX_FORMAT);
+
+        buffer.pos(renderX - rotationX * scale - rotationXY * scale,
+                        renderY - rotationZ * scale,
+                        renderZ - rotationYZ * scale - rotationXZ * scale)
+                .tex(texUEnd, texVEnd)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(j, k)
+                .lightmap(lightU, lightV)
                 .normal(0.0F, 1.0F, 0.0F)
                 .endVertex();
-        buffer.pos(f11 - par3 * f10 + par6 * f10, f12 + par4 * f10, f13 - par5 * f10 + par7 * f10)
-                .tex(f7, f8)
+
+        buffer.pos(renderX - rotationX * scale + rotationXY * scale,
+                        renderY + rotationZ * scale,
+                        renderZ - rotationYZ * scale + rotationXZ * scale)
+                .tex(texUEnd, texVStart)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(j, k)
+                .lightmap(lightU, lightV)
                 .normal(0.0F, 1.0F, 0.0F)
                 .endVertex();
-        buffer.pos(f11 + par3 * f10 + par6 * f10, f12 + par4 * f10, f13 + par5 * f10 + par7 * f10)
-                .tex(f6, f8)
+
+        buffer.pos(renderX + rotationX * scale + rotationXY * scale,
+                        renderY + rotationZ * scale,
+                        renderZ + rotationYZ * scale + rotationXZ * scale)
+                .tex(texUStart, texVStart)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(j, k)
+                .lightmap(lightU, lightV)
                 .normal(0.0F, 1.0F, 0.0F)
                 .endVertex();
-        buffer.pos(f11 + par3 * f10 - par6 * f10, f12 - par4 * f10, f13 + par5 * f10 - par7 * f10)
-                .tex(f6, f9)
+
+        buffer.pos(renderX + rotationX * scale - rotationXY * scale,
+                        renderY - rotationZ * scale,
+                        renderZ + rotationYZ * scale - rotationXZ * scale)
+                .tex(texUStart, texVEnd)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(j, k)
+                .lightmap(lightU, lightV)
                 .normal(0.0F, 1.0F, 0.0F)
                 .endVertex();
+
         Tessellator.getInstance().draw();
+
         GlStateManager.enableCull();
         GlStateManager.enableLighting();
         GlStateManager.blendFunc(srcBlend, dstBlend);
         GlStateManager.disableBlend();
     }
+
 
     private float getDistance(MCH_EntityAircraft entity) {
         float f = (float) (this.posX - entity.posX);
