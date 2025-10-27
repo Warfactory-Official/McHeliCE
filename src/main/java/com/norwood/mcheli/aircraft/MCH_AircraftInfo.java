@@ -865,7 +865,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
     }
 
-    @AllArgsConstructor
     public static class CameraPosition {
         public final Vec3d pos;
         public final boolean fixRot;
@@ -885,6 +884,13 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
         public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo) {
             this(paramMCH_AircraftInfo, new Vec3d(0.0, 0.0, 0.0));
+        }
+
+        public CameraPosition(Vec3d pos, boolean fixRot, float yaw, float pitch) {
+            this.pos = pos.add(0,W_Entity.GLOBAL_Y_OFFSET,0);
+            this.fixRot = fixRot;
+            this.yaw = yaw;
+            this.pitch = pitch;
         }
 
         @Override
