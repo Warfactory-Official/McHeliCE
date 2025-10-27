@@ -107,7 +107,7 @@ public class YamlEmitter implements IEmitter {
 
 
     private static String tankWeight(int ordinal) {
-        return ordinal == 1 ? "TANK" : ordinal == 2 ? "CAR" : "UKNOWN";
+        return ordinal == 1 ? "CAR" : ordinal == 2 ? "TANK" : "UNKNOWN";
     }
 
     private static @Nullable String sightToString(com.norwood.mcheli.weapon.MCH_SightType sight) {

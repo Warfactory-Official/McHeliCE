@@ -1097,7 +1097,7 @@ public class YamlParser implements IParser {
 
 
     public static enum TankWeight {
-        UKNOWN, TANK, CAR
+        UNKNOWN, CAR, TANK
     }
 
     public static enum FlareType {

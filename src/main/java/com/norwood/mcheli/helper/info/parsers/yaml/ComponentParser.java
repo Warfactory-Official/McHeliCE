@@ -221,18 +221,25 @@ public class ComponentParser {
         List<MCH_AircraftInfo.CrawlerTrackPrm> trackParams = new ArrayList<>();
         trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm((float) cx[0], (float) cy[0]));
 
-        double accLen = 0.0;
+        double carry = 0.0;
         float len = segmentLength * 0.9F;
         for (int i = 0; i < trackCount; i++) {
-            double dx = cx[(i + 1) % trackCount] - cx[i];
-            double dy = cy[(i + 1) % trackCount] - cy[i];
-            double dist = Math.sqrt(dx * dx + dy * dy);
-            accLen += dist;
-
-            while (accLen >= len) {
-                trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm((float) (cx[i] + dx * (len / dist)), (float) (cy[i] + dy * (len / dist))));
-                accLen -= len;
+            int j = (i + 1) % trackCount;
+            double dx = cx[j] - cx[i];
+            double dy = cy[j] - cy[i];
+            final double dist = Math.hypot(dx, dy);
+            double ux = dx / dist, uy = dy / dist;
+            double px = cx[i], py = cy[i];
+            double need = len - carry;
+            double left = dist;
+            while (left >= need) {
+                px += ux * need;
+                py += uy * need;
+                trackParams.add(new MCH_AircraftInfo.CrawlerTrackPrm((float) px, (float) py));
+                left -= need;
+                need = len;
             }
+            carry = left;
         }
 
         int n = trackParams.size();
