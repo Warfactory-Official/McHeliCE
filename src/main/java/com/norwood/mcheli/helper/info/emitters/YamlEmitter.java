@@ -313,121 +313,185 @@ public class YamlEmitter implements IEmitter {
         ball.put("Gravity", info.gravity);
         ball.put("GravityInWater", info.gravityInWater);
         ball.put("VelocityInWater", info.velocityInWater);
-        if (info.speedFactor != 0.0f) ball.put("SpeedFactor", info.speedFactor);
-        if (info.speedFactorStartTick != 0) ball.put("SpeedFactorStartTick", info.speedFactorStartTick);
-        if (info.speedFactorEndTick != 0) ball.put("SpeedFactorEndTick", info.speedFactorEndTick);
-        if (info.speedDependsAircraft) ball.put("SpeedDependsAircraft", true);
-        if (info.piercing != 0) ball.put("Piercing", info.piercing);
-        if (info.flakParticlesDiff != 0.3F) ball.put("FlakSpread", info.flakParticlesDiff);
+        if (info.speedFactor != dummy.speedFactor)
+            ball.put("SpeedFactor", info.speedFactor);
+        if (info.speedFactorStartTick != dummy.speedFactorStartTick)
+            ball.put("SpeedFactorStartTick", info.speedFactorStartTick);
+        if (info.speedFactorEndTick != dummy.speedFactorEndTick)
+            ball.put("SpeedFactorEndTick", info.speedFactorEndTick);
+        if (info.speedDependsAircraft != dummy.speedDependsAircraft)
+            ball.put("SpeedDependsAircraft", true);
+        if (info.piercing != dummy.piercing)
+            ball.put("Piercing", info.piercing);
+        if (info.flakParticlesDiff != dummy.flakParticlesDiff)
+            ball.put("FlakSpread", info.flakParticlesDiff);
         root.put("Ballistics", ball);
-
-        // Sound
+            // Sound
         Map<String, Object> snd = new LinkedHashMap<>();
-        if (info.soundDelay != 0) snd.put("Delay", info.soundDelay);
-        snd.put("Volume", info.soundVolume);
-        snd.put("Pitch", info.soundPitch);
-        if (info.soundPitchRandom != 0.0f) snd.put("PitchRandom", info.soundPitchRandom);
-        if (info.hitSoundRange != 100) snd.put("HitSoundRange", info.hitSoundRange);
-        if (notBlank(info.soundFileName)) snd.put("Name", info.soundFileName.toLowerCase(Locale.ROOT));
+        if (info.soundDelay != dummy.soundDelay)
+            snd.put("Delay", info.soundDelay);
+        if (info.soundVolume != dummy.soundVolume)
+            snd.put("Volume", info.soundVolume);
+        if (info.soundPitch != dummy.soundPitch)
+            snd.put("Pitch", info.soundPitch);
+        if (info.soundPitchRandom != dummy.soundPitchRandom)
+            snd.put("PitchRandom", info.soundPitchRandom);
+        if (info.hitSoundRange != dummy.hitSoundRange)
+            snd.put("HitSoundRange", info.hitSoundRange);
+        if (notBlank(info.soundFileName))
+            snd.put("Name", info.soundFileName.toLowerCase(Locale.ROOT));
+
         Map<String, Object> sndLoc = new LinkedHashMap<>();
-        if (notBlank(info.hitSound)) sndLoc.put("Hit", info.hitSound.toLowerCase(Locale.ROOT));
-        if (notBlank(info.hitSoundIron)) sndLoc.put("HitMetal", info.hitSoundIron.toLowerCase(Locale.ROOT));
-        if (notBlank(info.railgunSound)) sndLoc.put("Railgun", info.railgunSound.toLowerCase(Locale.ROOT));
+        if (notBlank(info.hitSound))
+            sndLoc.put("Hit", info.hitSound.toLowerCase(Locale.ROOT));
+        if (notBlank(info.hitSoundIron))
+            sndLoc.put("HitMetal", info.hitSoundIron.toLowerCase(Locale.ROOT));
+        if (notBlank(info.railgunSound))
+            sndLoc.put("Railgun", info.railgunSound.toLowerCase(Locale.ROOT));
         if (notBlank(info.weaponSwitchSound))
             sndLoc.put("WeaponSwitch", info.weaponSwitchSound.toLowerCase(Locale.ROOT));
-        if (!sndLoc.isEmpty()) snd.put("Locations", sndLoc);
-        if (!snd.isEmpty()) root.put("Sound", snd);
+
+        if (!sndLoc.isEmpty())
+            snd.put("Locations", sndLoc);
+        if (!snd.isEmpty())
+            root.put("Sound", snd);
+
 
         // Explosion
         Map<String, Object> expl = new LinkedHashMap<>();
-        if (info.explosion != 0) expl.put("Power", info.explosion);
-        if (notBlank(info.explosionType)) expl.put("Type", info.explosionType);
-        if (info.explosionBlock >= 0) expl.put("DestructionPower", info.explosionBlock);
-        if (info.explosionInWater != 0) expl.put("PowerUnderwater", info.explosionInWater);
-        if (info.explosionAltitude != 0) expl.put("ExplosionAltitude", info.explosionAltitude);
-        if (info.timeFuse != 0) expl.put("FuseTime", info.timeFuse);
-        if (info.delayFuse != 0) expl.put("FuseDelay", info.delayFuse);
-        if (info.bound != 0.0f) expl.put("FuseRebound", info.bound);
-        if (info.flaming) expl.put("Flaming", true);
-        if (info.canAirburst) expl.put("CanAirburst", true);
-        if (info.explosionAirburst > 0) expl.put("ExplosionAirburst", info.explosionAirburst);
-        if (info.proximityFuseDist != 0.0F) expl.put("ProximityFuseDist", info.proximityFuseDist);
-        expl.put("CanDestroyBlocks", !info.disableDestroyBlock);
-        if (!expl.isEmpty()) root.put("Explosion", expl);
+        if (info.explosion != dummy.explosion)
+            expl.put("Power", info.explosion);
+        if (!Objects.equals(info.explosionType, dummy.explosionType))
+            expl.put("Type", info.explosionType);
+        if (info.explosionBlock != dummy.explosionBlock)
+            expl.put("DestructionPower", info.explosionBlock);
+        if (info.explosionInWater != dummy.explosionInWater)
+            expl.put("PowerUnderwater", info.explosionInWater);
+        if (info.explosionAltitude != dummy.explosionAltitude)
+            expl.put("ExplosionAltitude", info.explosionAltitude);
+        if (info.timeFuse != dummy.timeFuse)
+            expl.put("FuseTime", info.timeFuse);
+        if (info.delayFuse != dummy.delayFuse)
+            expl.put("FuseDelay", info.delayFuse);
+        if (info.bound != dummy.bound)
+            expl.put("FuseRebound", info.bound);
+        if (info.flaming != dummy.flaming)
+            expl.put("Flaming", info.flaming);
+        if (info.canAirburst != dummy.canAirburst)
+            expl.put("CanAirburst", info.canAirburst);
+        if (info.explosionAirburst != dummy.explosionAirburst)
+            expl.put("ExplosionAirburst", info.explosionAirburst);
+        if (info.proximityFuseDist != dummy.proximityFuseDist)
+            expl.put("ProximityFuseDist", info.proximityFuseDist);
+        if (info.disableDestroyBlock != dummy.disableDestroyBlock)
+            expl.put("CanDestroyBlocks", !info.disableDestroyBlock);
+        if (!expl.isEmpty())
+            root.put("Explosion", expl);
+
 
         // Camera
         Map<String, Object> cam = new LinkedHashMap<>();
-        if (info.hasMortarRadar) cam.put("EnableMortarRadar", true);
-        if (info.mortarRadarMaxDist != -1) cam.put("MortarRadarMaxDist", info.mortarRadarMaxDist);
-        if (info.displayMortarDistance) cam.put("DisplayMortarDistance", true);
-        if (info.fixCameraPitch) cam.put("FixPitch", true);
-        if (info.cameraRotationSpeedPitch != 1.0F) cam.put("RotationSpeedPitch", info.cameraRotationSpeedPitch);
+        if (info.hasMortarRadar != dummy.hasMortarRadar)
+            cam.put("EnableMortarRadar", info.hasMortarRadar);
+        if (info.mortarRadarMaxDist != dummy.mortarRadarMaxDist)
+            cam.put("MortarRadarMaxDist", info.mortarRadarMaxDist);
+        if (info.displayMortarDistance != dummy.displayMortarDistance)
+            cam.put("DisplayMortarDistance", info.displayMortarDistance);
+        if (info.fixCameraPitch != dummy.fixCameraPitch)
+            cam.put("FixPitch", info.fixCameraPitch);
+        if (info.cameraRotationSpeedPitch != dummy.cameraRotationSpeedPitch)
+            cam.put("RotationSpeedPitch", info.cameraRotationSpeedPitch);
         String sight = sightToString(info.sight);
-        if (sight != null) cam.put("Sight", sight);
-        if (info.zoom != null && info.zoom.length > 0) cam.put("Zoom", Floats.asList(info.zoom));
-        if (!cam.isEmpty()) root.put("Camera", cam);
+        if (!Objects.equals(sight, sightToString(dummy.sight)))
+            cam.put("Sight", sight);
+        if (!Arrays.equals(info.zoom, dummy.zoom) && info.zoom != null && info.zoom.length > 0)
+            cam.put("Zoom", Floats.asList(info.zoom));
+        if (!cam.isEmpty())
+            root.put("Camera", cam);
+
 
         // Missile
         Map<String, Object> missile = new LinkedHashMap<>();
-        if (info.laserGuidance) missile.put("LaserGuidance", true);
-        if (!info.hasLaserGuidancePod) missile.put("HasLaserGuidancePod", false);
-        if (!info.enableOffAxis) missile.put("IsOffAxis", info.enableOffAxis);
-        if (info.isGuidedTorpedo) missile.put("GuidedTorpedo", true);
-        if (!info.predictTargetPos) missile.put("PredictTargetPos", false);
-        if (info.enableBVR) missile.put("EnableBVR", true);
-        if (info.minRangeBVR != 300) missile.put("MinRangeBVR", info.minRangeBVR);
-        if (info.scanInterval != 20) missile.put("ScanInterval", info.scanInterval);
-        if (info.tickEndHoming != -1) missile.put("TickEndHoming", info.tickEndHoming);
-        if (info.pdHDNMaxDegree != 1000.0f) missile.put("PDHDNMaxDegree", info.pdHDNMaxDegree);
-        if (info.pdHDNMaxDegreeLockOutCount != 10)
+        if (info.laserGuidance != dummy.laserGuidance)
+            missile.put("LaserGuidance", info.laserGuidance);
+        if (info.hasLaserGuidancePod != dummy.hasLaserGuidancePod)
+            missile.put("HasLaserGuidancePod", info.hasLaserGuidancePod);
+        if (info.enableOffAxis != dummy.enableOffAxis)
+            missile.put("IsOffAxis", info.enableOffAxis);
+        if (info.isGuidedTorpedo != dummy.isGuidedTorpedo)
+            missile.put("GuidedTorpedo", info.isGuidedTorpedo);
+        if (info.predictTargetPos != dummy.predictTargetPos)
+            missile.put("PredictTargetPos", info.predictTargetPos);
+        if (info.enableBVR != dummy.enableBVR)
+            missile.put("EnableBVR", info.enableBVR);
+        if (info.minRangeBVR != dummy.minRangeBVR)
+            missile.put("MinRangeBVR", info.minRangeBVR);
+        if (info.scanInterval != dummy.scanInterval)
+            missile.put("ScanInterval", info.scanInterval);
+        if (info.tickEndHoming != dummy.tickEndHoming)
+            missile.put("TickEndHoming", info.tickEndHoming);
+        if (info.pdHDNMaxDegree != dummy.pdHDNMaxDegree)
+            missile.put("PDHDNMaxDegree", info.pdHDNMaxDegree);
+        if (info.pdHDNMaxDegreeLockOutCount != dummy.pdHDNMaxDegreeLockOutCount)
             missile.put("PDHDNMaxDegreeLockOutCount", info.pdHDNMaxDegreeLockOutCount);
-        if (info.turningFactor != 0.5) missile.put("TurningFactor", info.turningFactor);
-        if (info.maxDegreeOfMissile != 60) missile.put("MaxDegreeOfMissile", info.maxDegreeOfMissile);
-        if (info.canBeIntercepted) missile.put("CanBeIntercepted", true);
-
+        if (info.turningFactor != dummy.turningFactor)
+            missile.put("TurningFactor", info.turningFactor);
+        if (info.maxDegreeOfMissile != dummy.maxDegreeOfMissile)
+            missile.put("MaxDegreeOfMissile", info.maxDegreeOfMissile);
+        if (info.canBeIntercepted != dummy.canBeIntercepted)
+            missile.put("CanBeIntercepted", info.canBeIntercepted);
+        if (!missile.isEmpty())
+            root.put("Missile", missile);
         // LockOn
         Map<String, Object> lockOn = new LinkedHashMap<>();
-        if (info.canLockMissile) lockOn.put("CanLockMissile", true);
-        if (info.lockTime != 30) lockOn.put("Time", info.lockTime);
-        if (info.rigidityTime != 7) lockOn.put("Delay", info.rigidityTime);
-        if (info.maxLockOnRange != 300) lockOn.put("MaxRange", info.maxLockOnRange);
-        if (info.maxLockOnAngle != 10) lockOn.put("MaxAngle", info.maxLockOnAngle);
-        if (info.lockMinHeight != 25) lockOn.put("MinHeight", info.lockMinHeight);
-        if (info.passiveRadarLockOutCount != 20) lockOn.put("PassiveRadarLockOutCount", info.passiveRadarLockOutCount);
-        if (info.numLockedChaffMax != 2) lockOn.put("LockedChaffMax", info.numLockedChaffMax);
+        if (info.canLockMissile != dummy.canLockMissile) lockOn.put("CanLockMissile", info.canLockMissile);
+        if (info.lockTime != dummy.lockTime) lockOn.put("Time", info.lockTime);
+        if (info.rigidityTime != dummy.rigidityTime) lockOn.put("Delay", info.rigidityTime);
+        if (info.maxLockOnRange != dummy.maxLockOnRange) lockOn.put("MaxRange", info.maxLockOnRange);
+        if (info.maxLockOnAngle != dummy.maxLockOnAngle) lockOn.put("MaxAngle", info.maxLockOnAngle);
+        if (info.lockMinHeight != dummy.lockMinHeight) lockOn.put("MinHeight", info.lockMinHeight);
+        if (info.passiveRadarLockOutCount != dummy.passiveRadarLockOutCount)
+            lockOn.put("PassiveRadarLockOutCount", info.passiveRadarLockOutCount);
+        if (info.numLockedChaffMax != dummy.numLockedChaffMax)
+            lockOn.put("LockedChaffMax", info.numLockedChaffMax);
         if (!lockOn.isEmpty()) missile.put("LockOn", lockOn);
 
         // Radar
         Map<String, Object> radar = new LinkedHashMap<>();
-        if (info.isRadarMissile) radar.put("IsRadarMissile", true);
-        if (info.activeRadar) radar.put("ActiveRadar", true);
-        if (info.passiveRadar) radar.put("PassiveRadar", true);
+        if (info.isRadarMissile != dummy.isRadarMissile) radar.put("IsRadarMissile", info.isRadarMissile);
+        if (info.activeRadar != dummy.activeRadar) radar.put("ActiveRadar", info.activeRadar);
+        if (info.passiveRadar != dummy.passiveRadar) radar.put("PassiveRadar", info.passiveRadar);
         if (!radar.isEmpty()) missile.put("Radar", radar);
 
         // Heat
         Map<String, Object> heat = new LinkedHashMap<>();
-        if (!info.isHeatSeekerMissile) heat.put("isHeatMissile", false);
-        if (info.heatCount != 0) heat.put("HeatCount", info.heatCount);
-        if (info.maxHeatCount != 0) heat.put("MaxHeatCount", info.maxHeatCount);
-        if (info.antiFlareCount != -1) heat.put("AntiFlareCount", info.antiFlareCount);
+        if (info.isHeatSeekerMissile != dummy.isHeatSeekerMissile)
+            heat.put("isHeatMissile", info.isHeatSeekerMissile);
+        if (info.heatCount != dummy.heatCount) heat.put("HeatCount", info.heatCount);
+        if (info.maxHeatCount != dummy.maxHeatCount) heat.put("MaxHeatCount", info.maxHeatCount);
+        if (info.antiFlareCount != dummy.antiFlareCount) heat.put("AntiFlareCount", info.antiFlareCount);
         if (!heat.isEmpty()) missile.put("Heat", heat);
 
         // Marker Rocket params under missile
         Map<String, Object> marker = new LinkedHashMap<>();
-        if (info.markerRocketSpawnNum != 5) marker.put("Count", info.markerRocketSpawnNum);
-        if (info.markerRocketSpawnDiff != 15) marker.put("Spread", info.markerRocketSpawnDiff);
-        if (info.markerRocketSpawnHeight != 200) marker.put("SpawnHeight", info.markerRocketSpawnHeight);
-        if (info.markerRocketSpawnSpeed != 5) marker.put("Acceleration", info.markerRocketSpawnSpeed);
+        if (info.markerRocketSpawnNum != dummy.markerRocketSpawnNum)
+            marker.put("Count", info.markerRocketSpawnNum);
+        if (info.markerRocketSpawnDiff != dummy.markerRocketSpawnDiff)
+            marker.put("Spread", info.markerRocketSpawnDiff);
+        if (info.markerRocketSpawnHeight != dummy.markerRocketSpawnHeight)
+            marker.put("SpawnHeight", info.markerRocketSpawnHeight);
+        if (info.markerRocketSpawnSpeed != dummy.markerRocketSpawnSpeed)
+            marker.put("Acceleration", info.markerRocketSpawnSpeed);
         if (!marker.isEmpty()) missile.put("MarkerRocket", marker);
 
         if (!missile.isEmpty()) root.put("Missile", missile);
 
         // Ammo
         Map<String, Object> ammo = new LinkedHashMap<>();
-        if (info.reloadTime != 30) ammo.put("ReloadTime", info.reloadTime);
-        if (info.round != 0) ammo.put("MagSize", info.round);
-        if (info.maxAmmo != 0) ammo.put("MaxAmmo", info.maxAmmo);
-        if (info.suppliedNum != 1) ammo.put("ResupplyCount", info.suppliedNum);
+        if (info.reloadTime != dummy.reloadTime) ammo.put("ReloadTime", info.reloadTime);
+        if (info.round != dummy.round) ammo.put("MagSize", info.round);
+        if (info.maxAmmo != dummy.maxAmmo) ammo.put("MaxAmmo", info.maxAmmo);
+        if (info.suppliedNum != dummy.suppliedNum) ammo.put("ResupplyCount", info.suppliedNum);
         if (info.roundItems != null && !info.roundItems.isEmpty()) {
             List<Map<String, Object>> rounds = new ArrayList<>();
             for (MCH_WeaponInfo.RoundItem ri : info.roundItems) {
@@ -440,36 +504,43 @@ public class YamlEmitter implements IEmitter {
             ammo.put("AmmoItems", rounds);
         }
         if (!ammo.isEmpty()) root.put("Ammo", ammo);
-        if (info.delay != 0) root.put("FireCooldown", info.delay);
+        if (info.delay != dummy.delay) root.put("FireCooldown", info.delay);
 
         // Top-level toggles and misc
-        if (info.target != 0) root.put("Target", targetToString(info.target));
-        if (info.modeNum != 0) root.put("Mode", info.modeNum);
-        if (info.fixMode != 0) root.put("FixMode", info.fixMode);
-        if (info.ridableOnly) root.put("RidableOnly", true);
-        if (info.accuracy != 0.0F) root.put("Accuracy", info.accuracy);
-        if (info.destruct) root.put("SelfDestruct", true);
-        if (info.enableChunkLoader) root.put("CanLoadChunks", true);
-        if (info.weaponSwitchCount != 0) root.put("SwitchCooldown", info.weaponSwitchCount);
-        if (info.crossType != 0) root.put("CrossType", info.crossType);
+        if (info.target != dummy.target) root.put("Target", targetToString(info.target));
+        if (info.modeNum != dummy.modeNum) root.put("Mode", info.modeNum);
+        if (info.fixMode != dummy.fixMode) root.put("FixMode", info.fixMode);
+        if (info.ridableOnly != dummy.ridableOnly) root.put("RidableOnly", info.ridableOnly);
+        if (info.accuracy != dummy.accuracy) root.put("Accuracy", info.accuracy);
+        if (info.destruct != dummy.destruct) root.put("SelfDestruct", info.destruct);
+        if (info.enableChunkLoader != dummy.enableChunkLoader) root.put("CanLoadChunks", info.enableChunkLoader);
+        if (info.weaponSwitchCount != dummy.weaponSwitchCount) root.put("SwitchCooldown", info.weaponSwitchCount);
+        if (info.crossType != dummy.crossType) root.put("CrossType", info.crossType);
 
         // HBM compat
         Map<String, Object> ntm = new LinkedHashMap<>();
-        if (info.payloadNTM != null && info.payloadNTM != MCH_WeaponInfo.Payload.NONE) {
+        if (info.payloadNTM != dummy.payloadNTM && info.payloadNTM != null && info.payloadNTM != MCH_WeaponInfo.Payload.NONE) {
             ntm.put("PayloadType", info.payloadNTM.name());
         }
-        if (info.effectOnly) ntm.put("EffectOnly", true);
-        if (info.fluidTypeNTM != null) ntm.put("FluidType", info.fluidTypeNTM);
+        if (info.effectOnly != dummy.effectOnly) ntm.put("EffectOnly", info.effectOnly);
+        if (!Objects.equals(info.fluidTypeNTM, dummy.fluidTypeNTM) && info.fluidTypeNTM != null)
+            ntm.put("FluidType", info.fluidTypeNTM);
         if (!ntm.isEmpty()) root.put("NTM", ntm);
 
         // Damage block
         Map<String, Object> dmg = new LinkedHashMap<>();
-        if (info.explosionDamageVsLiving != 1.0f) dmg.put("ExplosionDamageVsLiving", info.explosionDamageVsLiving);
-        if (info.explosionDamageVsPlayer != 1.0f) dmg.put("ExplosionDamageVsPlayer", info.explosionDamageVsPlayer);
-        if (info.explosionDamageVsPlane != 1.0f) dmg.put("ExplosionDamageVsPlane", info.explosionDamageVsPlane);
-        if (info.explosionDamageVsVehicle != 1.0f) dmg.put("ExplosionDamageVsVehicle", info.explosionDamageVsVehicle);
-        if (info.explosionDamageVsTank != 1.0f) dmg.put("ExplosionDamageVsTank", info.explosionDamageVsTank);
-        if (info.explosionDamageVsHeli != 1.0f) dmg.put("ExplosionDamageVsHeli", info.explosionDamageVsHeli);
+        if (info.explosionDamageVsLiving != dummy.explosionDamageVsLiving)
+            dmg.put("ExplosionDamageVsLiving", info.explosionDamageVsLiving);
+        if (info.explosionDamageVsPlayer != dummy.explosionDamageVsPlayer)
+            dmg.put("ExplosionDamageVsPlayer", info.explosionDamageVsPlayer);
+        if (info.explosionDamageVsPlane != dummy.explosionDamageVsPlane)
+            dmg.put("ExplosionDamageVsPlane", info.explosionDamageVsPlane);
+        if (info.explosionDamageVsVehicle != dummy.explosionDamageVsVehicle)
+            dmg.put("ExplosionDamageVsVehicle", info.explosionDamageVsVehicle);
+        if (info.explosionDamageVsTank != dummy.explosionDamageVsTank)
+            dmg.put("ExplosionDamageVsTank", info.explosionDamageVsTank);
+        if (info.explosionDamageVsHeli != dummy.explosionDamageVsHeli)
+            dmg.put("ExplosionDamageVsHeli", info.explosionDamageVsHeli);
         if (!dmg.isEmpty()) root.put("Damage", dmg);
 
         // Render settings
@@ -510,40 +581,45 @@ public class YamlEmitter implements IEmitter {
             }
             render.put("MuzzleSmoke", flashes);
         }
-        if(info.cartridge != null){
+        if (info.cartridge != null && !Objects.equals(info.cartridge, dummy.cartridge)) {
             var casing = info.cartridge;
-
-            var casingMap = new LinkedHashMap<String,Object>();
-            casingMap.put("Name", info.cartridge.name);
-                casingMap.put("Acceleration", casing.acceleration);
-                casingMap.put("Yaw", casing.yaw);
-                casingMap.put("Pitch", casing.pitch);
-                casingMap.put("Scale", casing.scale);
-                casingMap.put("Gravity", casing.gravity);
-                casingMap.put("Bound", casing.bound);
-            render.put("SpentCasings",casingMap);
+            var casingMap = new LinkedHashMap<String, Object>();
+            casingMap.put("Name", casing.name);
+            if (casing.acceleration != dummy.cartridge.acceleration) casingMap.put("Acceleration", casing.acceleration);
+            if (casing.yaw != dummy.cartridge.yaw) casingMap.put("Yaw", casing.yaw);
+            if (casing.pitch != dummy.cartridge.pitch) casingMap.put("Pitch", casing.pitch);
+            if (casing.scale != dummy.cartridge.scale) casingMap.put("Scale", casing.scale);
+            if (casing.gravity != dummy.cartridge.gravity) casingMap.put("Gravity", casing.gravity);
+            if (casing.bound != dummy.cartridge.bound) casingMap.put("Bound", casing.bound);
+            render.put("SpentCasings", casingMap);
         }
-        if (notBlank(info.bulletModelName)) render.put("BulletModel", info.bulletModelName);
-        if (notBlank(info.bombletModelName)) render.put("BombletModel", info.bombletModelName);
-        if (notBlank(info.trajectoryParticleName)) render.put("TrajectoryParticle", info.trajectoryParticleName);
-        if (info.trajectoryParticleStartTick != 0)
+        if (!Objects.equals(info.bulletModelName, dummy.bulletModelName) && notBlank(info.bulletModelName))
+            render.put("BulletModel", info.bulletModelName);
+        if (!Objects.equals(info.bombletModelName, dummy.bombletModelName) && notBlank(info.bombletModelName))
+            render.put("BombletModel", info.bombletModelName);
+        if (!Objects.equals(info.trajectoryParticleName, dummy.trajectoryParticleName) && notBlank(info.trajectoryParticleName))
+            render.put("TrajectoryParticle", info.trajectoryParticleName);
+        if (info.trajectoryParticleStartTick != dummy.trajectoryParticleStartTick)
             render.put("TrajectoryParticleStartTick", info.trajectoryParticleStartTick);
-        if (info.flakParticlesCrack != 10) render.put("FlakParticlesCrack", info.flakParticlesCrack);
-        if (info.numParticlesFlak != 3) render.put("ParticlesFlak", info.numParticlesFlak);
+        if (info.flakParticlesCrack != dummy.flakParticlesCrack)
+            render.put("FlakParticlesCrack", info.flakParticlesCrack);
+        if (info.numParticlesFlak != dummy.numParticlesFlak)
+            render.put("ParticlesFlak", info.numParticlesFlak);
+
         // Smoke sub-block
         Map<String, Object> smoke = new LinkedHashMap<>();
-        if (info.disableSmoke) smoke.put("DisableSmoke", true);
-        if (info.smokeSize != 2.0F) smoke.put("SmokeSize", info.smokeSize);
-        if (info.smokeNum != 1) smoke.put("SmokeNum", info.smokeNum);
-        if (info.smokeMaxAge != 100) smoke.put("SmokeMaxAge", info.smokeMaxAge);
-        if (info.colorInWater != null) {
+        if (info.disableSmoke != dummy.disableSmoke) smoke.put("DisableSmoke", info.disableSmoke);
+        if (info.smokeSize != dummy.smokeSize) smoke.put("SmokeSize", info.smokeSize);
+        if (info.smokeNum != dummy.smokeNum) smoke.put("SmokeNum", info.smokeNum);
+        if (info.smokeMaxAge != dummy.smokeMaxAge) smoke.put("SmokeMaxAge", info.smokeMaxAge);
+        if (!Objects.equals(info.colorInWater, dummy.colorInWater) && info.colorInWater != null) {
             int r = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.r)) * 255.0);
             int g = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.g)) * 255.0);
             int b = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.b)) * 255.0);
             int rgb = (r << 16) | (g << 8) | b;
             smoke.put("BulletColorInWater", String.format("#%06X", rgb));
         }
-        if (info.color != null) {
+        if (!Objects.equals(info.color, dummy.color) && info.color != null) {
             int r2 = (int) Math.round(Math.max(0, Math.min(1, info.color.r)) * 255.0);
             int g2 = (int) Math.round(Math.max(0, Math.min(1, info.color.g)) * 255.0);
             int b2 = (int) Math.round(Math.max(0, Math.min(1, info.color.b)) * 255.0);
@@ -552,6 +628,7 @@ public class YamlEmitter implements IEmitter {
         }
         if (!smoke.isEmpty()) render.put("Smoke", smoke);
         if (!render.isEmpty()) root.put("Render", render);
+
 
         return YAML.dump(root);
     }
