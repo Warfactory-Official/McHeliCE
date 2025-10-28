@@ -615,18 +615,20 @@ public class YamlEmitter implements IEmitter {
         if (info.smokeNum != dummy.smokeNum) smoke.put("SmokeNum", info.smokeNum);
         if (info.smokeMaxAge != dummy.smokeMaxAge) smoke.put("SmokeMaxAge", info.smokeMaxAge);
         if (!Objects.equals(info.colorInWater, dummy.colorInWater) && info.colorInWater != null) {
+            int a = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.a)) * 255.0);
             int r = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.r)) * 255.0);
             int g = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.g)) * 255.0);
             int b = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.b)) * 255.0);
-            int rgb = (r << 16) | (g << 8) | b;
-            smoke.put("BulletColorInWater", String.format("#%06X", rgb));
+            int rgba1 = (a << 24)| (r << 16) | (g << 8) | b;
+            smoke.put("BulletColorInWater", String.format("#%06X", rgba1));
         }
         if (!Objects.equals(info.color, dummy.color) && info.color != null) {
+            int a2 = (int) Math.round(Math.max(0, Math.min(1, info.color.a)) * 255.0);
             int r2 = (int) Math.round(Math.max(0, Math.min(1, info.color.r)) * 255.0);
             int g2 = (int) Math.round(Math.max(0, Math.min(1, info.color.g)) * 255.0);
             int b2 = (int) Math.round(Math.max(0, Math.min(1, info.color.b)) * 255.0);
-            int rgb2 = (r2 << 16) | (g2 << 8) | b2;
-            smoke.put("BulletColor", String.format("#%06X", rgb2));
+            int rgba1 = (a2 << 24) | (r2 << 16) | (g2 << 8) | b2;
+            smoke.put("BulletColor", String.format("#%06X", rgba1));
         }
         if (!smoke.isEmpty()) render.put("Smoke", smoke);
         if (!render.isEmpty()) root.put("Render", render);

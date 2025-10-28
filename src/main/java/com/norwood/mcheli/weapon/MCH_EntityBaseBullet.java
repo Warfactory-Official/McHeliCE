@@ -2,13 +2,11 @@ package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Explosion;
-import com.norwood.mcheli.compat.hbm.HBMUtil;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntityHitBox;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.chain.MCH_EntityChain;
-import com.norwood.mcheli.compat.ModCompatManager;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.helper.world.MCH_ExplosionV2;
 import com.norwood.mcheli.networking.packet.PacketNotifyHit;
@@ -281,34 +279,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                             50.0F
                     );
                 }
-            }
-        }
-    }
-
-    public void DEF_spawnParticle(String name, int num, float size) {
-        if (this.world.isRemote) {
-            if (name.isEmpty() || num < 1 || num > 50) {
-                return;
-            }
-
-            double x = (this.posX - this.prevPosX) / num;
-            double y = (this.posY - this.prevPosY) / num;
-            double z = (this.posZ - this.prevPosZ) / num;
-            double x2 = (this.prevPosX - this.prevPosX2) / num;
-            double y2 = (this.prevPosY - this.prevPosY2) / num;
-            double z2 = (this.prevPosZ - this.prevPosZ2) / num;
-
-            for (int i = 0; i < num; i++) {
-                MCH_ParticlesUtil.DEF_spawnParticle(
-                        name,
-                        (this.prevPosX + x * i + (this.prevPosX2 + x2 * i)) / 2.0,
-                        (this.prevPosY + y * i + (this.prevPosY2 + y2 * i)) / 2.0,
-                        (this.prevPosZ + z * i + (this.prevPosZ2 + z2 * i)) / 2.0,
-                        0.0,
-                        0.0,
-                        0.0,
-                        150.0F
-                );
             }
         }
     }

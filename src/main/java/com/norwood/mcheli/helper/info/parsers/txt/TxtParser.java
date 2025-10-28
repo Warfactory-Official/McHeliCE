@@ -17,8 +17,8 @@ import com.norwood.mcheli.helper.info.ContentParsers;
 import com.norwood.mcheli.helper.info.parsers.IParser;
 import com.norwood.mcheli.hud.*;
 import com.norwood.mcheli.item.MCH_ItemInfo;
-import com.norwood.mcheli.plane.MCP_EntityPlane;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.plane.MCP_EntityPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.tank.MCH_EntityTank;
@@ -33,7 +33,6 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo.MuzzleFlash;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo.RoundItem;
 import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
-import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
@@ -42,7 +41,6 @@ import net.minecraft.util.math.Vec3d;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Supplier;
 
 // TODO: refactor the if-else chain with a massive switch or something
@@ -91,49 +89,49 @@ public class TxtParser implements IParser {
     @Override
     @Nullable
     public MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-            return parse(location, filepath, lines, reload, () -> new MCH_WeaponInfo(location, filepath), this::applyWeaponLine);
-        }
+        return parse(location, filepath, lines, reload, () -> new MCH_WeaponInfo(location, filepath), this::applyWeaponLine);
+    }
 
-        @Override
-        @Nullable
-        public MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-            return parse(location, filepath, lines, reload, () -> new MCH_ThrowableInfo(location, filepath), this::applyThrowableLine);
-        }
+    @Override
+    @Nullable
+    public MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+        return parse(location, filepath, lines, reload, () -> new MCH_ThrowableInfo(location, filepath), this::applyThrowableLine);
+    }
 
-        @Override
-        @Nullable
-        public MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
-            MCH_Hud info = new MCH_Hud(location, filepath);
-            int lineNumber = 0;
-            try {
-                for (String raw : lines) {
-                    lineNumber++;
-                    String str = raw.trim();
-                    if (str.equalsIgnoreCase("endif")) {
-                        str = "endif=0";
-                    } else if (str.equalsIgnoreCase("exit")) {
-                        str = "exit=0";
-                    }
+    @Override
+    @Nullable
+    public MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+        MCH_Hud info = new MCH_Hud(location, filepath);
+        int lineNumber = 0;
+        try {
+            for (String raw : lines) {
+                lineNumber++;
+                String str = raw.trim();
+                if (str.equalsIgnoreCase("endif")) {
+                    str = "endif=0";
+                } else if (str.equalsIgnoreCase("exit")) {
+                    str = "exit=0";
+                }
 
-                    int eqIdx = str.indexOf('=');
-                    if (eqIdx >= 0 && str.length() > eqIdx + 1) {
-                        String item = str.substring(0, eqIdx).trim().toLowerCase();
-                        String data = str.substring(eqIdx + 1).trim();
-                        if (!reload || info.canReloadItem(item)) {
-                            applyHudLine(info, lineNumber, item, data);
-                        }
+                int eqIdx = str.indexOf('=');
+                if (eqIdx >= 0 && str.length() > eqIdx + 1) {
+                    String item = str.substring(0, eqIdx).trim().toLowerCase();
+                    String data = str.substring(eqIdx + 1).trim();
+                    if (!reload || info.canReloadItem(item)) {
+                        applyHudLine(info, lineNumber, item, data);
                     }
                 }
-                return info;
-            } catch (Exception ex) {
-                throw new ContentParseException(ex, lineNumber);
             }
+            return info;
+        } catch (Exception ex) {
+            throw new ContentParseException(ex, lineNumber);
         }
+    }
 
 
-        @Override
-        @Nullable
-        public MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    @Override
+    @Nullable
+    public MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
         String name = location.getPath();
         return parse(location, filepath, lines, reload, () -> new MCH_ItemInfo(location, filepath, name), this::applyItemLine);
     }
@@ -253,7 +251,7 @@ public class TxtParser implements IParser {
                 info.particleSplashs.add(new ParticleSplash(info, v, num, size, acc, age, motionY, gravity));
             }
         } else if (item.equalsIgnoreCase("AddSearchLight") || item.equalsIgnoreCase("AddFixedSearchLight") ||
-                   item.equalsIgnoreCase("AddSteeringSearchLight")) {
+                item.equalsIgnoreCase("AddSteeringSearchLight")) {
             String[] s = info.splitParam(data);
             if (s.length >= 7) {
                 Vec3d v = info.toVec3(s[0], s[1], s[2]);
@@ -506,8 +504,8 @@ public class TxtParser implements IParser {
                 set.weapons.add(e);
             }
         } else if (item.equalsIgnoreCase("AddPartWeapon") || item.equalsIgnoreCase("AddPartRotWeapon") ||
-                   item.equalsIgnoreCase("AddPartTurretWeapon") || item.equalsIgnoreCase("AddPartTurretRotWeapon") ||
-                   item.equalsIgnoreCase("AddPartWeaponMissile")) {
+                item.equalsIgnoreCase("AddPartTurretWeapon") || item.equalsIgnoreCase("AddPartTurretRotWeapon") ||
+                item.equalsIgnoreCase("AddPartWeaponMissile")) {
             String[] sx = data.split("\\s*,\\s*");
             if (sx.length >= 7) {
                 float rx = 0.0F;
@@ -664,7 +662,7 @@ public class TxtParser implements IParser {
                 }
             }
         } else if (item.equalsIgnoreCase("AddPartLG") || item.equalsIgnoreCase("AddPartSlideRotLG") || item.equalsIgnoreCase("AddPartLGRev") ||
-                   item.equalsIgnoreCase("AddPartLGHatch")) {
+                item.equalsIgnoreCase("AddPartLGHatch")) {
             String[] sxx = data.split("\\s*,\\s*");
             if (!item.equalsIgnoreCase("AddPartSlideRotLG") && sxx.length >= 6) {
                 float maxRot = sxx.length >= 7 ? info.toFloat(sxx[6], -180.0F, 180.0F) : 90.0F;
@@ -740,7 +738,7 @@ public class TxtParser implements IParser {
             if (sxxx.length >= 7) {
                 info.partSteeringWheel.add(new PartWheel(info, info.toFloat(sxxx[0]), info.toFloat(sxxx[1]), info.toFloat(sxxx[2]), info.toFloat(
                         sxxx[3]), info.toFloat(sxxx[4]), info.toFloat(sxxx[5]), info.toFloat(sxxx[6]), "steering_wheel" +
-                                                                                                       info.partSteeringWheel.size()));
+                        info.partSteeringWheel.size()));
             }
         } else if (item.equalsIgnoreCase("AddTrackRoller")) {
             String[] sxxx = info.splitParam(data);
@@ -1465,7 +1463,7 @@ public class TxtParser implements IParser {
                     info.list.add(new MCH_HudItemRadar(lineNumber, item.equalsIgnoreCase("DrawEntityRadar"), prm[0], prm[1], prm[2], prm[3], prm[4]));
                 }
             } else if (item.equalsIgnoreCase("DrawGraduationYaw") || item.equalsIgnoreCase("DrawGraduationPitch1") ||
-                       item.equalsIgnoreCase("DrawGraduationPitch2") || item.equalsIgnoreCase("DrawGraduationPitch3")) {
+                    item.equalsIgnoreCase("DrawGraduationPitch2") || item.equalsIgnoreCase("DrawGraduationPitch3")) {
                 if (prm.length == 4) {
                     int type = -1;
                     if (item.equalsIgnoreCase("DrawGraduationYaw")) {

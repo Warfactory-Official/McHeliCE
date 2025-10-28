@@ -157,6 +157,8 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         MCH_ModelManager.setForceReloadMode(true);
 
+
+
         CompletableFuture<Void> miscFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
             MCH_RenderAircraft.debugModel = MCH_ModelManager.load("box");
@@ -171,6 +173,21 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][MISC] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
+        CompletableFuture<Void> bulletFuture = CompletableFuture.runAsync(() -> {
+            long start = System.nanoTime();
+            MCH_DefaultBulletModels.Bullet = this.loadBulletModel("bullet");
+            MCH_DefaultBulletModels.AAMissile = this.loadBulletModel("aamissile");
+            MCH_DefaultBulletModels.ATMissile = this.loadBulletModel("asmissile");
+            MCH_DefaultBulletModels.ASMissile = this.loadBulletModel("asmissile");
+            MCH_DefaultBulletModels.Bomb = this.loadBulletModel("bomb");
+            MCH_DefaultBulletModels.Rocket = this.loadBulletModel("rocket");
+            MCH_DefaultBulletModels.Torpedo = this.loadBulletModel("torpedo");
+            registerModels_Bullet();
+            long end = System.nanoTime();
+            System.out.println("[BULLETS] Loaded in " + ((end - start) / 1_000_000) + " ms");
+        });
+
+
 
         CompletableFuture<Void> uavFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
@@ -222,21 +239,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             System.out.println("[MCH-LOADER][VEHICLE] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
 
-        CompletableFuture<Void> bulletFuture = CompletableFuture.runAsync(() -> {
-            long start = System.nanoTime();
-            registerModels_Bullet();
-            MCH_DefaultBulletModels.Bullet = this.loadBulletModel("bullet");
-            MCH_DefaultBulletModels.AAMissile = this.loadBulletModel("aamissile");
-            MCH_DefaultBulletModels.ATMissile = this.loadBulletModel("asmissile");
-            MCH_DefaultBulletModels.ASMissile = this.loadBulletModel("asmissile");
-            MCH_DefaultBulletModels.Bomb = this.loadBulletModel("bomb");
-            MCH_DefaultBulletModels.Rocket = this.loadBulletModel("rocket");
-            MCH_DefaultBulletModels.Torpedo = this.loadBulletModel("torpedo");
-            long end = System.nanoTime();
-            System.out.println("[BULLETS] Loaded in " + ((end - start) / 1_000_000) + " ms");
-        });
-
-        CompletableFuture<Void> throwableFuture = CompletableFuture.runAsync(() -> {
+              CompletableFuture<Void> throwableFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
             for (MCH_ThrowableInfo wi : ContentRegistries.throwable().values()) {
                 wi.model = MCH_ModelManager.load("throwable", wi.name);

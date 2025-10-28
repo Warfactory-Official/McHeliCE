@@ -312,8 +312,8 @@ public class WeaponParser {
                         info.listMuzzleFlash = parseMuzzleFlashes((List<Map<String, Object>>) entry.getValue());
                 case "MuzzleSmoke" ->
                         info.listMuzzleFlashSmoke = parseMuzzleFlashes((List<Map<String, Object>>) entry.getValue());
-                case "BulletModel" -> info.bulletModelName = ((String) entry.getValue()).trim();
-                case "BombletModel" -> info.bombletModelName = ((String) entry.getValue()).trim();
+                case "BulletModel" -> info.bulletModelName = ((String) entry.getValue()).trim().toLowerCase();
+                case "BombletModel" -> info.bombletModelName = ((String) entry.getValue()).trim().toLowerCase();
                 case "TrajectoryParticle" -> {
                     var rawString = ((String) entry.getValue()).trim().toLowerCase();
                     info.trajectoryParticleName = "none".equals(rawString) ? "" : rawString;
