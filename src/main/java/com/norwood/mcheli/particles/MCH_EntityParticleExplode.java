@@ -1,5 +1,6 @@
 package com.norwood.mcheli.particles;
 
+import com.norwood.mcheli.Tags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -12,28 +13,25 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
 public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
-    private static final VertexFormat VERTEX_FORMAT = new VertexFormat()
-            .addElement(DefaultVertexFormats.POSITION_3F)
-            .addElement(DefaultVertexFormats.TEX_2F)
-            .addElement(DefaultVertexFormats.COLOR_4UB)
-            .addElement(DefaultVertexFormats.TEX_2S)
-            .addElement(DefaultVertexFormats.NORMAL_3B)
-            .addElement(DefaultVertexFormats.PADDING_1B);
-    private static final ResourceLocation texture = new ResourceLocation("textures/entity/explosion.png");
+    private static final ResourceLocation texture = new ResourceLocation(Tags.MODID, "textures/flash.png");
     private int nowCount;
     private final int endCount;
     private final TextureManager theRenderEngine = Minecraft.getMinecraft().renderEngine;
     private final float size;
 
-    public MCH_EntityParticleExplode(World w, double x, double y, double z, double size, double age, double mz) {
+    public MCH_EntityParticleExplode(World w, double x, double y, double z, float size, double age, double mz) {
         super(w, x, y, z, 0.0, 0.0, 0.0);
-        this.endCount = 1 + (int) age;
-        this.size = (float) size;
+        this.endCount = (1 + (int) age) % 7;
+        this.particleAngle = -45F + rand.nextFloat() * 90F;
+        this.size = size + rand.nextFloat()*0.2f;
+        this.prevParticleAngle = particleAngle;
     }
 
     @Override
@@ -47,8 +45,8 @@ public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
             float rotationXY,
             float rotationXZ
     ) {
-        int currentFrame = (int) ((this.nowCount + partialTicks) * 15.0F / this.endCount);
-        if (currentFrame > 15) {
+        int currentFrame = (int) ((this.nowCount + partialTicks) * 7.0F / this.endCount);
+        if (currentFrame > 7) {
             return;
         }
 
@@ -59,68 +57,56 @@ public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
         GlStateManager.disableCull();
         this.theRenderEngine.bindTexture(texture);
 
-        // Texture coordinates for 4x4 explosion sheet
         final int framesPerRow = 4;
-        final float frameSize = 1.0F / framesPerRow;
+        final int framesPerColumn = 2;
+
+        final float frameWidth  = 1.0F / framesPerRow;
+        final float frameHeight = 1.0F / framesPerColumn;
 
         int frameRow = currentFrame / framesPerRow;
         int frameCol = currentFrame % framesPerRow;
 
-        float uMin = frameCol * frameSize;
-        float uMax = uMin + frameSize;
-        float vMin = frameRow * frameSize;
-        float vMax = vMin + frameSize;
+        float uMin = frameCol * frameWidth;
+        float uMax = uMin + frameWidth;
+        float vMin = frameRow * frameHeight;
+        float vMax = vMin + frameHeight;
 
-        float scaledSize = 2.0F * this.size;
 
-        // Interpolated position relative to camera
+        float scaledSize = this.size * 1.2f;
+
+
         float relX = (float) (this.prevPosX + (this.posX - this.prevPosX) * partialTicks - interpPosX);
         float relY = (float) (this.prevPosY + (this.posY - this.prevPosY) * partialTicks - interpPosY);
         float relZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * partialTicks - interpPosZ);
 
         RenderHelper.disableStandardItemLighting();
 
-        int brightness = 15728880;
-        int lightU = brightness >> 16 & 0xFFFF;
-        int lightV = brightness & 0xFFFF;
+        int i = this.getBrightnessForRender(partialTicks);
+        int j = i >> 16 & 65535;
+        int k = i & 65535;
+        Vec3d[] avec3d = new Vec3d[] {new Vec3d(-rotationX * scaledSize - rotationXY * scaledSize, -rotationZ * scaledSize, -rotationYZ * scaledSize - rotationXZ * scaledSize), new Vec3d(-rotationX * scaledSize + rotationXY * scaledSize, rotationZ * scaledSize, -rotationYZ * scaledSize + rotationXZ * scaledSize), new Vec3d(rotationX * scaledSize + rotationXY * scaledSize, rotationZ * scaledSize, rotationYZ * scaledSize + rotationXZ * scaledSize), new Vec3d(rotationX * scaledSize - rotationXY * scaledSize, -rotationZ * scaledSize, rotationYZ * scaledSize - rotationXZ * scaledSize)};
 
-        buffer.begin(GL11.GL_QUADS, VERTEX_FORMAT);
+        if (this.particleAngle != 0.0F)
+        {
+            float f8 = this.particleAngle + (this.particleAngle - this.prevParticleAngle) * partialTicks;
+            float f9 = MathHelper.cos(f8 * 0.5F);
+            float f10 = MathHelper.sin(f8 * 0.5F) * (float)cameraViewDir.x;
+            float f11 = MathHelper.sin(f8 * 0.5F) * (float)cameraViewDir.y;
+            float f12 = MathHelper.sin(f8 * 0.5F) * (float)cameraViewDir.z;
+            Vec3d vec3d = new Vec3d(f10, f11, f12);
 
-        buffer.pos(relX - rotationX * scaledSize - rotationXY * scaledSize,
-                        relY - rotationYZ * scaledSize,
-                        relZ - rotationZ * scaledSize - rotationXZ * scaledSize)
-                .tex(uMax, vMax)
-                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(lightU, lightV)
-                .normal(0.0F, 1.0F, 0.0F)
-                .endVertex();
+            for (int l = 0; l < 4; ++l)
+            {
+                avec3d[l] = vec3d.scale(2.0D * avec3d[l].dotProduct(vec3d)).add(avec3d[l].scale((double)(f9 * f9) - vec3d.dotProduct(vec3d))).add(vec3d.crossProduct(avec3d[l]).scale(2.0F * f9));
+            }
+        }
 
-        buffer.pos(relX - rotationX * scaledSize + rotationXY * scaledSize,
-                        relY + rotationYZ * scaledSize,
-                        relZ - rotationZ * scaledSize + rotationXZ * scaledSize)
-                .tex(uMax, vMin)
-                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(lightU, lightV)
-                .normal(0.0F, 1.0F, 0.0F)
-                .endVertex();
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+        buffer.pos((double) relX + avec3d[0].x, (double) relY + avec3d[0].y, (double) relZ + avec3d[0].z).tex(uMax, vMax).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        buffer.pos((double) relX + avec3d[1].x, (double) relY + avec3d[1].y, (double) relZ + avec3d[1].z).tex(uMax, vMin).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        buffer.pos((double) relX + avec3d[2].x, (double) relY + avec3d[2].y, (double) relZ + avec3d[2].z).tex(uMin, vMin).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        buffer.pos((double) relX + avec3d[3].x, (double) relY + avec3d[3].y, (double) relZ + avec3d[3].z).tex(uMin, vMax).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
 
-        buffer.pos(relX + rotationX * scaledSize + rotationXY * scaledSize,
-                        relY + rotationYZ * scaledSize,
-                        relZ + rotationZ * scaledSize + rotationXZ * scaledSize)
-                .tex(uMin, vMin)
-                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(lightU, lightV)
-                .normal(0.0F, 1.0F, 0.0F)
-                .endVertex();
-
-        buffer.pos(relX + rotationX * scaledSize - rotationXY * scaledSize,
-                        relY - rotationYZ * scaledSize,
-                        relZ + rotationZ * scaledSize - rotationXZ * scaledSize)
-                .tex(uMin, vMax)
-                .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
-                .lightmap(lightU, lightV)
-                .normal(0.0F, 1.0F, 0.0F)
-                .endVertex();
 
         Tessellator.getInstance().draw();
 

@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 public class MCH_ParticlesUtil {
     public static MCH_EntityParticleMarkPoint markPoint = null;
 
-    public static void spawnParticleExplode(World w, double x, double y, double z, float size, float r, float g, float b, float a, int age) {
+    public static void spawnParticleMuzzleFlash(World w, double x, double y, double z, float size, float r, float g, float b, float a, int age) {
         MCH_EntityParticleExplode epe = new MCH_EntityParticleExplode(w, x, y, z, size, age, 0.0);
         epe.setParticleMaxAge(age);
         epe.setRBGColorF(r, g, b);

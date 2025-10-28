@@ -5204,7 +5204,7 @@ public abstract class MCH_EntityAircraft
         if (wi.listMuzzleFlash != null) {
             for (MCH_WeaponInfo.MuzzleFlash mf : wi.listMuzzleFlash) {
                 float color = this.rand.nextFloat() * 0.1F + 0.9F;
-                MCH_ParticlesUtil.spawnParticleExplode(
+                MCH_ParticlesUtil.spawnParticleMuzzleFlash(
                         this.world,
                         px + -wrv.x * mf.dist,
                         py + -wrv.y * mf.dist,

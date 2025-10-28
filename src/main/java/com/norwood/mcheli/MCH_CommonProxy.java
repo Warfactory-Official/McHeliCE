@@ -19,6 +19,7 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 import java.io.File;
@@ -220,5 +221,8 @@ public class MCH_CommonProxy {
 
     @Deprecated
     public void updateSoundsJson() {
+    }
+
+    public void registerParticleTextures(TextureStitchEvent.Pre event) {
     }
 }

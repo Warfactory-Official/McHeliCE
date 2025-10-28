@@ -51,7 +51,9 @@ import com.norwood.mcheli.wrapper.*;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -589,5 +591,12 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void updateSoundsJson() {
         MCH_SoundsJson.updateGenerated();
+    }
+
+    @Override
+    public void registerParticleTextures(TextureStitchEvent.Pre event) {
+        event.getMap().registerSprite(new ResourceLocation(Tags.MODID, "textures/flash.png"));
+
+
     }
 }
