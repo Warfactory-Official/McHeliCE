@@ -62,13 +62,6 @@ public class YamlEmitter implements IEmitter {
         return s != null && !s.trim().isEmpty();
     }
 
-    //    @SafeVarargs
-//    private static <E> InlineSeq<E> inline(E... values) {
-//        InlineSeq<E> seq = new InlineSeq<>(values.length);
-//        Collections.addAll(seq, values);
-//        return seq;
-//    }
-
     private static <T> InlineSeq<T> inlineSeq(Collection<T> vals) {
         InlineSeq<T> seq = new InlineSeq<>(vals.size());
         seq.addAll(vals);
@@ -91,9 +84,7 @@ public class YamlEmitter implements IEmitter {
 
     private static InlineSeq<String> inline(String... values) {
         InlineSeq<String> seq = new InlineSeq<>(values.length);
-        for (String v : values) {
-            seq.add(v);
-        }
+        Collections.addAll(seq, values);
         return seq;
     }
 
@@ -183,7 +174,7 @@ public class YamlEmitter implements IEmitter {
         Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
         addCommonComponents(components, info);
         // Plane-specific
-        if (info.rotorList != null && !info.rotorList.isEmpty()) {
+        if (!info.rotorList.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_PlaneInfo.Rotor rotor : info.rotorList) {
                 Map<String, Object> rotMap = drawnPart(rotor);
@@ -203,7 +194,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("PlaneRotor", list);
         }
-        if (info.wingList != null && !info.wingList.isEmpty()) {
+        if (!info.wingList.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_PlaneInfo.Wing w : info.wingList) {
                 Map<String, Object> m = drawnPart(w);
@@ -221,7 +212,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("Wing", list);
         }
-        if (info.nozzles != null && !info.nozzles.isEmpty()) {
+        if (!info.nozzles.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.DrawnPart np : info.nozzles) list.add(drawnPart(np));
             components.put("Nozzle", list);
@@ -757,7 +748,7 @@ public class YamlEmitter implements IEmitter {
                 conditionalMap.put("If", conditional.getConditional());
                 conditionalMap.put("Do", collectConditionalList(iterator));
                 rootList.add(conditionalMap);
-            } else if (!(item instanceof MCH_HudItemConditional conditional && conditional.isEndif())) {
+            } else if (!(item instanceof MCH_HudItemConditional)) {
                 Map.Entry<String, Object> entry = getHudEntry(item);
                 if (entry != null) {
                     Map<String, Object> itemMap = new LinkedHashMap<>();
@@ -781,7 +772,7 @@ public class YamlEmitter implements IEmitter {
             }
 
             // Handle nested conditionals
-            if (item instanceof MCH_HudItemConditional nested && !nested.isEndif()) {
+            if (item instanceof MCH_HudItemConditional nested) {
                 Map<String, Object> nestedMap = new LinkedHashMap<>();
                 nestedMap.put("If", nested.getConditional());
                 nestedMap.put("Do", collectConditionalList(iterator));
@@ -801,16 +792,14 @@ public class YamlEmitter implements IEmitter {
 
 
     public Map.Entry<String, Object> getHudEntry(MCH_HudItem hudItem) {
-        if (hudItem instanceof MCH_HudItemColor) {
-            MCH_HudItemColor color = (MCH_HudItemColor) hudItem;
+        if (hudItem instanceof MCH_HudItemColor color) {
             return new AbstractMap.SimpleEntry<>("Color", color.getUpdateColor());
         }
         if (hudItem instanceof MCH_HudItemExit) {
             return new AbstractMap.SimpleEntry<>("Exit", "exit");
         }
 
-        if (hudItem instanceof MCH_HudItemTexture) {
-            MCH_HudItemTexture texture = (MCH_HudItemTexture) hudItem;
+        if (hudItem instanceof MCH_HudItemTexture texture) {
             Map<String, Object> textureSettings = new LinkedHashMap<>();
             textureSettings.put("Name", texture.getName());
             textureSettings.put("Position", inline(texture.getLeft(), texture.getTop()));
@@ -821,8 +810,7 @@ public class YamlEmitter implements IEmitter {
             return new AbstractMap.SimpleEntry<>("DrawTexture", textureSettings);
         }
 
-        if (hudItem instanceof MCH_HudItemString) {
-            MCH_HudItemString string = (MCH_HudItemString) hudItem;
+        if (hudItem instanceof MCH_HudItemString string) {
             Map<String, Object> stringSettings = new LinkedHashMap<>();
             Map<String, Object> textMap = new LinkedHashMap<>();
 
@@ -840,23 +828,20 @@ public class YamlEmitter implements IEmitter {
             return new AbstractMap.SimpleEntry<>("DrawString", stringSettings);
         }
 
-        if (hudItem instanceof MCH_HudItemCameraRot) {
-            MCH_HudItemCameraRot cameraRot = (MCH_HudItemCameraRot) hudItem;
+        if (hudItem instanceof MCH_HudItemCameraRot cameraRot) {
             Map<String, Object> rotSettings = new LinkedHashMap<>();
             rotSettings.put("Position", inline(cameraRot.getDrawPosX(), cameraRot.getDrawPosY()));
             return new AbstractMap.SimpleEntry<>("CameraRotation", rotSettings);
         }
 
-        if (hudItem instanceof MCH_HudItemRect) {
-            MCH_HudItemRect rect = (MCH_HudItemRect) hudItem;
+        if (hudItem instanceof MCH_HudItemRect rect) {
             Map<String, Object> rectSettings = new LinkedHashMap<>();
             rectSettings.put("Position", inline(rect.getLeft(), rect.getTop()));
             rectSettings.put("Size", inline(rect.getWidth(), rect.getHeight()));
             return new AbstractMap.SimpleEntry<>("DrawRectangle", rectSettings);
         }
 
-        if (hudItem instanceof MCH_HudItemLine) {
-            MCH_HudItemLine line = (MCH_HudItemLine) hudItem;
+        if (hudItem instanceof MCH_HudItemLine line) {
             Map<String, Object> lineSettings = new LinkedHashMap<>();
             String[] posArray = line.getPos();
 
@@ -872,8 +857,7 @@ public class YamlEmitter implements IEmitter {
             return new AbstractMap.SimpleEntry<>("DrawLine", lineSettings);
         }
 
-        if (hudItem instanceof MCH_HudItemLineStipple) {
-            MCH_HudItemLineStipple line = (MCH_HudItemLineStipple) hudItem;
+        if (hudItem instanceof MCH_HudItemLineStipple line) {
             Map<String, Object> lineSettings = new LinkedHashMap<>();
             String[] posArray = line.getPos();
 
@@ -889,13 +873,11 @@ public class YamlEmitter implements IEmitter {
             return new AbstractMap.SimpleEntry<>("DrawLine", lineSettings);
         }
 
-        if (hudItem instanceof MCH_HudItemCall) {
-            MCH_HudItemCall call = (MCH_HudItemCall) hudItem;
+        if (hudItem instanceof MCH_HudItemCall call) {
             return new AbstractMap.SimpleEntry<>("Call", call.getHudName());
         }
 
-        if (hudItem instanceof MCH_HudItemRadar) {
-            MCH_HudItemRadar radar = (MCH_HudItemRadar) hudItem;
+        if (hudItem instanceof MCH_HudItemRadar radar) {
             Map<String, Object> radarSettings = new LinkedHashMap<>();
             radarSettings.put("Position", inline(radar.getLeft(), radar.getTop()));
             radarSettings.put("Size", inline(radar.getWidth(), radar.getHeight()));
@@ -904,8 +886,7 @@ public class YamlEmitter implements IEmitter {
             return new AbstractMap.SimpleEntry<>("DrawRadar", radarSettings);
         }
 
-        if (hudItem instanceof MCH_HudItemGraduation) {
-            MCH_HudItemGraduation grad = (MCH_HudItemGraduation) hudItem;
+        if (hudItem instanceof MCH_HudItemGraduation grad) {
             Map<String, Object> gradSettings = new LinkedHashMap<>();
 
             HUDParser.GraduationType typeEnum = grad.getType() >= 0
@@ -1008,7 +989,7 @@ public class YamlEmitter implements IEmitter {
         if (info.cameraRotationSpeed != dummyInfo.cameraRotationSpeed)
             camera.put("RotationSpeed", info.cameraRotationSpeed);
 
-        if (info.cameraPosition != null && !info.cameraPosition.isEmpty()) {
+        if (!info.cameraPosition.isEmpty()) {
             List<Map<String, Object>> camList = new ArrayList<>();
             for (MCH_AircraftInfo.CameraPosition cp : info.cameraPosition) {
                 Map<String, Object> cm = new LinkedHashMap<>();
@@ -1127,13 +1108,13 @@ public class YamlEmitter implements IEmitter {
             render.put("EnableSeaSurfaceParticle", info.enableSeaSurfaceParticle);
 
         // Splash particles
-        if (info.particleSplashs != null && !info.particleSplashs.isEmpty()) {
+        if (!info.particleSplashs.isEmpty()) {
             List<Map<String, Object>> splash = new ArrayList<>();
 
             for (MCH_AircraftInfo.ParticleSplash ps : info.particleSplashs) {
                 Map<String, Object> pm = new LinkedHashMap<>();
 
-                MCH_AircraftInfo.ParticleSplash dummyPs = dummyInfo.particleSplashs != null && dummyInfo.particleSplashs.size() > splash.size() ? dummyInfo.particleSplashs.get(splash.size()) : null;
+                MCH_AircraftInfo.ParticleSplash dummyPs = dummyInfo.particleSplashs.size() > splash.size() ? dummyInfo.particleSplashs.get(splash.size()) : null;
 
                 if (dummyPs == null || !ps.pos.equals(dummyPs.pos)) pm.put("Position", vec(ps.pos));
                 if (dummyPs == null || ps.num != dummyPs.num) pm.put("Count", ps.num);
@@ -1171,33 +1152,30 @@ public class YamlEmitter implements IEmitter {
 // Weapons list
         List<Map<String, Object>> weapons = new ArrayList<>();
 
-        if (info.weaponSetList != null) {
-            for (MCH_AircraftInfo.WeaponSet set : info.weaponSetList) {
-                if (set.weapons == null) continue;
+        for (MCH_AircraftInfo.WeaponSet set : info.weaponSetList) {
 
-                for (MCH_AircraftInfo.Weapon w : set.weapons) {
-                    Map<String, Object> m = new LinkedHashMap<>();
+            for (MCH_AircraftInfo.Weapon w : set.weapons) {
+                Map<String, Object> m = new LinkedHashMap<>();
 
-                    m.put("Type", set.type);
-                    m.put("Position", vecMinusYOffset(w.pos));
+                m.put("Type", set.type);
+                m.put("Position", vecMinusYOffset(w.pos));
 
-                    if (w.yaw != 0 || (dummyInfo.weaponSetList != null && dummyInfo.weaponSetList.contains(set) && w.yaw != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons.get(set.weapons.indexOf(w)).yaw))
-                        m.put("Yaw", w.yaw);
+                if (w.yaw != 0 || dummyInfo.weaponSetList.contains(set) && w.yaw != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons.get(set.weapons.indexOf(w)).yaw)
+                    m.put("Yaw", w.yaw);
 
-                    if (w.pitch != 0 || (dummyInfo.weaponSetList != null && dummyInfo.weaponSetList.contains(set) && w.pitch != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons.get(set.weapons.indexOf(w)).pitch))
-                        m.put("Pitch", w.pitch);
+                if (w.pitch != 0 || dummyInfo.weaponSetList.contains(set) && w.pitch != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons.get(set.weapons.indexOf(w)).pitch)
+                    m.put("Pitch", w.pitch);
 
-                    if (w.seatID > 0) m.put("SeatID", w.seatID + 1);
-                    if (!w.canUsePilot) m.put("CanUsePilot", false);
-                    if (w.defaultYaw != 0) m.put("DefaultYaw", w.defaultYaw);
-                    if (w.minYaw != 0) m.put("MinYaw", w.minYaw);
-                    if (w.maxYaw != 0) m.put("MaxYaw", w.maxYaw);
-                    if (w.minPitch != 0) m.put("MinPitch", w.minPitch);
-                    if (w.maxPitch != 0) m.put("MaxPitch", w.maxPitch);
-                    if (w.turret) m.put("Turret", true);
+                if (w.seatID > 0) m.put("SeatID", w.seatID + 1);
+                if (!w.canUsePilot) m.put("CanUsePilot", false);
+                if (w.defaultYaw != 0) m.put("DefaultYaw", w.defaultYaw);
+                if (w.minYaw != 0) m.put("MinYaw", w.minYaw);
+                if (w.maxYaw != 0) m.put("MaxYaw", w.maxYaw);
+                if (w.minPitch != 0) m.put("MinPitch", w.minPitch);
+                if (w.maxPitch != 0) m.put("MaxPitch", w.maxPitch);
+                if (w.turret) m.put("Turret", true);
 
-                    if (!m.isEmpty()) weapons.add(m);
-                }
+                if (!m.isEmpty()) weapons.add(m);
             }
         }
 
@@ -1205,7 +1183,7 @@ public class YamlEmitter implements IEmitter {
 
 
         // Seats
-        if (info.seatList != null && !info.seatList.isEmpty()) {
+        if (!info.seatList.isEmpty()) {
             List<Map<String, Object>> seats = new ArrayList<>();
             for (MCH_SeatInfo seatInfo : info.seatList) {
                 if (seatInfo instanceof MCH_SeatRackInfo) continue;
@@ -1230,8 +1208,8 @@ public class YamlEmitter implements IEmitter {
                 }
                 seats.add(sm);
             }
-            if (info.hudList != null && !info.hudList.isEmpty()) {
-                int smallerListSize = 0;
+            if (!info.hudList.isEmpty()) {
+                int smallerListSize;
                 int hudSize = info.hudList.size();
                 int seatSize = info.getNumSeat();
                 //Content creators cannot adhere to their own fucking rules sometimes
@@ -1247,7 +1225,7 @@ public class YamlEmitter implements IEmitter {
                     seats.get(index).put("Hud", name);
                 }
             }
-            if (info.exclusionSeatList != null && !info.exclusionSeatList.isEmpty())
+            if (!info.exclusionSeatList.isEmpty())
                 appendExlusionEntries(seats, info, false);
 
 
@@ -1277,14 +1255,14 @@ public class YamlEmitter implements IEmitter {
                 if (r.range != 0.0f) rm.put("Range", r.range);
                 if (r.openParaAlt != 0.0f) rm.put("OpenParaAlt", r.openParaAlt);
             }
-            if (info.exclusionSeatList != null && !info.exclusionSeatList.isEmpty())
+            if (!info.exclusionSeatList.isEmpty())
                 appendExlusionEntries(racks, info, true);
 
             root.put("Racks", racks);
         }
 
         // RideRack mapping
-        if (info.rideRacks != null && !info.rideRacks.isEmpty()) {
+        if (!info.rideRacks.isEmpty()) {
             Map<String, Object> ride = new LinkedHashMap<>();
             for (MCH_AircraftInfo.RideRack rr : info.rideRacks) {
                 ride.put(rr.name, rr.rackID);
@@ -1293,7 +1271,7 @@ public class YamlEmitter implements IEmitter {
         }
 
         // Bounding Boxes
-        if (info.extraBoundingBox != null && !info.extraBoundingBox.isEmpty()) {
+        if (!info.extraBoundingBox.isEmpty()) {
             List<Map<String, Object>> boxes = new ArrayList<>();
             for (MCH_BoundingBox bb : info.extraBoundingBox) {
                 Map<String, Object> bm = new LinkedHashMap<>();
@@ -1352,10 +1330,8 @@ public class YamlEmitter implements IEmitter {
         // Parachuting
         if (info.isEnableParachuting) {
             Map<String, Object> parachute = new LinkedHashMap<>();
-            if (info.mobDropOption != null) {
-                if (info.mobDropOption.pos != null) parachute.put("Pos", vec(info.mobDropOption.pos));
-                if (info.mobDropOption.interval != 0) parachute.put("Interval", info.mobDropOption.interval);
-            }
+            if (info.mobDropOption.pos != null) parachute.put("Pos", vec(info.mobDropOption.pos));
+            if (info.mobDropOption.interval != 0) parachute.put("Interval", info.mobDropOption.interval);
             feats.put("Parachuting", parachute.isEmpty() ? true : parachute);
         }
 
@@ -1390,7 +1366,7 @@ public class YamlEmitter implements IEmitter {
     }
 
     private void appendExlusionEntries(List<Map<String, Object>> targetList, MCH_AircraftInfo info, boolean isRackList) {
-        if (info.exclusionSeatList == null || info.exclusionSeatList.isEmpty()) return;
+        if (info.exclusionSeatList.isEmpty()) return;
 
         final int seatCount = info.getNumSeat();
         final int rackCount = info.getNumRack();
@@ -1446,7 +1422,7 @@ public class YamlEmitter implements IEmitter {
     }
 
     private void addCommonComponents(Map<String, List<Map<String, Object>>> components, MCH_AircraftInfo info) {
-        if (info.cameraList != null && !info.cameraList.isEmpty()) {
+        if (!info.cameraList.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.Camera c : info.cameraList) {
                 Map<String, Object> m = drawnPart(c);
@@ -1456,7 +1432,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("Camera", list);
         }
-        if (info.canopyList != null && !info.canopyList.isEmpty()) {
+        if (!info.canopyList.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.Canopy c : info.canopyList) {
                 Map<String, Object> m = drawnPart(c);
@@ -1466,7 +1442,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("Canopy", list);
         }
-        if (info.hatchList != null && !info.hatchList.isEmpty()) {
+        if (!info.hatchList.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.Hatch h : info.hatchList) {
                 Map<String, Object> m = drawnPart(h);
@@ -1476,7 +1452,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("Hatch", list);
         }
-        if (info.lightHatchList != null && !info.lightHatchList.isEmpty()) {
+        if (!info.lightHatchList.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.Hatch h : info.lightHatchList) {
                 Map<String, Object> m = drawnPart(h);
@@ -1486,7 +1462,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("LightHatch", list);
         }
-        if (info.partWeaponBay != null && !info.partWeaponBay.isEmpty()) {
+        if (!info.partWeaponBay.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.WeaponBay wb : info.partWeaponBay) {
                 String weaponNameStr = wb.weaponName;
@@ -1509,7 +1485,7 @@ public class YamlEmitter implements IEmitter {
             }
             if (!list.isEmpty()) components.put("WeaponBay", list);
         }
-        if (info.partRotPart != null && !info.partRotPart.isEmpty()) {
+        if (!info.partRotPart.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.RotPart r : info.partRotPart) {
                 Map<String, Object> m = drawnPart(r);
@@ -1519,7 +1495,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("Rotation", list);
         }
-        if (info.partSteeringWheel != null && !info.partSteeringWheel.isEmpty()) {
+        if (!info.partSteeringWheel.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.PartWheel w : info.partSteeringWheel) {
                 Map<String, Object> m = drawnPart(w);
@@ -1529,7 +1505,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("SteeringWheel", list);
         }
-        if (info.partWheel != null && !info.partWheel.isEmpty()) {
+        if (!info.partWheel.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.PartWheel w : info.partWheel) {
                 Map<String, Object> m = drawnPart(w);
@@ -1539,7 +1515,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("Wheel", list);
         }
-        if (info.landingGear != null && !info.landingGear.isEmpty()) {
+        if (!info.landingGear.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.LandingGear g : info.landingGear) {
                 Map<String, Object> m = drawnPart(g);
@@ -1555,7 +1531,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("LandingGear", list);
         }
-        if (info.partWeapon != null && !info.partWeapon.isEmpty()) {
+        if (!info.partWeapon.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.PartWeapon wp : info.partWeapon) {
                 Map<String, Object> m = drawnPart(wp);
@@ -1584,7 +1560,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("Weapon", list);
         }
-        if (info.searchLights != null && !info.searchLights.isEmpty()) {
+        if (!info.searchLights.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.SearchLight sl : info.searchLights) {
                 Map<String, Object> m = new LinkedHashMap<>();
@@ -1602,12 +1578,12 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("SearchLight", list);
         }
-        if (info.partTrackRoller != null && !info.partTrackRoller.isEmpty()) {
+        if (!info.partTrackRoller.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.TrackRoller tr : info.partTrackRoller) list.add(drawnPart(tr));
             components.put("TrackRoller", list);
         }
-        if (info.partThrottle != null && !info.partThrottle.isEmpty()) {
+        if (!info.partThrottle.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.Throttle th : info.partThrottle) {
                 Map<String, Object> m = drawnPart(th);
@@ -1617,7 +1593,7 @@ public class YamlEmitter implements IEmitter {
             }
             components.put("Throttle", list);
         }
-        if (info.partCrawlerTrack != null && !info.partCrawlerTrack.isEmpty()) {
+        if (!info.partCrawlerTrack.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.CrawlerTrack ct : info.partCrawlerTrack) {
                 Map<String, Object> m = drawnPart(ct);
@@ -1635,7 +1611,7 @@ public class YamlEmitter implements IEmitter {
             components.put("CrawlerTrack", list);
         }
         if (info instanceof MCH_HeliInfo hi) {
-            if (hi.rotorList != null && !hi.rotorList.isEmpty()) {
+            if (!hi.rotorList.isEmpty()) {
                 List<Map<String, Object>> list = new ArrayList<>();
                 for (MCH_HeliInfo.Rotor r : hi.rotorList) {
                     Map<String, Object> m = drawnPart(r);
@@ -1649,7 +1625,7 @@ public class YamlEmitter implements IEmitter {
             }
         }
         // Repelling hooks
-        if (info.repellingHooks != null && !info.repellingHooks.isEmpty()) {
+        if (!info.repellingHooks.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.RepellingHook hook : info.repellingHooks) {
                 Map<String, Object> m = new LinkedHashMap<>();
@@ -1657,7 +1633,7 @@ public class YamlEmitter implements IEmitter {
                 if (hook.interval != 0) m.put("Interval", hook.interval);
                 list.add(m);
             }
-            if (!list.isEmpty()) components.put("RepelHook", list);
+            components.put("RepelHook", list);
         }
     }
 

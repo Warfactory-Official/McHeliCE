@@ -4,7 +4,6 @@ import com.norwood.mcheli.MCH_ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_ClientEventHook;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.debug._v3.WeaponPointRenderer;
 import com.norwood.mcheli.gui.MCH_Gui;
 import com.norwood.mcheli.helper.MCH_ColorInt;
 import com.norwood.mcheli.helper.MCH_Utils;
@@ -833,7 +832,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             MCH_ClientLightWeaponTickHandler.markEntity(entity, posX, posY, posZ);
             renderEntityMarker(entity);
             if (MCH_Config.TestMode.prmBool) {
-                WeaponPointRenderer.renderWeaponPoints(entity, info, posX, posY, posZ);
+                com.norwood.mcheli.helper.debug.WeaponPointRenderer.renderWeaponPoints(entity, info, posX, posY, posZ);
             }
         }
     }

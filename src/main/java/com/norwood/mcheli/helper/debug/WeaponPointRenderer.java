@@ -1,4 +1,4 @@
-package com.norwood.mcheli.debug._v3;
+package com.norwood.mcheli.helper.debug;
 
 import com.google.common.collect.Maps;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
 
 import javax.vecmath.Color4f;
 import java.util.Map;

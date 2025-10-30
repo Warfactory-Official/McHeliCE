@@ -1,4 +1,4 @@
-package com.norwood.mcheli.debug;
+package com.norwood.mcheli.helper.debug;
 
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.wrapper.W_Render;
@@ -10,7 +10,6 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderTest extends W_Render<Entity> {
@@ -38,7 +37,7 @@ public class MCH_RenderTest extends W_Render<Entity> {
             GlStateManager.pushMatrix();
             GlStateManager.translate(posX + this.offsetX, posY + this.offsetY, posZ + this.offsetZ);
             GlStateManager.scale(e.width, e.height, e.width);
-             GlStateManager.color(0.5F, 0.5F, 0.5F, 1.0F);
+            GlStateManager.color(0.5F, 0.5F, 0.5F, 1.0F);
             float prevYaw;
             if (e.rotationYaw - e.prevRotationYaw < -180.0F) {
                 prevYaw = e.prevRotationYaw - 360.0F;

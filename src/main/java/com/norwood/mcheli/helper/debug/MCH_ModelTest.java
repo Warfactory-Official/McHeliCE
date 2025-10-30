@@ -1,9 +1,10 @@
-package com.norwood.mcheli.debug;
+package com.norwood.mcheli.helper.debug;
 
 import com.norwood.mcheli.wrapper.W_ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 
 @SideOnly(Side.CLIENT)
 public class MCH_ModelTest extends W_ModelBase {

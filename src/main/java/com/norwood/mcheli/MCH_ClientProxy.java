@@ -1,12 +1,5 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.helper.addon.AddonManager;
-import com.norwood.mcheli.helper.addon.AddonPack;
-import com.norwood.mcheli.helper.client.MCH_ItemModelRenderers;
-import com.norwood.mcheli.helper.client._IModelCustom;
-import com.norwood.mcheli.helper.client.model.LegacyModelLoader;
-import com.norwood.mcheli.helper.client.renderer.item.*;
-import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.block.MCH_DraftingTableRenderer;
 import com.norwood.mcheli.block.MCH_DraftingTableTileEntity;
@@ -15,7 +8,6 @@ import com.norwood.mcheli.chain.MCH_RenderChain;
 import com.norwood.mcheli.command.MCH_GuiTitle;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_RenderContainer;
-import com.norwood.mcheli.debug.MCH_RenderTest;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.flare.MCH_RenderFlare;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
@@ -23,14 +15,21 @@ import com.norwood.mcheli.gltd.MCH_RenderGLTD;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_RenderHeli;
+import com.norwood.mcheli.helper.addon.AddonManager;
+import com.norwood.mcheli.helper.addon.AddonPack;
+import com.norwood.mcheli.helper.client.MCH_ItemModelRenderers;
+import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.model.LegacyModelLoader;
+import com.norwood.mcheli.helper.client.renderer.item.*;
+import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.mob.MCH_EntityGunner;
 import com.norwood.mcheli.mob.MCH_RenderGunner;
 import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
 import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.parachute.MCH_RenderParachute;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.plane.MCP_EntityPlane;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.plane.MCP_EntityPlane;
 import com.norwood.mcheli.plane.MCP_RenderPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_RenderShip;
@@ -68,14 +67,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MCH_ClientProxy extends MCH_CommonProxy {
-    public String lastLoadHUDPath = "";
 
-
-    @Override
-    public void postInit(FMLPostInitializationEvent postEvent) {
-        MinecraftForge.EVENT_BUS.register(new VehicleRenderManager());
-
-    }
     public static void registerModels_Bullet() {
         for (MCH_WeaponInfo wi : ContentRegistries.weapon().values()) {
             _IModelCustom m;
@@ -103,13 +95,19 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     }
 
     @Override
+    public void postInit(FMLPostInitializationEvent postEvent) {
+        MinecraftForge.EVENT_BUS.register(new VehicleRenderManager());
+
+    }
+
+    @Override
     public String getDataDir() {
         return Minecraft.getMinecraft().gameDir.getPath();
     }
 
     @Override
     public void registerRenderer() {
-        RenderingRegistry.registerEntityRenderingHandler(MCH_EntitySeat.class, MCH_RenderTest.factory(0.0F, 0.3125F, 0.0F, "seat"));
+        RenderingRegistry.registerEntityRenderingHandler(MCH_EntitySeat.class, com.norwood.mcheli.helper.debug.MCH_RenderTest.factory(0.0F, 0.3125F, 0.0F, "seat"));
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityHeli.class, MCH_RenderHeli.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCP_EntityPlane.class, MCP_RenderPlane.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityShip.class, MCH_RenderShip.FACTORY);
@@ -158,7 +156,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         MCH_ModelManager.setForceReloadMode(true);
 
 
-
         CompletableFuture<Void> miscFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
             MCH_RenderAircraft.debugModel = MCH_ModelManager.load("box");
@@ -186,7 +183,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             long end = System.nanoTime();
             System.out.println("[BULLETS] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
-
 
 
         CompletableFuture<Void> uavFuture = CompletableFuture.runAsync(() -> {
@@ -239,7 +235,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             System.out.println("[MCH-LOADER][VEHICLE] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
 
-              CompletableFuture<Void> throwableFuture = CompletableFuture.runAsync(() -> {
+        CompletableFuture<Void> throwableFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
             for (MCH_ThrowableInfo wi : ContentRegistries.throwable().values()) {
                 wi.model = MCH_ModelManager.load("throwable", wi.name);
@@ -338,7 +334,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         this.registerCommonPart("ships", info);
         MCH_ModelManager.setForceReloadMode(false);
     }
-
 
 
     @Override
