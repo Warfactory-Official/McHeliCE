@@ -45,14 +45,14 @@ public class VNTSettingContainer {
 
 
     @Optional.Method(modid = "hbm")
-    public Object buildExplosion(World world, double x, double y, double z, float size, Entity exploder) {
+    public void buildExplosion(World world, double x, double y, double z, float size, Entity exploder) {
         var vnt = new com.hbm.explosion.vanillant.ExplosionVNT(world, x, y, z, size, exploder);
         vnt.setBlockAllocator((com.hbm.explosion.vanillant.interfaces.IBlockAllocator) blockAllocator);
         vnt.setEntityProcessor((com.hbm.explosion.vanillant.interfaces.IEntityProcessor) entityProcessor);
         vnt.setBlockProcessor((com.hbm.explosion.vanillant.interfaces.IBlockProcessor) blockProcessor);
         vnt.setPlayerProcessor((com.hbm.explosion.vanillant.interfaces.IPlayerProcessor) playerProcessor);
         vnt.setSFX((com.hbm.explosion.vanillant.interfaces.IExplosionSFX[]) sfx);
-        return vnt;
+        vnt.explode();
     }
 
     public Object processMap(Map<String, Object> map) {

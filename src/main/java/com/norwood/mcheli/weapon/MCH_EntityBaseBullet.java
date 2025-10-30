@@ -7,6 +7,7 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntityHitBox;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.chain.MCH_EntityChain;
+import com.norwood.mcheli.compat.hbm.HBMUtil;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.helper.world.MCH_ExplosionV2;
 import com.norwood.mcheli.networking.packet.PacketNotifyHit;
@@ -35,6 +36,9 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static com.norwood.mcheli.compat.ModCompatManager.MODID_HBM;
+import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
 
 public abstract class MCH_EntityBaseBullet extends W_Entity {
     private static final DataParameter<Integer> TARGET_ID = EntityDataManager.createKey(MCH_EntityBaseBullet.class, DataSerializers.VARINT);
@@ -893,62 +897,90 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
     public void newExplosion(double x, double y, double z, float exp, float expBlock, boolean inWater) {
         MCH_Explosion.ExplosionResult result;
-        if (!inWater) {
-            result = MCH_Explosion.newExplosion(
-                    this.world,
-                    this,
-                    this.shootingEntity,
-                    x,
-                    y,
-                    z,
-                    exp,
-                    expBlock,
-                    this.rand.nextInt(3) == 0,
-                    true,
-                    this.getInfo().flaming,
-                    true,
-                    0,
-                    this.getInfo() != null ? this.getInfo().damageFactor : null
-            );
-        } else {
-            result = MCH_Explosion.newExplosionInWater(
-                    this.world,
-                    this,
-                    this.shootingEntity,
-                    x,
-                    y,
-                    z,
-                    exp,
-                    expBlock,
-                    this.rand.nextInt(3) == 0,
-                    true,
-                    this.getInfo().flaming,
-                    true,
-                    0,
-                    this.getInfo() != null ? this.getInfo().damageFactor : null
-            );
+
+        if (isLoaded(MODID_HBM) && getInfo().useHBM) {
+            processHBMExplosion(x, y, z, exp, expBlock);
         }
+        if (!getInfo().effectOnly) {
+            if (!inWater) {
+                result = MCH_Explosion.newExplosion(
+                        this.world,
+                        this,
+                        this.shootingEntity,
+                        x,
+                        y,
+                        z,
+                        exp,
+                        expBlock,
+                        this.rand.nextInt(3) == 0,
+                        true,
+                        this.getInfo().flaming,
+                        true,
+                        0,
+                        this.getInfo() != null ? this.getInfo().damageFactor : null
+                );
+            } else {
+                result = MCH_Explosion.newExplosionInWater(
+                        this.world,
+                        this,
+                        this.shootingEntity,
+                        x,
+                        y,
+                        z,
+                        exp,
+                        expBlock,
+                        this.rand.nextInt(3) == 0,
+                        true,
+                        this.getInfo().flaming,
+                        true,
+                        0,
+                        this.getInfo() != null ? this.getInfo().damageFactor : null
+                );
+            }
 
-//        if (this.getInfo().nukeYield > 0 && ModCompatManager.isLoaded(ModCompatManager.MODID_HBM)) {
-//            if (!this.getInfo().nukeEffectOnly) {
-//                world.spawnEntity(HBMUtil.EntityNukeExplosionMK5_statFac(world, this.getInfo().nukeYield, this.posX + 0.5, this.posY + 0.5, this.posZ + 0.5));
-//            }
-//            HBMUtil.EntityNukeTorex_statFac(world, this.posX + 0.5, this.posY + 0.5, this.posZ + 0.5, (float) this.getInfo().nukeYield);
-//        }
-
-        //moved to onimpact
-        //if(this.getInfo().chemYield > 0) {
-        //    System.out.println("chem yield detected");
-        //    MCH_HBMUtil.ExplosionChaos_spawnChlorine(super.worldObj, posX, posY + 0.5, posZ, this.getInfo().chemYield, this.getInfo().chemSpeed, this.getInfo().chemType);
-        //}
-
-        if (result != null && result.hitEntity) {
-            this.notifyHitBullet();
+            if (result != null && result.hitEntity) {
+                this.notifyHitBullet();
+            }
         }
     }
 
     public void playExplosionSound() {
         MCH_ExplosionV2.playExplosionSound(this.world, this.posX, this.posY, this.posZ);
+    }
+
+
+    private void processHBMExplosion(double x, double y, double z, float exp, float expBlock) {
+        final boolean effectOnly = getInfo().effectOnly;
+        switch (getInfo().payloadNTM) {
+            case NONE -> {
+            }
+            case NTM_VNT -> {
+                if (getInfo().vntSettingContainer == null) break;
+                var vnt = getInfo().vntSettingContainer;
+                if (!effectOnly)
+                    vnt.buildExplosion(this.world, x, y, z, expBlock, this);
+
+            }
+            case NTM_NT -> {
+                if (getInfo().ntSettingContainer == null) break;
+                var nt = getInfo().ntSettingContainer;
+                if (!effectOnly)
+                    nt.explode(this.world, this, x, y, z);
+
+            }
+            case NTM_MINI_NUKE -> {
+                HBMUtil.explodeMuke(world, x, y, z, getInfo().mukeType, effectOnly);
+            }
+            case NTM_NUKE -> {
+                HBMUtil.EntityNukeExplosionMK5(world, explosionPower, x, y, z, effectOnly);
+            }
+            case NTM_CHLORINE -> {
+                HBMUtil.ExplosionChaos_spawnChlorine(world, x, y, z, getInfo().chemicalContainer);
+            }
+            case NTM_MIST -> {
+
+            }
+        }
     }
 
     public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {

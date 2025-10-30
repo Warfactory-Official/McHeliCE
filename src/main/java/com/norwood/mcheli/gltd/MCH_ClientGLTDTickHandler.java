@@ -33,16 +33,7 @@ public class MCH_ClientGLTDTickHandler extends MCH_ClientTickHandlerBase {
         this.KeyCameraMode = new MCH_Key(MCH_Config.KeyCameraMode.prmInt);
         this.KeyUnmount = new MCH_Key(MCH_Config.KeyUnmount.prmInt);
         this.KeyUnmount_1_6 = new MCH_Key(42);
-        this.Keys = new MCH_Key[]{
-                this.KeyUseWeapon,
-                this.KeySwWeaponMode,
-                this.KeySwitchWeapon1,
-                this.KeySwitchWeapon2,
-                this.KeyZoom,
-                this.KeyCameraMode,
-                this.KeyUnmount,
-                this.KeyUnmount_1_6
-        };
+        this.Keys = new MCH_Key[]{this.KeyUseWeapon, this.KeySwWeaponMode, this.KeySwitchWeapon1, this.KeySwitchWeapon2, this.KeyZoom, this.KeyCameraMode, this.KeyUnmount, this.KeyUnmount_1_6};
     }
 
     protected void updateGLTD(EntityPlayer player, MCH_EntityGLTD gltd) {
@@ -104,48 +95,70 @@ public class MCH_ClientGLTDTickHandler extends MCH_ClientTickHandlerBase {
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityGLTD gltd) {
-        var pc = new PacketGLTDControl();
-        boolean send = false;
-        if (this.KeyUnmount.isKeyDown()) {
-            pc.unmount = true;
-            send = true;
-        }
+        var packet = new PacketGLTDControl();
+        boolean shouldSend = false;
 
-        if ((!this.KeySwitchWeapon1.isKeyDown() || !this.KeySwitchWeapon2.isKeyDown()) && this.KeyUseWeapon.isKeyPress()) {
+        shouldSend |= handleUnmount(packet);
+        shouldSend |= handleWeaponUse(gltd, packet);
+        handleZoom(gltd);
+        shouldSend |= handleCameraMode(gltd, packet);
+
+        if (shouldSend) {
+            packet.sendToServer();
+        }
+    }
+
+
+    private boolean handleUnmount(PacketGLTDControl packet) {
+        if (KeyUnmount.isKeyDown()) {
+            packet.unmount = true;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean handleWeaponUse(MCH_EntityGLTD gltd, PacketGLTDControl packet) {
+        boolean switchHeld = KeySwitchWeapon1.isKeyDown() || KeySwitchWeapon2.isKeyDown();
+        if (!switchHeld && KeyUseWeapon.isKeyPress()) {
             if (gltd.useCurrentWeapon(0, 0)) {
-                pc.useWeapon = true;
-                send = true;
-            } else if (this.KeyUseWeapon.isKeyDown()) {
+                packet.useWeapon = true;
+                return true;
+            } else if (KeyUseWeapon.isKeyDown()) {
                 playSoundNG();
             }
         }
+        return false;
+    }
 
+    private void handleZoom(MCH_EntityGLTD gltd) {
         float prevZoom = gltd.camera.getCameraZoom();
-        if (this.KeyZoom.isKeyPress() && !this.KeySwWeaponMode.isKeyPress()) {
-            gltd.zoomCamera(0.1F * gltd.camera.getCameraZoom());
+
+        if (KeyZoom.isKeyPress() && !KeySwWeaponMode.isKeyPress()) {
+            gltd.zoomCamera(0.1F * prevZoom);
+        } else if (!KeyZoom.isKeyPress() && KeySwWeaponMode.isKeyPress()) {
+            gltd.zoomCamera(-0.1F * prevZoom);
         }
 
-        if (!this.KeyZoom.isKeyPress() && this.KeySwWeaponMode.isKeyPress()) {
-            gltd.zoomCamera(-0.1F * gltd.camera.getCameraZoom());
-        }
-
-        if (prevZoom != gltd.camera.getCameraZoom()) {
-            playSound("zoom", 0.1F, prevZoom < gltd.camera.getCameraZoom() ? 1.0F : 0.85F);
-        }
-
-        if (this.KeyCameraMode.isKeyDown()) {
-            int beforeMode = gltd.camera.getMode(0);
-            gltd.camera.setMode(0, gltd.camera.getMode(0) + 1);
-            int mode = gltd.camera.getMode(0);
-            if (mode != beforeMode) {
-                pc.switchCameraMode = (byte) mode;
-                playSoundOK();
-                send = true;
-            }
-        }
-
-        if (send) {
-            pc.sendToServer();
+        float newZoom = gltd.camera.getCameraZoom();
+        if (prevZoom != newZoom) {
+            playSound("zoom", 0.1F, prevZoom < newZoom ? 1.0F : 0.85F);
         }
     }
+
+    private boolean handleCameraMode(MCH_EntityGLTD gltd, PacketGLTDControl packet) {
+        if (!KeyCameraMode.isKeyDown()) return false;
+
+        int before = gltd.camera.getMode(0);
+        gltd.camera.setMode(0, before + 1);
+        int after = gltd.camera.getMode(0);
+
+        if (after != before) {
+            packet.switchCameraMode = (byte) after;
+            playSoundOK();
+            return true;
+        }
+        return false;
+    }
+
+
 }

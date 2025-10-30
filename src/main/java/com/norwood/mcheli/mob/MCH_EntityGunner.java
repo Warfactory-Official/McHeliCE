@@ -91,7 +91,8 @@ public class MCH_EntityGunner extends EntityLivingBase {
         return team != null ? new TextComponentString(ScorePlayerTeam.formatPlayerName(team, team.getName() + " Gunner")) : new TextComponentString("");
     }
 
-    public boolean func_180431_b(DamageSource source) {
+    @Override
+    public boolean isEntityInvulnerable(DamageSource source) {
         return this.isCreative;
     }
 
@@ -99,7 +100,7 @@ public class MCH_EntityGunner extends EntityLivingBase {
         super.onDeath(source);
     }
 
-    public boolean func_184230_a(EntityPlayer player, EnumHand hand) {
+    public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
         if (this.world.isRemote) {
             return false;
         } else if (this.getRidingEntity() == null) {

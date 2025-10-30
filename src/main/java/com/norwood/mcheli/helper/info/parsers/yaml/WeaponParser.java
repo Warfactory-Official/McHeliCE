@@ -31,8 +31,8 @@ public class WeaponParser {
             return MCH_WeaponInfo.Payload.NONE;
 
         return switch (s.trim().toUpperCase(Locale.ROOT)) {
-            case "NTM_EXP_SMALL", "SMALL" -> MCH_WeaponInfo.Payload.NTM_EXP_SMALL;
-            case "NTM_EXP_LARGE", "LARGE" -> MCH_WeaponInfo.Payload.NTM_EXP_LARGE;
+            case "NTM_EXP_SMALL", "SMALL" -> MCH_WeaponInfo.Payload.NTM_VNT;
+            case "NTM_EXP_LARGE", "LARGE" -> MCH_WeaponInfo.Payload.NTM_NT;
             case "NTM_NUKE", "NUKE" -> MCH_WeaponInfo.Payload.NTM_NUKE;
             case "NTM_CHLORINE", "CHLORINE" -> MCH_WeaponInfo.Payload.NTM_CHLORINE;
             case "NTM_MIST", "MIST" -> MCH_WeaponInfo.Payload.NTM_MIST;
@@ -369,10 +369,12 @@ public class WeaponParser {
      * Fluid - Fluid to disperse on impact, works like the canisters
      */
     private static void parseHBM(MCH_WeaponInfo info, Map<String, Object> map) {
+        info.useHBM = true;
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "PayloadType" -> info.payloadNTM = parsePayload((String) entry.getValue());
                 case "EffectOnly" -> info.effectOnly = (Boolean) entry.getValue();
+                case "MiniNukeType","MukeType" -> info.mukeType = ((String) entry.getValue()).toUpperCase();
                 case "VNT" ->
                         info.vntSettingContainer = new VNTSettingContainer((Map<String, Object>) entry.getValue());
                 case "FluidType" -> info.fluidTypeNTM = (String) entry.getValue();

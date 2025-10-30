@@ -1,10 +1,13 @@
 package com.norwood.mcheli.weapon;
 
-import com.github.bsideup.jabel.Desugar;
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
+import com.norwood.mcheli.compat.hbm.ChemicalContainer;
+import com.norwood.mcheli.compat.hbm.MistContainer;
+import com.norwood.mcheli.compat.hbm.NTSettingContainer;
 import com.norwood.mcheli.compat.hbm.VNTSettingContainer;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
 import lombok.Getter;
@@ -14,20 +17,26 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
+
+import static com.norwood.mcheli.compat.ModCompatManager.MODID_HBM;
+import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
 
 public class MCH_WeaponInfo extends MCH_BaseInfo {
 
     //HBM compat
+    public boolean useHBM = false;
     public Payload payloadNTM = Payload.NONE;
     public boolean effectOnly = false;
     public String fluidTypeNTM = null;
+    public String mukeType = "SAFE";
     public VNTSettingContainer vntSettingContainer = null;
+    public ChemicalContainer chemicalContainer = null;
+    public MistContainer mistContainer = null;
+    public NTSettingContainer ntSettingContainer = null;
 
     public final String name;
     public static Random rand = new Random();
@@ -309,6 +318,13 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(dispenseItemLoc));
             if(item != null) dispenseItem = item;
         }
+        if(useHBM && isLoaded(MODID_HBM)){
+           if(vntSettingContainer != null)
+               vntSettingContainer.loadRuntimeInstances();
+            if(ntSettingContainer != null)
+                ntSettingContainer.loadRuntimeInstances();
+        } else if (useHBM && !isLoaded(MODID_HBM))
+            MCH_Logger.get().warn("Weapon:\"{}\" uses HBM capabilites, to use it please install HBM:NTM Community Edition", name);
     }
 
 
@@ -390,8 +406,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
 
     public static enum Payload {
         NONE,
-        NTM_EXP_SMALL,
-        NTM_EXP_LARGE,
+        NTM_VNT,
+        NTM_NT,
         NTM_MINI_NUKE,
         NTM_NUKE,
         NTM_CHLORINE,
