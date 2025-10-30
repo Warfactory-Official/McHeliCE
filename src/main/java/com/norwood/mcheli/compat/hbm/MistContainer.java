@@ -8,4 +8,6 @@ public class MistContainer {
     public final int cloudCount;
     public final float sizeX, sizeY;
     public final float areaSpread;
+    public final int lifetime;
+    public final float lifetimeVariance;
 }
