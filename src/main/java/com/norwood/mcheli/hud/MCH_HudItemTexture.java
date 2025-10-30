@@ -42,8 +42,7 @@ public class MCH_HudItemTexture extends MCH_HudItem {
         GlStateManager.enableBlend();
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         if (this.textureWidth == 0 || this.textureHeight == 0) {
-            int w = 0;
-            int h = 0;
+            int w, h;
             W_TextureUtil.TextureParam prm = W_TextureUtil.getTextureInfo(Tags.MODID, "textures/gui/" + this.name + ".png");
             w = prm.width;
             h = prm.height;

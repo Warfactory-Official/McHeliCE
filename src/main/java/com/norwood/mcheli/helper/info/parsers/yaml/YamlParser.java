@@ -189,7 +189,7 @@ public class YamlParser implements IParser {
                     try {
                         info.weightType = TankWeight.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim()).ordinal();
                     } catch (RuntimeException e) {
-                        throw new IllegalArgumentException("Invalid Weight type: " + (String) entry.getValue() + ". Allowed values: " + Arrays.stream(TankWeight.values()).map(Enum::name).collect(Collectors.joining(", ")));
+                        throw new IllegalArgumentException("Invalid Weight type: " + entry.getValue() + ". Allowed values: " + Arrays.stream(TankWeight.values()).map(Enum::name).collect(Collectors.joining(", ")));
                     }
                 }
                 case "WeightedCenterZ", "CenterZ" -> getClamped(-1000F, 1000F, entry.getValue());
@@ -363,7 +363,7 @@ public class YamlParser implements IParser {
                     }
 
                 }
-                case "CanRide" -> info.canRide = ((Boolean) entry.getValue()).booleanValue();
+                case "CanRide" -> info.canRide = (Boolean) entry.getValue();
                 case "RotorSpeed" -> {
                     info.rotorSpeed = getClamped(-10000.0F, 10000.0F, entry.getValue());
                     if (info.rotorSpeed > 0.01F) info.rotorSpeed -= 0.01F;
@@ -371,9 +371,9 @@ public class YamlParser implements IParser {
                 }
 
                 case "TurretPosition" -> info.turretPosition = parseVector(entry.getValue());
-                case "CreativeOnly" -> info.creativeOnly = ((Boolean) entry.getValue()).booleanValue();
-                case "Regeneration" -> info.regeneration = ((Boolean) entry.getValue()).booleanValue();
-                case "Invulnerable" -> info.invulnerable = ((Boolean) entry.getValue()).booleanValue();
+                case "CreativeOnly" -> info.creativeOnly = (Boolean) entry.getValue();
+                case "Regeneration" -> info.regeneration = (Boolean) entry.getValue();
+                case "Invulnerable" -> info.invulnerable = (Boolean) entry.getValue();
                 case "MaxFuel" -> info.maxFuel = getClamped(100_000_000, entry.getValue());
                 case "MaxHP" -> info.maxHp = getClamped(1, 1000_000_000, entry.getValue());
                 case "Stealth" -> info.stealth = getClamped(1F, entry.getValue());
@@ -476,11 +476,7 @@ public class YamlParser implements IParser {
 
                 case "Seats" -> {
                     List<Map<String, Object>> seatList = (List<Map<String, Object>>) entry.getValue();
-                    int rackCount = 0;
-                    if (root.containsKey("Racks")) {
-                        var rackList = ((List<?>) root.get("Racks")).size();
-                    }
-                    seatList.stream().forEachOrdered(seat -> parseSeatInfo(seat, info, rackCount, seatList.size()));
+                    seatList.stream().forEachOrdered(seat -> parseSeatInfo(seat, info,  seatList.size()));
 
                 }
 
@@ -1021,7 +1017,7 @@ public class YamlParser implements IParser {
     }
 
     @SuppressWarnings("unboxing")
-    private void parseSeatInfo(Map<String, Object> map, MCH_AircraftInfo info, int rackCount, int seatCount) {
+    private void parseSeatInfo(Map<String, Object> map, MCH_AircraftInfo info,  int seatCount) {
         Vec3d position = null;
         boolean isGunner = false;
         boolean canSwitchGunner = false;
