@@ -429,7 +429,7 @@ public class WeaponParser {
                         for (Map.Entry<String, Object> vntEntry : vntMap.entrySet()) {
                             var value = vntEntry.getValue();
                             switch (entry.getKey()) {
-                                case "IsSmall" -> effect.isSmall = (boolean) value;
+                                case "IsSmall" -> effect.isSmall = ((Boolean) value).booleanValue();
                                 case "CloudCount" -> effect.cloudCount = ((Number) value).intValue();
                                 case "CloudScale" -> effect.cloudScale = ((Number) value).floatValue();
                                 case "CloudSpeedMult" -> effect.cloudSpeedMult = ((Number) value).floatValue();
