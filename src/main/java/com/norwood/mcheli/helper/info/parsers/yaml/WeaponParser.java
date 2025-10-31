@@ -413,7 +413,7 @@ public class WeaponParser {
     private static void parseVNT(MCH_WeaponInfo info, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Attributes" -> new VNTSettingContainer((Map<String, Object>) entry.getValue());
+                case "Attributes" -> info.vntSettingContainer = new VNTSettingContainer((Map<String, Object>) entry.getValue());
                 case "Effect" -> {
                     if (entry.getValue() instanceof String str) {
                         info.vntSettingContainer.explosionEffect = switch (str.toUpperCase(Locale.ROOT)) {
@@ -429,7 +429,7 @@ public class WeaponParser {
                         var effect = VNTSettingContainer.ExplosionEffect.standard();
                         for (Map.Entry<String, Object> vntEntry : vntMap.entrySet()) {
                             var value = vntEntry.getValue();
-                            switch (entry.getKey()) {
+                            switch (vntEntry.getKey()) {
                                 case "IsSmall" -> effect.isSmall = ((Boolean) value).booleanValue();
                                 case "CloudCount" -> effect.cloudCount = ((Number) value).intValue();
                                 case "CloudScale" -> effect.cloudScale = ((Number) value).floatValue();
