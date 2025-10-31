@@ -53,7 +53,9 @@ import com.norwood.mcheli.wrapper.W_Item;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
 import com.norwood.mcheli.wrapper.W_NetworkRegistry;
 import net.minecraft.command.CommandHandler;
+import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -65,6 +67,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
@@ -389,6 +392,7 @@ public class MCH_MOD {
     @EventHandler
     public void onLoadComplete(FMLLoadCompleteEvent evt) {
         MCH_WeaponInfoManager.setRoundItems();
+        ContentRegistries.weapon().values().parallelStream().filter(mchWeaponInfo -> mchWeaponInfo.useHBM).forEach(MCH_WeaponInfo::loadNTMFunctionality);
         if(ModCompatManager.isLoaded(ModCompatManager.MODID_TOP))
             AircraftInfoProvider.register();
 

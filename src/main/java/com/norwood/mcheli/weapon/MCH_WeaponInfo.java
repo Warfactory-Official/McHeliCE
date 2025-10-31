@@ -314,6 +314,10 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(dispenseItemLoc));
             if(item != null) dispenseItem = item;
         }
+        loadNTMFunctionality();
+    }
+
+    public void loadNTMFunctionality() {
         if(useHBM && isLoaded(MODID_HBM)){
            if(vntSettingContainer != null)
                vntSettingContainer.loadRuntimeInstances();
