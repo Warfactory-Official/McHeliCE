@@ -3,7 +3,6 @@ package com.norwood.mcheli.helper.info.parsers.yaml;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.hud.*;
-import lombok.extern.log4j.Log4j2;
 import net.minecraft.util.Tuple;
 
 import java.util.*;
@@ -14,9 +13,11 @@ import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEn
 import static com.norwood.mcheli.hud.MCH_HudItem.toFormula;
 
 //Dude this is so fucking stupid, we should just move to groovy but muh 1.7 compat... ugh
-@Log4j2
 @SuppressWarnings("unchecked")
 public class HUDParser {
+
+    private HUDParser() {
+    }
 
     public static Tuple<String, String> setTuple(List<String> mapKeys, Object object) {
         if (object instanceof List<?> tupleList) {
@@ -50,7 +51,7 @@ public class HUDParser {
         throw new ClassCastException("Map values are not String or Number");
     }
 
-    public void parse(MCH_Hud info, Object rootObj) {
+    public static void parse(MCH_Hud info, Object rootObj) {
         if (rootObj instanceof List<?>) {
             for (Object item : (List<?>) rootObj) {
                 parseHudItem(info, item);
@@ -61,7 +62,7 @@ public class HUDParser {
     }
 
 
-    private MCH_HudItem parseHUDCommands(Map.Entry<String, Object> entry) {
+    private static MCH_HudItem parseHUDCommands(Map.Entry<String, Object> entry) {
         switch (entry.getKey()) {
 
             case "Exit" -> {
@@ -110,7 +111,7 @@ public class HUDParser {
 
     }
 
-    private MCH_HudItem parseGraduation(Map<String, Object> value) {
+    private static MCH_HudItem parseGraduation(Map<String, Object> value) {
         GraduationType type = null;
         String xCoord = null;
         String yCoord = null;
@@ -137,7 +138,7 @@ public class HUDParser {
         return new MCH_HudItemGraduation(0, type == null ? -1 : type.ordinal(), rot, roll, xCoord, yCoord);
     }
 
-    private MCH_HudItemRadar parseRadar(Map<String, Object> value) {
+    private static MCH_HudItemRadar parseRadar(Map<String, Object> value) {
         boolean isEntityRadar = false;
         String xCoord = null;
         String yCoord = null;
@@ -169,7 +170,7 @@ public class HUDParser {
         return new MCH_HudItemRadar(0, isEntityRadar, rot, xCoord, yCoord, width, height);
     }
 
-    private MCH_HudItem parseLine(Map<String, Object> value) {
+    private static MCH_HudItem parseLine(Map<String, Object> value) {
         boolean isStriped = false;
         List<List<String>> positions = new ArrayList<>();
 
@@ -211,7 +212,7 @@ public class HUDParser {
                 : new MCH_HudItemLine(0, coordsArr);
     }
 
-    private MCH_HudItem parseCameraRot(Map<String, Object> value) {
+    private static MCH_HudItem parseCameraRot(Map<String, Object> value) {
         String xCoord = null;
         String yCoord = null;
 
@@ -232,7 +233,7 @@ public class HUDParser {
         return new MCH_HudItemCameraRot(0, xCoord, yCoord);
     }
 
-    private MCH_HudItemRect parseRact(Map<String, Object> value) {
+    private static MCH_HudItemRect parseRact(Map<String, Object> value) {
         String xCoord = null;
         String yCoord = null;
         String width = null;
@@ -260,7 +261,7 @@ public class HUDParser {
         return new MCH_HudItemRect(0, xCoord, yCoord, width, height);
     }
 
-    private MCH_HudItemString parseDrawString(Map<String, Object> map) {
+    private static MCH_HudItemString parseDrawString(Map<String, Object> map) {
         String text = null;
         List<String> varSubstitute = null;
         String xCoord = null;
@@ -298,7 +299,7 @@ public class HUDParser {
 
     }
 
-    private MCH_HudItemTexture parseDrawTexture(Map<String, Object> map) {
+    private static MCH_HudItemTexture parseDrawTexture(Map<String, Object> map) {
         String name = null;
         String xCoord = null;
         String yCoord = null;
@@ -345,7 +346,7 @@ public class HUDParser {
 
     }
 
-    private void parseHudItem(MCH_Hud info, Object obj) {
+    private static void parseHudItem(MCH_Hud info, Object obj) {
         if (obj instanceof Map<?, ?> map) {
             if (map.containsKey("If")) {
                 parseConditional(info, (LinkedHashMap<String, Object>) map);
@@ -361,7 +362,7 @@ public class HUDParser {
     }
 
 
-    private void parseConditional(MCH_Hud info, Map<String, Object> map) {
+    private static void parseConditional(MCH_Hud info, Map<String, Object> map) {
         String condition = ((String) map.get("If")).trim();
         if (condition == null || condition.isEmpty())
             throw new IllegalArgumentException("Condition cannot be blank!");

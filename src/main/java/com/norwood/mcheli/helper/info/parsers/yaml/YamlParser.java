@@ -38,11 +38,6 @@ public class YamlParser implements IParser {
     public static final Yaml YAML_INSTANCE = new Yaml();
     public static final YamlParser INSTANCE = new YamlParser();
     public static final Set<String> DRAWN_PART_ARGS = new HashSet<>(Arrays.asList("Type", "Position", "Rotation", "PartName","Rot","Pos"));
-    public static final ComponentParser COMPONENT_PARSER = new ComponentParser();
-    public static final WeaponParser WEAPON_PARSER = new WeaponParser();
-    public static final HUDParser HUD_PARSER = new HUDParser();
-    public static final ThrowableParser THROWABLE_PARSER = new ThrowableParser();
-
 
     private YamlParser() {
     }
@@ -115,7 +110,7 @@ public class YamlParser implements IParser {
                 case "HeliFeatures" -> parseHeliFeatures((Map<String, Object>) entry.getValue(), info);
                 case "Components" -> {
                     var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
-                    COMPONENT_PARSER.parseComponentsHeli(components, info);
+                    ComponentParser.parseComponentsHeli(components, info);
                 }
             }
 
@@ -144,7 +139,7 @@ public class YamlParser implements IParser {
                 case "PlaneFeatures" -> parsePlaneFeatures((Map<String, Object>) entry.getValue(), info);
                 case "Components" -> {
                     var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
-                    COMPONENT_PARSER.parseComponentsPlane(components, info);
+                    ComponentParser.parseComponentsPlane(components, info);
                 }
             }
         }
@@ -163,7 +158,7 @@ public class YamlParser implements IParser {
                 case "ShipFeatures" -> parseShipFeatures((Map<String, Object>) entry.getValue(), info);
                 case "Components" -> {
                     var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
-                    COMPONENT_PARSER.parseComponentsShip(components, info);
+                    ComponentParser.parseComponentsShip(components, info);
                 }
             }
         }
@@ -210,7 +205,7 @@ public class YamlParser implements IParser {
                 case "VehicleFeatures" -> parseVehicleFeatures((Map<String, Object>) entry.getValue(), info);
                 case "Components" -> {
                     var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
-                    COMPONENT_PARSER.parseComponentVehicle(components, info);
+                    ComponentParser.parseComponentVehicle(components, info);
                 }
             }
         }
@@ -234,7 +229,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_WeaponInfo(location, filepath);
-        WEAPON_PARSER.parse(info, root);
+        WeaponParser.parse(info, root);
         info.validate();
         return info;
     }
@@ -243,7 +238,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var throwable = new MCH_ThrowableInfo(location, filepath);
-        THROWABLE_PARSER.parse(throwable, root);
+        ThrowableParser.parse(throwable, root);
         throwable.validate();
         return throwable;
     }
@@ -252,7 +247,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
         Object root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_Hud(location, filepath);
-        HUD_PARSER.parse(info, root);
+        HUDParser.parse(info, root);
         info.validate();
         return info;
     }
@@ -467,7 +462,7 @@ public class YamlParser implements IParser {
                 }
                 case "Components" -> {
                     var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
-                    COMPONENT_PARSER.parseComponents(components, info);
+                    ComponentParser.parseComponents(components, info);
                 }
                 case "Sound" -> {
                     Map<String, Object> soundSettings = (Map<String, Object>) entry.getValue();

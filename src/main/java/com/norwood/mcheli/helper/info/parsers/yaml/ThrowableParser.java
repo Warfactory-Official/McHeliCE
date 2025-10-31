@@ -12,7 +12,10 @@ import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 @SuppressWarnings("unchecked")
 public class ThrowableParser {
 
-    public void parse(MCH_ThrowableInfo info, Map<String,Object> root){
+    private ThrowableParser() {
+    }
+
+    public static void parse(MCH_ThrowableInfo info, Map<String,Object> root){
         for (Map.Entry<String, Object> entry : root.entrySet()) {
             switch (entry.getKey()) {
                 case "DisplayName" -> {
@@ -115,7 +118,7 @@ public class ThrowableParser {
 
     }
 
-    private void parseSmoke( MCH_ThrowableInfo info, Map<String, Object> soundSettings) {
+    private static void parseSmoke( MCH_ThrowableInfo info, Map<String, Object> soundSettings) {
 
         for (Map.Entry<String, Object> entry : soundSettings.entrySet()) {
             switch (entry.getKey()) {
@@ -150,7 +153,7 @@ public class ThrowableParser {
         }
     }
 
-    private void parseSound(Map<String, Object> soundSettings, MCH_ThrowableInfo info) {
+    private static void parseSound(Map<String, Object> soundSettings, MCH_ThrowableInfo info) {
 
         for (Map.Entry<String, Object> entry : soundSettings.entrySet()) {
             switch (entry.getKey()) {

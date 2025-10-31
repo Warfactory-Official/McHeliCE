@@ -15,7 +15,6 @@ import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.weapon.MCH_Cartridge;
 import com.norwood.mcheli.weapon.MCH_SightType;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
-import lombok.NoArgsConstructor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -25,9 +24,11 @@ import java.util.stream.Collectors;
 
 import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 
-@NoArgsConstructor
 @SuppressWarnings("unchecked")
 public class WeaponParser {
+
+    private WeaponParser() {
+    }
 
     private static MCH_WeaponInfo.Payload parsePayload(String s) {
         if (s == null || s.isEmpty())

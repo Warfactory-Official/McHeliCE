@@ -8,7 +8,6 @@ import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import net.minecraft.util.math.Vec3d;
 
-import java.sql.Array;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -17,7 +16,11 @@ import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 
 @SuppressWarnings("unchecked")
 public class ComponentParser {
-    public void parseComponentsHeli(Map<String, List<Map<String, Object>>> components, MCH_HeliInfo info) {
+
+    private ComponentParser() {
+    }
+
+    public static void parseComponentsHeli(Map<String, List<Map<String, Object>>> components, MCH_HeliInfo info) {
 
         for (Map.Entry<String, List<Map<String, Object>>> entry : components.entrySet()) {
             String type = entry.getKey();
@@ -48,7 +51,7 @@ public class ComponentParser {
     }
 
 
-    public void parseComponents(Map<String, List<Map<String, Object>>> components, MCH_AircraftInfo info) {
+    public static void parseComponents(Map<String, List<Map<String, Object>>> components, MCH_AircraftInfo info) {
         for (Map.Entry<String, List<Map<String, Object>>> entry : components.entrySet()) {
             String type = entry.getKey();
             var componentList = entry.getValue();
@@ -81,7 +84,7 @@ public class ComponentParser {
 
 
                 case "RepelHook" ->
-                        componentList.stream().map(this::parseHook).forEachOrdered(info.repellingHooks::add);
+                        componentList.stream().map(ComponentParser::parseHook).forEachOrdered(info.repellingHooks::add);
 
 
                 case "Rotation" ->
@@ -190,7 +193,7 @@ public class ComponentParser {
     }
 
 
-    public MCH_AircraftInfo.CrawlerTrack parseCrawlerTrack(Map<String, Object> component, MCH_AircraftInfo info) {
+    public static MCH_AircraftInfo.CrawlerTrack parseCrawlerTrack(Map<String, Object> component, MCH_AircraftInfo info) {
         boolean isReverse = (Boolean) component.getOrDefault("IsReverse", false);
         float segmentLength = component.containsKey("SegmentLength") ? ((Number) component.get("SegmentLength")).floatValue() : 1F;
         float zOffset = component.containsKey("ZOffset") ? ((Number) component.get("ZOffset")).floatValue() : 0F;
@@ -271,7 +274,7 @@ public class ComponentParser {
     }
 
 
-    private <Y extends MCH_AircraftInfo.DrawnPart> Y parseDrawnPart(String defaultName, Map<String, Object> map, Function<MCH_AircraftInfo.DrawnPart, Y> fillChildFields, List<Y> partList, Set<String> knownKeys) {
+    private static <Y extends MCH_AircraftInfo.DrawnPart> Y parseDrawnPart(String defaultName, Map<String, Object> map, Function<MCH_AircraftInfo.DrawnPart, Y> fillChildFields, List<Y> partList, Set<String> knownKeys) {
 
         Vec3d pos = map.containsKey("Position") ? parseVector(map.get("Position")) : null;
         Vec3d rot = map.containsKey("Rotation") ? parseVector(map.get("Rotation")) : Vec3d.ZERO;
@@ -293,11 +296,11 @@ public class ComponentParser {
 
     }
 
-    private <Y extends MCH_AircraftInfo.DrawnPart> Y parseDrawnPart(Class<? extends MCH_AircraftInfo.DrawnPart> clazz, Map<String, Object> map, Function<MCH_AircraftInfo.DrawnPart, Y> fillChildFields, List<Y> partList, Set<String> knownKeys) {
+    private static <Y extends MCH_AircraftInfo.DrawnPart> Y parseDrawnPart(Class<? extends MCH_AircraftInfo.DrawnPart> clazz, Map<String, Object> map, Function<MCH_AircraftInfo.DrawnPart, Y> fillChildFields, List<Y> partList, Set<String> knownKeys) {
         return parseDrawnPart(clazz.getSimpleName().toLowerCase(Locale.ROOT).trim(), map, fillChildFields, partList, knownKeys);
     }
 
-    private MCH_AircraftInfo.RepellingHook parseHook(Map<String, Object> map) {
+    private static MCH_AircraftInfo.RepellingHook parseHook(Map<String, Object> map) {
         Vec3d pos = null;
         int interval = 0;
 
@@ -314,7 +317,7 @@ public class ComponentParser {
         return new MCH_AircraftInfo.RepellingHook(pos, interval);
     }
 
-    private MCH_AircraftInfo.SearchLight parseSearchLights(Map<String, Object> map) {
+    private static MCH_AircraftInfo.SearchLight parseSearchLights(Map<String, Object> map) {
         Vec3d pos = null;
         int colorStart = 0xFFFFFF; // default white
         int colorEnd = 0xFFFFFF;
@@ -359,7 +362,7 @@ public class ComponentParser {
 
     //Yeah yeah its code duplication... Whatever. Ragex made it and now I need to deal with it
     //TODO: Turn it into something thats worthy of being more than a plane rename
-    public void parseComponentsShip(Map<String, List<Map<String, Object>>> components, MCH_ShipInfo info) {
+    public static void parseComponentsShip(Map<String, List<Map<String, Object>>> components, MCH_ShipInfo info) {
         for (Map.Entry<String, List<Map<String, Object>>> entry : components.entrySet()) {
             String type = entry.getKey();
             var componentList = entry.getValue();
@@ -428,7 +431,7 @@ public class ComponentParser {
         }
     }
 
-    public void parseComponentsPlane(Map<String, List<Map<String, Object>>> components, MCH_PlaneInfo info) {
+    public static void parseComponentsPlane(Map<String, List<Map<String, Object>>> components, MCH_PlaneInfo info) {
         for (Map.Entry<String, List<Map<String, Object>>> entry : components.entrySet()) {
             String type = entry.getKey();
             var componentList = entry.getValue();
@@ -506,7 +509,7 @@ public class ComponentParser {
         }
     }
 
-    public void parseComponentVehicle(Map<String, List<Map<String, Object>>> components, MCH_VehicleInfo info) {
+    public static void parseComponentVehicle(Map<String, List<Map<String, Object>>> components, MCH_VehicleInfo info) {
         if (!components.containsKey("Vpart")) return;
 
         var vparts = components.get("Vpart");
@@ -524,7 +527,7 @@ public class ComponentParser {
                 .forEach(info.partList::add);
     }
 
-    private MCH_VehicleInfo.VPart parseVPart(Map<String, Object> component, Object drawnPart, MCH_VehicleInfo info) {
+    private static MCH_VehicleInfo.VPart parseVPart(Map<String, Object> component, Object drawnPart, MCH_VehicleInfo info) {
         boolean drawFP = true;
         boolean yaw = false;
         boolean pitch = false;
@@ -584,7 +587,7 @@ public class ComponentParser {
     }
 
 
-    public static enum VpartType {
+    public enum VpartType {
         NORMAL, ROTATES_WEAPON, RECOILS_WEAPON, TYPE_3
     }
 }
