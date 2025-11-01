@@ -34,6 +34,7 @@ import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.vehicle.MCH_ClientVehicleTickHandler;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.vehicle.MCH_GuiVehicle;
+import com.norwood.mcheli.weapon.GPSPosition;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.*;
 import net.minecraft.client.Minecraft;
@@ -243,99 +244,13 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
         if (lockedSoundCount > 0) {
             lockedSoundCount--;
         }
+
+        //GPS
+        if (mc.player.getRidingEntity() == null) {
+            GPSPosition.currentClientGPSPosition.isActive = false;
+        }
     }
 
-    /** 1.7.10
-     * public void onTick() {
-     *       MCH_ClientTickHandlerBase.initRotLimit();
-     *       MCH_Key[] player = this.Keys;
-     *       int inOtherGui = player.length;
-     *
-     *       for(int ac = 0; ac < inOtherGui; ++ac) {
-     *          MCH_Key len$ = player[ac];
-     *          len$.update();
-     *       }
-     *
-     *       EntityClientPlayerMP var7 = super.mc.thePlayer;
-     *       if(var7 != null && super.mc.currentScreen == null) {
-     *          if(MCH_ServerSettings.enableCamDistChange && (this.KeyCamDistUp.isKeyDown() || this.KeyCamDistDown.isKeyDown())) {
-     *             inOtherGui = (int)W_Reflection.getThirdPersonDistance();
-     *             if(this.KeyCamDistUp.isKeyDown() && inOtherGui < 60) {
-     *                inOtherGui += 4;
-     *                if(inOtherGui > 60) {
-     *                   inOtherGui = 60;
-     *                }
-     *
-     *                W_Reflection.setThirdPersonDistance((float)inOtherGui);
-     *             } else if(this.KeyCamDistDown.isKeyDown()) {
-     *                inOtherGui -= 4;
-     *                if(inOtherGui < 4) {
-     *                   inOtherGui = 4;
-     *                }
-     *
-     *                W_Reflection.setThirdPersonDistance((float)inOtherGui);
-     *             }
-     *          }
-     *
-     *          if(super.mc.currentScreen == null) {
-     *             label85: {
-     *                if(super.mc.isSingleplayer()) {
-     *                   MCH_Config var10000 = MCH_MOD.config;
-     *                   if(!MCH_Config.DebugLog) {
-     *                      break label85;
-     *                   }
-     *                }
-     *
-     *                isDrawScoreboard = this.KeyScoreboard.isKeyPress();
-     *                if(!isDrawScoreboard && this.KeyMultiplayManager.isKeyDown()) {
-     *                   PacketIndOpenScreen.send(5);
-     *                }
-     *             }
-     *          }
-     *       }
-     *
-     *       if(sendLDCount < 10) {
-     *          ++sendLDCount;
-     *       } else {
-     *          MCH_MultiplayClient.sendImageData();
-     *          sendLDCount = 0;
-     *       }
-     *
-     *       boolean var12 = super.mc.currentScreen != null;
-     *       MCH_ClientTickHandlerBase[] var8 = this.ticks;
-     *       int var10 = var8.length;
-     *
-     *       int i$;
-     *       for(i$ = 0; i$ < var10; ++i$) {
-     *          MCH_ClientTickHandlerBase g = var8[i$];
-     *          g.onTick(var12);
-     *       }
-     *
-     *       MCH_Gui[] var9 = this.guiTicks;
-     *       var10 = var9.length;
-     *
-     *       for(i$ = 0; i$ < var10; ++i$) {
-     *          MCH_Gui var13 = var9[i$];
-     *          var13.onTick();
-     *       }
-     *
-     *       MCH_EntityAircraft var11 = MCH_EntityAircraft.getAircraft_RiddenOrControl(var7);
-     *       if(var7 != null && var11 != null && !var11.isDestroyed()) {
-     *          if(isLocked && lockedSoundCount == 0) {
-     *             isLocked = false;
-     *             lockedSoundCount = 20;
-     *             MCH_ClientTickHandlerBase.playSound("locked");
-     *          }
-     *       } else {
-     *          lockedSoundCount = 0;
-     *          isLocked = false;
-     *       }
-     *
-     *       if(lockedSoundCount > 0) {
-     *          --lockedSoundCount;
-     *       }
-     *    }
-     */
 
     @Override
     public void onTickPre() {

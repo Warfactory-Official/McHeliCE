@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
 public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
-    private static final ResourceLocation texture = new ResourceLocation(Tags.MODID, "textures/flash.png");
+    public static final ResourceLocation FLASH = new ResourceLocation(Tags.MODID, "textures/flash.png");
     private int nowCount;
     private final int endCount;
     private final TextureManager theRenderEngine = Minecraft.getMinecraft().renderEngine;
@@ -55,7 +54,7 @@ public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
         int prevDstBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_DST);
         GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableCull();
-        this.theRenderEngine.bindTexture(texture);
+        this.theRenderEngine.bindTexture(FLASH);
 
         final int framesPerRow = 4;
         final int framesPerColumn = 2;

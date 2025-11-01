@@ -32,10 +32,10 @@ public class HudRWR implements DirectDrawable {
     public static HudRWR INSTANCE = new HudRWR();
 
 
-    private static final ResourceLocation RWR = new ResourceLocation(Tags.MODID, "textures/rwr.png");
-    private static final ResourceLocation RWR_HELI = new ResourceLocation(Tags.MODID, "textures/rwr_heli.png");
-    private static final ResourceLocation RWR_TANK = new ResourceLocation(Tags.MODID, "textures/rwr_tank.png");
-    private static final ResourceLocation RWR_FAC = new ResourceLocation(Tags.MODID, "textures/rwr_fac.png");
+    public static final ResourceLocation RWR = new ResourceLocation(Tags.MODID, "textures/rwr.png");
+    public static final ResourceLocation RWR_HELI = new ResourceLocation(Tags.MODID, "textures/rwr_heli.png");
+    public static final ResourceLocation RWR_TANK = new ResourceLocation(Tags.MODID, "textures/rwr_tank.png");
+    public static final ResourceLocation RWR_FAC = new ResourceLocation(Tags.MODID, "textures/rwr_fac.png");
     private static final int _RWR_SIZE = 180;
     private static final int _RWR_CENTER_X = 100;
     private static final int _RWR_CENTER_Y = 280;
@@ -238,7 +238,7 @@ public class HudRWR implements DirectDrawable {
     }
 
     @AllArgsConstructor
-    public class RWRResult {
+    public static class RWRResult {
         public final String name;
         public final int color;
     }

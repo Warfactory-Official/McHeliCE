@@ -55,4 +55,7 @@ public class EntityInfo {
     public double getDistanceSqToEntity(Entity e) {
         return (e.posX - x) * (e.posX - x) + (e.posY - y) * (e.posY - y) + (e.posZ - z) * (e.posZ - z);
     }
+    public double getHorizonalDistanceSqToEntity(Entity e) {
+        return (e.posX - x) * (e.posX - x) + (e.posZ - z) * (e.posZ - z);
+    }
 }

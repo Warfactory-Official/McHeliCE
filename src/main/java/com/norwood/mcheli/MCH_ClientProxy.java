@@ -23,11 +23,15 @@ import com.norwood.mcheli.helper.client._IModelCustom;
 import com.norwood.mcheli.helper.client.model.LegacyModelLoader;
 import com.norwood.mcheli.helper.client.renderer.item.*;
 import com.norwood.mcheli.helper.info.ContentRegistries;
+import com.norwood.mcheli.hud.direct_drawable.HudGPS;
+import com.norwood.mcheli.hud.direct_drawable.HudMortarRadar;
+import com.norwood.mcheli.hud.direct_drawable.HudRWR;
 import com.norwood.mcheli.mob.MCH_EntityGunner;
 import com.norwood.mcheli.mob.MCH_RenderGunner;
 import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
 import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.parachute.MCH_RenderParachute;
+import com.norwood.mcheli.particles.MCH_EntityParticleExplode;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.plane.MCP_RenderPlane;
@@ -593,8 +597,15 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void registerParticleTextures(TextureStitchEvent.Pre event) {
-        event.getMap().registerSprite(new ResourceLocation(Tags.MODID, "textures/flash.png"));
-
-
+        var m = event.getMap();
+        m.registerSprite(MCH_EntityParticleExplode.FLASH);
+        m.registerSprite(HudGPS.GPS_POS);
+        m.registerSprite(HudRWR.RWR);
+        m.registerSprite(HudRWR.RWR_FAC);
+        m.registerSprite(HudRWR.RWR_HELI);
+        m.registerSprite(HudRWR.RWR_TANK);
+        m.registerSprite(HudMortarRadar.CROSS);
+        m.registerSprite(HudMortarRadar.RADAR);
+        m.registerSprite(HudMortarRadar.TARGET);
     }
 }

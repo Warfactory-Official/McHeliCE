@@ -9,19 +9,16 @@ import com.norwood.mcheli.helper.info.IItemContent;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.hud.MCH_HudManager;
 import com.norwood.mcheli.hud.direct_drawable.DirectDrawable;
+import com.norwood.mcheli.hud.direct_drawable.HudGPS;
+import com.norwood.mcheli.hud.direct_drawable.HudMortarRadar;
 import com.norwood.mcheli.hud.direct_drawable.HudRWR;
-import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
 import com.norwood.mcheli.wrapper.W_Entity;
 import lombok.AllArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -152,49 +149,90 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float soundVolume = 1.0F;
     public float soundPitch = 1.0F;
     public _IModelCustom model = null;
-    /** Radar type */
+    /**
+     * Radar type
+     */
     public RadarType radarType = RadarType.EARLY_AA;
-    /** RWR type */
+    /**
+     * RWR type
+     */
     public RWRType rwrType = RWRType.DIGITAL;
-    /** Display name on modern air-to-air radar */
+    /**
+     * Display name on modern air-to-air radar
+     */
     public String nameOnModernAARadar = "";
-    /** Display name on early air-to-air radar */
+    /**
+     * Display name on early air-to-air radar
+     */
     public String nameOnEarlyAARadar = "";
-    /** Display name on modern air-to-surface radar */
+    /**
+     * Display name on modern air-to-surface radar
+     */
     public String nameOnModernASRadar = "";
-    /** Display name on early air-to-surface radar */
+    /**
+     * Display name on early air-to-surface radar
+     */
     public String nameOnEarlyASRadar = "";
-    /** Explosion radius when the vehicle is destroyed */
+    /**
+     * Explosion radius when the vehicle is destroyed
+     */
     public float explosionSizeByCrash = 5;
-    /** Reverse speed multiplier (default 1) */
+    /**
+     * Reverse speed multiplier (default 1)
+     */
     public float throttleDownFactor = 1;
-    /** Duration of chaff effectiveness */
+    /**
+     * Duration of chaff effectiveness
+     */
     public int chaffUseTime = 100;
-    /** Chaff cooldown time */
+    /**
+     * Chaff cooldown time
+     */
     public int chaffWaitTime = 400;
-    /** Duration of repair system (duration = heal percentage) */
+    /**
+     * Duration of repair system (duration = heal percentage)
+     */
     public int maintenanceUseTime = 20;
-    /** Repair system cooldown time */
+    /**
+     * Repair system cooldown time
+     */
     public int maintenanceWaitTime = 300;
-    /** Vehicle paralysis threshold; engine shuts down below this HP percentage */
+    /**
+     * Vehicle paralysis threshold; engine shuts down below this HP percentage
+     */
     public int engineShutdownThreshold = 20;
-    /** APS active duration */
+    /**
+     * APS active duration
+     */
     public int apsUseTime = 100;
-    /** APS cooldown time */
+    /**
+     * APS cooldown time
+     */
     public int apsWaitTime = 400;
-    /** APS range */
+    /**
+     * APS range
+     */
     public int apsRange = 8;
-    /** Whether the vehicle has RWR */
+    /**
+     * Whether the vehicle has RWR
+     */
     public boolean hasRWR = false;
-    /** HUD custom field for vehicle HUD type */
+    /**
+     * HUD custom field for vehicle HUD type
+     */
     public int hudType = 0;
-    /** HUD custom field for vehicle weapon group type */
+    /**
+     * HUD custom field for vehicle weapon group type
+     */
     public int weaponGroupType = 0;
-    /** Explosion damage multiplier; final damage = base * multiplier */
+    /**
+     * Explosion damage multiplier; final damage = base * multiplier
+     */
     public float armorExplosionDamageMultiplier = 1.0f;
-    /** Whether the vehicle has a photoelectric jammer (immune to laser lock-on) */
+    /**
+     * Whether the vehicle has a photoelectric jammer (immune to laser lock-on)
+     */
     public boolean hasPhotoelectricJammer = false;
-
 
 
     /**
@@ -208,24 +246,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     private List<DirectDrawable> hudCache = null;
 
-    public List<DirectDrawable> getHudCache(){
-        if(hudCache == null){
-            hudCache = buildHudCache();
-        }
-        return hudCache;
-    }
-
-    private List<DirectDrawable> buildHudCache(){
-        var list = new ArrayList<DirectDrawable>();
-        if(hasRWR);
-        list.add(HudRWR.INSTANCE);
-
-        return list;
-    }
-
-
-
-
     public MCH_AircraftInfo(AddonResourceLocation location, String path) {
         super(location, path);
         this.name = location.getPath();
@@ -237,6 +257,23 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         return new String[]{
                 "DisplayName", "AddDisplayName", "ItemID", "AddRecipe", "AddShapelessRecipe", "InventorySize", "Sound", "UAV", "SmallUAV", "TargetDrone", "Category"
         };
+    }
+
+    public List<DirectDrawable> getHudCache() {
+        if (hudCache == null) {
+            hudCache = buildHudCache();
+        }
+        return hudCache;
+    }
+
+    private List<DirectDrawable> buildHudCache() {
+        var list = new ArrayList<DirectDrawable>();
+        if (hasRWR)
+            list.add(HudRWR.INSTANCE);
+
+        list.add(HudGPS.INSTANCE);
+        list.add(HudMortarRadar.INSTANCE);
+        return list;
     }
 
     public ItemStack getItemStack() {
@@ -717,6 +754,11 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                 '}';
     }
 
+    @Override
+    public void onPostReload() {
+        hudCache = null;
+    }
+
     // mlbv: @Builder can't handle inheritance
     @SuperBuilder(toBuilder = true)
     public static class Camera extends MCH_AircraftInfo.DrawnPart {
@@ -728,7 +770,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.yawSync = ys;
             this.pitchSync = ps;
         }
-        public Camera(DrawnPart base, boolean yawSync, boolean pitchSync){
+
+        public Camera(DrawnPart base, boolean yawSync, boolean pitchSync) {
             super(base);
             this.yawSync = yawSync;
             this.pitchSync = pitchSync;
@@ -769,7 +812,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
 
         public CameraPosition(Vec3d pos, boolean fixRot, float yaw, float pitch) {
-            this.pos = pos.add(0,W_Entity.GLOBAL_Y_OFFSET,0);
+            this.pos = pos.add(0, W_Entity.GLOBAL_Y_OFFSET, 0);
             this.fixRot = fixRot;
             this.yaw = yaw;
             this.pitch = pitch;
@@ -790,7 +833,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final float maxRotFactor;
         public final boolean isSlide;
 
-        public Canopy(DrawnPart base, float maxRotationFactor, boolean isSlide){
+        public Canopy(DrawnPart base, float maxRotationFactor, boolean isSlide) {
             super(base);
             this.maxRotFactor = maxRotationFactor;
             this.isSlide = isSlide;
@@ -826,6 +869,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public CrawlerTrack(MCH_AircraftInfo paramMCH_AircraftInfo, String name) {
             super(paramMCH_AircraftInfo, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, name);
         }
+
         public CrawlerTrack(String name) {
             super(null, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, name);
         }
@@ -950,7 +994,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.isSlide = slide;
         }
 
-        public Hatch(DrawnPart base,  float maxRot, boolean isSlide) {
+        public Hatch(DrawnPart base, float maxRot, boolean isSlide) {
             super(base);
             this.maxRot = maxRot;
             this.maxRotFactor = maxRot / 90.0F;
@@ -1160,7 +1204,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.rotDir = rotDir;
             this.pos2 = pos2;
         }
-
 
 
         public PartWheel(
@@ -1430,11 +1473,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
     }
 
-    @Override
-    public void onPostReload() {
-        hudCache = null;
-    }
-
     public static class Weapon {
         public final Vec3d pos;
         public final float yaw;
@@ -1476,6 +1514,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.maxPitch = mxp;
             this.turret = turret;
         }
+
         public Weapon(
                 float x,
                 float y,
