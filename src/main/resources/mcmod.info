@@ -1,15 +1,15 @@
 [
   {
     "modid": "mcheli",
-    "name": "MC Helicopter Overdrive",
+    "name": "MC Helicopter Community Edition",
     "description": "Adds realistic vehicles to minecraft.",
     "version": "1.1.4",
     "mcversion": "1.12.2",
     "old_url": "http://forum.minecraftuser.jp/viewtopic.php?f=13&t=14837",
-    "url": "https://forum.civa.jp/viewtopic.php?f=3&t=1146&p=4887#p4887",
+    "url": "https://github.com/Warfactory-Offical/McHeliCE",
     "updateUrl": "",
     "authors": ["EMB4", "Murachiki27", "MrNorwood", "RagexPrince683"],
-    "credits": "By EMB4",
+    "credits": "TV90",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []
