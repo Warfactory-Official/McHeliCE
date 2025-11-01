@@ -34,6 +34,7 @@ public class MCH_Config {
     public static List<Block> tankBreakableBlocks;
     public static List<Material> tankBreakableMaterials;
     public static MCH_ConfigPrm KeyUp;
+    public static MCH_ConfigPrm waitForModels;
     public static MCH_ConfigPrm KeyDown;
     public static MCH_ConfigPrm KeyRight;
     public static MCH_ConfigPrm KeyLeft;
@@ -185,6 +186,7 @@ public class MCH_Config {
         mcPath = minecraftPath;
         configFilePath = mcPath + cfgFile;
         DebugLog = false;
+        waitForModels = new MCH_ConfigPrm("WaitForModels",true);
         configVer = "0.0.0";
         bulletBreakableBlocks = new ArrayList<>();
         carBreakableBlocks = new ArrayList<>();

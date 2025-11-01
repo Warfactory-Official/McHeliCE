@@ -32,8 +32,8 @@ import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
 import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.parachute.MCH_RenderParachute;
 import com.norwood.mcheli.particles.MCH_EntityParticleExplode;
-import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.plane.MCP_RenderPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_RenderShip;
@@ -54,7 +54,6 @@ import com.norwood.mcheli.wrapper.*;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -263,6 +262,8 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             executor.shutdown();
             return null;
         });
+        if (MCH_Config.waitForModels.prmBool)
+            allTasks.join();
     }
 
 
