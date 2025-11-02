@@ -17,4 +17,7 @@ public interface _IModelCustom {
 
     @SideOnly(Side.CLIENT)
     void renderAllExcept(String... var1);
+
+    @SideOnly(Side.CLIENT)
+    _IModelCustom toVBO();
 }

@@ -9,7 +9,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,8 +17,8 @@ public class MCH_ModelManager extends W_ModelBase {
     private static final MCH_ModelManager instance = new MCH_ModelManager();
     private static final ConcurrentHashMap<String, _IModelCustom> map = new ConcurrentHashMap<>();
     private static final ModelRenderer defaultModel;
-    private static boolean forceReloadMode = false;
     private static final Random rand = new Random();
+    private static boolean forceReloadMode = false;
 
     static {
         defaultModel = new ModelRenderer(instance, 0, 0);
@@ -27,6 +26,10 @@ public class MCH_ModelManager extends W_ModelBase {
     }
 
     private MCH_ModelManager() {
+    }
+
+    public static void makeVBO() {
+        map.replaceAll((k, v) -> v.toVBO());
     }
 
     public static void setForceReloadMode(boolean b) {

@@ -1,5 +1,6 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
+import com.norwood.mcheli.helper.client._IModelCustom;
 import com.norwood.mcheli.helper.client._ModelFormatException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -151,6 +152,10 @@ public class W_WavefrontObject extends W_ModelCustom {
         return groupObjectMatcher.matches();
     }
 
+    public ModelVBO asVBO() {
+        return new ModelVBO(this);
+    }
+
     @Override
     public boolean containsPart(String partName) {
         for (W_GroupObject groupObject : this.groupObjects) {
@@ -283,29 +288,12 @@ public class W_WavefrontObject extends W_ModelCustom {
         }
     }
 
-    public void tessellateOnly(Tessellator tessellator, String... groupNames) {
-        for (W_GroupObject groupObject : this.groupObjects) {
-            for (String groupName : groupNames) {
-                if (groupName.equalsIgnoreCase(groupObject.name)) {
-                    groupObject.render(tessellator);
-                }
-            }
-        }
-    }
 
     @Override
     public void renderPart(String partName) {
         for (W_GroupObject groupObject : this.groupObjects) {
             if (partName.equalsIgnoreCase(groupObject.name)) {
                 groupObject.render();
-            }
-        }
-    }
-
-    public void tessellatePart(Tessellator tessellator, String partName) {
-        for (W_GroupObject groupObject : this.groupObjects) {
-            if (partName.equalsIgnoreCase(groupObject.name)) {
-                groupObject.render(tessellator);
             }
         }
     }
@@ -328,22 +316,11 @@ public class W_WavefrontObject extends W_ModelCustom {
         }
     }
 
-    public void tessellateAllExcept(Tessellator tessellator, String... excludedGroupNames) {
-        for (W_GroupObject groupObject : this.groupObjects) {
-            boolean exclude = false;
-
-            for (String excludedGroupName : excludedGroupNames) {
-                if (excludedGroupName.equalsIgnoreCase(groupObject.name)) {
-                    exclude = true;
-                    break;
-                }
-            }
-
-            if (!exclude) {
-                groupObject.render(tessellator);
-            }
-        }
+    @Override
+    public _IModelCustom toVBO() {
+        return this.asVBO();
     }
+
 
     private W_Vertex parseVertex(String line, int lineCount) throws _ModelFormatException {
         W_Vertex vertex = null;

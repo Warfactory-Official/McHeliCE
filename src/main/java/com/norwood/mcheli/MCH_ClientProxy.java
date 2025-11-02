@@ -66,6 +66,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -157,6 +158,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void registerModels() {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         MCH_ModelManager.setForceReloadMode(true);
+        ConcurrentLinkedQueue<MCH_AircraftInfo> vboQueue = new ConcurrentLinkedQueue<>();
 
 
         CompletableFuture<Void> miscFuture = CompletableFuture.runAsync(() -> {
@@ -205,35 +207,50 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
         CompletableFuture<Void> heliFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
-            ContentRegistries.heli().forEachValueParallel(info -> this.registerModelsHeli(info, false));
+            ContentRegistries.heli().forEachValueParallel(info -> {
+                this.registerModelsHeli(info, false);
+                vboQueue.add(info);
+            });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][HELI] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
 
         CompletableFuture<Void> planeFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
-            ContentRegistries.plane().forEachValueParallel(info -> this.registerModelsPlane(info, false));
+            ContentRegistries.plane().forEachValueParallel(info -> {
+                this.registerModelsPlane(info, false);
+                vboQueue.add(info);
+            });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][PLANE] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
 
         CompletableFuture<Void> shipFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
-            ContentRegistries.ship().forEachValueParallel(info -> this.registerModelsShip(info, false));
+            ContentRegistries.ship().forEachValueParallel(info -> {
+                this.registerModelsShip(info, false);
+                vboQueue.add(info);
+            });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][SHIP] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
 
         CompletableFuture<Void> tankFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
-            ContentRegistries.tank().forEachValueParallel(info -> this.registerModelsTank(info, false));
+            ContentRegistries.tank().forEachValueParallel(info -> {
+                this.registerModelsTank(info, false);
+                vboQueue.add(info);
+            });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][TANK] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
 
         CompletableFuture<Void> vehicleFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
-            ContentRegistries.vehicle().forEachValueParallel(info -> this.registerModelsVehicle(info, false));
+            ContentRegistries.vehicle().forEachValueParallel(info -> {
+                this.registerModelsVehicle(info, false);
+                vboQueue.add(info);
+            });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][VEHICLE] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
@@ -262,8 +279,15 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             executor.shutdown();
             return null;
         });
-        if (MCH_Config.waitForModels.prmBool)
-            allTasks.join();
+
+        while (!allTasks.isDone()) {
+            var ac = vboQueue.poll();
+            if(ac!= null && ac.model != null) ac.model = ac.model.toVBO();
+
+        }
+        MCH_ModelManager.makeVBO();
+
+
     }
 
 

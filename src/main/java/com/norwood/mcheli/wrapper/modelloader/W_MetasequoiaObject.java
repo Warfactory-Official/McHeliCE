@@ -1,5 +1,6 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
+import com.norwood.mcheli.helper.client._IModelCustom;
 import com.norwood.mcheli.helper.client._ModelFormatException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -22,10 +23,16 @@ import java.util.Collections;
 public class W_MetasequoiaObject extends W_ModelCustom {
     public ArrayList<W_Vertex> vertices = new ArrayList<>();
     public final ArrayList<W_GroupObject> groupObjects = new ArrayList<>();
-    private final W_GroupObject currentGroupObject = null;
     private final String fileName;
     private int vertexNum = 0;
     private int faceNum = 0;
+
+
+    public ModelVBO asVBO() {
+        return new ModelVBO(this);
+    }
+
+
 
     public W_MetasequoiaObject(ResourceLocation location, IResource resource) throws _ModelFormatException {
         this.fileName = resource.toString();
@@ -241,6 +248,8 @@ public class W_MetasequoiaObject extends W_ModelCustom {
         return v;
     }
 
+
+
     @Override
     public void renderAll() {
         Tessellator tessellator = Tessellator.getInstance();
@@ -331,6 +340,11 @@ public class W_MetasequoiaObject extends W_ModelCustom {
                 groupObject.render();
             }
         }
+    }
+
+    @Override
+    public _IModelCustom toVBO() {
+        return this.asVBO();
     }
 
     public void tessellateAllExcept(Tessellator tessellator, String... excludedGroupNames) {
