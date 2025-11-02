@@ -44,4 +44,5 @@ dependencies {
     implementation "io.gitlab.hohserg.elegant.networking:elegant-networking-1.12:3.14"
     annotationProcessor "org.projectlombok:lombok:1.18.42", "io.gitlab.hohserg.elegant.networking:annotation-processor:3.14"
     shadowImplementation("org.yaml:snakeyaml:2.5")
+    shadowImplementation("org.joml:joml:1.10.8")
 }

@@ -158,7 +158,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void registerModels() {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         MCH_ModelManager.setForceReloadMode(true);
-        ConcurrentLinkedQueue<MCH_AircraftInfo> vboQueue = new ConcurrentLinkedQueue<>();
 
 
         CompletableFuture<Void> miscFuture = CompletableFuture.runAsync(() -> {
@@ -209,7 +208,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             long start = System.nanoTime();
             ContentRegistries.heli().forEachValueParallel(info -> {
                 this.registerModelsHeli(info, false);
-                vboQueue.add(info);
             });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][HELI] Loaded in " + ((end - start) / 1_000_000) + " ms");
@@ -219,7 +217,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             long start = System.nanoTime();
             ContentRegistries.plane().forEachValueParallel(info -> {
                 this.registerModelsPlane(info, false);
-                vboQueue.add(info);
             });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][PLANE] Loaded in " + ((end - start) / 1_000_000) + " ms");
@@ -229,7 +226,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             long start = System.nanoTime();
             ContentRegistries.ship().forEachValueParallel(info -> {
                 this.registerModelsShip(info, false);
-                vboQueue.add(info);
             });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][SHIP] Loaded in " + ((end - start) / 1_000_000) + " ms");
@@ -239,7 +235,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             long start = System.nanoTime();
             ContentRegistries.tank().forEachValueParallel(info -> {
                 this.registerModelsTank(info, false);
-                vboQueue.add(info);
             });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][TANK] Loaded in " + ((end - start) / 1_000_000) + " ms");
@@ -249,7 +244,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             long start = System.nanoTime();
             ContentRegistries.vehicle().forEachValueParallel(info -> {
                 this.registerModelsVehicle(info, false);
-                vboQueue.add(info);
             });
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][VEHICLE] Loaded in " + ((end - start) / 1_000_000) + " ms");
@@ -280,12 +274,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             return null;
         });
 
-        while (!allTasks.isDone()) {
-            var ac = vboQueue.poll();
-            if(ac!= null && ac.model != null) ac.model = ac.model.toVBO();
-
-        }
-        MCH_ModelManager.makeVBO();
 
 
     }
@@ -294,7 +282,14 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerModelsHeli(MCH_HeliInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
-        info.model = MCH_ModelManager.load("helicopters", info.name);
+        info.model = MCH_ModelManager.load("helicopters", info.name).toVBO();
+        CompletableFuture<Void> done = new CompletableFuture<>();
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            info.model = info.model.toVBO();
+            done.complete(null);
+        });
+        done.join();
+
 
         for (MCH_HeliInfo.Rotor rotor : info.rotorList) {
             rotor.model = this.loadPartModel("helicopters", info.name, info.model, rotor.modelName);
@@ -308,6 +303,12 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
         info.model = MCH_ModelManager.load("planes", info.name);
+        CompletableFuture<Void> done = new CompletableFuture<>();
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            info.model = info.model.toVBO();
+            done.complete(null);
+        });
+        done.join();
 
         for (MCH_AircraftInfo.DrawnPart n : info.nozzles) {
             n.model = this.loadPartModel("planes", info.name, info.model, n.modelName);
@@ -338,6 +339,12 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void registerModelsShip(MCH_ShipInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
         info.model = MCH_ModelManager.load("ships", info.name);
+        CompletableFuture<Void> done = new CompletableFuture<>();
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            info.model = info.model.toVBO();
+            done.complete(null);
+        });
+        done.join();
 
         for (MCH_AircraftInfo.DrawnPart n : info.nozzles) {
             n.model = this.loadPartModel("ships", info.name, info.model, n.modelName);
@@ -369,7 +376,12 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void registerModelsVehicle(MCH_VehicleInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
         info.model = MCH_ModelManager.load("vehicles", info.name);
-
+        CompletableFuture<Void> done = new CompletableFuture<>();
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            info.model = info.model.toVBO();
+            done.complete(null);
+        });
+        done.join();
         for (MCH_VehicleInfo.VPart vp : info.partList) {
             vp.model = this.loadPartModel("vehicles", info.name, info.model, vp.modelName);
             if (vp.child != null) {
@@ -385,6 +397,12 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void registerModelsTank(MCH_TankInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
         info.model = MCH_ModelManager.load("tanks", info.name);
+        CompletableFuture<Void> done = new CompletableFuture<>();
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            info.model = info.model.toVBO();
+            done.complete(null);
+        });
+        done.join();
         this.registerCommonPart("tanks", info);
         MCH_ModelManager.setForceReloadMode(false);
     }

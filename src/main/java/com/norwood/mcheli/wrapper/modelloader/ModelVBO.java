@@ -186,7 +186,12 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     }
 
     @Override
-    public boolean containsPart(String var1) {
+    public boolean containsPart(String partName) {
+        for (ModelVBO.VBOBufferData data : groups) {
+            if (data.name.equalsIgnoreCase(partName)) {
+                return true;
+            }
+        }
         return false;
     }
 

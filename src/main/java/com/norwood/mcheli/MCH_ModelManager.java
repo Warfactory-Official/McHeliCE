@@ -92,13 +92,6 @@ public class MCH_ModelManager extends W_ModelBase {
         }
     }
 
-    public static void renderLine(String path, String name, int startLine, int maxLine) {
-        _IModelCustom model = map.get(path + "/" + name);
-        if (model instanceof W_ModelCustom) {
-            ((W_ModelCustom) model).renderAllLine(startLine, maxLine);
-        }
-    }
-
     public static void render(String path, String name, int startFace, int maxFace) {
         _IModelCustom model = map.get(path + "/" + name);
         if (model instanceof W_ModelCustom) {
@@ -106,40 +99,9 @@ public class MCH_ModelManager extends W_ModelBase {
         }
     }
 
-    public static int getVertexNum(String path, String name) {
-        _IModelCustom model = map.get(path + "/" + name);
-        return model instanceof W_ModelCustom ? ((W_ModelCustom) model).getVertexNum() : 0;
-    }
-
     public static W_ModelCustom get(String path, String name) {
         _IModelCustom model = map.get(path + "/" + name);
         return model instanceof W_ModelCustom ? (W_ModelCustom) model : null;
     }
 
-    public static W_ModelCustom getRandome() {
-        int size = map.size();
-
-        for (int i = 0; i < 10; i++) {
-            int idx = 0;
-            int index = rand.nextInt(size);
-
-            for (_IModelCustom model : map.values()) {
-                if (idx >= index && model instanceof W_ModelCustom) {
-                    return (W_ModelCustom) model;
-                }
-
-                idx++;
-            }
-        }
-
-        return null;
-    }
-
-    public static boolean containsModel(String path, String name) {
-        return containsModel(path + "/" + name);
-    }
-
-    public static boolean containsModel(String name) {
-        return map.containsKey(name);
-    }
 }

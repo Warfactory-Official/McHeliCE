@@ -492,6 +492,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
         }
     }
 
+
     @Override
     public int getVertexNum() {
         return this.vertexNum;
