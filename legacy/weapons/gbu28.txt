@@ -1,0 +1,24 @@
+DisplayName = GBU-28
+Type = ASMissile
+Power = 32
+Acceleration = 1.7
+Explosion = 6
+ExplosionBlock = 5
+Flaming = true
+Sight = MoveSight
+Delay = 8
+Round = 6
+ReloadTime = 90
+SoundVolume = 3
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = gbu28
+Gravity = -0.01
+DisableSmoke = true
+Piercing  = 1
+
+MaxAmmo = 12
+SuppliedNum = 3
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

@@ -1,0 +1,84 @@
+DisplayName = F-35B Lightning II
+AddDisplayName = ja_JP, F-35B ライトニング II
+ItemID = 28725
+MaxHp = 200
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.2
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1200
+FuelConsumption = 1.0
+Stealth = 0.15
+EnableVtol = true
+VtolYaw = 0.3
+VtolPitch = 0.2
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+HUD = plane
+
+AddSeat = 0.00,  1.92,  0.32
+
+AddPartCanopy = 0.00, 2.63,  1.91,  1,0,0,  40
+
+AddPartNozzle = 0.00, 2.11, -9.88, -1,0,0
+
+;rotor0 is dummy
+AddPartRotor =   0.00,  3.205, -1.682,  0,1,0, 0
+AddBlade = 1,0,  0.00,  3.205, -1.682,  0,1,0
+
+AddPartRotor =  -0.635, 3.054, -4.661,  0,0.071,1,  80
+AddPartRotor =   0.635, 3.054, -4.661,  0,0.071,1, -80
+
+AddPartRotor =  -0.581, 1.196, -1.636,  0,0.264,1, -110
+AddPartRotor =   0.581, 1.196, -1.636,  0,0.264,1,  110
+
+AddPartRotor =  -0.728, 1.843, -10.818,   0.017, -0.2, 1, -80
+AddPartRotor =   0.728, 1.843, -10.818,  -0.017, -0.2, 1,  80
+
+AddPartRotor =   0.00,  3.35, -2.64,  -1,0,0, 70
+
+;Front
+AddPartLG    =  0.000, 1.455,-0.076,   -1.00, 0.000, 0.00, 102
+AddPartLGRev =  0.270, 1.450, 1.840,   -0.05, 0.075, 1.00,  89
+AddPartLGRev = -0.270, 1.450, 1.840,    0.05, 0.075, 1.00, -89
+;Left
+AddPartLG    =  2.18, 1.91, -7.23,    -1,0, -0.05, 90,  0,-1,0, 90
+;Right
+AddPartLG    = -2.18, 1.91, -7.23,    -1,0, -0.05, 90,  0, 1,0, 90
+
+;AddPartWeaponBay = 武器名1 / 武器名2 / 武器名3, 位置X, 位置Y, 位置Z, 回転軸X, 回転軸Y, 回転軸Z, 回転角度 0～180
+AddPartWeaponBay = aim-9x / gbu-31,  1.65, 1.43,-2.64,  -0.027, -0.031, 1.000,  80
+AddPartWeaponBay = aim-9x / gbu-31, -1.65, 1.43,-2.64,   0.027, -0.031, 1.000, -80
+AddPartWeaponBay = aim-9x / gbu-31,  0.51, 1.15,-2.64,   0.000, -0.011, 1.000, -80
+AddPartWeaponBay = aim-9x / gbu-31, -0.51, 1.15,-2.64,   0.000, -0.011, 1.000,  80
+AddPartWeaponBay = aim-9x,          -0.65, 1.22,-4.92,   0.000,  0.000, 1.000,  110
+AddPartWeaponBay = aim-9x,           0.65, 1.22,-4.92,   0.000,  0.000, 1.000, -110
+
+AddPartWeaponMissile = gbu-31,   false,  false,  false,   1.21, 1.63, -7.07
+AddPartWeaponMissile = gbu-31,   false,  false,  false,  -1.21, 1.63, -7.07
+AddPartWeaponMissile = cbu-87,   false,  false,  false,   3.50, 1.16, -7.85
+AddPartWeaponMissile = cbu-87,   false,  false,  false,  -3.50, 1.16, -7.85
+
+AddWeapon = gau-22a,  0.00, 0.79, -4.63, 0.0,-3.0
+AddWeapon = aim-9x,   0.95, 1.16, -6.53, 0.0, 0.0
+AddWeapon = aim-9x,  -0.95, 1.16, -6.53, 0.0, 0.0
+AddWeapon = gbu-31,   1.21, 1.63, -7.07, 0.0, 0.0
+AddWeapon = gbu-31,  -1.21, 1.63, -7.07, 0.0, 0.0
+AddWeapon = cbu-87,   3.50, 1.16, -7.85, 0.0, 0.0
+AddWeapon = cbu-87,  -3.50, 1.16, -7.85, 0.0, 0.0
+
+AddWeapon = targeting_pod_ph75s,  0.00, 3.0, 0.3,    0.0, 0.0
+
+AddRecipe = "GYG",  "XXX",  "XDX",  X, iron_block, Y, glass, D, diamond_block, G, gunpowder
+
+BoundingBox =  0.00, 1.90, -2.80,  3.0, 2.0
+BoundingBox =  0.00, 1.90, -6.60,  4.0, 2.0
+BoundingBox = -2.92, 2.20, -7.60,  3.0, 1.0
+BoundingBox =  2.92, 2.20, -7.60,  3.0, 1.0
+BoundingBox =  0.00, 1.80, -9.80,  2.0, 1.0

@@ -1,0 +1,31 @@
+DisplayName = 90 mm Gun M3
+Type = MachineGun2
+Power = 75
+ModelBullet = bullet105mm
+Acceleration = 6.0
+Explosion = 3
+ExplosionBlock = 2
+Sight = None
+ReloadTime = 80
+Round = 1
+Delay = 80
+SoundPitch = 1.2
+SoundVolume = 16.0
+Accuracy = 1.5
+Gravity = -0.02
+Sound = cannon_4_snd
+Recoil = 1.5
+
+AddMuzzleFlash      =  7.2,      1.80,        7,  200,254,129,44
+AddMuzzleFlash      =  7.1,      1.75,        6,  200,254,219,104
+AddMuzzleFlash      =  7.0,      1.70,        5,  200,254,219,184
+AddMuzzleFlashSmoke =  8.2, 20,  10.0,  3.0, 45,  220,160,140,120
+AddMuzzleFlashSmoke = 10.2, 10,  11.0,  6.0, 35,  200,190,170,150
+
+; RecoilBufCount = 駐退カウント, 後退中のカウント倍率
+RecoilBufCount = 40, 5
+
+MaxAmmo = 70
+SuppliedNum = 35
+Item =  4, iron_ingot
+Item =  6, gunpowder

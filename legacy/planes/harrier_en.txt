@@ -1,0 +1,67 @@
+DisplayName = BAe Harrier II
+AddDisplayName = ja_JP, BAe ハリアー II
+ItemID = 28702
+MaxHp = 200
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+EnableVtol = true
+VtolYaw = 0.3
+VtolPitch = 0.2
+Speed = 1.0
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = plane
+
+AddSeat = 0.00,  1.57,  0.22
+
+AddTexture = harrier_en2
+AddTexture = harrier_en3
+
+AddPartSlideCanopy = 0, 0.3, -0.78
+
+AddPartNozzle =  0.93, 1.70, -2.91, -1,0,0
+AddPartNozzle = -0.93, 1.70, -2.91, -1,0,0
+AddPartNozzle =  0.69, 1.70, -5.39, -1,0,0
+AddPartNozzle = -0.69, 1.70, -5.39, -1,0,0
+
+;Front
+AddPartLG =  0.00, 1.00, -1.30,  1,0,0
+;Rear
+AddPartLG =  0.00, 1.35, -5.45, -1,0,0
+;RightLeft
+AddPartLG =  0.00, 1.80, -6.60,  1,0,0
+
+AddPartWeaponMissile = aim9,    false,  false,  false,   2.51, 0.80, -3.93
+AddPartWeaponMissile = aim9,    false,  false,  false,  -2.51, 0.80, -3.93
+AddPartWeaponMissile = agm-65,  false,  false,  false,   4.85, 1.09, -4.35
+AddPartWeaponMissile = agm-65,  false,  false,  false,  -4.85, 1.09, -4.35
+
+AddWeapon = gau-12u,    0.60, 0.80, -2.00,   0.0,-3.0
+AddWeapon = crv7_2,     2.33, 1.10, -3.20,   1.0, 0.0
+AddWeapon = crv7_2,    -2.33, 1.10, -3.20,  -1.0, 0.0
+AddWeapon = crv7_2,     3.93, 1.06, -3.98,   1.0, 0.0
+AddWeapon = crv7_2,    -3.93, 1.06, -3.98,  -1.0, 0.0
+AddWeapon = crv7_mpsm,  2.33, 1.10, -3.20,   1.0, 0.0
+AddWeapon = crv7_mpsm, -2.33, 1.10, -3.20,  -1.0, 0.0
+AddWeapon = crv7_mpsm,  3.93, 1.06, -3.98,   1.0, 0.0
+AddWeapon = crv7_mpsm, -3.93, 1.06, -3.98,  -1.0, 0.0
+AddWeapon = aim9,       2.51, 0.80, -3.93,   1.0, 0.0
+AddWeapon = aim9,      -2.51, 0.80, -3.93,  -1.0, 0.0
+AddWeapon = agm-65,     4.85, 1.09, -4.35,   1.0, 0.0
+AddWeapon = agm-65,    -4.85, 1.09, -4.35,  -1.0, 0.0
+
+AddRecipe = " X ",  "XXX",  "ZXZ",  X, iron_block, Z, iron_ingot
+
+BoundingBox =  0.00, 1.60, -2.60,  2.0, 2.5
+BoundingBox =  0.00, 1.60, -5.60,  3.0, 2.5
+BoundingBox = -2.92, 2.20, -5.60,  3.0, 1.0
+BoundingBox =  2.92, 2.20, -5.60,  3.0, 1.0

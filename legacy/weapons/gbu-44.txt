@@ -1,0 +1,23 @@
+DisplayName = GBU-44/B Viper Strike
+Type = ATMissile
+Power = 70
+Acceleration = 1.5
+Explosion = 5
+Flaming = true
+Sight = MissileSight
+Delay = 200
+LockTime = 25
+Sound = bomb_snd
+ModeNum = 1
+DisableSmoke = true
+ProximityFuseDist = 1
+ModelBullet = sdb
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+
+MaxAmmo = 6
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

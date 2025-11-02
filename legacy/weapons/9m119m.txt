@@ -1,0 +1,19 @@
+DisplayName = 9M119M ATM
+Type = TVMissile
+Power = 100
+Acceleration = 2.0
+Explosion = 3
+Flaming = true
+Sight = MoveSight
+Delay = 180
+ModelBullet = 9M113
+Sound = missile_2_snd
+Group = MainGun
+
+DamageFactor = tank, 1.2
+
+MaxAmmo = 10
+SuppliedNum = 5
+Item =  3, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

@@ -1,0 +1,90 @@
+DisplayName = M1129 Self-Propelled Mortar
+AddDisplayName = ja_JP, M1129 自走迫撃砲
+MaxHp = 200
+Speed = 0.8
+Sound = vehicle_run
+ThrottleUpDown = 5
+MobilityYawOnGround = 6.5
+MaxFuel         = 1000
+FuelConsumption = 0.8
+CameraPosition = 0.86, 2.80,  2.12, true
+CameraZoom = 3
+EnableNightVision = true
+EnableEntityRadar = false
+Gravity = -0.1
+GravityInWater = -0.1
+CameraRotationSpeed = 35
+MinRotationPitch = -15
+MaxRotationPitch = 6
+MobilityRoll = 0
+InventorySize = 10
+StepHeight = 1.5
+DefaultFreelook = true
+MotionFactor = 0.9
+ThirdPersonDist = 12
+
+SubmergedDamageHeight = 3
+
+;  M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+WeightType = Tank
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+HUD = mbt_hud, mbt_gnr, gunner, gunner
+
+AddGunnerSeat =  0.86, 2.54,  2.12
+AddGunnerSeat = -0.75, 2.52, -0.62,  -0.75, 3.52, -0.62, false, -90,  90, false
+AddGunnerSeat =  0.00, 1.16, -1.67,   0.00, 3.19, -1.67, true,  -87, -45, false
+
+SetWheelPos =  1.53,  -0.35,  2.72, 0.16, -2.42
+
+AddPartWheel =   -1.53,  0.39, 2.72, 40
+AddPartWheel =    1.53,  0.39, 2.72, 40
+AddPartWheel =   -1.53,  0.39, 1.09, 20
+AddPartWheel =    1.53,  0.39, 1.09, 20
+AddPartWheel =   -1.53,  0.39,-0.76
+AddPartWheel =    1.53,  0.39,-0.76
+AddPartWheel =   -1.53,  0.39,-2.42
+AddPartWheel =   -1.53,  0.39,-2.42
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 9
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+PivotTurnThrottle = 0.2
+
+TrackRollerRot = 30
+
+AddPartWeaponBay	= 81mm_mortar, -1.03, 2.61, -2.70, 0.0, 0.0, 1.0, 110
+AddPartWeaponBay	= 81mm_mortar,  1.03, 2.61, -2.70, 0.0, 0.0, 1.0,-110
+
+AddWeapon			= 81mm_mortar,    0.00,  1.80, -2.67,  0.0,0.0, false, 3, 0, -360,360, -90, -45
+AddPartWeapon 		= 81mm_mortar,    false, true,  false, 0.00, 1.80, -2.67
+AddPartWeaponChild 	= false, true, 0.00,  1.80, -2.67
+
+AddWeapon 			= m240_r,  -0.755, 3.167, 0.324,  0.0,   0.0,   false, 2, 0, -90,90, -30,20
+AddPartWeapon 		= m240_r,   false, true,  false, -0.755, 3.167, 0.324
+AddPartWeaponChild 	= false, true, -0.755, 3.167, 0.324
+
+
+DamageFactor = 0.0
+
+HideEntity = true
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+BoundingBox =  0.0, 1.0,  4.0,   3.4, 2.0,  0.90
+BoundingBox =  0.0, 1.4,  1.0,   3.4, 3.8,  1.00
+BoundingBox =  0.0, 1.0, -2.0,   3.4, 2.3,  1.25
+
+AddRecipe = " I ",  "XXX",  "III",  X, iron_block,  I, iron_ingot

@@ -1,0 +1,27 @@
+DisplayName =  S-75 SAM
+AddDisplayName = ja_JP, S-75 地対空ミサイル
+ItemID = 28612
+MaxHP = 350
+AddTexture = s-75_tan
+CameraPosition = 0.0, 4.50, 0.0
+CameraZoom = 5
+MinRotationPitch = -50
+MaxRotationPitch = 0
+AddSeat = 0.0,  0.0, 0.0
+HideEntity = true
+ThirdPersonDist = 12
+
+; M = Military,  M = Missile(ミサイル)
+Category = M.M
+
+HUD = vehicle
+
+AddWeapon = sa-2,  0.0, 2.68, 10.14,   0.0, 0.0
+
+AddPart	= true, true, false, 0,   0.00, 0.00, 0.00
+AddChildPart = true,false,true,  0,  0.00, 1.75, -0.85
+AddChildPart = true,false,true,  3,  0.00, 1.75, -0.85
+
+AddRecipe = " T ",  " X ",  "XAX",  X,iron_block, A,anvil, T,tnt
+
+BoundingBox =  0.0, 2.5, 0.0,  2.0, 4.6

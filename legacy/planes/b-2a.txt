@@ -1,0 +1,98 @@
+DisplayName = B-2A Spirit
+AddDisplayName = ja_JP, B-2A スピリット
+ItemID = 28738
+MaxHp  = 700
+EnableNightVision  = true
+EnableEntityRadar  = true
+EnableEjectionSeat = true
+Speed = 1.0
+FlareType = 2
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 4800
+FuelConsumption = 2.0
+CameraPosition  = 0.0, 2.66, 3.78
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+AutoPilotRot = 0
+Stealth = 0.2
+ThirdPersonDist = 24
+
+ThrottleUpDown = 0.3
+MobilityYaw = 0.5
+MobilityPitch = 0.5
+MobilityRoll = 0.3
+MinRotationPitch = -60
+MaxRotationPitch =  60
+MinRotationRoll  = -60
+MaxRotationRoll  =  60
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = plane, plane_gnr
+
+AddSeat       =  0.80,  3.40,  0.28
+AddGunnerSeat = -0.80,  3.40,  0.28, 0.0, 2.66, 3.78, true
+
+; 前輪
+AddPartLG         =   0.00,  2.96,  2.79,  1,0,0,      75
+AddPartLGRev      =   0.00,  2.87,  3.29,  1,0,0,     -60
+AddPartLGHatch    =  -0.65,  1.75,  0.25,  0,0.22,1,  -90
+
+; 後輪
+AddPartLG         =   0.00,  3.05, -7.96,  1,0,0,     -90
+AddPartSlideRotLG =   0.00,  2.74,  3.31,  0.00, 0.00, 0.00, 1,0,0, 0
+AddPartLGRev      =  -7.74,  2.23, -7.02,  0,-0.02,1, -90
+AddPartLGRev      =   7.74,  2.23, -7.02,  0,-0.02,1,  90
+
+; 補助空気口
+AddPartLGRev      =  -5.06,  4.38, -5.57,  0.91, 0.10,1, -45
+AddPartLGRev      =  -4.06,  4.41, -5.57, -0.99,-0.07,1,  45
+AddPartLGRev      =   5.06,  4.38, -5.57, -0.91, 0.10,1,  45
+AddPartLGRev      =   4.06,  4.41, -5.57,  0.99,-0.07,1, -45
+
+; 排気口
+AddPartNozzle =  4.77, 3.34, -13.32, -1,0,0
+AddPartNozzle = -4.77, 3.34, -13.32, -1,0,0
+
+; ウェポンベイ
+AddPartWeaponBay = mk82_b2/ gbu38 / gbu28 / agm154 / gbu57 /agm158 , -2.79, 1.86,-6.56,  0, -0.04, 1.0, -90
+AddPartWeaponBay = mk82_b2/ gbu38 / gbu28 / agm154 / gbu57 /agm158 , -0.15, 1.72,-6.56,  0, -0.04, 1.0,  90
+AddPartWeaponBay = mk82_b2/ gbu38 / gbu28 / agm154 / gbu57 /agm158 ,  2.79, 1.86,-6.56,  0, -0.04, 1.0,  90
+AddPartWeaponBay = mk82_b2/ gbu38 / gbu28 / agm154 / gbu57 /agm158 ,  0.15, 1.72,-6.56,  0, -0.04, 1.0, -90
+
+;武器設定
+;1番席が Mk82、  GBU-28、AGM-154、GBU-57、AGM-158　(無誘導[小]、誘導[中,散,大]、誘導[TV])
+;2番席が         GBU-38、AGM-154、GBU-57、AGM-158　(            誘導[小,散,大]、誘導[TV])
+
+AddWeapon = dummy_bay_closed, 0,0,0,0,0         , true,  2
+AddWeapon = mk82_b2,  1.84,  2.80, -4.27,  0, 0
+AddWeapon = mk82_b2, -1.84,  2.80, -4.27,  0, 0
+AddWeapon = mk82_b2,  1.84,  2.80, -8.57,  0, 0
+AddWeapon = mk82_b2, -1.84,  2.80, -8.57,  0, 0
+
+AddWeapon = gbu38,    1.84,  2.80, -4.27,  0, 0 , false, 2
+AddWeapon = gbu38,   -1.84,  2.80, -4.27,  0, 0 , false, 2
+AddWeapon = gbu38,    1.84,  2.80, -8.57,  0, 0 , false, 2
+AddWeapon = gbu38,   -1.84,  2.80, -8.57,  0, 0 , false, 2
+
+AddWeapon = gbu28,    1.84,  1.80, -6.13,  0, 0
+AddWeapon = gbu28,   -1.84,  1.80, -6.13,  0, 0
+
+AddWeapon = agm154,   1.84,  1.80, -6.13,  0, 0 , true,  2
+AddWeapon = agm154,  -1.84,  1.80, -6.13,  0, 0 , true,  2
+
+AddWeapon = gbu57,    1.84,  1.80, -6.13,  0, 0 , true,  2
+AddWeapon = gbu57,   -1.84,  1.80, -6.13,  0, 0 , true,  2
+
+AddWeapon = agm158,   1.84,  1.80, -6.13,  0, 0 , true,  2
+AddWeapon = agm158,  -1.84,  1.80, -6.13,  0, 0 , true,  2
+
+BoundingBox =  0.0, 3.5, -1.8,  7.0, 4.0
+BoundingBox =  0.0, 3.5, -8.2,  7.0, 4.0
+BoundingBox =  0.0, 3.0,-14.8,  7.0, 2.0
+BoundingBox =  8.5, 3.2, -9.3, 10.0, 2.3
+BoundingBox = -8.5, 3.2, -9.3, 10.0, 2.3
+
+AddRecipe = "DDG",  "DGT",  "GTI",  I,iron_block, G,gold_block, D,diamond_block, T,tnt

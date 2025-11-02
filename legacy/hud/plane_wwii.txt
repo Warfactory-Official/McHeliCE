@@ -1,0 +1,77 @@
+
+; 姿勢指示器
+DrawTexture = plane_hud_wwii, 155, 32,  42,42,  142,64+(40*(pitch/90)), 100,128, -roll
+DrawTexture = plane_hud_wwii, 144, 21,  64,64,    0,0,                  128,128
+
+; 高度計
+if = time<=13000
+	; 昼用の計器
+	DrawTexture = plane_hud_wwii, 80, 21,  64,64,  256,  0, 128,128
+Endif
+if = time> 13000
+	; 夜間用の計器
+	DrawTexture = plane_hud_wwii, 80, 21,  64,64,  256,128, 128,128
+Endif
+DrawTexture = plane_hud_wwii,    104, 21,  16,64,  416,0,  32,128, sea_alt*0.036
+DrawTexture = plane_hud_wwii,    104, 21,  16,64,  384,0,  32,128, sea_alt*0.36
+
+; 燃料の低下を警告表示
+If = low_fuel
+	DrawTexture = hud, 40,-85, 16,16,  0,0,  32,32
+	Color = 0xFFDF0408
+	DrawString  = 56,-80, "%s key", KEY_GUI
+EndIf
+
+; インベントリ数を表示
+If = inventory > 0
+	Color = 0xCFFFFFFF
+	DrawString = 120, -80, "Inventory [ %d ]", INVENTORY
+Endif
+
+; 燃料(Fuel)
+DrawTexture = plane_hud_wwii, -207,   83, 32,32,  64,128, 64,64
+DrawTexture = plane_hud_wwii, -207+8, 83, 16,32,  96,192, 32,64, fuel*270-135
+
+; スロットル(Throttle)
+DrawTexture = plane_hud_wwii, -170,   83, 32,32,   0,192, 64,64
+DrawTexture = plane_hud_wwii, -170+8, 83, 16,32,  96,192, 32,64, Throttle*270-180
+
+; 操縦桿(Stick)
+DrawTexture = plane_hud_wwii, -133,              83,              32,32,   0,128, 64,64
+DrawTexture = plane_hud_wwii, -133+8+stick_x*12, 83+8+stick_y*12, 16,16,  64,192, 32,32
+
+; 耐久値(HP)
+; HPが20%を超えている場合は黄色、HPが20%以下の場合は赤
+Color = hp_rto>0.2? 0xCEFDFF7F: 0xFFDF0408
+DrawTexture = plane_hud_wwii, 144, 95, 64,20, 128,192, 128,20
+DrawString  = 150,    97, "%3.0f", HP_PER
+DrawString  = 150+26, 97, "/ 100", HP_PER
+DrawRect    = 146, 107, hp_rto*60, 6
+
+; 弾数, 残弾 背景 (Ammo background)
+DrawTexture = plane_hud_wwii, -208, 57,  62,10,  128,192, 128,20
+; 武器名 (Weapon name background)
+DrawTexture = plane_hud_wwii, -208, 68, 106,10,  128,192, 128,20
+
+; 弾数, 残弾 (Ammo) リロード中でなければ白、リロード中であれば赤
+Color = reloading==0? 0xCFFFFFFF: 0xFFDF0408
+DrawString = -207, 58, "%s",  WPN_AMMO
+DrawString = -181, 58, "/",   WPN_AMMO
+DrawString = -172, 58, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawString = -207, 69, "%s",  WPN_NAME
+
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xCFFFFFFF
+	DrawRect = -145, 57, 43, 10
+	Color = 0xCFAFAFAF
+	DrawRect = -144, 58, 41, 8
+	Color = 0xFFDF0408
+	DrawRect = -144, 58, 41*wpn_heat, 8
+EndIf
+
+If = free_look==1
+	Color = 0xCFFFFFFF
+	DrawString = -90, -80, "FREE LOOK"
+Endif

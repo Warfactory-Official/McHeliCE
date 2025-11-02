@@ -1,0 +1,85 @@
+DisplayName = Mk.5 Special Operations Craft
+AddDisplayName = ja_JP, Mk.5 特殊任務艇
+ItemID = 28742
+MaxHp = 150
+Speed = 0.8
+Sound = boat
+Float = true
+ThrottleUpDown = 2.0
+FloatOffset = -0.5
+MinRotationPitch = 0
+MaxRotationPitch = 0
+MobilityRoll = 0
+Gravity = -0.15
+GravityInWater = -0.1
+DamageFactor = 0.8
+StepHeight = 0.0
+ThirdPersonDist = 12
+
+CanMoveOnGround = false
+CanRotOnGround  = false
+MobilityYawOnGround = 3.0
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+AddPartRotor =    0.00,  2.35,-1.92,   0,1, 0
+AddBlade = 1, 0,  0.00,  2.35,-1.92,   0,1, 0
+
+RideRack = c5, 1
+RideRack = c5, 2
+
+; 水しぶき を発生させる
+;AddParticleSplash = 座標X,   Y,    Z,   表示数, サイズ,  速度,  表示時間, 上昇, 重力
+AddParticleSplash =  1.6, -0.18,   1.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -1.6, -0.18,   1.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  1.6, -0.18,  -4.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6, -0.18,  -4.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  1.6, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  0.8, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -0.8, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+
+AddRack = zodiac,      0.0, 0.8, -7.4,   0.0, 0.8, -9.0,   12.0,   40   ,  0.0,  -15.0
+
+AddSeat =   0.69,  0.54,  0.06
+AddSeat =  -0.69,  0.54,  0.06
+AddGunnerSeat =   0.81,  1.05, -3.95,    0.81,  2.25, -3.95
+AddGunnerSeat =   0.68,  1.06, -5.73,    0.68,  2.26, -5.73
+AddGunnerSeat =  -0.81,  1.05, -3.95,   -0.81,  2.25, -3.95
+AddGunnerSeat =  -0.68,  1.06, -5.73,   -0.68,  2.26, -5.73
+
+;左舷の銃座
+AddWeapon        = m134_l50,  1.68, 1.96, -3.965,   0.0, 0.0, false, 3, -90,-80, 80, -50,80
+AddPartWeapon    = m134_l50, false, true, false,  1.54, 1.66, -3.965
+AddPartWeapon    = m134_l50, false, true, true,   1.54, 1.96, -3.965
+AddPartRotWeapon = m134_l50, false, true, true,   1.54, 1.96, -3.965, -1,0,0
+AddWeapon     = mk19_l,     1.62, 1.48,-5.73,   0.0, 0.0, false, 4, -90,-80, 80, -50,80
+AddPartWeapon = mk19_l,    false, true, false,   1.28, 1.66,  -5.73
+AddPartWeapon = mk19_l,    false, true, true,    1.24, 1.89,  -5.73
+
+;右舷の銃座
+AddWeapon        = m134_r50, -1.68, 1.96, -3.965,   0.0, 0.0, false, 5, 90,-70, 70, -50,80
+AddPartWeapon    = m134_r50, false, true, false, -1.54, 1.66, -3.965
+AddPartWeapon    = m134_r50, false, true, true,  -1.54, 1.96, -3.965
+AddPartRotWeapon = m134_r50, false, true, true,  -1.54, 1.96, -3.965, -1,0,0
+AddWeapon     = mk19_r,    -1.62, 1.48,-5.73,   0.0, 0.0, false, 6, 90,-70, 70, -50,80
+AddPartWeapon = mk19_r,    false, true, false,  -1.28, 1.66,  -5.73
+AddPartWeapon = mk19_r,    false, true, true,   -1.24, 1.89,  -5.73
+
+AddTexture = mark5-camo1
+AddTexture = mark5-camo2
+
+;AddPartNozzle =  0.91, 0.00, -5.53, -1,0,0
+;AddPartNozzle = -0.91, 0.00, -5.53, -1,0,0
+;AddPartNozzle = -1.08, 0.00, -5.53, -1,0,0
+;AddPartNozzle =  1.08, 0.00, -5.53, -1,0,0
+;AddPartNozzle =  0.73, 0.00, -5.64, -1,0,0
+;AddPartNozzle = -0.73, 0.00, -5.64, -1,0,0
+
+AddRecipe = "III",  "BBB",  "PIP",   I, iron_ingot,  B, boat , P, piston
+
+
+BoundingBox =  0.0, 0.5,  3.0,  2.5, 1.5
+BoundingBox =  0.0, 0.8,  0.0,  3.0, 3.0
+BoundingBox =  0.0, 0.5, -4.0,  3.0, 1.5

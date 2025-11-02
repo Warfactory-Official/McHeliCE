@@ -1,0 +1,30 @@
+DisplayName = VADS
+AddDisplayName = ja_JP,対空機関砲 VADS
+ItemID = 28614
+MaxHP = 250
+EnableNightVision = true
+EnableEntityRadar = true
+HideEntity = false
+MinRotationPitch = -70
+MaxRotationPitch = 5
+DamageFactor = 0.5
+CameraZoom = 2
+CameraPosition = 0.00, 1.51, 0.00
+ThirdPersonDist = 8
+
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = vehicle
+
+AddSeat = 0.0, 0.86, -0.00
+;AddSeat = -0.63, 0.65, -0.81
+
+AddPart = true, true, false, 0, 0.0, -0.97, -0.0
+AddChildPart = true, false, true, 0, 0.0, 0.97, 0.47
+AddChildPart = true, false, true, 1, 0.0, 0.97, 0.47
+
+AddTurretWeapon = m61a1_v, 0.0, 0.70, 0.20,  0.0, 0.0,   true,1, 0,-360,360, -80, 25
+
+AddRecipe = " Y ",  "ZXX",  "ZXZ",  X, iron_block, Y, glass, Z, iron_ingot
+BoundingBox = -0.23, 1.17, 0.04 1.40 1.65

@@ -1,0 +1,32 @@
+DisplayName = Oto Melara 127 mm gun
+AddDisplayName = ja_JP, オート・メラーラ127mm砲
+ItemID = 30110
+MaxHp = 200
+HideEntity = true
+MinRotationPitch = -83
+MaxRotationPitch =  15
+DamageFactor = 0.1
+CameraZoom = 4
+CameraPosition = 0.0, 4.00, 0.0
+ThirdPersonDist = 8
+
+; M = Military,  A = AAGun(対空砲)
+Category = M.A
+
+HUD = vehicle
+
+AddSeat = 0.00, 0.60, 0.00
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;脚
+AddPart		 = true, true, false, 0,   0.00, 0.00, 0.00
+;本体
+AddChildPart = false,false,true,  0,   0.00, 2.24, -0.68
+;砲身
+AddChildPart = false,false,true,  2,   0.00, 2.24, -0.68, 0.4
+
+AddWeapon = 127mmgun,  0.00, 2.24, -0.68,   0.0, -1.0,   true,1, 0,-360,360, -83, 15
+
+BoundingBox =  0.0, 1.8, 0.0,  4.0, 4.0
+
+AddRecipe = "ZXZ",  "XDR",  "ZXR",  X, iron_block, R, redstone_block, Z, gold_ingot, D, dispenser

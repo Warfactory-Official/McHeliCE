@@ -1,0 +1,30 @@
+DisplayName = Bell47G float
+AddDisplayName = ja_JP, Bell47G フロート
+ItemID = 28808
+MaxHp = 100
+Float  = true
+Speed = 0.6
+FlareType = 3
+MaxFuel         = 600
+FuelConsumption = 0.6
+ThirdPersonDist = 16
+
+AddPartRotWeapon = m134_l,   false, true, true,   0.4643, 0.1017, 1.9936
+
+; C = Civilian(民間機)
+Category = C
+
+HUD = heli, none
+
+AddRotor= 1, 0,  0.00,  3.78,  -1.17,  0.0, 1.0, 0.0
+AddRotor= 1, 0, -0.05,  2.34, -10.04,  1.0, 0.0, 0.0
+
+AddSeat = 0.50,  0.96,  0.29
+AddSeat =-0.50,  0.96,  0.29
+
+AddWeapon = m134_l,  0.53, 0.03, 1.99,   0.5, 0.0
+
+AddRecipe = " G ",  "IXI",  "IWI",  X, iron_block, G, glass, I, iron_ingot, W, wool
+
+
+BoundingBox =  0.0, 1.7, 0.0,  2.4, 2.5

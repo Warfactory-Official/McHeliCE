@@ -1,0 +1,26 @@
+DisplayName = M61A1 Vulcan
+Type = MachineGun2
+ModelBullet = bullet
+Power = 12
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+SoundPitch = 0.7
+Accuracy = 3.0
+HeatCount = 1
+MaxHeatCount = 150
+Sound = gun_l2_snd
+
+AddMuzzleFlash      =  3.2,      0.62,        1,  150,254,159,84
+AddMuzzleFlash      =  3.1,      0.61,        1,  150,254,230,160
+AddMuzzleFlash      =  3.0,      0.60,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  4.2,  2,   7.0,  2.5, 15,  130,250,245,240
+AddMuzzleFlashSmoke =  3.2,  1,   6.0,  2.5, 25,  130,220,217,214
+
+MaxAmmo = 1600
+SuppliedNum = 400
+Item =  5, iron_ingot
+Item =  5, gunpowder

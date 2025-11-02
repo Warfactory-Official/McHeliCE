@@ -1,0 +1,23 @@
+DisplayName = Dispense boat
+Type = Dispenser
+Acceleration = 0
+Sight = None
+Delay = 0
+Sound = chain_ct
+SoundDelay = 4
+Gravity = -0.08
+
+Round = 1
+ReloadTime = 200
+
+DisableSmoke = true
+
+DispenseItem = boat
+DispenseRange = 1
+
+; 1秒で消滅
+TimeFuse = 20
+
+MaxAmmo = 2
+SuppliedNum = 1
+Item =  1, boat

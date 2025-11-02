@@ -1,0 +1,64 @@
+DisplayName = T-4(Trainer)
+AddDisplayName = ja_JP, T-4(中等練習機)
+ItemID = 28730
+MaxHp = 100
+Speed = 1.0
+EnableEjectionSeat = true
+ThrottleUpDown = 0.8
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  T = Trainer(練習機)
+Category = M.T
+
+HUD = plane, plane
+
+AddTexture = t-4_1
+AddTexture = t-4_2
+AddTexture = t-4_3
+AddTexture = t-4_4
+AddTexture = t-4_5
+AddTexture = t-4_6
+AddTexture = t-4_red
+AddTexture = t-4_air
+AddTexture = t-4_f1
+AddTexture = t-4_sea
+
+AddSeat =  0.0, 1.20,  2.75
+AddSeat =  0.0, 1.54,  0.91
+
+AddPartCanopy  = -0.50,  2.10,  2.45,  0.0, -0.238,  1.0,  90
+AddPartCanopy  = -0.50,  2.10,  2.45,  0.0, -0.238,  1.0,  90
+
+
+AddPartLG      =  0.00,  1.09,  4.75, -1, 0, 0, 97
+AddPartLGhatch = -0.15,  0.86,  5.44,  0, 0,-1, 96.32
+AddPartLG      =  0.00,  0.85,  4.64, -1, 0, 0, 136
+
+AddPartLG      =  0.86,  0.88, -1.56, -1, 0, 0, 46,  0,-1, 0, 95
+AddPartLGhatch =  1.26,  1.06, -0.50,  0, 0, 1, 123
+AddPartLG      =  1.25,  1.12, -1.56,  0, 0,-1, 90.08
+
+AddPartLG      = -0.86,  0.88, -1.56, -1, 0, 0, 46,  0, 1, 0, 95
+AddPartLGhatch = -1.26,  1.06, -0.50,  0, 0,-1, 123
+AddPartLG      = -1.25,  1.12, -1.56,  0, 0, 1, 92.08
+
+AddWeapon = smoke_none,    0,0,0, 0, 0
+AddWeapon = smoke_white,  -0.59, 1.24, -5.85, 0, 0
+AddWeapon = smoke_blue,   -0.59, 1.24, -5.85, 0, 0
+AddWeapon = smoke_green,  -0.59, 1.24, -5.85, 0, 0
+AddWeapon = smoke_red,    -0.59, 1.24, -5.85, 0, 0
+AddWeapon = smoke_yellow, -0.59, 1.24, -5.85, 0, 0
+
+AddRecipe = "BGB",  "LFL",  " IW",  L, iron_block,  I, iron_ingot,  G, glass,  B, dye,4,  W, dye,15,  F, fish,
+
+BoundingBox =  0.00,  1.90,  0.71,  1.8, 1.8
+BoundingBox =  0.00,  1.36,  4.93,  1.0, 1.0
+BoundingBox =  0.00,  1.69, -4.09,  2.0, 2.0
+
+BoundingBox =  3.14,  1.77, -2.22,  2.0, 0.5
+BoundingBox = -3.14,  1.77, -2.22,  2.0, 0.5

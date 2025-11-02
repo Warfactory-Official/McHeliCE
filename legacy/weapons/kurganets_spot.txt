@@ -1,0 +1,10 @@
+DisplayName = Caution Spot System
+Type = TargetingPod
+Sight = None
+Delay = 120
+Sound = lockon
+Length = 100
+Radius = 90
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = helicopters/vehicles/players/monsters/others
+MarkTime = 20

@@ -1,0 +1,16 @@
+DisplayName = SA-2 Guidline
+Type = AAMissile
+Power = 150
+Acceleration = 3.5
+Explosion = 9
+Flaming = true
+Sight = MissileSight
+Delay = 400
+LockTime = 50
+ModelBullet = sa2missile
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

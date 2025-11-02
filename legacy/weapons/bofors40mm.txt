@@ -1,0 +1,24 @@
+DisplayName = Bofors 40mm gun
+Type = MachineGun2
+Power = 30
+ModelBullet = bullet76mm
+Acceleration = 5.0
+Explosion = 2
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+Delay = 5
+SoundPitch = 0.6
+SoundVolume = 20
+Sound = cannon_2_snd
+Accuracy = 3.0
+HeatCount = 18
+MaxHeatCount = 150
+ReloadTime = 30
+Round = 4
+;SetCartridge = cartridge, 0.1,  180, 0, 5.0, -0.04, 0.40
+
+MaxAmmo = 500
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  3, gunpowder

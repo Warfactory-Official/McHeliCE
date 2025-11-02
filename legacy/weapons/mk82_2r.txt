@@ -1,0 +1,19 @@
+DisplayName = MK82 bomb
+Type = Bomb
+Power = 45
+ModelBullet = mk82
+Acceleration = 0.1
+Explosion = 5
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 5
+Sound = bomb_snd
+
+ReloadTime = 120
+Round = 2
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  3, iron_ingot
+Item =  3, gunpowder

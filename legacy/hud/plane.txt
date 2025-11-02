@@ -1,0 +1,22 @@
+
+; パイロット共通描画呼び出し
+Call = common_pilot
+
+; レーダーを持つ機体の場合
+If = have_radar==1
+	DrawTexture = plane_hud, 144, 21,  64,64,  0,0, 128,128
+
+	Color = 0xFF28d448
+	DrawEntityRadar = -plyr_yaw-180, 144, 21,  64,64
+
+	Color = 0xFFDF0408
+	DrawEnemyRadar  = -plyr_yaw-180, 144, 21,  64,64
+
+	DrawTexture = plane_hud, 144+16, 21,  32,64,  128,0, 64,128, radar_rot
+EndIf
+
+If = vtol_stat>0
+	; VTOL切替中は赤、VTOL中は緑
+	Color = vtol_stat==2? 0xFF28d448: 0xFFDF0408
+	DrawString = 50, 10, "VTOL"
+EndIf

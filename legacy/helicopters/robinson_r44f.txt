@@ -1,0 +1,39 @@
+DisplayName = Robinson R44 Float
+AddDisplayName = ja_JP, ロビンソン R44 フロート
+ItemID = 28823
+MaxHp = 100
+Speed = 0.6
+Float = true
+Sound = r44_heli
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 16
+
+; C = Civilian(民間機)
+Category = C
+
+HUD = civilian_aircraft, none, none, none
+
+AddTexture = robinson_r44_b
+AddTexture = robinson_r44_g
+AddTexture = robinson_r44_y
+AddTexture = robinson_r44_fire
+AddTexture = robinson_r44_j4m
+
+
+AddRotor = 1,  0,  0.00,  4.55,  0.00,  0.0, 1.0, 0.0
+AddRotor = 1,  0,  0.47,  2.61, -8.55,  1.0, 0.0, 0.0
+
+AddSeat = -0.43,  0.91,  1.76
+AddSeat =  0.43,  0.91,  1.76
+AddSeat = -0.43,  0.95,  0.64
+AddSeat =  0.43,  0.95,  0.64
+
+AddPartHatch =  0.87, 1.01, 2.48,  0.046, -1.0,  0.51,  70
+AddPartHatch = -0.87, 1.01, 2.48,  0.046,  1.0, -0.51,  70
+AddPartHatch =  0.87, 1.01, 2.48,  0.046, -1.0,  0.51,  70
+AddPartHatch = -0.87, 1.01, 2.48,  0.046,  1.0, -0.51,  70
+
+AddRecipe = "IRI",  " G ",  "BFB",  R, iron_block,  I, iron_ingot,  G, Glass,  B,  boat,  F, iron_bars,
+
+InventorySize = 27

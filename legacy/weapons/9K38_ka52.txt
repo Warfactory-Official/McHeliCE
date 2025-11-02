@@ -1,0 +1,19 @@
+DisplayName = 9K38 Igla
+Type = AAMissile
+Power = 52
+Acceleration = 3
+Explosion = 4
+Flaming = false
+Sight = MissileSight
+Delay = 90
+LockTime = 20
+Round = 6
+ReloadTime = 180
+ProximityFuseDist = 1
+Sound = missile_3_snd
+
+MaxAmmo = 12
+SuppliedNum = 3
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  2, redstone

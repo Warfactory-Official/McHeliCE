@@ -1,0 +1,75 @@
+DisplayName = E767
+AddDisplayName = ja_JP, E767
+ItemID = 28747
+MaxHp = 650
+Speed = 0.9
+Sound = plane
+ThrottleUpDown = 0.30
+AutoPilotRot = -0.50
+CameraPosition = 0.0, 4.0, 5.0
+EnableNightVision = true
+EnableEntityRadar = true
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+FlareType = 2
+InventorySize = 45
+MaxFuel         = 7000
+FuelConsumption = 1.7
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+ThirdPersonDist = 48
+
+; M = Military(軍用機).  R = Reconnaissance(偵察機)
+Category = M.R
+
+HUD = plane, plane_gnr, none, none, none, none, none
+
+MobilityYaw = 0.3
+MobilityPitch = 0.3
+MobilityRoll = 0.2
+MinRotationPitch = -60
+MaxRotationPitch =  60
+MinRotationRoll  = -60
+MaxRotationRoll  =  60
+
+AddSeat       =  0.7, 3.4, -0.25
+AddGunnerSeat = -0.8, 3.4, -0.25
+
+AddPartRotor =    6.68, 1.35, -18.53,  0,0,-1
+AddBlade = 1, 0,  6.68, 1.35, -18.53,  0,0,-1
+AddPartRotor =   -6.68, 1.35, -18.53,  0,0, 1
+AddBlade = 1, 0, -6.68, 1.35, -18.53,  0,0, 1
+
+; AddPartRotation = 位置X, Y, Z        回転軸X,Y,Z   回転速度, 常に回転させるか
+AddPartRotation = 0.00, 9.00, -31.17,  0,-1,0,       1.3,      false
+
+AddWeapon = targeting_pod_mob,   0.0, 4.0, 5.0,  0.0, 0.0
+AddWeapon = targeting_pod_pv50s, 0.0, 4.0, 5.0,  0.0, 0.0
+AddWeapon = targeting_pod_block, 0.0, 4.0, 5.0,  0.0, 0.0
+AddWeapon = targeting_pod_ph100s,0.0, 4.0, 5.0,  0.0, 0.0
+AddWeapon = targeting_pod_mob,   0.0, 4.0, 5.0,  0.0, 0.0, false, 2
+AddWeapon = targeting_pod_pv50s, 0.0, 4.0, 5.0,  0.0, 0.0, false, 2
+AddWeapon = targeting_pod_block, 0.0, 4.0, 5.0,  0.0, 0.0, false, 2
+AddWeapon = targeting_pod_ph100s,0.0, 4.0, 5.0,  0.0, 0.0, false, 2
+
+
+AddPartLG =  0.00, 1.54,  -1.57,  1,0,0, -110
+AddPartLG = -0.47, 1.83,  -0.80,  0,0,1,  90
+AddPartLG =  0.47, 1.83,  -0.80,  0,0,1, -90
+AddPartLGHatch =  0.472, 2.046,  -0.1829,   0.38,-42.6,-123.4,-90
+AddPartLGHatch = -0.472, 2.046,  -0.1829,  -0.38,-42.6,-123.4, 90
+AddPartLG = -2.25, 2.00,  -23.54,  0,0,1,  90
+AddPartLG =  2.25, 2.00,  -23.54,  0,0,1, -90
+AddPartLG =  2.25, 2.00,  -23.54,  0,0,1, -90
+AddPartLG = -2.25, 2.00,  -23.54,  0,0,1,  90
+AddPartLGHatch =  0.30, 1.37,  -23.54,  0,0,1,-90
+AddPartLGHatch = -0.30, 1.37,  -23.54,  0,0,1, 90
+
+AddRecipe = " R ",  "DYD",  "III",  Y,mcheli:uav_station, R,redstone_block, I,iron_block, D,diamond
+
+
+BoundingBox =  0.0, 4.2,  -4.7,  8, 6
+BoundingBox =  0.0, 4.2, -16.7,  8, 6
+BoundingBox =  0.0, 4.2, -35.7,  8, 6
+BoundingBox = -9.5, 4.0, -24.1,  9, 3
+BoundingBox =  9.5, 4.0, -24.1,  9, 3

@@ -1,0 +1,70 @@
+DisplayName = A-10 Thunderbolt II
+AddDisplayName = ja_JP, A-10 サンダーボルトⅡ
+ItemID = 28705
+MaxHp = 280
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.0
+FlareType = 5
+ThrottleUpDown = 0.8
+MaxFuel         = 1800
+FuelConsumption = 1.0
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+AddTexture = a-10_1
+
+HUD = plane
+
+MobilityYaw = 0.7
+MobilityPitch = 0.7
+MobilityRoll = 0.6
+
+AddSeat = 0.00,  2.80,  0.0
+
+AddPartCanopy = 0, 3.85, -1.97, -1,0,0,  70
+
+;Front
+AddPartLG =  0.00, 2.17, -0.40,  -1,0,0
+;RightLeft
+AddPartLG =  0.00, 2.00, -6.00,  -1,0,0
+
+AddPartRotWeapon     = gau-8,   false, true,  true,    0,    2.077,  3.8802
+AddPartWeaponMissile = aim9_l,  false, false, false,  -6.25, 1.40,  -3.13
+AddPartWeaponMissile = aim9_l,  false, false, false,  -6.97, 1.40,  -3.13
+AddPartWeaponMissile = agm-65,  false, false, false,   4.30, 1.70,  -4.21
+AddPartWeaponMissile = agm-65,  false, false, false,  -4.30, 1.70,  -4.21
+AddPartWeaponMissile = cbu-87,  false, false, false,   2.00, 1.10,  -3.90
+AddPartWeaponMissile = cbu-87,  false, false, false,  -2.00, 1.10,  -3.90
+AddPartWeaponMissile = cbu-72,  false, false, false,   0.65, 1.35,  -3.90
+AddPartWeaponMissile = cbu-72,  false, false, false,  -0.65, 1.35,  -3.90
+
+AddWeapon = gau-8,  0.00, 2.00,  3.80,   0.0, -1.0
+
+AddWeapon = hydra70,  5.43, 1.50, -4.40,   1.0, 0.0
+AddWeapon = hydra70, -5.43, 1.50, -4.40,  -1.0, 0.0
+
+AddWeapon = aim9_l, -6.25, 1.40, -3.13,  -1.0, 0.0
+AddWeapon = aim9_l, -6.97, 1.40, -3.13,  -1.0, 0.0
+
+AddWeapon = agm-65,  4.30, 1.70, -4.21,   1.0, 0.0
+AddWeapon = agm-65, -4.30, 1.70, -4.21,  -1.0, 0.0
+
+AddWeapon = cbu-87,  2.00, 1.10, -3.9,   0.0, 0.0
+AddWeapon = cbu-87, -2.00, 1.10, -3.9,   0.0, 0.0
+
+AddWeapon = cbu-72,  0.65, 1.35, -3.9,   0.0, 0.0
+AddWeapon = cbu-72, -0.65, 1.35, -3.9,   0.0, 0.0
+
+AddRecipe = " Y ",  "XDX",  "ZXZ",  X, iron_block, Y, glass, Z, iron_ingot, D, diamond_block
+
+BoundingBox =  0.00, 2.80, -2.60,  2.0, 2.0
+BoundingBox =  0.00, 2.60, -5.60,  2.0, 2.5
+BoundingBox =  0.00, 3.20, -9.20,  4.0, 2.0
+BoundingBox = -2.92, 2.20, -5.60,  3.0, 1.0
+BoundingBox =  2.92, 2.20, -5.60,  3.0, 1.0

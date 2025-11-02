@@ -1,0 +1,35 @@
+DisplayName = 12.7cmAACanon shield
+AddDisplayName = ja_JP, 12.7cm連装高角砲シールド付き
+ItemID = 28606
+MaxHp = 200
+HideEntity = true
+MinRotationPitch = -80
+MaxRotationPitch =  8
+DamageFactor = 0.1
+CameraZoom = 4
+CameraPosition = 0.0, 1.50, 0.0
+ThirdPersonDist = 8
+
+; W = WWII,  A = AAGun(対空砲)
+Category = W.A
+
+HUD = vehicle_wwii
+
+AddSeat = 0.00,  0.50, 0.00
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;本体-砲身
+AddPart	= true,  true, false, 0,   0.00, 0.00, 0.00
+AddPart	= false, true, true,  0,   0.00, 0.00, 0.00
+AddPart	= false, true, true,  2,   0.00, 0.00, 0.00, 0.5
+AddPart	= false, true, true,  2,   0.00, 0.00, 0.00, 0.5
+
+AddTurretWeapon = 12_7cm,      -0.36, 1.35, 5.83,   0.0, -1.0,   true,1, 0,-360,360, -80, 8
+AddTurretWeapon = 12_7cm,       0.73, 1.35, 5.83,   0.0, -1.0,   true,1, 0,-360,360, -80, 8
+AddTurretWeapon = type3bullet, -0.36, 1.35, 5.83,   0.0, -1.0,   true,1, 0,-360,360, -80, 8
+AddTurretWeapon = type3bullet,  0.73, 1.35, 5.83,   0.0, -1.0,   true,1, 0,-360,360, -80, 8
+
+AddRecipe = "I I",  "DXD",  "XXX",  X, iron_block, I, iron_ingot, D, dispenser
+
+
+BoundingBox =  0.0, 1.5, 0.0,  4.0, 3.0

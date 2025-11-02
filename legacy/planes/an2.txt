@@ -1,0 +1,62 @@
+DisplayName = An-2
+AddDisplayName = ja_JP, An-2
+ItemID = 28732
+MaxHp = 100
+Speed = 0.9
+Sound = prop
+ThrottleUpDown = 0.5
+MaxFuel         = 1200
+FuelConsumption = 1.0
+onGroundPitch = 12.31
+InventorySize = 18
+ThirdPersonDist = 12
+
+Regeneration = true
+
+AddTexture = an2_2
+AddTexture = an2_3
+AddTexture = an2_4
+AddTexture = an2_5
+
+
+; C = Civilian(民間機)
+Category = C
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+EnableParachuting = true
+;MobDropOption =降下位置X, 降下位置Y, 降下位置Z, 降下間隔(1/20秒)
+MobDropOption = 0.8, 1.9321,  -3.5,  5
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+HUD = plane_wwii, plane_wwii, none, none, none
+
+
+AddFixedSearchLight =  6.4, 1.6, -0.47,   0x50FFFFFF,   0x00FFFFC0,  60.0, 26.0,-3, 15
+AddFixedSearchLight = -6.4, 1.6, -0.47,   0x50FFFFFF,   0x00FFFFC0,  60.0, 26.0, 3, 15
+
+
+AddSeat =  0.5267, 2.01,  0.0
+AddSeat =  -0.5267, 2.01,  0.0
+
+AddSeat =  -0.5767, 1.8321,  -3.5
+AddSeat =  0.48, 1.63,  -2.25
+AddSeat =  0.48, 1.63,  -1.54
+
+AddPartRotor =    0.00, 2.081, 0.0,   1,0,0
+AddBlade = 4, 90,  0.00, 2.081, 0.0,   0,0,-1
+AddPartRotor =    0.00, 2.081, 0.0,   1,0,0
+AddBlade = 1, 0,  0.00, 2.081, 0.0,   0,0,-1
+
+AddWeapon = dispenser_water,  0.0, 0.0, 0.54,   1.0, 0.0
+; DEBUG Only
+;AddWeapon = dispenser_fire,  0.0, 0.0, 0.54,   1.0, 0.0
+
+AddRecipe = " PI",  "FXI",  " W ",  X,iron_block, P,heavy_weighted_pressure_plate, I,iron_ingot, F,furnace, W,water_bucket
+
+BoundingBox =  0.00,  2.15, -3.41,  1.5, 1.5
+BoundingBox =  0.00,  2.15,  2.03,  1.3, 1.3
+
+BoundingBox =  3.88,  3.38, -0.32,  2.0, 0.3
+BoundingBox = -3.88,  3.38, -0.32,  2.0, 0.3

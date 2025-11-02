@@ -1,0 +1,58 @@
+DisplayName = SH-3 Sea King
+AddDisplayName = ja_JP, SH-3 シーキング
+ItemID = 28820
+MaxHp = 240
+EnableFoldBlade = true
+EnableNightVision = true
+EnableEntityRadar = true
+Float  = true
+FloatOffset = -0.5
+Speed = 0.65
+ThrottleUpDown = 0.7
+FlareType = 3
+CameraPosition = 0.0, 0.7, 3.5
+MaxFuel         = 2000
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  S = Antisubmarine(対潜機)
+Category = M.S
+
+HUD = heli, none, gunner, none, none, none, none
+
+MobilityYaw = 0.8
+MobilityPitch = 0.8
+MobilityRoll = 0.8
+
+AddTexture = sh-3-en-1
+AddTexture = sh-3-en-2
+AddTexture = sh-3-jp-1
+AddTexture = sh-3-jp-2
+
+AddPartWeapon = m240_r, false, true, true,  -1.477, 1.629,-6.447
+
+AddPartLG =  0.00, 0.8493, -2.6048,  1,0,0, 93.2
+
+AddRotor= 5, 72,  0.00,  5.0000, -3.7765,   0.0, 1.0, 0.0, true
+AddRotor= 1,  0, -0.80,  3.5226, -16.1115,  1.0, 0.0, 0.0, false
+
+AddSeat       =-0.5,   1.55,  0.00
+AddSeat       = 0.5,   1.55,  0.00
+AddSeat       =-0.7,   1.2,  -6.45
+AddSeat       =-0.6,   1.3,  -2.8
+AddSeat       = 0.56,  1.3,  -3.9
+AddSeat       = 0.56,  1.3,  -4.9
+AddSeat       = 0.56,  1.3,  -5.9
+
+AddWeapon = m240_r,    -1.477, 1.629,-6.447,   0.0, 0.0, false, 3, 90,-80,80, -50,80
+
+AddRecipe = " D ",  "X X",  "X X", D,dye,1, X,iron_block
+
+InventorySize = 54
+
+AddRepellingHook = -1.42, 2.6, -6.30, 30
+
+BoundingBox =  0.0, 2.3, -2.0,  2.4, 3.7
+BoundingBox =  0.0, 1.8, -4.5,  2.4, 3.7
+BoundingBox =  0.0, 1.8, -7.0,  2.4, 2.4
+BoundingBox =  0.0, 3.5,-14.5,  2.0, 3.0

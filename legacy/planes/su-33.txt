@@ -1,0 +1,73 @@
+DisplayName = Su-33 Flanker-D
+AddDisplayName = ja_JP, Su-33 フランカーD
+ItemID = 28716
+MaxHp = 220
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.2
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1400
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+HUD = plane
+
+AddSeat = 0.00,  2.11,  7.21
+
+MobilityYaw = 10.0
+MobilityRoll = 0.5
+MobilityPitch = 4.5
+
+AddPartCanopy = 0.00, 3.55,  5.46, -1,0,0,  60
+
+;Front
+AddPartLG =  0.00,  1.70,  5.41,  -1,0,0, 100
+;Front_2
+AddPartLG =  0.00,  1.63,  4.57,  -1,0,0
+
+;Left
+AddPartLG =  1.67,  2.04, -0.04, -1,0,0,  90,  0,-1,0,  90
+;Right
+AddPartLG = -1.67,  2.04, -0.04, -1,0,0,  90,  0, 1,0,  90
+
+AddPartWeaponMissile = kh-31,   false,  false,  false,    1.01, 0.35, -1.34
+AddPartWeaponMissile = kh-31,   false,  false,  false,   -1.01, 0.35, -1.34
+AddPartWeaponMissile = r-77,    false,  false,  false,    5.87, 1.39, -3.17
+AddPartWeaponMissile = r-77,    false,  false,  false,   -5.87, 1.39, -3.17
+
+AddWeapon = gsh-30-1, -1.15,  2.11,  5.77,   2.0, -3.0
+AddWeapon = kh-31,  1.01, 0.35, -1.34,   2.0, -3.0
+AddWeapon = kh-31, -1.01, 0.35, -1.34,   2.0, -3.0
+AddWeapon = r-77,  2.58, 1.66, -0.57,   2.0, -3.0
+AddWeapon = r-77, -2.58, 1.66, -0.57,   2.0, -3.0
+AddWeapon = r-73,  5.87, 1.39, -3.17,   2.0, -3.0
+AddWeapon = r-73, -5.87, 1.39, -3.17,   2.0, -3.0
+
+AddWeapon = targeting_pod_ph50s,   0.0, 3.1, 7.2,    0.0, 0.0
+
+AddRecipe = "HGL",  "BCB",  "IPI",  H, dye,15,  G, glass,  L, dye,12,  B, iron_block,  C, comparator,  I, iron_ingot,  P, gunpowder
+
+
+AddPartWing = -2.85,  2.00,  -2.20,  0,-0.07,-1, 110
+AddPartWing =  2.85,  2.00,  -2.20,  0, 0.07, 1, 110
+AddPartWing = -2.83,  1.85, -4.63,  0,0,   -1, 110
+AddPartWing =  2.83,  1.85, -4.63,  0,0,    1, 110
+
+
+
+BoundingBox =  0.00, 2.01, 10.64,  1.5, 1.5
+BoundingBox =  0.00, 1.66,  2.11,  3.0, 3.0
+BoundingBox =  0.00, 2.66,  7.10,  2.0, 2.0
+BoundingBox =  0.00, 1.78,  5.47,  3.0, 1.5
+
+BoundingBox =  4.37, 1.87, -1.47,  3.0, 0.8
+BoundingBox = -4.37, 1.87, -1.47,  3.0, 0.8
+
+BoundingBox =  2.98, 1.87, -5.64,  2.5, 0.5
+BoundingBox = -2.98, 1.87, -5.64,  2.5, 0.5

@@ -1,0 +1,18 @@
+DisplayName = Minigun(Right)
+Type = MachineGun1
+Power = 7
+Acceleration = 6.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+Accuracy = 3.0
+Sound = gun_l2_snd
+HeatCount = 6
+MaxHeatCount = 150
+
+MaxAmmo = 400
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder

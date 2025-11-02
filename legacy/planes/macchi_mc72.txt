@@ -1,0 +1,45 @@
+DisplayName = macchi_M.C.72
+AddDisplayName = ja_JP, マッキM.C.72
+ItemID = 28718
+MaxHp = 100
+Speed = 1.0
+Float = true
+FloatOffset =0
+Sound = rr_griffon
+ThrottleUpDown = 1.5
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; C = Civilian(民間機)
+Category = C
+
+; 水しぶき を発生させる
+;AddParticleSplash = 座標X,   Y,    Z,   表示数, サイズ,  速度,  表示時間, 上昇, 重力
+AddParticleSplash =  2.5, -0.37,   4.9,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  2.5, -0.37,   4.9,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  2.0, -0.37,   4.9,   4,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  2.0, -0.37,   1.0,   4,      9.0,    1.1,   60,       0.01,   0
+
+AddParticleSplash = -2.5, -0.37,   4.9,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -2.5, -0.37,   4.9,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -2.0, -0.37,   4.9,   4,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -2.0, -0.37,   1.0,   4,      9.0,    1.1,   60,       0.01,   0
+
+
+
+HUD = civilian_aircraft, none, none, none
+
+;AddSeat =  X, Y, Z
+AddSeat = 0.0,  2.75, -1.65
+
+MobilityYaw = 4
+MobilityPitch = 5
+MobilityRoll = 2
+
+AddPartRotor =    0.00,  3.25, 0.00,   1,0, 0
+AddBlade = 1, 0,  0.00,  3.25, 0.00,   0,0,-1
+AddPartRotor =    0.00,  3.25, 0.00,   1,0, 0
+AddBlade = 1, 0,  0.00,  3.25, 0.00,   0,0,1
+
+AddRecipe ="BXL","XXG","RXO", X,iron_block, I,iron_ingot, G,log, R,dye,1, L,dye,10, B,dye,15, O,gold_Ingot

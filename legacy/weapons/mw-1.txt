@@ -1,0 +1,24 @@
+DisplayName = MW-1 BombDispenser
+Type = Bomb
+Power = 15
+Acceleration = 0.8
+Explosion = 3
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 2
+Round = 25
+Bomblet = 2
+BombletSTime = 0
+BombletDiff = 0.3
+ReloadTime = 280
+DelayFuse = 40
+Bound = 0.3
+
+ModelBullet = cbc
+ModelBomblet = cbc
+
+MaxAmmo = 50
+SuppliedNum = 25
+Item =  3, iron_ingot
+Item =  3, gunpowder

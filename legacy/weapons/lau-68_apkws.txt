@@ -1,0 +1,20 @@
+DisplayName = LAU-68/APKWS
+Type = TVMissile
+Power = 40
+Acceleration = 2.0
+Explosion = 3
+Flaming = true
+Sight = MoveSight
+Delay = 50
+ModelBullet = hydra70
+Round = 4
+ReloadTime = 120
+Sound = lau-68_snd
+
+DamageFactor = tank, 2.0
+
+MaxAmmo = 8
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

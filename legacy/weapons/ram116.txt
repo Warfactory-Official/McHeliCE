@@ -1,0 +1,19 @@
+DisplayName = RIM-116 RAM
+Type = AAMissile
+Power = 56
+Acceleration = 4
+Explosion = 4
+Flaming = false
+Sight = MissileSight
+Delay = 20
+ReloadTime = 80
+Round = 11
+LockTime = 10
+ProximityFuseDist = 1
+Sound = missile_1_snd
+
+MaxAmmo = 22
+SuppliedNum = 11
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

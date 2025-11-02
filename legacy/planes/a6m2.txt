@@ -1,0 +1,53 @@
+DisplayName = ZERO type21
+AddDisplayName = ja_JP, 零式艦上戦闘機21型
+ItemID = 28708
+MaxHp = 130
+Speed = 0.95
+Sound = prop
+onGroundPitch = 14.3
+ThrottleUpDown = 0.8
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThrottleUpDownOnEntity = 2.0
+ThirdPersonDist = 12
+
+UnmountPosition = 3.0, 1.0, -2.0
+
+; W = WWII.  F = Fighter(戦闘機)
+Category = W.F
+
+HUD = plane_wwii
+
+AddTexture = a6m2_2
+AddTexture = a6m2_3
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+AddSeat = 0.0,  1.46, 0.40
+
+AddPartSlideCanopy = 0, 0.00, -0.6
+
+AddPartLG =  -1.96, 1.26,  1.13,  0,0, 1, 86.5
+AddPartLG =   1.96, 1.26,  1.13,  0,0,-1, 86.5
+AddPartLG =  -0.11, 1.05,  1.39,  0,0,-1, 80
+AddPartLG =   0.11, 1.05,  1.39,  0,0, 1, 80
+AddPartLG =   0.11, 1.49, -5.05,  1,0, 0, 20
+
+AddPartRotor =    0.00,  1.64, 2.83,   1,0, 0
+AddBlade = 1, 0,  0.00,  1.64, 2.83,   0,0,-1
+
+AddPartWing =  -5.74, 1.83, 0.00,  0,0,-1, 100
+AddPartWing =   5.74, 1.83, 0.00,  0,0, 1, 100
+
+AddWeapon = mg7_7mm,  0.19, 2.18, 1.62,  0.0, -3.0
+AddWeapon = mg7_7mm, -0.19, 2.18, 1.62,  0.0, -3.0
+
+AddWeapon = mg20mm,  2.00, 1.41, 1.69,   2.0, -5.0
+AddWeapon = mg20mm, -2.00, 1.41, 1.69,  -2.0, -5.0
+
+AddRecipe = "I I",  "PGP",  " I ",  I,iron_block, G,dye,7, P,paper
+
+BoundingBox =  0.00, 1.60, -0.00,  2.0, 1.8
+BoundingBox = -2.92, 1.60,  0.30,  2.0, 0.6
+BoundingBox =  2.92, 1.60,  0.30,  2.0, 0.6

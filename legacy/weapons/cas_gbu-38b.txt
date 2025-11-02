@@ -1,0 +1,21 @@
+DisplayName = GBU-38/B JDAM
+Type = ASMissile
+Power = 32
+Acceleration = 4
+Explosion = 6
+ExplosionBlock = 3
+Flaming = true
+Sight = MoveSight
+Delay = 140
+SoundVolume = 3
+SoundPitch = 1
+Sound = pi
+ModelBullet = gbu31
+Gravity = -0.02
+DisableSmoke = true
+
+MaxAmmo = 12
+SuppliedNum = 4
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

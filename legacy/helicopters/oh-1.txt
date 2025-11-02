@@ -1,0 +1,76 @@
+DisplayName = Kawasaki OH-1
+AddDisplayName = ja_JP, 川崎 OH-1
+ItemID = 28827
+MaxHp = 160
+EnableGunnerMode = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.8
+FlareType = 3
+CameraPosition = 0.0, 3.20, 0.42
+onGroundPitch = 4.1
+Stealth = 0.1
+ThrottleUpDown = 1.4
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  R = Reconnaissance(偵察機)
+Category = M.R
+
+HUD = heli, heli_gnr
+
+;飛行可能時間[秒] = 燃料搭載可能量 / 1秒間に消費する燃料
+; 燃料搭載可能量
+MaxFuel         = 1000
+; 1秒間に消費する燃料
+FuelConsumption = 0.8
+
+AddTexture = oh-1-n1
+AddTexture = oh-1-p1
+AddTexture = oh-1-p2
+AddTexture = oh-1-sn
+
+MobilityYaw = 1.5
+MobilityPitch = 1.5
+MobilityRoll = 1.5
+
+;AddPartCamera = 座標X,Y,Z, Yaw連動, Pitch連動
+; タレット 上
+AddPartCamera = 0.0, 3.20, -0.42, true, false
+; タレット 下
+AddPartCamera = 0.0, 3.20, -0.42, true, true
+
+;AddPartWeapon = 連動する武器名(無しの時はnone), ガンナー時非表示？, Yaw連動, Pitch連動, 回転座標X,Y,Z
+; Hydra70
+;AddPartWeapon = hydra70, false, false, true,   0.00, 0.81, -2.13
+
+
+AddRotor= 1, 0,  0.00, 3.93, -1.54,   0.0, 1.0, 0.0
+AddRotor= 1, 0,  0.00, 2.01, -9.26,   1.0, 0.0, 0.0
+
+AddSeat       = 0.00,  0.49,  1.75
+AddGunnerSeat = 0.00,  0.99,  0.10,  0.0, 3.20, 0.42,  true
+
+;AddWeapon = 武器名, 位置X,Y,Z, Yaw, Pitch, パイロットが使用できる？, 座席番号, DefaultYaw,RangeYaw, MinPitch, MaxPitch
+
+AddWeapon = hydra70_l,        1.12,  1.08, -0.33,  1, 0
+AddWeapon = hydra70_l,       -1.12,  1.08, -0.33, -1, 0
+AddWeapon = hydra70_m264rp,   1.12,  1.08, -0.33,  1, 0
+AddWeapon = hydra70_m264rp,  -1.12,  1.08, -0.33, -1, 0
+
+AddWeapon = sam2,  1.82,  1.00, -0.40,  1, 0
+AddWeapon = sam2, -1.82,  1.00, -0.40, -1, 0
+
+AddWeapon = targeting_pod_mob,     0.0, 0.3, 1.4,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.3, 1.4,   0.0, 0.0
+AddWeapon = targeting_pod_pv30s,   0.0, 0.3, 1.4,   0.0, 0.0,  false,2
+AddWeapon = targeting_pod_block,   0.0, 0.3, 1.4,   0.0, 0.0,  true, 2
+
+; 位置を200m上にして、上空から投下されたようにする
+AddWeapon = cas_gbu-38b,  0.00, 150.0,  30.0,  0, 0,  true,2
+
+AddRecipe = "I X",  "IX ",  "I X",  X, iron_block, I, iron_ingot
+
+
+BoundingBox =  0.0, 2.5, -2.0,  1.5, 3.3
+BoundingBox =  0.0, 2.0, -4.0,  2.0, 2.0
+BoundingBox =  0.0, 2.5, -9.0,  2.0, 3.0

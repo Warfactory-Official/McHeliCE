@@ -1,0 +1,102 @@
+DisplayName = M26
+AddDisplayName = ja_JP, M26 パーシング
+ItemID = 30997
+MaxHp = 300
+Speed = 0.6
+Sound = tank
+ThrottleUpDown = 6.0
+MobilityYawOnGround = 3.0
+MobilityRoll = 0
+Gravity = -0.1
+GravityInWater = -0.1
+DamageFactor = 0.0
+CameraZoom = 2
+CameraPosition = 0.00,  3.6, 0.7542, true
+CameraRotationSpeed = 26
+MinRotationPitch = -34
+MaxRotationPitch = 7
+DefaultFreelook = true
+ThirdPersonDist = 12
+
+HideEntity = true
+
+HUD = ww2tank_hud, ww2tank_hud
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 0.8
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+MotionFactor = 0.9
+
+SetWheelPos =  1.31, -0.24, 2.41, 1.37, -0.13, -1.80, -2.96, -3.93
+
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 2
+
+AddGunnerSeat = 0.00,  0.00, 0.00
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 10
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 1.00
+;後退可能にする(暫定処置で今後削除される可能性有り)
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+;転輪がなくても動作する
+AddCrawlerTrack = false, 0.26,  1.767,  1.306/1.915, 1.241/3.417, 0.9937/3.741, 0.6643/3.762, 0.4045/3.608, -0.2242/2.671, -0.229/-2.543, 0.1896/-3.745, 0.4516/-3.952, 0.7844/-3.945, 1.042/-3.719, 1.363/-2.027
+AddCrawlerTrack = false, 0.26,  1.767,  1.306/1.915, 1.241/3.417, 0.9937/3.741, 0.6643/3.762, 0.4045/3.608, -0.2242/2.671, -0.229/-2.543, 0.1896/-3.745, 0.4516/-3.952, 0.7844/-3.945, 1.042/-3.719, 1.363/-2.027
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+AddTrackRoller =  1.757,  0.7676,  3.280
+AddTrackRoller = -1.757,  0.7676,  3.280
+AddTrackRoller =  1.757,  0.2341,  2.505
+AddTrackRoller = -1.757,  0.2341,  2.505
+AddTrackRoller =  1.757,  0.2341,  1.520
+AddTrackRoller = -1.757,  0.2341,  1.520
+AddTrackRoller =  1.757,  0.2341,  0.5353
+AddTrackRoller = -1.757,  0.2341,  0.5353
+AddTrackRoller =  1.757,  0.2341,  -0.4495
+AddTrackRoller = -1.757,  0.2341,  -0.4495
+AddTrackRoller =  1.757,  0.2341,  -1.434
+AddTrackRoller = -1.757,  0.2341,  -1.434
+AddTrackRoller =  1.757,  0.2341,  -2.419
+AddTrackRoller = -1.757,  0.2341,  -2.419
+AddTrackRoller =  1.757,  0.6061,  -3.463
+AddTrackRoller = -1.757,  0.6061,  -3.463
+
+AddWeapon = 90mm_gun_m3,   0.00, 2.314, 0.7542,   0.0, 0.0, true, 2,0,-360,360, -20,10
+AddPartWeapon    = 90mm_gun_m3,      false, true, false,  0.00,  1.70, 0.7542
+AddPartWeaponChild = false, true, 0.00, 2.314, 1.908,
+AddPartWeaponChild = false, true, 0.00, 2.314, 1.908, 0.5
+
+AddWeapon = targeting_pod_block,     0.0, 0.6, 4.8,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_tank,   0.0, 0.6, 4.8,   0.0, 0.0,  true, 2
+
+BoundingBox =  1.15,  0.87,  2.25,  2.2,  2.0, 0.9
+BoundingBox = -1.15,  0.87,  2.25,  2.2,  2.0, 0.9
+BoundingBox =  0.00,  0.87, -1.45,  4.5,  2.0, 1.0
+
+BoundingBox =  0.00,  2.36,  0.70,  2.2,  1.5, 1.0
+
+BoundingBox =  0.00,  0.87, -2.04,  3.8,  1.7, 1.1
+
+
+MaxFuel         = 600
+FuelConsumption = 2.0
+
+StepHeight = 1.2
+
+AddRecipe = " I ",  "X X",  "III",  X, iron_block,  I, iron_ingot

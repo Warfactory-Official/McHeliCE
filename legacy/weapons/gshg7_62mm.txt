@@ -1,0 +1,25 @@
+DisplayName = GShG-7.62 machine gun
+Type = MachineGun2
+ModelBullet = bullet
+Power = 8
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+SoundPitch = 0.9
+Accuracy = 4.5
+HeatCount = 2
+MaxHeatCount = 130
+Sound = gun_l2_snd
+
+AddMuzzleFlash      =  0.6,      0.22,        2,  170,254,159,84
+AddMuzzleFlash      =  0.5,      0.20,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  2.2,  1,   5.0,  2.0, 15,  180,250,245,240
+AddMuzzleFlashSmoke =  3.2,  1,   3.0,  1.0,  5,  180,220,217,214
+
+MaxAmmo = 900
+SuppliedNum = 150
+Item =  2, iron_ingot
+Item =  2, gunpowder

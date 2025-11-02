@@ -1,0 +1,22 @@
+DisplayName = GBU-12 Paveway II
+Type = ASMissile
+Power = 32
+Acceleration = 1.7
+Explosion = 5
+ExplosionBlock = 3
+Sight = MoveSight
+Delay = 35
+Round = 2
+ReloadTime = 140
+SoundVolume = 3
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = gbu31
+Gravity = -0.01
+DisableSmoke = true
+
+MaxAmmo = 4
+SuppliedNum = 4
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

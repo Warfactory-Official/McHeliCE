@@ -1,0 +1,36 @@
+DisplayName = Elbit Skylark
+AddDisplayName = ja_JP, エルビット スカイラーク
+ItemID = 28745
+MaxHp = 20
+Speed = 0.6
+EnableNightVision = true
+EnableEntityRadar = true
+EnableGunnerMode = true
+AutoPilotRot = -1.40
+CameraPosition = 0.0, 0.40, 0.34
+ThrottleUpDown = 1.0
+MaxFuel         = 120
+FuelConsumption = 0.2
+SmallUAV = true
+HUD = plane
+ThirdPersonDist = 4
+
+; M = Military(軍用機).  Q = Drone(無人航空機)
+Category = M.Q
+
+MinRotationPitch = -60
+MaxRotationPitch =  60
+MinRotationRoll  = -60
+MaxRotationRoll  =  60
+
+AddWeapon = targeting_pod_mob,   0.0, 0.4, 0.3,  0.0, 0.0
+AddWeapon = targeting_pod_pv10s, 0.0, 0.4, 0.3,  0.0, 0.0
+AddWeapon = targeting_pod_block, 0.0, 0.4, 0.3,  0.0, 0.0
+
+AddTexture = skylark_camo
+
+AddRecipe = " I ",  " I ",  " F ",  I,iron_ingot, F,furnace
+
+AddPartRotor =      0.00,  0.00,  0.00,   1,0,0
+AddBlade = 1, 0,  0.00,  0.00,  0.00,   0,0,-1
+

@@ -1,0 +1,74 @@
+DisplayName = SH-60 Seahawk
+AddDisplayName = ja_JP, SH-60 シーホーク
+ItemID = 28803
+MaxHp = 200
+EnableGunnerMode = true
+EnableFoldBlade = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.6
+ThrottleUpDown = 0.6
+FlareType = 3
+CameraPosition = 0.0, 0.7, 3.5
+MaxFuel         = 1800
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  S = Antisubmarine(対潜機)
+Category = M.S
+
+HUD = heli, heli_gnr, gunner, none, none, none, none
+
+MobilityYaw = 0.9
+MobilityPitch = 0.9
+MobilityRoll = 0.9
+
+AddTexture = sh60-us-1
+AddTexture = sh60-jp-1
+AddTexture = sh60-jp-2
+
+AddRotor= 4, 90,  0.00,  3.98, -2.33,   0.0, 1.0, 0.0, true
+AddRotor= 1,  0, -0.60,  4.07, -14.57,  1.0, 0.0, 0.0, false
+
+AddSeat       =-0.85,  0.90,  1.45
+AddGunnerSeat = 0.85,  0.90,  1.45,  0.0, 0.7, 3.5,  true
+AddSeat       =-1.15,  0.90, -2.15
+AddSeat       = 0.85,  0.90, -1.78
+
+AddSeat       = 0.02,  0.90,  0.27
+AddSeat       =-0.03,  0.90, -0.67
+AddSeat       = 0.00,  0.90, -3.67
+AddSeat       =-0.86,  0.90, -3.67
+
+AddRack = zodiac,      0.0, 0.3, -3.0,   0.0, 0.0, -3.0,   12.0,   40
+
+AddPartCamera = 0.0, 0.52, 2.84
+
+AddPartWeapon = m3m_r, false, true, true,  -1.88, 1.28, -2.18
+AddPartWeaponMissile = agm114tv, false, false, false,  2.36, 0.41,-1.03
+AddPartWeaponMissile = agm114tv, false, false, false,  2.36, 0.41,-1.03
+AddPartWeaponMissile = agm114tv, false, false, false,  2.36, 0.41,-1.03
+AddPartWeaponMissile = agm114tv, false, false, false,  2.36, 0.41,-1.03
+AddPartWeaponMissile = mk46,     false, false, false, -1.53, 0.75,-3.40
+
+AddWeapon = agm114tv,  2.36, 0.41,-1.03,   0.0, 0.0, true,  2
+AddWeapon = agm114tv,  2.36, 0.41,-1.03,   0.0, 0.0, true,  2
+AddWeapon = agm114tv,  2.36, 0.41,-1.03,   0.0, 0.0, true,  2
+AddWeapon = agm114tv,  2.36, 0.41,-1.03,   0.0, 0.0, true,  2
+AddWeapon = agm119,    2.36, 0.41,-3.03,   0.0, 0.0
+AddWeapon = mk46,     -1.53, 0.75,-3.40,   0.0, 0.0, true,  2
+AddWeapon = m3m_r,    -1.88, 1.28,-2.18,   0.0, 0.0, false, 3, 90,-80,80, -50,80
+
+AddWeapon = targeting_pod_mob,     0.0, 0.7, 3.5,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.7, 3.5,   0.0, 0.0,  false,2
+
+AddRecipe = " X ",  "X X",  "X X",  X, iron_block
+AddRecipe = " X ",  "F X",  "X X",  X, iron_block, F, fish
+
+InventorySize = 27
+
+AddRepellingHook = -1.64, 2.18, -2.30, 30
+
+BoundingBox =  0.0, 2.3, -2.0,  2.8, 3.8
+BoundingBox =  0.0, 1.8, -4.5,  2.8, 2.4
+BoundingBox =  0.0, 3.5,-14.5,  2.0, 3.0

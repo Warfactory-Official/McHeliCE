@@ -1,0 +1,23 @@
+DisplayName = CRV7 MPSM
+Type = Rocket
+Power = 20
+Acceleration = 5.0
+Explosion = 1
+Flaming = false
+Sight = MoveSight
+Delay = 8
+ReloadTime = 90
+Round = 19
+Bomblet = 9
+BombletSTime = 5
+BombletDiff = 0.6
+Sound = rocket_snd
+Piercing  = 2
+
+ModelBullet = crv7
+ModelBomblet = cbc
+
+MaxAmmo = 38
+SuppliedNum = 19
+Item =  3, iron_ingot
+Item =  4, gunpowder

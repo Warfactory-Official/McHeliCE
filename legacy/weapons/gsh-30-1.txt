@@ -1,0 +1,23 @@
+DisplayName = GSh-30-1 30mm Machine Gun
+Type = MachineGun1
+ModelBullet = bullet
+Power = 30
+Acceleration = 6.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+Round = 150
+ReloadTime = 200
+SoundDelay = 3
+SoundPitch = 0.7
+Accuracy = 1
+HeatCount = 1
+MaxHeatCount = 50
+Sound = gun_l2_snd
+
+
+MaxAmmo = 450
+SuppliedNum = 150
+Item =  2, iron_ingot
+Item =  2, gunpowder

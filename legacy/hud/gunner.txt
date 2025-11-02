@@ -1,0 +1,35 @@
+
+; 迫撃砲の着弾距離
+Color = 0xFF28d448
+Call = mortar
+
+; 耐久値(HP)
+; HPが20%を超えている場合は緑(0xFF28d448)、HPが20%以下の場合は赤(0xFFDF0408)
+Color = hp_rto>0.2? 0xFF28d448: 0xFFDF0408
+DrawTexture = hud, 144, 95, 64,20, 128,64, 128,20
+DrawString  = 150,    97, "%3.0f", HP_PER
+DrawString  = 150+26, 97, "/ 100", HP_PER
+DrawRect    = 146, 107, hp_rto*60, 6
+
+; 弾数, 残弾 背景 (Ammo background)
+DrawTexture = hud, -208, 57,  62,10,  128,64, 128,20
+; 武器名 (Weapon name background)
+DrawTexture = hud, -208, 68, 106,10,  128,64, 128,20
+
+; 弾数, 残弾 (Ammo) リロード中でなければ緑、リロード中であれば赤
+Color = reloading==0? 0xFF28d448: 0xFFDF0408
+DrawString = -207, 58, "%s",  WPN_AMMO
+DrawString = -181, 58, "/",   WPN_AMMO
+DrawString = -172, 58, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawString = -207, 69, "%s",  WPN_NAME
+
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xFF28d448
+	DrawRect = -145, 57, 43, 10
+	Color = 0xFF188428
+	DrawRect = -144, 58, 41, 8
+	Color = 0xFFDF0408
+	DrawRect = -144, 58, 41*wpn_heat, 8
+EndIf

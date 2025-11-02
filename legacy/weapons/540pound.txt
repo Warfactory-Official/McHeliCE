@@ -1,0 +1,19 @@
+DisplayName = 540pound bomb
+Type = Bomb
+Power = 50
+Acceleration = 0.1
+Explosion = 4
+ExplosionBlock = 3
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 5
+Sound = bomb_snd
+
+ReloadTime = 150
+Round = 6
+
+MaxAmmo = 12
+SuppliedNum = 4
+Item =  2, iron_ingot
+Item =  4, gunpowder

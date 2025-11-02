@@ -1,0 +1,30 @@
+DisplayName = POM-2S Anti-Personal Mine
+Type = Bomb
+Power = 10
+Acceleration = 0.2
+Explosion = 4
+ExplosionBlock = 0
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 5
+Sound = bomb_snd
+
+ReloadTime = 150
+Round = 10
+
+DelayFuse = 3600
+
+ProximityFuseDist = 2.0
+
+ModelBullet = pom2
+
+DamageFactor = tank, 0.0
+DamageFactor = player, 10.0
+DamageFactor = heli, 0.0
+DamageFactor = vehicle, 0.0
+
+MaxAmmo = 20
+SuppliedNum = 10
+Item =  3, iron_ingot
+Item =  3, gunpowder

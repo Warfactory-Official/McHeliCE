@@ -1,0 +1,78 @@
+DisplayName = MH60G PaveHawk
+AddDisplayName = ja_JP, MH-60G ペイヴホーク
+ItemID = 28816
+MaxHp = 180
+EnableGunnerMode = false
+EnableFoldBlade = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.65
+ThrottleUpDown = 0.8
+FlareType = 3
+CameraPosition = 0.0, 0.7, 3.5
+MaxFuel         = 1500
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = heli, heli_gnr, gunner, gunner, gunner, gunner, none, none, none, none, none, none
+
+MobilityYaw = 0.9
+MobilityPitch = 0.9
+MobilityRoll = 0.9
+
+AddPartCamera = 0.0, 0.70, 2.88
+
+AddTexture = mh-60g_1
+
+AddPartWeapon    = m3m_l,    false, true, true,   1.58, 1.23,  -2.50
+AddPartWeapon    = m3m_r,    false, true, true,  -1.58, 1.23,  -2.50
+
+AddPartWeapon    = m134_l50, false, true, false,  1.62, 1.475, -0.31
+AddPartWeapon    = m134_l50, false, true, true,   1.62, 1.475, -0.31
+AddPartRotWeapon = m134_l50, false, true, true,   1.62, 1.475, -0.31, -1,0,0
+AddPartWeapon    = m134_r50, false, true, false, -1.62, 1.475, -0.31
+AddPartWeapon    = m134_r50, false, true, true,  -1.62, 1.475, -0.31
+AddPartRotWeapon = m134_r50, false, true, true,  -1.62, 1.475, -0.31,  1,0,0
+
+AddRotor= 4, 90,  0.00,  3.98, -2.33,   0.0, 1.0, 0.0, true
+AddRotor= 1,  0, -0.60,  4.07, -14.57,  1.0, 0.0, 0.0, false
+
+; seat 1,2
+AddSeat       =-0.85,  0.90,  1.30
+AddGunnerSeat = 0.85,  0.90,  1.30,    0.0, 0.7, 3.5,  true
+; M134D
+AddGunnerSeat = 0.95,  0.90, -0.31,   1.35,  1.90, -0.31
+AddGunnerSeat =-0.95,  0.90, -0.31,  -1.35,  1.90, -0.31
+; M3M
+AddSeat = 0.95,  0.90, -2.52
+AddSeat =-0.95,  0.90, -2.52
+; other seat
+AddSeat = 0.87,  0.90, -3.62
+AddSeat = 0.00,  0.90, -3.62
+AddSeat =-0.87,  0.90, -3.62
+AddSeat = 0.87,  0.90, -1.23
+AddSeat = 0.00,  0.90, -1.23
+AddSeat =-0.87,  0.90, -1.23
+
+AddRepellingHook =  1.64, 2.05, -2.30, 30
+AddRepellingHook = -1.64, 2.05, -2.30, 30
+
+AddWeapon = m3m_l,     1.58, 1.23,-2.50,   0.0, 0.0, false, 5, -90,-70, 70, -50,80
+AddWeapon = m3m_r,    -1.58, 1.23,-2.50,   0.0, 0.0, false, 6,  90,-70, 70, -50,80
+
+AddWeapon = m134_l50,  1.62, 1.48,-0.31,   0.0, 0.0, false, 3, -90,-80, 80, -50,80
+AddWeapon = m134_r50, -1.62, 1.48,-0.31,   0.0, 0.0, false, 4,  90,-80, 80, -50,80
+
+AddWeapon = targeting_pod_mob,     0.0, 0.7, 3.5,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.7, 3.5,   0.0, 0.0,  false,2
+
+AddRecipe = " X ",  "XTX",  "X X",  X, iron_block, T, tnt
+
+InventorySize = 9
+
+BoundingBox =  0.0, 2.3, -2.0,  2.8, 3.8
+BoundingBox =  0.0, 1.8, -4.5,  2.8, 2.4
+BoundingBox =  0.0, 3.5,-14.5,  2.0, 3.0

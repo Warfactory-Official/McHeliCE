@@ -1,0 +1,79 @@
+DisplayName = MH-53E Sea Dragon
+AddDisplayName = ja_JP, MH-53E シードラゴン
+ItemID = 28828
+MaxHp = 200
+Float = true
+FloatOffset = -0.4
+EnableFoldBlade = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.55
+ThrottleUpDown = 0.5
+FlareType = 3
+CameraPosition = 0.0, 0.7, 3.5
+MaxFuel         = 2400
+FuelConsumption = 1.1
+ThirdPersonDist = 24
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = heli, none, gunner, gunner, none, none, none, none, none, none, none, none
+
+MobilityYaw = 0.4
+MobilityPitch = 0.4
+MobilityRoll = 0.4
+
+AddTexture = mh-53e-us1
+AddTexture = mh-53e-us2
+AddTexture = mh-53e-gr
+AddTexture = mh-53e-jp
+
+AddPartWeapon    = m3m_l,    false, true, true,    1.47, 1.70,-1.62
+AddPartWeapon    = m3m_r,    false, true, true,   -1.47, 1.70,-1.62
+
+AddRotor= 7, 51,   0.00, 5.60,  -5.40,    0.000, 1.000, 0.0,   true
+AddRotor= 1,  0,   2.39, 5.94, -22.63,   -1.267, 0.461, 0.0,   false
+
+; seat 1,2
+AddSeat =-0.85,  1.63,  0.07
+AddSeat = 0.85,  1.63,  0.07
+; M3M
+AddGunnerSeat = 0.50,  1.17, -1.62,   1.40,  2.37, -1.62, false, -90, 50
+AddGunnerSeat =-0.50,  1.17, -1.62,  -1.40,  2.37, -1.62, false, -90, 50
+
+AddSeat = 1.05,  1.20, -2.95
+AddSeat =-1.05,  1.20, -2.95
+AddSeat = 1.05,  1.20, -4.05
+AddSeat =-1.05,  1.20, -4.05
+AddSeat = 1.05,  1.20, -5.20
+AddSeat =-1.05,  1.20, -5.20
+AddSeat = 1.05,  1.20, -6.40
+AddSeat =-1.05,  1.20, -6.40
+AddSeat = 1.05,  1.20, -7.60
+AddSeat =-1.05,  1.20, -7.60
+AddSeat = 1.05,  1.20, -8.70
+AddSeat =-1.05,  1.20, -8.70
+AddSeat = 1.05,  1.20, -9.85
+AddSeat =-1.05,  1.20, -9.85
+
+AddPartLG  = 0, 1.12,  0.93,  1,0,0,  77
+AddPartLG  = 0, 1.01, -8.35,  1,0,0, -90
+
+AddPartHatch  = 0, 2.500, -15.65, 1,0,0, -33
+AddPartHatch  = 0, 0.543, -10.47, 1,0,0, -34
+
+AddWeapon = m3m_l,     1.47, 1.70,-1.62,   0.0, 0.0, false, 3, -90,-70, 70, -50,80
+AddWeapon = m3m_r,    -1.47, 1.70,-1.62,   0.0, 0.0, false, 4,  90,-70, 70, -50,80
+
+AddRecipe = " X ",  "XIX",  "X X",  X, iron_block, I, iron_ingot
+
+InventorySize = 54
+
+BoundingBox =  0.0, 2.3, -2.0,  2.8, 3.8
+BoundingBox =  0.0, 2.0, -6.5,  4.0, 4.2
+BoundingBox =  0.0, 2.3, -9.0,  2.8, 3.8
+BoundingBox =  0.0, 5.5,-22.5,  3.0, 4.0
+
+AddRack = growler, 0.0, 0.85, -9.0, 0.0, 0.00, -12.0, 7.0, 500000, 180
+AddRack = growler, 0.0, 0.85, -4.5, 0.0, 0.00, -12.0, 7.0, 500000, 180

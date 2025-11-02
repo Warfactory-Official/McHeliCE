@@ -1,0 +1,39 @@
+DisplayName = 15.5cmCanon
+AddDisplayName = ja_JP, 15.5cm3連装砲
+ItemID = 28604
+MaxHp = 900
+HideEntity = true
+MinRotationPitch = -40
+MaxRotationPitch =  15
+DamageFactor = 0.0
+CameraZoom = 4
+CameraPosition = 0.0, 2.50, 0.0
+ThirdPersonDist = 12
+
+; W = WWII
+Category = W
+
+HUD = vehicle_wwii
+
+AddSeat = 0.00,  2.50, 0.00
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;本体-砲身
+AddPart		 = true,  true, false, 0,   0.00, 0.00, 0.00
+AddPart		 = false, true, true,  0,   0.00, 0.00, 0.00
+AddPart		 = false, true, true,  2,   0.00, 0.00, 0.00, 1
+AddPart		 = false, true, true,  2,   0.00, 0.00, 0.00, 1
+AddPart		 = false, true, true,  2,   0.00, 0.00, 0.00, 1
+
+AddWeapon = 15_5cm,   1.56, 1.07, 2.91,   0.0, -1.0
+AddWeapon = 15_5cm,   0.00, 1.07, 2.91,   0.0, -1.0
+AddWeapon = 15_5cm,  -1.56, 1.07, 2.91,   0.0, -1.0
+
+
+AddWeapon = type3bullet_15_5,   1.56, 1.07, 2.91,   0.0, -1.0
+AddWeapon = type3bullet_15_5,   0.00, 1.07, 2.91,   0.0, -1.0
+AddWeapon = type3bullet_15_5,  -1.56, 1.07, 2.91,   0.0, -1.0
+
+AddRecipe = "XXX",  "DDD",  "XXX",  X, iron_block, D, dispenser
+
+BoundingBox =  0.0, 1.5, 0.0,  4.0, 3.0

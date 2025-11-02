@@ -1,0 +1,40 @@
+DisplayName =  MH-6 Little Bird
+AddDisplayName = ja_JP, MH-6 リトルバード
+ItemID = 28805
+MaxHp = 150
+EnableGunnerMode = false
+EnableNightVision = true
+Speed = 0.6
+ThrottleUpDown = 1.2
+FlareType = 3
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = heli, gunner, none, none, none, none
+
+MobilityYaw = 1.5
+MobilityPitch = 1.5
+MobilityRoll = 1.5
+
+AddRotor= 1,0,  0.00,  3.35,  0.00,  0.0, 1.0, 0.0
+AddRotor= 1,0,  0.50,  1.90, -6.55,  1.0, 0.0, 0.0
+
+AddSeat =-0.45,  0.80,  1.20
+AddSeat = 0.45,  0.80,  1.20
+AddSeat =-1.45,  0.60, -0.90
+AddSeat = 1.45,  0.60, -0.90
+AddSeat =-1.45,  0.60,  0.70
+AddSeat = 1.45,  0.60,  0.70
+
+AddWeapon = targeting_pod_mob,     0.0, 2.2, 1.0,   0.0, 0.0,  true, 2
+
+AddRecipe = "Y Y",  " X ",  "Y Y",  X, iron_block, Y, iron_ingot
+
+InventorySize = 18
+
+AddRepellingHook =  1.82, 2.28, -0.07, 30
+AddRepellingHook = -1.82, 2.28, -0.07, 30

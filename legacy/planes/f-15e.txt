@@ -1,0 +1,103 @@
+DisplayName = F-15E Strike Eagle
+AddDisplayName = ja_JP, F-15E ストライクイーグル
+ItemID = 28740
+MaxHp = 200
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.1
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1200
+FuelConsumption = 1.0
+CameraPosition = 0.0, 0.70, 1.6
+EnableGunnerMode = true
+AutoPilotRot = 0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+AddTexture = f-15e_il
+
+HUD = plane, plane_gnr
+
+AddSeat       = 0.00,  2.43,  0.00
+AddGunnerSeat = 0.00,  2.51, -1.76, 0.0, 0.70, 1.6, true
+
+AddPartCanopy =  0.00, 3.57, -2.87,  -1,0,0,  50
+
+;AddPartNozzle =  0.73, 2.06, -13.29, -1,0,0
+;AddPartNozzle = -0.73, 2.06, -13.29, -1,0,0
+
+AddPartThrottle = 0.00, 2.93, -3.08,  1,0,0, -15
+
+;Front
+AddPartLG    =  0.00, 1.66, -1.80,  -1,0,0,  101
+;Right
+AddPartLG    = -1.24, 1.87, -8.09,      1,0,0, -70,   0,1,0,  95
+;Left
+AddPartLG    =  1.24, 1.87, -8.09,      1,0,0, -70,   0,1,0, -95
+
+;前席がAIM-9、ガンポッド（M61 20mmバルカン）
+
+; 使用直後は非表示
+AddPartWeaponMissile = aim9,    false,  false,  false,    3.49, 2.16, -4.95
+AddPartWeaponMissile = aim9,    false,  false,  false,   -3.49, 2.16, -4.95
+AddPartWeaponMissile = aim9,    false,  false,  false,    2.86, 2.16, -4.95
+AddPartWeaponMissile = aim9,    false,  false,  false,   -2.86, 2.16, -4.95
+
+AddPartWeaponMissile = blu10b,  false,  false,  false,    2.53, 1.43, -6.84
+AddPartWeaponMissile = blu10b,  false,  false,  false,   -2.53, 1.43, -6.84
+AddPartWeaponMissile = blu10b,  false,  false,  false,    2.53, 1.43, -9.64
+AddPartWeaponMissile = blu10b,  false,  false,  false,   -2.53, 1.43, -9.64
+AddPartWeaponMissile = blu10b,  false,  false,  false,    2.53, 1.43,-12.41
+AddPartWeaponMissile = blu10b,  false,  false,  false,   -2.53, 1.43,-12.41
+
+AddPartWeaponMissile = cbu-87,  false,  false,  false,    2.18, 0.87, -3.56
+AddPartWeaponMissile = cbu-87,  false,  false,  false,   -2.18, 0.87, -3.56
+AddPartWeaponMissile = cbu-87,  false,  false,  false,    2.18, 0.87, -6.36
+AddPartWeaponMissile = cbu-87,  false,  false,  false,   -2.18, 0.87, -6.36
+
+AddPartWeaponMissile = agm130,  false,  false,  false,    3.18, 1.66, -5.04
+AddPartWeaponMissile = agm130,  false,  false,  false,   -3.18, 1.66, -5.04
+
+AddPartWeaponMissile = gbu28_e, false,  false,  false,    0.00, 1.18, -9.85
+
+AddWeapon = m61a1_l, -2.07, 2.70, -3.00,   0.0, 0.0
+AddWeapon = aim9,     3.49, 2.16, -4.95,   0.0, 0.0
+AddWeapon = aim9,    -3.49, 2.16, -4.95,   0.0, 0.0
+AddWeapon = aim9,     2.86, 2.16, -4.95,   0.0, 0.0
+AddWeapon = aim9,    -2.86, 2.16, -4.95,   0.0, 0.0
+
+AddWeapon = blu10b,   2.53, 1.43, -6.84,   0.0, 0.0
+AddWeapon = blu10b,  -2.53, 1.43, -6.84,   0.0, 0.0
+AddWeapon = blu10b,   2.53, 1.43, -9.64,   0.0, 0.0
+AddWeapon = blu10b,  -2.53, 1.43, -9.64,   0.0, 0.0
+AddWeapon = blu10b,   2.53, 1.43,-12.41,   0.0, 0.0
+AddWeapon = blu10b,  -2.53, 1.43,-12.41,   0.0, 0.0
+
+AddWeapon = cbu-87,   2.18, 0.87, -3.56,   0.0, 0.0 , false, 2
+AddWeapon = cbu-87,  -2.18, 0.87, -3.56,   0.0, 0.0 , false, 2
+AddWeapon = cbu-87,   2.18, 0.87, -6.36,   0.0, 0.0 , false, 2
+AddWeapon = cbu-87,  -2.18, 0.87, -6.36,   0.0, 0.0 , false, 2
+
+AddWeapon = agm130,   3.18, 1.66, -5.04,   0.0, 0.0 , true,  2
+AddWeapon = agm130,  -3.18, 1.66, -5.04,   0.0, 0.0 , true,  2
+
+AddWeapon = gbu28_e,  0.00, 1.18, -9.85,   0.0, 0.0 , true,  2
+
+AddWeapon = targeting_pod_ph50s,   0.0, 3.4, 0.0,    0.0, 0.0, true,  2
+
+AddPartHatch =   0.0,  3.20,  -4.86,  1,0, 0, 45
+AddPartHatch =   0.0,  3.00,  -7.05, -1,0, 0, 45
+SweepWingSpeed = 0.7
+
+AddRecipe = " Y ",  "TAT",  "XDX",  X, iron_block, Y, glass, A, anvil, D, diamond, T, tnt
+
+BoundingBox =  0.00, 1.90, -2.80,  3.0, 2.0
+BoundingBox =  0.00, 1.90, -7.60,  5.0, 2.0
+BoundingBox = -2.92, 2.20, -9.60,  4.0, 1.0
+BoundingBox =  2.92, 2.20, -9.60,  4.0, 1.0
+BoundingBox =  0.00, 1.80, -11.8,  3.0, 1.5

@@ -1,0 +1,40 @@
+DisplayName =  MIM-23 HAWK
+AddDisplayName = ja_JP, MIM-23 ホーク
+ItemID = 28613
+MaxHP = 350
+CameraPosition = 0.0, 4.50, 0.0
+CameraZoom = 1
+MinRotationPitch = -50
+MaxRotationPitch = 0
+HideEntity = true
+ThirdPersonDist = 8
+
+AddSeat = 0.0,  0.0, 0.0
+AddTexture = mim-23_tan
+AddTexture = mim-23_white
+
+; M = Military,  M = Missile(ミサイル)
+Category = M.M
+
+HUD = vehicle
+
+;left
+AddWeapon = hawk,  1.09, 2.41, 3.75,   0.0, 0.0
+;right
+AddWeapon = hawk, -1.09, 2.41, 3.75,   0.0, 0.0
+;center
+AddWeapon = hawk,  0.09, 2.99, 3.75,   0.0, 0.0
+
+AddPart	= true, true, false, 0,   0.00, 0.00, 0.00
+AddChildPart = true,false,true,  0,  0.00, 1.75, 0.00
+
+;left
+AddChildPart = true,false,true,  3,  0.00, 1.75, 0.00
+;right
+AddChildPart = true,false,true,  3,  0.00, 1.75, 0.00
+;center
+AddChildPart = true,false,true,  3,  0.00, 1.75, 0.00
+
+BoundingBox =  0.0, 2.5, 0.0,  2.0, 4.6
+
+AddRecipe = " G ",  "GIG",  "XRX",  X, iron_block, R, redstone_block, I,iron_ingot, G, gunpowder

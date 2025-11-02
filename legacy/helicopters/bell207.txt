@@ -1,0 +1,69 @@
+DisplayName = Bell207 Sioux Scout
+AddDisplayName = ja_JP, Bell207 スー スカウト
+ItemID = 28829
+MaxHp = 120
+EnableGunnerMode = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.7
+FlareType = 3
+CameraZoom = 2
+CameraPosition = 0.0, 0.51, 2.80
+Stealth = 0.1
+ThrottleUpDown = 1.4
+ThirdPersonDist = 12
+
+;飛行可能時間[秒] = 燃料搭載可能量 / 1秒間に消費する燃料
+; 燃料搭載可能量
+MaxFuel         = 1000
+; 1秒間に消費する燃料
+FuelConsumption = 0.8
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+AddTexture = bell207_1
+AddTexture = bell207_2
+
+HUD = heli, heli_gnr
+
+AddSeat       = 0.00,  1.03,  0.00
+AddGunnerSeat = 0.00,  0.84,  1.55,  0.0, 0.51, 2.80,  true
+
+AddRotor= 1, 0,  0.00,  3.370,  -1.045,  0.0, 1.0, 0.0, false
+AddRotor= 1, 0,  0.00,  1.819,  -9.650,  1.0, 0.0, 0.0, false
+
+; AddPartWeapon      = 連動する武器名(無しの時はnone), ガンナー時非表示？, Yaw連動, Pitch連動, 回転座標X,Y,Z
+; AddPartWeaponChild = Yaw連動, Pitch連動, 回転座標X,Y,Z
+; M60
+AddPartWeapon = m60_tw,  true,  true, false,   0.00, 0.36, 2.08
+AddPartWeaponChild  =           false, true,   0.00, 0.36, 2.08
+; AddPartWeaponMissile は武器使用後、使用可能になるまで非表示にする。
+; mgm21a
+AddPartWeaponMissile = mgm21a,   false,  false,  false,     1.61,  1.90, -0.20
+AddPartWeaponMissile = mgm21a,   false,  false,  false,    -1.61,  1.90, -0.20
+
+;AddWeapon = 武器名, 位置X,Y,Z, Yaw, Pitch, パイロットが使用できる？, 座席番号, DefaultYaw,RangeYaw, MinPitch, MaxPitch
+
+AddWeapon = m60_tw,  0.11, 0.38, 3.15,  0,-1, true,2, 0,-120,120, -10,80
+AddWeapon = m60_tw, -0.11, 0.38, 3.15,  0,-1, true,2, 0,-120,120, -10,80
+
+AddWeapon = mgm21a,  1.61,  1.90, -0.20,   0.0, 0.0
+AddWeapon = mgm21a, -1.61,  1.90, -0.20,   0.0, 0.0
+
+AddWeapon = targeting_pod_mob,     0.0, 0.5, 2.8,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.5, 2.8,   0.0, 0.0,  false,2
+
+;サーチライトパーツ
+AddPartCamera = 0.71, -0.02, 0.02, true, false
+AddPartCamera = 0.71, -0.02, 0.02, true, true
+;AddSearchLight= 座標X, Y, Z,       開始地点の色, 終了地点の色,  距離, 終端の半径
+AddSearchLight = 0.71, -0.02, 0.02, 0x50FFFFFF,   0x10FFFFC0,    60.0, 20.0
+;AddFixedSearchLight は向きが固定のサーチライトを追加する
+
+AddRecipe = " G ",  "IXI",  "IYI",  X, iron_block, Y, gunpowder, G, glass, I, iron_ingot
+
+BoundingBox =  0.0, 1.5, -1.5,  2.0, 3.3
+BoundingBox =  0.0, 1.5, -3.0,  1.0, 1.0
+BoundingBox =  0.0, 1.5, -4.0,  1.0, 1.0
+BoundingBox =  0.0, 2.0, -9.0,  2.0, 2.0

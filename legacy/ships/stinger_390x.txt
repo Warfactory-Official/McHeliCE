@@ -1,0 +1,53 @@
+DisplayName = Chris Craft Stinger 390x
+AddDisplayName = ja_JP, スティンガー 390X
+ItemID = 28744
+MaxHp = 100
+Speed = 0.9
+Sound = boat
+Float = true
+ThrottleUpDown = 1.3
+FloatOffset = -0.5
+MinRotationPitch = 0
+MaxRotationPitch = 0
+MobilityRoll = 0
+Gravity = -0.15
+GravityInWater = -0.1
+DamageFactor = 0.8
+StepHeight = 0.0
+ThirdPersonDist = 8
+
+CanMoveOnGround = false
+CanRotOnGround  = false
+
+MaxFuel         = 1500
+FuelConsumption = 1.5
+
+MobilityYawOnGround = 3.5
+
+AddPartRotor =    0.44,  -0.25,  0.0,   0,0, 1
+AddBlade = 1, 0,  0.44,  -0.25,  0.0,   0,0, 1
+AddPartRotor =   -0.44,  -0.25,  0.0,   0,0, 1
+AddBlade = 1, 0, -0.44,  -0.25,  0.0,   0,0, 1
+
+; 水しぶき を発生させる
+;AddParticleSplash = 座標X,   Y,    Z,   表示数, サイズ,  速度,  表示時間, 上昇, 重力
+AddParticleSplash =  1.6,  0.02,   1.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -1.6,  0.02,   1.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  1.6,  0.02,  -4.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6,  0.02,  -4.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  1.6,  0.02,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6,  0.02,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  0.8,  0.02,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -0.8,  0.02,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+
+AddSeat =  -0.62,  0.50,  0.02
+AddSeat =   0.62,  0.50,  0.02
+AddSeat =   0.00,  0.97, -2.65
+
+InventorySize = 27
+
+AddRecipe = "WRF",  "BXP",  "BBB",   X, iron_block,  B, boat , P, piston, F,furnace,  R, redstone, W,planks
+
+BoundingBox =  0.00,  0.70, 2.08,  2.0, 1.0
+BoundingBox =  0.00,  0.50, -2.45,  2.0, 1.0
+BoundingBox =  0.00,  0.70, 3.85,  1.0, 1.0

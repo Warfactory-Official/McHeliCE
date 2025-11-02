@@ -1,0 +1,30 @@
+DisplayName = Type 93 torpedo
+AddDisplayName = ja_JP, 九三式魚雷
+ItemID = 28609
+MaxHp = 100
+HideEntity = true
+MinRotationPitch = -15
+MaxRotationPitch = 15
+DamageFactor = 0.5
+CameraZoom = 3
+CameraPosition = 0.0, 4.0, 0.0
+ThirdPersonDist = 12
+
+; M = Military,  T = Torpedo(魚雷)
+Category = M.T
+
+HUD = vehicle_wwii
+
+AddSeat = 0.00,  3.0, 0.00
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+AddPart	= true, true, false, 0,   0.00, 0.00, 0.00
+
+AddWeapon = type93torpedo,  2.40, 0.71, 0.52,   0.0, 0.0
+AddWeapon = type93torpedo,  0.89, 0.71, 0.52,   0.0, 0.0
+AddWeapon = type93torpedo, -0.89, 0.71, 0.52,   0.0, 0.0
+AddWeapon = type93torpedo, -2.40, 0.71, 0.52,   0.0, 0.0
+
+AddRecipe = " XX",  "FXX",  " RG",  X, iron_block, R, redstone_block, F, fish, G, gunpowder
+
+BoundingBox =  0.0, 1.5, 0.0,  6.0, 3.0

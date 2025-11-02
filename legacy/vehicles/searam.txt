@@ -1,0 +1,44 @@
+DisplayName = Mk.15 mod.31 SeaRAM
+AddDisplayName = ja_JP, Mk.15 mod.31 SeaRAM
+ItemID = 28602
+MaxHp = 200
+EnableNightVision = true
+EnableEntityRadar = true
+HideEntity = true
+MinRotationPitch = -80
+MaxRotationPitch =  25
+DamageFactor = 0.0
+CameraZoom = 3
+CameraPosition = 0.0, 2.57, 0.0
+ThirdPersonDist = 8
+
+; M = Military,  M = Missile(ミサイル)
+Category = M.M
+
+HUD = vehicle
+
+AddSeat = 0.00, 1.57, 0.0
+
+; AddPart = DrawFirstPerson[T/F], RotationYaw[T/F], RotationPitch[T/F], PartType[0~], PoxX, PoxY, PoxZ
+;脚
+AddPart		= true, true, false, 0,   0, 0.20, 0.0
+;本体-砲身
+AddPart		= false,true, true,  0,   0, 2.00, 0.0
+
+AddWeapon = ram116, -0.43, 1.61, 2.5,   0.0, 0.0
+AddWeapon = ram116, -0.14, 1.61, 2.5,   0.0, 0.0
+AddWeapon = ram116,  0.14, 1.61, 2.5,   0.0, 0.0
+AddWeapon = ram116,  0.43, 1.61, 2.5,   0.0, 0.0
+
+AddWeapon = ram116, -0.28, 1.30, 2.5,   0.0, 0.0
+AddWeapon = ram116,  0.00, 1.30, 2.5,   0.0, 0.0
+AddWeapon = ram116,  0.28, 1.30, 2.5,   0.0, 0.0
+
+AddWeapon = ram116, -0.43, 0.98, 2.5,   0.0, 0.0
+AddWeapon = ram116, -0.14, 0.98, 2.5,   0.0, 0.0
+AddWeapon = ram116,  0.14, 0.98, 2.5,   0.0, 0.0
+AddWeapon = ram116,  0.43, 0.98, 2.5,   0.0, 0.0
+
+AddRecipe = " Y ",  " X ",  "XRX",  X,iron_block, Y,glass, R,redstone_block
+
+BoundingBox =  0.0, 2.5, 0.0,  2.0, 4.6

@@ -1,0 +1,87 @@
+
+Color = 0xCFFFFFFF
+DrawString = -70, 10, "x%.1f", CAM_ZOOM
+
+If = inventory > 0
+	Color = 0xCF1FFF1F
+	DrawString = 120, -80, "Inventory [ %d ]", INVENTORY
+Endif
+
+; 色設定を橙にして照準描画を呼び出す。色設定はCall先にも引き継がれる。
+Color = 0xFFFFC90E
+Call = sight
+
+; 色設定(Current Color)
+Color = 0xFFFFC90E
+; 座標(Position)
+DrawString = -205, 20, "X: %+.1f", pos_X
+DrawString = -205, 30, "Y: %+.1f", pos_Y
+DrawString = -205, 40, "Z: %+.1f", pos_Z
+DrawString = -150, 20, "[%+.2f]",  motion_X
+DrawString = -150, 30, "[%+.2f]",  motion_Y
+DrawString = -150, 40, "[%+.2f]",  motion_Z
+
+; 耐久値(HP)
+; HPが20%を超えている場合は橙(0xFFFFC90E)、HPが20%以下の場合は赤(0xFFDF0408)
+Color = hp_rto>0.2? 0xFFFFC90E: 0xFFDF0408
+DrawTexture = hud, 144, 95, 64,20, 128,64, 128,20
+DrawString  = 150,    97, "%3.0f", HP_PER
+DrawString  = 150+26, 97, "/ 100", HP_PER
+DrawRect    = 146, 107, hp_rto*60, 6
+
+; 弾数, 残弾 背景 (Ammo background)
+DrawTexture = hud, -208, 57,  62,10,  128,64, 128,20
+; 武器名 (Weapon name background)
+DrawTexture = hud, -208, 68, 106,10,  128,64, 128,20
+
+; 弾数, 残弾 (Ammo) リロード中でなければ橙、リロード中であれば赤
+Color = reloading==0? 0xFFFFC90E: 0xFFDF0408
+DrawString = -207, 58, "%s",  WPN_AMMO
+DrawString = -181, 58, "/",   WPN_AMMO
+DrawString = -172, 58, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawString = -207, 69, "%s",  WPN_NAME
+
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xFFFFC90E
+	DrawRect = -145, 57, 43, 10
+	Color = 0xFF806404
+	DrawRect = -144, 58, 41, 8
+	Color = 0xFFDF0408
+	DrawRect = -144, 58, 41*wpn_heat, 8
+EndIf
+
+; 迫撃砲の着弾距離
+Color = 0xFFFFC90E
+Call = mortar
+
+If = cam_mode==1
+	DrawString = 30, 50, "NIGHT VISION"
+Endif
+If = cam_mode==2
+	DrawString = 30, 50, "THERMAL VISION"
+Endif
+
+If = have_flare==1
+	Color = can_flare==1? 0xFFFFC90E: 0xFFDF0408
+	DrawCenteredString = -60, 50, "[ FLARE ]"
+Endif
+
+
+; レーダーを持つ機体の場合
+If = have_radar==1
+	DrawTexture = vehicle_hud, 144, 21,  64,64,  0,0, 128,128
+	
+	Color = 0x80FFFFFF
+	DrawLine = 144,    21+32,   144+64, 21+32
+	DrawLine = 144+32, 21,      144+32, 21+64
+
+	Color = 0xFF28d448
+	DrawEntityRadar = -plyr_yaw-180, 144, 21,  64,64
+
+	Color = 0xFFDF0408
+	DrawEnemyRadar  = -plyr_yaw-180, 144, 21,  64,64
+
+	DrawTexture = vehicle_hud, 144+16, 21,  32,64,  128,0, 64,128, radar_rot
+EndIf

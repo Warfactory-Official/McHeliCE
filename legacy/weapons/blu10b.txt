@@ -1,0 +1,19 @@
+DisplayName = BLU-10/B
+Type = Bomb
+Power = 45
+Acceleration = 0.1
+Explosion = 4
+ExplosionInWater = 0
+Flaming = true
+Sight = None
+Delay = 5
+Sound = bomb_snd
+ModelBullet = blu10b
+
+ReloadTime = 150
+Round = 6
+
+MaxAmmo = 12
+SuppliedNum = 6
+Item =  3, iron_ingot
+Item =  3, gunpowder

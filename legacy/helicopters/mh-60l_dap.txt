@@ -1,0 +1,58 @@
+DisplayName = MH-60L DAP
+AddDisplayName = ja_JP, MH-60L DAP
+ItemID = 28815
+MaxHp = 180
+EnableGunnerMode  = true
+EnableFoldBlade   = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.6
+ThrottleUpDown = 0.6
+FlareType = 3
+CameraPosition = 0.0, 0.7, 3.5
+MaxFuel         = 1500
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = heli, heli_gnr, gunner, gunner
+
+MobilityYaw = 0.9
+MobilityPitch = 0.9
+MobilityRoll = 0.9
+
+AddPartCamera    = 0.0, 0.52, 2.84
+
+AddPartWeapon    = m230_30,    false, true, true,  -2.51,  1.29,  -1.51
+AddPartWeapon    = hydra70_10, false, true, true,  -1.88,  1.28,  -2.18
+AddPartWeapon    = m134_r50,   false, true, false, -1.825, 1.475, -0.25
+AddPartWeapon    = m134_r50,   false, true, true,  -1.825, 1.475, -0.25
+AddPartRotWeapon = m134_r50,   false, true, true,  -1.825, 1.475, -0.25
+AddPartWeapon    = m134_l50,   false, true, false,  1.792, 1.475, -0.25
+AddPartWeapon    = m134_l50,   false, true, true,   1.792, 1.475, -0.25
+AddPartRotWeapon = m134_l50,   false, true, true,   1.792, 1.475, -0.25
+
+AddRotor= 4, 90,  0.00,  3.98,  -2.33,  0.0, 1.0, 0.0, true
+AddRotor= 1,  0, -0.60,  4.07, -14.59,  1.0, 0.0, 0.0, false
+
+AddSeat       =-0.85,  0.90,  1.45
+AddGunnerSeat = 0.85,  0.90,  1.45, 0.0, 0.7, 3.5, true
+AddGunnerSeat =-1.05,  0.90, -0.30, -1.55,  1.90, -0.30,
+AddGunnerSeat = 1.05,  0.90, -0.30,  1.55,  1.90, -0.30,
+
+AddWeapon = m230_30,    -2.51, 1.29,-1.51,   0.0, 0.0, true,  1,   0,   0,  0, -20,20
+AddWeapon = hydra70_10,  2.51, 1.19,-1.81,   0.0, 0.0, true,  1,   0,   0,  0,   0,20
+AddWeapon = m134_r50,   -1.79, 1.48,-0.25,   0.0, 0.0, false, 3,   0,   0,135, -50,80
+AddWeapon = m134_l50,    1.79, 1.48,-0.25,   0.0, 0.0, false, 4,   0,-135,  0, -50,80
+
+AddWeapon = targeting_pod_mob,     0.0, 0.7, 3.5,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.7, 3.5,   0.0, 0.0,  false,2
+
+AddRecipe = " X ",  "XGX",  "X X",  X, iron_block, G, gunpowder
+
+
+BoundingBox =  0.0, 2.3, -2.0,  2.8, 3.8
+BoundingBox =  0.0, 1.8, -4.5,  2.8, 2.4
+BoundingBox =  0.0, 3.5,-14.5,  2.0, 3.0

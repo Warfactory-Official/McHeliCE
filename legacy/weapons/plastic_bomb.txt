@@ -1,0 +1,15 @@
+DisplayName = Plastic Bomb
+Type = Bomb
+Power = 1
+Acceleration = 0.1
+Explosion = 4
+ExplosionInWater = 0
+Flaming = true
+Sight = None
+Delay = 5000
+Destruct = true
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  2, iron_ingot
+Item =  3, gunpowder

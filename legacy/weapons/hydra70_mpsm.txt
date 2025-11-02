@@ -1,0 +1,23 @@
+DisplayName = Hydra 70mm MPSM
+Type = Rocket
+Power = 16
+Acceleration = 4.0
+Explosion = 1
+Flaming = false
+Sound = rocket_snd
+Sight = MoveSight
+Delay = 10
+ReloadTime = 110
+Round = 19
+Bomblet = 9
+BombletSTime = 6
+BombletDiff = 0.8
+Piercing  = 2
+
+ModelBullet = hydra70
+ModelBomblet = cbc
+
+MaxAmmo = 19
+SuppliedNum = 19
+Item =  3, iron_ingot
+Item =  3, gunpowder

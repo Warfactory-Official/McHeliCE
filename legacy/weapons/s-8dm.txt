@@ -1,0 +1,18 @@
+DisplayName = S-8DM 80mmThermobaric
+Type = Rocket
+Power = 10
+ModelBullet = hydra70
+Acceleration = 4.0
+Explosion = 5
+Flaming = false
+Sight = MoveSight
+Delay = 10
+ReloadTime = 110
+Round = 2
+FAE = true
+Sound = rocket_snd
+
+MaxAmmo = 10
+SuppliedNum = 5
+Item =  4, iron_ingot
+Item =  4, gunpowder

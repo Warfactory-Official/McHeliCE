@@ -1,0 +1,56 @@
+DisplayName = P-51D Mustang
+AddDisplayName = ja_JP, P-51D マスタング
+ItemID = 30202
+MaxHp = 150
+Speed = 0.99
+Sound = prop
+onGroundPitch = 13
+ThrottleUpDown = 0.9
+MaxFuel         = 1300
+FuelConsumption = 1.0
+ThrottleUpDownOnEntity = 2.0
+ThirdPersonDist = 12
+
+UnmountPosition = 3.0, 2.0, -4.0
+
+; W = WWII.  F = Fighter(戦闘機)
+Category = W.F
+
+HUD = plane_wwii
+
+AddTexture = p-51d_c
+
+AddSeat = 0.0,  2.00, -1.82
+
+AddPartSlideCanopy = 0, 0.00, -0.6
+
+MobilityYaw = 3.0
+MobilityRoll = 1.2
+MobilityPitch = 3.0
+
+AddPartLG =   2.46, 1.60, -0.36,  0,0,-1, 88.5, 1,0,0, 25
+AddPartLG =  -2.46, 1.60, -0.36,  0,0, 1, 88.5, 1,0,0, 25
+AddPartLG =   0.00, 1.70,  4.00,  1,0, 0, 5
+AddPartLG =   0.00, 1.70,  4.00,  1,0, 0, 4
+AddPartLG =   0.00, 1.70,  4.00,  1,0, 0, 4
+
+AddPartRotor =    0.00,  2.27, 3.87,   1,0, 0
+AddBlade = 1, 0,  0.00,  2.27, 3.87,   0,0,-1
+
+AddWeapon = mg12_7mm,  3.39, 1.63, -0.01, -0.5, 0.0
+AddWeapon = mg12_7mm,  3.12, 1.61,  0.01, -0.5, 0.0
+AddWeapon = mg12_7mm,  2.82, 1.59,  0.01, -0.5, 0.0
+AddWeapon = mg12_7mm, -3.39, 1.63, -0.01, -0.5, 0.0
+AddWeapon = mg12_7mm, -3.12, 1.61,  0.01, -0.5, 0.0
+AddWeapon = mg12_7mm, -2.82, 1.59,  0.01, -0.5, 0.0
+
+AddRecipe = " G ",  "IDI",  "I I",  I,iron_block, D,diamond, P,paper, G,glass
+
+BoundingBox =  0.00, 2.00,  1.50,  1.5, 2.0
+BoundingBox =  0.00, 1.80, -1.50,  3.0, 2.0
+BoundingBox = -3.00, 1.50, -1.50,  2.0, 0.6
+BoundingBox =  3.00, 1.50, -1.50,  2.0, 0.6
+BoundingBox = -5.00, 1.50, -1.50,  2.0, 0.6
+BoundingBox =  5.00, 1.50, -1.50,  2.0, 0.6
+BoundingBox =  0.00, 2.00, -5.40,  2.0, 2.0
+BoundingBox =  0.00, 2.80, -8.40,  2.4, 1.5

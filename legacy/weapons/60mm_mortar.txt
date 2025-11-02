@@ -1,0 +1,38 @@
+DisplayName = 60mm Mortar
+Type = MachineGun1
+Power = 20
+Explosion = 3
+ExplosionBlock = 2
+Acceleration = 4.0
+Gravity = -0.07
+Sight = None
+Delay = 60
+ReloadTime = 60
+Round = 1
+SoundVolume = 4.0
+Sound = gun_l4_snd
+Accuracy = 1.5
+ModelBullet = bullet76mm
+BulletColor = 255, 255, 100, 100
+DamageFactor = plane, 3.0
+DamageFactor = helicopter, 3.0
+
+; 着弾距離の表示
+DisplayMortarDistance = true
+; カメラの垂直方向を0に固定する
+FixCameraPitch = true
+; カメラの回転速度の倍率(小さくするとより細かく着弾地点が調整ができる)
+CameraRotationSpeedPitch = 0.2
+
+
+; AddMuzzleFlash = 発射元からの距離, サイズ, 表示時間,  A,  R,  G,  B
+AddMuzzleFlash      =           0.1,   0.55,        1,  220,254,219,104
+AddMuzzleFlash      =           0.0,   0.50,        1,  220,254,219,184
+; AddMuzzleFlashSmoke = 発射元からの距離, 表示数, サイズ, 範囲, 表示時間,  A,  R,  G,  B
+AddMuzzleFlashSmoke   =              0.2,     10,   4.0,  4.0,       65,  220,160,140,120
+AddMuzzleFlashSmoke   =              0.2,      5,   5.0,  7.0,       55,  200,190,170,150
+
+MaxAmmo = 45
+SuppliedNum = 15
+Item =  1, iron_ingot
+Item =  1, gunpowder

@@ -1,0 +1,19 @@
+DisplayName = GAU-22/A Equalizer
+Type = MachineGun1
+Power = 20
+Acceleration = 8.0
+Explosion = 1
+Flaming = false
+Sight = MoveSight
+Delay = 0
+ReloadTime = 35
+Round = 30
+SoundDelay = 3
+SoundPitch = 0.6
+Sound = gun_l2_snd
+Accuracy = 0.8
+
+MaxAmmo = 1200
+SuppliedNum = 200
+Item =  2, iron_ingot
+Item =  2, gunpowder

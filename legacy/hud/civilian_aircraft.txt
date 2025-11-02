@@ -1,0 +1,88 @@
+
+; 方向指示器
+;DrawTexture = civilian_aircraft, 144-68, 21,  64,64,  384,128,                  128,128
+;DrawTexture = civilian_aircraft, 144-68, 21,  64,64,  384,0,                    128,128, yaw+180
+
+; 姿勢指示器
+DrawTexture = civilian_aircraft, 153, 30,  46,46,  128,64+	(70*(pitch/90)), 128,128, -roll
+DrawTexture = civilian_aircraft, 144, 21,  64,64,  256,0,                    128,128, -roll
+DrawTexture = civilian_aircraft, 144, 21,  64,64,    0,0,                    128,128
+
+; 色設定を緑にしてUAVの電波の強さ描画を呼び出す。色設定はCall先にも引き継がれる。
+Color = 0xFF28d448
+Call = uav_fs
+
+; UAVかガンナーモードの場合はカメラの倍率を表示する
+If = is_uav || gunner_mode
+	Color = 0xCFFFFFFF
+	DrawString = -70, 10, "x%.1f", CAM_ZOOM
+EndIf
+
+; 燃料の低下を警告表示
+If = low_fuel
+	DrawTexture = hud, 40,-85, 16,16,  0,0,  32,32
+	Color = 0xFFDF0408
+	DrawString  = 56,-80, "%s key", KEY_GUI
+EndIf
+
+; インベントリ数を表示
+If = inventory > 0
+	Color = 0xCF1FFF1F
+	DrawString = 120, -80, "Inventory [ %d ]", INVENTORY
+Endif
+
+; 色設定(Current Color) 高度が10を超えると緑、10以下だと赤
+Color = altitude>10? 0xFF28d448: 0xFFDF0408
+; 高度(Altitude)
+DrawCenteredString = 0, 40, "[ %3d ]", ALTITUDE
+
+; 色設定(Current Color)
+Color = 0xFF28d448
+; 座標(Position)
+DrawString = -205, 20, "X: %+.1f", pos_X
+DrawString = -205, 30, "Y: %+.1f", pos_Y
+DrawString = -205, 40, "Z: %+.1f", pos_Z
+DrawString = -150, 20, "[%+.2f]",  motion_X
+DrawString = -150, 30, "[%+.2f]",  motion_Y
+DrawString = -150, 40, "[%+.2f]",  motion_Z
+
+; 燃料(Fuel)
+DrawTexture = civilian_aircraft, -207,   83, 32,32,  64,128, 64,64
+DrawTexture = civilian_aircraft, -207+8, 83, 16,32,  96,192, 32,64, fuel*270-135
+
+; スロットル(Throttle)
+DrawTexture = civilian_aircraft, -170,   83, 32,32,   0,192, 64,64
+DrawTexture = civilian_aircraft, -170+9, 83, 14,32,  97,192, 30,64, Throttle*270-180
+
+; 操縦桿(Stick)
+DrawTexture = civilian_aircraft, -133,              83,              32,32,   0,128, 64,64
+DrawTexture = civilian_aircraft, -133+8+stick_x*12, 83+8+stick_y*12, 16,16,  64,192, 32,32
+
+; 耐久値(HP)
+; HPが20%を超えている場合は緑(0xFF28d448)、HPが20%以下の場合は赤(0xFFDF0408)
+Color = hp_rto>0.2? 0xFF28d448: 0xFFDF0408
+DrawTexture = hud, 144, 95, 64,20, 128,64, 128,20
+DrawString  = 150,    97, "%3.0f", HP_PER
+DrawString  = 150+26, 97, "/ 100", HP_PER
+DrawRect    = 146, 107, hp_rto*60, 6
+
+Color = 0xFF28d448
+If = free_look==1
+	DrawString = -90, -80, "FREE LOOK"
+Endif
+
+If = cam_mode==1
+	DrawString = 30, 50, "NIGHT VISION"
+Endif
+If = cam_mode==2
+	DrawString = 30, 50, "THERMAL VISION"
+Endif
+
+If = auto_pilot==1
+	DrawString = 50, 0, "Auto Pilot"
+Endif
+
+If = hovering==1
+	Color = 0xCF1FFF1F
+	DrawCenteredString = 40, 10, "HOVERING"
+Endif

@@ -1,0 +1,18 @@
+DisplayName = MGM-21A
+Type = ASMissile
+Power = 32
+Acceleration = 1.7
+Explosion = 5
+Flaming = true
+Sight = MoveSight
+Round = 2
+Delay = 100
+ReloadTime = 240
+ModelBullet = mgm21a
+Sound = missile_1_snd
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

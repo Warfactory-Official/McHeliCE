@@ -1,0 +1,41 @@
+DisplayName = Bell 206L LongRanger
+AddDisplayName = ja_JP, Bell 206L ロングレンジャー
+ItemID = 28806
+MaxHp = 100
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 16
+
+; C = Civilian(民間機)
+Category = C
+
+HUD = civilian_aircraft, none, none, none, none, none
+
+AddTexture = bell206l_bw
+AddTexture = bell206l_go
+AddTexture = bell206l_rw
+AddTexture = bell206l_wb
+AddTexture = bell206l_wr
+AddTexture = bell206l_t
+AddTexture = bell206l_mp
+
+Speed = 0.6
+
+AddRotor= 1, 0,  0.00,  3.80,  -0.91,  0.0, 1.0, 0.0
+AddRotor= 1, 0,  0.17,  3.00, -11.55,  1.0, 0.0, 0.0
+
+AddSeat =-0.44,  1.06,  1.49
+AddSeat = 0.44,  1.06,  1.49
+AddSeat =-0.44,  1.20,  0.05
+AddSeat = 0.44,  1.20,  0.05
+AddSeat =-0.44,  1.20, -0.89
+AddSeat = 0.44,  1.20, -0.89
+
+AddRecipe = " R ",  "X X",  "X X",  X, iron_block,  R, redstone_block
+
+InventorySize = 27
+
+
+BoundingBox =  0.0, 1.7, 1.5,  2.4, 2.5
+BoundingBox =  0.0, 2.1, -1.5,  2.4, 3.3
+BoundingBox =  0.0, 3.2, -11.5,  1.0, 2.4

@@ -1,0 +1,23 @@
+DisplayName = 9K121 Vikhr
+Type = ATMissile
+Power = 62
+Acceleration = 4.0
+Explosion = 4
+Flaming = true
+Sight = MissileSight 
+Delay = 80
+LockTime = 30
+Round = 6
+ReloadTime = 130
+ModeNum = 2
+ProximityFuseDist = 1
+Sound = missile_3_snd
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+
+MaxAmmo = 6
+SuppliedNum = 3
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

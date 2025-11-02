@@ -1,0 +1,19 @@
+DisplayName = 250kg bomb
+Type = Bomb
+Power = 50
+Acceleration = 0.1
+Explosion = 4
+ExplosionBlock = 2
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 5
+Sound = bomb_snd
+
+ReloadTime = 150
+Round = 32
+MaxAmmo = 64
+SuppliedNum = 8
+
+Item = 4, iron_ingot
+Item = 4, gunpowder

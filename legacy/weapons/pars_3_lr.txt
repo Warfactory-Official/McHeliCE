@@ -1,0 +1,22 @@
+DisplayName = TRIGAT-LR
+Type = ATMissile
+Power = 60
+Acceleration = 4.0
+Explosion = 2
+Flaming = false
+Sight = MissileSight 
+Delay = 30
+LockTime = 25
+ModeNum = 2
+Round = 8
+ReloadTime = 120
+Sound = missile_1_snd
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+
+MaxAmmo = 16
+SuppliedNum = 4
+Item =  2, iron_ingot
+Item =  1, gunpowder
+Item =  2, redstone

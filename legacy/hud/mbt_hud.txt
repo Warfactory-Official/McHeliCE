@@ -1,0 +1,162 @@
+
+; 色設定を緑にしてUAVの電波の強さ描画を呼び出す。色設定はCall先にも引き継がれる。
+Color = 0xFF28d448
+Call = uav_fs
+
+; インベントリ数を表示
+If = inventory > 0
+	Color = 0xCF1FFF1F
+	DrawString = 120, -80, "Inventory [ %d ]", INVENTORY
+Endif
+
+; 照準
+Color = 0xFFFFE400
+DrawLine =  -6,   16,     0,   4,     6,  16
+DrawLine =  -7,    8,    -9,   4,   -11,   8
+DrawLine = -16,    8,   -18,   4,   -20,   8
+DrawLine = -25,    8,   -27,   4,   -29,   8
+DrawLine = -34,    8,   -36,   4,   -38,   8
+DrawLine = -43,    8,   -45,   4,   -47,   8
+
+DrawLine =   7,    8,     9,   4,    11,   8
+DrawLine =  16,    8,    18,   4,    20,   8
+DrawLine =  25,    8,    27,   4,    29,   8
+DrawLine =  34,    8,    36,   4,    38,   8
+DrawLine =  43,    8,    45,   4,    47,   8
+
+DrawLine =  -80, -30,   -80, -40,   -70, -40
+DrawLine =   80, -30,    80, -40,    70, -40
+DrawLine =  -80,  30,   -80,  40,   -70,  40
+DrawLine =   80,  30,    80,  40,    70,  40
+
+; ヨーの目盛
+Color = 0xFFFFE400
+DrawGraduationYaw   = plyr_yaw, 0,   0, -100
+DrawLine = 0,-87,   2,-83,  -2,-83,   0,-87
+DrawCenteredString =   0, -81, "%.0f", PLYR_YAW
+
+; ピッチ
+DrawCenteredString =  65, -4, "%.0f", PLYR_PITCH
+DrawLine =   55,-5,    75,-5,    75,5,    55,5,   55,-5
+
+; カメラの倍率を表示する
+Color = 0xFFFFE400
+DrawString = -70, -10, "x%.1f", CAM_ZOOM
+
+; 色設定(Current Color)
+Color = 0xFFFFE400
+; 座標(Position)
+DrawString = -205, 20, "X: %+.1f", pos_X
+DrawString = -205, 30, "Y: %+.1f", pos_Y
+DrawString = -205, 40, "Z: %+.1f", pos_Z
+DrawString = -150, 20, "[%+.2f]",  motion_X
+DrawString = -150, 30, "[%+.2f]",  motion_Y
+DrawString = -150, 40, "[%+.2f]",  motion_Z
+
+; 色設定(Current Color)
+Color = 0xFFFFE400
+; 時計(time)
+; マイクラ内の時間と分を表示
+DrawString = -205, 60, "Time:   %02d:%02d", MC_THOR, MC_TMIN
+
+; 弾数, 残弾 (Ammo) リロード中でなければ黄、リロード中であれば赤
+Color = 0xFFFFE400
+DrawLine =   70,  67,   -70,  67
+Color = reloading==0? 0xFFFFE400: 0xFFDF0408
+;リロード
+If = reloading==1
+;DrawCenteredString =   0, 45, "%.2f%% %.2fsec",   RELOAD_PER, RELOAD_SEC
+DrawString = -90, 45, "%.2fsec",    RELOAD_SEC
+EndIf
+;リロードゲージ
+Color = 0xCFA99D38
+DrawRect = -90,-40, 2, 80
+Color = 0xFFDF0408
+DrawRect = -90, 40, 2, -80*reload_time
+If = reloading==0
+	Color = 0xFFFFE400
+	DrawRect = -90,-40, 2, 80
+EndIf
+
+; 弾数, 残弾
+DrawCenteredString = -26, 68, "%s",  WPN_AMMO
+DrawCenteredString =   0, 68, "/",   WPN_AMMO
+DrawCenteredString =  26, 68, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawCenteredString = 0, 57, "%s",  WPN_NAME
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xCFA99D38
+	DrawRect = -20, 77, 41, 2
+	Color = 0xFFDF0408
+	DrawRect = -20, 77, 41*wpn_heat, 2
+EndIf
+
+; 迫撃砲の着弾距離
+Color = 0xCFA99D38
+Call = mortar
+
+; スロットル
+Color = 0xFFFFE400
+DrawLine =  145, 106,   207, 106,    207, 114,    145, 114,   145, 106,
+DrawString  = 124, 105, "%.0f%%"   , THROTTLE
+DrawRect    = 146, 107, throttle*60, 6
+
+; 砲塔コンパス
+DrawTexture = mbt_hud, 80,55,  32,32,  0, 0,64,64, yaw - plyr_yaw
+DrawTexture = mbt_hud, 80,55,  32,32, 64, 0,64,64, 
+
+; 燃料
+Color = 0xFFDF0408
+DrawString   = -205,105, "E"
+Color = 0xFFFFE400
+DrawString   = -131,105, "F"
+DrawLine     = -136, 106,  -198, 106,   -198, 114,   -136, 114,  -136, 106,
+Color = fuel>0.2? 0xFFFFE400: 0xFFDF0408
+DrawRect     = -197, 107, fuel*60, 6
+
+; 燃料の低下を警告表示
+If = low_fuel
+	DrawTexture = hud, -211, 90, 16,16,  0,0,  32,32
+	Color = 0xFFDF0408
+	DrawString  = -195, 95, "%s key", KEY_GUI
+EndIf
+
+; HP
+Color = 0xFFFFE400
+DrawLine =  145, 22,   207, 22,    207, 14,    145, 14,   145,  22,
+Color = hp_rto>0.2? 0xFFFFE400: 0xFFDF0408
+DrawString  = 150,     5, "%3.0f", HP_PER
+DrawString  = 150+26,  5, "/ 100", HP_PER
+DrawRect    = 146,    15,   hp_rto*60, 6
+
+Color = 0xFFFFE400
+If = free_look==1
+	DrawString = 145, -40, "FREE LOOK"
+Endif
+
+If = cam_mode==1
+	DrawString = 145, -30, "NIGHT VISION"
+Endif
+If = cam_mode==2
+	DrawString = 145, -30, "THERMAL VISION"
+Endif
+
+If = have_flare==1
+	Color = can_flare==1? 0xFFFFE400: 0xFFDF0408
+	DrawCenteredString = 60, 45, "[ FLARE ]"
+Endif
+
+; レーダーを持つ機体の場合
+If = have_radar==1
+	DrawTexture = plane_hud, 144, 37,  64,64,  0,0, 128,128
+
+	Color = 0xFF28d448
+	DrawEntityRadar = -plyr_yaw-180, 144, 37,  64,64
+
+	Color = 0xFFDF0408
+	DrawEnemyRadar  = -plyr_yaw-180, 144, 37,  64,64
+
+	DrawTexture = plane_hud, 144+16, 37,  32,64,  128,0, 64,128, radar_rot
+EndIf
+

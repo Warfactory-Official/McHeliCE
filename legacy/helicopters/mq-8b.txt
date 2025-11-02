@@ -1,0 +1,46 @@
+DisplayName = MQ-8B Fire Scout
+AddDisplayName = ja_JP, MQ-8B ファイアスカウト
+ItemID = 28812
+MaxHp = 90
+EnableGunnerMode = true
+EnableNightVision = true
+EnableEntityRadar = true
+EnableFoldBlade = true
+Speed = 0.5
+ThrottleUpDown = 0.8
+FlareType = 3
+InventorySize = 9
+UAV = true
+MaxFuel         = 1000
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; M = Military(軍用機).  Q = Drone(無人航空機)
+Category = M.Q
+
+HUD = heli
+
+MobilityYaw = 1.1
+MobilityPitch = 1.1
+MobilityRoll = 1.1
+
+CameraPosition = 0.0, 0.30, 1.40
+
+AddPartCamera = 0.0, 0.29, 1.20, true, false
+AddPartCamera = 0.0, 0.29, 1.20, true, true
+
+AddRotor = 4, 90,  0.00,  3.20, -0.75,   0.0, 1.0, 0.0, true
+AddRotor = 1,  0,  0.50,  1.97, -6.495,  1.0, 0.0, 0.0
+
+
+AddWeapon = hydra70_4, -2.00, 0.70, 1.09,   1.0, 0.0
+AddWeapon = gbu-44,     2.18, 0.72, 0.09,   0.0, 0.0
+AddWeapon = gbu-44,     1.86, 0.72, 0.09,   0.0, 0.0
+
+AddWeapon = targeting_pod_mob,     0.0, 0.3, 1.4,   0.0, 0.0
+AddWeapon = targeting_pod_pv30s,   0.0, 0.3, 1.4,   0.0, 0.0
+
+AddRecipe = " Y ", "YXY", " R ",  X, iron_block, Y, iron_ingot, R, redstone
+
+BoundingBox =  0.0, 1.7, -0.5,  2.4, 2.5
+BoundingBox =  0.0, 2.0, -6.5,  1.0, 1.0

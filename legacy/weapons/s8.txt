@@ -1,0 +1,16 @@
+DisplayName = S-8 Rocket B-8M1
+Type = Rocket
+Power = 40
+Acceleration = 3.5
+Explosion = 4
+Flaming = false
+Sight = MoveSight
+Delay = 12
+ReloadTime = 220
+Round = 40
+Sound = rocket_snd
+
+MaxAmmo = 40
+SuppliedNum = 10
+Item =  3, iron_ingot
+Item =  4, gunpowder

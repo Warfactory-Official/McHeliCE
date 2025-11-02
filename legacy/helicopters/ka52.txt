@@ -1,0 +1,91 @@
+DisplayName = Ka-52 Hokum B
+AddDisplayName = ja_JP, Ka-52 ホーカムB
+ItemID = 28819
+MaxHp = 170
+Speed = 0.6
+ThrottleUpDown = 0.7
+ThirdPersonDist = 12
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = heli, heli_gnr
+
+MaxFuel         = 1200
+FuelConsumption = 1.5
+
+Sound = heli_k
+
+MobilityYaw = 1.2
+MobilityPitch = 1.2
+MobilityRoll = 1.2
+
+AddTexture = ka52_camo1
+
+AddRotor= 1, 0,  0.00,  0.00,  0.00,  0.0, -1.0, 0.0
+AddRotor= 1, 0,  0.00,  0.00,  0.00,  0.0,  1.0, 0.0
+
+AddSeat = 0.25,  0.70,  2.40
+AddSeat = -0.25,  0.70,  2.40
+
+AddPartCamera = 0.00, 0.20, 4.30, true, true
+AddPartCamera = 0.00, 0.20, 4.30, true, false
+
+CameraPosition = 0.00, 0.24, 5.30
+CameraZoom = 16
+
+AddPartWeapon = 2a42_ka50, true,  true,  true,   0.00,  0.70,  0.00
+AddPartWeaponMissile = 9K121_ka50,   false, false, false,   2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121_ka50,   false, false, false,  -2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121_ka50,   false, false, false,   2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121_ka50,   false, false, false,  -2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121_ka50,   false, false, false,   2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121_ka50,   false, false, false,  -2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121tv_ka50, false, false, false,   2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121tv_ka50, false, false, false,  -2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121tv_ka50, false, false, false,   2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121tv_ka50, false, false, false,  -2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121tv_ka50, false, false, false,   2.12, 0.55, 2.00
+AddPartWeaponMissile = 9K121tv_ka50, false, false, false,  -2.12, 0.55, 2.00
+
+AddWeapon = 2a42_ka50,    -1.04, 0.65, 2.00,  0,-1,  true,1,  0,-3,6, 0, 30
+AddWeapon = 9K121_ka52,    2.12, 0.55, 2.00,  1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121_ka52,   -2.12, 0.55, 2.00, -1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121_ka52,    2.12, 0.55, 2.00,  1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121_ka52,   -2.12, 0.55, 2.00, -1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121_ka52,    2.12, 0.55, 2.00,  1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121_ka52,   -2.12, 0.55, 2.00, -1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121tv_ka52,  2.12, 0.55, 2.00,  1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121tv_ka52, -2.12, 0.55, 2.00, -1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121tv_ka52,  2.12, 0.55, 2.00,  1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121tv_ka52, -2.12, 0.55, 2.00, -1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121tv_ka52,  2.12, 0.55, 2.00,  1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K121tv_ka52, -2.12, 0.55, 2.00, -1, 0,  true,2,  0, 0,0, 0, 20
+AddWeapon = 9K38_ka52,     3.12, 0.35, 2.00,  1, 0,  true,2
+AddWeapon = 9K38_ka52,    -3.12, 0.35, 2.00, -1, 0,  true,2
+AddWeapon = 9K38_ka52,     3.12, 0.35, 2.00,  1, 0,  true,2
+AddWeapon = 9K38_ka52,    -3.12, 0.35, 2.00, -1, 0,  true,2
+AddWeapon = 9K38_ka52,     3.12, 0.35, 2.00,  1, 0,  true,2
+AddWeapon = 9K38_ka52,    -3.12, 0.35, 2.00, -1, 0,  true,2
+AddWeapon = 9K38_ka52,     3.12, 0.35, 2.00,  1, 0,  true,2
+AddWeapon = 9K38_ka52,    -3.12, 0.35, 2.00, -1, 0,  true,2
+AddWeapon = 9K38_ka52,     3.12, 0.35, 2.00,  1, 0,  true,2
+AddWeapon = 9K38_ka52,    -3.12, 0.35, 2.00, -1, 0,  true,2
+AddWeapon = 9K38_ka52,     3.12, 0.35, 2.00,  1, 0,  true,2
+AddWeapon = 9K38_ka52,    -3.12, 0.35, 2.00, -1, 0,  true,2
+
+AddWeapon = targeting_pod_mob,     0.00, 0.24, 5.3,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.00, 0.24, 5.3,   0.0, 0.0,  false,2
+
+FlareType = 3
+EnableEntityRadar = true
+EnableNightVision = true
+EnableGunnerMode = true
+
+ConcurrentGunnerMode = true
+
+BoundingBox =  0.0, 2.2,  0.0,  2.0, 3.8
+BoundingBox =  0.0, 1.6, -2.0,  1.7, 1.8
+BoundingBox =  0.0, 1.6, -4.0,  1.0, 1.5
+
+AddRecipe = "DX ",  "XRX",  "HX ",  X, iron_block, R,redstone_block,  D,dispenser, H,heavy_weighted_pressure_plate

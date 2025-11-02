@@ -1,0 +1,64 @@
+DisplayName = Ka-29 Helix B
+AddDisplayName = ja_JP, Ka-29 ヘリックスB
+ItemID = 28826
+MaxHp = 180
+EnableGunnerMode = true
+EnableFoldBlade = true
+EnableNightVision = true
+Speed = 0.6
+ThrottleUpDown = 0.8
+FlareType = 3
+CameraPosition = 0.0, 0.6, 2.0
+EnableEntityRadar = true
+MaxFuel         = 1200
+FuelConsumption = 1.0
+Sound = heli_k
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = heli, heli_gnr, none, none, none, none, none, none
+
+MobilityYaw   = 0.9
+MobilityPitch = 0.9
+MobilityRoll  = 0.9
+
+AddTexture = ka-29-1
+
+AddRotor= 3, 120,  0.00,  7.00, -3.09,  0.0,  1.0, 0.0, true
+AddRotor= 3, 120,  0.00,  7.00, -3.09,  0.0, -1.0, 0.0, true
+
+
+AddSeat = 0.70,  1.60,  0.76
+AddGunnerSeat =-0.70,  1.60,  0.76,  0.0, 0.6, 2.0,  true
+
+AddSeat = 0.60,  1.70, -2.00
+AddSeat = 0.60,  1.70, -3.10
+AddSeat = 0.60,  1.70, -4.20
+AddSeat =-0.60,  1.70, -2.00
+AddSeat =-0.60,  1.70, -3.10
+AddSeat =-0.60,  1.70, -4.20
+
+AddPartHatch = 1.10, 1.46, -6.25, 0,0,1, -151
+AddPartHatch = 0.99, 3.11, -6.25, 0,0,1, 90
+
+AddWeapon = 2a42_ka50,      1.450, 1.800,-0.167, 0,0
+AddWeapon = s-8,            2.587, 0.943,-0.910, 0,0
+AddWeapon = s-8,           -2.587, 0.943,-0.910, 0,0
+AddWeapon = 9k114,          3.6,   1.1,  -1.2,   0,0
+AddWeapon = 9k114,         -3.6,   1.1,  -1.2,   0,0
+AddWeapon = gshg7_62mm,    -0.600, 1.659, 2.133, 0,0, false, 2, 0, -30, 30, -17, 40
+
+AddWeapon = targeting_pod_mob,     0.0, 0.6, 2.0,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.6, 2.0,   0.0, 0.0,  false,2
+
+;AddPartWeaponBay = 武器名1 / 武器名2 / 武器名3, 位置X, 位置Y, 位置Z, 回転軸X, 回転軸Y, 回転軸Z, 回転角度 0～180
+AddPartWeaponBay = gshg7_62mm,  0, 1.57, 1.96,  1,0,0,  60
+AddPartRotWeapon = gshg7_62mm, false, true,  true, -0.600, 1.659, 2.133
+
+AddRecipe = "X X",  "X X",  "GXG",  X, iron_block, G, gunpowder
+
+BoundingBox =  0.0, 3.0, -1.0,  2.0, 4.8
+BoundingBox =  0.0, 2.5, -3.5,  2.0, 3.8
+BoundingBox =  0.0, 2.5, -6.0,  2.0, 3.0

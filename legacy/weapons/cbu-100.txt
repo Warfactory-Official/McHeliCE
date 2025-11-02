@@ -1,0 +1,21 @@
+DisplayName = CBU-100 Cluster Bomb
+Type = Bomb
+Power = 18
+Acceleration = 0.1
+Explosion = 3
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 400
+Bomblet = 25
+BombletSTime = 20
+BombletDiff = 1.2
+Sound = bomb_snd
+
+ModelBullet = cbu87
+ModelBomblet = cbc
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder

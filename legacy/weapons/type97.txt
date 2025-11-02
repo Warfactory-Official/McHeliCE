@@ -1,0 +1,18 @@
+DisplayName = Type97 No6 Bomb
+Type = Bomb
+Power = 30
+Acceleration = 0.1
+Explosion = 4
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+Delay = 3
+ReloadTime = 150
+Round = 2
+Piercing  = 2
+Sound = bomb_snd
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder

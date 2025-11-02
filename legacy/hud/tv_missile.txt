@@ -1,0 +1,35 @@
+
+; 色設定(Current Color)
+Color = 0xCFFFFFFF
+
+; カメラ倍率
+DrawString = -100, -85, "x%.1f",    CAM_ZOOM
+
+; 高度(Altitude)
+DrawString = 80, -85, "%3dm", ALTITUDE
+
+; ピッチ(Pitch)
+DrawString = -120,  -4, "%3.0f", PLYR_PITCH
+DrawLine = -130,-5,   -90,-5,   -90, 5,   -130, 5,   -130,-5
+
+; ヨー(Yaw)
+DrawCenteredString = 0,  -69, "%3.0f", PLYR_YAW
+DrawLine = -20,-70,   20,-70,   20,-60,   -20,-60,   -20,-70
+
+; 十字
+DrawLine = -50,   0,   -10,   0
+DrawLine =  50,   0,    10,   0
+DrawLine =   0, -50,     0, -10
+DrawLine =   0,  50,     0,  10
+
+; 枠
+DrawLine =  -100, -50,   -100, -75,   -75, -75
+DrawLine =  -100, +50,   -100, +75,   -75, +75
+DrawLine =  +100, -50,   +100, -75,   +75, -75
+DrawLine =  +100, +50,   +100, +75,   +75, +75
+
+; 座標表示
+DrawString = -180,  30, "X:%+4.1f",    TVM_POS_X
+DrawString = -180,  40, "Y:%+4.1f",    TVM_POS_Y
+DrawString = -180,  50, "Z:%+4.1f",    TVM_POS_Z
+DrawCenteredString = 0,70, "%3.1f LR", TVM_DIFF

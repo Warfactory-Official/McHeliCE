@@ -1,0 +1,55 @@
+
+; ズーム時に照準器を表示する
+If = cam_zoom>1
+	Color = #FF000000
+	DrawRect =  127.5, -127.5, 1080, 1080
+	DrawRect =  127.5,  127.5,-1080, 1080
+	DrawRect = -127.5,  127.5,-1080,-1080
+	DrawRect = -127.5, -127.5, 1080,-1080
+	DrawTexture = tank_scope, -127.5, -128,  256,256, 0,0, 256,256
+EndIf
+
+; 耐久値(HP)
+; HPが20%を超えている場合は緑(0xFF28d448)、HPが20%以下の場合は赤(0xFFDF0408)
+Color = hp_rto>0.2? 0xFF28d448: 0xFFDF0408
+DrawTexture = hud, 144, 95, 64,20, 128,64, 128,20
+DrawString  = 150,    97, "%3.0f", HP_PER
+DrawString  = 150+26, 97, "/ 100", HP_PER
+DrawRect    = 146, 107, hp_rto*60, 6
+
+
+; 弾数, 残弾 背景 (Ammo background)
+DrawTexture = hud, -208, 57,  62,10,  128,64, 128,20
+; 武器名 (Weapon name background)
+DrawTexture = hud, -208, 68, 106,10,  128,64, 128,20
+
+; 燃料(Fuel)
+DrawTexture = plane_hud_wwii, -207,   83, 32,32,  64,128, 64,64
+DrawTexture = plane_hud_wwii, -207+8, 83, 16,32,  96,192, 32,64, fuel*270-135
+
+; スロットル(Throttle)
+DrawTexture = plane_hud_wwii, -170,   83, 32,32,   0,192, 64,64
+DrawTexture = plane_hud_wwii, -170+8, 83, 16,32,  96,192, 32,64, Throttle*270-180
+
+; 弾数, 残弾 (Ammo) リロード中でなければ緑、リロード中であれば赤
+Color = reloading==0? 0xFF28d448: 0xFFDF0408
+DrawString = -207, 58, "%s",  WPN_AMMO
+DrawString = -181, 58, "/",   WPN_AMMO
+DrawString = -172, 58, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawString = -207, 69, "%s",  WPN_NAME
+
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xFF28d448
+	DrawRect = -145, 57, 43, 10
+	Color = 0xFF188428
+	DrawRect = -144, 58, 41, 8
+	Color = 0xFFDF0408
+	DrawRect = -144, 58, 41*wpn_heat, 8
+EndIf
+
+
+
+
+

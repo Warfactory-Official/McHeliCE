@@ -1,0 +1,17 @@
+DisplayName = LAU-68 70mm Rocket
+Type = Rocket
+Power = 35
+ModelBullet = hydra70
+Acceleration = 4.0
+Explosion = 3
+Flaming = false
+Sound = rocket_snd
+Sight = MoveSight
+Delay = 7
+ReloadTime = 110
+Round = 19
+
+MaxAmmo = 8
+SuppliedNum = 4
+Item =  3, iron_ingot
+Item =  3, gunpowder

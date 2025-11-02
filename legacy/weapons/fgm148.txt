@@ -1,0 +1,27 @@
+DisplayName = FGM-148 Javelin
+Type = ATMissile
+Power = 62
+Acceleration = 3.0
+Explosion = 4
+Flaming = true
+Sight = MissileSight 
+Delay = 100
+LockTime = 70
+RidableOnly = true
+ModeNum = 2
+ProximityFuseDist = 1
+ModelBullet = fgm148
+Sound = missile_3_snd
+RigidityTime = 3
+TrajectoryParticleStartTick = 10
+Zoom = 4.2, 9.2
+
+DamageFactor = plane, 3.0
+DamageFactor = helicopter, 3.0
+DamageFactor = tank, 2.5
+
+MaxAmmo = 1
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

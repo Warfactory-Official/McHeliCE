@@ -1,0 +1,119 @@
+DisplayName = B-29 Superfortress
+AddDisplayName = ja_JP, B-29 スーパーフォートレス
+ItemID = 28729
+MaxHp = 450
+Speed = 0.68
+Sound = prop
+ThrottleUpDown = 0.3
+AutoPilotRot = 0.00
+CameraPosition = 2.0, 1.40, -4.0
+;EnableNightVision = true
+;EnableEntityRadar = true
+EnableGunnerMode = true
+ConcurrentGunnerMode = true
+InventorySize = 18
+MaxFuel         = 4800
+FuelConsumption = 2.0
+ThirdPersonDist = 40
+
+UnmountPosition = 3.0, 2.0, -4.0
+
+; W = WWII.  A = Attacker(攻撃機)
+Category = W.A
+
+HUD = plane_wwii, gunner, none, gunner, gunner, gunner
+
+MobilityYaw = 0.4
+MobilityPitch = 0.4
+MobilityRoll = 0.1
+MinRotationPitch = -40
+MaxRotationPitch =  40
+MinRotationRoll  = -40
+MaxRotationRoll  =  40
+
+AddSeat = -0.55,  2.50, -0.28
+AddSeat =  0.55,  2.50, -0.28
+AddSeat =  0.00,  1.45,  1.72
+
+AddGunnerSeat =  0.00, 2.5,  -5.06,  0.00, 0.20,  -5.29
+AddGunnerSeat =  0.00, 3.2,  -5.05,  0.00, 4.36, -12.29
+AddGunnerSeat =  0.00, 2.5, -30.00,  0.00, 3.57, -36.49
+
+AddPartWeapon = mg12_7mm_tf, false, true, true,  0.00, 4.36, -2.89
+AddPartWeapon = mg12_7mm_uf, false, true, true,  0.00, 0.32, -3.56
+AddPartWeapon = mg12_7mm_tf, false, true, true,  0.00, 4.36, -20.71
+AddPartWeapon = mg12_7mm_uf, false, true, true,  0.00, 1.81, -27.68
+AddPartWeapon = mg12_7mm_rr, false, true, true,  0.00, 3.59, -34.84
+
+AddPartWeaponBay = 250kg / anm17allc,  0.98, 0.88, -12.3, 0, 0,  1, 90
+AddPartWeaponBay = 250kg / anm17allc, -0.98, 0.88, -12.3, 0, 0, -1, 90
+
+;AddPartWeapon = 連動する武器名(無しの時はnone), ガンナー時非表示？, Yaw連動, Pitch連動, 回転座標X,Y,Z, 駐退距離
+
+AddPartLG =   6.08, 1.52, -11.19,  0,0,-1, 60
+AddPartLG =   4.58, 1.52, -10.49,  0,0, 1, 60
+AddPartLG =  -6.08, 1.52, -11.19,  0,0, 1, 60
+AddPartLG =  -4.58, 1.52, -10.49,  0,0,-1, 60
+AddPartLG =   0.45, 0.75,  -0.19,  0,0,-1, 60
+AddPartLG =  -0.45, 0.75,  -0.19,  0,0, 1, 60
+AddPartLG =   5.38, 1.60, -10.16,  1,0, 0, 120
+AddPartLG =  -5.38, 1.60, -10.16,  1,0, 0, 120
+AddPartLG =   0.00, 1.28,   0.60,  1,0, 0, 120
+
+
+AddPartRotor =   -5.33,  2.65,  -5.13,   0, 0, 1
+AddBlade = 1,0,  -5.33,  2.65,  -5.13,   0, 0, 1
+AddPartRotor =  -11.83,  3.17,  -5.93,   0, 0, 1
+AddBlade = 1,0, -11.83,  3.17,  -5.93,   0, 0, 1
+AddPartRotor =   11.83,  3.17,  -5.93,   0, 0, 1
+AddBlade = 1,0,  11.83,  3.17,  -5.93,   0, 0, 1
+AddPartRotor =    5.33,  2.65,  -5.13,   0, 0, 1
+AddBlade = 1,0,   5.33,  2.65,  -5.13,   0, 0, 1
+
+AddRecipe = "I I",  "TTT",  "I I",  I,iron_block, T,tnt
+
+
+AddWeapon = mg12_7mm_tf,   0.29,  4.31, -4.05,  0.0, 0.0, true,  5,    0, -360, 360, -60, 3
+AddWeapon = mg12_7mm_tf,  -0.29,  4.31, -4.05,  0.0, 0.0, true,  5,    0, -360, 360, -60, 3
+AddWeapon = mg12_7mm_tf,   0.12,  4.4,  -4.05,  0.0, 0.0, true,  5,    0, -360, 360, -60, 3
+AddWeapon = mg12_7mm_tf,  -0.12,  4.4,  -4.05,  0.0, 0.0, true,  5,    0, -360, 360, -60, 3
+AddWeapon = mg12_7mm_tf,  -0.16,  4.4,  -21.87, 0.0, 0.0, true,  5,    0, -360, 360, -60, 3
+AddWeapon = mg12_7mm_tf,   0.16,  4.4,  -21.87, 0.0, 0.0, true,  5,    0, -360, 360, -60, 3
+AddWeapon = mg12_7mm_uf,  -0.16,  0.36, -4.74,  0.0, 0.0, false, 4,    0, -360, 360, -3,  60
+AddWeapon = mg12_7mm_uf,   0.16,  0.36, -4.74,  0.0, 0.0, false, 4,    0, -360, 360, -3,  60
+AddWeapon = mg12_7mm_uf,  -0.16,  1.81, -28.84, 0.0, 0.0, false, 4,    0, -360, 360, -3,  60
+AddWeapon = mg12_7mm_uf,   0.16,  1.81, -28.84, 0.0, 0.0, false, 4,    0, -360, 360, -3,  60
+AddWeapon = mg12_7mm_rr,  -0.16,  3.59, -36.0,  0.0, 0.0, false, 6, -180,  -60,  60, -75, 60
+AddWeapon = mg12_7mm_rr,   0.16,  3.59, -36.0,  0.0, 0.0, false, 6, -180,  -60,  60, -75, 60
+AddWeapon = 250kg,       0.55,  1.08,  -6.0, 0, 90, true,  1
+AddWeapon = 250kg,      -0.55,  1.08,  -6.0, 0, 90, true,  1
+AddWeapon = 250kg,       0.55,  1.08, -13.0, 0, 90, true,  1
+AddWeapon = 250kg,      -0.55,  1.08, -13.0, 0, 90, true,  1
+AddWeapon = 250kg,       0.55,  1.08,  -8.0, 0, 90, true,  1
+AddWeapon = 250kg,      -0.55,  1.08,  -8.0, 0, 90, true,  1
+AddWeapon = 250kg,       0.55,  1.08, -16.0, 0, 90, true,  1
+AddWeapon = 250kg,      -0.55,  1.08, -16.0, 0, 90, true,  1
+AddWeapon = anm17allc,   0.55,  1.08,  -6.0, 0, 90, true,  1
+AddWeapon = anm17allc,  -0.55,  1.08,  -6.0, 0, 90, true,  1
+AddWeapon = anm17allc,   0.55,  1.08, -13.0, 0, 90, true,  1
+AddWeapon = anm17allc,  -0.55,  1.08, -13.0, 0, 90, true,  1
+AddWeapon = anm17allc,   0.55,  1.08,  -8.0, 0, 90, true,  1
+AddWeapon = anm17allc,  -0.55,  1.08,  -8.0, 0, 90, true,  1
+AddWeapon = anm17allc,   0.55,  1.08, -16.0, 0, 90, true,  1
+AddWeapon = anm17allc,  -0.55,  1.08, -16.0, 0, 90, true,  1
+
+
+BoundingBox =  0.0, 2.6,  -1.6,  4.0, 4.0
+BoundingBox =  0.0, 2.6,  -6.6,  4.0, 4.0, 0.75
+BoundingBox =  0.0, 2.6, -11.6,  4.0, 4.0, 0.75
+BoundingBox =  0.0, 2.6, -16.6,  4.0, 4.0, 0.75
+BoundingBox =  0.0, 3.0, -20.6,  3.0, 3.0
+BoundingBox =  0.0, 3.0, -23.6,  2.0, 2.0
+BoundingBox =  0.0, 3.0, -26.6,  2.0, 2.0
+
+BoundingBox =  -5.0, 2.2, -11.6,  5.0, 1.0, 1.25
+BoundingBox = -10.0, 3.0, -11.6,  5.0, 1.0, 1.25
+BoundingBox = -15.0, 3.0, -12.0,  4.4, 1.0, 0.75
+BoundingBox =   5.0, 2.2, -11.6,  5.0, 1.0, 1.25
+BoundingBox =  10.0, 3.0, -11.6,  5.0, 1.0, 0.75
+BoundingBox =  15.0, 3.0, -12.0,  4.4, 1.0, 1.25

@@ -1,0 +1,48 @@
+DisplayName =  AH-6 Killer Egg
+AddDisplayName = ja_JP, AH-6 キラ－エッグ
+ItemID = 28801
+MaxHp = 150
+EnableNightVision = true
+Speed = 0.6
+ThrottleUpDown = 1.2
+FlareType = 3
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = heli, none, none, none
+
+AddTexture = ah-6_jp
+
+AddRotor = 1,0,  0.00,  3.35,  0.00,  0.0, 1.0, 0.0
+AddRotor = 1,0,  0.50,  1.90, -6.55,  1.0, 0.0, 0.0
+
+AddPartRotWeapon = m134,   false, true, true,   1.488, 0.314, -1.444
+AddPartRotWeapon = m134,   false, true, true,  -1.488, 0.314, -1.444
+
+AddSeat =-0.45,  0.80,  1.20
+AddSeat = 0.45,  0.80,  1.20
+AddSeat =-0.90,  0.80,  0.20
+AddSeat = 0.90,  0.80,  0.20
+
+AddWeapon = m134,  1.48, 0.40, 1.54,   1.0, 0.0
+AddWeapon = m134, -1.48, 0.40, 1.54,  -1.0, 0.0
+
+AddWeapon = hydra70_l,  2.20, 0.16, 1.11,   1.0, 0.0
+AddWeapon = hydra70_l, -2.20, 0.16, 1.11,  -1.0, 0.0
+
+AddWeapon = hydra70_m264rp,  2.20, 0.16, 1.11,   1.0, 0.0
+AddWeapon = hydra70_m264rp, -2.20, 0.16, 1.11,  -1.0, 0.0
+
+AddWeapon = aim92,  2.30, 0.16, 1.11,   1.0, 0.0
+AddWeapon = aim92, -2.30, 0.16, 1.11,  -1.0, 0.0
+
+AddWeapon = targeting_pod_mob,     0.0, 0.10, 2.91,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.10, 2.91,   0.0, 0.0,  false,2
+
+AddRecipe = " Y ",  "YXY",  " Y ",  X, iron_block, Y, iron_ingot
+
+BoundingBox =  0.0, 1.7, 0.0,  2.4, 2.5

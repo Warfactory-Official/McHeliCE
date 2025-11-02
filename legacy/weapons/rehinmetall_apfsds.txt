@@ -1,0 +1,35 @@
+DisplayName = Rehinmetall Smoothbore Gun[APFSDS]
+Type = MachineGun1
+Power = 100
+Explosion = 1
+ExplosionBlock = 1
+Acceleration = 8.0
+Sight = None
+Delay = 100
+ReloadTime = 100
+Round = 1
+SoundVolume = 10.0
+Sound = cannon_1_snd
+Accuracy = 0.5
+ModelBullet = bullet105mm
+BulletColor        = 255, 255, 100, 100
+Recoil = 1.8
+DamageFactor = plane, 3.0
+DamageFactor = helicopter, 3.0
+
+; AddMuzzleFlash = 発射元からの距離, サイズ, 表示時間,  A,  R,  G,  B
+AddMuzzleFlash      =           8.2,   2.10,        7,  220,254,159,74
+AddMuzzleFlash      =           8.1,   2.05,        6,  220,254,219,104
+AddMuzzleFlash      =           8.0,   2.00,        5,  220,254,219,184
+; AddMuzzleFlashSmoke = 発射元からの距離, 表示数, サイズ, 範囲, 表示時間,  A,  R,  G,  B
+AddMuzzleFlashSmoke   =              8.2,     30,   12.0,  4.0,       65,  220,160,140,120
+AddMuzzleFlashSmoke   =             10.2,     20,   13.0,  7.0,       55,  200,190,170,150
+
+RecoilBufCount = 40, 5
+
+Group = MainGun
+
+MaxAmmo = 40
+SuppliedNum = 10
+Item =  1, iron_ingot
+Item =  1, gunpowder

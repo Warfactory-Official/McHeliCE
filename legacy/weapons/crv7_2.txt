@@ -1,0 +1,19 @@
+DisplayName = CRV7 Rocket
+Type = Rocket
+Power = 40
+ModelBullet = crv7
+Acceleration = 5.0
+Explosion = 3
+Flaming = false
+Sight = MoveSight
+Sound = rocket_snd
+Delay = 5
+ReloadTime = 80
+Round = 19
+ModeNum = 2
+Piercing  = 2
+
+MaxAmmo = 38
+SuppliedNum = 19
+Item =  3, iron_ingot
+Item =  4, gunpowder

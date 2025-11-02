@@ -1,0 +1,83 @@
+DisplayName = CH47 chnuke
+AddDisplayName = ja_JP, CH47 チヌーク
+ItemID = 28811
+MaxHp = 300
+EnableNightVision = true
+Float = true
+Speed = 0.5
+ThrottleUpDown = 0.3
+FlareType = 3
+MaxFuel         = 2400
+FuelConsumption = 1.0
+onGroundPitch = 2.5
+Float = true
+FloatOffset = -0.9
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = heli, none, gunner, gunner, gunner
+
+AddTexture = ch47_2
+AddTexture = ch47_3
+AddTexture = ch47_4
+MobilityYaw = 0.7
+MobilityPitch = 0.7
+MobilityRoll = 0.7
+AddPartWeapon    = m3m_l,    false, true, true,   -0.7,    1.6,   -11.15
+
+AddPartWeapon    = m134_l50, false, true, false, -1.2859, 1.941, -1.5192
+AddPartWeapon    = m134_l50, false, true, true,  -1.2859, 1.941, -1.5192
+AddPartRotWeapon = m134_l50, false, true, true,  -1.2859, 1.941, -1.5192, -1,0,0
+AddPartWeapon    = m134_r50, false, true, false, 1.2859, 1.941, -1.5192
+AddPartWeapon    = m134_r50, false, true, true,  1.2859, 1.941, -1.5192
+AddPartRotWeapon = m134_r50, false, true, true,  1.2859, 1.941, -1.5192,  1,0,0
+
+
+AddPartHatch = 0.00, 0.8578, -11.5485, -1.0, 0.0, 0.0, 34
+
+AddRotor = 3, 120, 0.0, 4.6510,   -0.2981,  0.0,  1.0, 0.11, false
+AddRotor = 3, 120, 0.0, 6.0486, -12.6138,  0.0, -1.0, -0.093, false
+
+AddWeapon = m3m_l,     -0.7,    1.6,   -11.15,   0.0, 0.0, false, 3,-180,-70, 70, -5, 30
+AddWeapon = m134_l50,  -1.2859, 1.971, -1.5192,  0.0, 0.0, false, 4,  90,-70, 70, -80,80
+AddWeapon = m134_r50,   1.2859, 1.971, -1.5192,  0.0, 0.0, false, 5, -90,-70, 70, -80,80
+
+AddRepellingHook =  0.60, 2.75, -14.21, 30
+AddRepellingHook = -0.60, 2.75, -14.21, 30
+
+AddRecipe = " X ",  "XCX",  "X X",  X, iron_block, C, chest
+
+InventorySize = 54
+
+BoundingBox =  0.0, 2.5, -1.0,  2.5, 3.4
+BoundingBox =  0.0, 1.6, -4.0,  2.8, 3.0
+BoundingBox =  0.0, 1.6, -7.0,  2.8, 3.0
+BoundingBox =  0.0, 1.6,-10.0,  2.8, 3.0
+BoundingBox =  0.0, 3.5,-12.0,  2.0, 3.0
+
+AddSeat =  0.79,  1.5,  -0.5
+AddSeat = -0.79,  1.5,  -0.5
+AddSeat = -0.82,  1.2,  -10.1
+AddGunnerSeat = -0.68,  1.3,  -1.5,   -1.20,  2.3,  -1.5
+AddGunnerSeat =  0.68,  1.3,  -1.5,    1.20,  2.3,  -1.5
+AddSeat =  0.40,  1.2,  -9.9
+AddSeat =  0.60,  1.2,  -7.0
+AddSeat = -0.60,  1.2,  -7.0
+AddSeat =  0.60,  1.2,  -8.1
+AddSeat = -0.60,  1.2,  -8.1
+AddSeat =  0.60,  1.2,  -9.2
+AddSeat = -0.60,  1.2,  -9.2
+
+; AddRack=Entity type, RackPos X,Y,Z,   EntryPos X,Y,Z,   Range, ParaAlt
+AddRack = container,   0.0, 1.5, -3.0,  0.0, 0.0, -12.8,  8.0,   20
+AddRack = container,   0.0, 2.4, -3.2,  0.0, 0.0, -12.8,  8.0,   20
+AddRack = container,   0.0, 1.5, -4.6,  0.0, 0.0, -12.8,  8.0,   20
+AddRack = container,   0.0, 2.4, -4.6,  0.0, 0.0, -12.8,  8.0,   20
+AddRack = zodiac,      0.0, 1.5, -5.6,  0.0, 0.0, -12.8, 12.0,   20
+
+; Seat または Rack を1番目から数えた時 15番目と17番目を排他にする(同時に乗れなくする)
+ExclusionSeat = 15, 17
+; Seat または Rack を1番目から数えた時 16番目と17番目を排他にする(同時に乗れなくする)
+ExclusionSeat = 16, 17

@@ -1,0 +1,17 @@
+DisplayName = S-5 Rocket
+Type = Rocket
+Power = 32
+ModelBullet = hydra70
+Acceleration = 4.0
+Explosion = 3
+Flaming = false
+Sight = MoveSight
+Sound = rocket_snd
+Delay = 7
+ReloadTime = 110
+Round = 19
+
+MaxAmmo = 19
+SuppliedNum = 19
+Item =  3, iron_ingot
+Item =  3, gunpowder

@@ -1,0 +1,63 @@
+DisplayName = EC665 Tiger UHT
+AddDisplayName = ja_JP, EC665 ティーガー UHT型
+ItemID = 28802
+MaxHp = 180
+EnableGunnerMode = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.8
+ThrottleUpDown = 1.1
+FlareType = 3
+CameraPosition = 0.0, 0.6, 4.8
+CameraZoom = 6
+MaxFuel         = 1100
+FuelConsumption = 1.0
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = heli, heli_gnr
+
+AddTexture = ec665_black
+
+AddRotor = 1, 0, 0.00,  3.85, -1.25,  0.0, 1.0, 0.0
+AddRotor = 1, 0, -0.50,  3.43, -10.13,  1.0, 0.0, 0.0
+
+AddPartCamera = 0.0, 5.38, -1.22
+
+;               name, HideGM, Yaw,  Pitch  PositionX,Y,Z
+; RMK30
+AddPartWeapon = rmk30, true, true, true,  0.0, 0.43, 3.37
+; 機首カメラ EC665の機首カメラは機銃と一緒に動く必要があるので武器として追加
+AddPartWeapon = rmk30, true, true, false, 0.0, 0.43, 3.37
+
+
+AddSeat       = 0.00,  0.91,  1.76
+AddGunnerSeat = 0.00,  1.32,  0.17,  0.0, 0.6, 4.8,  true
+
+AddWeapon = rmk30,  0.0, 0.43, 3.37,   0.0,-1.0, true,2, 0, -360,360, -20,80
+
+AddWeapon = 20mmgunpod,  2.31, 1.25, 0.32,   1.0, 0.0
+AddWeapon = 20mmgunpod, -2.31, 1.25, 0.32,  -1.0, 0.0
+
+AddWeapon = pars_3_lr,   1.25, 1.22,-0.01,   1.0, 0.0, true,2
+AddWeapon = pars_3_lr,  -1.25, 1.22,-0.01,   1.0, 0.0, true,2
+AddWeapon = pars_3_lr,   1.53, 0.22,-0.01,   1.0, 0.0, true,2
+AddWeapon = pars_3_lr,  -1.53, 0.22,-0.01,   1.0, 0.0, true,2
+AddWeapon = pars_3_lr,   1.24, 0.93,-0.01,   1.0, 0.0, true,2
+AddWeapon = pars_3_lr,  -1.24, 0.93,-0.01,   1.0, 0.0, true,2
+AddWeapon = pars_3_lr,   1.54, 0.92,-0.01,   1.0, 0.0, true,2
+AddWeapon = pars_3_lr,  -1.54, 0.92,-0.01,   1.0, 0.0, true,2
+
+AddWeapon = aim92,  0.79,0.55,-0.01,  1.0,0.0
+AddWeapon = aim92, -0.79,0.55,-0.01,  1.0,0.0
+
+AddWeapon = targeting_pod_mob,     0.0, 0.6, 4.8,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.6, 4.8,   0.0, 0.0,  false,2
+
+AddRecipe = " X ",  "X X",  " X ",  X, iron_block
+
+BoundingBox =  0.0, 2.2, -1.0,  2.0, 3.8
+BoundingBox =  0.0, 1.8, -3.5,  2.0, 2.4
+BoundingBox =  0.0, 2.5,-10.0,  2.0, 3.0

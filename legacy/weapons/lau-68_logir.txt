@@ -1,0 +1,20 @@
+DisplayName = LAU-68/LOGIR
+Type = ATMissile
+Power = 40
+Acceleration = 5.0
+Explosion = 2
+Flaming = false
+Sight = MissileSight 
+Delay = 100
+LockTime = 20
+ModelBullet = hydra70
+Sound = lau-68_snd
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+
+MaxAmmo = 12
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

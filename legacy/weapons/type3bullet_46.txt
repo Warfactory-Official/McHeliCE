@@ -1,0 +1,24 @@
+DisplayName = 46cm Type3 Anti-Air Shell[AA]
+Type = Rocket
+Power = 25
+ModelBullet = type3_46
+Acceleration = 3.5
+Explosion = 2
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+Delay = 20
+ReloadTime = 100
+Round = 3
+Bomblet = 30
+BombletDiff = 2.0
+DisableSmoke = true
+Sound = rocket_snd
+DamageFactor = helicopter, 4.0
+DamageFactor = plane,      4.0
+RecoilBufCount = 40, 5
+
+MaxAmmo = 24
+SuppliedNum = 6
+Item =  3, iron_ingot
+Item =  3, gunpowder

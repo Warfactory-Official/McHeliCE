@@ -1,0 +1,20 @@
+DisplayName = 9K121 Vikhr
+Type = TVMissile
+Power = 52
+Acceleration = 3.0
+Explosion = 4
+Flaming = true
+Sight = MoveSight
+Delay = 100
+Round = 6
+ReloadTime = 130
+ModeNum = 2
+Sound = missile_3_snd
+
+DamageFactor = tank, 2.0
+
+MaxAmmo = 6
+SuppliedNum = 3
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

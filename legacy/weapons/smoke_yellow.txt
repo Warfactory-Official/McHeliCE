@@ -1,0 +1,8 @@
+DisplayName = Smoke Yellow
+Type = Smoke
+
+Acceleration= 1.0
+SmokeColor  = 230, 200, 200, 20
+SmokeSize   = 2.0
+SmokeMaxAge = 500
+Gravity     = 0.0

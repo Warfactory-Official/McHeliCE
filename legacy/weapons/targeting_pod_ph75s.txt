@@ -1,0 +1,11 @@
+DisplayName = Spot Heli/Plane 75s
+Type = TargetingPod
+Sight = None
+Delay = 60
+Sound = lockon
+
+Length = 300
+Radius = 70
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/helicopters
+MarkTime = 75

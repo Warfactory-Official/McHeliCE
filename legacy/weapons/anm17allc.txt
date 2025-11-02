@@ -1,0 +1,27 @@
+DisplayName = AN-M17All C
+Type = Bomb
+Power = 15
+Acceleration = 0.1
+Explosion = 3
+Flaming = true
+FAE = true
+Bomblet = 25
+BombletSTime = 20
+BombletDiff = 1.3
+ExplosionAltitude = 1
+ExplosionInWater = 0
+Sight = None
+Delay = 50
+Sound = bomb_snd
+
+ModelBullet = bomb
+ModelBomblet = cbc
+
+ReloadTime = 150
+Round = 2
+
+MaxAmmo = 8
+SuppliedNum = 1
+
+Item = 3, iron_ingot
+Item = 3, gunpowder

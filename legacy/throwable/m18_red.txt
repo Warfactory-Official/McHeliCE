@@ -1,0 +1,17 @@
+DisplayName = M18 smoke (Red)
+AddDisplayName = ja_JP, M18 発煙手榴弾(赤)
+ItemID = 28902
+StackSize = 1
+AliveTime = 30
+Explosion = 0
+TimeFuse = 2
+Bound = 0.3
+Gravity = -0.04
+GravityInWater = 0.01
+SmokeSize = 10
+SmokeNum = 6
+SmokeColor = 180, 30, 30
+SmokeVelocityVertical   = 0.7
+SmokeVelocityHorizontal = 0.7
+AddRecipe = "DY",  Y, iron_ingot, D,dye,1
+DispenseAcceleration = 1.1

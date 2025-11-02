@@ -1,0 +1,15 @@
+DisplayName = Kh-31
+Type = ASMissile
+Power = 40
+Acceleration = 4.0
+Explosion = 7
+Flaming = true
+Sight = MoveSight
+Delay = 200
+Sound = missile_2_snd
+
+MaxAmmo = 8
+SuppliedNum = 4
+Item =  3, iron_ingot
+Item =  3, gunpowder
+Item =  3, redstone

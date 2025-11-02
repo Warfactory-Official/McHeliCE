@@ -1,0 +1,22 @@
+DisplayName = Fire Dispenser 2
+Type = Dispenser
+Acceleration = 2
+Sight = None
+Delay = 4
+Sound = smoke_snd
+SoundDelay = 0
+Gravity = -0.02
+
+Round = 200
+ReloadTime = 200
+
+TrajectoryParticle = flame
+SmokeSize   = 1.0
+
+;着弾時に使用するアイテムに火打ち石を指定する。地面に火がつく。
+DispenseItem = flint_and_steel
+DispenseRange = 4
+
+MaxAmmo = 200
+SuppliedNum = 200
+Item =  1, flint_and_steel

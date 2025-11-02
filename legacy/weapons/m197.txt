@@ -1,0 +1,27 @@
+DisplayName = M197
+Type = MachineGun2
+ModelBullet = bullet
+Power = 11
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+SoundDelay = 3
+SoundPitch = 0.9
+Accuracy = 4.5
+HeatCount = 4
+MaxHeatCount = 150
+Sound = gun_l2_snd
+
+SetCartridge = cartridge, 0,   0, 0, 3.00, -0.04, 0.50
+
+AddMuzzleFlash      =   3.1,      0.32,        3,  100,254,159,84
+AddMuzzleFlash      =   3.0,      0.30,        2,  100,254,219,184
+AddMuzzleFlashSmoke   = 2.2,  1,   5.0,  2.0, 15,  180,250,245,240
+AddMuzzleFlashSmoke   = 3.2,  1,   3.0,  3.0,  5,  180,220,217,214
+
+MaxAmmo = 900
+SuppliedNum = 150
+Item =  3, iron_ingot
+Item =  3, gunpowder

@@ -1,0 +1,17 @@
+DisplayName = Hydra 70mm Rocket
+Type = Rocket
+Power = 35
+ModelBullet = hydra70
+Acceleration = 4.0
+Explosion = 3
+Flaming = false
+Sound = rocket_snd
+Sight = MoveSight
+Delay = 7
+ReloadTime = 110
+Round = 10
+
+MaxAmmo = 20
+SuppliedNum = 10
+Item =  2, iron_ingot
+Item =  2, gunpowder

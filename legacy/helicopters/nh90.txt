@@ -1,0 +1,76 @@
+DisplayName = NHIndustries NH90-TTH
+AddDisplayName = ja_JP, NHインダストリーズ NH90-TTH
+ItemID = 28997
+MaxHp = 250
+EnableNightVision = true
+Speed = 0.8
+ThrottleUpDown = 1.0
+FlareType = 1,2,3
+onGroundPitch = 1.0
+Regeneration = true
+RotorSpeed = 80.0
+ArmorDamageFactor = 0.7
+DamageFactor = 0.2
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+ThirdPersonDist = 16
+
+HUD = heli, heli
+
+AddSeat = -0.40, 0.52, 5.11
+AddSeat =  0.40, 0.52, 5.11
+
+AddSeat = -0.54, 0.57, 3.58
+AddSeat =  0.54, 0.57, 3.58
+AddSeat = -0.54, 0.57, 2.98
+AddSeat =  0.54, 0.57, 2.98
+AddSeat = -0.54, 0.57, 0.57
+AddSeat =  0.54, 0.57, 0.57
+AddSeat = -0.54, 0.57,-0.10
+AddSeat =  0.54, 0.57,-0.10
+AddSeat = -0.54, 0.57,-0.78
+AddSeat =  0.54, 0.57,-0.78
+
+AddTexture = nh90_fi
+AddTexture = nh90_ge
+AddTexture = nh90_bg
+
+MobilityYaw = 1.2
+MobilityPitch = 1.0
+MobilityRoll = 1.2
+
+;機首ランディングギア
+AddPartLG =  0.00, 0.29, 6.38, 1.0, 0.0, 0.0, 130
+
+;右ランディングギア
+AddPartLG = -0.96, 0.02, 0.02, 0.0, 0.0,-1.0, 50
+
+;左ランディングギア
+AddPartLG =  0.96, 0.02, 0.02, 0.0, 0.0, 1.0, 50
+
+
+;側面ハッチ左
+AddPartSlideHatch =  0.08, 0.0, 1.7
+;側面ハッチ右
+AddPartSlideHatch = -0.08, 0.0, 1.7
+
+;メインローター
+AddRotor= 1, 0,  0.00,  3.56,  1.59,  0.0, 1.0, 0.0
+
+;テールローター
+AddRotor= 1, 0, -0.63,  3.63, -8.63,  1.0, 0.0, 0.0
+
+InventorySize = 54
+
+MaxFuel         = 1200
+FuelConsumption = 0.4
+
+AddRecipe = "CXC",  "XIX",  "I I",  X, iron_block, I, iron_ingot, C,coal_block
+
+BoundingBox =  0.0, 1.4,  5.0,  1.5, 1.5
+BoundingBox =  0.0, 1.8,  3.0,  2.0, 2.5
+BoundingBox =  0.0, 1.8,  1.0,  2.0, 2.5
+BoundingBox =  0.0, 1.8, -1.0,  2.0, 2.5
+BoundingBox =  0.0, 2.5,-8.0,  2.0, 3.0
+
+

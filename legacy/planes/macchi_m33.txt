@@ -1,0 +1,50 @@
+DisplayName = Macchi M33
+AddDisplayName = ja_JP, マッキM33
+ItemID = 28710
+MaxHp = 100
+Speed = 0.9
+Float = true
+FloatOffset = -0.2
+Sound = rr_merlin
+onGroundPitch =4.0
+ThrottleUpDown = 1.5
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; C = Civilian(民間機)
+Category = C
+
+; 水しぶき を発生させる
+;AddParticleSplash = 座標X,   Y,    Z,   表示数, サイズ,  速度,  表示時間, 上昇, 重力
+AddParticleSplash =  0.3, -0.10,   5.5,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -0.3, -0.10,   5.5,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  0.5, -0.40,   5.3,   4,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -0.5, -0.40,   5.3,   4,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  0.7, -0.40,   2.7,   4,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -0.7, -0.40,   2.7,   4,      9.0,    1.1,   60,       0.01,   0
+
+AddParticleSplash =  5.3, -0.00,   2.2,   3,      5.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  5.1, -0.00,   2.2,   3,      5.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  5.2, -0.00,   2.2,   2,      5.0,    1.1,   60,       0.01,   0
+
+AddParticleSplash = -5.3, -0.00,   2.2,   3,      5.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -5.1, -0.00,   2.2,   3,      5.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -5.2, -0.00,   2.2,   2,      5.0,    1.1,   60,       0.01,   0
+
+HUD = civilian_aircraft, none, none, none
+
+MobilityYaw = 3
+MobilityPitch = 5
+MobilityRoll = 3
+
+AddTexture =macchi_m33_2
+
+;AddSeat =  X, Y, Z
+AddSeat = -.0,  0.1, 1.4
+
+AddPartRotor =    0.01,  2.69, 0.00,   1,0,0
+AddBlade = 1, 0,  0.01,  2.69, 0.00,   0,0,-1
+
+
+AddRecipe ="BGL","IXI","RGS",X,iron_block,I,iron_ingot,G,log,R,dye,1,L,dye,10,B,dye,15,S,dye,7

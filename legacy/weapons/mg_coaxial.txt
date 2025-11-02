@@ -1,0 +1,18 @@
+DisplayName = Coaxial Machinegun
+Type = MachineGun1
+Power = 8
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+Accuracy = 1.0
+HeatCount = 3
+MaxHeatCount = 150
+SoundPitch = 1.0
+Sound = gun_l4_snd
+
+MaxAmmo = 400
+SuppliedNum = 100
+Item =  2, iron_ingot
+Item =  2, gunpowder

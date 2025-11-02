@@ -1,0 +1,23 @@
+DisplayName =15.5cm Type3 Anti-Air Shell[AA]
+Type = Rocket
+Power = 20
+ModelBullet = type3_15_5
+Acceleration = 3.0
+Explosion = 2
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+Delay = 20
+ReloadTime = 80
+Round = 3
+Bomblet = 25
+BombletDiff = 2.0
+DisableSmoke = true
+Sound = rocket_snd
+DamageFactor = helicopter, 2.5
+DamageFactor = plane,      2.5
+
+MaxAmmo = 12
+SuppliedNum = 6
+Item =  3, iron_ingot
+Item =  3, gunpowder

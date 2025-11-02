@@ -1,0 +1,22 @@
+DisplayName = S-8S 80mmFrechet
+Type = Rocket
+Power = 25
+Acceleration = 4.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 7
+ReloadTime = 110
+Round = 6
+Sound = rocket_snd
+Bomblet = 7
+BombletSTime = 6
+BombletDiff = 0.8
+
+ModelBullet = hydra70
+ModelBomblet = cbc
+
+MaxAmmo = 20
+SuppliedNum = 20
+Item =  4, iron_ingot
+Item =  3, gunpowder

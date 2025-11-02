@@ -1,0 +1,23 @@
+DisplayName = 15.5cm Type91[AP]
+Type = MachineGun1
+ModelBullet = 91ap_15_5
+Power = 60
+Acceleration = 5.7
+Explosion = 5
+ExplosionBlock = 3
+ExplosionInWater = 4
+HeatCount = 50
+MaxHeatCount = 145
+Flaming = false
+Sight = MoveSight
+Delay = 15
+Round = 3
+ReloadTime = 125
+SoundDelay = 4
+SoundPitch = 0.3
+Sound = cannon_1_snd
+
+MaxAmmo = 60
+SuppliedNum = 20
+Item =  6, iron_ingot
+Item =  6, gunpowder

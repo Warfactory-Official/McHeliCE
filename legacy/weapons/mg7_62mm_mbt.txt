@@ -1,0 +1,18 @@
+DisplayName = 7.62mm Machine gun
+Type = MachineGun2
+Power = 7
+Acceleration = 8.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+SoundVolume = 0.6
+SoundPitch = 1.0
+Sound = gun_h1_snd
+Accuracy = 0.7
+HeatCount = 4
+MaxHeatCount = 150
+
+MaxAmmo = 1000
+SuppliedNum = 250
+Item =  2, iron_ingot
+Item =  2, gunpowder

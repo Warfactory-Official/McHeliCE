@@ -1,0 +1,25 @@
+DisplayName = Mk19 Grenade(Left Side)
+Type = Rocket
+ModelBullet = mk19bullet
+Power = 15
+Acceleration = 2.5
+Explosion = 2
+ExplosionBlock = 0
+ExplosionInWater = 0
+Flaming = true
+Sight = MoveSight
+Delay = 3
+Round = 5
+ReloadTime = 50
+SoundDelay = 1
+SoundPitch = 0.3
+SoundVolume = 2
+Gravity = -0.04
+Accuracy = 4.0
+
+SetCartridge = cartridge, 0.1,  90, 30, 3.00, -0.04, 0.40
+
+MaxAmmo = 100
+SuppliedNum = 25
+Item =  3, iron_ingot
+Item =  3, gunpowder

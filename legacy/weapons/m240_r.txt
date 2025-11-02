@@ -1,0 +1,24 @@
+DisplayName = M240 7.62mm
+Type = MachineGun2
+Power = 8
+Acceleration = 8.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+SoundVolume = 0.6
+SoundPitch = 1.0
+Sound = gun_l1_snd
+Accuracy = 0.7
+HeatCount = 5
+MaxHeatCount = 150
+SetCartridge = cartridge, 0.1,  90, 30, 3.00, -0.04, 0.40
+
+AddMuzzleFlash      =  1.6,      0.22,        2,  170,254,159,84
+AddMuzzleFlash      =  1.5,      0.20,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  2.2,  1,   5.0,  2.0, 15,  180,250,245,240
+AddMuzzleFlashSmoke =  3.2,  1,   3.0,  1.0,  5,  180,220,217,214
+
+MaxAmmo = 1200
+SuppliedNum = 300
+Item =  2, iron_ingot
+Item =  2, gunpowder

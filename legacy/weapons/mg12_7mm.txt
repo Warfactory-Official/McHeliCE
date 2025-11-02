@@ -1,0 +1,19 @@
+DisplayName = 12.7mm Machine gun
+Type = MachineGun1
+Power = 10
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 0
+;SoundDelay = 3
+;Accuracy = 2.0
+HeatCount = 1
+MaxHeatCount = 100
+SoundPitch = 0.8
+Sound = gun_l1_snd
+
+MaxAmmo = 800
+SuppliedNum = 200
+Item =  2, iron_ingot
+Item =  2, gunpowder

@@ -1,0 +1,85 @@
+﻿DisplayName = Skyline GT-R BNR32
+AddDisplayName = ja_JP, スカイラインGT-R BNR32
+ItemID = 28745
+MaxHp = 120
+ThrottleUpDown = 10.0
+Speed = 0.8
+MobilityYawOnGround = 5.0
+StepHeight = 1.2
+Sound = prop
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity        = -0.15
+GravityInWater = -0.1
+DamageFactor   = 0.85
+EnableNightVision = true
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+ThirdPersonDist = 8
+
+OnGroundPitchFactor = 18.0
+OnGroundRollFactor  = 4.8
+
+CameraPosition = -0.54,  1.22, -0.02, true
+CameraPosition =  0.90,  0.50,  0.70, true, 130, 0
+CameraPosition =  0.70,  1.40, -0.50, true, 40, 20
+CameraPosition =  1.80,  0.20,  1.50, true, 15, 0
+
+VariableSweepWing  = true
+SweepWingSpeed  = 0.0
+
+AddTexture = bnr32_1
+AddTexture = bnr32_2
+AddTexture = bnr32_3
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = C
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  1.05,  -0.24,  1.965, -1.789
+
+HUD = bnr32_hud, none
+
+AddSeat = -0.54,  0.12, -0.02
+AddSeat =  0.54,  0.22, -0.02
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     = -1.05,  0.157,  1.965, 30
+AddPartWheel     =  1.05,  0.157,  1.965, 30
+AddPartWheel     = -1.05,  0.157, -1.789
+AddPartWheel     =  1.05,  0.157, -1.789
+
+AddPartSteeringWheel =  -0.5386,  0.8820,  0.4793,  0.0, 1.0, -1.73,   130
+
+AddPartThrottle = -0.454, 0.882, 0.800,  0,1,-1.73, -220
+AddPartThrottle = -0.623, 0.882, 0.800,  0,1,-1.73, -175
+AddPartThrottle = -0.623, 0.882, 0.800,  0,1,-1.73, 0
+
+AddPartHatch    =     0.00,   0.62,   1.28,   1,0,0,   5
+
+InventorySize = 9
+
+AddRecipe = " G ",  "I I",  "RIR",   G, glass, I, iron_ingot, R, redstone
+
+;ヘッドライト
+AddFixedSearchLight =  0.77, 0.62, 2.85,   0x50FFFFFF,   0x00FFFFC0,    27.0, 15.0,  -5,  0
+AddFixedSearchLight = -0.77, 0.62, 2.85,   0x50FFFFFF,   0x00FFFFC0,    27.0, 15.0,   5,  0
+
+;テールランプ
+AddFixedSearchLight =  0.97, 0.78,-3.05,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+AddFixedSearchLight =  0.62, 0.78,-3.09,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+AddFixedSearchLight = -0.62, 0.78,-3.09,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -6.0,  0
+AddFixedSearchLight = -0.97, 0.78,-3.05,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -6.0,  0
+

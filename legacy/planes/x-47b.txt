@@ -1,0 +1,68 @@
+DisplayName = X-47B Pegasus
+AddDisplayName = ja_JP, X-47B ペガサス
+ItemID = 28728
+MaxHp = 100
+Speed = 0.6
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+EnableNightVision = true
+EnableEntityRadar = true
+EnableGunnerMode = true
+UAV = true
+AutoPilotRot = -0.60
+CameraPosition = 0.0, 1.7, 5.2
+ThrottleUpDown = 0.9
+MaxFuel         = 1000
+FuelConsumption = 1.0
+Stealth = 0.35
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  Q = Drone(無人航空機)
+Category = M.Q
+
+HUD = plane
+
+;Front
+AddPartSlideRotLG =  0.00,  0.70,  0.00,  0.00, 1.80, 1.99, -1,0,0, 110
+AddPartLGRev      = -0.43,  1.29,  0.94,  0.00, 0.26, 1.00, -90
+AddPartLGRev      =  0.43,  1.29,  0.94,  0.00, 0.26, 1.00,  90
+
+;RL Gear
+AddPartLG         = -2.48,  1.73, -2.24,  1,0,0, -90,  0,1,0,  90
+AddPartLG         =  2.48,  1.73, -2.24,  1,0,0, -90,  0,1,0, -90
+;RL Gear hatch
+AddPartLGRev      = -2.68,  1.63, -1.46,  0,0,1, -100
+AddPartLGRev      =  2.68,  1.63, -1.46,  0,0,1,  100
+;RL Gear hatch2
+AddPartLGHatch    = -2.02,  1.36, -1.00,  0,0,1,  90
+AddPartLGHatch    =  2.02,  1.36, -1.00,  0,0,1, -90
+
+AddPartWing =  -5.04, 2.10, 0.00,  0,0,1,-150
+AddPartWing =   5.04, 2.10, 0.00,  0,0,1, 150
+
+
+AddPartNozzle = -0.35, 2.23, -5.23, -1,0,0
+AddPartNozzle =  0.35, 2.23, -5.23, -1,0,0
+
+AddPartWeaponBay = gbu-31, -0.62, 1.22,-1.45,  0, -0.02, 1.0,  90
+AddPartWeaponBay = gbu-31,  0.62, 1.22,-1.45,  0, -0.02, 1.0, -90
+
+AddPartWeaponMissile = gbu-31,   false,  false,  false,    1.15,  1.97, -3.55
+AddPartWeaponMissile = gbu-31,   false,  false,  false,   -1.15,  1.97, -3.55
+
+AddWeapon = dummy_bay_closed, 0,0,0,0,0
+AddWeapon = gbu-31,  1.15,  1.97, -3.55,  0, 0
+AddWeapon = gbu-31, -1.15,  1.97, -3.55,  0, 0
+
+AddWeapon = targeting_pod_mob,   0.0, 1.7, 5.2,  0.0, 0.0
+AddWeapon = targeting_pod_pv30s, 0.0, 1.7, 5.2,  0.0, 0.0
+AddWeapon = targeting_pod_block, 0.0, 1.7, 5.2,  0.0, 0.0
+
+AddRecipe = " I ",  "IRI",  " I ", I, iron_block, R, redstone_block
+
+BoundingBox =  0.0, 2.0,  1.0,  3.0, 1.8
+BoundingBox =  3.0, 2.0, -3.0,  3.0, 1.5
+BoundingBox =  0.0, 2.0, -2.0,  3.0, 1.8
+BoundingBox = -3.0, 2.0, -3.0,  3.0, 1.5
+BoundingBox =  0.0, 2.0, -5.0,  3.0, 1.8

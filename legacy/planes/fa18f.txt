@@ -1,0 +1,69 @@
+DisplayName = F/A-18F
+AddDisplayName = ja_JP, F/A-18Fスーパーホーネット
+ItemID = 28715
+MaxHp = 200
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.1
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+HUD = plane, plane_gnr
+
+AddSeat =  0.00,  1.95,  2.20
+AddSeat =  0.00,  2.20,  0.00
+
+AddPartCanopy = 0.04, 3.41, -1.26, -1,0,0, 45
+
+;Front
+AddPartLG =  0.00, 1.05,  1.44, -1,0,0, 70
+;Left
+AddPartLG =  0.69, 0.82, -5.74,  1,0,0, 155,  0,-1,0, 90
+;Right
+AddPartLG = -0.69, 0.82, -5.74,  1,0,0, 165,  0, 1,0, 90
+;Lear
+AddPartLG =  0.00, 0.74, -8.63, -1,0,0, 130
+
+AddPartWeaponMissile = mk82,    false, false, false,   3.56,  1.23, -6.20
+AddPartWeaponMissile = mk82,    false, false, false,  -3.56,  1.23, -6.20
+AddPartWeaponMissile = mk82,    false, false, false,   4.08,  1.23, -6.20
+AddPartWeaponMissile = mk82,    false, false, false,  -4.08,  1.23, -6.20
+AddPartWeaponMissile = agm-65,  false, false, false,   5.52,  1.22, -6.70
+AddPartWeaponMissile = agm-65,  false, false, false,  -5.52,  1.22, -6.70
+AddPartWeaponMissile = agm-65,  false, false, false,   5.00,  1.22, -6.70
+AddPartWeaponMissile = agm-65,  false, false, false,  -5.00,  1.22, -6.70
+
+AddWeapon = m61a1_l, 0.00,  2.24,  5.71,  0.0,  0.0
+AddWeapon = lau-68,  2.61,  0.77, -3.68,  1.0, -3.0
+AddWeapon = lau-68, -2.61,  0.77, -3.68, -1.0, -3.0
+AddWeapon = mk82,    3.56,  1.23, -6.20,  1.0, -3.0
+AddWeapon = mk82,   -3.56,  1.23, -6.20, -1.0, -3.0
+AddWeapon = mk82,    4.08,  1.23, -6.20,  1.0, -3.0
+AddWeapon = mk82,   -4.08,  1.23, -6.20, -1.0, -3.0
+AddWeapon = agm-65,  5.52,  1.22, -6.70,  1.0, -3.0, true, 2
+AddWeapon = agm-65, -5.52,  1.22, -6.70, -1.0, -3.0, true, 2
+AddWeapon = agm-65,  5.00,  1.22, -6.70,  1.0, -3.0, true, 2
+AddWeapon = agm-65, -5.00,  1.22, -6.70, -1.0, -3.0, true, 2
+AddWeapon = aim-9x,  7.49,  1.71, -6.77,  1.0, -3.0, true, 2
+AddWeapon = aim-9x, -7.49,  1.71, -6.77, -1.0, -3.0, true, 2
+
+AddWeapon = targeting_pod_ph50s,   0.0, 2.7, 1.1,    0.0, 0.0, true,  2
+
+AddRecipe = " XP",  "GXX",  " XP",  X,iron_block, G,redstone_block, P,furnace
+
+AddPartWing =  4.91, 1.89, -5.14,  0,0,1,  90
+AddPartWing = -4.91, 1.89, -5.14,  0,0,1, -90
+
+BoundingBox =  0.00, 1.60, -1.00,  3.0, 1.8
+BoundingBox =  0.00, 1.60, -4.50,  3.0, 1.8
+BoundingBox =  0.00, 1.60, -8.00,  3.0, 1.8
+BoundingBox = -2.92, 1.70, -5.00,  3.0, 0.6
+BoundingBox =  2.92, 1.70, -5.00,  3.0, 0.6

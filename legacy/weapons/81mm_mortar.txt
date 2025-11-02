@@ -1,0 +1,35 @@
+DisplayName = 81mm Mortar
+Type = Rocket
+Power = 35
+Explosion = 4
+ExplosionBlock = 2
+Acceleration = 4.0
+SoundVolume = 4.0
+Sound = gun_l4_snd
+Accuracy = 2.0
+ModelBullet = bullet76mm
+Flaming = true
+Sight = None
+Delay = 30
+Gravity = -0.06
+DamageFactor = plane, 3.0
+DamageFactor = helicopter, 3.0
+
+; 着弾距離の表示
+DisplayMortarDistance = true
+; カメラの垂直方向を0に固定する
+FixCameraPitch = true
+; カメラの回転速度の倍率(小さくするとより細かく着弾地点が調整ができる)
+CameraRotationSpeedPitch = 0.3
+
+; AddMuzzleFlash = 発射元からの距離, サイズ, 表示時間,  A,  R,  G,  B
+AddMuzzleFlash      =           2.1,   1.05,        2,  220,254,219,104
+AddMuzzleFlash      =           2.0,   1.00,        1,  220,254,219,184
+; AddMuzzleFlashSmoke = 発射元からの距離, 表示数, サイズ, 範囲, 表示時間,  A,  R,  G,  B
+AddMuzzleFlashSmoke   =             3.2,     10,    6.0,  3.0,       25,  220,160,140,120
+AddMuzzleFlashSmoke   =             2.2,      5,    6.0,  4.0,       35,  200,190,170,150
+
+MaxAmmo = 57
+SuppliedNum = 19
+Item =  3, iron_ingot
+Item =  3, gunpowder

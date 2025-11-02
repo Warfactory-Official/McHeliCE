@@ -1,0 +1,32 @@
+DisplayName = AGM-154
+Type = ASMissile
+Power = 32
+Acceleration = 1.7
+Explosion = 5
+ExplosionBlock = 4
+Flaming = true
+Sight = MoveSight
+Delay = 160
+Round = 6
+ReloadTime = 190
+SoundVolume = 3
+SoundPitch = 0.1
+Sound = bomb_snd
+ModelBullet = agm154
+Gravity = -0.01
+DisableSmoke = true
+Piercing  = 1
+
+;15Tick後に15個の子弾をばらまく
+Bomblet = 15
+BombletSTime = 15
+BombletDiff = 1.1
+ModelBomblet = cbc
+;目標から30m以内に入ると爆発
+ProximityFuseDist = 30
+
+MaxAmmo = 12
+SuppliedNum = 3
+Item =  4, iron_ingot
+Item =  4, gunpowder
+Item =  4, redstone

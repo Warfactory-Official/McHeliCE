@@ -1,0 +1,21 @@
+DisplayName = 25mm 2M-3M
+Type = MachineGun2
+Power = 18
+Acceleration = 9.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+Accuracy = 1.5
+HeatCount = 5
+MaxHeatCount = 150
+Sound = gun_h2_snd
+SoundVolume = 3
+Gravity = -0.01
+BulletColor        = 255, 119, 255, 116
+
+
+MaxAmmo = 900
+SuppliedNum = 180
+Item =  2, iron_ingot
+Item =  2, gunpowder

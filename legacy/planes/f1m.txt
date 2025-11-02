@@ -1,0 +1,52 @@
+DisplayName = F1M Pate
+AddDisplayName = ja_JP, 三菱 零式水上観測機
+ItemID = 28709
+MaxHp = 100
+Speed = 0.7
+Float = true
+Sound = prop
+ThrottleUpDown = 0.7
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; W = WWII.  R = Reconnaissance(偵察機)
+Category = W.R
+
+; 水しぶき を発生させる
+;AddParticleSplash = 座標X,   Y,    Z,   表示数, サイズ,  速度,  表示時間, 上昇, 重力
+AddParticleSplash =  0.3, -0.60,   4.0,   3,      5.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -0.3, -0.60,   4.0,   3,      5.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  0.6, -0.60,   1.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -0.6, -0.60,   1.0,   2,      9.0,    1.1,   60,       0.01,   0
+
+AddParticleSplash =  5.0,  0.01,   1.2,   2,      6.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -5.0,  0.01,   1.2,   2,      6.0,    1.1,   60,       0.01,   0
+
+
+HUD = plane_wwii, gunner
+
+AddSeat = 0.0,  1.63, -0.09
+AddSeat = 0.0,  1.58, -1.05
+
+AddPartWeapon = lewis7_7mm, false, true, true,  0.00, 2.58, -1.80
+
+AddPartRotor =    0.00,  1.93, 3.92,   1,0, 0
+AddBlade = 1, 0,  0.00,  1.93, 3.92,   0,0,-1
+
+AddWeapon = mg7_7mm,     0.30, 2.63, 2.02,  0.0,-2.0
+AddWeapon = mg7_7mm,    -0.30, 2.63, 2.02,  0.0,-2.0
+AddWeapon = type97,      2.30, 1.20, 0.00,  0.0, 0.0
+AddWeapon = type97,     -2.30, 1.20, 0.00,  0.0, 0.0
+AddWeapon = lewis7_7mm,  0.00, 2.58,-1.80,  0.0, 0.0, false,2, 180,-120,120, -80, 30
+
+AddRecipe = "GIG",  "PIP",  "GIG",  I,iron_block, G,dye,2, P,paper
+
+AddPartWing =  -1.06, 3.21, 0.30,  0, 1,0, -96
+AddPartWing =   1.06, 3.21, 0.30,  0,-1,0, -96
+
+BoundingBox =  0.00, 1.60, -0.00,  2.0, 1.8
+BoundingBox = -2.92, 1.60,  0.30,  2.0, 0.6
+BoundingBox =  2.92, 1.60,  0.30,  2.0, 0.6
+BoundingBox = -2.92, 3.00,  1.30,  2.0, 0.6
+BoundingBox =  2.92, 3.00,  1.30,  2.0, 0.6

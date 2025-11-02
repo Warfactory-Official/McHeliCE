@@ -1,0 +1,93 @@
+DisplayName = MD-90-30
+AddDisplayName = ja_JP,MD-90-30
+ItemID = 28727
+MaxHp = 200
+Speed = 0.98
+Sound = plane
+ThrottleUpDown = 0.4
+MaxFuel         = 4500
+FuelConsumption = 2.0
+InventorySize = 36
+ThirdPersonDist = 52
+
+UnmountPosition = 3.0, 2.0, -3.0
+
+; C = Civilian(民間機)
+Category = C
+
+HUD = civilian_aircraft, none, none, none
+
+MobilityYaw = 0.4
+MobilityPitch = 0.4
+MobilityRoll = 0.2
+MinRotationPitch = -20
+MaxRotationPitch =  20
+MinRotationRoll  = -30
+MaxRotationRoll  =  30
+
+AddPartHatch = 2,3.1,-1.5, 0,1,0, -180
+AddPartHatch = 0,-1.4,0, 0,0,1, -50
+
+AddTexture = md90_2
+AddTexture = md90_3
+AddTexture = md90_4
+
+AddSeat = 0.8, 3.1, 0
+AddSeat = -0.8, 3.1, 0
+
+AddSeat = -0.65, 2.8, -4.7
+AddSeat = -1.4, 2.8, -4.7
+AddSeat = -0.65, 2.8, -6.2
+AddSeat = -1.4, 2.8, -6.2
+AddSeat = 0.65, 2.8, -6.2
+AddSeat = 1.4, 2.8, -6.2
+AddSeat = -0.65, 2.8, -7.7
+AddSeat = -1.4, 2.8, -7.7
+AddSeat = 0.65, 2.8, -7.7
+AddSeat = 1.4, 2.8, -7.7
+AddSeat = -0.65, 2.8, -9.2
+AddSeat = -1.4, 2.8, -9.2
+AddSeat = 0.65, 2.8, -9.2
+AddSeat = 1.4, 2.8, -9.2
+AddSeat = -0.65, 2.8, -10.7
+AddSeat = -1.4, 2.8, -10.7
+AddSeat = 0.65, 2.8, -10.7
+AddSeat = 1.4, 2.8, -10.7
+
+AddRecipe =" X ","XXX","WXW",X,iron_block,W,dye,7
+
+;Right
+AddPartLG = 0, 1.50,  1.39,  1,0,0, -125
+AddPartLG = 1.96, 2.26,  1.13,  0,0, 1, -90
+AddPartLG = -1.96, 2.26,  1.13,  0,0, 1, 90
+
+BoundingBox =  0.00,  3.00, -1.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -5.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -9.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -13.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -17.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -21.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -25.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -29.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -33.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -37.00,  3.0, 3.0
+BoundingBox =  0.00,  3.00, -41.00,  3.0, 3.0
+BoundingBox =  0.00,  3.50, -44.00,  2.0, 2.0
+
+BoundingBox =  5.00,  2.00, -28.50,  4.0, 0.2
+BoundingBox =  -5.00,  2.00, -28.50,  4.0, 0.2
+BoundingBox =  9.00,  2.00, -30.00,  3.0, 0.2
+BoundingBox =  -9.00,  2.00, -30.00,  3.0, 0.2
+BoundingBox =  13.00,  2.00, -32.00,  3.0, 0.2
+BoundingBox =  -13.00,  2.00, -32.00,  3.0, 0.2
+BoundingBox =  16.00,  2.00, -33.50,  2.0, 0.2
+BoundingBox =  -16.00,  2.00, -33.50,  2.0, 0.2
+BoundingBox =  19.00,  2.00, -34.00,  2.0, 0.2
+BoundingBox =  -19.00,  2.00, -34.00,  2.0, 0.2
+
+BoundingBox =  4.00,  3.00, -39.00,  2.0, 2.0
+BoundingBox =  -4.00,  3.00, -39.00,  2.0, 2.0
+
+BoundingBox =  0.00,  8.50, -48.50,  3.0, 0.2
+BoundingBox =  4.00,  8.50, -49.50,  3.0, 0.2
+BoundingBox =  -4.00,  8.50, -49.50,  3.0, 0.2

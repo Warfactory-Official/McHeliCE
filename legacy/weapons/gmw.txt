@@ -1,0 +1,41 @@
+DisplayName = H&K GMW [M384 HE]
+Type = Rocket
+ModelBullet = mk19bullet
+Power = 15
+Acceleration = 2.5
+Explosion = 2
+ExplosionInWater = 0
+Flaming = false
+Sight = None
+SoundVolume = 2
+Gravity = -0.03
+Accuracy = 2.0
+Sound = mk19_l_snd
+HeatCount = 35
+MaxHeatCount = 180
+Delay = 6
+Round = 30
+ReloadTime = 180
+
+Group = MainGun
+
+SetCartridge = cartridge, 0.1,  90, 30, 3.00, -0.04, 0.40
+
+DisableSmoke = true
+
+AddMuzzleFlash      =  1.6,      0.22,        2,  170,254,159,84
+AddMuzzleFlash      =  1.5,      0.20,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  2.2,  1,   5.0,  2.0, 15,  180,250,245,240
+AddMuzzleFlashSmoke =  3.2,  1,   3.0,  1.0,  5,  180,220,217,214
+
+; 着弾距離の表示
+;DisplayMortarDistance = true
+; カメラの垂直方向を0に固定する
+;FixCameraPitch = true
+; カメラの回転速度の倍率(小さくするとより細かく着弾地点が調整ができる)
+CameraRotationSpeedPitch = 0.3
+
+MaxAmmo = 120
+SuppliedNum = 60
+Item =  3, iron_ingot
+Item =  3, gunpowder

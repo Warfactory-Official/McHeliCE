@@ -1,0 +1,20 @@
+DisplayName = AIM-9X sidewinder
+Type = AAMissile
+Power = 42
+Acceleration = 3
+Explosion = 4
+Flaming = false
+Sight = MissileSight
+Delay = 9
+ReloadTime = 110
+Round = 2
+LockTime = 15
+ProximityFuseDist = 1
+ModelBullet = aim9x
+Sound = missile_1_snd
+
+MaxAmmo = 8
+SuppliedNum = 4
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

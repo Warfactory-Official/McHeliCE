@@ -1,0 +1,29 @@
+DisplayName =  Mk29 Missile Launcher
+AddDisplayName = ja_JP, Mk29 艦対空個艦防衛ミサイル
+ItemID = 28615
+MaxHP = 350
+CameraPosition = 0.0, 3.5, 0.0
+CameraZoom = 5
+MinRotationPitch = -50
+MaxRotationPitch = 0
+AddSeat = 0.0,  0.0, 0.0
+ThirdPersonDist = 12
+
+; M = Military,  M = Missile(ミサイル)
+Category = M.M
+
+AddWeapon = aim7_spa,  -1.14, 1.75, 1.94,   0.0, 0.0
+AddWeapon = aim7_spa,  -1.14, 1.0, 1.94,   0.0, 0.0
+AddWeapon = aim7_spa,  1.14, 1.75, 1.94,   0.0, 0.0
+AddWeapon = aim7_spa,  1.14, 1.0, 1.94,   0.0, 0.0
+AddWeapon = aim7_spa,  -1.59, 1.75, 1.94,   0.0, 0.0
+AddWeapon = aim7_spa,  -1.59,  1.0, 1.94,   0.0, 0.0
+AddWeapon = aim7_spa,  1.59, 1.75, 1.94,   0.0, 0.0
+AddWeapon = aim7_spa,  1.59,  1.0, 1.94,   0.0, 0.0
+
+AddPart	= true, true, false, 0,   0.00, 0.00, 0.00
+AddChildPart = true,false,true,  0,  0.00, 1.49, 0.00
+
+AddRecipe = "T T",  " X ",  "XAX",  X,iron_block, T,tnt, A,iron_ingot
+
+BoundingBox =  0.0, 1.0, 0.0,  3.0, 2.5

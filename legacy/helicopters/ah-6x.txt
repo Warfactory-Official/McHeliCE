@@ -1,0 +1,55 @@
+DisplayName =  Boeing AH-6
+AddDisplayName = ja_JP, ボーイング AH-6
+ItemID = 28810
+MaxHp = 130
+EnableGunnerMode = true
+EnableNightVision = true
+Speed = 0.6
+ThrottleUpDown = 1.0
+FlareType = 3
+MaxFuel         = 600
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; M = Military(軍用機).  Q = Drone(無人航空機)
+Category = M.Q
+
+MobilityYaw = 1.5
+MobilityPitch = 1.5
+MobilityRoll = 1.5
+
+HUD = heli, heli_gnr, none, none
+
+CameraPosition = 0.0, 0.10, 2.91
+UAV = true
+AddPartCamera = 0.0, 0.15, 2.51
+
+AddRotor = 1,0,  0.00,  3.35,  0.00,  0.0, 1.0, 0.0
+AddRotor = 1,0,  0.50,  1.90, -6.55,  1.0, 0.0, 0.0
+
+AddPartRotWeapon = m134,   false, true, true,  -1.488, 0.314, -1.444
+AddPartRotWeapon = m134,   false, true, true,   1.488, 0.314, -1.444
+
+; Dummy
+AddSeat = 0,0,0
+
+AddSeat =-0.45,  0.80,  1.20
+AddSeat = 0.45,  0.80,  1.20
+
+AddWeapon = m134, -1.48, 0.40, 1.54,  -1.0, 0.0
+AddWeapon = m134,  1.48, 0.40, 1.54,   1.0, 0.0
+
+AddWeapon = hydra70_l,  2.20, 0.16, 1.11,   1.0, 0.0
+AddWeapon = hydra70_l, -2.20, 0.16, 1.11,  -1.0, 0.0
+
+AddWeapon = aim92_l,  2.30, 0.16, 1.11,   1.0, 0.0
+AddWeapon = aim92_l, -2.30, 0.16, 1.11,  -1.0, 0.0
+
+AddWeapon = targeting_pod_mob,     0.0, 0.10, 2.91,   0.0, 0.0
+AddWeapon = targeting_pod_pv30s,   0.0, 0.10, 2.91,   0.0, 0.0
+AddWeapon = targeting_pod_block,   0.0, 0.10, 2.91,   0.0, 0.0
+
+AddRecipe = " Y ",  "YXY",  "RYR",  X, iron_block, Y, iron_ingot, R, redstone
+AddRecipe = "RXR",  X, mcheli:ah-6, R, redstone
+
+BoundingBox =  0.0, 1.7, 0.0,  2.4, 2.5

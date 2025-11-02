@@ -1,0 +1,74 @@
+DisplayName = F-4A PhantomII
+AddDisplayName = ja_JP, F-4A ファントムⅡ
+ItemID = 28734
+MaxHp = 200
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.08
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1100
+FuelConsumption = 1.0
+AutoPilotRot = 0
+CameraZoom = 2
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+onGroundPitch = -2.0
+ThirdPersonDist = 16
+
+HUD = plane, plane_gnr
+
+AddSeat       = 0.00,  1.18, 0.0366  
+AddGunnerSeat = 0.00,  1.53, -1.43, 0.0, 0.31, -1.9862, true
+
+AddPartCanopy =  0.00, 2.8011, -0.6250,  1,0,0,  -50
+AddPartCanopy =  0.00, 2.8668, -2.0178,  1,0,0,  -50
+
+;AddPartNozzle =  0.73, 2.06, -13.29, -1,0,0
+;AddPartNozzle = -0.73, 2.06, -13.29, -1,0,0
+
+;Front
+AddPartLGRev    =  1.1681, 0.9541, -5.1359,  0,0,-1,  100
+AddPartLGRev    =  2.6182, 1.0752, -6.234,  0,0,1,  90, 0,-1,0, 30 
+AddPartLGRev    =  2.9837, 0.9714, -6.2985,  0,0.0053,-0.1292,  -90
+AddPartLGRev    =  0.3028, 0.8572, 0.7937,  0,0,1, 90
+AddPartLGRev    =  0.00, 0.8440, 1.1795,  1,0,0,  -90
+AddPartLGRev    =  -1.1681, 0.9541, -5.1359,  0,0,1,  100
+AddPartLGRev    =  -2.6182, 1.0752, -6.234,  0,0,-1,  90, 0,-1,0, -30 
+AddPartLGRev    =  -2.9837, 0.9714, -6.2985,  0,0.0053,-0.1292,  90
+AddPartLG    =  0.00, 0.991, 1.0106,  1,0,0,  110
+AddPartLG   = 2.561, 1.132, -6.315, 0,1,0, 30, 0,0,-1,90
+AddPartLG    =  -2.6182, 1.0752, -6.234, 0,-1,0,30, 0,0,1,90
+
+
+; 使用直後は非表示
+AddPartRotWeapon  = m61a1_gpod,   false,  false,  false,   3.7296, 0.5352, -4.736
+AddPartRotWeapon  = m61a1_gpod,   false,  false,  false,   0.00, 0.5352, -3.9862
+AddPartRotWeapon  = m61a1_gpod,   false,  false,  false,   -3.7296, 0.5352, -4.736
+AddPartWeaponMissile = aim7_f,   false,  false,  false,    0.5343, 0.9202, 0.7853
+AddPartWeaponMissile = aim7_f,   false,  false,  false,   -0.5343, 0.9202, 0.7853
+AddPartWeaponMissile = aim7_f,   false,  false,  false,    1.1668, 0.9202, -5.3736
+AddPartWeaponMissile = aim7_f,   false,  false,  false,   -1.1668, 0.9202, -5.3736
+AddPartWeaponMissile = mk82,   false,  false,  false,   2.5457, 0.7549, -3.9708
+AddPartWeaponMissile = mk82,   false,  false,  false,   -2.5457, 0.7549, -3.9708
+
+AddWeapon = m61a1_gpod, 0.00, 0.5352, -3.9862,   0.0,-3.0
+AddWeapon = m61a1_gpod, 3.7296, 0.5352, -4.736,   2.0,-3.0
+AddWeapon = m61a1_gpod, -3.7296, 0.5352, -4.736,   -2.0,-3.0
+AddWeapon = aim7_f,    0.5343, 0.9202, 0.7853,   0.0, 0.0 , true, 2
+AddWeapon = aim7_f,   -0.5343, 0.9202, 0.7853,   0.0, 0.0 , true, 2
+AddWeapon = aim7_f,    1.1668, 0.9202, -5.3736,   0.0, 0.0,true, 2
+AddWeapon = aim7_f,   -1.1668, 0.9202, -5.3736,  0.0, 0.0,true, 2
+AddWeapon = mk82,  2.5457, 0.7549, -3.9708,   0.0, 0.0, true, 2
+AddWeapon = mk82, -2.5457, 0.7549, -3.9708,   0.0, 0.0, true, 2
+
+AddRecipe = " X ",  "XZX",  "ZYZ",  X, iron_block, Y, furnace, Z, iron_ingot, D, diamond_block
+
+BoundingBox =  0.00, 1.90, -2.80,  3.0, 2.0
+BoundingBox =  0.00, 1.90, -7.60,  3.5, 2.0
+BoundingBox = -3.8, 0.80, -6.80,  3.8, 1.0
+BoundingBox =  3.8, 0.80, -6.80,  3.8, 1.0
+BoundingBox =  0.00, 2.70, -11.8,  3.0, 3.0
+BoundingBox =  0.00, 1.20, 1.60,  1.5, 1.5

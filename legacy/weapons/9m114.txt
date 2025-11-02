@@ -1,0 +1,18 @@
+DisplayName = 9M114
+Type = TVMissile
+Power = 52
+Acceleration = 2.0
+Explosion = 4
+Flaming = true
+Sight = MoveSight
+Delay = 100
+ModeNum = 2
+Sound = missile_1_snd
+
+DamageFactor = tank, 2.0
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

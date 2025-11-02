@@ -1,0 +1,20 @@
+DisplayName = 12.7cm Gun
+Type = MachineGun2
+Power = 30
+ModelBullet = bullet76mm
+Acceleration = 6.0
+Explosion = 3
+ExplosionBlock = 1
+Flaming = false
+Sight = MoveSight
+Delay = 10
+ModeNum = 1
+HeatCount = 25
+MaxHeatCount = 60
+SoundVolume = 0.6
+Sound = cannon_1_snd
+
+MaxAmmo = 120
+SuppliedNum = 30
+Item =  3, iron_ingot
+Item =  3, gunpowder

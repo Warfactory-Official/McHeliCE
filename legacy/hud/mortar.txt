@@ -1,0 +1,11 @@
+
+; 色設定は本ファイルを呼び出す前に設定すること!
+
+; 着弾距離を表示する場合、かつ、距離が測定できた場合
+If = dsp_mt_dist == 1 && mt_dist > 0
+	DrawString = 30, 30, "DIST = %.0f", MORTAR_DIST
+Endif
+If = dsp_mt_dist == 1 && mt_dist <= 0
+	DrawString = 30, 30, "DIST = ----"
+Endif
+

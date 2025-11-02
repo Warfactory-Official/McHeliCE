@@ -1,0 +1,24 @@
+DisplayName = M3M 12.7mm
+Type = MachineGun2
+Power = 10
+Acceleration = 8.0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+SoundVolume = 0.6
+SoundPitch = 1.0
+Sound = gun_h1_snd
+Accuracy = 1.0
+HeatCount = 6
+MaxHeatCount = 150
+SetCartridge = cartridge, 0.1,  90, 30, 3.00, -0.04, 0.40
+
+AddMuzzleFlash      =  2.1,      0.22,        1,  150,254,159,84
+AddMuzzleFlash      =  2.0,      0.20,        1,  150,254,219,184
+AddMuzzleFlashSmoke =  2.2,  1,   5.0,  0.5, 15,  180,250,245,240
+AddMuzzleFlashSmoke =  3.2,  1,   3.0,  0.5, 25,  180,220,217,214
+
+MaxAmmo = 900
+SuppliedNum = 150
+Item =  2, iron_ingot
+Item =  2, gunpowder

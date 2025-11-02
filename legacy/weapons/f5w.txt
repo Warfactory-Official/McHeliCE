@@ -1,0 +1,21 @@
+DisplayName = F5W 936kg Torpedo
+Type = Torpedo
+Power = 40
+ModelBullet = f5w
+Acceleration = 0.0
+AccelerationInWater = 1.0
+Explosion = 3
+ExplosionInWater = 9
+Flaming = false
+Sight = None
+Delay = 160
+GuidedTorpedo = false
+Gravity = -0.04
+GravityInWater = 0
+Sound = bomb_snd
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

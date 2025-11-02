@@ -1,0 +1,122 @@
+
+; 色設定を緑にしてUAVの電波の強さ描画を呼び出す。色設定はCall先にも引き継がれる。
+Color = 0xFF28d448
+Call = uav_fs
+
+; UAVかガンナーモードの場合はカメラの倍率を表示する
+If = is_uav || gunner_mode
+	Color = 0xCFFFFFFF
+	DrawString = -70, 10, "x%.1f", CAM_ZOOM
+EndIf
+
+; 燃料の低下を警告表示
+If = low_fuel
+	DrawTexture = hud, 40,-85, 16,16,  0,0,  32,32
+	Color = 0xFFDF0408
+	DrawString  = 56,-80, "%s key", KEY_GUI
+EndIf
+
+; インベントリ数を表示
+If = inventory > 0
+	Color = 0xCF1FFF1F
+	DrawString = 120, -80, "Inventory [ %d ]", INVENTORY
+Endif
+
+; 色設定を緑にして照準描画を呼び出す。色設定はCall先にも引き継がれる。
+Color = 0xFF28d448
+Call = sight
+
+; 色設定を緑にして目盛を描画する。
+Color = 0xFF28d448
+DrawGraduationYaw   = plyr_yaw, 0,   0, -100
+DrawLine = 0,-87,   2,-83,  -2,-83,   0,-87
+DrawCenteredString =   0, -81, "%.0f", PLYR_YAW
+
+DrawCenteredString = +140, -4, "%.0f", PLYR_PITCH
+DrawLine =  120,0,    120+5,-5,    120+30,-5,    120+30,5,    120+5,5,    120,0
+
+DrawGraduationPitch2 = plyr_pitch, -roll,  0, 0
+
+; 色設定(Current Color) 高度が10を超えると緑、10以下だと赤
+Color = altitude>10? 0xFF28d448: 0xFFDF0408
+; 高度(Altitude)
+DrawCenteredString = 0, 40, "[ %3d ]", ALTITUDE
+
+; 色設定(Current Color)
+Color = 0xFF28d448
+; 座標(Position)
+DrawString = -205, 20, "X: %+.1f", pos_X
+DrawString = -205, 30, "Y: %+.1f", pos_Y
+DrawString = -205, 40, "Z: %+.1f", pos_Z
+DrawString = -150, 20, "[%+.2f]",  motion_X
+DrawString = -150, 30, "[%+.2f]",  motion_Y
+DrawString = -150, 40, "[%+.2f]",  motion_Z
+
+; 燃料(Fuel)
+DrawTexture = hud, -207, 83, 32,32,  64, 64, 64,64
+DrawTexture = hud, -207, 83, 32,32,  64,128, 64,64, fuel*270-135
+
+; スロットル(Throttle)
+DrawTexture = hud, -170,    83,  32,32,  128,0, 64,64
+DrawTexture = hud, -170+15, 83, 2.5,32,  192,0,  5,64, Throttle*270-180
+
+; 操縦桿(Stick)
+DrawTexture = hud, -133,              83,              32,32,   0,64, 64,64
+DrawTexture = hud, -133+8+stick_x*12, 83+8+stick_y*12, 16,16, 128,96, 32,32
+
+; 耐久値(HP)
+; HPが20%を超えている場合は緑(0xFF28d448)、HPが20%以下の場合は赤(0xFFDF0408)
+Color = hp_rto>0.2? 0xFF28d448: 0xFFDF0408
+DrawTexture = hud, 144, 95, 64,20, 128,64, 128,20
+DrawString  = 150,    97, "%3.0f", HP_PER
+DrawString  = 150+26, 97, "/ 100", HP_PER
+DrawRect    = 146, 107, hp_rto*60, 6
+
+; 弾数, 残弾 背景 (Ammo background)
+DrawTexture = hud, -208, 57,  62,10,  128,64, 128,20
+; 武器名 (Weapon name background)
+DrawTexture = hud, -208, 68, 106,10,  128,64, 128,20
+
+; 弾数, 残弾 (Ammo) リロード中でなければ緑、リロード中であれば赤
+Color = reloading==0? 0xFF28d448: 0xFFDF0408
+DrawString = -207, 58, "%s",  WPN_AMMO
+DrawString = -181, 58, "/",   WPN_AMMO
+DrawString = -172, 58, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawString = -207, 69, "%s",  WPN_NAME
+
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xFF28d448
+	DrawRect = -145, 57, 43, 10
+	Color = 0xFF188428
+	DrawRect = -144, 58, 41, 8
+	Color = 0xFFDF0408
+	DrawRect = -144, 58, 41*wpn_heat, 8
+EndIf
+
+Color = 0xFF28d448
+If = free_look==1
+	DrawString = -90, -80, "FREE LOOK"
+Endif
+
+If = cam_mode==1
+	DrawString = 30, 50, "NIGHT VISION"
+Endif
+If = cam_mode==2
+	DrawString = 30, 50, "THERMAL VISION"
+Endif
+
+If = auto_pilot==1
+	DrawString = 50, 0, "Auto Pilot"
+Endif
+
+If = have_flare==1
+	Color = can_flare==1? 0xFF28d448: 0xFFDF0408
+	DrawCenteredString = -60, 50, "[ FLARE ]"
+Endif
+
+If = hovering==1
+	Color = 0xCF1FFF1F
+	DrawCenteredString = 40, 10, "HOVERING"
+Endif

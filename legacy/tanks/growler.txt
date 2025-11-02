@@ -1,0 +1,77 @@
+DisplayName = Growler ITV
+AddDisplayName = ja_JP, グラウラーITV
+ItemID = 28766
+MaxHp = 120
+ThrottleUpDown = 10.0
+Speed = 0.6
+MobilityYawOnGround = 6.0
+StepHeight = 1.5
+Sound = prop
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity        = -0.15
+GravityInWater = -0.1
+DamageFactor   = 0.85
+EnableNightVision = false
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+ThirdPersonDist = 4
+
+OnGroundPitchFactor = 15.0
+OnGroundRollFactor  = 5.2
+
+AddTexture = growler_1
+AddTexture = growler_2
+AddTexture = growler_3
+
+;後退可能にする
+EnableBack = true
+; C = Civilian(民間機)
+Category = C
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  0.68,  -0.24,  1.20, -1.10
+
+HUD = bnr32_hud, none
+
+AddSeat =  0.41, 0.40, -0.27
+AddSeat = -0.41, 0.40, -0.27
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     = -0.68,  0.19,  1.20, 30
+AddPartWheel     =  0.68,  0.19,  1.20, 30
+AddPartWheel     = -0.68,  0.19, -1.10
+AddPartWheel     =  0.68,  0.19, -1.10
+
+InventorySize = 9
+
+AddRecipe = " G ",  "III",  "RIR",   G, glass, I, iron_ingot, R, redstone
+
+;ヘッドライト
+AddFixedSearchLight =  0.52, 0.90, 1.76,   0x50FFFFFF,   0x00FFFFC0,    27.0, 15.0,  -5,  0
+AddFixedSearchLight = -0.52, 0.90, 1.76,   0x50FFFFFF,   0x00FFFFC0,    27.0, 15.0,   5,  0
+
+;テールランプ
+AddFixedSearchLight =  0.36, 0.37,-1.58,   0xFFFF0000,   0x10FF0000,    0.05, 0.25,  6.0,  0
+AddFixedSearchLight = -0.36, 0.37,-1.58,   0xFFFF0000,   0x10FF0000,    0.05, 0.25, -6.0,  0
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+RideRack = c5, 1
+RideRack = c5, 2
+RideRack = mv-22, 1
+RideRack = mh-53e, 1
+RideRack = mh-53e, 2
+
+AddRack = container, 0.00, 1.20, -1.06,  0.0, 0.0, 0.0, 5.0

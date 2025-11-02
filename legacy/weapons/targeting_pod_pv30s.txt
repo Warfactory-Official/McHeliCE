@@ -1,0 +1,11 @@
+DisplayName = Spot Player/Vehicle 30s
+Type = TargetingPod
+Sight = None
+Delay = 160
+Sound = lockon
+
+Length = 150
+Radius = 25
+;Target = planes/helicopters/vehicles/players/monsters/others
+Target = planes/helicopters/vehicles/players
+MarkTime = 30

@@ -1,0 +1,87 @@
+DisplayName = MV-22 Osprey
+AddDisplayName = ja_JP, MV-22 オスプレイ
+ItemID = 28701
+MaxHp = 250
+EnableNightVision = true
+EnableVtol = true
+EnableParachuting = true
+;MobDropOption =降下位置X, 降下位置Y, 降下位置Z, 降下間隔(1/20秒)
+MobDropOption = 0.0, 0.0, -11.5,  10
+DefaultVtol = true
+VtolYaw = 0.7
+VtolPitch = 0.4
+Speed = 1.0
+FlareType = 4
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+ThrottleUpDown = 0.5
+MaxFuel         = 1800
+FuelConsumption = 1.0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  C = Transport(輸送機)
+Category = M.C
+
+HUD = plane, none, none, none, none, none, none, none, none, none, none, none, none, none
+
+MobilityYaw = 0.7
+MobilityPitch = 0.7
+MobilityRoll = 0.4
+MinRotationPitch = -60
+MaxRotationPitch =  60
+MinRotationRoll  = -60
+MaxRotationRoll  =  60
+
+AddTexture = mv-22-us-1
+AddTexture = mv-22-us-2
+AddTexture = mv-22-us-3
+AddTexture = mv-22-us-4
+AddTexture = mv-22-jp-1
+
+AddSeat = -0.60, 1.20,  0.00
+AddSeat =  0.60, 1.20,  0.00
+
+AddSeat = -0.70, 1.10, -2.87
+AddSeat =  0.70, 1.10, -2.87
+AddSeat = -0.70, 1.10, -3.96
+AddSeat =  0.70, 1.10, -3.96
+AddSeat = -0.70, 1.10, -5.06
+AddSeat =  0.70, 1.10, -5.06
+AddSeat = -0.70, 1.10, -6.14
+AddSeat =  0.70, 1.10, -6.14
+AddSeat = -0.70, 1.10, -7.17
+AddSeat =  0.70, 1.10, -7.17
+AddSeat = -0.70, 1.10, -8.33
+AddSeat =  0.70, 1.10, -8.33
+
+
+AddPartRotor =   7.60,  3.83, -4.31, -1,0, 0
+AddBlade = 1,0,  7.60,  4.29, -1.49,  0,0,-1
+AddPartRotor =  -7.60,  3.83, -4.31, -1,0, 0
+AddBlade = 1,0, -7.60,  4.29, -1.49,  0,0, 1
+
+AddPartHatch =   0.0,  0.43,  -9.06, -1,0, 0, 38
+AddPartHatch =   0.0,  2.48, -13.44, -1,0, 0, 27
+
+;Front
+AddPartLG =  0.00, 0.85,  1.19,  1,0,0
+;RightLeft
+AddPartLG =  0.00, 1.00, -5.85,  1,0,0
+;LeftHatch
+AddPartLG =  2.33, 0.91, -5.96,  0,0,-1
+;RightHatch
+AddPartLG = -2.33, 0.91, -5.96,  0,0, 1
+
+AddRecipe = " Y ",  "XXX",  "X X",  X, iron_block, Y, glass
+
+InventorySize = 54
+
+BoundingBox =  0.0, 1.6, -1.0,  2.6, 2.0
+BoundingBox =  0.0, 1.8, -4.5,  3.0, 3.0
+BoundingBox =  0.0, 1.6, -8.0,  3.0, 2.5
+BoundingBox = -3.0, 3.5, -5.0,  3.0, 0.6
+BoundingBox =  3.0, 3.5, -5.0,  3.0, 0.6
+BoundingBox = -7.0, 3.0, -4.0,  2.0, 2.0
+BoundingBox =  7.0, 3.0, -4.0,  2.0, 2.0
+
+AddRack = growler, 0.0, 0.85, -7.0, 0.0, 0.00, -9.0, 7.0, 500000, 180

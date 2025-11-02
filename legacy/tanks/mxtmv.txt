@@ -1,0 +1,72 @@
+DisplayName = MXT-MV Husky TSV
+AddDisplayName = ja_JP, MXT-MV ハスキーTSV
+MaxHp = 160
+ThrottleUpDown = 10.0
+Speed = 0.7
+MobilityYawOnGround = 6.5
+StepHeight = 1.5
+Sound = prop
+MinRotationPitch = -90
+MaxRotationPitch = 90
+MobilityRoll     = 0
+Gravity        = -0.15
+GravityInWater = -0.1
+DamageFactor   = 0.85
+EnableNightVision = true
+MaxFuel           = 1200
+FuelConsumption   = 1.0
+ThirdPersonDist = 8
+
+OnGroundPitchFactor = 3.0
+OnGroundRollFactor  = 3.8
+
+;後退可能にする
+EnableBack = true
+
+; Tank or Car or Unknown
+WeightType = Car
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos = 1.03, -0.24, -2.05, 2.02
+
+HUD = bnr32_hud, none, none, none, gunner
+
+AddSeat = -0.70, 0.79,  0.27
+AddSeat =  0.70, 0.79,  0.27
+AddSeat = -0.70, 1.07, -1.01
+AddSeat =  0.70, 1.07, -1.01
+AddGunnerSeat =  0.00, 2.20,-0.59, 0.00, 3.40, -0.59, false, -25, 4
+AddSeat = -0.70, 1.45, -2.35
+AddSeat =  0.70, 1.45, -2.35
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.1
+
+; タイヤの回転スピード
+PartWheelRot = 40
+; タイヤを追加 X座標, Y座標, Z座標, 舵角(旋回時のタイヤのY軸の最大角度)
+AddPartWheel     = -1.03,  0.33,  2.05, 30
+AddPartWheel     =  1.03,  0.33,  2.05, 30
+AddPartWheel     = -1.03,  0.33, -2.02
+AddPartWheel     = -1.03,  0.33, -2.02
+
+AddPartCanopy = -1.12, 1.58, 0.92, 0.0, 1.0, 0.0, 60
+AddPartHatch =   1.12, 1.58, 0.92, 0.0, 1.0, 0.0, -60
+AddPartHatch =  -1.12, 1.86,-1.46, 0.0, 1.0, 0.0, -100
+AddPartHatch =   1.12, 1.86,-1.46, 0.0, 1.0, 0.0, 100
+
+AddTurretWeapon = gmw,    0.00, 2.95, -0.59, 0.0, 0.0, false, 5, 0, -360, 360, -25,  4
+AddTurretWeapon = gmw_fl, 0.00, 2.95, -0.59, 0.0, 0.0, false, 5, 0, -360, 360, -25,  4
+AddPartWeapon = gmw / gmw_fl, false, true, false,  0.00, 2.30, -0.59, 0
+AddPartWeaponChild = false, true, 0.00, 2.74, 0.48
+
+AddRack = container, 0.0, 1.20, -2.35,  0.0, 2.00, -3.85
+
+InventorySize = 27
+
+BoundingBox =  0.0, 1.0,  1.5,   2.6, 1.0,   0.90
+BoundingBox =  0.0, 1.5, -0.5,   2.6, 2.0,   1.00
+BoundingBox =  0.0, 1.5, -1.5,   2.6, 2.0,   1.10
+
+AddRecipe = " G ",  "IXI",  "RIR",   G, glass, I, iron_ingot, R, redstone, X, iron_block

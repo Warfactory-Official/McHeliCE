@@ -1,0 +1,8 @@
+DisplayName = Smoke Blue
+Type = Smoke
+
+Acceleration= 1.0
+SmokeColor  = 230, 20, 170, 200
+SmokeSize   = 2.0
+SmokeMaxAge = 500
+Gravity     = 0.0

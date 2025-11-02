@@ -1,0 +1,17 @@
+DisplayName = AIM-92 Stinger
+Type = AAMissile
+Power = 42
+Acceleration = 3
+Explosion = 4
+Flaming = false
+Sight = MissileSight
+Delay = 100
+LockTime = 15
+ProximityFuseDist = 1
+Sound = missile_1_snd
+
+MaxAmmo = 6
+SuppliedNum = 3
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

@@ -1,0 +1,63 @@
+DisplayName = Ka-27 Helix
+AddDisplayName = ja_JP, Ka-27 ヘリックス
+ItemID = 28804
+MaxHp = 200
+EnableGunnerMode = true
+EnableFoldBlade = true
+EnableNightVision = true
+Speed = 0.6
+ThrottleUpDown = 0.8
+FlareType = 3
+CameraPosition = 0.0, 0.0, 3.1
+EnableEntityRadar = true
+MaxFuel         = 1800
+FuelConsumption = 1.0
+Sound = heli_k
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  S = Antisubmarine(対潜機)
+Category = M.S
+
+HUD = heli, none, none, none, none, none, none, none
+
+MobilityYaw = 0.9
+MobilityPitch = 0.9
+MobilityRoll = 0.9
+
+AddTexture = ka-27b
+AddTexture = ka-27-jp-1
+
+AddRotor= 3, 120,  0.00,  5.00, -3.87,  0.0,  1.0, 0.0, true
+AddRotor= 3, 120,  0.00,  7.00, -3.87,  0.0, -1.0, 0.0, true
+
+AddSeat = 0.50,  1.50,  0.09
+AddSeat =-0.50,  1.50,  0.09
+AddSeat =-0.50,  1.70, -1.45
+AddSeat = 0.60,  1.70, -3.10
+AddSeat = 0.60,  1.70, -4.35
+AddSeat =-0.60,  1.70, -2.60
+AddSeat =-0.60,  1.70, -3.85
+AddSeat =-0.60,  1.70, -5.00
+
+AddPartWeaponMissile = plab-250-120, false, false, false, -1.25, 1.35,-4.00
+AddPartWeaponMissile = plab-250-120, false, false, false,  1.25, 1.35,-4.00
+
+AddWeapon = s-5m57mm,     -1.25, 1.35,-2.00,   0.0, 0.0
+AddWeapon = s-5m57mm,      1.25, 1.35,-2.00,   0.0, 0.0
+AddWeapon = plab-250-120, -1.25, 1.35,-4.00,   0.0, 0.0
+AddWeapon = plab-250-120,  1.25, 1.35,-4.00,   0.0, 0.0
+AddWeapon = kh-35,        -1.25, 1.35,-2.00,   0.0, 0.0
+AddWeapon = kh-35,         1.25, 1.35,-2.00,   0.0, 0.0
+
+AddWeapon = targeting_pod_mob,     0.0, 0.0, 3.1,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 0.0, 3.1,   0.0, 0.0,  false,2
+
+AddRecipe = "X X",  "X X",  " X ",  X, iron_block
+
+InventorySize = 27
+
+BoundingBox =  0.0, 3.0, -1.0,  2.0, 4.8
+BoundingBox =  0.0, 2.5, -3.5,  2.0, 3.8
+BoundingBox =  0.0, 2.5, -6.0,  2.0, 3.0
+
+AddRepellingHook = 1.97, 3.51, -6.12, 30

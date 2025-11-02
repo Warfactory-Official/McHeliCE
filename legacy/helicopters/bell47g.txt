@@ -1,0 +1,26 @@
+DisplayName = Bell47G
+AddDisplayName = ja_JP, Bell47G
+ItemID = 28807
+MaxHp = 100
+Speed = 0.6
+MaxFuel         = 600
+FuelConsumption = 0.5
+ThirdPersonDist = 16
+
+; C = Civilian(–¯ŠÔ‹@)
+Category = C
+
+HUD = civilian_aircraft, none
+
+AddTexture = bell47g_k
+AddTexture = bell47g_w
+
+AddRotor= 1, 0,  0.00,  3.78,  -1.17,  0.0, 1.0, 0.0
+AddRotor= 1, 0, -0.05,  2.34, -10.04,  1.0, 0.0, 0.0
+
+AddSeat = 0.50,  0.96,  0.29
+AddSeat =-0.50,  0.96,  0.29
+
+AddRecipe = " G ",  "IXI",  " I ",  X, iron_block, G, glass, I, iron_ingot
+
+BoundingBox =  0.0, 1.7, 0.0,  2.4, 2.5

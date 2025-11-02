@@ -1,0 +1,70 @@
+DisplayName = EMB 314 Super Tucano
+AddDisplayName = ja_JP, エンブラエル EMB-314
+ItemID = 28703
+MaxHp = 150
+Speed = 0.8
+FlareType = 4
+Sound = turboprop
+ThrottleUpDown = 0.8
+MaxFuel         = 1200
+FuelConsumption = 1.0
+EnableEjectionSeat = true
+EnableNightVision = true
+CameraPosition = 0.0, 0.3, 0.7
+ThirdPersonDist = 12
+
+UnmountPosition = 3.0, 2.0, -5.0
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = plane, plane_gnr
+
+AddSeat       = 0.0,  1.32, -1.70
+AddGunnerSeat = 0.0,  1.48, -3.57,   0.0, 0.3, 0.7,  true
+
+AddTexture = emb314_plain
+AddTexture = emb314_usa
+AddTexture = emb314_xe
+
+AddPartRotor =     0.00,  1.5270, 2.07,   1,0,0
+AddBlade = 1, 0,  0.00,  1.5270, 2.07,   0,0,-1
+
+AddPartCanopy = -0.5679, 2.1341, -2.6529, -0.0287, -0.1276,  1,  70
+
+;Front
+AddPartLG =  0.00, 1.12,  0.05,  1,0, 0, 96
+AddPartLG =  0.18, 0.98, -0.51,  0,0,-1, 90
+;Left
+AddPartLG =  1.65, 1.18, -2.72,  0,0,-1, 136.39
+AddPartLG =  2.20, 1.30, -2.76,  0,0,-1, 83.56
+AddPartLG =  2.37, 1.29, -2.76,  0,0,-1, 85
+;Right
+AddPartLG = -1.65, 1.18, -2.72,  0,0, 1, 145.84
+AddPartLG = -2.20, 1.30, -2.76,  0,0, 1, 83.56
+AddPartLG = -2.37, 1.29, -2.76,  0,0, 1, 85
+
+AddWeapon = aim9,      4.21, 1.24, -3.75,   0.0,  0.0
+AddWeapon = aim9,     -4.21, 1.24, -3.75,   0.0,  0.0
+AddWeapon = mg12_7mm,  2.37, 1.27,  0.56,   1.0, -3.0
+AddWeapon = mg12_7mm, -2.37, 1.27,  0.56,  -1.0, -3.0
+AddWeapon = lau-68,    3.31, 1.05, -3.88,   0.0, -0.0
+AddWeapon = lau-68,   -3.31, 1.05, -3.88,   0.0, -0.0
+AddWeapon = gpu-2,     0.00, 0.50, -1.25,   0.0,  0.0
+
+AddPartRotWeapon     = gpu-2,  false,  false,  false,   0.00, 0.50, -1.54, 0,0,1
+AddPartWeaponMissile = aim9,   false,  false,  false,   4.21, 1.24, -3.75
+AddPartWeaponMissile = aim9,   false,  false,  false,  -4.21, 1.24, -3.75
+
+AddWeapon = lau-68_apkws,  3.31, 1.05, -3.88,   0.0, -0.0,false, 2
+AddWeapon = lau-68_apkws, -3.31, 1.05, -3.88,   0.0, -0.0,false, 2
+AddWeapon = lau-68_logir,  3.31, 1.05, -3.88,   0.0, -0.0,false, 2
+AddWeapon = lau-68_logir, -3.31, 1.05, -3.88,   0.0, -0.0,false, 2
+
+AddRecipe = " G ",  "IXI",  "DID",  X, iron_block, G, glass, I, iron_ingot, D, dispenser
+
+BoundingBox =  0.0, 1.4, -2.7,  3.0, 1.8
+BoundingBox = -2.9, 1.1, -2.7,  2.0, 0.6
+BoundingBox =  2.9, 1.1, -2.7,  2.0, 0.6
+BoundingBox = -4.9, 1.5, -2.7,  2.0, 0.6
+BoundingBox =  4.9, 1.5, -2.7,  2.0, 0.6

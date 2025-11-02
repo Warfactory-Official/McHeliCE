@@ -1,0 +1,116 @@
+DisplayName = CB90 Combat Boat
+AddDisplayName = ja_JP, CB90 戦闘艇
+ItemID = 30514
+MaxHp = 250
+EnableNightVision = true
+Speed = 1.2
+Sound = boat
+Float = true
+ThrottleUpDown = 2.0
+FloatOffset = -0.4
+MinRotationPitch = 0
+MaxRotationPitch = 0
+MobilityRoll = 0
+Gravity = -0.15
+GravityInWater = -0.1
+DamageFactor = 0.8
+StepHeight = 0.0
+ThirdPersonDist = 16
+
+ArmorMinDamage = 1
+
+CanMoveOnGround = false
+CanRotOnGround  = false
+MobilityYawOnGround = 4.0
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+HUD = plane, plane_gnr, plane_gnr, gunner, gunner, gunner, gunner, none, none, none, none
+
+; 水しぶき を発生させる
+;AddParticleSplash = 座標X,   Y,    Z,   表示数, サイズ,  速度,  表示時間, 上昇, 重力
+AddParticleSplash =  1.6, -0.18,   1.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -1.6, -0.18,   1.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  1.6, -0.18,  -4.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6, -0.18,  -4.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  1.6, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  0.8, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -0.8, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+
+;操縦席
+AddSeat = -0.63, 0.74, 2.42
+
+;ATGMオペレーター
+AddGunnerSeat = 0.63, 0.74, 2.42, 0.0, 3.00, -7.61,  true, -90, 20
+
+;RWSガンナー
+AddGunnerSeat = 0.00, 0.74, 1.40, 0.00, 4.39, -0.99, false, -40, 25
+
+;M3ガンナー
+AddSeat = -1.01, 1.47, -0.64
+AddSeat =  1.01, 1.47, -0.64
+
+;M134ガンナー
+AddSeat = -0.88, 1.47, -2.89
+AddSeat =  0.88, 1.47, -2.89
+
+;Infantry
+AddSeat = -0.97, -0.20,  0.09
+AddSeat =  0.97, -0.20,  0.09
+AddSeat = -0.97, -0.20, -1.52
+AddSeat =  0.97, -0.20, -1.52
+
+
+;スポット機能
+AddWeapon = none,               -0.63, 1.20, 2.42, 0.0, 0.0, true, 1
+AddWeapon = targeting_pod_block,-0.63, 1.20, 2.42, 0.0, 0.0, true, 1
+AddWeapon = targeting_pod_pv50s, 0.00, 4.02, 1.60, 0.0, 0.0, true, 1
+
+
+;RWS
+AddWeapon = cb90_30mm, 0.00, 3.78, -0.99, 0.0,  0.0, false, 3,   0, -360, 360,  -30, 15
+AddWeapon = cb90_mk19, 0.00, 3.78, -0.99, 0.0,  0.0, false, 3,   0, -360, 360,  -40, 10
+
+;ATGM
+AddWeapon = cb90_atgm, 0.00, 2.06, -7.64, 0.0,-20.0, false, 2, 180, -180, 180,  -90, 90
+
+;M3
+AddWeapon = cb90_m3r, -1.30, 2.35,  0.02, 0.0, 0.0, false, 4,  0, -0, 180, -50, 20
+AddWeapon = cb90_m3l,  1.30, 2.35,  0.02, 0.0, 0.0, false, 5,  0, -180, 0, -50, 20
+
+;M134
+AddWeapon = cb90_m134r, -1.31, 2.28, -2.37, 0.0, 0.0, false, 6, 0, -0, 180, -50, 20
+AddWeapon = cb90_m134l,  1.31, 2.28, -2.37, 0.0, 0.0, false, 7, 0, -180, 0, -50, 20
+
+;武器可動パーツ
+AddPartWeapon = cb90_30mm, false, true, false, 0.00, 3.06, -0.99
+AddPartWeaponChild = false, true, 0.00, 3.78, -0.99
+AddPartWeapon = cb90_mk19, false, true, false, 0.00, 3.06, -0.99
+AddPartWeaponChild = false, true, 0.48, 3.79, -0.99
+AddPartWeapon = cb90_atgm, false, true, false, 0.00, 0.94, -7.61
+
+AddPartWeapon = cb90_m3r, false, true, false, -1.30, 2.35, 0.02
+AddPartWeaponChild = false, true, -1.30, 2.31, 0.09
+AddPartWeapon = cb90_m3l, false, true, false,  1.30, 2.35, 0.02
+AddPartWeaponChild = false, true,  1.30, 2.31, 0.09
+
+AddPartWeapon = cb90_m134r, false, true, false, -1.31, 2.28, -2.37
+AddPartWeaponChild = false, true, -1.23, 2.28, -2.32
+AddPartWeapon = cb90_m134l, false, true, false,  1.31, 2.28, -2.37
+AddPartWeaponChild = false, true,  1.23, 2.28, -2.32
+
+;AddPartNozzle =  0.91, 0.00, -5.53, -1,0,0
+;AddPartNozzle = -0.91, 0.00, -5.53, -1,0,0
+;AddPartNozzle = -1.08, 0.00, -5.53, -1,0,0
+;AddPartNozzle =  1.08, 0.00, -5.53, -1,0,0
+;AddPartNozzle =  0.73, 0.00, -5.64, -1,0,0
+;AddPartNozzle = -0.73, 0.00, -5.64, -1,0,0
+
+BoundingBox =  0.0, 1.9, -2.0,  2.8, 2.8
+BoundingBox =  0.0, 1.9,  1.0,  2.8, 2.8
+BoundingBox =  0.0, 1.9,  3.4,  2.0, 2.0
+BoundingBox =  0.0, 1.9,  4.0,  1.8, 1.8, 0.8
+
+AddShapelessRecipe = iron_block,iron_block

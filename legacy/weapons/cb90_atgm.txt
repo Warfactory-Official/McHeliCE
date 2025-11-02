@@ -1,0 +1,19 @@
+DisplayName = TV-Guided ATGM
+Type = TVMissile
+Power = 52
+Acceleration = 2.0
+Explosion = 3
+ExplosionBlock = 0
+Sight = MoveSight
+Delay = 80
+ModelBullet = agm114
+Sound = missile_1_snd
+TimeFuse = 200
+Round = 2
+ReloadTime = 80
+
+MaxAmmo = 16
+SuppliedNum = 4
+Item =  3, iron_ingot
+Item =  3, gunpowder
+Item =  3, redstone

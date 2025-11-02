@@ -1,0 +1,107 @@
+DisplayName = T-84 OplotM
+AddDisplayName = ja_JP, T-84 オプロートM
+ItemID = 30100
+MaxHp = 300
+Speed = 0.65
+Sound = mbt_run
+ThrottleUpDown = 20.0
+MobilityYawOnGround = 2.5
+MinRotationPitch = -50
+MaxRotationPitch = 5
+MobilityRoll = 0
+Gravity = -0.1
+GravityInWater = -0.1
+DamageFactor = 0.0
+CameraZoom = 3
+CameraPosition = 0.00,  3.50, 0.25, true
+EnableNightVision = true
+CameraRotationSpeed = 30
+FlareType = 10
+MaxFuel         = 1200
+FuelConsumption = 2.7
+StepHeight = 1.5
+DefaultFreelook = true
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+FlareType = 10
+ThirdPersonDist = 8
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 3
+
+HideEntity = true
+
+AddTexture = t84_1
+AddTexture = t84_2
+AddTexture = t84_3
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  1.79,  -0.21,  4.14, 3.01, 0.83, -1.11, -3.26
+
+HUD = mbt_hud, mbt_hud
+
+AddGunnerSeat = 0.00,  2.50, 0.25
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 12
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.95
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+;転輪がなくても動作する
+AddCrawlerTrack = false, 0.37, -1.79, 0.81/-3.65, 0.53/-3.54, -0.09/-2.43, -0.21/-2.13, -0.21/3.01, 0.53/4.42, 0.81/4.53, 1.09/4.42, 1.20/4.14, 1.20/-3.26, 1.09/-3.54
+AddCrawlerTrack = false, 0.37,  1.79, 0.81/-3.65, 0.53/-3.54, -0.09/-2.43, -0.21/-2.13, -0.21/3.01, 0.53/4.42, 0.81/4.53, 1.09/4.42, 1.20/4.14, 1.20/-3.26, 1.09/-3.54
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+TrackRollerRot = 40
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+AddTrackRoller = -1.79, 0.81,  4.14
+AddTrackRoller = -1.79, 0.21,  3.01
+AddTrackRoller = -1.79, 0.21,  1.99
+AddTrackRoller = -1.79, 0.21,  0.83
+AddTrackRoller = -1.79, 0.21, -0.04
+AddTrackRoller = -1.79, 0.21, -1.11
+AddTrackRoller = -1.79, 0.21, -2.13
+AddTrackRoller = -1.79, 0.81, -3.26
+
+AddTrackRoller =  1.79, 0.81,  4.14
+AddTrackRoller =  1.79, 0.21,  3.01
+AddTrackRoller =  1.79, 0.21,  1.99
+AddTrackRoller =  1.79, 0.21,  0.83
+AddTrackRoller =  1.79, 0.21, -0.04
+AddTrackRoller =  1.79, 0.21, -1.11
+AddTrackRoller =  1.79, 0.21, -2.13
+AddTrackRoller =  1.79, 0.81, -3.26
+
+AddPartWeapon = kba-3_ap / kba-3_he, false, true, false,  0.00, 1.52, 0.25, 0
+AddPartWeaponChild = false, true, 0.00, 2.01, 1.62
+
+AddTurretWeapon = kba-3_ap,   0.00, 2.08, 6.72,  0.0, 0.0, true,1, 0,-360,360, -50, 5
+AddTurretWeapon = kba-3_he,   0.00, 2.08, 6.72,  0.0, 0.0, true,1, 0,-360,360, -50, 5
+AddTurretWeapon = 9M119M,     0.00, 2.08, 6.72,  0.0, 0.0, true,1, 0,-360,360, -90, 90
+AddTurretWeapon = mg7_62mm,  -0.17, 2.25, 2.10,  0.0, 0.0, true,1, 0,-360,360, -50, 5
+
+AddRecipe = "XXX",  "X X",  "III",  X, iron_block,  I, iron_ingot
+
+BoundingBox =  0.0, 1.0,  1.5,   4.0, 2.0,   0.80
+BoundingBox =  0.0, 2.5, -0.5,   3.0, 1.0,   1.00
+BoundingBox =  0.0, 1.0, -1.2,   4.0, 2.0,   1.10

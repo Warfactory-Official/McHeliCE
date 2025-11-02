@@ -1,0 +1,69 @@
+DisplayName = PZL W-3PL Gluszec
+AddDisplayName = ja_JP, PZL W-3PL グウシェッツ
+MaxHp = 180
+EnableGunnerMode = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.7
+FlareType = 3
+CameraPosition = 0.0, 1.1, 4.5
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = heli, heli_gnr
+
+;飛行可能時間[秒] = 燃料搭載可能量 / 1秒間に消費する燃料
+; 燃料搭載可能量
+MaxFuel         = 1200
+; 1秒間に消費する燃料
+FuelConsumption = 0.8
+
+;AddPartCamera = 座標X,Y,Z, Yaw連動, Pitch連動
+AddPartCamera = 0.00, 2.65, 1.91, true, false
+
+; AddPartWeapon      = 連動する武器名(無しの時はnone), ガンナー時非表示？, Yaw連動, Pitch連動, 回転座標X,Y,Z
+; AddPartWeaponChild = Yaw連動, Pitch連動, 回転座標X,Y,Z
+; M230
+AddPartWeapon = mg12_7mm,    true,  true,  true,   0.00, 0.07, 4.01
+AddPartWeaponChild  =               false, false,  0.00, 0.27, 4.01
+AddPartWeapon    = mg7_62mm, false, true,  true,  -1.18, 1.41, 1.04
+AddPartWeaponChild  =               false, false, -1.24, 1.24, 1.04
+
+AddPartSlideHatch = 0.07, 0.00, -1.10
+
+AddRotor= 1,90,  0.00,  3.66,  0.00,  0.0, 1.0, 0.0, true
+AddRotor= 1, 0, -0.28,  3.93, -10.70,  1.0, 0.0, 0.0, false
+
+AddSeat       = -0.55,  0.75,  2.40
+AddGunnerSeat =  0.55,  0.75,  2.40,  0.0, 0.00, 4.59, true
+AddSeat       = -0.78,  0.87,  1.04
+
+AddSeat       =  0.34,  0.83, -0.20
+AddSeat       = -0.34,  0.83, -0.20
+AddSeat       =  0.34,  0.83, -0.91
+AddSeat       = -0.34,  0.83, -0.91
+AddSeat       =  0.34,  0.83, -1.70
+AddSeat       = -0.34,  0.83, -1.70
+
+;AddWeapon = 武器名, 位置X,Y,Z, Yaw, Pitch, パイロットが使用できる？, 座席番号, DefaultYaw,RangeYaw, MinPitch, MaxPitch
+AddWeapon = mg12_7mm,  0.00, 0.09, 5.49,  0, -1, true,2, 0,-360,360, -20,80
+
+AddWeapon = mg7_62mm, -1.97, 1.46, 1.04,   0.0, 0.0, false, 3,  90,-70, 70, -50,80
+
+AddWeapon = s-13, -1.80, 1.07, -0.45, 0.0, 0.0
+AddWeapon = s-13,  1.80, 1.07, -0.45, 0.0, 0.0
+
+AddWeapon = grom, -2.66, 1.39,  0.60, 0.0, 0.0
+AddWeapon = grom, -2.36, 1.39,  0.60, 0.0, 0.0
+
+AddWeapon = pom2,  2.51, 0.96, -0.44, 0.0, 0.0
+
+AddRepellingHook =  1.47, 2.08, 1.28, 30
+
+BoundingBox =  0.0, 2.5, -0.0,  2.0, 3.8
+BoundingBox =  0.0, 2.0, -2.5,  2.0, 2.4
+BoundingBox =  0.0, 2.5,-10.0,  2.0, 3.0
+
+AddRecipe = "III",  " X ",  "XTX",  X, iron_block, T, tnt, I, iron_ingot

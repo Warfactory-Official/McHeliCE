@@ -1,0 +1,110 @@
+DisplayName = AH-64D Apache Longbow
+AddDisplayName = ja_JP, AH-64D アパッチ・ロングボウ
+ItemID = 28800
+MaxHp = 180
+EnableGunnerMode = true
+EnableFoldBlade = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.7
+FlareType = 3
+; FlareOption = 位置X, 位置Y, 位置Z
+; TEST
+; FlareOption = 10.0,  5.0, -20.0
+CameraPosition = 0.0, 1.1, 4.5
+onGroundPitch = 3.5
+ThirdPersonDist = 16
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+; M = Military(軍用機).  A = Attacker(攻撃機)
+Category = M.A
+
+HUD = heli, heli_gnr
+
+;飛行可能時間[秒] = 燃料搭載可能量 / 1秒間に消費する燃料
+; 燃料搭載可能量
+MaxFuel         = 1200
+; 1秒間に消費する燃料
+FuelConsumption = 1.0
+
+AddTexture = ah-64-il
+AddTexture = ah-64-us-1
+AddTexture = ah-64-us-2
+AddTexture = ah-64-jp
+AddTexture = ah-64-en
+
+;AddPartCamera = 座標X,Y,Z, Yaw連動, Pitch連動
+; タレット 上
+AddPartCamera = 0.0, 1.81, 3.13, true, false
+; タレット 下
+AddPartCamera = 0.0, 1.26, 3.31, true, false
+AddPartCamera = 0.0, 1.26, 3.31, true, true
+
+; AddPartWeapon      = 連動する武器名(無しの時はnone), ガンナー時非表示？, Yaw連動, Pitch連動, 回転座標X,Y,Z
+; AddPartWeaponChild = Yaw連動, Pitch連動, 回転座標X,Y,Z
+; M230
+AddPartWeapon = m230,    true,  true, false,   0.00, 0.29, 0.72
+AddPartWeaponChild  =           false, true,   0.00, 0.29, 0.72
+; Hydra70
+AddPartWeapon = hydra70, false, false, true,   0.00, 0.81, -2.13
+; AddPartWeaponMissile は武器使用後、使用可能になるまで非表示にする。
+; agm114
+AddPartWeaponMissile = agm114,   false,  false,  false,     1.72,  0.96, -1.64
+AddPartWeaponMissile = agm114,   false,  false,  false,    -1.72,  0.96, -1.64
+AddPartWeaponMissile = agm114,   false,  false,  false,     1.72,  0.96, -1.64
+AddPartWeaponMissile = agm114,   false,  false,  false,    -1.72,  0.96, -1.64
+AddPartWeaponMissile = agm114tv, false,  false,  false,     1.72,  0.96, -1.64
+AddPartWeaponMissile = agm114tv, false,  false,  false,    -1.72,  0.96, -1.64
+AddPartWeaponMissile = agm114tv, false,  false,  false,     1.72,  0.96, -1.64
+AddPartWeaponMissile = agm114tv, false,  false,  false,    -1.72,  0.96, -1.64
+
+
+AddRotor= 4,90,  0.00,  5.19,  -1.95,  0.0, 1.0, 0.0, true
+AddRotor= 1, 0,  0.85,  4.04, -11.94,  1.0, 0.0, 0.0, false
+
+AddSeat       = 0.00,  1.50, -0.28
+AddGunnerSeat = 0.00,  1.30,  1.26,  0.0, 1.1, 4.5, true
+
+;AddWeapon = 武器名, 位置X,Y,Z, Yaw, Pitch, パイロットが使用できる？, 座席番号, DefaultYaw,RangeYaw, MinPitch, MaxPitch
+AddWeapon = targeting_pod1,  0.00, 0.38, 0.90,  0,-1, true,2, 0,-360,360, -20,80
+AddWeapon = m230,  0.00, 0.38, 0.90,  0,-1, true,2, 0,-360,360, -20,80
+;DEBUG Only
+;AddWeapon = dispenser_fire2,   0.00, 0.38, 0.90,  0,-1, true,2, 0,-360,360, -20,80
+;AddWeapon = dispenser_water2,  0.00, 0.38, 0.90,  0,-1, true,2, 0,-360,360, -20,80
+
+AddWeapon = hydra70,        2.72,  0.81, -2.13,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = hydra70,       -2.72,  0.81, -2.13, -1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = hydra70_mpsm,   2.72,  0.81, -2.13,  1, 0,  true,1,  0,0,0, 0, 25
+AddWeapon = hydra70_mpsm,  -2.72,  0.81, -2.13, -1, 0,  true,1,  0,0,0, 0, 25
+
+AddWeapon = aim92,  2.72,  0.89, -1.00,  1, 0
+AddWeapon = aim92, -2.72,  0.89, -1.00, -1, 0
+AddWeapon = aim92,  2.72,  0.89, -1.00,  1, 0
+AddWeapon = aim92, -2.72,  0.89, -1.00, -1, 0
+
+AddWeapon = agm114,  1.72,  0.96, -1.64,  1, 0,  true,2
+AddWeapon = agm114, -1.72,  0.96, -1.64, -1, 0,  true,2
+AddWeapon = agm114,  1.72,  0.96, -1.64,  1, 0,  true,2
+AddWeapon = agm114, -1.72,  0.96, -1.64, -1, 0,  true,2
+
+AddWeapon = agm114tv,  1.72,  0.96, -1.64,  1, 0,  true,2
+AddWeapon = agm114tv, -1.72,  0.96, -1.64, -1, 0,  true,2
+AddWeapon = agm114tv,  1.72,  0.96, -1.64,  1, 0,  true,2
+AddWeapon = agm114tv, -1.72,  0.96, -1.64, -1, 0,  true,2
+
+AddWeapon = a10gau8,  0.00,  0.70,  0.95,  0, 0,  true,2
+
+AddWeapon = targeting_pod_mob,     0.0, 1.1, 4.5,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv10s,   0.0, 1.1, 4.5,   0.0, 0.0,  false,2
+;AddWeapon = targeting_pod_block,   0.0, 1.1, 4.5,   0.0, 0.0,  false,2
+
+AddRecipe = "X X",  " X ",  "X X",  X, iron_block
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+BoundingBox =  0.0, 2.5, -2.0,  2.0, 3.8
+BoundingBox =  0.0, 2.0, -4.5,  2.0, 2.4
+BoundingBox =  0.0, 2.5,-12.0,  2.0, 3.0

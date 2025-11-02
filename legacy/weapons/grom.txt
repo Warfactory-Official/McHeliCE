@@ -1,0 +1,25 @@
+DisplayName = GROM Anti-Air Missile
+Type = AAMissile
+Power = 40
+Acceleration = 4
+Explosion = 4
+Flaming = false
+Sight = MissileSight
+Delay = 100
+LockTime = 40
+Sound = missile_1_snd
+Zoom = 1.8
+Round = 2
+ReloadTime = 80
+
+DamageFactor = plane, 1.8
+DamageFactor = helicopter, 1.8
+
+; DEBUG
+;RigidityTime = 30
+
+MaxAmmo = 8
+SuppliedNum = 4
+Item =  2, iron_ingot
+Item =  2, gunpowder
+Item =  2, redstone

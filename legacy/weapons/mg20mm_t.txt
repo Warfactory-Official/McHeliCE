@@ -1,0 +1,18 @@
+DisplayName = 20mm Machine gun
+Type = MachineGun1
+Power = 16
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+SoundVolume = 10
+HeatCount = 3
+MaxHeatCount = 60
+Sound = gun_h2_snd
+SetCartridge = cartridge, 0.1,  90, 0, 3.00, -0.04, 0.40
+
+MaxAmmo = 800
+SuppliedNum = 200
+Item =  2, iron_ingot
+Item =  2, gunpowder

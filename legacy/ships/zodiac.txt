@@ -1,0 +1,41 @@
+DisplayName = Zodiac Boat
+AddDisplayName = ja_JP, ゴムボート
+ItemID = 28743
+MaxHp = 100
+Speed = 0.5
+Float = true
+FloatOffset = -0.5
+Sound = prop
+ThrottleUpDown = 1.8
+MaxFuel         = 1200
+FuelConsumption = 1.0
+Gravity = -0.15
+GravityInWater = -0.1
+DamageFactor = 1.0
+StepHeight = 0.0
+ThirdPersonDist = 4
+
+CanMoveOnGround = false
+CanRotOnGround  = false
+
+RideRack = ch47, 5
+
+MobilityYawOnGround = 4.0
+
+; M = Military(軍用機).  C = Transport(輸送機)
+Category = M.C
+
+HUD = none, none
+
+AddSeat = 0.0,  0.3, -0.60
+AddSeat = 0.0,  0.3,  1.05
+
+AddParticleSplash = -1.0,  0.15,  0.0,   3,      7.0,    1.0,   20,       0.20,  -0.02
+AddParticleSplash =  1.0,  0.15,  0.0,   3,      7.0,    1.0,   20,       0.20,  -0.02
+AddParticleSplash = -0.5,  0.15, -0.8,   2,      7.0,    1.0,   60,       0.01,   0
+AddParticleSplash =  0.5,  0.15, -0.8,   2,      7.0,    1.0,   60,       0.01,   0
+
+AddPartSteeringWheel =  0.00,  0.00, -1.21,  0.0, -1.0, 0.0,   30
+
+AddRecipe = " W ",  "W W",  " X ",  X, iron_ingot, W, wool
+

@@ -1,0 +1,31 @@
+DisplayName = 9M133 Kornet-M
+Type = ATMissile
+Power = 70
+Acceleration = 2.0
+Explosion = 4
+ExplosionBlock = 0
+Flaming = false
+Sight = MissileSight
+Delay = 80
+Sound = missile_1_snd
+SoundVolume = 3
+Round = 2
+ReloadTime = 120
+LockTime = 30
+RigidityTime = 7
+ModelBullet = 9m113
+
+AddMuzzleFlash      =  8.2,     2.10,        7,  220,254,159,74
+AddMuzzleFlash      =  8.1,     2.05,        6,  220,254,219,104
+AddMuzzleFlash      =  8.0,     2.00,        5,  220,254,219,184
+AddMuzzleFlashSmoke =  8.2, 30, 12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 10.2, 20, 13.0,  7.0, 55,  200,190,170,150
+
+DamageFactor = tank, 2.0
+DamageFactor = vehicle, 2.0
+
+MaxAmmo = 4
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

@@ -1,0 +1,102 @@
+DisplayName = F-22A Raptor
+AddDisplayName = ja_JP, F-22A ラプター
+ItemID = 28726
+MaxHp = 230
+EnableNightVision = true
+EnableEntityRadar = true
+EnableEjectionSeat = true
+Speed = 1.2
+FlareType = 3
+ParticlesScale = 0.7
+EnableSeaSurfaceParticle = true
+MaxFuel         = 1400
+FuelConsumption = 1.0
+Stealth = 0.3
+CameraPosition = 0.0, 0.70, -2.18
+;CameraPosition = 5.0, 5.70, -22.18, false, 90, 40
+;CameraPosition = 0.0, 5.70, -12.18, false, 30, 40
+EnableGunnerMode = true
+AutoPilotRot = 0
+ThirdPersonDist = 20
+
+; M = Military(軍用機).  F = Fighter(戦闘機)
+Category = M.F
+
+MobilityRoll = 2.5
+MobilityPitch = 9.5
+
+HUD = plane
+
+AddTexture = f22a_isaf
+
+AddSeat = 0.00,  2.01,  0.00
+;DEBUG Pitch limit
+;AddGunnerSeat = 0.00, 2.01, 2.0,  0.0, 0.70, 1.6,  true,  -50, 45
+;DEBUG FIX camera
+;AddFixRotSeat = 0.00, 2.01, 2.0,  0.0, 0.70, 1.6,  true,  -50, 45
+
+AddPartCanopy =  0.00, 2.93, -1.42,  -1,0,0,  50
+
+AddPartNozzle =  0.73, 2.06, -13.29, -1,0,0
+AddPartNozzle = -0.73, 2.06, -13.29, -1,0,0
+
+AddPartThrottle = 0.00, 2.43, -13.29,  1,0,0,  20
+AddPartThrottle = 0.00, 1.91, -13.29,  1,0,0, -20
+
+;Front
+AddPartLG    =  0.00, 1.33, -1.66,    -1,0,0,  100
+;Left
+AddPartLG    =  1.10, 1.07, -8.56,     0,0,1,  102
+;Right
+AddPartLG    = -1.10, 1.07, -8.56,     0,0,1, -102
+
+;AddPartWeaponBay = 武器名1 / 武器名2 / 武器名3, 位置X, 位置Y, 位置Z, 回転軸X, 回転軸Y, 回転軸Z, 回転角度 0～180
+AddPartWeaponBay = aim120 / gbu-53_sdb,  1.29,  1.04, -2.64,  0.000, -0.025, 1.000,  80
+AddPartWeaponBay = aim120 / gbu-53_sdb,  0.24, -0.25, -2.64,  0.000, -0.031, 1.000, -56
+AddPartWeaponBay = aim120 / gbu-53_sdb, -1.29,  1.04, -2.64,  0.000, -0.025, 1.000, -80
+AddPartWeaponBay = aim120 / gbu-53_sdb, -0.24, -0.25, -2.64,  0.000, -0.031, 1.000,  56
+
+AddPartWeaponBay = aim9,                 2.05,  1.78, -5.14,   0.000,  0.000, 1.000,  90
+AddPartWeaponBay = aim9,                 1.64,  1.16, -5.16,   0.000,  0.000, 1.000, -90
+AddPartWeaponBay = aim9,                -2.05,  1.78, -5.14,   0.000,  0.000, 1.000, -90
+AddPartWeaponBay = aim9,                -1.64,  1.16, -5.16,   0.000,  0.000, 1.000,  90
+
+AddPartWeaponBay = aim9,                 1.41,  1.78, -5.74,   0.578,  1.000, 0.000,  7
+AddPartWeaponBay = aim9,                -1.41,  1.78, -5.74,  -0.578,  1.000, 0.000, -7
+
+
+AddPartWeaponMissile = aim120,      false,  false,  false,    0.84, 1.27, -7.28
+AddPartWeaponMissile = aim120,      false,  false,  false,   -0.84, 1.27, -7.28
+AddPartWeaponMissile = gbu-53_sdb,  false,  false,  false,    0.37, 1.18, -5.54
+AddPartWeaponMissile = gbu-53_sdb,  false,  false,  false,   -0.37, 1.18, -5.54
+AddPartWeaponMissile = gbu-53_sdb,  false,  false,  false,    0.37, 1.18, -5.54
+AddPartWeaponMissile = gbu-53_sdb,  false,  false,  false,   -0.37, 1.18, -5.54
+AddPartWeaponMissile = gbu-53_sdb,  false,  false,  false,    0.37, 1.18, -7.41
+AddPartWeaponMissile = gbu-53_sdb,  false,  false,  false,   -0.37, 1.18, -7.41
+AddPartWeaponMissile = gbu-53_sdb,  false,  false,  false,    0.37, 1.18, -7.41
+AddPartWeaponMissile = gbu-53_sdb,  false,  false,  false,   -0.37, 1.18, -7.41
+
+AddWeapon = m61a1_l,    -1.74, 2.45, -5.56,   0.0, 0.0
+AddWeapon = aim9,        1.72, 1.53, -6.72,   0.0, 0.0
+AddWeapon = aim9,       -1.72, 1.53, -6.72,   0.0, 0.0
+AddWeapon = aim120,      0.84, 1.27, -7.28,   0.0, 0.0
+AddWeapon = aim120,     -0.84, 1.27, -7.28,   0.0, 0.0
+AddWeapon = gbu-53_sdb,  0.37, 1.18, -5.54,   0.0, 0.0
+AddWeapon = gbu-53_sdb, -0.37, 1.18, -5.54,   0.0, 0.0
+AddWeapon = gbu-53_sdb,  0.37, 1.18, -5.54,   0.0, 0.0
+AddWeapon = gbu-53_sdb, -0.37, 1.18, -5.54,   0.0, 0.0
+AddWeapon = gbu-53_sdb,  0.37, 1.18, -7.41,   0.0, 0.0
+AddWeapon = gbu-53_sdb, -0.37, 1.18, -7.41,   0.0, 0.0
+AddWeapon = gbu-53_sdb,  0.37, 1.18, -7.41,   0.0, 0.0
+AddWeapon = gbu-53_sdb, -0.37, 1.18, -7.41,   0.0, 0.0
+
+AddWeapon = targeting_pod_ph75s,  0.00, 3.0, 0.0,    0.0, 0.0
+
+
+AddRecipe = " Y ",  "XXX",  "DXD",  X, iron_block, Y, glass, D, diamond_block
+
+BoundingBox =  0.00, 1.90, -2.80,  3.0, 2.0
+BoundingBox =  0.00, 1.90, -7.60,  5.0, 2.0
+BoundingBox = -2.92, 2.20, -9.60,  4.0, 1.0
+BoundingBox =  2.92, 2.20, -9.60,  4.0, 1.0
+BoundingBox =  0.00, 1.80, -11.8,  3.0, 1.5

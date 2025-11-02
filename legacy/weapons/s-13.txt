@@ -1,0 +1,17 @@
+DisplayName = S-13 122mm Rocket
+Type = Rocket
+Power = 60
+ModelBullet = hydra70
+Acceleration = 5.0
+Explosion = 4
+Flaming = false
+Sight = MoveSight
+Delay = 11
+ReloadTime = 150
+Round = 10
+Sound = rocket_snd
+
+MaxAmmo = 20
+SuppliedNum = 20
+Item =  4, iron_ingot
+Item =  3, gunpowder

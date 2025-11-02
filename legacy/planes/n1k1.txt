@@ -1,0 +1,51 @@
+DisplayName = Rex N1K1
+AddDisplayName = ja_JP, 強風
+ItemID = 28704
+MaxHp = 120
+Speed = 0.95
+Float = true
+FloatOffset = -0.77
+Sound = prop
+ThrottleUpDown = 0.7
+MaxFuel         = 1200
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; W = WWII.  F = Fighter(戦闘機)
+Category = W.F
+
+HUD = plane_wwii
+
+AddPartSlideCanopy = 0, 0.00, -0.6
+
+AddSeat = 0.0,  2.34, 0.00
+
+AddPartRotor =    0.00,  2.65, 4.00,   1,0, 0
+AddBlade = 1, 0,  0.00,  2.65, 4.00,   0,0,-1
+
+AddWeapon = mg7_7mm,  0.47, 3.03, 2.75,   0.1, 0.0
+AddWeapon = mg7_7mm, -0.47, 3.03, 2.75,  -0.1, 0.0
+
+AddWeapon = mg20mm,  1.98, 2.46, 1.48,   2.0, -0.5
+AddWeapon = mg20mm, -1.98, 2.46, 1.48,  -2.0, -0.5
+
+AddRecipe = "GPG",  "IIP",  "GPG",  I,iron_block, G,dye,2, P,paper
+
+;Body
+BoundingBox =  0.0,  2.65,  2.25,  2.0, 2.0
+BoundingBox =  0.0,  2.65,  0.00,  2.0, 2.0
+BoundingBox =  0.0,  2.65, -2.25,  2.0, 2.0
+BoundingBox =  0.0,  2.65, -4.50,  2.0, 2.0
+
+;Wing
+BoundingBox = -2.9, 2.7,   0.3,  3.0, 0.8
+BoundingBox =  2.9, 2.7,   0.3,  3.0, 0.8
+
+AddParticleSplash =  0.0, -0.75,  3.75,   3,   14.0,  1.1,   60,   0.05,  -0.001
+//AddParticleSplash =  0.0,  0.00,  5.00,   3,   14.0,  1.1,   60,   0.05,  -0.001
+AddParticleSplash =  0.0,  0.30,  5.25,   3,   14.0,  1.1,   60,   0.05,  -0.001
+
+AddParticleSplash =  4.18, 0.35,  0.85,   3,   14.0,  1.1,   60,   0.05,  -0.001
+AddParticleSplash = -4.18, 0.35,  0.85,   3,   14.0,  1.1,   60,   0.05,  -0.001
+
+

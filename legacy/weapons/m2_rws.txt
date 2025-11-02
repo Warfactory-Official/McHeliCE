@@ -1,0 +1,19 @@
+DisplayName = RWS M2 12.7mm
+Type = MachineGun1
+Power = 10
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 2
+;SoundDelay = 3
+Accuracy = 1.0
+HeatCount = 5
+MaxHeatCount = 180
+SoundPitch = 1.0
+Sound = gun_h1_snd
+
+MaxAmmo = 1200
+SuppliedNum = 300
+Item =  2, iron_ingot
+Item =  2, gunpowder

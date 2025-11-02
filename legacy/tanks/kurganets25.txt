@@ -1,0 +1,120 @@
+DisplayName = Kurganets-25 IFV
+AddDisplayName = ja_JP, Kurganets-25 歩兵戦闘車
+MaxHp = 300
+Speed = 0.55
+Sound = mbt_run
+ThrottleUpDown = 20.0
+MobilityYawOnGround = 4.0
+MinRotationPitch = -50
+MaxRotationPitch = 8
+MobilityRoll = 0
+Gravity = -0.1
+GravityInWater = -0.1
+DamageFactor = 0.0
+CameraZoom = 1
+CameraPosition = 0.00,  2.99, 0.00, true
+EnableNightVision = true
+CameraRotationSpeed = 35
+FlareType = 10
+MaxFuel         = 1200
+FuelConsumption = 2.7
+StepHeight = 1.5
+DefaultFreelook = true
+OnGroundPitchFactor = 2.5
+OnGroundRollFactor  = 1.0
+FlareType = 10
+ThirdPersonDist = 8
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 4
+
+HUD = mbt_hud,mbt_gnr, none, none, none, none, none, none, none, none
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  1.37,  -0.32,  3.60, 1.43, -0.75
+
+AddSeat = 0.75,  0.33, 1.57
+;AddGunnerSeat =  0.75, 0.33, 1.57
+AddGunnerSeat = -0.75, 0.33, 1.57, 0.00, 3.50, 0.00, true, -90, 90
+AddSeat =  0.88, 0.45, -1.32
+AddSeat = -0.88, 0.45, -1.32
+AddSeat =  0.88, 0.45, -0.72
+AddSeat = -0.88, 0.45, -0.72
+AddSeat =  0.88, 0.45, -0.01
+AddSeat = -0.88, 0.45, -0.01
+AddSeat =  0.88, 0.45,  0.68
+AddSeat = -0.88, 0.45,  0.68
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 12
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+ArmorMaxDamage = 280
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.95
+;後退可能にする
+EnableBack = true
+
+AddPartHatch = -0.38, 1.05, -2.01, 0.05, 1.0, -0.1, 110
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+;転輪がなくても動作する
+AddCrawlerTrack = false, 0.32, -1.51, 1.35/4.60, 0.49/5.25, 0.25/5.17, -0.22/4.22, -0.32/3.98, -0.32/-0.83, -0.22/-1.08, 0.24/-1.95, 0.49/-2.03, 0.74/-1.92, 0.84/-1.70
+AddCrawlerTrack = false, 0.32,  1.51, 1.35/4.60, 0.49/5.25, 0.25/5.17, -0.22/4.22, -0.32/3.98, -0.32/-0.83, -0.22/-1.08, 0.24/-1.95, 0.49/-2.03, 0.74/-1.92, 0.84/-1.70
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+TrackRollerRot = 40
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+AddTrackRoller = -1.51, 0.49, 4.83
+AddTrackRoller = -1.51, 0.02, 3.98
+AddTrackRoller = -1.51, 0.02, 3.18
+AddTrackRoller = -1.51, 0.02, 2.38
+AddTrackRoller = -1.51, 0.02, 1.58
+AddTrackRoller = -1.51, 0.02, 0.77
+AddTrackRoller = -1.51, 0.02,-0.02
+AddTrackRoller = -1.51, 0.02,-0.83
+AddTrackRoller = -1.51, 0.49,-1.63
+
+AddTrackRoller = 1.51, 0.49, 4.83
+AddTrackRoller = 1.51, 0.02, 3.98
+AddTrackRoller = 1.51, 0.02, 3.18
+AddTrackRoller = 1.51, 0.02, 2.38
+AddTrackRoller = 1.51, 0.02, 1.58
+AddTrackRoller = 1.51, 0.02, 0.77
+AddTrackRoller = 1.51, 0.02,-0.02
+AddTrackRoller = 1.51, 0.02,-0.83
+AddTrackRoller = 1.51, 0.49,-1.63
+
+AddPartWeapon = 2a42_ifv / mg_coaxial / 9m133 / 9m133s, false, true, false,  0.00, 2.14, 0.00, 0
+AddPartWeaponChild = false, true, 0.00, 2.64, 0.23
+
+AddTurretWeapon = 2a42_ifv,   -0.04, 2.64, 3.42, 0.0, 0.0, true, 1, 0, -360, 360, -20,  8
+AddTurretWeapon = mg_coaxial,  0.12, 2.57, 0.55, 0.0, 0.0, true, 1, 0, -360, 360, -20,  8
+AddTurretWeapon = 9m133,      -1.74, 2.64, 0.64, 0.0, 0.0, true, 1, 0, -360, 360
+AddTurretWeapon = 9m133,       1.74, 2.64, 0.64, 0.0, 0.0, true, 1, 0, -360, 360
+AddTurretWeapon = 9m133s,     -1.41, 2.64, 0.64, 0.0, 0.0, true, 1, 0, -360, 360
+AddTurretWeapon = 9m133s,      1.41, 2.64, 0.64, 0.0, 0.0, true, 1, 0, -360, 360
+AddWeapon = kurganets_spot, 0.00, 3.50, 0.00, 0.0, 0.0, false, 2, 0, -360, 360, -90, 90
+
+BoundingBox =  0.0, 1.0,  3.0,   3.5, 2.0,   0.90
+BoundingBox =  0.0, 2.5, -0.5,   3.0, 1.0,   1.20
+BoundingBox =  0.0, 1.0, -0.5,   3.5, 2.0,   1.10
+
+EntityWidth  = 0.8
+EntityHeight = 0.8
+
+AddRecipe = " R ",  "I I",  "XXX",  X, iron_block,  I, iron_ingot, R, redstone

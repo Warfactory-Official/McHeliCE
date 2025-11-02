@@ -1,0 +1,62 @@
+DisplayName = UH-1C Iroquois
+AddDisplayName = ja_JP, UH-1C イロコイ
+ItemID = 28821
+MaxHp = 165
+EnableGunnerMode = true
+EnableNightVision = true
+EnableEntityRadar = true
+Speed = 0.65
+ThrottleUpDown = 0.8
+FlareType = 3
+CameraPosition = 0.0, 0.7, 3.0
+MaxFuel         = 1350
+FuelConsumption = 1.0
+ConcurrentGunnerMode = true
+ThirdPersonDist = 16
+
+; M = Military(軍用機).  M = Multi-Mission(多目的機)
+Category = M.M
+
+HUD = heli, heli_gnr, gunner, gunner
+
+AddTexture = uh-1c-usam1
+AddTexture = uh-1c-usam2
+AddTexture = uh-1c-usmc
+AddTexture = uh-1c-usnv
+
+AddPartCamera = 0.0, 0.55,  2.07, true, false
+
+AddPartWeapon       = m134,      false, false, true,  2.4592, 0.4913, -2.54
+AddPartRotWeapon    = m134,      false, false, true,  2.4592, 0.4913, -2.54
+AddPartWeapon       = m134,      false, false, true, -2.4592, 0.4913, -2.54
+AddPartRotWeapon    = m134,      false, false, true, -2.4592, 0.4913, -2.54
+AddPartWeapon       = m60_l,     false, true,  true,  1.6646, 1.1747, -1.4552
+AddPartWeapon       = m60_r,     false, true,  true, -1.6646, 1.1747, -1.4552
+AddPartWeapon       = m75_40mm,  false, true, false,  0.0000, 0.55,  2.07
+AddPartWeaponChild  =                   false, true,  0.0000, 0.55,  2.07
+AddPartWeapon       = hydra70_l, false, false, true,  0.0000, 0.27, -2.54
+
+AddRotor= 1, 0,  0.00,  3.715,  -2.536,  0.0, 1.0, 0.0, false
+AddRotor= 1, 0,  0.00,  3.715, -12.005,  1.0, 0.0, 0.0, false
+
+AddSeat       =-0.50,  0.80,  0.10
+AddGunnerSeat = 0.50,  0.80,  0.10,  0.0, 0.7, 3.0,  true
+AddSeat       = 1.05,  0.70, -1.45
+AddSeat       =-1.05,  0.70, -1.45
+
+AddWeapon = m134,        2.46, 0.49, -2.54,   1.0, 0.0,  true,  1,  0,0,0, -30, 30
+AddWeapon = m134,       -2.46, 0.49, -2.54,  -1.0, 0.0,  true,  1,  0,0,0,  30, 30
+AddWeapon = m60_l,       1.66, 1.17, -1.45,   0.0, 0.0,  false, 3, -90,-80, 80, -50,80
+AddWeapon = m60_r,      -1.66, 1.17, -1.45,   0.0, 0.0,  false, 4,  90,-80, 80, -50,80
+AddWeapon = m75_40mm,    0.00, 0.55,  2.07,   0.0, 0.0,  true,  2,   0,-30, 30, -10,70
+AddWeapon = targeting_pod_mob,  0.0, 0.7, 3.0,0.0, 0.0,  true,  2
+AddWeapon = targeting_pod_pv10s,0.0, 0.7, 3.0,0.0, 0.0,  false, 2
+AddWeapon = hydra70_l,   1.91, 0.27, -2.54,   1.0, 0.0,  true,  1,  0,0,0, 0, 30
+AddWeapon = hydra70_l,  -1.91, 0.27, -2.54,  -1.0, 0.0,  true,  1,  0,0,0, 0, 30
+
+AddRecipe = " X ",  "XGX",  "I I",  X, iron_block, G, gunpowder, I, iron_ingot
+
+
+BoundingBox =  0.0, 2.3, -2.0,  2.8, 3.8
+BoundingBox =  0.0, 1.8, -4.5,  2.8, 2.4
+BoundingBox =  0.0, 3.5,-12.0,  2.0, 3.0

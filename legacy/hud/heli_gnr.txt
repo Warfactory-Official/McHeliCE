@@ -1,0 +1,99 @@
+
+; 色設定を白にしてUAVの電波の強さ描画を呼び出す。色設定はCall先にも引き継がれる。
+Color = 0xCFFFFFFF
+Call = uav_fs
+
+; 色設定(Current Color)
+Color = 0xCFFFFFFF
+Call = sight
+
+; 色設定(Current Color) 高度が10を超えると白、10以下だと赤
+Color = altitude>10? 0xCFFFFFFF: 0xCFDF0408
+; 高度(Altitude)
+DrawCenteredString = 0, 40, "[ %3d ]", ALTITUDE
+
+; 色設定(Current Color)
+Color = 0xCFFFFFFF
+; 座標(Position)
+DrawString = -205, 20, "X: %+.1f", pos_X
+DrawString = -205, 30, "Y: %+.1f", pos_Y
+DrawString = -205, 40, "Z: %+.1f", pos_Z
+DrawString = -150, 20, "[%+.2f]",  motion_X
+DrawString = -150, 30, "[%+.2f]",  motion_Y
+DrawString = -150, 40, "[%+.2f]",  motion_Z
+
+; 耐久値(HP)
+Color = 0xCF808080
+DrawRect    = 145, 106, 62,8
+; HPが20%を超えている場合は白、HPが20%以下の場合は赤
+Color = hp_rto>0.2? 0xCFFFFFFF: 0xCFDF0408
+DrawString  = 150,    97, "%3.0f", HP_PER
+DrawString  = 150+26, 97, "/ 100", HP_PER
+DrawRect    = 146, 107, hp_rto*60, 6
+
+; 弾数, 残弾 (Ammo) リロード中でなければ白、リロード中であれば赤
+Color = reloading==0? 0xCFFFFFFF: 0xCFDF0408
+DrawString = -207, 58, "%s",  WPN_AMMO
+DrawString = -181, 58, "/",   WPN_AMMO
+DrawString = -172, 58, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawString = -207, 69, "%s",  WPN_NAME
+
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xCFFFFFFF
+	DrawRect = -145, 57, 43, 10
+	Color = 0xCFFF2020
+	DrawRect = -144, 58, 41*wpn_heat, 8
+EndIf
+
+
+; レーダーを持つ機体の場合
+If = have_radar==1
+	Color = 0x80FFFFFF
+	DrawLine = 144,21,   144+64, 21,   144+64, 21+64,   144, 21+64,   144, 21
+	
+	DrawLine = 144,    21+32,   144+64, 21+32
+	DrawLine = 144+32, 21,      144+32, 21+64
+
+	Color = 0x80FFFFFF
+	DrawEntityRadar = -plyr_yaw-180, 144, 21,  64,64
+
+	Color = 0xFFDF0408
+	DrawEnemyRadar  = -plyr_yaw-180, 144, 21,  64,64
+EndIf
+
+; ヨーの目盛描画
+Color = 0xCFFFFFFF
+DrawGraduationYaw   = plyr_yaw, 0,   0, -100
+DrawLine = 0,-87,   2,-83,  -2,-83,   0,-87
+DrawCenteredString =   0, -81, "%.0f", PLYR_YAW
+
+; ピッチの目盛描画
+DrawGraduationPitch1 = plyr_pitch, 0, 0, 0
+DrawCenteredString = -140, -4, "%.0f", PLYR_PITCH
+DrawLine = -120,0,   -120-5,-5,   -120-30,-5,   -120-30,5,   -120-5,5,   -120,0  
+DrawCenteredString = +140, -4, "%.0f", PLYR_PITCH
+DrawLine =  120,0,    120+5,-5,    120+30,-5,    120+30,5,    120+5,5,    120,0
+
+Color = 0xCFFFFFFF
+DrawString = -70, 10, "x%.1f", CAM_ZOOM
+
+If = free_look==1
+	DrawString = -90, -80, "FREE LOOK"
+Endif
+
+If = cam_mode==1
+	DrawString = 30, 50, "NIGHT VISION"
+Endif
+If = cam_mode==2
+	DrawString = 30, 50, "THERMAL VISION"
+Endif
+
+Color = 0xCFFFFFFF
+DrawCameraRot = 0, 60
+
+If = have_flare==1
+	Color = can_flare==1? 0xCFFFFFFF: 0xCF6F6F6F
+	DrawCenteredString = -60, 50, "[ FLARE ]"
+Endif

@@ -1,0 +1,16 @@
+DisplayName = AGM-84 Harpoon
+Type = ASMissile
+Power = 40
+Acceleration = 4.0
+Explosion = 9
+Flaming = true
+Sight = MoveSight
+Delay = 300
+ModelBullet = agm84
+Sound = missile_2_snd
+
+MaxAmmo = 4
+SuppliedNum = 1
+Item =  1, iron_ingot
+Item =  2, gunpowder
+Item =  1, redstone

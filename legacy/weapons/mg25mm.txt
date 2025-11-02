@@ -1,0 +1,21 @@
+DisplayName = 25mm Machine gun
+Type = MachineGun2
+Power = 18
+Acceleration = 8.0
+Explosion = 0
+Flaming = false
+Sight = MoveSight
+Delay = 1
+;SoundDelay = 3
+;Accuracy = 2.0
+HeatCount = 5
+MaxHeatCount = 150
+ReloadTime = 40
+Round = 45
+Sound = gun_h2_snd
+SetCartridge = cartridge, 0.0, 0, 0, 3.00, -0.04, 0.40
+
+MaxAmmo = 900
+SuppliedNum = 180
+Item =  2, iron_ingot
+Item =  2, gunpowder

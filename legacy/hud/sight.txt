@@ -1,0 +1,25 @@
+
+If = sight_type==1
+	DrawLineStipple = 0xCCCC, 1,  -25,  0,   -8, 0
+	DrawLineStipple = 0xCCCC, 1,   25,  0,    8, 0
+	DrawLineStipple = 0xCCCC, 1,    0,-15,    0,-8
+	DrawLineStipple = 0xCCCC, 1,    0, 15,    0, 8
+	
+	DrawLine = -30, -10,   -30, -20,   -10, -20
+	DrawLine =  30, -10,    30, -20,    10, -20
+	DrawLine = -30,  10,   -30,  20,   -10,  20
+	DrawLine =  30,  10,    30,  20,    10,  20
+EndIf
+If = sight_type==2
+	DrawRect = -20, 21,  40, 8
+	
+	; ロック中でなければ色設定を変更しない(Color にcolorを入れる)。ロック中は赤に設定
+	Color = lock < 0.01? color: 0xFFDF0408
+
+	DrawLine = -20, -10,   -20, -20,   -10, -20
+	DrawLine =  20, -10,    20, -20,    10, -20
+	DrawLine = -20,  10,   -20,  20,   -10,  20
+	DrawLine =  20,  10,    20,  20,    10,  20
+
+	DrawRect = -19, 22,  38*lock, 6
+EndIf

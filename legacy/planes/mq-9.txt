@@ -1,0 +1,71 @@
+DisplayName = MQ-9 Reaper
+AddDisplayName = ja_JP, MQ-9 リーパー
+ItemID = 28707
+MaxHp = 120
+Speed = 0.6
+Sound = turboprop
+FlareType = 4
+EnableNightVision = true
+EnableEntityRadar = true
+EnableGunnerMode = true
+UAV = true
+AutoPilotRot = -0.60
+CameraPosition = 0.0, 0.9, 0.0
+ThrottleUpDown = 0.8
+MaxFuel         = 1000
+FuelConsumption = 1.0
+ThirdPersonDist = 12
+
+; M = Military(軍用機).  Q = Drone(無人航空機)
+Category = M.Q
+
+HUD = plane
+
+AddPartRotor =      0.00,  1.39, -8.33,   1,0,0
+AddBlade = 3, 120,  0.00,  1.39, -8.33,   0,0,-1
+
+;Front
+AddPartLG =  0.00,  1.13, -1.00,  1,0,0, 136
+;Left
+AddPartLG =  0.30,  1.15, -3.50,  1, 1.1, 0, 90
+;Right
+AddPartLG = -0.30,  1.15, -3.50,  1,-1.1, 0, 90
+
+AddPartCamera = 0.0, 1.03, 0.0
+
+AddPartWeaponMissile = agm114,     false, false, false,   3.90,  1.20, -5.00
+AddPartWeaponMissile = agm114,     false, false, false,  -3.90,  1.20, -5.00
+AddPartWeaponMissile = agm114tv,   false, false, false,   3.90,  1.20, -5.00
+AddPartWeaponMissile = agm114tv,   false, false, false,  -3.90,  1.20, -5.00
+AddPartWeaponMissile = aim92_l,    false, false, false,   6.25,  1.40, -3.13
+AddPartWeaponMissile = aim92_l,    false, false, false,  -6.25,  1.40, -3.13
+AddPartWeaponMissile = aim92_l,    false, false, false,   6.25,  1.40, -3.13
+AddPartWeaponMissile = aim92_l,    false, false, false,  -6.25,  1.40, -3.13
+AddPartWeaponMissile = gbu-12,     false, false, false,   1.72,  0.96, -1.64
+AddPartWeaponMissile = gbu-12,     false, false, false,  -1.72,  0.96, -1.64
+
+AddWeapon = agm114,    3.90,  1.20, -5.00,   1.0, 0.0
+AddWeapon = agm114,   -3.90,  1.20, -5.00,  -1.0, 0.0
+AddWeapon = agm114tv,  3.90,  1.20, -5.00,   1.0, 0.0
+AddWeapon = agm114tv, -3.90,  1.20, -5.00,  -1.0, 0.0
+AddWeapon = aim92_l,   6.25,  1.40, -3.13,   1.0, 0.0
+AddWeapon = aim92_l,  -6.25,  1.40, -3.13,  -1.0, 0.0
+AddWeapon = aim92_l,   6.25,  1.40, -3.13,   1.0, 0.0
+AddWeapon = aim92_l,  -6.25,  1.40, -3.13,  -1.0, 0.0
+AddWeapon = gbu-12,    1.72,  0.96, -1.64,   0.0, 0.0
+AddWeapon = gbu-12,   -1.72,  0.96, -1.64,   0.0, 0.0
+
+AddWeapon = targeting_pod_mob,   0.0, 0.9, 0.0,  0.0, 0.0
+AddWeapon = targeting_pod_pv30s, 0.0, 0.9, 0.0,  0.0, 0.0
+AddWeapon = targeting_pod_block, 0.0, 0.9, 0.0,  0.0, 0.0
+
+AddRecipe = " II",  "RXI",  " II",  X, iron_block, I, iron_ingot, R, redstone_block
+
+BoundingBox =  0.0, 1.6, -1.0,  1.6, 1.4
+BoundingBox =  0.0, 1.6, -3.0,  1.6, 1.4
+BoundingBox =  0.0, 1.6, -5.0,  1.6, 1.4
+BoundingBox = -2.0, 1.2, -3.0,  1.5, 0.6
+BoundingBox =  2.0, 1.2, -3.0,  1.5, 0.6
+BoundingBox = -4.0, 1.2, -3.0,  1.5, 0.6
+BoundingBox =  4.0, 1.2, -3.0,  1.5, 0.6
+

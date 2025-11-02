@@ -1,0 +1,27 @@
+DisplayName = OtoMelara127mm gun
+Type = MachineGun2
+Power = 40
+ModelBullet = bullet76mm
+Acceleration = 8.0
+Explosion = 3
+ExplosionBlock = 2
+Flaming = false
+Sight = MoveSight
+Delay = 13
+ModeNum = 2
+HeatCount = 20
+MaxHeatCount = 120
+SoundVolume = 1.6
+SetCartridge = cartridge, 0.4,  0, 0, 7.50, -0.04, 0.40
+Sound = cannon_1_snd
+ProximityFuseDist = 2
+
+AddMuzzleFlash      = 8.1,      0.85,        1,  150,254,219,154
+AddMuzzleFlash      = 8.0,      0.80,        1,  150,254,219,184
+AddMuzzleFlashSmoke = 9.2,  6,  10.0,  3.0, 25,  160,160,140,120
+AddMuzzleFlashSmoke = 8.2,  5,  11.0,  5.0, 15,  160,190,170,150
+
+MaxAmmo = 400
+SuppliedNum = 80
+Item =  4, iron_ingot
+Item =  4, gunpowder

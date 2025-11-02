@@ -1,0 +1,66 @@
+DisplayName = Piaggio P.180 Avanti II
+AddDisplayName = ja_JP, ピアッジョ P.180 アヴァンティ Ⅱ
+ItemID = 28737
+MaxHp = 120
+Speed = 0.9
+Sound = turboprop
+ThrottleUpDown = 0.8
+MaxFuel         = 1200
+FuelConsumption = 1.0
+onGroundPitch = 1.3
+ThirdPersonDist = 16
+
+MobilityRoll = 0.9
+
+; C = Civilian(民間機)
+Category = C
+
+HUD = civilian_aircraft, civilian_aircraft, none, none, none, none, none, none, none
+
+AddSeat =  0.60,  1.08,  7.23
+AddSeat = -0.60,  1.08,  7.23
+AddSeat =  0.66,  1.15,  5.21
+AddSeat = -0.77,  1.15,  6.17
+AddSeat = -0.77,  1.15,  5.20
+AddSeat =  0.66,  1.15,  4.27
+AddSeat = -0.66,  1.15,  4.27
+AddSeat =  0.66,  1.15,  1.40
+AddSeat = -0.66,  1.15,  1.40
+
+AddPartThrottle = 0.06, 1.04,  7.73,  1,0,0, 40.5
+
+;Front
+AddPartLG =       0.00, 0.58,  8.90, -1, 0, 0, 100
+AddPartLG =       0.00, 0.39,  8.72, -1, 0, 0, 97.87
+AddPartLGhatch =  0.30, 0.53,  9.94,  0.00479,  0.054,  1, 90
+AddPartLGhatch = -0.30, 0.53,  9.94,  0.00479,  0.054, -1, 90
+;left
+AddPartLG      =  0.89, 0.87, -0.25,  0.7262,  1,  0,   121.86
+AddPartLG      =  1.15, 1.08, -0.12, -0.0218,  0.0671, -1, 96.5
+AddPartLGhatch =  1.27, 1.46, -1.18,  0.0426, -0.0066,  1, 80.18
+;Right
+AddPartLG      = -0.89, 0.87, -0.25,  0.7262, -1,  0,   121.86
+AddPartLG      = -1.15, 1.08, -0.12, -0.0267, -0.0832,  1, 96.5
+AddPartLGhatch = -1.27, 1.46, -1.18,  0.0426,  0.0066, -1, 80.18
+
+AddPartRotor =    3.137,  2.5795, -2.83,  0, 0, 1
+AddBlade = 1, 0,  3.137,  2.5795, -2.83,  0, 0, 1
+
+AddPartRotor =   -3.137,  2.5795, -2.83,  0, 0,-1
+AddBlade = 1, 0, -3.137,  2.5795, -2.83,  0, 0,-1
+
+AddPartWing =   1.30,  1.53,  6.80,  0,-1, 0, 90
+AddPartWing =   0.49,  0.38,  6.65,  0, 0,-1, 77.91
+
+AddRecipe = "ICI",  "BWB",  "FBF",  B,iron_block, I,iron_ingot, F,furnace, W,wool, C,comparator
+
+BoundingBox =  0.00,  1.25,  8.74,  2.0, 2.0
+BoundingBox =  0.00,  1.76,  4.71,  3.0, 3.0
+BoundingBox =  0.00,  1.80,  1.06,  3.0, 3.0
+BoundingBox =  0.00,  1.98, -3.01,  2.5, 2.5
+
+BoundingBox =  3.13,  2.61, -3.05,  1.5, 1.5
+BoundingBox = -3.13,  2.61, -3.05,  1.5, 1.5
+
+BoundingBox =  7.10,  2.32, -1.06,  2.5, 0.5
+BoundingBox = -7.10,  2.32, -1.06,  2.5, 0.5

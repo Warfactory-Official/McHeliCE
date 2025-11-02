@@ -1,0 +1,128 @@
+DisplayName = MerkavaMk4
+AddDisplayName = ja_JP, Merkava Mk.4
+ItemID = 30075
+MaxHp = 300
+Speed = 0.6
+Sound = tank
+ThrottleUpDown = 20.0
+MobilityYawOnGround = 2.5
+MinRotationPitch = -50
+MaxRotationPitch = 5
+MobilityRoll = 0
+Gravity = -0.1
+GravityInWater = -0.1
+DamageFactor = 0.0
+CameraZoom = 3
+CameraPosition = 0.52, 3.70, -0.1, true
+EnableNightVision = true
+CameraRotationSpeed = 25
+StepHeight = 1.5
+DefaultFreelook = true
+TurretPosition = 0.0, 0.0, 0.25
+FlareType = 10
+ThirdPersonDist = 8
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.3
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 3
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+; 重心Z座標設定
+WeightedCenterZ = 0.0
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  1.75,  -0.24,  4.85, 3.02, 1.44, -1.54, -2.91
+
+HUD = mbt_hud, gunner
+;HUD = ww2tank_hud, ww2tank_hud
+
+AddGunnerSeat = 0.00,  2.50,  0.25,   2.00,  3.50,  0.25, false, -90, 90, true
+AddGunnerSeat = 0.00,  1.00, -1.25,  -0.55,  3.80, -1.16, false, -90, 90, true
+
+; 地面の滑りやすさ、小さいほど摩擦が大きくなり動きにくくなる
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 12
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+ArmorMaxDamage = 500
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.90
+;後退可能にする
+EnableBack = true
+
+;PivotTurnThrottle を0より大きい値にすると超信地旋回ができなくなる。デフォルトは0
+PivotTurnThrottle = 0.0
+;AddCrawlerTrack = 履帯の表裏逆転,  1つの履帯の間隔, 履帯のXの位置, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, 履帯の回転ポイントY/Z, ...
+;転輪がなくても動作する
+AddCrawlerTrack = false, 0.37, -2.09,  1.03/-3.41, 0.72/-3.57, 0.37/-3.42, -0.15/-2.55, -0.25/-2.16, -0.25/3.88, -0.13/4.21, 0.52/5.29, 0.78/5.39, 1.03/5.28, 1.10/5.04, 1.15/-3.12
+AddCrawlerTrack = false, 0.37,  2.09,  1.03/-3.41, 0.72/-3.57, 0.37/-3.42, -0.15/-2.55, -0.25/-2.16, -0.25/3.88, -0.13/4.21, 0.52/5.29, 0.78/5.39, 1.03/5.28, 1.10/5.04, 1.15/-3.12
+
+; 転輪の回転速度：0より小さい値を設定すると逆回転する
+TrackRollerRot = 30
+
+;Rev Test
+;AddCrawlerTrack = false, 0.30, -1.64, 1.47/3.60, 1.73/3.49, 1.84/3.23, 1.78/-3.60, 1.68/-3.86, 1.42/-3.96, 1.16/-3.86, 1.06/-3.60, -1.32/-2.47, -1.32/2.17, 1.22/3.49
+;AddCrawlerTrack = false, 0.30,  1.64, 1.47/3.60, 1.73/3.49, 1.84/3.23, 1.78/-3.60, 1.68/-3.86, 1.42/-3.96, 1.16/-3.86, 1.06/-3.60, -1.32/-2.47, -1.32/2.17, 1.22/3.49
+;AddCrawlerTrack = true,  0.30, -1.64, 0.22/3.49,-0.32/2.17, -0.32/-2.47, 0.06/-3.60, 0.16/-3.86, 0.42/-3.96, 0.68/-3.86, 0.78/-3.60, 0.84/3.23, 0.73/3.49, 0.47/3.60
+;AddCrawlerTrack = false, 0.30,  1.64, 0.22/3.49,-0.32/2.17, -0.32/-2.47, 0.06/-3.60, 0.16/-3.86, 0.42/-3.96, 0.68/-3.86, 0.78/-3.60, 0.84/3.23, 0.73/3.49, 0.47/3.60
+
+;転輪を追加する、設定は座標だけで、X軸が負の値だと右側、正の値だと左側の転輪となる
+;履帯と同じ動きをするが、履帯がなくても設定可能
+AddTrackRoller = -1.72,  0.77,  5.04
+AddTrackRoller = -1.72,  0.18,  3.88
+AddTrackRoller = -1.72,  0.18,  2.80
+AddTrackRoller = -1.72,  0.18,  1.62
+AddTrackRoller = -1.72,  0.18,  0.37
+AddTrackRoller = -1.72,  0.18, -1.12
+AddTrackRoller = -1.72,  0.18, -2.19
+AddTrackRoller = -1.72,  0.73, -3.10
+
+AddTrackRoller =  1.72,  0.77,  5.04
+AddTrackRoller =  1.72,  0.18,  3.88
+AddTrackRoller =  1.72,  0.18,  2.80
+AddTrackRoller =  1.72,  0.18,  1.62
+AddTrackRoller =  1.72,  0.18,  0.37
+AddTrackRoller =  1.72,  0.18, -1.12
+AddTrackRoller =  1.72,  0.18, -2.19
+AddTrackRoller =  1.72,  0.73, -3.10
+
+
+AddPartWeapon = rehinmetall_apfsds / canistershell, false, true, false,  0.00, 1.52, 0.25, 0
+AddPartWeaponChild = false, true, 0.00, 2.01, 1.62, 0.0
+AddPartWeaponChild = false, true, 0.00, 2.01, 1.62, 0.5
+AddPartTurretWeapon = mg7_62mm, false, true, true,  -0.83, 3.39,-0.57, 0
+
+AddTurretWeapon = rehinmetall_apfsds, 0.00, 2.22, 0.00,  0.0,  0.0, true, 1, 0,-360,360, -50, 7
+AddTurretWeapon = canistershell,      0.00, 2.22, 0.00,  0.0,  0.0, true, 1, 0,-360,360, -50, 7
+AddTurretWeapon = 60mm_mortar,        0.90, 3.00, 0.52,  0.0,-45.0, true, 1, 0,-360,360, -85, 7
+AddTurretWeapon = mg12_7mm_l,         0.00, 2.92, 2.70,  0.0,  0.0, true, 1, 0,-360,360, -50, 7
+AddTurretWeapon = mg7_62mm,          -0.83, 3.39,-0.57,  0.0,  0.0, false,2, 0,-360,360, -80, 50
+
+MaxFuel         = 1200
+FuelConsumption = 2.5
+
+
+;RideRack = 乗る機体名, ラック番号 (1～) 
+RideRack = c5, 1
+RideRack = c5, 2
+
+AddRecipe = "XIX",  " X ",  "III",  X, iron_block,  I, iron_ingot
+
+BoundingBox =  0.0, 1.0,  4.0,  2.1, 2.0, 0.75
+BoundingBox = -0.8, 1.6,  2.5,  2.1, 4.0, 0.75
+BoundingBox =  0.8, 1.6,  2.5,  2.1, 4.0, 0.75
+
+BoundingBox =  0.0, 1.3, -0.5,  4.0, 3.2, 1.00
+BoundingBox =  0.8, 1.3, -3.5,  2.0, 2.0, 1.20
+BoundingBox = -0.8, 1.3, -3.5,  2.0, 2.0, 1.20
+
+BoundingBox =  0.0, 3.0,  0.0,  2.0, 1.0, 1.20

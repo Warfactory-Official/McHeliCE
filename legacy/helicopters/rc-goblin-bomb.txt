@@ -1,0 +1,33 @@
+DisplayName = RC Goblin with Bomb
+AddDisplayName = ja_JP, RC Goblin with Bomb
+ItemID = 28813
+MaxHp = 3
+Speed = 0.4
+CameraPosition = 0.00, -0.05, 0.18
+SmallUAV = true
+Sound = radicon_heli
+ThrottleUpDown = 5.0
+ParticlesScale = 0.2
+MaxFuel         = 60
+FuelConsumption = 0.1
+Stealth = 0.2
+
+HUD = heli
+
+; C = Civilian(–¯ŠÔ‹@)
+Category = C
+
+AddSeat =  0.0, 2.0, 0.0
+
+AddTexture = rc-goblin-1
+AddTexture = rc-goblin-2
+
+AddRotor = 1, 0, 0.00,  0.24, -0.14,  0,-1, 0
+AddRotor = 1, 0, 0.00, -0.00, -0.65,  1, 0, 0
+
+AddWeapon = plastic_bomb, 0,0,0,  0,0
+
+AddRecipe = "SSS",  "PRI",  "BGG",  I, iron_ingot,  R, redstone,  S, stick,  P, glass_pane,  B, Iron_Bars,  G, gunpowder
+
+
+BoundingBox =  0.0, 0.0, 0.0,  1.5, 1.5

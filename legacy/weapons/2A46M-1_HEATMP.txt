@@ -1,0 +1,29 @@
+DisplayName = 2A46M-1 Smoothbore Gun[HEAT-MP]
+Type = MachineGun2
+Power = 120
+ModelBullet = bullet105mm
+Acceleration = 6.0
+Explosion = 2
+ExplosionBlock = 2
+Flaming = false
+Sight = MoveSight
+Delay = 120
+ModeNum = 1
+SoundPitch = 0.5
+SoundVolume = 10
+Sound = cannon_3_snd
+Group = MainGun
+Recoil = 2.5
+
+AddMuzzleFlash      =  8.2,     2.10,        7,  220,254,159,74
+AddMuzzleFlash      =  8.1,     2.05,        6,  220,254,219,104
+AddMuzzleFlash      =  8.0,     2.00,        5,  220,254,219,184
+AddMuzzleFlashSmoke =  8.2, 30, 12.0,  4.0, 65,  220,160,140,120
+AddMuzzleFlashSmoke = 10.2, 20, 13.0,  7.0, 55,  200,190,170,150
+
+RecoilBufCount = 40, 5
+
+MaxAmmo = 20
+SuppliedNum = 10
+Item =  2, iron_ingot
+Item =  2, gunpowder

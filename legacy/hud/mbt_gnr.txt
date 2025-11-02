@@ -1,0 +1,79 @@
+
+; 色設定(Current Color)
+Color = 0xCFFFFFFF
+
+; 十字
+DrawLine = -40,   0,   -10,   0
+DrawLine =  40,   0,    10,   0
+DrawLine =   0, -40,     0, -10
+DrawLine =   0,  40,     0,  10
+
+; 枠
+DrawLine =  -70, -25,   -70, -50,   -25, -50
+DrawLine =  -70, +25,   -70, +50,   -25, +50
+DrawLine =  +70, -25,   +70, -50,   +25, -50
+DrawLine =  +70, +25,   +70, +50,   +25, +50
+
+; カメラの倍率を表示する
+Color = 0xFFFFE400
+DrawString = -70, -10, "x%.1f", CAM_ZOOM
+
+
+; ヨーの目盛
+Color = 0xFFFFE400
+DrawGraduationYaw   = plyr_yaw, 0,   0, -100
+DrawLine = 0,-87,   2,-83,  -2,-83,   0,-87
+DrawCenteredString =   0, -81, "%.0f", PLYR_YAW
+
+; HP
+Color = 0xFFFFE400
+DrawLine =  145, 22,   207, 22,    207, 14,    145, 14,   145,  22,
+Color = hp_rto>0.2? 0xFFFFE400: 0xFFDF0408
+DrawString  = 150,     5, "%3.0f", HP_PER
+DrawString  = 150+26,  5, "/ 100", HP_PER
+DrawRect    = 146,    15,   hp_rto*60, 6
+
+Color = 0xFFFFE400
+If = free_look==1
+	DrawString = 145, -40, "FREE LOOK"
+Endif
+
+If = cam_mode==1
+	DrawString = 145, -30, "NIGHT VISION"
+Endif
+If = cam_mode==2
+	DrawString = 145, -30, "THERMAL VISION"
+Endif
+
+
+; 砲塔コンパス
+DrawTexture = mbt_hud, 80,55,  32,32,  0, 0,64,64, yaw - plyr_yaw
+DrawTexture = mbt_hud, 80,55,  32,32, 64, 0,64,64, 
+
+; 弾数, 残弾 背景 (Ammo background)
+DrawTexture = hud, -208, 57,  62,10,  128,64, 128,20
+; 武器名 (Weapon name background)
+DrawTexture = hud, -208, 68, 106,10,  128,64, 128,20
+
+
+; 弾数, 残弾 (Ammo) リロード中でなければ緑、リロード中であれば赤
+Color = reloading==0? 0xFF28d448: 0xFFDF0408
+DrawString = -207, 58, "%s",  WPN_AMMO
+DrawString = -181, 58, "/",   WPN_AMMO
+DrawString = -172, 58, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawString = -207, 69, "%s",  WPN_NAME
+
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xFF28d448
+	DrawRect = -145, 57, 43, 10
+	Color = 0xFF188428
+	DrawRect = -144, 58, 41, 8
+	Color = 0xFFDF0408
+	DrawRect = -144, 58, 41*wpn_heat, 8
+EndIf
+
+; 迫撃砲の着弾距離
+Color = 0xFF28d448
+Call = mortar

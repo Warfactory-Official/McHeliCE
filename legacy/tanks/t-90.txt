@@ -1,0 +1,94 @@
+DisplayName = T-90 MBT
+AddDisplayName = ja_JP, T-90 主力戦車
+MaxHp = 300
+Speed = 0.6
+Sound = mbt_run
+ThrottleUpDown = 10.0
+MobilityRoll = 0
+Gravity = -0.1
+GravityInWater = -0.1
+DamageFactor = 0.0
+EnableNightVision = true
+CameraRotationSpeed = 30
+StepHeight = 1.7
+MinRotationPitch = -14
+MaxRotationPitch = 5
+DefaultFreelook = true
+HideEntity = true
+FlareType = 10
+ThirdPersonDist = 8
+
+MobilityYawOnGround = 3.0
+
+HUD = mbt_hud
+
+; 指定した高さまでの水に触れてもダメージを受けない
+; 2であれば2ブロックまでダメージ無し
+SubmergedDamageHeight = 3
+
+OnGroundPitchFactor = 2.0
+OnGroundRollFactor  = 1.9
+
+HideEntity = true
+
+; Tank or Car or Unknown
+WeightType = Tank
+
+;SetWheelPos =  X座標, Y座標,  Z座標1, Z座標2, Z座標3 ...
+; X座標のマイナス側は必要なし
+SetWheelPos =  1.99,  -0.24,  3.63, 2.38, 1.03,  -1.07, -2.52
+
+AddSeat =  0.00, 1.58, 0.44
+
+AddCrawlerTrack = true, 0.23, -2.40,  -0.30/3.13, -0.17/3.46, 0.34/4.31, 0.61/4.42, 0.87/4.31, 0.98/4.04, 0.98/-3.32, 0.87/-3.59, 0.61/-3.70, 0.34/-3.59, -0.31/-2.12
+AddCrawlerTrack = true, 0.23,  2.40,  -0.30/3.13, -0.17/3.46, 0.34/4.31, 0.61/4.42, 0.87/4.31, 0.98/4.04, 0.98/-3.32, 0.87/-3.59, 0.61/-3.70, 0.34/-3.59, -0.31/-2.12
+
+
+AddTrackRoller = -2.32,  0.60,  4.04
+AddTrackRoller = -2.32,  0.16,  3.13
+AddTrackRoller = -2.32,  0.16,  2.08
+AddTrackRoller = -2.32,  0.16,  1.03
+AddTrackRoller = -2.32,  0.16, -0.02
+AddTrackRoller = -2.32,  0.16, -1.07
+AddTrackRoller = -2.32,  0.16, -2.12
+AddTrackRoller = -2.32,  0.60, -3.32
+
+AddTrackRoller = 2.32,  0.60,  4.04
+AddTrackRoller = 2.32,  0.16,  3.13
+AddTrackRoller = 2.32,  0.16,  2.08
+AddTrackRoller = 2.32,  0.16,  1.03
+AddTrackRoller = 2.32,  0.16, -0.02
+AddTrackRoller = 2.32,  0.16, -1.07
+AddTrackRoller = 2.32,  0.16, -2.12
+AddTrackRoller = 2.32,  0.60, -3.32
+
+AddWeapon = 2A46M-1_APFSDS,  0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 5
+AddWeapon = 2A46M-1_HEATMP,  0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 5
+AddWeapon = 2A46M-1_HE,      0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 5
+AddWeapon = 9M119M,          0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -90, 90
+AddWeapon = mg_coaxial,      0.00, 1.61, 0.44,  0.0, 0.0, true,1, 0,-360,360, -14, 5
+AddPartWeapon = 2A46M-1_APFSDS / 2A46M-1_HEATMP / 2A46M-1_HE, false, true, false,  0.00, 1.58, 0.44, 0
+AddPartWeaponChild = false, true, 0.00, 1.60, 1.81
+AddPartWeaponChild = false, true, 0.00, 1.60, 1.81, 0.5
+
+EnableBack = true
+
+MotionFactor = 0.9
+
+;ArmorMinDamage 最小ダメージ、これより小さいダメージは無効化される
+ArmorMinDamage = 9
+;ArmorMaxDamage 最大ダメージ、これより大きいダメージは最大ダメージに丸められる
+ArmorMaxDamage = 250
+;ArmorDamageFactor ダメージ係数上記のMin/Max範囲チェック後のダメージの係数 1で100%, 0.5で50%
+ArmorDamageFactor = 0.98
+
+MaxFuel         = 1200
+FuelConsumption = 2.0
+
+AddTexture = t-90_2
+
+AddRecipe = "XIX",  " I ",  "III",  X, iron_block,  I, iron_ingot
+
+BoundingBox =  0.0, 1.0,  1.5,   4.0, 2.0,   0.75
+BoundingBox =  0.0, 2.5, -0.5,   3.0, 1.0,   1.00
+BoundingBox =  0.0, 1.0, -1.2,   4.0, 2.0,   1.25

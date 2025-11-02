@@ -1,0 +1,19 @@
+DisplayName = 9M114
+Type = ATMissile
+Power = 52
+Acceleration = 2.0
+Explosion = 4
+Flaming = true
+Sight = MissileSight
+Delay = 100
+ModeNum = 2
+Sound = missile_1_snd
+RidableOnly = true
+
+DamageFactor = tank, 2.0
+
+MaxAmmo = 8
+SuppliedNum = 2
+Item =  1, iron_ingot
+Item =  1, gunpowder
+Item =  1, redstone

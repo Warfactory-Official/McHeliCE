@@ -1,0 +1,23 @@
+
+; パイロット共通描画呼び出し
+Call = common_pilot
+
+; レーダーを持つ機体の場合
+If = have_radar==1
+	DrawTexture = heli_hud, 144, 21,  64,64,  0,0, 128,128
+	
+	Color = 0x80FFFFFF
+	DrawLine = 144,    21+32,   144+64, 21+32
+	DrawLine = 144+32, 21,      144+32, 21+64
+
+	Color = 0xFF28d448
+	DrawEntityRadar = -plyr_yaw-180, 144, 21,  64,64
+
+	Color = 0xFFDF0408
+	DrawEnemyRadar  = -plyr_yaw-180, 144, 21,  64,64
+
+	DrawTexture = heli_hud, 144+16, 21,  32,64,  128,0, 64,128, radar_rot
+EndIf
+
+Color = 0xCFFFFFFF
+DrawCameraRot = 0, 60

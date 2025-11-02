@@ -1,0 +1,39 @@
+DisplayName = Flettner Fl 282
+AddDisplayName = ja_JP, Fl282 コリブリ
+ItemID = 28825
+MaxHp = 100
+Float  = false
+OnGroundPitch = 6
+ThrottleUpDown = 1.0
+DamageFactor = 0.7
+Stealth = 0.5
+Speed = 0.8
+MaxFuel         = 600
+FuelConsumption = 0.6
+ThirdPersonDist = 12
+
+; W = WWII.  R = Reconnaissance(偵察機)
+Category = W.R
+
+HUD = plane_wwii
+
+EntityWidth  = 0.9
+EntityHeight = 0.9
+
+MobilityYaw = 1.5
+MobilityPitch = 1.0
+MobilityRoll = 1.5
+
+AddWeapon = targeting_pod_mob,    0.0, 0.6, 4.8,   0.0, 0.0,  true, 2
+AddWeapon = targeting_pod_pv5s,   0.0, 0.6, 4.8,   0.0, 0.0,  true, 2
+
+AddRotor= 1, 0,  0.48,  3.94, -1.69, -0.26, -1.00, -0.12
+AddRotor= 1, 0, -0.48,  3.94, -1.69, -0.26,  1.00,  0.12
+
+AddSeat = 0.0,  1.45,  0.25
+
+
+AddRecipe = "IBI",  "ICI",  "I I",  I, iron_ingot, B, iron_block, W, wool, C, coal
+
+
+BoundingBox =  0.0, 1.2, 0.0,  3.0, 3.0

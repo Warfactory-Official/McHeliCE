@@ -1,0 +1,82 @@
+DisplayName = Project1204 Shmel Partol-Boat
+AddDisplayName = ja_JP, プロジェクト1204 Shmel国境警備艇
+ItemID = 28748
+MaxHp = 600
+Speed = 0.6
+Sound = boat
+Float = true
+ThrottleUpDown = 0.9
+FloatOffset = -0.3
+MinRotationPitch = 0
+MaxRotationPitch = 0
+MobilityRoll = 0
+Gravity = -0.1
+GravityInWater = 0.1
+DamageFactor = 0.8
+ThirdPersonDist = 24
+
+HUD = gunner, plane_gnr, plane_gnr, plane_gnr
+
+AddPartCamera = 0.00, 3.95, -4.42, true, false
+AddPartCamera = 0.00, 3.95, -4.42, true, true
+;AddSearchLight= 座標X, Y, Z,       開始地点の色, 終了地点の色,  距離, 終端の半径
+AddSearchLight = 0.00, 3.95, -4.42,   0x50FFFFFF,   0x10FFFFC0,  90.0, 30.0
+
+CanMoveOnGround = false
+CanRotOnGround  = false
+MobilityYawOnGround = 2.0
+
+CameraPosition = 0.00, 2.54, 0.05, false
+
+MaxFuel         = 1500
+FuelConsumption = 2.0
+
+AddSeat = 0.00, 1.22, -2.78
+AddGunnerSeat = 0.00,  -0.20,  0.05, 0.00, 2.54,  0.05, false, -30.0, 4.0
+AddGunnerSeat = 0.00,  -0.20,-11.09, 0.00, 3.14,-11.09, false, -30.0, 0.0
+AddGunnerSeat = 0.00,  -0.20,-14.82, 0.00, 3.14,-14.82, false, -65.0, 5.0
+AddSeat = -0.60, 2.80, -5.23
+AddSeat =  0.60, 2.80, -5.23
+
+AddWeapon = d56ts,    0.00, 1.68,   0.05, 0.0, 0.0, true,  2,   0, -145,145, -30.0, 4.0
+AddWeapon = mg7_62mm, 0.24, 1.68,   0.45, 0.0, 0.0, true,  2,   0, -145,145, -30.0, 4.0
+AddWeapon = bm_14_17, 0.00, 2.31, -11.09, 0.0, 0.0, false, 3, 180, -140,140, -30.0, 0.0
+AddWeapon = 2m3m,     0.00, 2.06, -14.82, 0.0, 0.0, false, 4, 180, -170,170, -80.0, 5.0
+AddWeapon = 2m3m,     0.00, 2.26, -14.82, 0.0, 0.0, false, 4, 180, -170,170, -80.0, 5.0
+
+AddPartWeapon = d56ts, false, true, false, 0.00, 1.44, 0.14
+AddPartWeaponChild = false, true, 0.00, 1.68, 0.96
+AddPartWeapon = bm_14_17, false, true, false, 0.00, 1.72, -11.09
+AddPartWeapon = bm_14_17, false, true, true, 0.00, 2.31, -11.09
+AddPartWeapon = 2m3m, false, true, false, 0.00, 1.59, -14.85
+AddPartWeapon = 2m3m, false, true, true,  0.00, 2.06, -14.85
+
+AddPartRotor =    0.00,  4.78,-6.49,   0,1, 0
+AddBlade = 1, 0,  0.00,  4.78,-6.49,   0,1, 0
+
+EntityWidth  = 0.85
+EntityHeight = 0.85
+
+; 水しぶき を発生させる
+;AddParticleSplash = 座標X,   Y,    Z,   表示数, サイズ,  速度,  表示時間, 上昇, 重力
+AddParticleSplash =  1.6, -0.18,   1.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -1.6, -0.18,   1.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  1.6, -0.18,  -4.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6, -0.18,  -4.8,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  1.6, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.6, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  0.8, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -0.8, -0.18,  -8.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =  1.5, -0.18,  -18.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -1.5, -0.18,  -18.0,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  1.0, -0.18,  -20.0,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.0, -0.18,  -20.0,   2,      9.0,    1.1,   60,       0.01,   0
+
+AddRecipe = "II ",  "AAA",  "BBP",   I, iron_ingot,  B, boat , A, anvil, P,piston
+
+BoundingBox =  0.0, 0.7,  4.0,  3.0, 3.0
+BoundingBox =  0.0, 0.9,  0.0,  4.0, 4.0
+BoundingBox =  0.0, 0.9, -4.0,  4.0, 4.0
+BoundingBox =  0.0, 0.9, -8.0,  4.0, 4.0
+BoundingBox =  0.0, 0.9, -12.0,  4.0, 4.0
+BoundingBox =  0.0, 0.7, -16.0,  3.0,  3.0

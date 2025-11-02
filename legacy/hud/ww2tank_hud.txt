@@ -1,0 +1,131 @@
+
+; 色設定を緑にしてUAVの電波の強さ描画を呼び出す。色設定はCall先にも引き継がれる。
+Color = 0xFF28d448
+Call = uav_fs
+
+; インベントリ数を表示
+If = inventory > 0
+	Color = 0xCF1FFF1F
+	DrawString = 120, -80, "Inventory [ %d ]", INVENTORY
+Endif
+
+; 照準
+Color = 0xFF000000
+DrawLine =   0,   4,      0,   16
+DrawLine =   0,  -4,      0,  -16
+DrawLine =   4,   0,     16,   0
+DrawLine =  -4,   0,    -16,   0
+
+; ズーム時に照準器を表示する
+If = cam_zoom>1
+	Color = #FF000000
+	DrawRect =  127.5, -127.5, 1080, 1080
+	DrawRect =  127.5,  127.5,-1080, 1080
+	DrawRect = -127.5,  127.5,-1080,-1080
+	DrawRect = -127.5, -127.5, 1080,-1080
+	DrawTexture = tank_scope, -127.5, -128,  256,256, 0,0, 256,256
+EndIf
+
+; 耐久値(HP)
+; HPが20%を超えている場合は白(0xFFffffff)、HPが20%以下の場合は赤(0xFFDF0408)
+Color = hp_rto>0.2? 0xFFffffff: 0xFFDF0408
+DrawTexture = hud, 144, 95, 64,20, 128,64, 128,20
+DrawString  = 150,    97, "%3.0f", HP_PER
+DrawString  = 150+26, 97, "/ 100", HP_PER
+DrawRect    = 146, 107, hp_rto*60, 6
+
+; 弾数, 残弾 背景 (Ammo background)
+DrawTexture = hud, -208, 57,  62,10,  128,64, 128,20
+; 武器名 (Weapon name background)
+DrawTexture = hud, -208, 68, 106,10,  128,64, 128,20
+
+; 弾数, 残弾 (Ammo) リロード中でなければ白、リロード中であれば赤
+Color = reloading==0? 0xFFffffff: 0xFFDF0408
+DrawString = -207, 58, "%s",  WPN_AMMO
+DrawString = -181, 58, "/",   WPN_AMMO
+DrawString = -172, 58, "%s",  WPN_RM_AMMO
+; 武器名 (Weapon name)
+DrawString = -207, 69, "%s",  WPN_NAME
+
+; 銃身の熱量タイプの場合(Heat)
+If = is_heat_wpn==1
+	Color = 0xFF000000
+	DrawRect = -145, 57, 43, 10
+	Color = 0xFFffffff
+	DrawRect = -144, 58, 41, 8
+	Color = 0xFFDF0408
+	DrawRect = -144, 58, 41*wpn_heat, 8
+EndIf
+
+; 迫撃砲の着弾距離
+Color = 0xFFffffff
+Call = mortar
+
+; 砲塔コンパス
+DrawTexture = ww2tank_hud, -16,55,  32,32,  0, 0,64,64, yaw - plyr_yaw
+DrawTexture = ww2tank_hud, -16,55,  32,32, 64, 0,64,64, 
+
+
+; エンジン出力計
+if = time<=13000
+	; 昼用の計器
+	DrawTexture = ww2tank_hud,  160, 42,  48,48,   0,  128, 96,96
+	DrawTexture = ww2tank_hud,  176, 42,  16,48, 128,    0, 32,96, Throttle*234-117
+Endif
+
+if = time> 13000
+	; 夜間用の計器
+	DrawTexture = ww2tank_hud,  160, 42,  48,48,  96,  128, 96,96
+	DrawTexture = ww2tank_hud,  176, 42,  16,48, 160,    0, 32,96, Throttle*234-117
+Endif
+
+; 燃料(Fuel)
+if = time<=13000
+	; 昼用の計器
+	DrawTexture = ww2tank_hud, -207, 83, 32,32,    0, 64, 64,64
+	DrawTexture = ww2tank_hud, -199, 89, 16,32,  192,  0, 32,64, fuel*70-35
+Endif
+
+if = time> 13000
+	; 夜間用の計器
+	DrawTexture = ww2tank_hud, -207, 83, 32,32,  64, 64, 64,64
+	DrawTexture = ww2tank_hud, -199, 89, 16,32,  192,  0, 32,64, fuel*70-35
+Endif
+
+; 燃料の低下を警告表示
+If = low_fuel
+	DrawTexture = hud, 40,-85, 16,16,  0,0,  32,32
+	Color = 0xFFDF0408
+	DrawString  = 56,-80, "%s key", KEY_GUI
+EndIf
+
+Color = 0xFFffffff
+If = free_look==1
+	DrawString = 145, -40, "FREE LOOK"
+Endif
+
+If = cam_mode==1
+	DrawString = 145, -30, "NIGHT VISION"
+Endif
+If = cam_mode==2
+	DrawString = 145, -30, "THERMAL VISION"
+Endif
+
+If = have_flare==1
+	Color = can_flare==1? 0xFFFFE400: 0xFFDF0408
+	DrawCenteredString = 60, 45, "[ FLARE ]"
+Endif
+
+; レーダーを持つ機体の場合
+If = have_radar==1
+	DrawTexture = plane_hud, 144, 37,  64,64,  0,0, 128,128
+
+	Color = 0xFF28d448
+	DrawEntityRadar = -plyr_yaw-180, 144, 37,  64,64
+
+	Color = 0xFFDF0408
+	DrawEnemyRadar  = -plyr_yaw-180, 144, 37,  64,64
+
+	DrawTexture = plane_hud, 144+16, 37,  32,64,  128,0, 64,128, radar_rot
+EndIf
+

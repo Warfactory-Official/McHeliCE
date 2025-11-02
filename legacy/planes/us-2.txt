@@ -1,0 +1,89 @@
+DisplayName = US-2
+AddDisplayName = ja_JP, US-2救難飛行艇
+ItemID = 28711
+MaxHp = 350
+Speed = 0.9
+Float = true
+FloatOffset = -2.00
+Sound = prop
+Regeneration = true
+MaxFuel         = 4800
+FuelConsumption = 2.0
+InventorySize = 36
+ThirdPersonDist = 32
+
+;DEBUG:テスト用
+;↓の設定は、ハッチにも効果がある。エアブレーキなどに使用。
+;VariableSweepWing = true
+;SweepWingSpeed = 1.8
+
+; M = Military(軍用機).  H = Search and Rescue/Medevac(捜索救難機)
+Category = M.H
+
+; 水しぶき を発生させる
+;AddParticleSplash = 座標X,   Y,    Z,   表示数, サイズ,  速度,  表示時間, 上昇, 重力
+AddParticleSplash =  1.0,  0.97,   13.19,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = -1.0,  0.97,   13.19,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =  1.0,  0.97,   13.19,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.0,  0.97,   13.19,   2,      9.0,    1.1,   60,       0.01,   0
+
+AddParticleSplash =  1.4,  0.97,   4.89,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash = -1.4,  0.97,   4.89,   2,      9.0,    1.1,   60,       0.01,   0
+
+AddParticleSplash = 13.7,  2.73,   3.6,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash =-13.7,  2.73,   3.6,   3,      9.0,    1.1,   20,       0.30,  -0.03
+AddParticleSplash = 13.7,  2.73,   3.6,   2,      9.0,    1.1,   60,       0.01,   0
+AddParticleSplash =-13.7,  2.73,   3.6,   2,      9.0,    1.1,   60,       0.01,   0
+
+HUD = plane, none, none, none, none, none, none, none
+
+MobilityYaw = 0.6
+MobilityPitch = 0.6
+MobilityRoll = 0.3
+MinRotationPitch = -60
+MaxRotationPitch =  60
+MinRotationRoll  = -60
+MaxRotationRoll  =  60
+
+AddTexture = us-2_9901
+AddTexture = us-2_9902
+
+AddSeat =  0.70,  4.03,  11.38
+AddSeat = -0.70,  4.03,  11.38
+AddSeat =  0.59,  3.65,  8.78
+AddSeat = -0.59,  3.65,  8.78
+AddSeat =  0.61,  3.50,  7.85
+AddSeat = -0.61,  3.50,  7.85
+AddSeat = -0.04,  2.41, -6.79
+AddSeat =  0.11,  2.83, -10.32
+
+;Front
+AddPartLG = -0.01, 0.77,  10.14,  1,0,0, 130
+;Rear
+AddPartLG =  0.00, 2.69,  0.07,  1,0,0, 90
+
+
+AddPartRotor =   8.76,  5.58,   6.30,   0, 0, 1
+AddBlade = 6,60, 8.76,  5.58,   6.30,   0, 0, 1
+
+AddPartRotor =   3.95,  5.45,   6.85,   0, 0, 1
+AddBlade = 6,60, 3.95,  5.45,   6.85,   0, 0, 1
+
+AddPartRotor =  -3.95,  5.45,   6.85,   0, 0,-1
+AddBlade = 6,60,-3.95,  5.45,   6.85,   0, 0,-1
+
+AddPartRotor =  -8.76,  5.58,   6.30,   0, 0,-1
+AddBlade = 6,60,-8.76,  5.58,   6.30,   0, 0,-1
+
+AddRecipe = "GPG",  "XIX",  "XXX",  X,iron_block, G,dye,4, P,glass,  I,potion,8193
+
+AddPartHatch =   1.08, 4.28, -5.52,  0,1,0, 90
+
+BoundingBox =  0.0, 3.0,  10.53,  3.0, 5.0
+BoundingBox =  0.0, 3.0,  6.53,  3.0, 5.0
+BoundingBox =  0.0, 3.0,  2.53,  3.0, 5.0
+BoundingBox =  0.0, 3.0, -1.47,  3.0, 4.5
+BoundingBox =  4.0, 6.0,  2.53,  3.5, 1.0
+BoundingBox = -4.0, 6.0,  2.53,  3.5, 1.0
+
+AddWeapon = dispenser_boat,  1.8, 1.4, -6.1,  0, 0

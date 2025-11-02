@@ -4,21 +4,29 @@
       Position:
       - ['-25', '0']
       - ['-8', '0']
+      Factor: '1'
+      Pattern: '0xCCCC'
       Striped: true
   - DrawLine:
       Position:
       - ['25', '0']
       - ['8', '0']
+      Factor: '1'
+      Pattern: '0xCCCC'
       Striped: true
   - DrawLine:
       Position:
       - ['0', '-15']
       - ['0', '-8']
+      Factor: '1'
+      Pattern: '0xCCCC'
       Striped: true
   - DrawLine:
       Position:
       - ['0', '15']
       - ['0', '8']
+      Factor: '1'
+      Pattern: '0xCCCC'
       Striped: true
   - DrawLine:
       Position:

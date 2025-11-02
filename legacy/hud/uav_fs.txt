@@ -1,0 +1,32 @@
+
+; UAVの電波の強さを描画。UAVでない場合は描画せず終了
+If = is_uav==0
+	Exit
+EndIf
+
+If = uav_fs < 0.3
+	Color = 0xFFDF0408
+EndIf
+
+If = uav_fs > 0.01
+	DrawString = 100, 95, "[ %.2f ]", UAV_DIST
+EndIf
+If = uav_fs <= 0.01
+	DrawString = 100, 95, "[ --.-- ]"
+EndIf
+
+If = uav_fs >= 0.1
+	DrawRect = 100, 113,  3, 2
+EndIf
+If = uav_fs >= 0.2
+	DrawRect = 104, 111,  3, 4
+EndIf
+If = uav_fs >= 0.3
+	DrawRect = 108, 109,  3, 6
+EndIf
+If = uav_fs >= 0.4
+	DrawRect = 112, 107,  3, 8
+EndIf
+If = uav_fs >= 0.7
+	DrawRect = 116, 105,  3, 10
+EndIf
