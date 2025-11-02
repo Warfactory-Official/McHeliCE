@@ -172,11 +172,15 @@ public class HUDParser {
 
     private static MCH_HudItem parseLine(Map<String, Object> value) {
         boolean isStriped = false;
+        String pattern =  "0";
+        String factor = "0";
         List<List<String>> positions = new ArrayList<>();
 
         for (Map.Entry<String, Object> entry : value.entrySet()) {
             switch (entry.getKey()) {
                 case "Striped" -> isStriped = (Boolean) entry.getValue();
+                case "Fac","Factor" -> factor = toFormula((String) entry.getValue());
+                case "Pat","Pattern" -> pattern = toFormula((String) entry.getValue());
                 case "StartPos", "Position", "Start" -> {
                     Object raw = entry.getValue();
 
@@ -208,7 +212,7 @@ public class HUDParser {
                 .toArray(String[]::new);
 
         return isStriped
-                ? new MCH_HudItemLineStipple(0, coordsArr)
+                ? new MCH_HudItemLineStipple(0, pattern, factor, coordsArr)
                 : new MCH_HudItemLine(0, coordsArr);
     }
 

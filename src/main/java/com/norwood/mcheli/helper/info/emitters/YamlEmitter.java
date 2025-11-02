@@ -859,6 +859,8 @@ public class YamlEmitter implements IEmitter {
             }
 
             lineSettings.put("Position", positions);
+            lineSettings.put("Factor", line.getFac());
+            lineSettings.put("Pattern", line.getPat());
             lineSettings.put("Striped", true);
             return new AbstractMap.SimpleEntry<>("DrawLine", lineSettings);
         }
