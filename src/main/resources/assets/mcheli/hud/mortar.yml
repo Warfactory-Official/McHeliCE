@@ -1,0 +1,16 @@
+- If: dsp_mt_dist == 1 && mt_dist > 0
+  Do:
+  - DrawString:
+      Text:
+        Fmt: DIST = %.0f
+        Vars: [MORTAR_DIST]
+      Position: ['30', '30']
+      Center: false
+- If: dsp_mt_dist == 1 && mt_dist <= 0
+  Do:
+  - DrawString:
+      Text:
+        Fmt: DIST = ----
+        Vars: []
+      Position: ['30', '30']
+      Center: false

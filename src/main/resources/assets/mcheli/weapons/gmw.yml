@@ -1,0 +1,79 @@
+DisplayName: H&K GMW [M384 HE]
+Type: rocket
+Group: maingun
+BaseDamage: 15
+Ballistics:
+  Acceleration: 2.5
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 2.0
+  Name: mk19_l_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 2
+Camera:
+  RotationSpeedPitch: 0.3
+Missile:
+  Heat:
+    HeatCount: 35
+    MaxHeatCount: 180
+Ammo:
+  ReloadTime: 180
+  MagSize: 30
+  MaxAmmo: 120
+  ResupplyCount: 60
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 6
+Accuracy: 2.0
+Render:
+  MuzzleFlashes:
+  - Distance: 1.6
+    Size: 0.22
+    Range: 0.0
+    Age: 2
+    Count: 1
+    Color: '#AAFE9F54'
+  - Distance: 1.5
+    Size: 0.2
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FEDBB8'
+  MuzzleSmoke:
+  - Distance: 2.2
+    Size: 5.0
+    Range: 2.0
+    Age: 15
+    Count: 1
+    Color: '#B4FAF5F0'
+  - Distance: 3.2
+    Size: 3.0
+    Range: 1.0
+    Age: 5
+    Count: 1
+    Color: '#B4DCD9D6'
+  SpentCasings:
+    Name: cartridge
+    Acceleration: 0.1
+    Yaw: 90.0
+    Pitch: 30.0
+    Scale: 3.0
+    Gravity: -0.04
+    Bound: 0.4
+  BulletModel: mk19bullet
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

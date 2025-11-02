@@ -1,0 +1,229 @@
+DisplayName:
+  DEFAULT: F-22A Raptor
+  ja_jp: F-22A ラプター
+Category: M.F
+MaxFuel: 1400
+MaxHP: 230
+Stealth: 0.3
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.7, -2.18]
+PhysicalProperties:
+  Speed: 1.2
+  RotationSnapValue: 0.0
+  Mobility:
+    Pitch: 9.5
+    Roll: 2.5
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: m61a1_l
+  Position: [-1.74, 2.45, -5.56]
+- Type: aim9
+  Position: [1.72, 1.53, -6.72]
+- Type: aim9
+  Position: [-1.72, 1.53, -6.72]
+- Type: aim120
+  Position: [0.84, 1.27, -7.28]
+- Type: aim120
+  Position: [-0.84, 1.27, -7.28]
+- Type: gbu-53_sdb
+  Position: [0.37, 1.18, -5.54]
+- Type: gbu-53_sdb
+  Position: [-0.37, 1.18, -5.54]
+- Type: gbu-53_sdb
+  Position: [0.37, 1.18, -5.54]
+- Type: gbu-53_sdb
+  Position: [-0.37, 1.18, -5.54]
+- Type: gbu-53_sdb
+  Position: [0.37, 1.18, -7.41]
+- Type: gbu-53_sdb
+  Position: [-0.37, 1.18, -7.41]
+- Type: gbu-53_sdb
+  Position: [0.37, 1.18, -7.41]
+- Type: gbu-53_sdb
+  Position: [-0.37, 1.18, -7.41]
+- Type: targeting_pod_ph75s
+  Position: [0.0, 3.0, 0.0]
+Seats:
+- Position: [0.0, 2.01, 0.0]
+  Hud: plane
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.9, -2.8]
+  Size: [3.0, 2.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.9, -7.6]
+  Size: [5.0, 2.0, 5.0]
+- Type: DEFAULT
+  Position: [-2.92, 2.2, -9.6]
+  Size: [4.0, 1.0, 4.0]
+- Type: DEFAULT
+  Position: [2.92, 2.2, -9.6]
+  Size: [4.0, 1.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -11.8]
+  Size: [3.0, 1.5, 3.0]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 2.93, -1.42]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.5555556
+  - Position: [0.0, 2.93, -1.42]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.5555556
+  WeaponBay:
+  - Position: [1.29, 1.04, -2.64]
+    Rotation: [0.0, -0.025, 1.0]
+    PartName: wb0
+    WeaponName: aim120 / gbu-53_sdb
+    MaxRotation: 0.8888889
+  - Position: [0.24, -0.25, -2.64]
+    Rotation: [0.0, -0.031, 1.0]
+    PartName: wb1
+    WeaponName: aim120 / gbu-53_sdb
+    MaxRotation: -0.62222224
+  - Position: [-1.29, 1.04, -2.64]
+    Rotation: [0.0, -0.025, 1.0]
+    PartName: wb2
+    WeaponName: aim120 / gbu-53_sdb
+    MaxRotation: -0.8888889
+  - Position: [-0.24, -0.25, -2.64]
+    Rotation: [0.0, -0.031, 1.0]
+    PartName: wb3
+    WeaponName: aim120 / gbu-53_sdb
+    MaxRotation: 0.62222224
+  - Position: [2.05, 1.78, -5.14]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb4
+    WeaponName: aim9
+    MaxRotation: 1.0
+  - Position: [1.64, 1.16, -5.16]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb5
+    WeaponName: aim9
+    MaxRotation: -1.0
+  - Position: [-2.05, 1.78, -5.14]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb6
+    WeaponName: aim9
+    MaxRotation: -1.0
+  - Position: [-1.64, 1.16, -5.16]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb7
+    WeaponName: aim9
+    MaxRotation: 1.0
+  - Position: [1.41, 1.78, -5.74]
+    Rotation: [0.578, 1.0, 0.0]
+    PartName: wb8
+    WeaponName: aim9
+    MaxRotation: 0.07777778
+  - Position: [-1.41, 1.78, -5.74]
+    Rotation: [-0.578, 1.0, 0.0]
+    PartName: wb9
+    WeaponName: aim9
+    MaxRotation: -0.07777778
+  LandingGear:
+  - Position: [0.0, 1.33, -1.66]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 100.00001
+  - Position: [1.1, 1.07, -8.56]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg1
+    MaxRotation: 102.0
+  - Position: [-1.1, 1.07, -8.56]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg2
+    MaxRotation: -102.0
+  Weapon:
+  - Position: [0.84, 1.27, -7.28]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [-0.84, 1.27, -7.28]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [0.37, 1.18, -5.54]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: gbu-53_sdb
+    IsMissile: true
+  - Position: [-0.37, 1.18, -5.54]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: gbu-53_sdb
+    IsMissile: true
+  - Position: [0.37, 1.18, -5.54]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: gbu-53_sdb
+    IsMissile: true
+  - Position: [-0.37, 1.18, -5.54]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: gbu-53_sdb
+    IsMissile: true
+  - Position: [0.37, 1.18, -7.41]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: gbu-53_sdb
+    IsMissile: true
+  - Position: [-0.37, 1.18, -7.41]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: gbu-53_sdb
+    IsMissile: true
+  - Position: [0.37, 1.18, -7.41]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon8
+    WeaponNames: gbu-53_sdb
+    IsMissile: true
+  - Position: [-0.37, 1.18, -7.41]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon9
+    WeaponNames: gbu-53_sdb
+    IsMissile: true
+  Throttle:
+  - Position: [0.0, 2.43, -13.29]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: throttle0
+    SlidePos: [0.0, 0.0, 0.0]
+    MaxAngle: 20.0
+  - Position: [0.0, 1.91, -13.29]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: throttle1
+    SlidePos: [0.0, 0.0, 0.0]
+    MaxAngle: -20.0
+  Nozzle:
+  - Position: [0.73, 2.06, -13.29]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle0
+  - Position: [-0.73, 2.06, -13.29]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle1

@@ -1,0 +1,175 @@
+DisplayName:
+  DEFAULT: E767
+  ja_jp: E767
+Category: M.R
+MaxFuel: 7000
+MaxHP: 650
+FuelConsumption: 1.7
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 48.0
+  Pos:
+  - Pos: [0.0, 4.0, 5.0]
+Sound:
+  MoveSound: plane
+PhysicalProperties:
+  Speed: 0.9
+  RotationSnapValue: -0.5
+  Mobility:
+    Yaw: 0.3
+    Pitch: 0.3
+    Roll: 0.2
+  RotationLimits:
+    Pitch:
+      Min: -60.0
+      Max: 60.0
+    Roll:
+      Min: -60.0
+      Max: 60.0
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: targeting_pod_mob
+  Position: [0.0, 4.0, 5.0]
+- Type: targeting_pod_pv50s
+  Position: [0.0, 4.0, 5.0]
+- Type: targeting_pod_block
+  Position: [0.0, 4.0, 5.0]
+- Type: targeting_pod_ph100s
+  Position: [0.0, 4.0, 5.0]
+- Type: targeting_pod_mob
+  Position: [0.0, 4.0, 5.0]
+  SeatID: 2
+  CanUsePilot: false
+- Type: targeting_pod_pv50s
+  Position: [0.0, 4.0, 5.0]
+  SeatID: 2
+  CanUsePilot: false
+- Type: targeting_pod_block
+  Position: [0.0, 4.0, 5.0]
+  SeatID: 2
+  CanUsePilot: false
+- Type: targeting_pod_ph100s
+  Position: [0.0, 4.0, 5.0]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [0.7, 3.4, -0.25]
+  Hud: plane
+- Position: [-0.8, 3.4, -0.25]
+  Gunner: true
+  Camera:
+    Pos: [0.0, 0.0, 0.0]
+  Hud: plane_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 4.2, -4.7]
+  Size: [8.0, 6.0, 8.0]
+- Type: DEFAULT
+  Position: [0.0, 4.2, -16.7]
+  Size: [8.0, 6.0, 8.0]
+- Type: DEFAULT
+  Position: [0.0, 4.2, -35.7]
+  Size: [8.0, 6.0, 8.0]
+- Type: DEFAULT
+  Position: [-9.5, 4.0, -24.1]
+  Size: [9.0, 3.0, 9.0]
+- Type: DEFAULT
+  Position: [9.5, 4.0, -24.1]
+  Size: [9.0, 3.0, 9.0]
+AircraftFeatures:
+  GunnerMode: true
+  InventorySize: 45
+  NightVision: true
+  EntityRadar: true
+  ConcurrentGunner: true
+  ThrottleUpDown: 0.3
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - LARGE_AIRCRAFT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Rotation:
+  - Position: [0.0, 9.0, -31.17]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: rotpart0
+    Speed: 1.3
+  LandingGear:
+  - Position: [0.0, 1.54, -1.57]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: -110.0
+  - Position: [-0.47, 1.83, -0.8]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg1
+    MaxRotation: 90.0
+  - Position: [0.47, 1.83, -0.8]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg2
+    MaxRotation: -90.0
+  - Position: [0.472, 2.046, -0.183]
+    Rotation: [0.38, -42.6, -123.4]
+    PartName: lg3
+    MaxRotation: -90.0
+    IsHatch: true
+  - Position: [-0.472, 2.046, -0.183]
+    Rotation: [-0.38, -42.6, -123.4]
+    PartName: lg4
+    MaxRotation: 90.0
+    IsHatch: true
+  - Position: [-2.25, 2.0, -23.54]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg5
+    MaxRotation: 90.0
+  - Position: [2.25, 2.0, -23.54]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg6
+    MaxRotation: -90.0
+  - Position: [2.25, 2.0, -23.54]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg7
+    MaxRotation: -90.0
+  - Position: [-2.25, 2.0, -23.54]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg8
+    MaxRotation: 90.0
+  - Position: [0.3, 1.37, -23.54]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg9
+    MaxRotation: -90.0
+    IsHatch: true
+  - Position: [-0.3, 1.37, -23.54]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg10
+    MaxRotation: 90.0
+    IsHatch: true
+  PlaneRotor:
+  - Position: [6.68, 1.35, -18.53]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: rotor0
+    RotFactor: 90.0
+    Blades:
+    - Position: [6.68, 1.35, -18.53]
+      Rotation: [0.0, 0.0, -1.0]
+      PartName: blade0
+      BladeNum: 1
+      BladeRot: 0
+  - Position: [-6.68, 1.35, -18.53]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor1
+    RotFactor: 90.0
+    Blades:
+    - Position: [-6.68, 1.35, -18.53]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade1
+      BladeNum: 1
+      BladeRot: 0

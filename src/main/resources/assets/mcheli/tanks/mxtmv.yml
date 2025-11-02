@@ -1,0 +1,153 @@
+DisplayName:
+  DEFAULT: MXT-MV Husky TSV
+  ja_jp: MXT-MV ハスキーTSV
+Category: ZZZ
+MaxFuel: 1200
+MaxHP: 160
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 8.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: prop
+PhysicalProperties:
+  Speed: 0.7
+  Gravity: -0.15
+  GravityInWater: -0.1
+  StepHeight: 1.5
+  PivotTurnThrottle: 0.1
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 6.5
+  GroundPitchFactors:
+    Pitch: 3.0
+    Roll: 3.8
+Armor:
+  DamageFactor: 0.85
+Weapons:
+- Type: gmw
+  Position: [0.0, 2.95, -0.59]
+  SeatID: 5
+  CanUsePilot: false
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -25.0
+  MaxPitch: 4.0
+  Turret: true
+- Type: gmw_fl
+  Position: [0.0, 2.95, -0.59]
+  SeatID: 5
+  CanUsePilot: false
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -25.0
+  MaxPitch: 4.0
+  Turret: true
+Seats:
+- Position: [-0.7, 0.79, 0.27]
+  Hud: bnr32_hud
+- Position: [0.7, 0.79, 0.27]
+- Position: [-0.7, 1.07, -1.01]
+- Position: [0.7, 1.07, -1.01]
+- Position: [0.0, 2.2, -0.59]
+  Gunner: true
+  MinPitch: -25.0
+  MaxPitch: 4.0
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 3.4, -0.59]
+  Hud: gunner
+- Position: [-0.7, 1.45, -2.35]
+  Hud: gunner
+- Position: [0.7, 1.45, -2.35]
+  Hud: gunner
+Racks:
+- Position: [0.0, 1.2, -2.35]
+  Camera:
+    Pos: [0.0, 3.5, -3.85]
+  Name: container
+  Range: 6.0
+  OpenParaAlt: 20.0
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.0, 1.5]
+  Size: [2.6, 1.0, 2.6]
+  DamageFactor: 0.9
+- Type: DEFAULT
+  Position: [0.0, 1.5, -0.5]
+  Size: [2.6, 2.0, 2.6]
+- Type: DEFAULT
+  Position: [0.0, 1.5, -1.5]
+  Size: [2.6, 2.0, 2.6]
+  DamageFactor: 1.1
+Wheels:
+  Hitboxes:
+  - Position: [1.03, -0.24, 2.02]
+  - Position: [1.03, -0.24, -2.05]
+  WheelRotation: 40.0
+AircraftFeatures:
+  InventorySize: 27
+  NightVision: true
+  CanReverse: true
+  ThrottleUpDown: 3.0
+TankFeatures:
+  WeightType: CAR
+  WeightedCenterZ: 0.0
+Components:
+  Canopy:
+  - Position: [-1.12, 1.58, 0.92]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.6666667
+  - Position: [-1.12, 1.58, 0.92]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.6666667
+  Hatch:
+  - Position: [1.12, 1.58, 0.92]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: hatch0
+    MaxRotation: -60.0
+  - Position: [-1.12, 1.86, -1.46]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: hatch1
+    MaxRotation: -100.0
+  - Position: [1.12, 1.86, -1.46]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: hatch2
+    MaxRotation: 100.0
+  Wheel:
+  - Position: [-1.03, 0.33, 2.05]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel0
+    Direction: 30.0
+    Pivot: [-1.03, 0.33, 2.05]
+  - Position: [1.03, 0.33, 2.05]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel1
+    Direction: 30.0
+    Pivot: [1.03, 0.33, 2.05]
+  - Position: [-1.03, 0.33, -2.02]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel2
+    Direction: 0.0
+    Pivot: [-1.03, 0.33, -2.02]
+  - Position: [-1.03, 0.33, -2.02]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel3
+    Direction: 0.0
+    Pivot: [-1.03, 0.33, -2.02]
+  Weapon:
+  - Position: [0.0, 2.3, -0.59]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: gmw/gmw_fl
+    Yaw: true
+    Children:
+    - Position: [0.0, 2.74, 0.48]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true

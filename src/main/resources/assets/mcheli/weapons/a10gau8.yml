@@ -1,0 +1,35 @@
+DisplayName: A-10 GAU-8 Avenger
+Type: cas
+BaseDamage: 32
+Ballistics:
+  Acceleration: 4.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: a10gau8_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 1
+Ammo:
+  MagSize: 3
+  MaxAmmo: 3
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 1
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 1
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 300
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

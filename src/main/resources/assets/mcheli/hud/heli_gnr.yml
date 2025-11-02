@@ -1,0 +1,233 @@
+- Color: '0xcfffffff'
+- Call: uav_fs
+- Color: '0xcfffffff'
+- Call: sight
+- Color: altitude>10?0xcfffffff:0xcfdf0408
+- DrawString:
+    Text:
+      Fmt: '[ %3d ]'
+      Vars: [ALTITUDE]
+    Position: ['0', '40']
+    Center: true
+- Color: '0xcfffffff'
+- DrawString:
+    Text:
+      Fmt: 'X: %+.1f'
+      Vars: [POS_X]
+    Position: ['-205', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Y: %+.1f'
+      Vars: [POS_Y]
+    Position: ['-205', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Z: %+.1f'
+      Vars: [POS_Z]
+    Position: ['-205', '40']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_X]
+    Position: ['-150', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Y]
+    Position: ['-150', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Z]
+    Position: ['-150', '40']
+    Center: false
+- Color: '0xcf808080'
+- DrawRectangle:
+    Position: ['145', '106']
+    Size: ['62', '8']
+- Color: hp_rto>0.2?0xcfffffff:0xcfdf0408
+- DrawString:
+    Text:
+      Fmt: '%3.0f'
+      Vars: [HP_PER]
+    Position: ['150', '97']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: / 100
+      Vars: [HP_PER]
+    Position: [150+26, '97']
+    Center: false
+- DrawRectangle:
+    Position: ['146', '107']
+    Size: [hp_rto*60, '6']
+- Color: reloading==0?0xcfffffff:0xcfdf0408
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_AMMO]
+    Position: ['-207', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: /
+      Vars: [WPN_AMMO]
+    Position: ['-181', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_RM_AMMO]
+    Position: ['-172', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_NAME]
+    Position: ['-207', '69']
+    Center: false
+- If: is_heat_wpn==1
+  Do:
+  - Color: '0xcfffffff'
+  - DrawRectangle:
+      Position: ['-145', '57']
+      Size: ['43', '10']
+  - Color: '0xcfff2020'
+  - DrawRectangle:
+      Position: ['-144', '58']
+      Size: [41*wpn_heat, '8']
+- If: have_radar==1
+  Do:
+  - Color: '0x80ffffff'
+  - DrawLine:
+      Position:
+      - ['144', '21']
+      - [144+64, '21']
+      - [144+64, 21+64]
+      - ['144', 21+64]
+      - ['144', '21']
+      Striped: false
+  - DrawLine:
+      Position:
+      - ['144', 21+32]
+      - [144+64, 21+32]
+      Striped: false
+  - DrawLine:
+      Position:
+      - [144+32, '21']
+      - [144+32, 21+64]
+      Striped: false
+  - Color: '0x80ffffff'
+  - DrawRadar:
+      Position: ['144', '21']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: true
+  - Color: '0xffdf0408'
+  - DrawRadar:
+      Position: ['144', '21']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: false
+- Color: '0xcfffffff'
+- DrawGraduation:
+    Type: YAW
+    Position: ['0', '-100']
+    Rotation: plyr_yaw
+    Roll: '0'
+- DrawLine:
+    Position:
+    - ['0', '-87']
+    - ['2', '-83']
+    - ['-2', '-83']
+    - ['0', '-87']
+    Striped: false
+- DrawString:
+    Text:
+      Fmt: '%.0f'
+      Vars: [PLYR_YAW]
+    Position: ['0', '-81']
+    Center: true
+- DrawGraduation:
+    Type: PITCH
+    Position: ['0', '0']
+    Rotation: plyr_pitch
+    Roll: '0'
+- DrawString:
+    Text:
+      Fmt: '%.0f'
+      Vars: [PLYR_PITCH]
+    Position: ['-140', '-4']
+    Center: true
+- DrawLine:
+    Position:
+    - ['-120', '0']
+    - [-120-5, '-5']
+    - [-120-30, '-5']
+    - [-120-30, '5']
+    - [-120-5, '5']
+    - ['-120', '0']
+    Striped: false
+- DrawString:
+    Text:
+      Fmt: '%.0f'
+      Vars: [PLYR_PITCH]
+    Position: ['+140', '-4']
+    Center: true
+- DrawLine:
+    Position:
+    - ['120', '0']
+    - [120+5, '-5']
+    - [120+30, '-5']
+    - [120+30, '5']
+    - [120+5, '5']
+    - ['120', '0']
+    Striped: false
+- Color: '0xcfffffff'
+- DrawString:
+    Text:
+      Fmt: x%.1f
+      Vars: [CAM_ZOOM]
+    Position: ['-70', '10']
+    Center: false
+- If: free_look==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: FREE LOOK
+        Vars: []
+      Position: ['-90', '-80']
+      Center: false
+- If: cam_mode==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: NIGHT VISION
+        Vars: []
+      Position: ['30', '50']
+      Center: false
+- If: cam_mode==2
+  Do:
+  - DrawString:
+      Text:
+        Fmt: THERMAL VISION
+        Vars: []
+      Position: ['30', '50']
+      Center: false
+- Color: '0xcfffffff'
+- CameraRotation:
+    Position: ['0', '60']
+- If: have_flare==1
+  Do:
+  - Color: can_flare==1?0xcfffffff:0xcf6f6f6f
+  - DrawString:
+      Text:
+        Fmt: '[ FLARE ]'
+        Vars: []
+      Position: ['-60', '50']
+      Center: true

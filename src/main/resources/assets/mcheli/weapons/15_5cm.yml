@@ -1,0 +1,44 @@
+DisplayName: 15.5cm Type91[AP]
+Type: machinegun1
+BaseDamage: 60
+Ballistics:
+  Acceleration: 5.7
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Delay: 4
+  Pitch: 0.3
+  Name: cannon_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 5
+  DestructionPower: 3
+  PowerUnderwater: 4
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 50
+    MaxHeatCount: 145
+Ammo:
+  ReloadTime: 125
+  MagSize: 3
+  MaxAmmo: 60
+  ResupplyCount: 20
+  AmmoItems:
+  - Count: 6
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 6
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 15
+Render:
+  BulletModel: 91ap_15_5
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

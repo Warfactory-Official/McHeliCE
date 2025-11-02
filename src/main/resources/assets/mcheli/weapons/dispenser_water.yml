@@ -1,0 +1,31 @@
+DisplayName: Water Dispenser
+Type: dispenser
+Ballistics:
+  Acceleration: 0.0
+  AccelerationInWater: 1.0
+  Gravity: -0.05
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Delay: 4
+  Name: smoke_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Ammo:
+  ReloadTime: 200
+  MagSize: 20
+  MaxAmmo: 20
+  ResupplyCount: 20
+  AmmoItems:
+  - Count: 5
+    Name: minecraft:water_bucket
+    Meta: 0
+FireCooldown: 0
+Render:
+  Smoke:
+    SmokeSize: 3.0
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

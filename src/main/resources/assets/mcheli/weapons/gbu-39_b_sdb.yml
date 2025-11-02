@@ -1,0 +1,44 @@
+DisplayName: GBU-39/B SDB
+Type: asmissile
+BaseDamage: 32
+Ballistics:
+  Acceleration: 1.3
+  AccelerationInWater: 1.0
+  Gravity: -0.003
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 3.0
+  Pitch: 0.1
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 5
+  DestructionPower: 3
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 190
+  MagSize: 2
+  MaxAmmo: 8
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 4
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 4
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 4
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 35
+Render:
+  BulletModel: sdb
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

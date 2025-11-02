@@ -1,0 +1,37 @@
+DisplayName: POM-2S Anti-Personal Mine
+Type: bomb
+BaseDamage: 10
+Ballistics:
+  Acceleration: 0.2
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 0
+  FuseDelay: 3600
+  ProximityFuseDist: 2.0
+Ammo:
+  ReloadTime: 150
+  MagSize: 10
+  MaxAmmo: 20
+  ResupplyCount: 10
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 5
+Render:
+  BulletModel: pom2
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

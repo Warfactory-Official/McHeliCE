@@ -1,0 +1,43 @@
+DisplayName: AIM-9 Sidewinder
+Type: aamissile
+BaseDamage: 54
+Ballistics:
+  Acceleration: 4.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 5
+  DestructionPower: 5
+  ProximityFuseDist: 1.0
+Camera:
+  Sight: missilesight
+Missile:
+  LockOn:
+    Time: 12
+Ammo:
+  MagSize: 4
+  MaxAmmo: 4
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 1
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 90
+Render:
+  BulletModel: aim9h
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

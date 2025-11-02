@@ -1,0 +1,38 @@
+DisplayName: 15.5cm Type3 Anti-Air Shell[AA]
+Type: rocket
+BaseDamage: 20
+Ballistics:
+  Acceleration: 3.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: rocket_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 1
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 80
+  MagSize: 3
+  MaxAmmo: 12
+  ResupplyCount: 6
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 20
+Render:
+  BulletModel: type3_15_5
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

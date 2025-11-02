@@ -1,0 +1,110 @@
+DisplayName:
+  DEFAULT: NHIndustries NH90-TTH
+  ja_jp: NHインダストリーズ NH90-TTH
+Category: M.M
+Regeneration: true
+MaxFuel: 1200
+MaxHP: 250
+FuelConsumption: 0.4
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 0.8
+  OnGroundPitch: -1.0
+  Mobility:
+    Yaw: 1.2
+    Roll: 1.2
+Armor:
+  ArmorDamageFactor: 0.7
+Seats:
+- Position: [-0.4, 0.52, 5.11]
+  Hud: heli
+- Position: [0.4, 0.52, 5.11]
+  Hud: heli
+- Position: [-0.54, 0.57, 3.58]
+  Hud: gunner
+- Position: [0.54, 0.57, 3.58]
+  Hud: gunner
+- Position: [-0.54, 0.57, 2.98]
+  Hud: gunner
+- Position: [0.54, 0.57, 2.98]
+  Hud: gunner
+- Position: [-0.54, 0.57, 0.57]
+  Hud: gunner
+- Position: [0.54, 0.57, 0.57]
+  Hud: gunner
+- Position: [-0.54, 0.57, -0.1]
+  Hud: gunner
+- Position: [0.54, 0.57, -0.1]
+  Hud: gunner
+- Position: [-0.54, 0.57, -0.78]
+  Hud: gunner
+- Position: [0.54, 0.57, -0.78]
+  Hud: gunner
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.4, 5.0]
+  Size: [1.5, 1.5, 1.5]
+- Type: DEFAULT
+  Position: [0.0, 1.8, 3.0]
+  Size: [2.0, 2.5, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 1.8, 1.0]
+  Size: [2.0, 2.5, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -1.0]
+  Size: [2.0, 2.5, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 2.5, -8.0]
+  Size: [2.0, 3.0, 2.0]
+AircraftFeatures:
+  InventorySize: 54
+  NightVision: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - NORMAL
+    - LARGE_AIRCRAFT
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Hatch:
+  - Position: [0.08, 0.0, 1.7]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: hatch0
+    MaxRotation: 90.0
+    IsSliding: true
+  - Position: [-0.08, 0.0, 1.7]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: hatch1
+    MaxRotation: 90.0
+    IsSliding: true
+  LandingGear:
+  - Position: [0.0, 0.29, 6.38]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 130.0
+  - Position: [-0.96, 0.02, 0.02]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg1
+    MaxRotation: 50.000004
+  - Position: [0.96, 0.02, 0.02]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg2
+    MaxRotation: 50.000004
+  HeliRotor:
+  - Position: [0.0, 3.56, 1.59]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [-0.63, 3.63, -8.63]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1

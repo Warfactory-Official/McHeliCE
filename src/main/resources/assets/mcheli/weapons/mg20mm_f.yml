@@ -1,0 +1,47 @@
+DisplayName: 20mm Machine gun
+Type: machinegun1
+BaseDamage: 16
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 10.0
+  Name: gun_h2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 3
+    MaxHeatCount: 60
+Ammo:
+  MagSize: 800
+  MaxAmmo: 800
+  ResupplyCount: 200
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 1
+Render:
+  SpentCasings:
+    Name: cartridge
+    Acceleration: 0.1
+    Yaw: 90.0
+    Pitch: 0.0
+    Scale: 3.0
+    Gravity: -0.04
+    Bound: 0.4
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

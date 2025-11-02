@@ -1,0 +1,56 @@
+DisplayName:
+  DEFAULT: Robinson R44 Float
+  ja_jp: ロビンソン R44 フロート
+Category: C
+MaxFuel: 1200
+MaxHP: 100
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: r44_heli
+PhysicalProperties:
+  Speed: 0.6
+  CanFloat: true
+Seats:
+- Position: [-0.43, 0.91, 1.76]
+  Hud: civilian_aircraft
+- Position: [0.43, 0.91, 1.76]
+- Position: [-0.43, 0.95, 0.64]
+- Position: [0.43, 0.95, 0.64]
+AircraftFeatures:
+  InventorySize: 27
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Hatch:
+  - Position: [0.87, 1.01, 2.48]
+    Rotation: [0.046, -1.0, 0.51]
+    PartName: hatch0
+    MaxRotation: 70.0
+  - Position: [-0.87, 1.01, 2.48]
+    Rotation: [0.046, 1.0, -0.51]
+    PartName: hatch1
+    MaxRotation: 70.0
+  - Position: [0.87, 1.01, 2.48]
+    Rotation: [0.046, -1.0, 0.51]
+    PartName: hatch2
+    MaxRotation: 70.0
+  - Position: [-0.87, 1.01, 2.48]
+    Rotation: [0.046, 1.0, -0.51]
+    PartName: hatch3
+    MaxRotation: 70.0
+  HeliRotor:
+  - Position: [0.0, 4.55, 0.0]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [0.47, 2.61, -8.55]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1

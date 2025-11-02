@@ -1,0 +1,39 @@
+DisplayName: GAU-22/A Equalizer
+Type: machinegun1
+BaseDamage: 20
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Delay: 3
+  Pitch: 0.6
+  Name: gun_l2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 1
+  DestructionPower: 1
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 35
+  MagSize: 30
+  MaxAmmo: 1200
+  ResupplyCount: 200
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 0
+Accuracy: 0.8
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

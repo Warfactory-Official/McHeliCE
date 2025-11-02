@@ -102,7 +102,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.switchFreeLookModeClient(this.getAcInfo().defaultFreelook);
             this.weapons = this.createWeapon(1 + this.getSeatNum());
             this.initPartRotation(this.getRotYaw(), this.getRotPitch());
-            this.WheelMng.createWheels(this.world, this.getAcInfo().wheels, new Vec3d(0.0, -0.35, this.getTankInfo().weightedCenterZ));
+            this.WheelMng.createWheels(this.world, this.getAcInfo().wheels, new Vec3d(0.0, -GLOBAL_Y_OFFSET, this.getTankInfo().weightedCenterZ));
         }
     }
 

@@ -1,0 +1,123 @@
+DisplayName:
+  DEFAULT: T-4(Trainer)
+  ja_jp: T-4(中等練習機)
+Category: M.T
+MaxFuel: 1200
+MaxHP: 100
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 1.0
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: smoke_none
+  Position: [0.0, 0.0, 0.0]
+- Type: smoke_white
+  Position: [-0.59, 1.24, -5.85]
+- Type: smoke_blue
+  Position: [-0.59, 1.24, -5.85]
+- Type: smoke_green
+  Position: [-0.59, 1.24, -5.85]
+- Type: smoke_red
+  Position: [-0.59, 1.24, -5.85]
+- Type: smoke_yellow
+  Position: [-0.59, 1.24, -5.85]
+Seats:
+- Position: [0.0, 1.2, 2.75]
+  Hud: plane
+- Position: [0.0, 1.54, 0.91]
+  Hud: plane
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.9, 0.71]
+  Size: [1.8, 1.8, 1.8]
+- Type: DEFAULT
+  Position: [0.0, 1.36, 4.93]
+  Size: [1.0, 1.0, 1.0]
+- Type: DEFAULT
+  Position: [0.0, 1.69, -4.09]
+  Size: [2.0, 2.0, 2.0]
+- Type: DEFAULT
+  Position: [3.14, 1.77, -2.22]
+  Size: [2.0, 0.5, 2.0]
+- Type: DEFAULT
+  Position: [-3.14, 1.77, -2.22]
+  Size: [2.0, 0.5, 2.0]
+AircraftFeatures:
+  EjectionSeat: true
+  ThrottleUpDown: 0.8
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - FRONT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [-0.5, 2.1, 2.45]
+    Rotation: [0.0, -0.238, 1.0]
+    PartName: canopy0
+    MaxRotation: 1.0
+  - Position: [-0.5, 2.1, 2.45]
+    Rotation: [0.0, -0.238, 1.0]
+    PartName: canopy
+    MaxRotation: 1.0
+  - Position: [-0.5, 2.1, 2.45]
+    Rotation: [0.0, -0.238, 1.0]
+    PartName: canopy1
+    MaxRotation: 1.0
+  LandingGear:
+  - Position: [0.0, 1.09, 4.75]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 97.0
+  - Position: [-0.15, 0.86, 5.44]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg1
+    MaxRotation: 96.32
+    IsHatch: true
+  - Position: [0.0, 0.85, 4.64]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 136.0
+  - Position: [0.86, 0.88, -1.56]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg3
+    MaxRotation: 46.000004
+    ArticulatedRotation: [0.0, -1.0, 0.0]
+    MaxArticulatedRotation: 95.0
+  - Position: [1.26, 1.06, -0.5]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg4
+    MaxRotation: 123.0
+    IsHatch: true
+  - Position: [1.25, 1.12, -1.56]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg5
+    MaxRotation: 90.08
+  - Position: [-0.86, 0.88, -1.56]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg6
+    MaxRotation: 46.000004
+    ArticulatedRotation: [0.0, 1.0, 0.0]
+    MaxArticulatedRotation: 95.0
+  - Position: [-1.26, 1.06, -0.5]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg7
+    MaxRotation: 123.0
+    IsHatch: true
+  - Position: [-1.25, 1.12, -1.56]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg8
+    MaxRotation: 92.08

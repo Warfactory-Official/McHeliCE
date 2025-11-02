@@ -1,0 +1,377 @@
+DisplayName:
+  DEFAULT: B-29 Superfortress
+  ja_jp: B-29 スーパーフォートレス
+Category: W.A
+GlobalUnmountPos: [3.0, 2.0, -4.0]
+MaxFuel: 4800
+MaxHP: 450
+FuelConsumption: 2.0
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 40.0
+  Pos:
+  - Pos: [2.0, 1.4, -4.0]
+Sound:
+  MoveSound: prop
+PhysicalProperties:
+  Speed: 0.68
+  RotationSnapValue: 0.0
+  Mobility:
+    Yaw: 0.4
+    Pitch: 0.4
+    Roll: 0.1
+  RotationLimits:
+    Pitch:
+      Min: -40.0
+      Max: 40.0
+    Roll:
+      Min: -40.0
+      Max: 40.0
+Weapons:
+- Type: mg12_7mm_tf
+  Position: [0.29, 4.31, -4.05]
+  SeatID: 5
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -60.0
+  MaxPitch: 3.0
+- Type: mg12_7mm_tf
+  Position: [-0.29, 4.31, -4.05]
+  SeatID: 5
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -60.0
+  MaxPitch: 3.0
+- Type: mg12_7mm_tf
+  Position: [0.12, 4.4, -4.05]
+  SeatID: 5
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -60.0
+  MaxPitch: 3.0
+- Type: mg12_7mm_tf
+  Position: [-0.12, 4.4, -4.05]
+  SeatID: 5
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -60.0
+  MaxPitch: 3.0
+- Type: mg12_7mm_tf
+  Position: [-0.16, 4.4, -21.87]
+  SeatID: 5
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -60.0
+  MaxPitch: 3.0
+- Type: mg12_7mm_tf
+  Position: [0.16, 4.4, -21.87]
+  SeatID: 5
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -60.0
+  MaxPitch: 3.0
+- Type: mg12_7mm_uf
+  Position: [-0.16, 0.36, -4.74]
+  SeatID: 4
+  CanUsePilot: false
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -3.0
+  MaxPitch: 60.0
+- Type: mg12_7mm_uf
+  Position: [0.16, 0.36, -4.74]
+  SeatID: 4
+  CanUsePilot: false
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -3.0
+  MaxPitch: 60.0
+- Type: mg12_7mm_uf
+  Position: [-0.16, 1.81, -28.84]
+  SeatID: 4
+  CanUsePilot: false
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -3.0
+  MaxPitch: 60.0
+- Type: mg12_7mm_uf
+  Position: [0.16, 1.81, -28.84]
+  SeatID: 4
+  CanUsePilot: false
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -3.0
+  MaxPitch: 60.0
+- Type: mg12_7mm_rr
+  Position: [-0.16, 3.59, -36.0]
+  SeatID: 6
+  CanUsePilot: false
+  DefaultYaw: -180.0
+  MinYaw: -60.0
+  MaxYaw: 60.0
+  MinPitch: -75.0
+  MaxPitch: 60.0
+- Type: mg12_7mm_rr
+  Position: [0.16, 3.59, -36.0]
+  SeatID: 6
+  CanUsePilot: false
+  DefaultYaw: -180.0
+  MinYaw: -60.0
+  MaxYaw: 60.0
+  MinPitch: -75.0
+  MaxPitch: 60.0
+- Type: 250kg
+  Position: [0.55, 1.08, -6.0]
+  Pitch: 90.0
+- Type: 250kg
+  Position: [-0.55, 1.08, -6.0]
+  Pitch: 90.0
+- Type: 250kg
+  Position: [0.55, 1.08, -13.0]
+  Pitch: 90.0
+- Type: 250kg
+  Position: [-0.55, 1.08, -13.0]
+  Pitch: 90.0
+- Type: 250kg
+  Position: [0.55, 1.08, -8.0]
+  Pitch: 90.0
+- Type: 250kg
+  Position: [-0.55, 1.08, -8.0]
+  Pitch: 90.0
+- Type: 250kg
+  Position: [0.55, 1.08, -16.0]
+  Pitch: 90.0
+- Type: 250kg
+  Position: [-0.55, 1.08, -16.0]
+  Pitch: 90.0
+- Type: anm17allc
+  Position: [0.55, 1.08, -6.0]
+  Pitch: 90.0
+- Type: anm17allc
+  Position: [-0.55, 1.08, -6.0]
+  Pitch: 90.0
+- Type: anm17allc
+  Position: [0.55, 1.08, -13.0]
+  Pitch: 90.0
+- Type: anm17allc
+  Position: [-0.55, 1.08, -13.0]
+  Pitch: 90.0
+- Type: anm17allc
+  Position: [0.55, 1.08, -8.0]
+  Pitch: 90.0
+- Type: anm17allc
+  Position: [-0.55, 1.08, -8.0]
+  Pitch: 90.0
+- Type: anm17allc
+  Position: [0.55, 1.08, -16.0]
+  Pitch: 90.0
+- Type: anm17allc
+  Position: [-0.55, 1.08, -16.0]
+  Pitch: 90.0
+Seats:
+- Position: [-0.55, 2.5, -0.28]
+  Hud: plane_wwii
+- Position: [0.55, 2.5, -0.28]
+  Hud: gunner
+- Position: [0.0, 1.45, 1.72]
+- Position: [0.0, 2.5, -5.06]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 0.2, -5.29]
+  Hud: gunner
+- Position: [0.0, 3.2, -5.05]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 4.36, -12.29]
+  Hud: gunner
+- Position: [0.0, 2.5, -30.0]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 3.57, -36.49]
+  Hud: gunner
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.6, -1.6]
+  Size: [4.0, 4.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 2.6, -6.6]
+  Size: [4.0, 4.0, 4.0]
+  DamageFactor: 0.75
+- Type: DEFAULT
+  Position: [0.0, 2.6, -11.6]
+  Size: [4.0, 4.0, 4.0]
+  DamageFactor: 0.75
+- Type: DEFAULT
+  Position: [0.0, 2.6, -16.6]
+  Size: [4.0, 4.0, 4.0]
+  DamageFactor: 0.75
+- Type: DEFAULT
+  Position: [0.0, 3.0, -20.6]
+  Size: [3.0, 3.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 3.0, -23.6]
+  Size: [2.0, 2.0, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 3.0, -26.6]
+  Size: [2.0, 2.0, 2.0]
+- Type: DEFAULT
+  Position: [-5.0, 2.2, -11.6]
+  Size: [5.0, 1.0, 5.0]
+  DamageFactor: 1.25
+- Type: DEFAULT
+  Position: [-10.0, 3.0, -11.6]
+  Size: [5.0, 1.0, 5.0]
+  DamageFactor: 1.25
+- Type: DEFAULT
+  Position: [-15.0, 3.0, -12.0]
+  Size: [4.4, 1.0, 4.4]
+  DamageFactor: 0.75
+- Type: DEFAULT
+  Position: [5.0, 2.2, -11.6]
+  Size: [5.0, 1.0, 5.0]
+  DamageFactor: 1.25
+- Type: DEFAULT
+  Position: [10.0, 3.0, -11.6]
+  Size: [5.0, 1.0, 5.0]
+  DamageFactor: 0.75
+- Type: DEFAULT
+  Position: [15.0, 3.0, -12.0]
+  Size: [4.4, 1.0, 4.4]
+  DamageFactor: 1.25
+AircraftFeatures:
+  GunnerMode: true
+  InventorySize: 18
+  ConcurrentGunner: true
+  ThrottleUpDown: 0.3
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  WeaponBay:
+  - Position: [0.98, 0.88, -12.3]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb0
+    WeaponName: 250kg / anm17allc
+    MaxRotation: 1.0
+  - Position: [-0.98, 0.88, -12.3]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: wb1
+    WeaponName: 250kg / anm17allc
+    MaxRotation: 1.0
+  LandingGear:
+  - Position: [6.08, 1.52, -11.19]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg0
+    MaxRotation: 60.0
+  - Position: [4.58, 1.52, -10.49]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg1
+    MaxRotation: 60.0
+  - Position: [-6.08, 1.52, -11.19]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg2
+    MaxRotation: 60.0
+  - Position: [-4.58, 1.52, -10.49]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg3
+    MaxRotation: 60.0
+  - Position: [0.45, 0.75, -0.19]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg4
+    MaxRotation: 60.0
+  - Position: [-0.45, 0.75, -0.19]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg5
+    MaxRotation: 60.0
+  - Position: [5.38, 1.6, -10.16]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg6
+    MaxRotation: 120.0
+  - Position: [-5.38, 1.6, -10.16]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg7
+    MaxRotation: 120.0
+  - Position: [0.0, 1.28, 0.6]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg8
+    MaxRotation: 120.0
+  Weapon:
+  - Position: [0.0, 4.36, -2.89]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: mg12_7mm_tf
+    Yaw: true
+    Pitch: true
+  - Position: [0.0, 0.32, -3.56]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: mg12_7mm_uf
+    Yaw: true
+    Pitch: true
+  - Position: [0.0, 4.36, -20.71]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: mg12_7mm_tf
+    Yaw: true
+    Pitch: true
+  - Position: [0.0, 1.81, -27.68]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: mg12_7mm_uf
+    Yaw: true
+    Pitch: true
+  - Position: [0.0, 3.59, -34.84]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: mg12_7mm_rr
+    Yaw: true
+    Pitch: true
+  PlaneRotor:
+  - Position: [-5.33, 2.65, -5.13]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor0
+    RotFactor: 90.0
+    Blades:
+    - Position: [-5.33, 2.65, -5.13]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade0
+      BladeNum: 1
+      BladeRot: 0
+  - Position: [-11.83, 3.17, -5.93]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor1
+    RotFactor: 90.0
+    Blades:
+    - Position: [-11.83, 3.17, -5.93]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade1
+      BladeNum: 1
+      BladeRot: 0
+  - Position: [11.83, 3.17, -5.93]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor2
+    RotFactor: 90.0
+    Blades:
+    - Position: [11.83, 3.17, -5.93]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade2
+      BladeNum: 1
+      BladeRot: 0
+  - Position: [5.33, 2.65, -5.13]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor3
+    RotFactor: 90.0
+    Blades:
+    - Position: [5.33, 2.65, -5.13]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade3
+      BladeNum: 1
+      BladeRot: 0

@@ -1,0 +1,35 @@
+DisplayName: FAB-500 SH
+Type: bomb
+BaseDamage: 60
+Ballistics:
+  Acceleration: 0.05
+  AccelerationInWater: 1.0
+  Gravity: -0.01
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 5
+  DestructionPower: 4
+Ammo:
+  ReloadTime: 200
+  MagSize: 4
+  MaxAmmo: 12
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 4
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 8
+Render:
+  BulletModel: fab500sh
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

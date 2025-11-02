@@ -1,0 +1,45 @@
+DisplayName: GBU-28
+Type: asmissile
+BaseDamage: 32
+Ballistics:
+  Acceleration: 1.7
+  AccelerationInWater: 1.0
+  Gravity: -0.01
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+  Piercing: 1
+Sound:
+  Volume: 3.0
+  Pitch: 0.1
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 6
+  DestructionPower: 5
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 90
+  MagSize: 6
+  MaxAmmo: 12
+  ResupplyCount: 3
+  AmmoItems:
+  - Count: 4
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 4
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 4
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 8
+Render:
+  BulletModel: gbu28
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

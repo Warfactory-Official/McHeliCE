@@ -1,0 +1,37 @@
+DisplayName:
+  DEFAULT: Bell47G
+  ja_jp: Bell47G
+Category: C
+MaxFuel: 600
+MaxHP: 100
+FuelConsumption: 0.5
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 0.6
+Seats:
+- Position: [0.5, 0.96, 0.29]
+  Hud: civilian_aircraft
+- Position: [-0.5, 0.96, 0.29]
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.7, 0.0]
+  Size: [2.4, 2.5, 2.4]
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  HeliRotor:
+  - Position: [0.0, 3.78, -1.17]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [-0.05, 2.34, -10.04]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1

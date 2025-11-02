@@ -1,0 +1,21 @@
+DisplayName: Spot Player/Vehicle 10s
+Type: targetingpod
+Ballistics:
+  Acceleration: 1.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: lockon
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+FireCooldown: 160
+Target: Planes,Helicopters,Vehicles,Players
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

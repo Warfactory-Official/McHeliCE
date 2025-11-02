@@ -1,0 +1,290 @@
+- Color: '0xff28d448'
+- Call: uav_fs
+- If: is_uav || gunner_mode
+  Do:
+  - Color: '0xcfffffff'
+  - DrawString:
+      Text:
+        Fmt: x%.1f
+        Vars: [CAM_ZOOM]
+      Position: ['-70', '10']
+      Center: false
+- If: low_fuel
+  Do:
+  - DrawTexture:
+      Name: hud
+      Position: ['40', '-85']
+      Size: ['16', '16']
+      UVPos: ['0', '0']
+      UVSize: ['32', '32']
+      Rotation: '0'
+  - Color: '0xffdf0408'
+  - DrawString:
+      Text:
+        Fmt: '%s key'
+        Vars: [KEY_GUI]
+      Position: ['56', '-80']
+      Center: false
+- If: inventory > 0
+  Do:
+  - Color: '0xcf1fff1f'
+  - DrawString:
+      Text:
+        Fmt: Inventory [ %d ]
+        Vars: [INVENTORY]
+      Position: ['120', '-80']
+      Center: false
+- Color: '0xff28d448'
+- Call: sight
+- Color: '0xff28d448'
+- DrawGraduation:
+    Type: YAW
+    Position: ['0', '-100']
+    Rotation: plyr_yaw
+    Roll: '0'
+- DrawLine:
+    Position:
+    - ['0', '-87']
+    - ['2', '-83']
+    - ['-2', '-83']
+    - ['0', '-87']
+    Striped: false
+- DrawString:
+    Text:
+      Fmt: '%.0f'
+      Vars: [PLYR_YAW]
+    Position: ['0', '-81']
+    Center: true
+- DrawString:
+    Text:
+      Fmt: '%.0f'
+      Vars: [PLYR_PITCH]
+    Position: ['+140', '-4']
+    Center: true
+- DrawLine:
+    Position:
+    - ['120', '0']
+    - [120+5, '-5']
+    - [120+30, '-5']
+    - [120+30, '5']
+    - [120+5, '5']
+    - ['120', '0']
+    Striped: false
+- DrawGraduation:
+    Type: PITCH_ROLL
+    Position: ['0', '0']
+    Rotation: plyr_pitch
+    Roll: -roll
+- Color: altitude>10?0xff28d448:0xffdf0408
+- DrawString:
+    Text:
+      Fmt: '[ %3d ]'
+      Vars: [ALTITUDE]
+    Position: ['0', '40']
+    Center: true
+- Color: '0xff28d448'
+- DrawString:
+    Text:
+      Fmt: 'X: %+.1f'
+      Vars: [POS_X]
+    Position: ['-205', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Y: %+.1f'
+      Vars: [POS_Y]
+    Position: ['-205', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Z: %+.1f'
+      Vars: [POS_Z]
+    Position: ['-205', '40']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_X]
+    Position: ['-150', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Y]
+    Position: ['-150', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Z]
+    Position: ['-150', '40']
+    Center: false
+- DrawTexture:
+    Name: hud
+    Position: ['-207', '83']
+    Size: ['32', '32']
+    UVPos: ['64', '64']
+    UVSize: ['64', '64']
+    Rotation: '0'
+- DrawTexture:
+    Name: hud
+    Position: ['-207', '83']
+    Size: ['32', '32']
+    UVPos: ['64', '128']
+    UVSize: ['64', '64']
+    Rotation: fuel*270-135
+- DrawTexture:
+    Name: hud
+    Position: ['-170', '83']
+    Size: ['32', '32']
+    UVPos: ['128', '0']
+    UVSize: ['64', '64']
+    Rotation: '0'
+- DrawTexture:
+    Name: hud
+    Position: [-170+15, '83']
+    Size: ['2.5', '32']
+    UVPos: ['192', '0']
+    UVSize: ['5', '64']
+    Rotation: throttle*270-180
+- DrawTexture:
+    Name: hud
+    Position: ['-133', '83']
+    Size: ['32', '32']
+    UVPos: ['0', '64']
+    UVSize: ['64', '64']
+    Rotation: '0'
+- DrawTexture:
+    Name: hud
+    Position: [-133+8+stick_x*12, 83+8+stick_y*12]
+    Size: ['16', '16']
+    UVPos: ['128', '96']
+    UVSize: ['32', '32']
+    Rotation: '0'
+- Color: hp_rto>0.2?0xff28d448:0xffdf0408
+- DrawTexture:
+    Name: hud
+    Position: ['144', '95']
+    Size: ['64', '20']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- DrawString:
+    Text:
+      Fmt: '%3.0f'
+      Vars: [HP_PER]
+    Position: ['150', '97']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: / 100
+      Vars: [HP_PER]
+    Position: [150+26, '97']
+    Center: false
+- DrawRectangle:
+    Position: ['146', '107']
+    Size: [hp_rto*60, '6']
+- DrawTexture:
+    Name: hud
+    Position: ['-208', '57']
+    Size: ['62', '10']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- DrawTexture:
+    Name: hud
+    Position: ['-208', '68']
+    Size: ['106', '10']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- Color: reloading==0?0xff28d448:0xffdf0408
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_AMMO]
+    Position: ['-207', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: /
+      Vars: [WPN_AMMO]
+    Position: ['-181', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_RM_AMMO]
+    Position: ['-172', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_NAME]
+    Position: ['-207', '69']
+    Center: false
+- If: is_heat_wpn==1
+  Do:
+  - Color: '0xff28d448'
+  - DrawRectangle:
+      Position: ['-145', '57']
+      Size: ['43', '10']
+  - Color: '0xff188428'
+  - DrawRectangle:
+      Position: ['-144', '58']
+      Size: ['41', '8']
+  - Color: '0xffdf0408'
+  - DrawRectangle:
+      Position: ['-144', '58']
+      Size: [41*wpn_heat, '8']
+- Color: '0xff28d448'
+- If: free_look==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: FREE LOOK
+        Vars: []
+      Position: ['-90', '-80']
+      Center: false
+- If: cam_mode==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: NIGHT VISION
+        Vars: []
+      Position: ['30', '50']
+      Center: false
+- If: cam_mode==2
+  Do:
+  - DrawString:
+      Text:
+        Fmt: THERMAL VISION
+        Vars: []
+      Position: ['30', '50']
+      Center: false
+- If: auto_pilot==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: Auto Pilot
+        Vars: []
+      Position: ['50', '0']
+      Center: false
+- If: have_flare==1
+  Do:
+  - Color: can_flare==1?0xff28d448:0xffdf0408
+  - DrawString:
+      Text:
+        Fmt: '[ FLARE ]'
+        Vars: []
+      Position: ['-60', '50']
+      Center: true
+- If: hovering==1
+  Do:
+  - Color: '0xcf1fff1f'
+  - DrawString:
+      Text:
+        Fmt: HOVERING
+        Vars: []
+      Position: ['40', '10']
+      Center: true

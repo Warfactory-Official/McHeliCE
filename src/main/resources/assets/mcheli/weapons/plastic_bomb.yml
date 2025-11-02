@@ -1,0 +1,34 @@
+DisplayName: Plastic Bomb
+Type: bomb
+BaseDamage: 1
+Ballistics:
+  Acceleration: 0.1
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: plastic_bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 4
+  Flaming: true
+Ammo:
+  MagSize: 1
+  MaxAmmo: 1
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 1000000
+SelfDestruct: true
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

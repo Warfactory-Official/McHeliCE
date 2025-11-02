@@ -1,0 +1,50 @@
+DisplayName: FGM-148 Javelin
+Type: atmissile
+BaseDamage: 62
+Ballistics:
+  Acceleration: 3.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_3_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 4
+  Flaming: true
+  ProximityFuseDist: 1.0
+Camera:
+  Sight: missilesight
+  Zoom:
+  - 4.2
+  - 9.2
+Missile:
+  LockOn:
+    Time: 70
+    Delay: 3
+Ammo:
+  MagSize: 1
+  MaxAmmo: 1
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 1
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 1
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 100
+Mode: 2
+RidableOnly: true
+Render:
+  BulletModel: fgm148
+  TrajectoryParticleStartTick: 10
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

@@ -1,0 +1,68 @@
+DisplayName: RMK30 RevolverCannon
+Type: machinegun2
+BaseDamage: 16
+Ballistics:
+  Acceleration: 10.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 3.0
+  Pitch: 0.6
+  Name: gun_h3_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 1
+  DestructionPower: 1
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 9
+    MaxHeatCount: 160
+Ammo:
+  MagSize: 25
+  MaxAmmo: 1200
+  ResupplyCount: 200
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 1
+Mode: 2
+Render:
+  MuzzleFlashes:
+  - Distance: 3.1
+    Size: 0.32
+    Range: 0.0
+    Age: 3
+    Count: 1
+    Color: '#64FE9F54'
+  - Distance: 3.0
+    Size: 0.3
+    Range: 0.0
+    Age: 2
+    Count: 1
+    Color: '#64FEDBB8'
+  MuzzleSmoke:
+  - Distance: 2.2
+    Size: 5.0
+    Range: 2.0
+    Age: 15
+    Count: 1
+    Color: '#B4FAF5F0'
+  - Distance: 3.2
+    Size: 3.0
+    Range: 3.0
+    Age: 5
+    Count: 1
+    Color: '#B4DCD9D6'
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

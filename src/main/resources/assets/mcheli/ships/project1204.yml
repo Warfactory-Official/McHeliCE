@@ -1,0 +1,261 @@
+DisplayName:
+  DEFAULT: Project1204 Shmel Partol-Boat
+  ja_jp: プロジェクト1204 Shmel国境警備艇
+Category: ZZZ
+MaxFuel: 1500
+MaxHP: 600
+FuelConsumption: 2.0
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 24.0
+  Pos:
+  - Pos: [0.0, 2.54, 0.05]
+Sound:
+  MoveSound: boat
+PhysicalProperties:
+  Speed: 0.6
+  CanFloat: true
+  FloatOffset: -0.3
+  Gravity: -0.1
+  GravityInWater: 0.1
+  CanRotOnGround: false
+  CanMoveOnGround: false
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 2.0
+  RotationLimits:
+    Pitch:
+      Min: 0.0
+      Max: 0.0
+Render:
+  ModelWidth: 0.85
+  ModelHeight: 0.85
+  SplashParticles:
+  - Position: [1.6, -0.18, 1.0]
+    Count: 3
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 20
+    Motion: 0.3
+    Gravity: -0.03
+  - Position: [-1.6, -0.18, 1.0]
+    Count: 3
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 20
+    Motion: 0.3
+    Gravity: -0.03
+  - Position: [1.6, -0.18, -4.8]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-1.6, -0.18, -4.8]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [1.6, -0.18, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-1.6, -0.18, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [0.8, -0.18, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-0.8, -0.18, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [1.5, -0.18, -18.0]
+    Count: 3
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 20
+    Motion: 0.3
+    Gravity: -0.03
+  - Position: [-1.5, -0.18, -18.0]
+    Count: 3
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 20
+    Motion: 0.3
+    Gravity: -0.03
+  - Position: [1.0, -0.18, -20.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-1.0, -0.18, -20.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+Armor:
+  DamageFactor: 0.8
+Weapons:
+- Type: d56ts
+  Position: [0.0, 1.68, 0.05]
+  SeatID: 2
+  MinYaw: -145.0
+  MaxYaw: 145.0
+  MinPitch: -30.0
+  MaxPitch: 4.0
+- Type: mg7_62mm
+  Position: [0.24, 1.68, 0.45]
+  SeatID: 2
+  MinYaw: -145.0
+  MaxYaw: 145.0
+  MinPitch: -30.0
+  MaxPitch: 4.0
+- Type: bm_14_17
+  Position: [0.0, 2.31, -11.09]
+  SeatID: 3
+  CanUsePilot: false
+  DefaultYaw: -180.0
+  MinYaw: -140.0
+  MaxYaw: 140.0
+  MinPitch: -30.0
+- Type: 2m3m
+  Position: [0.0, 2.06, -14.82]
+  SeatID: 4
+  CanUsePilot: false
+  DefaultYaw: -180.0
+  MinYaw: -170.0
+  MaxYaw: 170.0
+  MinPitch: -80.0
+  MaxPitch: 5.0
+- Type: 2m3m
+  Position: [0.0, 2.26, -14.82]
+  SeatID: 4
+  CanUsePilot: false
+  DefaultYaw: -180.0
+  MinYaw: -170.0
+  MaxYaw: 170.0
+  MinPitch: -80.0
+  MaxPitch: 5.0
+Seats:
+- Position: [0.0, 1.22, -2.78]
+  Hud: gunner
+- Position: [0.0, -0.2, 0.05]
+  Gunner: true
+  MaxPitch: 4.0
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 2.54, 0.05]
+  Hud: plane_gnr
+- Position: [0.0, -0.2, -11.09]
+  Gunner: true
+  MaxPitch: 0.0
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 3.14, -11.09]
+  Hud: plane_gnr
+- Position: [0.0, -0.2, -14.82]
+  Gunner: true
+  MinPitch: -65.0
+  MaxPitch: 5.0
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 3.14, -14.82]
+  Hud: plane_gnr
+- Position: [-0.6, 2.8, -5.23]
+  Hud: gunner
+- Position: [0.6, 2.8, -5.23]
+  Hud: gunner
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 0.7, 4.0]
+  Size: [3.0, 3.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 0.9, 0.0]
+  Size: [4.0, 4.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 0.9, -4.0]
+  Size: [4.0, 4.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 0.9, -8.0]
+  Size: [4.0, 4.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 0.9, -12.0]
+  Size: [4.0, 4.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 0.7, -16.0]
+  Size: [3.0, 3.0, 3.0]
+AircraftFeatures:
+  CanRotateOnGround: false
+  ThrottleUpDown: 0.9
+Components:
+  Camera:
+  - Position: [0.0, 3.95, -4.42]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera0
+  - Position: [0.0, 3.95, -4.42]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera1
+    PitchSync: true
+  Weapon:
+  - Position: [0.0, 1.44, 0.14]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: d56ts
+    Yaw: true
+    Children:
+    - Position: [0.0, 1.68, 0.96]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+  - Position: [0.0, 1.72, -11.09]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: bm_14_17
+    Yaw: true
+  - Position: [0.0, 2.31, -11.09]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: bm_14_17
+    Yaw: true
+    Pitch: true
+  - Position: [0.0, 1.59, -14.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: 2m3m
+    Yaw: true
+  - Position: [0.0, 2.06, -14.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: 2m3m
+    Yaw: true
+    Pitch: true
+  SearchLight:
+  - Position: [0.0, 3.95, -4.42]
+    ColorStart: '#FFFFFF'
+    ColorEnd: '#FFFFC0'
+    Height: 90.0
+    Width: 30.0

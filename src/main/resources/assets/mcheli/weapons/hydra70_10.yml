@@ -1,0 +1,37 @@
+DisplayName: Hydra 70mm Rocket
+Type: rocket
+BaseDamage: 35
+Ballistics:
+  Acceleration: 4.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: rocket_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 110
+  MagSize: 10
+  MaxAmmo: 20
+  ResupplyCount: 10
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 7
+Render:
+  BulletModel: hydra70
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

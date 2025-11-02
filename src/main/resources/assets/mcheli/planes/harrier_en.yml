@@ -1,0 +1,148 @@
+DisplayName:
+  DEFAULT: BAe Harrier II
+  ja_jp: BAe ハリアー II
+Category: M.A
+MaxFuel: 1200
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 1.0
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: gau-12u
+  Position: [0.6, 0.8, -2.0]
+  Pitch: -3.0
+- Type: crv7_2
+  Position: [2.33, 1.1, -3.2]
+  Yaw: 1.0
+- Type: crv7_2
+  Position: [-2.33, 1.1, -3.2]
+  Yaw: -1.0
+- Type: crv7_2
+  Position: [3.93, 1.06, -3.98]
+  Yaw: 1.0
+- Type: crv7_2
+  Position: [-3.93, 1.06, -3.98]
+  Yaw: -1.0
+- Type: crv7_mpsm
+  Position: [2.33, 1.1, -3.2]
+  Yaw: 1.0
+- Type: crv7_mpsm
+  Position: [-2.33, 1.1, -3.2]
+  Yaw: -1.0
+- Type: crv7_mpsm
+  Position: [3.93, 1.06, -3.98]
+  Yaw: 1.0
+- Type: crv7_mpsm
+  Position: [-3.93, 1.06, -3.98]
+  Yaw: -1.0
+- Type: aim9
+  Position: [2.51, 0.8, -3.93]
+  Yaw: 1.0
+- Type: aim9
+  Position: [-2.51, 0.8, -3.93]
+  Yaw: -1.0
+- Type: agm-65
+  Position: [4.85, 1.09, -4.35]
+  Yaw: 1.0
+- Type: agm-65
+  Position: [-4.85, 1.09, -4.35]
+  Yaw: -1.0
+Seats:
+- Position: [0.0, 1.57, 0.22]
+  Hud: plane
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.6, -2.6]
+  Size: [2.0, 2.5, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -5.6]
+  Size: [3.0, 2.5, 3.0]
+- Type: DEFAULT
+  Position: [-2.92, 2.2, -5.6]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [2.92, 2.2, -5.6]
+  Size: [3.0, 1.0, 3.0]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol:
+    IsDefault: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 0.3, -0.78]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 90.0
+    IsSliding: true
+  - Position: [0.0, 0.3, -0.78]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 90.0
+    IsSliding: true
+  LandingGear:
+  - Position: [0.0, 1.0, -1.3]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 90.0
+  - Position: [0.0, 1.35, -5.45]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: 90.0
+  - Position: [0.0, 1.8, -6.6]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 90.0
+  Weapon:
+  - Position: [2.51, 0.8, -3.93]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: aim9
+    IsMissile: true
+  - Position: [-2.51, 0.8, -3.93]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: aim9
+    IsMissile: true
+  - Position: [4.85, 1.09, -4.35]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: agm-65
+    IsMissile: true
+  - Position: [-4.85, 1.09, -4.35]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: agm-65
+    IsMissile: true
+  Nozzle:
+  - Position: [0.93, 1.7, -2.91]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle0
+  - Position: [-0.93, 1.7, -2.91]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle1
+  - Position: [0.69, 1.7, -5.39]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle2
+  - Position: [-0.69, 1.7, -5.39]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle3

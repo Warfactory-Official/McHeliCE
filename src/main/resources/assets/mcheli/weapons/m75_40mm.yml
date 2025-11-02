@@ -1,0 +1,41 @@
+DisplayName: M75 40mm grenade
+Type: machinegun2
+BaseDamage: 15
+Ballistics:
+  Acceleration: 2.5
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Delay: 1
+  Volume: 2.0
+  Pitch: 0.3
+  Name: gun_h2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 1
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 60
+  MagSize: 5
+  MaxAmmo: 300
+  ResupplyCount: 50
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 5
+Accuracy: 4.0
+Render:
+  BulletModel: cbc
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

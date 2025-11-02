@@ -1,0 +1,149 @@
+DisplayName:
+  DEFAULT: Su-47 Berkut
+  ja_jp: Su-47 ベールクト
+Category: M.F
+MaxFuel: 1400
+MaxHP: 210
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 1.2
+  OnGroundPitch: -3.0
+  Mobility:
+    Yaw: 32.0
+    Pitch: 9.6
+    Roll: 1.2
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: r73m2
+  Position: [0.21, 1.0, -3.52]
+- Type: r73m2
+  Position: [-0.21, 1.0, -3.52]
+- Type: r77-1
+  Position: [0.21, 1.0, -3.52]
+- Type: r77-1
+  Position: [-0.21, 1.0, -3.52]
+- Type: gsh-30-1
+  Position: [1.22, 3.15, -2.52]
+  Yaw: -2.0
+  Pitch: -2.0
+- Type: targeting_pod_ph75s
+  Position: [0.0, 3.1, 0.6]
+Seats:
+- Position: [0.0, 2.16, 0.57]
+  Hud: plane
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.2, -1.0]
+  Size: [2.0, 1.4, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -4.5]
+  Size: [4.0, 2.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -8.5]
+  Size: [3.0, 1.8, 3.0]
+- Type: DEFAULT
+  Position: [-2.9, 1.7, -9.0]
+  Size: [3.0, 0.8, 3.0]
+- Type: DEFAULT
+  Position: [2.9, 1.7, -9.0]
+  Size: [3.0, 0.8, 3.0]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - FRONT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 3.71, -0.52]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.5
+  - Position: [0.0, 3.71, -0.52]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.5
+  WeaponBay:
+  - Position: [0.47, 1.6, -3.04]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb0
+    WeaponName: r73m2 / r77-1
+    MaxRotation: 1.0
+  - Position: [-0.47, 1.6, -3.04]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: wb1
+    WeaponName: r73m2 /r77-1
+    MaxRotation: 1.0
+  LandingGear:
+  - Position: [0.0, 1.74, 0.1]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 94.0
+  - Position: [0.0, 2.05, -8.37]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: 95.0
+    ArticulatedRotation: [0.0, 0.0, 1.0]
+    MaxArticulatedRotation: -20.0
+  - Position: [0.0, 2.05, -8.37]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 95.0
+    ArticulatedRotation: [0.0, 0.0, 1.0]
+    MaxArticulatedRotation: 20.0
+  - Position: [-0.44, 1.53, -0.24]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg3
+    MaxRotation: 89.95
+    IsReverse: true
+  - Position: [1.86, 2.19, -5.61]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg4
+    MaxRotation: 65.0
+    IsReverse: true
+  - Position: [-1.86, 2.19, -5.61]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg5
+    MaxRotation: 65.0
+    IsReverse: true
+  - Position: [0.0, 1.97, 0.93]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg6
+    MaxRotation: 45.0
+  Weapon:
+  - Position: [0.21, 1.0, -3.52]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: r73m2
+    IsMissile: true
+  - Position: [-0.21, 1.0, -3.52]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: r73m2
+    IsMissile: true
+  - Position: [0.21, 1.0, -3.52]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: r77-1
+    IsMissile: true
+  - Position: [-0.21, 1.0, -3.52]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: r77-1
+    IsMissile: true

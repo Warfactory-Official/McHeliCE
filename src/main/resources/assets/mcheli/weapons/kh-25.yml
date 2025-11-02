@@ -1,0 +1,40 @@
+DisplayName: Kh-25ML
+Type: asmissile
+BaseDamage: 35
+Ballistics:
+  Acceleration: 4.5
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 5
+  DestructionPower: 5
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 200
+  MagSize: 2
+  MaxAmmo: 8
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 60
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

@@ -1,0 +1,136 @@
+DisplayName:
+  DEFAULT: EC665 Tiger UHT
+  ja_jp: EC665 ティーガー UHT型
+Category: M.A
+MaxFuel: 1100
+MaxHP: 180
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Zoom: 6
+  Pos:
+  - Pos: [0.0, 0.6, 4.8]
+PhysicalProperties:
+  Speed: 0.8
+Weapons:
+- Type: rmk30
+  Position: [0.0, 0.43, 3.37]
+  Pitch: -1.0
+  SeatID: 2
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -20.0
+  MaxPitch: 80.0
+- Type: 20mmgunpod
+  Position: [2.31, 1.25, 0.32]
+  Yaw: 1.0
+- Type: 20mmgunpod
+  Position: [-2.31, 1.25, 0.32]
+  Yaw: -1.0
+- Type: pars_3_lr
+  Position: [1.25, 1.22, -0.01]
+  Yaw: 1.0
+  SeatID: 2
+- Type: pars_3_lr
+  Position: [-1.25, 1.22, -0.01]
+  Yaw: 1.0
+  SeatID: 2
+- Type: pars_3_lr
+  Position: [1.53, 0.22, -0.01]
+  Yaw: 1.0
+  SeatID: 2
+- Type: pars_3_lr
+  Position: [-1.53, 0.22, -0.01]
+  Yaw: 1.0
+  SeatID: 2
+- Type: pars_3_lr
+  Position: [1.24, 0.93, -0.01]
+  Yaw: 1.0
+  SeatID: 2
+- Type: pars_3_lr
+  Position: [-1.24, 0.93, -0.01]
+  Yaw: 1.0
+  SeatID: 2
+- Type: pars_3_lr
+  Position: [1.54, 0.92, -0.01]
+  Yaw: 1.0
+  SeatID: 2
+- Type: pars_3_lr
+  Position: [-1.54, 0.92, -0.01]
+  Yaw: 1.0
+  SeatID: 2
+- Type: aim92
+  Position: [0.79, 0.55, -0.01]
+  Yaw: 1.0
+- Type: aim92
+  Position: [-0.79, 0.55, -0.01]
+  Yaw: 1.0
+- Type: targeting_pod_mob
+  Position: [0.0, 0.6, 4.8]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.6, 4.8]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [0.0, 0.91, 1.76]
+  Hud: heli
+- Position: [0.0, 1.32, 0.17]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 0.6, 4.8]
+  Hud: heli_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.2, -1.0]
+  Size: [2.0, 3.8, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -3.5]
+  Size: [2.0, 2.4, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 2.5, -10.0]
+  Size: [2.0, 3.0, 2.0]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  EntityRadar: true
+  ThrottleUpDown: 1.1
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Camera:
+  - Position: [0.0, 5.38, -1.22]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera0
+  Weapon:
+  - Position: [0.0, 0.43, 3.37]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: rmk30
+    HideGM: true
+    Yaw: true
+    Pitch: true
+  - Position: [0.0, 0.43, 3.37]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: rmk30
+    HideGM: true
+    Yaw: true
+  HeliRotor:
+  - Position: [0.0, 3.85, -1.25]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [-0.5, 3.43, -10.13]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1

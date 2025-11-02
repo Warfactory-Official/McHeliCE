@@ -1,0 +1,228 @@
+DisplayName:
+  DEFAULT: KV-2 Gigant
+  ja_jp: KV-2 ギガント
+Category: ZZZ
+MaxFuel: 1500
+MaxHP: 450
+FuelConsumption: 2.0
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 12.0
+  Zoom: 3
+  DefaultFreeLook: true
+  RotationSpeed: 26.0
+  Pos:
+  - Pos: [0.0, 4.2, 0.0]
+Sound:
+  MoveSound: mbt_run
+PhysicalProperties:
+  Speed: 0.45
+  MotionFactor: 0.9
+  Gravity: -0.06
+  GravityInWater: -0.06
+  StepHeight: 1.5
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 2.0
+  GroundPitchFactors:
+    Pitch: 3.0
+    Roll: 3.0
+  RotationLimits:
+    Pitch:
+      Min: -14.0
+      Max: 7.0
+Render:
+  HideRiders: true
+Armor:
+  ArmorMinDamage: 10.0
+  DamageFactor: 0.0
+  SubmergedDamageHeight: 4.0
+Weapons:
+- Type: 152mm_howitzer
+  Position: [0.0, 3.017, 0.0]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -14.0
+  MaxPitch: 7.0
+- Type: ww2tank_coaxmg
+  Position: [0.599, 1.515, 2.61]
+  SeatID: 2
+  MinYaw: -16.12
+  MaxYaw: 16.12
+  MinPitch: -23.62
+  MaxPitch: 22.0
+Seats:
+- Position: [0.0, 1.45, 0.0]
+  Gunner: true
+  Camera:
+    Pos: [0.0, 0.0, 0.0]
+  Hud: ww2tank_hud
+- Position: [0.0, 1.05, -1.0]
+  Gunner: true
+  MinPitch: -90.0
+  MaxPitch: 90.0
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 1.6, 2.8]
+  Hud: ww2tank_hud
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 0.8, 1.5]
+  Size: [4.0, 2.0, 4.0]
+  DamageFactor: 0.7
+- Type: DEFAULT
+  Position: [0.0, 0.8, -1.0]
+  Size: [4.0, 2.0, 4.0]
+  DamageFactor: 0.9
+- Type: DEFAULT
+  Position: [0.0, 2.7, 0.0]
+  Size: [2.4, 2.6, 2.4]
+  DamageFactor: 1.1
+- Type: DEFAULT
+  Position: [0.0, 0.8, -3.0]
+  Size: [4.0, 2.0, 4.0]
+  DamageFactor: 1.2
+Wheels:
+  Hitboxes:
+  - Position: [1.75, -0.24, 3.02]
+  - Position: [1.75, -0.24, 1.44]
+  - Position: [1.75, -0.24, -1.54]
+  - Position: [1.75, -0.24, -2.91]
+  - Position: [1.75, -0.24, -4.85]
+AircraftFeatures:
+  CanReverse: true
+  ThrottleUpDown: 3.0
+TankFeatures:
+  WeightType: TANK
+  WeightedCenterZ: 0.0
+Components:
+  Weapon:
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: 152mm_howitzer
+    Yaw: true
+    Children:
+    - Position: [0.0, 3.017, 1.245]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+    - Position: [0.0, 3.017, 1.245]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+      RecoilBuf: 0.5
+  - Position: [0.599, 1.515, 2.609]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: ww2tank_coaxmg
+    Yaw: true
+  TrackRoller:
+  - Position: [1.7, 0.735, 3.285]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller0
+  - Position: [1.7, 0.956, 1.538]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller1
+  - Position: [1.7, 0.956, -0.795]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller2
+  - Position: [1.7, 0.956, -3.133]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller3
+  - Position: [1.7, 0.07, 2.497]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller4
+  - Position: [1.7, 0.07, 1.276]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller5
+  - Position: [1.7, 0.07, 0.015]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller6
+  - Position: [1.7, 0.07, -1.202]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller7
+  - Position: [1.7, 0.07, -2.352]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller8
+  - Position: [1.7, 0.087, -3.366]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller9
+  - Position: [1.7, 0.674, -4.38]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller10
+  - Position: [-1.7, 0.735, 3.285]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller11
+  - Position: [-1.7, 0.956, 1.538]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller12
+  - Position: [-1.7, 0.956, -0.795]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller13
+  - Position: [-1.7, 0.956, -3.133]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller14
+  - Position: [-1.7, 0.07, 2.321]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller15
+  - Position: [-1.7, 0.07, 1.099]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller16
+  - Position: [-1.7, 0.07, -0.161]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller17
+  - Position: [-1.7, 0.07, -1.378]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller18
+  - Position: [-1.7, 0.07, -2.529]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller19
+  - Position: [-1.7, 0.087, -3.543]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller20
+  - Position: [-1.7, 0.674, -4.38]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller21
+  CrawlerTrack:
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: crawler_track0
+    SegmentLength: 0.25
+    TrackList:
+    - [1.158, -4.38]
+    - [1.016, -4.722]
+    - [0.674, -4.864]
+    - [0.332, -4.722]
+    - [-0.174, -3.628]
+    - [-0.283, -3.366]
+    - [-0.28, -2.352]
+    - [-0.28, 2.497]
+    - [-0.192, 2.759]
+    - [0.412, 3.607]
+    - [0.735, 3.741]
+    - [1.058, 3.607]
+    - [1.191, 3.285]
+    - [1.203, 1.538]
+    - [1.203, -3.133]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: crawler_track1
+    SegmentLength: 0.25
+    TrackList:
+    - [1.158, -4.38]
+    - [1.016, -4.722]
+    - [0.674, -4.864]
+    - [0.332, -4.722]
+    - [-0.174, -3.804]
+    - [-0.283, -3.543]
+    - [-0.29, -2.352]
+    - [-0.29, 2.321]
+    - [-0.192, 2.583]
+    - [0.412, 3.607]
+    - [0.735, 3.741]
+    - [1.058, 3.607]
+    - [1.191, 3.285]
+    - [1.203, 1.538]
+    - [1.203, -3.133]

@@ -1,0 +1,189 @@
+- If: time<=13000
+  Do:
+  - DrawTexture:
+      Name: bnr32_hud
+      Position: ['144', '21']
+      Size: ['64', '64']
+      UVPos: ['256', '0']
+      UVSize: ['128', '128']
+      Rotation: '0'
+  - DrawTexture:
+      Name: bnr32_hud
+      Position: ['168', '21']
+      Size: ['16', '64']
+      UVPos: ['384', '0']
+      UVSize: ['32', '128']
+      Rotation: throttle*170-150
+- If: time> 13000
+  Do:
+  - DrawTexture:
+      Name: bnr32_hud
+      Position: ['144', '21']
+      Size: ['64', '64']
+      UVPos: ['256', '128']
+      UVSize: ['128', '128']
+      Rotation: '0'
+  - DrawTexture:
+      Name: bnr32_hud
+      Position: ['168', '21']
+      Size: ['16', '64']
+      UVPos: ['416', '0']
+      UVSize: ['32', '128']
+      Rotation: throttle*170-150
+- If: time<=13000
+  Do:
+  - DrawTexture:
+      Name: bnr32_hud
+      Position: ['-207', '83']
+      Size: ['32', '32']
+      UVPos: ['00', '128']
+      UVSize: ['64', '64']
+      Rotation: '0'
+  - DrawTexture:
+      Name: bnr32_hud
+      Position: ['-193', '81']
+      Size: ['16', '48']
+      UVPos: ['64', '160']
+      UVSize: ['32', '96']
+      Rotation: fuel*65-83
+- If: time> 13000
+  Do:
+  - DrawTexture:
+      Name: bnr32_hud
+      Position: ['-207', '83']
+      Size: ['32', '32']
+      UVPos: ['00', '192']
+      UVSize: ['64', '64']
+      Rotation: '0'
+  - DrawTexture:
+      Name: bnr32_hud
+      Position: ['-193', '81']
+      Size: ['16', '48']
+      UVPos: ['96', '160']
+      UVSize: ['32', '96']
+      Rotation: fuel*65-83
+- If: low_fuel
+  Do:
+  - DrawTexture:
+      Name: hud
+      Position: ['40', '-85']
+      Size: ['16', '16']
+      UVPos: ['0', '0']
+      UVSize: ['32', '32']
+      Rotation: '0'
+  - Color: '0xffdf0408'
+  - DrawString:
+      Text:
+        Fmt: '%s key'
+        Vars: [KEY_GUI]
+      Position: ['56', '-80']
+      Center: false
+- If: inventory > 0
+  Do:
+  - Color: '0xcf1fff1f'
+  - DrawString:
+      Text:
+        Fmt: Inventory [ %d ]
+        Vars: [INVENTORY]
+      Position: ['120', '-80']
+      Center: false
+- Color: '0xff58ffee'
+- DrawString:
+    Text:
+      Fmt: ' [ %02d:%02d ]'
+      Vars: [MC_THOR, MC_TMIN]
+    Position: ['0', '40']
+    Center: true
+- Color: '0xff28d448'
+- DrawString:
+    Text:
+      Fmt: 'X: %+.1f'
+      Vars: [POS_X]
+    Position: ['-205', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Y: %+.1f'
+      Vars: [POS_Y]
+    Position: ['-205', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Z: %+.1f'
+      Vars: [POS_Z]
+    Position: ['-205', '40']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_X]
+    Position: ['-150', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Y]
+    Position: ['-150', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Z]
+    Position: ['-150', '40']
+    Center: false
+- Color: hp_rto>0.2?0xffffffff:0xffdf0408
+- DrawTexture:
+    Name: hud
+    Position: ['144', '95']
+    Size: ['64', '20']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- DrawString:
+    Text:
+      Fmt: '%3.0f'
+      Vars: [HP_PER]
+    Position: ['150', '97']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: / 100
+      Vars: [HP_PER]
+    Position: [150+26, '97']
+    Center: false
+- DrawRectangle:
+    Position: ['146', '107']
+    Size: [hp_rto*60, '6']
+- Color: '0xffffffff'
+- If: free_look==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: FREE LOOK
+        Vars: []
+      Position: ['-90', '-80']
+      Center: false
+- If: cam_mode==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: NIGHT VISION
+        Vars: []
+      Position: ['30', '50']
+      Center: false
+- If: cam_mode==2
+  Do:
+  - DrawString:
+      Text:
+        Fmt: THERMAL VISION
+        Vars: []
+      Position: ['30', '50']
+      Center: false
+- If: auto_pilot==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: Auto Pilot
+        Vars: []
+      Position: ['50', '0']
+      Center: false

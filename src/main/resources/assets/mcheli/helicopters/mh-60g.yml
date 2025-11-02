@@ -1,0 +1,187 @@
+DisplayName:
+  DEFAULT: MH60G PaveHawk
+  ja_jp: MH-60G ペイヴホーク
+Category: M.M
+MaxFuel: 1500
+MaxHP: 180
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.7, 3.5]
+PhysicalProperties:
+  Speed: 0.65
+  Mobility:
+    Yaw: 0.9
+    Pitch: 0.9
+    Roll: 0.9
+Weapons:
+- Type: m3m_l
+  Position: [1.58, 1.23, -2.5]
+  SeatID: 5
+  CanUsePilot: false
+  DefaultYaw: -90.0
+  MinYaw: -70.0
+  MaxYaw: 70.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: m3m_r
+  Position: [-1.58, 1.23, -2.5]
+  SeatID: 6
+  CanUsePilot: false
+  DefaultYaw: 90.0
+  MinYaw: -70.0
+  MaxYaw: 70.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: m134_l50
+  Position: [1.62, 1.48, -0.31]
+  SeatID: 3
+  CanUsePilot: false
+  DefaultYaw: -90.0
+  MinYaw: -80.0
+  MaxYaw: 80.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: m134_r50
+  Position: [-1.62, 1.48, -0.31]
+  SeatID: 4
+  CanUsePilot: false
+  DefaultYaw: 90.0
+  MinYaw: -80.0
+  MaxYaw: 80.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: targeting_pod_mob
+  Position: [0.0, 0.7, 3.5]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.7, 3.5]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [-0.85, 0.9, 1.3]
+  Hud: heli
+- Position: [0.85, 0.9, 1.3]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 0.7, 3.5]
+  Hud: heli_gnr
+- Position: [0.95, 0.9, -0.31]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [1.35, 1.9, -0.31]
+  Hud: gunner
+- Position: [-0.95, 0.9, -0.31]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [-1.35, 1.9, -0.31]
+  Hud: gunner
+- Position: [0.95, 0.9, -2.52]
+  Hud: gunner
+- Position: [-0.95, 0.9, -2.52]
+  Hud: gunner
+- Position: [0.87, 0.9, -3.62]
+- Position: [0.0, 0.9, -3.62]
+- Position: [-0.87, 0.9, -3.62]
+- Position: [0.87, 0.9, -1.23]
+- Position: [0.0, 0.9, -1.23]
+- Position: [-0.87, 0.9, -1.23]
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.3, -2.0]
+  Size: [2.8, 3.8, 2.8]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -4.5]
+  Size: [2.8, 2.4, 2.8]
+- Type: DEFAULT
+  Position: [0.0, 3.5, -14.5]
+  Size: [2.0, 3.0, 2.0]
+AircraftFeatures:
+  InventorySize: 9
+  NightVision: true
+  EntityRadar: true
+  ThrottleUpDown: 0.8
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: true
+Components:
+  Camera:
+  - Position: [0.0, 0.7, 2.88]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera0
+  Weapon:
+  - Position: [1.58, 1.23, -2.5]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: m3m_l
+    Yaw: true
+    Pitch: true
+  - Position: [-1.58, 1.23, -2.5]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: m3m_r
+    Yaw: true
+    Pitch: true
+  - Position: [1.62, 1.475, -0.31]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: m134_l50
+    Yaw: true
+  - Position: [1.62, 1.475, -0.31]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: m134_l50
+    Yaw: true
+    Pitch: true
+  - Position: [1.62, 1.475, -0.31]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: m134_l50
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [-1.62, 1.475, -0.31]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: m134_r50
+    Yaw: true
+  - Position: [-1.62, 1.475, -0.31]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: m134_r50
+    Yaw: true
+    Pitch: true
+  - Position: [-1.62, 1.475, -0.31]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: m134_r50
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  HeliRotor:
+  - Position: [0.0, 3.98, -2.33]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 4
+    BladeRot: 90
+    CanFold: true
+  - Position: [-0.6, 4.07, -14.57]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1
+  RepelHook:
+  - Position: [1.64, 2.05, -2.3]
+    Interval: 30
+  - Position: [-1.64, 2.05, -2.3]
+    Interval: 30

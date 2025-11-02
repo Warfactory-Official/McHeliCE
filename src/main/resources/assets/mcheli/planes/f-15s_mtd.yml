@@ -1,0 +1,190 @@
+DisplayName:
+  DEFAULT: F-15 S/MTD
+  ja_jp: F-15 S/MTD
+Category: M.F
+MaxFuel: 1200
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.7, 1.6]
+PhysicalProperties:
+  Speed: 1.1
+  RotationSnapValue: 0.0
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: m61a1_l
+  Position: [0.0, 1.12, -6.54]
+  Pitch: -3.0
+- Type: aim9
+  Position: [2.86, 2.16, -4.95]
+- Type: aim9
+  Position: [-2.86, 2.16, -4.95]
+- Type: aim9
+  Position: [3.49, 2.16, -4.95]
+- Type: aim9
+  Position: [-3.49, 2.16, -4.95]
+- Type: aim120
+  Position: [1.77, 1.24, -3.11]
+  SeatID: 2
+  CanUsePilot: false
+- Type: aim120
+  Position: [-1.77, 1.24, -3.11]
+  SeatID: 2
+  CanUsePilot: false
+- Type: aim120
+  Position: [1.77, 1.24, -7.64]
+  SeatID: 2
+  CanUsePilot: false
+- Type: aim120
+  Position: [-1.77, 1.24, -7.64]
+  SeatID: 2
+  CanUsePilot: false
+- Type: agm158
+  Position: [3.17, 1.57, -5.02]
+  SeatID: 2
+- Type: agm158
+  Position: [-3.17, 1.57, -5.02]
+  SeatID: 2
+- Type: targeting_pod_ph50s
+  Position: [0.0, 3.4, 0.0]
+  SeatID: 2
+Seats:
+- Position: [0.0, 2.43, 0.0]
+  Hud: plane
+- Position: [0.0, 2.51, -1.76]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 0.7, 1.6]
+  Hud: plane_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.9, -2.8]
+  Size: [3.0, 2.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.9, -7.6]
+  Size: [5.0, 2.0, 5.0]
+- Type: DEFAULT
+  Position: [-2.92, 2.2, -9.6]
+  Size: [4.0, 1.0, 4.0]
+- Type: DEFAULT
+  Position: [2.92, 2.2, -9.6]
+  Size: [4.0, 1.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -11.8]
+  Size: [3.0, 1.5, 3.0]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.7
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 3.57, -2.87]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.5555556
+  - Position: [0.0, 3.57, -2.87]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.5555556
+  Hatch:
+  - Position: [0.0, 3.2, -4.86]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: hatch0
+    MaxRotation: 45.0
+  - Position: [0.0, 3.0, -7.05]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: hatch1
+    MaxRotation: 45.0
+  LandingGear:
+  - Position: [0.0, 1.66, -1.8]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 101.0
+  - Position: [-1.24, 1.87, -8.09]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: -70.0
+    ArticulatedRotation: [0.0, 1.0, 0.0]
+    MaxArticulatedRotation: 95.0
+  - Position: [1.24, 1.87, -8.09]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: -70.0
+    ArticulatedRotation: [0.0, 1.0, 0.0]
+    MaxArticulatedRotation: -95.0
+  Weapon:
+  - Position: [2.86, 2.16, -4.95]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: aim9
+    IsMissile: true
+  - Position: [-2.86, 2.16, -4.95]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: aim9
+    IsMissile: true
+  - Position: [3.49, 2.16, -4.95]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: aim9
+    IsMissile: true
+  - Position: [-3.49, 2.16, -4.95]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: aim9
+    IsMissile: true
+  - Position: [1.77, 1.24, -3.11]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [-1.77, 1.24, -3.11]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [1.77, 1.24, -7.64]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [-1.77, 1.24, -7.64]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [3.17, 1.57, -5.02]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon8
+    WeaponNames: agm158
+    IsMissile: true
+  - Position: [-3.17, 1.57, -5.02]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon9
+    WeaponNames: agm158
+    IsMissile: true
+  Throttle:
+  - Position: [0.0, 2.93, -3.08]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: throttle0
+    SlidePos: [0.0, 0.0, 0.0]
+    MaxAngle: -15.0

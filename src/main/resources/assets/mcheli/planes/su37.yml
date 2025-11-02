@@ -1,0 +1,164 @@
+DisplayName:
+  DEFAULT: Su-37 Terminator
+  ja_jp: Su-37 ティルミナートル
+Category: M.F
+MaxFuel: 1400
+MaxHP: 220
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 24.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 1.2
+  Mobility:
+    Yaw: 30.0
+    Pitch: 8.5
+    Roll: 0.5
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: gsh-30-1
+  Position: [-1.45, 2.98, 1.14]
+  Yaw: 2.0
+  Pitch: -3.0
+- Type: r73m2
+  Position: [8.45, 1.96, -7.49]
+- Type: r73m2
+  Position: [-8.45, 1.96, -7.49]
+- Type: r77-1
+  Position: [3.3, 2.02, -5.36]
+- Type: r77-1
+  Position: [-3.3, 2.02, -5.36]
+- Type: r27ae
+  Position: [1.28, 0.76, -4.22]
+- Type: r27ae
+  Position: [-1.28, 0.76, -4.22]
+- Type: fab500sh
+  Position: [6.75, 1.84, -7.59]
+- Type: fab500sh
+  Position: [-6.75, 1.84, -7.59]
+- Type: fab500sh
+  Position: [5.09, 1.91, -6.73]
+- Type: fab500sh
+  Position: [-5.09, 1.91, -6.73]
+- Type: targeting_pod_ph50s
+  Position: [0.0, 3.1, 4.2]
+Seats:
+- Position: [0.0, 2.79, 4.19]
+  Hud: plane
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.2, -1.0]
+  Size: [2.0, 1.4, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -4.5]
+  Size: [4.0, 2.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -8.5]
+  Size: [3.0, 1.8, 3.0]
+- Type: DEFAULT
+  Position: [-2.9, 1.7, -5.5]
+  Size: [3.0, 0.8, 3.0]
+- Type: DEFAULT
+  Position: [2.9, 1.7, -5.5]
+  Size: [3.0, 0.8, 3.0]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - FRONT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 3.64, 1.6]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.6666667
+  - Position: [0.0, 3.64, 1.6]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.6666667
+  LandingGear:
+  - Position: [0.0, 2.26, 0.18]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 110.0
+  - Position: [0.0, 2.08, -1.04]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: 90.0
+  - Position: [1.84, 2.19, -5.85]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 89.95
+    ArticulatedRotation: [0.0, -1.0, 0.0]
+    MaxArticulatedRotation: 95.0
+  - Position: [-1.84, 2.19, -5.85]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg3
+    MaxRotation: 89.95
+    ArticulatedRotation: [0.0, 1.0, 0.0]
+    MaxArticulatedRotation: 95.0
+  Weapon:
+  - Position: [8.45, 1.96, -7.49]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: r73m2
+    IsMissile: true
+  - Position: [-8.45, 1.96, -7.49]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: r73m2
+    IsMissile: true
+  - Position: [3.3, 2.02, -5.36]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: r77-1
+    IsMissile: true
+  - Position: [-3.3, 2.02, -5.36]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: r77-1
+    IsMissile: true
+  - Position: [1.28, 0.76, -4.22]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: r27ae
+    IsMissile: true
+  - Position: [-1.28, 0.76, -4.22]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: r27ae
+    IsMissile: true
+  - Position: [6.75, 1.84, -7.59]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: fab500sh
+    IsMissile: true
+  - Position: [-6.75, 1.84, -7.59]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: fab500sh
+    IsMissile: true
+  - Position: [5.09, 1.91, -6.73]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon8
+    WeaponNames: fab500sh
+    IsMissile: true
+  - Position: [-5.09, 1.91, -6.73]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon9
+    WeaponNames: fab500sh
+    IsMissile: true

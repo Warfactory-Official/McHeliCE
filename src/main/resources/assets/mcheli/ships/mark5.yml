@@ -1,0 +1,240 @@
+DisplayName:
+  DEFAULT: Mk.5 Special Operations Craft
+  ja_jp: Mk.5 特殊任務艇
+Category: ZZZ
+MaxFuel: 1500
+MaxHP: 150
+FuelConsumption: 2.0
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 12.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: boat
+PhysicalProperties:
+  Speed: 0.8
+  CanFloat: true
+  FloatOffset: -0.5
+  Gravity: -0.15
+  GravityInWater: -0.1
+  CanRotOnGround: false
+  CanMoveOnGround: false
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 3.0
+  RotationLimits:
+    Pitch:
+      Min: 0.0
+      Max: 0.0
+Render:
+  SplashParticles:
+  - Position: [1.6, -0.18, 1.0]
+    Count: 3
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 20
+    Motion: 0.3
+    Gravity: -0.03
+  - Position: [-1.6, -0.18, 1.0]
+    Count: 3
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 20
+    Motion: 0.3
+    Gravity: -0.03
+  - Position: [1.6, -0.18, -4.8]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-1.6, -0.18, -4.8]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [1.6, -0.18, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-1.6, -0.18, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [0.8, -0.18, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-0.8, -0.18, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+Armor:
+  DamageFactor: 0.8
+Weapons:
+- Type: m134_l50
+  Position: [1.68, 1.96, -3.965]
+  SeatID: 3
+  CanUsePilot: false
+  DefaultYaw: -90.0
+  MinYaw: -80.0
+  MaxYaw: 80.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: mk19_l
+  Position: [1.62, 1.48, -5.73]
+  SeatID: 4
+  CanUsePilot: false
+  DefaultYaw: -90.0
+  MinYaw: -80.0
+  MaxYaw: 80.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: m134_r50
+  Position: [-1.68, 1.96, -3.965]
+  SeatID: 5
+  CanUsePilot: false
+  DefaultYaw: 90.0
+  MinYaw: -70.0
+  MaxYaw: 70.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: mk19_r
+  Position: [-1.62, 1.48, -5.73]
+  SeatID: 6
+  CanUsePilot: false
+  DefaultYaw: 90.0
+  MinYaw: -70.0
+  MaxYaw: 70.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+Seats:
+- Position: [0.69, 0.54, 0.06]
+  Hud: plane
+- Position: [-0.69, 0.54, 0.06]
+  Hud: plane
+- Position: [0.81, 1.05, -3.95]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.81, 2.25, -3.95]
+  Hud: gunner
+- Position: [0.68, 1.06, -5.73]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.68, 2.26, -5.73]
+  Hud: gunner
+- Position: [-0.81, 1.05, -3.95]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [-0.81, 2.25, -3.95]
+  Hud: gunner
+- Position: [-0.68, 1.06, -5.73]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [-0.68, 2.26, -5.73]
+  Hud: gunner
+Racks:
+- Position: [0.0, 0.8, -7.4]
+  Camera:
+    Pos: [0.0, 2.3, -9.0]
+  Name: zodiac
+  Range: 12.0
+  OpenParaAlt: 40.0
+RideRack:
+  c5: 2
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 0.5, 3.0]
+  Size: [2.5, 1.5, 2.5]
+- Type: DEFAULT
+  Position: [0.0, 0.8, 0.0]
+  Size: [3.0, 3.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 0.5, -4.0]
+  Size: [3.0, 1.5, 3.0]
+AircraftFeatures:
+  CanRotateOnGround: false
+  ThrottleUpDown: 2.0
+Components:
+  Weapon:
+  - Position: [1.54, 1.66, -3.965]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: m134_l50
+    Yaw: true
+  - Position: [1.54, 1.96, -3.965]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: m134_l50
+    Yaw: true
+    Pitch: true
+  - Position: [1.54, 1.96, -3.965]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: m134_l50
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [1.28, 1.66, -5.73]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: mk19_l
+    Yaw: true
+  - Position: [1.24, 1.89, -5.73]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: mk19_l
+    Yaw: true
+    Pitch: true
+  - Position: [-1.54, 1.66, -3.965]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: m134_r50
+    Yaw: true
+  - Position: [-1.54, 1.96, -3.965]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: m134_r50
+    Yaw: true
+    Pitch: true
+  - Position: [-1.54, 1.96, -3.965]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: m134_r50
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [-1.28, 1.66, -5.73]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon8
+    WeaponNames: mk19_r
+    Yaw: true
+  - Position: [-1.24, 1.89, -5.73]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon9
+    WeaponNames: mk19_r
+    Yaw: true
+    Pitch: true

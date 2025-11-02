@@ -1,0 +1,44 @@
+DisplayName: EGBU-24 PavewayIII
+Type: asmissile
+BaseDamage: 32
+Ballistics:
+  Acceleration: 1.3
+  AccelerationInWater: 1.0
+  Gravity: -0.001
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 3.0
+  Pitch: 0.1
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 5
+  DestructionPower: 5
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 190
+  MagSize: 2
+  MaxAmmo: 4
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 35
+Render:
+  BulletModel: egbu-24
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

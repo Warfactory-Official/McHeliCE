@@ -1,0 +1,35 @@
+DisplayName: SC 50 Bi 50kg
+Type: bomb
+BaseDamage: 12
+Ballistics:
+  Acceleration: 1.0
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+  PowerUnderwater: 1
+Ammo:
+  ReloadTime: 190
+  MagSize: 4
+  MaxAmmo: 8
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 7
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

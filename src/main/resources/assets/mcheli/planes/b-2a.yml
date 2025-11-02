@@ -1,0 +1,208 @@
+DisplayName:
+  DEFAULT: B-2A Spirit
+  ja_jp: B-2A スピリット
+Category: M.A
+MaxFuel: 4800
+MaxHP: 700
+Stealth: 0.2
+FuelConsumption: 2.0
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 24.0
+  Pos:
+  - Pos: [0.0, 2.66, 3.78]
+PhysicalProperties:
+  Speed: 1.0
+  RotationSnapValue: 0.0
+  Mobility:
+    Yaw: 0.5
+    Pitch: 0.5
+    Roll: 0.3
+  RotationLimits:
+    Pitch:
+      Min: -60.0
+      Max: 60.0
+    Roll:
+      Min: -60.0
+      Max: 60.0
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: dummy_bay_closed
+  Position: [0.0, 0.0, 0.0]
+  SeatID: 2
+- Type: mk82_b2
+  Position: [1.84, 2.8, -4.27]
+- Type: mk82_b2
+  Position: [-1.84, 2.8, -4.27]
+- Type: mk82_b2
+  Position: [1.84, 2.8, -8.57]
+- Type: mk82_b2
+  Position: [-1.84, 2.8, -8.57]
+- Type: gbu38
+  Position: [1.84, 2.8, -4.27]
+  SeatID: 2
+  CanUsePilot: false
+- Type: gbu38
+  Position: [-1.84, 2.8, -4.27]
+  SeatID: 2
+  CanUsePilot: false
+- Type: gbu38
+  Position: [1.84, 2.8, -8.57]
+  SeatID: 2
+  CanUsePilot: false
+- Type: gbu38
+  Position: [-1.84, 2.8, -8.57]
+  SeatID: 2
+  CanUsePilot: false
+- Type: gbu28
+  Position: [1.84, 1.8, -6.13]
+- Type: gbu28
+  Position: [-1.84, 1.8, -6.13]
+- Type: agm154
+  Position: [1.84, 1.8, -6.13]
+  SeatID: 2
+- Type: agm154
+  Position: [-1.84, 1.8, -6.13]
+  SeatID: 2
+- Type: gbu57
+  Position: [1.84, 1.8, -6.13]
+  SeatID: 2
+- Type: gbu57
+  Position: [-1.84, 1.8, -6.13]
+  SeatID: 2
+- Type: agm158
+  Position: [1.84, 1.8, -6.13]
+  SeatID: 2
+- Type: agm158
+  Position: [-1.84, 1.8, -6.13]
+  SeatID: 2
+Seats:
+- Position: [0.8, 3.4, 0.28]
+  Hud: plane
+- Position: [-0.8, 3.4, 0.28]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 2.66, 3.78]
+  Hud: plane_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 3.5, -1.8]
+  Size: [7.0, 4.0, 7.0]
+- Type: DEFAULT
+  Position: [0.0, 3.5, -8.2]
+  Size: [7.0, 4.0, 7.0]
+- Type: DEFAULT
+  Position: [0.0, 3.0, -14.8]
+  Size: [7.0, 2.0, 7.0]
+- Type: DEFAULT
+  Position: [8.5, 3.2, -9.3]
+  Size: [10.0, 2.3, 10.0]
+- Type: DEFAULT
+  Position: [-8.5, 3.2, -9.3]
+  Size: [10.0, 2.3, 10.0]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  EntityRadar: true
+  ConcurrentGunner: true
+  EjectionSeat: true
+  ThrottleUpDown: 0.3
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - LARGE_AIRCRAFT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  WeaponBay:
+  - Position: [-2.79, 1.86, -6.56]
+    Rotation: [0.0, -0.04, 1.0]
+    PartName: wb0
+    WeaponName: mk82_b2/ gbu38 / gbu28 / agm154 / gbu57 /agm158
+    MaxRotation: -1.0
+  - Position: [-0.15, 1.72, -6.56]
+    Rotation: [0.0, -0.04, 1.0]
+    PartName: wb1
+    WeaponName: mk82_b2/ gbu38 / gbu28 / agm154 / gbu57 /agm158
+    MaxRotation: 1.0
+  - Position: [2.79, 1.86, -6.56]
+    Rotation: [0.0, -0.04, 1.0]
+    PartName: wb2
+    WeaponName: mk82_b2/ gbu38 / gbu28 / agm154 / gbu57 /agm158
+    MaxRotation: 1.0
+  - Position: [0.15, 1.72, -6.56]
+    Rotation: [0.0, -0.04, 1.0]
+    PartName: wb3
+    WeaponName: mk82_b2/ gbu38 / gbu28 / agm154 / gbu57 /agm158
+    MaxRotation: -1.0
+  LandingGear:
+  - Position: [0.0, 2.96, 2.79]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 75.0
+  - Position: [0.0, 2.87, 3.29]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: -60.0
+    IsReverse: true
+  - Position: [-0.65, 1.75, 0.25]
+    Rotation: [0.0, 0.22, 1.0]
+    PartName: lg2
+    MaxRotation: -90.0
+    IsHatch: true
+  - Position: [0.0, 3.05, -7.96]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg3
+    MaxRotation: -90.0
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg4
+    MaxRotation: 0.0
+    SlideVec: [0.0, 2.74, 3.31]
+  - Position: [-7.74, 2.23, -7.02]
+    Rotation: [0.0, -0.02, 1.0]
+    PartName: lg5
+    MaxRotation: -90.0
+    IsReverse: true
+  - Position: [7.74, 2.23, -7.02]
+    Rotation: [0.0, -0.02, 1.0]
+    PartName: lg6
+    MaxRotation: 90.0
+    IsReverse: true
+  - Position: [-5.06, 4.38, -5.57]
+    Rotation: [0.91, 0.1, 1.0]
+    PartName: lg7
+    MaxRotation: -45.0
+    IsReverse: true
+  - Position: [-4.06, 4.41, -5.57]
+    Rotation: [-0.99, -0.07, 1.0]
+    PartName: lg8
+    MaxRotation: 45.0
+    IsReverse: true
+  - Position: [5.06, 4.38, -5.57]
+    Rotation: [-0.91, 0.1, 1.0]
+    PartName: lg9
+    MaxRotation: 45.0
+    IsReverse: true
+  - Position: [4.06, 4.41, -5.57]
+    Rotation: [0.99, -0.07, 1.0]
+    PartName: lg10
+    MaxRotation: -45.0
+    IsReverse: true
+  Nozzle:
+  - Position: [4.77, 3.34, -13.32]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle0
+  - Position: [-4.77, 3.34, -13.32]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle1

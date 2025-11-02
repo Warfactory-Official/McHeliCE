@@ -26,6 +26,8 @@ public abstract class W_Entity extends Entity {
 
     //GLOBAL OFFSET, anything that has to do with world spawning, rendering, you should apply this offset
     public static final float GLOBAL_Y_OFFSET = 0.35F;
+    //Obtained I kid you not, via comparing player y values in both versions
+    public static final double GLOBAL_SEAT_OFFSET = 0.22443D;
 
     public W_Entity(World par1World) {
 

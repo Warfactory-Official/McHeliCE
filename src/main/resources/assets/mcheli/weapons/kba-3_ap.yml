@@ -1,0 +1,73 @@
+DisplayName: 125mm KBA-3 [APFSDS]
+Type: machinegun2
+Group: maingun
+BaseDamage: 125
+Ballistics:
+  Acceleration: 10.0
+  AccelerationInWater: 1.0
+  Gravity: -0.01
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 10.0
+  Name: cannon_4_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Recoil:
+  Power: 2.5
+  BufferCount: 40
+  BufferSpeed: 4
+Explosion:
+  Power: 1
+  DestructionPower: 0
+Ammo:
+  MagSize: 40
+  MaxAmmo: 40
+  ResupplyCount: 10
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 1
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 125
+Accuracy: 0.5
+Render:
+  MuzzleFlashes:
+  - Distance: 8.2
+    Size: 2.1
+    Range: 0.0
+    Age: 7
+    Count: 1
+    Color: '#DCFE9F4A'
+  - Distance: 8.1
+    Size: 2.05
+    Range: 0.0
+    Age: 6
+    Count: 1
+    Color: '#DCFEDB68'
+  - Distance: 8.0
+    Size: 2.0
+    Range: 0.0
+    Age: 5
+    Count: 1
+    Color: '#DCFEDBB8'
+  MuzzleSmoke:
+  - Distance: 8.2
+    Size: 12.0
+    Range: 4.0
+    Age: 65
+    Count: 30
+    Color: '#DCA08C78'
+  - Distance: 10.2
+    Size: 13.0
+    Range: 7.0
+    Age: 55
+    Count: 20
+    Color: '#C8BEAA96'
+  BulletModel: bullet105mm
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFF6464'

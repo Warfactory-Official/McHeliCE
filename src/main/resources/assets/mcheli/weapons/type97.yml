@@ -1,0 +1,35 @@
+DisplayName: Type97 No6 Bomb
+Type: bomb
+BaseDamage: 30
+Ballistics:
+  Acceleration: 0.1
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+  Piercing: 2
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 4
+Ammo:
+  ReloadTime: 150
+  MagSize: 2
+  MaxAmmo: 4
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 3
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

@@ -1,0 +1,64 @@
+DisplayName: 2A42 30mmCannon
+Type: machinegun2
+BaseDamage: 16
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+  Piercing: 1
+Sound:
+  Delay: 2
+  Volume: 3.0
+  Name: gun_h6_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 1
+  DestructionPower: 1
+Ammo:
+  MagSize: 12
+  MaxAmmo: 1800
+  ResupplyCount: 200
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 3
+Mode: 2
+Accuracy: 1.5
+Render:
+  MuzzleFlashes:
+  - Distance: 2.1
+    Size: 0.32
+    Range: 0.0
+    Age: 3
+    Count: 1
+    Color: '#96FE9F54'
+  - Distance: 2.0
+    Size: 0.3
+    Range: 0.0
+    Age: 2
+    Count: 1
+    Color: '#96FEDBB8'
+  MuzzleSmoke:
+  - Distance: 2.2
+    Size: 5.0
+    Range: 2.0
+    Age: 15
+    Count: 2
+    Color: '#B4FAF5F0'
+  - Distance: 3.2
+    Size: 3.0
+    Range: 3.0
+    Age: 5
+    Count: 1
+    Color: '#B4DCD9D6'
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#C8FF6464'

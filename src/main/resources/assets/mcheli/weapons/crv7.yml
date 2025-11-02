@@ -1,0 +1,39 @@
+DisplayName: CRV7 Rocket
+Type: rocket
+BaseDamage: 40
+Ballistics:
+  Acceleration: 5.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+  Piercing: 2
+Sound:
+  Name: rocket_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 80
+  MagSize: 19
+  MaxAmmo: 19
+  ResupplyCount: 19
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 4
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 7
+Mode: 2
+Render:
+  BulletModel: crv7
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

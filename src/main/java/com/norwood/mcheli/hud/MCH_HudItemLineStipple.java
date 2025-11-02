@@ -8,6 +8,13 @@ public class MCH_HudItemLineStipple extends MCH_HudItem {
     private final String fac;
     private final String[] pos;
 
+    public MCH_HudItemLineStipple(int fileLine, String pat, String fac, String[] pos) {
+        super(fileLine);
+        this.pat = pat;
+        this.fac = fac;
+        this.pos = pos;
+    }
+
     public MCH_HudItemLineStipple(int fileLine, String[] position) {
         super(fileLine);
         this.pat = position[0];

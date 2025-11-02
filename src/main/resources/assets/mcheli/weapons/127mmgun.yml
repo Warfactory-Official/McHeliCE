@@ -1,0 +1,77 @@
+DisplayName: OtoMelara127mm gun
+Type: machinegun2
+BaseDamage: 40
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 1.6
+  Name: cannon_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 2
+  ProximityFuseDist: 2.0
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 20
+    MaxHeatCount: 120
+Ammo:
+  MagSize: 400
+  MaxAmmo: 400
+  ResupplyCount: 80
+  AmmoItems:
+  - Count: 4
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 4
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 13
+Mode: 2
+Render:
+  MuzzleFlashes:
+  - Distance: 8.1
+    Size: 0.85
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FEDB9A'
+  - Distance: 8.0
+    Size: 0.8
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FEDBB8'
+  MuzzleSmoke:
+  - Distance: 9.2
+    Size: 10.0
+    Range: 3.0
+    Age: 25
+    Count: 6
+    Color: '#A0A08C78'
+  - Distance: 8.2
+    Size: 11.0
+    Range: 5.0
+    Age: 15
+    Count: 5
+    Color: '#A0BEAA96'
+  SpentCasings:
+    Name: cartridge
+    Acceleration: 0.4
+    Yaw: 0.0
+    Pitch: 0.0
+    Scale: 7.5
+    Gravity: -0.04
+    Bound: 0.4
+  BulletModel: bullet76mm
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

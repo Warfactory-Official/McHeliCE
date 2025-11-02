@@ -1,0 +1,34 @@
+DisplayName: 540pound bomb
+Type: bomb
+BaseDamage: 50
+Ballistics:
+  Acceleration: 0.1
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 3
+Ammo:
+  ReloadTime: 150
+  MagSize: 6
+  MaxAmmo: 12
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 4
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 5
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

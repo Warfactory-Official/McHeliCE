@@ -1,0 +1,43 @@
+DisplayName: LAU-68/LOGIR
+Type: atmissile
+BaseDamage: 40
+Ballistics:
+  Acceleration: 5.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: lau-68_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 2
+Camera:
+  Sight: missilesight
+Missile:
+  LockOn:
+    Time: 20
+Ammo:
+  MagSize: 12
+  MaxAmmo: 12
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 1
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 1
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 100
+RidableOnly: true
+Render:
+  BulletModel: hydra70
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

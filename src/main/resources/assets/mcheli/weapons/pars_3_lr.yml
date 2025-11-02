@@ -1,0 +1,44 @@
+DisplayName: TRIGAT-LR
+Type: atmissile
+BaseDamage: 60
+Ballistics:
+  Acceleration: 4.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 2
+Camera:
+  Sight: missilesight
+Missile:
+  LockOn:
+    Time: 25
+Ammo:
+  ReloadTime: 120
+  MagSize: 8
+  MaxAmmo: 16
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 1
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 30
+Mode: 2
+RidableOnly: true
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

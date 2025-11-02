@@ -1,0 +1,82 @@
+DisplayName: M61A1 Vulcan
+Type: machinegun2
+BaseDamage: 12
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Delay: 3
+  Pitch: 0.7
+  Name: gun_l2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 1
+    MaxHeatCount: 150
+Ammo:
+  MagSize: 1200
+  MaxAmmo: 1200
+  ResupplyCount: 400
+  AmmoItems:
+  - Count: 5
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 5
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 0
+Accuracy: 3.0
+Render:
+  MuzzleFlashes:
+  - Distance: 3.2
+    Size: 0.52
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#78FE8B18'
+  - Distance: 3.1
+    Size: 0.51
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#78FEE678'
+  - Distance: 3.0
+    Size: 0.5
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#78FEEFE0'
+  MuzzleSmoke:
+  - Distance: 4.2
+    Size: 7.0
+    Range: 2.5
+    Age: 15
+    Count: 2
+    Color: '#82FAF5F0'
+  - Distance: 3.2
+    Size: 6.0
+    Range: 2.5
+    Age: 25
+    Count: 1
+    Color: '#82DCD9D6'
+  SpentCasings:
+    Name: cartridge
+    Acceleration: 0.3
+    Yaw: 90.0
+    Pitch: 5.0
+    Scale: 3.0
+    Gravity: -0.04
+    Bound: 0.4
+  BulletModel: bullet
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

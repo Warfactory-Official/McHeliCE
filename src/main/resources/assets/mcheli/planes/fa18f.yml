@@ -1,0 +1,194 @@
+DisplayName:
+  DEFAULT: F/A-18F
+  ja_jp: F/A-18Fスーパーホーネット
+Category: M.F
+MaxFuel: 1200
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 1.1
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: m61a1_l
+  Position: [0.0, 2.24, 5.71]
+- Type: lau-68
+  Position: [2.61, 0.77, -3.68]
+  Yaw: 1.0
+  Pitch: -3.0
+- Type: lau-68
+  Position: [-2.61, 0.77, -3.68]
+  Yaw: -1.0
+  Pitch: -3.0
+- Type: mk82
+  Position: [3.56, 1.23, -6.2]
+  Yaw: 1.0
+  Pitch: -3.0
+- Type: mk82
+  Position: [-3.56, 1.23, -6.2]
+  Yaw: -1.0
+  Pitch: -3.0
+- Type: mk82
+  Position: [4.08, 1.23, -6.2]
+  Yaw: 1.0
+  Pitch: -3.0
+- Type: mk82
+  Position: [-4.08, 1.23, -6.2]
+  Yaw: -1.0
+  Pitch: -3.0
+- Type: agm-65
+  Position: [5.52, 1.22, -6.7]
+  Yaw: 1.0
+  Pitch: -3.0
+  SeatID: 2
+- Type: agm-65
+  Position: [-5.52, 1.22, -6.7]
+  Yaw: -1.0
+  Pitch: -3.0
+  SeatID: 2
+- Type: agm-65
+  Position: [5.0, 1.22, -6.7]
+  Yaw: 1.0
+  Pitch: -3.0
+  SeatID: 2
+- Type: agm-65
+  Position: [-5.0, 1.22, -6.7]
+  Yaw: -1.0
+  Pitch: -3.0
+  SeatID: 2
+- Type: aim-9x
+  Position: [7.49, 1.71, -6.77]
+  Yaw: 1.0
+  Pitch: -3.0
+  SeatID: 2
+- Type: aim-9x
+  Position: [-7.49, 1.71, -6.77]
+  Yaw: -1.0
+  Pitch: -3.0
+  SeatID: 2
+- Type: targeting_pod_ph50s
+  Position: [0.0, 2.7, 1.1]
+  SeatID: 2
+Seats:
+- Position: [0.0, 1.95, 2.2]
+  Hud: plane
+- Position: [0.0, 2.2, 0.0]
+  Hud: plane_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.6, -1.0]
+  Size: [3.0, 1.8, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -4.5]
+  Size: [3.0, 1.8, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -8.0]
+  Size: [3.0, 1.8, 3.0]
+- Type: DEFAULT
+  Position: [-2.92, 1.7, -5.0]
+  Size: [3.0, 0.6, 3.0]
+- Type: DEFAULT
+  Position: [2.92, 1.7, -5.0]
+  Size: [3.0, 0.6, 3.0]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - FRONT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.04, 3.41, -1.26]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.5
+  - Position: [0.04, 3.41, -1.26]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.5
+  LandingGear:
+  - Position: [0.0, 1.05, 1.44]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 70.0
+  - Position: [0.69, 0.82, -5.74]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: 155.0
+    ArticulatedRotation: [0.0, -1.0, 0.0]
+    MaxArticulatedRotation: 90.0
+  - Position: [-0.69, 0.82, -5.74]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 165.0
+    ArticulatedRotation: [0.0, 1.0, 0.0]
+    MaxArticulatedRotation: 90.0
+  - Position: [0.0, 0.74, -8.63]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg3
+    MaxRotation: 130.0
+  Weapon:
+  - Position: [3.56, 1.23, -6.2]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: mk82
+    IsMissile: true
+  - Position: [-3.56, 1.23, -6.2]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: mk82
+    IsMissile: true
+  - Position: [4.08, 1.23, -6.2]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: mk82
+    IsMissile: true
+  - Position: [-4.08, 1.23, -6.2]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: mk82
+    IsMissile: true
+  - Position: [5.52, 1.22, -6.7]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: agm-65
+    IsMissile: true
+  - Position: [-5.52, 1.22, -6.7]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: agm-65
+    IsMissile: true
+  - Position: [5.0, 1.22, -6.7]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: agm-65
+    IsMissile: true
+  - Position: [-5.0, 1.22, -6.7]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: agm-65
+    IsMissile: true
+  Wing:
+  - Position: [4.91, 1.89, -5.14]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wing0
+    MaxRotation: 90.0
+  - Position: [-4.91, 1.89, -5.14]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wing1
+    MaxRotation: -90.0

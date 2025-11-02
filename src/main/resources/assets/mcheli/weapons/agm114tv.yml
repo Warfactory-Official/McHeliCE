@@ -1,0 +1,41 @@
+DisplayName: AGM-114 Hellfire
+Type: tvmissile
+BaseDamage: 52
+Ballistics:
+  Acceleration: 2.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 4
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  MagSize: 4
+  MaxAmmo: 4
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 1
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 1
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 100
+Mode: 2
+Render:
+  BulletModel: agm114
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

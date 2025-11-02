@@ -1,0 +1,92 @@
+DisplayName:
+  DEFAULT: AH-6 Killer Egg
+  ja_jp: AH-6 キラ－エッグ
+Category: M.A
+MaxFuel: 1200
+MaxHP: 150
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 12.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 0.6
+Weapons:
+- Type: m134
+  Position: [1.48, 0.4, 1.54]
+  Yaw: 1.0
+- Type: m134
+  Position: [-1.48, 0.4, 1.54]
+  Yaw: -1.0
+- Type: hydra70_l
+  Position: [2.2, 0.16, 1.11]
+  Yaw: 1.0
+- Type: hydra70_l
+  Position: [-2.2, 0.16, 1.11]
+  Yaw: -1.0
+- Type: hydra70_m264rp
+  Position: [2.2, 0.16, 1.11]
+  Yaw: 1.0
+- Type: hydra70_m264rp
+  Position: [-2.2, 0.16, 1.11]
+  Yaw: -1.0
+- Type: aim92
+  Position: [2.3, 0.16, 1.11]
+  Yaw: 1.0
+- Type: aim92
+  Position: [-2.3, 0.16, 1.11]
+  Yaw: -1.0
+- Type: targeting_pod_mob
+  Position: [0.0, 0.1, 2.91]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.1, 2.91]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [-0.45, 0.8, 1.2]
+  Hud: heli
+- Position: [0.45, 0.8, 1.2]
+- Position: [-0.9, 0.8, 0.2]
+- Position: [0.9, 0.8, 0.2]
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.7, 0.0]
+  Size: [2.4, 2.5, 2.4]
+AircraftFeatures:
+  NightVision: true
+  ThrottleUpDown: 1.2
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Weapon:
+  - Position: [1.488, 0.314, -1.444]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon0
+    WeaponNames: m134
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [-1.488, 0.314, -1.444]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon1
+    WeaponNames: m134
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  HeliRotor:
+  - Position: [0.0, 3.35, 0.0]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [0.5, 1.9, -6.55]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1

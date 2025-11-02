@@ -1,0 +1,20 @@
+DisplayName: Smoke Yellow
+Type: smoke
+Ballistics:
+  Acceleration: 1.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: smoke_yellow_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Render:
+  Smoke:
+    SmokeMaxAge: 500
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#E6C8C814'

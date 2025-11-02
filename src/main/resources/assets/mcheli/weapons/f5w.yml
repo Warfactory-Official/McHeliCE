@@ -1,0 +1,38 @@
+DisplayName: F5W 936kg Torpedo
+Type: torpedo
+BaseDamage: 40
+Ballistics:
+  Acceleration: 0.0
+  AccelerationInWater: 1.0
+  Gravity: -0.04
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+  PowerUnderwater: 9
+Ammo:
+  MagSize: 4
+  MaxAmmo: 4
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 160
+Render:
+  BulletModel: f5w
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

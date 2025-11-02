@@ -1,0 +1,74 @@
+DisplayName: M61A1 Vulcan
+Type: machinegun2
+BaseDamage: 12
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Delay: 3
+  Pitch: 0.7
+  Name: gun_l2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 1
+    MaxHeatCount: 150
+Ammo:
+  MagSize: 1600
+  MaxAmmo: 1600
+  ResupplyCount: 400
+  AmmoItems:
+  - Count: 5
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 5
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 0
+Accuracy: 3.0
+Render:
+  MuzzleFlashes:
+  - Distance: 3.2
+    Size: 0.62
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FE9F54'
+  - Distance: 3.1
+    Size: 0.61
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FEE6A0'
+  - Distance: 3.0
+    Size: 0.6
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FEDBB8'
+  MuzzleSmoke:
+  - Distance: 4.2
+    Size: 7.0
+    Range: 2.5
+    Age: 15
+    Count: 2
+    Color: '#82FAF5F0'
+  - Distance: 3.2
+    Size: 6.0
+    Range: 2.5
+    Age: 25
+    Count: 1
+    Color: '#82DCD9D6'
+  BulletModel: bullet
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

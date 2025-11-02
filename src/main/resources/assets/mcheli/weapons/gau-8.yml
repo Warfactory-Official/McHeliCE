@@ -1,0 +1,64 @@
+DisplayName: GAU-8 Avenger
+Type: machinegun1
+BaseDamage: 30
+Ballistics:
+  Acceleration: 6.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Delay: 3
+  Name: gun_h5_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 1
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 150
+  MagSize: 30
+  MaxAmmo: 1200
+  ResupplyCount: 200
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 0
+Accuracy: 2.0
+Render:
+  MuzzleFlashes:
+  - Distance: 2.1
+    Size: 0.85
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FEDB9A'
+  - Distance: 2.0
+    Size: 0.8
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FEDBB8'
+  MuzzleSmoke:
+  - Distance: 2.2
+    Size: 10.0
+    Range: 3.0
+    Age: 25
+    Count: 1
+    Color: '#A0A08C78'
+  - Distance: 3.2
+    Size: 11.0
+    Range: 5.0
+    Age: 15
+    Count: 2
+    Color: '#A0BEAA96'
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

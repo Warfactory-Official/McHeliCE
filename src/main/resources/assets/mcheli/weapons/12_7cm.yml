@@ -1,0 +1,41 @@
+DisplayName: 12.7cm Gun
+Type: machinegun2
+BaseDamage: 30
+Ballistics:
+  Acceleration: 6.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 0.6
+  Name: cannon_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 1
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 25
+    MaxHeatCount: 60
+Ammo:
+  MagSize: 120
+  MaxAmmo: 120
+  ResupplyCount: 30
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+Mode: 1
+Render:
+  BulletModel: bullet76mm
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

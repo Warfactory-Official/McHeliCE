@@ -1,0 +1,46 @@
+DisplayName: 46cm Type91 [AP]
+Type: machinegun1
+BaseDamage: 99
+Ballistics:
+  Acceleration: 6.0
+  AccelerationInWater: 4.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Delay: 3
+  Pitch: 0.3
+  Name: cannon_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Recoil:
+  BufferCount: 40
+  BufferSpeed: 4
+Explosion:
+  Power: 15
+  DestructionPower: 10
+  PowerUnderwater: 10
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 90
+    MaxHeatCount: 170
+Ammo:
+  ReloadTime: 130
+  MagSize: 3
+  MaxAmmo: 30
+  ResupplyCount: 5
+  AmmoItems:
+  - Count: 7
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 7
+    Name: minecraft:gunpowder
+    Meta: 0
+Render:
+  BulletModel: 91ap_46
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

@@ -1,0 +1,100 @@
+DisplayName:
+  DEFAULT: An-2
+  ja_jp: An-2
+Category: C
+Regeneration: true
+MaxFuel: 1200
+MaxHP: 100
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 12.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: prop
+PhysicalProperties:
+  Speed: 0.9
+  OnGroundPitch: -12.31
+Render:
+  ModelWidth: 0.9
+  ModelHeight: 0.9
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: dispenser_water
+  Position: [0.0, 0.0, 0.54]
+  Yaw: 1.0
+Seats:
+- Position: [0.527, 2.01, 0.0]
+  Hud: plane_wwii
+- Position: [-0.527, 2.01, 0.0]
+  Hud: plane_wwii
+- Position: [-0.577, 1.832, -3.5]
+- Position: [0.48, 1.63, -2.25]
+- Position: [0.48, 1.63, -1.54]
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.15, -3.41]
+  Size: [1.5, 1.5, 1.5]
+- Type: DEFAULT
+  Position: [0.0, 2.15, 2.03]
+  Size: [1.3, 1.3, 1.3]
+- Type: DEFAULT
+  Position: [3.88, 3.38, -0.32]
+  Size: [2.0, 0.3, 2.0]
+- Type: DEFAULT
+  Position: [-3.88, 3.38, -0.32]
+  Size: [2.0, 0.3, 2.0]
+AircraftFeatures:
+  InventorySize: 18
+  ThrottleUpDown: 0.5
+  Parachuting:
+    Pos: [0.8, 1.932, -3.5]
+    Interval: 5
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  SearchLight:
+  - Position: [6.4, 1.6, -0.47]
+    ColorStart: '#FFFFFF'
+    ColorEnd: '#FFFFC0'
+    Height: 60.0
+    Width: 26.0
+    Yaw: -3.0
+    Pitch: 15.0
+    FixedDirection: true
+  - Position: [-6.4, 1.6, -0.47]
+    ColorStart: '#FFFFFF'
+    ColorEnd: '#FFFFC0'
+    Height: 60.0
+    Width: 26.0
+    Yaw: 3.0
+    Pitch: 15.0
+    FixedDirection: true
+  PlaneRotor:
+  - Position: [0.0, 2.081, 0.0]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: rotor0
+    RotFactor: 90.0
+    Blades:
+    - Position: [0.0, 2.081, 0.0]
+      Rotation: [0.0, 0.0, -1.0]
+      PartName: blade0
+      BladeNum: 4
+      BladeRot: 90
+  - Position: [0.0, 2.081, 0.0]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: rotor1
+    RotFactor: 90.0
+    Blades:
+    - Position: [0.0, 2.081, 0.0]
+      Rotation: [0.0, 0.0, -1.0]
+      PartName: blade1
+      BladeNum: 1
+      BladeRot: 0

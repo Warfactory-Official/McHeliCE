@@ -1,0 +1,31 @@
+DisplayName: Dispense boat
+Type: dispenser
+Ballistics:
+  Acceleration: 0.0
+  AccelerationInWater: 1.0
+  Gravity: -0.08
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Delay: 4
+  Name: chain_ct
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+  FuseTime: 20
+Ammo:
+  ReloadTime: 200
+  MagSize: 1
+  MaxAmmo: 2
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:boat
+    Meta: 0
+FireCooldown: 0
+Render:
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

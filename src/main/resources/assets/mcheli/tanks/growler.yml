@@ -1,0 +1,110 @@
+DisplayName:
+  DEFAULT: Growler ITV
+  ja_jp: グラウラーITV
+Category: C
+MaxFuel: 1200
+MaxHP: 120
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: prop
+PhysicalProperties:
+  Speed: 0.6
+  Gravity: -0.15
+  GravityInWater: -0.1
+  StepHeight: 1.5
+  PivotTurnThrottle: 0.1
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 6.0
+  GroundPitchFactors:
+    Pitch: 15.0
+    Roll: 5.2
+Render:
+  ModelWidth: 0.9
+  ModelHeight: 0.9
+Armor:
+  DamageFactor: 0.85
+Seats:
+- Position: [0.41, 0.4, -0.27]
+  Hud: bnr32_hud
+- Position: [-0.41, 0.4, -0.27]
+Racks:
+- Position: [0.0, 1.2, -1.06]
+  Camera:
+    Pos: [0.0, 1.5, 0.0]
+  Name: container
+  Range: 5.0
+  OpenParaAlt: 20.0
+RideRack:
+  c5: 2
+  mv-22: 1
+  mh-53e: 2
+Wheels:
+  Hitboxes:
+  - Position: [0.68, -0.24, 1.2]
+  - Position: [0.68, -0.24, -1.1]
+  WheelRotation: 40.0
+AircraftFeatures:
+  InventorySize: 9
+  CanReverse: true
+  ThrottleUpDown: 3.0
+TankFeatures:
+  WeightType: CAR
+  WeightedCenterZ: 0.0
+Components:
+  Wheel:
+  - Position: [-0.68, 0.19, 1.2]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel0
+    Direction: 30.0
+    Pivot: [-0.68, 0.19, 1.2]
+  - Position: [0.68, 0.19, 1.2]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel1
+    Direction: 30.0
+    Pivot: [0.68, 0.19, 1.2]
+  - Position: [-0.68, 0.19, -1.1]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel2
+    Direction: 0.0
+    Pivot: [-0.68, 0.19, -1.1]
+  - Position: [0.68, 0.19, -1.1]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel3
+    Direction: 0.0
+    Pivot: [0.68, 0.19, -1.1]
+  SearchLight:
+  - Position: [0.52, 0.9, 1.76]
+    ColorStart: '#FFFFFF'
+    ColorEnd: '#FFFFC0'
+    Height: 27.0
+    Width: 15.0
+    Yaw: -5.0
+    FixedDirection: true
+  - Position: [-0.52, 0.9, 1.76]
+    ColorStart: '#FFFFFF'
+    ColorEnd: '#FFFFC0'
+    Height: 27.0
+    Width: 15.0
+    Yaw: 5.0
+    FixedDirection: true
+  - Position: [0.36, 0.37, -1.58]
+    ColorStart: '#FF0000'
+    ColorEnd: '#FF0000'
+    Height: 0.05
+    Width: 0.25
+    Yaw: 6.0
+    FixedDirection: true
+  - Position: [-0.36, 0.37, -1.58]
+    ColorStart: '#FF0000'
+    ColorEnd: '#FF0000'
+    Height: 0.05
+    Width: 0.25
+    Yaw: -6.0
+    FixedDirection: true

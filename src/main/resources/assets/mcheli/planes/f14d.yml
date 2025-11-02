@@ -1,0 +1,161 @@
+DisplayName:
+  DEFAULT: F-14D Super Tomcat
+  ja_jp: F-14D スーパートムキャット
+Category: M.F
+MaxFuel: 1200
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 0.9
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: m61a1_l
+  Position: [-0.23, 1.4, 3.8]
+- Type: aim9
+  Position: [3.27, 1.71, -4.09]
+- Type: aim9
+  Position: [-3.27, 1.71, -4.09]
+- Type: aim7
+  Position: [2.98, 1.45, -3.58]
+  SeatID: 2
+  CanUsePilot: false
+- Type: aim7
+  Position: [-2.98, 1.45, -3.58]
+  SeatID: 2
+  CanUsePilot: false
+- Type: mk82_2r
+  Position: [0.35, 0.76, -1.83]
+- Type: mk82_2r
+  Position: [-0.35, 0.76, -1.83]
+- Type: cbu-100
+  Position: [0.0, 0.58, -4.35]
+  SeatID: 2
+- Type: cbu-100
+  Position: [0.0, 0.58, -7.03]
+  SeatID: 2
+- Type: targeting_pod_ph50s
+  Position: [0.0, 2.7, 0.1]
+  SeatID: 2
+Seats:
+- Position: [0.0, 1.74, 0.15]
+  Hud: plane
+- Position: [0.0, 1.89, -1.87]
+  Hud: plane_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.6, -2.5]
+  Size: [3.0, 1.8, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.5, -5.5]
+  Size: [3.0, 2.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.4, -8.5]
+  Size: [3.0, 2.2, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.5, -11.5]
+  Size: [3.0, 2.0, 3.0]
+- Type: DEFAULT
+  Position: [-2.92, 2.0, -7.0]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [2.92, 2.0, -7.0]
+  Size: [3.0, 1.0, 3.0]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - FRONT
+PlaneFeatures:
+  VariableSweepWing: true
+  SweepWingSpeed: 1.2
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 3.01, -2.97]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.7777778
+  - Position: [0.0, 3.01, -2.97]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.7777778
+  LandingGear:
+  - Position: [0.0, 1.4, 0.0]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 100.00001
+  - Position: [-2.18, 1.9, -6.65]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: 110.0
+    ArticulatedRotation: [0.0, 0.0, 1.0]
+    MaxArticulatedRotation: 28.000002
+  - Position: [2.18, 1.9, -6.65]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 110.0
+    ArticulatedRotation: [0.0, 0.0, -1.0]
+    MaxArticulatedRotation: 28.000002
+  Weapon:
+  - Position: [3.27, 1.71, -4.09]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: aim9
+    IsMissile: true
+  - Position: [-3.27, 1.71, -4.09]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: aim9
+    IsMissile: true
+  - Position: [2.98, 1.45, -3.58]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: aim7
+    IsMissile: true
+  - Position: [-2.98, 1.45, -3.58]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: aim7
+    IsMissile: true
+  - Position: [0.35, 0.76, -1.83]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: mk82_2r
+    IsMissile: true
+  - Position: [-0.35, 0.76, -1.83]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: mk82_2r
+    IsMissile: true
+  - Position: [0.0, 0.58, -4.35]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: cbu-100
+    IsMissile: true
+  - Position: [0.0, 0.58, -7.03]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: cbu-100
+    IsMissile: true
+  Wing:
+  - Position: [-3.17, 2.31, -5.69]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: wing0
+    MaxRotation: 50.0
+  - Position: [3.17, 2.31, -5.69]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wing1
+    MaxRotation: 50.0

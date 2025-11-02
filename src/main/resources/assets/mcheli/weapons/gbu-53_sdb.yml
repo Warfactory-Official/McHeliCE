@@ -1,0 +1,46 @@
+DisplayName: GBU-53/B SDB II
+Type: atmissile
+BaseDamage: 70
+Ballistics:
+  Acceleration: 1.7
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 4
+  ProximityFuseDist: 1.0
+Camera:
+  Sight: missilesight
+Missile:
+  LockOn:
+    Time: 10
+Ammo:
+  MagSize: 8
+  MaxAmmo: 8
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 1
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 60
+Mode: 1
+RidableOnly: true
+Render:
+  BulletModel: sdb2
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

@@ -1,0 +1,215 @@
+DisplayName:
+  DEFAULT: F-4A PhantomII
+  ja_jp: F-4A ファントムⅡ
+Category: M.F
+MaxFuel: 1100
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Zoom: 2
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 1.08
+  RotationSnapValue: 0.0
+  OnGroundPitch: 2.0
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: m61a1_gpod
+  Position: [0.0, 0.535, -3.986]
+  Pitch: -3.0
+- Type: m61a1_gpod
+  Position: [3.73, 0.535, -4.736]
+  Yaw: 2.0
+  Pitch: -3.0
+- Type: m61a1_gpod
+  Position: [-3.73, 0.535, -4.736]
+  Yaw: -2.0
+  Pitch: -3.0
+- Type: aim7_f
+  Position: [0.534, 0.92, 0.785]
+  SeatID: 2
+- Type: aim7_f
+  Position: [-0.534, 0.92, 0.785]
+  SeatID: 2
+- Type: aim7_f
+  Position: [1.167, 0.92, -5.374]
+  SeatID: 2
+- Type: aim7_f
+  Position: [-1.167, 0.92, -5.374]
+  SeatID: 2
+- Type: mk82
+  Position: [2.546, 0.755, -3.971]
+  SeatID: 2
+- Type: mk82
+  Position: [-2.546, 0.755, -3.971]
+  SeatID: 2
+Seats:
+- Position: [0.0, 1.18, 0.037]
+  Hud: plane
+- Position: [0.0, 1.53, -1.43]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 0.31, -1.986]
+  Hud: plane_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.9, -2.8]
+  Size: [3.0, 2.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.9, -7.6]
+  Size: [3.5, 2.0, 3.5]
+- Type: DEFAULT
+  Position: [-3.8, 0.8, -6.8]
+  Size: [3.8, 1.0, 3.8]
+- Type: DEFAULT
+  Position: [3.8, 0.8, -6.8]
+  Size: [3.8, 1.0, 3.8]
+- Type: DEFAULT
+  Position: [0.0, 2.7, -11.8]
+  Size: [3.0, 3.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.2, 1.6]
+  Size: [1.5, 1.5, 1.5]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 2.801, -0.625]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: -0.5555556
+  - Position: [0.0, 2.801, -0.625]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: -0.5555556
+  - Position: [0.0, 2.867, -2.018]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: canopy1
+    MaxRotation: -0.5555556
+  LandingGear:
+  - Position: [1.168, 0.954, -5.136]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg0
+    MaxRotation: 100.00001
+    IsReverse: true
+  - Position: [2.618, 1.075, -6.234]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg1
+    MaxRotation: 90.0
+    IsReverse: true
+    ArticulatedRotation: [0.0, -1.0, 0.0]
+    MaxArticulatedRotation: 30.0
+  - Position: [2.984, 0.971, -6.299]
+    Rotation: [0.0, 0.005, -0.129]
+    PartName: lg2
+    MaxRotation: -90.0
+    IsReverse: true
+  - Position: [0.303, 0.857, 0.794]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg3
+    MaxRotation: 90.0
+    IsReverse: true
+  - Position: [0.0, 0.844, 1.179]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg4
+    MaxRotation: -90.0
+    IsReverse: true
+  - Position: [-1.168, 0.954, -5.136]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg5
+    MaxRotation: 100.00001
+    IsReverse: true
+  - Position: [-2.618, 1.075, -6.234]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg6
+    MaxRotation: 90.0
+    IsReverse: true
+    ArticulatedRotation: [0.0, -1.0, 0.0]
+    MaxArticulatedRotation: -30.0
+  - Position: [-2.984, 0.971, -6.299]
+    Rotation: [0.0, 0.005, -0.129]
+    PartName: lg7
+    MaxRotation: 90.0
+    IsReverse: true
+  - Position: [0.0, 0.991, 1.011]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg8
+    MaxRotation: 110.0
+  - Position: [2.561, 1.132, -6.315]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: lg9
+    MaxRotation: 30.0
+    ArticulatedRotation: [0.0, 0.0, -1.0]
+    MaxArticulatedRotation: 90.0
+  - Position: [-2.618, 1.075, -6.234]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: lg10
+    MaxRotation: 30.0
+    ArticulatedRotation: [0.0, 0.0, 1.0]
+    MaxArticulatedRotation: 90.0
+  Weapon:
+  - Position: [3.73, 0.535, -4.736]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon0
+    WeaponNames: m61a1_gpod
+    BarrelRot: true
+  - Position: [0.0, 0.535, -3.986]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon1
+    WeaponNames: m61a1_gpod
+    BarrelRot: true
+  - Position: [-3.73, 0.535, -4.736]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon2
+    WeaponNames: m61a1_gpod
+    BarrelRot: true
+  - Position: [0.534, 0.92, 0.785]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: aim7_f
+    IsMissile: true
+  - Position: [-0.534, 0.92, 0.785]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: aim7_f
+    IsMissile: true
+  - Position: [1.167, 0.92, -5.374]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: aim7_f
+    IsMissile: true
+  - Position: [-1.167, 0.92, -5.374]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: aim7_f
+    IsMissile: true
+  - Position: [2.546, 0.755, -3.971]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: mk82
+    IsMissile: true
+  - Position: [-2.546, 0.755, -3.971]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon8
+    WeaponNames: mk82
+    IsMissile: true

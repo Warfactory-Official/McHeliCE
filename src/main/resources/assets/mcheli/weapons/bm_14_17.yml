@@ -1,0 +1,38 @@
+DisplayName: BM-14-17 140mm Rocket
+Type: rocket
+BaseDamage: 42
+Ballistics:
+  Acceleration: 5.0
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_4_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 2
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 110
+  MagSize: 17
+  MaxAmmo: 34
+  ResupplyCount: 34
+  AmmoItems:
+  - Count: 8
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 7
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 3
+Accuracy: 5.0
+Render:
+  BulletModel: hydra70
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

@@ -1,0 +1,190 @@
+DisplayName:
+  DEFAULT: F-35A Lightning II
+  ja_jp: F-35A ライトニング II
+Category: M.F
+MaxFuel: 1200
+MaxHP: 200
+Stealth: 0.2
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 1.2
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: gau-22a
+  Position: [1.67, 2.37, -1.43]
+- Type: aim-9x
+  Position: [0.95, 1.16, -6.53]
+- Type: aim-9x
+  Position: [-0.95, 1.16, -6.53]
+- Type: gbu-39_b_sdb
+  Position: [1.06, 1.71, -4.85]
+- Type: gbu-39_b_sdb
+  Position: [-1.06, 1.71, -4.85]
+- Type: gbu-39_b_sdb
+  Position: [1.06, 1.71, -4.85]
+- Type: gbu-39_b_sdb
+  Position: [-1.06, 1.71, -4.85]
+- Type: gbu-39_b_sdb
+  Position: [1.06, 1.71, -6.85]
+- Type: gbu-39_b_sdb
+  Position: [-1.06, 1.71, -6.85]
+- Type: gbu-39_b_sdb
+  Position: [1.06, 1.71, -6.85]
+- Type: gbu-39_b_sdb
+  Position: [-1.06, 1.71, -6.85]
+- Type: targeting_pod_ph75s
+  Position: [0.0, 3.0, 0.3]
+Seats:
+- Position: [0.0, 1.92, 0.32]
+  Hud: plane
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.9, -2.8]
+  Size: [3.0, 2.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.9, -6.6]
+  Size: [4.0, 2.0, 4.0]
+- Type: DEFAULT
+  Position: [-2.92, 2.2, -7.6]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [2.92, 2.2, -7.6]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -9.8]
+  Size: [2.0, 1.0, 2.0]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - FRONT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 2.63, 1.91]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.44444445
+  - Position: [0.0, 2.63, 1.91]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.44444445
+  WeaponBay:
+  - Position: [1.65, 1.43, -2.64]
+    Rotation: [-0.027, -0.031, 1.0]
+    PartName: wb0
+    WeaponName: aim-9x / gbu-39_b_sdb
+    MaxRotation: 0.8888889
+  - Position: [-1.65, 1.43, -2.64]
+    Rotation: [0.027, -0.031, 1.0]
+    PartName: wb1
+    WeaponName: aim-9x / gbu-39_b_sdb
+    MaxRotation: -0.8888889
+  - Position: [0.51, 1.15, -2.64]
+    Rotation: [0.0, -0.011, 1.0]
+    PartName: wb2
+    WeaponName: aim-9x / gbu-39_b_sdb
+    MaxRotation: -0.8888889
+  - Position: [-0.51, 1.15, -2.64]
+    Rotation: [0.0, -0.011, 1.0]
+    PartName: wb3
+    WeaponName: aim-9x / gbu-39_b_sdb
+    MaxRotation: 0.8888889
+  - Position: [0.65, 1.22, -4.92]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb4
+    WeaponName: aim-9x
+    MaxRotation: -1.2222222
+  - Position: [-0.65, 1.22, -4.92]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb5
+    WeaponName: aim-9x
+    MaxRotation: 1.2222222
+  LandingGear:
+  - Position: [0.0, 1.455, -0.076]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 102.0
+  - Position: [0.27, 1.45, 1.84]
+    Rotation: [-0.05, 0.075, 1.0]
+    PartName: lg1
+    MaxRotation: 89.0
+    IsReverse: true
+  - Position: [-0.27, 1.45, 1.84]
+    Rotation: [0.05, 0.075, 1.0]
+    PartName: lg2
+    MaxRotation: -89.0
+    IsReverse: true
+  - Position: [2.18, 1.91, -7.23]
+    Rotation: [-1.0, 0.0, -0.05]
+    PartName: lg3
+    MaxRotation: 90.0
+    ArticulatedRotation: [0.0, -1.0, 0.0]
+    MaxArticulatedRotation: 90.0
+  - Position: [-2.18, 1.91, -7.23]
+    Rotation: [-1.0, 0.0, -0.05]
+    PartName: lg4
+    MaxRotation: 90.0
+    ArticulatedRotation: [0.0, 1.0, 0.0]
+    MaxArticulatedRotation: 90.0
+  Weapon:
+  - Position: [1.06, 1.71, -4.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: gbu-39_b_sdb
+    IsMissile: true
+  - Position: [-1.06, 1.71, -4.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: gbu-39_b_sdb
+    IsMissile: true
+  - Position: [1.06, 1.71, -4.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: gbu-39_b_sdb
+    IsMissile: true
+  - Position: [-1.06, 1.71, -4.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: gbu-39_b_sdb
+    IsMissile: true
+  - Position: [1.06, 1.71, -6.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: gbu-39_b_sdb
+    IsMissile: true
+  - Position: [-1.06, 1.71, -6.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: gbu-39_b_sdb
+    IsMissile: true
+  - Position: [1.06, 1.71, -6.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: gbu-39_b_sdb
+    IsMissile: true
+  - Position: [-1.06, 1.71, -6.85]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: gbu-39_b_sdb
+    IsMissile: true
+  Nozzle:
+  - Position: [0.0, 2.2, -10.82]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle0

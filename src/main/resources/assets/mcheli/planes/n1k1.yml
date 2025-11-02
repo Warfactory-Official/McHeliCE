@@ -1,0 +1,117 @@
+DisplayName:
+  DEFAULT: Rex N1K1
+  ja_jp: 強風
+Category: W.F
+MaxFuel: 1200
+MaxHP: 120
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 12.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: prop
+PhysicalProperties:
+  Speed: 0.95
+  CanFloat: true
+  FloatOffset: -0.77
+Render:
+  SplashParticles:
+  - Position: [0.0, -0.75, 3.75]
+    Count: 3
+    Size: 14.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.05
+    Gravity: -0.001
+  - Position: [0.0, 0.3, 5.25]
+    Count: 3
+    Size: 14.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.05
+    Gravity: -0.001
+  - Position: [4.18, 0.35, 0.85]
+    Count: 3
+    Size: 14.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.05
+    Gravity: -0.001
+  - Position: [-4.18, 0.35, 0.85]
+    Count: 3
+    Size: 14.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.05
+    Gravity: -0.001
+Weapons:
+- Type: mg7_7mm
+  Position: [0.47, 3.03, 2.75]
+  Yaw: 0.1
+- Type: mg7_7mm
+  Position: [-0.47, 3.03, 2.75]
+  Yaw: -0.1
+- Type: mg20mm
+  Position: [1.98, 2.46, 1.48]
+  Yaw: 2.0
+  Pitch: -0.5
+- Type: mg20mm
+  Position: [-1.98, 2.46, 1.48]
+  Yaw: -2.0
+  Pitch: -0.5
+Seats:
+- Position: [0.0, 2.34, 0.0]
+  Hud: plane_wwii
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.65, 2.25]
+  Size: [2.0, 2.0, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 2.65, 0.0]
+  Size: [2.0, 2.0, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 2.65, -2.25]
+  Size: [2.0, 2.0, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 2.65, -4.5]
+  Size: [2.0, 2.0, 2.0]
+- Type: DEFAULT
+  Position: [-2.9, 2.7, 0.3]
+  Size: [3.0, 0.8, 3.0]
+- Type: DEFAULT
+  Position: [2.9, 2.7, 0.3]
+  Size: [3.0, 0.8, 3.0]
+AircraftFeatures:
+  ThrottleUpDown: 0.7
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 0.0, -0.6]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 90.0
+    IsSliding: true
+  - Position: [0.0, 0.0, -0.6]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 90.0
+    IsSliding: true
+  PlaneRotor:
+  - Position: [0.0, 2.65, 4.0]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: rotor0
+    RotFactor: 90.0
+    Blades:
+    - Position: [0.0, 2.65, 4.0]
+      Rotation: [0.0, 0.0, -1.0]
+      PartName: blade0
+      BladeNum: 1
+      BladeRot: 0

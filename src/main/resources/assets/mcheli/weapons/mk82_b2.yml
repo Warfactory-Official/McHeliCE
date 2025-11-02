@@ -1,0 +1,35 @@
+DisplayName: MK82 bomb
+Type: bomb
+BaseDamage: 45
+Ballistics:
+  Acceleration: 0.1
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 3
+Ammo:
+  ReloadTime: 300
+  MagSize: 40
+  MaxAmmo: 80
+  ResupplyCount: 20
+  AmmoItems:
+  - Count: 6
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 6
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 4
+Render:
+  BulletModel: mk82_b
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

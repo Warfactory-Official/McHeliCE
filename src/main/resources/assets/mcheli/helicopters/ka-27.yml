@@ -1,0 +1,102 @@
+DisplayName:
+  DEFAULT: Ka-27 Helix
+  ja_jp: Ka-27 ヘリックス
+Category: M.S
+MaxFuel: 1800
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 3.1]
+Sound:
+  MoveSound: heli_k
+PhysicalProperties:
+  Speed: 0.6
+  Mobility:
+    Yaw: 0.9
+    Pitch: 0.9
+    Roll: 0.9
+Weapons:
+- Type: s-5m57mm
+  Position: [-1.25, 1.35, -2.0]
+- Type: s-5m57mm
+  Position: [1.25, 1.35, -2.0]
+- Type: plab-250-120
+  Position: [-1.25, 1.35, -4.0]
+- Type: plab-250-120
+  Position: [1.25, 1.35, -4.0]
+- Type: kh-35
+  Position: [-1.25, 1.35, -2.0]
+- Type: kh-35
+  Position: [1.25, 1.35, -2.0]
+- Type: targeting_pod_mob
+  Position: [0.0, 0.0, 3.1]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.0, 3.1]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [0.5, 1.5, 0.09]
+  Hud: heli
+- Position: [-0.5, 1.5, 0.09]
+- Position: [-0.5, 1.7, -1.45]
+- Position: [0.6, 1.7, -3.1]
+- Position: [0.6, 1.7, -4.35]
+- Position: [-0.6, 1.7, -2.6]
+- Position: [-0.6, 1.7, -3.85]
+- Position: [-0.6, 1.7, -5.0]
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 3.0, -1.0]
+  Size: [2.0, 4.8, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 2.5, -3.5]
+  Size: [2.0, 3.8, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 2.5, -6.0]
+  Size: [2.0, 3.0, 2.0]
+AircraftFeatures:
+  GunnerMode: true
+  InventorySize: 27
+  NightVision: true
+  EntityRadar: true
+  ThrottleUpDown: 0.8
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: true
+Components:
+  Weapon:
+  - Position: [-1.25, 1.35, -4.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: plab-250-120
+    IsMissile: true
+  - Position: [1.25, 1.35, -4.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: plab-250-120
+    IsMissile: true
+  HeliRotor:
+  - Position: [0.0, 5.0, -3.87]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 3
+    BladeRot: 120
+    CanFold: true
+  - Position: [0.0, 7.0, -3.87]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: blade1
+    BladeCount: 3
+    BladeRot: 120
+    CanFold: true
+  RepelHook:
+  - Position: [1.97, 3.51, -6.12]
+    Interval: 30

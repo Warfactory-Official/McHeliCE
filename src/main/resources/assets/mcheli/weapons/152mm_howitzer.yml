@@ -1,0 +1,72 @@
+DisplayName: 152mm howitzer
+Type: machinegun2
+BaseDamage: 140
+Ballistics:
+  Acceleration: 6.0
+  AccelerationInWater: 1.0
+  Gravity: -0.04
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 16.0
+  Name: cannon_4_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Recoil:
+  Power: 2.5
+  BufferCount: 40
+  BufferSpeed: 4
+Explosion:
+  Power: 6
+  DestructionPower: 5
+Ammo:
+  ReloadTime: 170
+  MagSize: 1
+  MaxAmmo: 50
+  ResupplyCount: 10
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 170
+Accuracy: 2.0
+Render:
+  MuzzleFlashes:
+  - Distance: 7.2
+    Size: 1.8
+    Range: 0.0
+    Age: 7
+    Count: 1
+    Color: '#C8FE812C'
+  - Distance: 7.1
+    Size: 1.75
+    Range: 0.0
+    Age: 6
+    Count: 1
+    Color: '#C8FEDB68'
+  - Distance: 7.0
+    Size: 1.7
+    Range: 0.0
+    Age: 5
+    Count: 1
+    Color: '#C8FEDBB8'
+  MuzzleSmoke:
+  - Distance: 8.2
+    Size: 10.0
+    Range: 3.0
+    Age: 45
+    Count: 20
+    Color: '#DCA08C78'
+  - Distance: 10.2
+    Size: 11.0
+    Range: 6.0
+    Age: 35
+    Count: 10
+    Color: '#C8BEAA96'
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

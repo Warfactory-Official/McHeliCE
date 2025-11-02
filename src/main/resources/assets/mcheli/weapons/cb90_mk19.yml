@@ -1,0 +1,41 @@
+DisplayName: Mk19 Grenade
+Type: rocket
+BaseDamage: 15
+Ballistics:
+  Acceleration: 2.5
+  AccelerationInWater: 1.0
+  Gravity: -0.035
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 2.0
+  Pitch: 0.3
+  Name: mk19_l_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 1
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 50
+  MagSize: 4
+  MaxAmmo: 72
+  ResupplyCount: 72
+  AmmoItems:
+  - Count: 7
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 7
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 4
+Accuracy: 4.0
+Render:
+  BulletModel: mk19bullet
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

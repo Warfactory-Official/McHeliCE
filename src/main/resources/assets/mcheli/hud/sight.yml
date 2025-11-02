@@ -1,0 +1,87 @@
+- If: sight_type==1
+  Do:
+  - DrawLine:
+      Position:
+      - ['-25', '0']
+      - ['-8', '0']
+      Factor: '1'
+      Pattern: '0xCCCC'
+      Striped: true
+  - DrawLine:
+      Position:
+      - ['25', '0']
+      - ['8', '0']
+      Factor: '1'
+      Pattern: '0xCCCC'
+      Striped: true
+  - DrawLine:
+      Position:
+      - ['0', '-15']
+      - ['0', '-8']
+      Factor: '1'
+      Pattern: '0xCCCC'
+      Striped: true
+  - DrawLine:
+      Position:
+      - ['0', '15']
+      - ['0', '8']
+      Factor: '1'
+      Pattern: '0xCCCC'
+      Striped: true
+  - DrawLine:
+      Position:
+      - ['-30', '-10']
+      - ['-30', '-20']
+      - ['-10', '-20']
+      Striped: false
+  - DrawLine:
+      Position:
+      - ['30', '-10']
+      - ['30', '-20']
+      - ['10', '-20']
+      Striped: false
+  - DrawLine:
+      Position:
+      - ['-30', '10']
+      - ['-30', '20']
+      - ['-10', '20']
+      Striped: false
+  - DrawLine:
+      Position:
+      - ['30', '10']
+      - ['30', '20']
+      - ['10', '20']
+      Striped: false
+- If: sight_type==2
+  Do:
+  - DrawRectangle:
+      Position: ['-20', '21']
+      Size: ['40', '8']
+  - Color: lock<0.01?color:0xffdf0408
+  - DrawLine:
+      Position:
+      - ['-20', '-10']
+      - ['-20', '-20']
+      - ['-10', '-20']
+      Striped: false
+  - DrawLine:
+      Position:
+      - ['20', '-10']
+      - ['20', '-20']
+      - ['10', '-20']
+      Striped: false
+  - DrawLine:
+      Position:
+      - ['-20', '10']
+      - ['-20', '20']
+      - ['-10', '20']
+      Striped: false
+  - DrawLine:
+      Position:
+      - ['20', '10']
+      - ['20', '20']
+      - ['10', '20']
+      Striped: false
+  - DrawRectangle:
+      Position: ['-19', '22']
+      Size: [38*lock, '6']

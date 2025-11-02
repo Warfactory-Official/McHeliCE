@@ -1,0 +1,39 @@
+DisplayName: M3 12.7mmMG(Right)
+Type: machinegun2
+BaseDamage: 10
+Ballistics:
+  Acceleration: 10.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: gun_h1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 8
+    MaxHeatCount: 150
+Ammo:
+  MagSize: 200
+  MaxAmmo: 200
+  ResupplyCount: 100
+  AmmoItems:
+  - Count: 5
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 5
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 1
+Accuracy: 1.5
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

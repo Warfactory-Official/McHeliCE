@@ -1,0 +1,95 @@
+DisplayName:
+  DEFAULT: 12.7cmAACanon shield
+  ja_jp: 12.7cm連装高角砲シールド付き
+Category: W.A
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 8.0
+  Zoom: 4
+  Pos:
+  - Pos: [0.0, 1.5, 0.0]
+PhysicalProperties:
+  RotationLimits:
+    Pitch:
+      Min: -80.0
+      Max: 8.0
+Render:
+  HideRiders: true
+Armor:
+  DamageFactor: 0.1
+Weapons:
+- Type: 12_7cm
+  Position: [-0.36, 1.35, 5.83]
+  Pitch: -1.0
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -80.0
+  MaxPitch: 8.0
+  Turret: true
+- Type: 12_7cm
+  Position: [0.73, 1.35, 5.83]
+  Pitch: -1.0
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -80.0
+  MaxPitch: 8.0
+  Turret: true
+- Type: type3bullet
+  Position: [-0.36, 1.35, 5.83]
+  Pitch: -1.0
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -80.0
+  MaxPitch: 8.0
+  Turret: true
+- Type: type3bullet
+  Position: [0.73, 1.35, 5.83]
+  Pitch: -1.0
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -80.0
+  MaxPitch: 8.0
+  Turret: true
+Seats:
+- Position: [0.0, 0.5, 0.0]
+  Hud: vehicle_wwii
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.5, 0.0]
+  Size: [4.0, 3.0, 4.0]
+Components:
+  Vpart:
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: part0
+    DrawFP: true
+    CanYaw: true
+    CanPitch: false
+    Type: NORMAL
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: part1
+    DrawFP: false
+    CanYaw: true
+    CanPitch: true
+    Type: NORMAL
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: part2
+    DrawFP: false
+    CanYaw: true
+    CanPitch: true
+    Type: RECOILS_WEAPON
+    RecoilBuff: 0.5
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: part3
+    DrawFP: false
+    CanYaw: true
+    CanPitch: true
+    Type: RECOILS_WEAPON
+    RecoilBuff: 0.5

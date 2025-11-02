@@ -1,0 +1,37 @@
+DisplayName: Mk-62 Quick Strike Mine
+Type: bomb
+BaseDamage: 25
+Ballistics:
+  Acceleration: 0.8
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: 0.01
+  VelocityInWater: 0.5
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+  PowerUnderwater: 9
+  ProximityFuseDist: 5.0
+Ammo:
+  ReloadTime: 20
+  MagSize: 1
+  MaxAmmo: 8
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 20
+Render:
+  BulletModel: mk62
+  Smoke:
+    BulletColorInWater: '#FF19194B'
+    BulletColor: '#FFFFFFFF'

@@ -1,0 +1,67 @@
+DisplayName: 81mm Mortar
+Type: rocket
+BaseDamage: 35
+Ballistics:
+  Acceleration: 4.0
+  AccelerationInWater: 1.0
+  Gravity: -0.06
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 4.0
+  Name: gun_l4_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 2
+  Flaming: true
+Camera:
+  DisplayMortarDistance: true
+  FixPitch: true
+  RotationSpeedPitch: 0.3
+Ammo:
+  MagSize: 57
+  MaxAmmo: 57
+  ResupplyCount: 19
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 30
+Accuracy: 2.0
+Render:
+  MuzzleFlashes:
+  - Distance: 2.1
+    Size: 1.05
+    Range: 0.0
+    Age: 2
+    Count: 1
+    Color: '#DCFEDB68'
+  - Distance: 2.0
+    Size: 1.0
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#DCFEDBB8'
+  MuzzleSmoke:
+  - Distance: 3.2
+    Size: 6.0
+    Range: 3.0
+    Age: 25
+    Count: 10
+    Color: '#DCA08C78'
+  - Distance: 2.2
+    Size: 6.0
+    Range: 4.0
+    Age: 35
+    Count: 5
+    Color: '#C8BEAA96'
+  BulletModel: bullet76mm
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

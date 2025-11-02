@@ -1,0 +1,113 @@
+DisplayName:
+  DEFAULT: Chris Craft Stinger 390x
+  ja_jp: スティンガー 390X
+Category: ZZZ
+MaxFuel: 1500
+MaxHP: 100
+FuelConsumption: 1.5
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 8.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: boat
+PhysicalProperties:
+  Speed: 0.9
+  CanFloat: true
+  FloatOffset: -0.5
+  Gravity: -0.15
+  GravityInWater: -0.1
+  CanRotOnGround: false
+  CanMoveOnGround: false
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 3.5
+  RotationLimits:
+    Pitch:
+      Min: 0.0
+      Max: 0.0
+Render:
+  SplashParticles:
+  - Position: [1.6, 0.02, 1.0]
+    Count: 3
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 20
+    Motion: 0.3
+    Gravity: -0.03
+  - Position: [-1.6, 0.02, 1.0]
+    Count: 3
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 20
+    Motion: 0.3
+    Gravity: -0.03
+  - Position: [1.6, 0.02, -4.8]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-1.6, 0.02, -4.8]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [1.6, 0.02, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-1.6, 0.02, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [0.8, 0.02, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+  - Position: [-0.8, 0.02, -8.0]
+    Count: 2
+    Size: 9.0
+    Acceleration: 1.1
+    Age: 60
+    Motion: 0.01
+    Gravity: 0.0
+Armor:
+  DamageFactor: 0.8
+Seats:
+- Position: [-0.62, 0.5, 0.02]
+  Hud: plane
+- Position: [0.62, 0.5, 0.02]
+  Hud: plane
+- Position: [0.0, 0.97, -2.65]
+  Hud: gunner
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 0.7, 2.08]
+  Size: [2.0, 1.0, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 0.5, -2.45]
+  Size: [2.0, 1.0, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 0.7, 3.85]
+  Size: [1.0, 1.0, 1.0]
+AircraftFeatures:
+  InventorySize: 27
+  CanRotateOnGround: false
+  ThrottleUpDown: 1.3

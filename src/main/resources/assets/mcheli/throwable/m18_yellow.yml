@@ -1,0 +1,16 @@
+DisplayName:
+  ja_JP: M18 発煙手榴弾(黄)
+  DEFAULT: M18 smoke (Yellow)
+ItemID: -257
+DispenseAcceleration: 1.1
+Bound: 0.3
+TimeFuse: 40
+AliveTime: 600
+Gravity: -0.04
+GravityInWater: 0.01
+Smoke:
+  Count: 6
+  Color: '#FFC8C814'
+  Velocity:
+    Vertical: 0.7
+    Horizontal: 0.7

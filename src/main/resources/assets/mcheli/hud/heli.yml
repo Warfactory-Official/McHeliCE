@@ -1,0 +1,43 @@
+- Call: common_pilot
+- If: have_radar==1
+  Do:
+  - DrawTexture:
+      Name: heli_hud
+      Position: ['144', '21']
+      Size: ['64', '64']
+      UVPos: ['0', '0']
+      UVSize: ['128', '128']
+      Rotation: '0'
+  - Color: '0x80ffffff'
+  - DrawLine:
+      Position:
+      - ['144', 21+32]
+      - [144+64, 21+32]
+      Striped: false
+  - DrawLine:
+      Position:
+      - [144+32, '21']
+      - [144+32, 21+64]
+      Striped: false
+  - Color: '0xff28d448'
+  - DrawRadar:
+      Position: ['144', '21']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: true
+  - Color: '0xffdf0408'
+  - DrawRadar:
+      Position: ['144', '21']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: false
+  - DrawTexture:
+      Name: heli_hud
+      Position: [144+16, '21']
+      Size: ['32', '64']
+      UVPos: ['128', '0']
+      UVSize: ['64', '128']
+      Rotation: radar_rot
+- Color: '0xcfffffff'
+- CameraRotation:
+    Position: ['0', '60']

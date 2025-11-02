@@ -1,0 +1,206 @@
+DisplayName:
+  DEFAULT: T-84 OplotM
+  ja_jp: T-84 オプロートM
+Category: ZZZ
+MaxFuel: 1200
+MaxHP: 300
+FuelConsumption: 2.7
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 8.0
+  AlwaysCameraView: true
+  Zoom: 3
+  DefaultFreeLook: true
+  RotationSpeed: 30.0
+  Pos:
+  - Pos: [0.0, 3.5, 0.25]
+Sound:
+  MoveSound: mbt_run
+PhysicalProperties:
+  Speed: 0.65
+  MotionFactor: 0.9
+  Gravity: -0.1
+  GravityInWater: -0.1
+  StepHeight: 1.5
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 2.5
+  GroundPitchFactors:
+    Pitch: 2.0
+    Roll: 1.3
+  RotationLimits:
+    Pitch:
+      Min: -50.0
+      Max: 5.0
+Render:
+  HideRiders: true
+Armor:
+  ArmorDamageFactor: 0.95
+  ArmorMinDamage: 12.0
+  ArmorMaxDamage: 500.0
+  DamageFactor: 0.0
+  SubmergedDamageHeight: 3.0
+Weapons:
+- Type: kba-3_ap
+  Position: [0.0, 2.08, 6.72]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -50.0
+  MaxPitch: 5.0
+  Turret: true
+- Type: kba-3_he
+  Position: [0.0, 2.08, 6.72]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -50.0
+  MaxPitch: 5.0
+  Turret: true
+- Type: 9m119m
+  Position: [0.0, 2.08, 6.72]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -90.0
+  MaxPitch: 90.0
+  Turret: true
+- Type: mg7_62mm
+  Position: [-0.17, 2.25, 2.1]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -50.0
+  MaxPitch: 5.0
+  Turret: true
+Seats:
+- Position: [0.0, 2.5, 0.25]
+  Gunner: true
+  Camera:
+    Pos: [0.0, 0.0, 0.0]
+  Hud: mbt_hud
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.0, 1.5]
+  Size: [4.0, 2.0, 4.0]
+  DamageFactor: 0.8
+- Type: DEFAULT
+  Position: [0.0, 2.5, -0.5]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.0, -1.2]
+  Size: [4.0, 2.0, 4.0]
+  DamageFactor: 1.1
+Wheels:
+  Hitboxes:
+  - Position: [1.79, -0.21, 4.14]
+  - Position: [1.79, -0.21, 3.01]
+  - Position: [1.79, -0.21, 0.83]
+  - Position: [1.79, -0.21, -1.11]
+  - Position: [1.79, -0.21, -3.26]
+  TrackRotation: 40.0
+AircraftFeatures:
+  NightVision: true
+  CanReverse: true
+  ThrottleUpDown: 3.0
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SMOKE_LAUNCHER
+TankFeatures:
+  WeightType: TANK
+  WeightedCenterZ: 0.0
+Components:
+  Weapon:
+  - Position: [0.0, 1.52, 0.25]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: kba-3_ap/kba-3_he
+    Yaw: true
+    Children:
+    - Position: [0.0, 2.01, 1.62]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+  TrackRoller:
+  - Position: [-1.79, 0.81, 4.14]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller0
+  - Position: [-1.79, 0.21, 3.01]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller1
+  - Position: [-1.79, 0.21, 1.99]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller2
+  - Position: [-1.79, 0.21, 0.83]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller3
+  - Position: [-1.79, 0.21, -0.04]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller4
+  - Position: [-1.79, 0.21, -1.11]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller5
+  - Position: [-1.79, 0.21, -2.13]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller6
+  - Position: [-1.79, 0.81, -3.26]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller7
+  - Position: [1.79, 0.81, 4.14]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller8
+  - Position: [1.79, 0.21, 3.01]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller9
+  - Position: [1.79, 0.21, 1.99]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller10
+  - Position: [1.79, 0.21, 0.83]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller11
+  - Position: [1.79, 0.21, -0.04]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller12
+  - Position: [1.79, 0.21, -1.11]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller13
+  - Position: [1.79, 0.21, -2.13]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller14
+  - Position: [1.79, 0.81, -3.26]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller15
+  CrawlerTrack:
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: crawler_track0
+    SegmentLength: 0.37
+    ZOffset: -1.79
+    TrackList:
+    - [0.81, -3.65]
+    - [0.53, -3.54]
+    - [-0.09, -2.43]
+    - [-0.21, -2.13]
+    - [-0.21, 3.01]
+    - [0.53, 4.42]
+    - [0.81, 4.53]
+    - [1.09, 4.42]
+    - [1.2, 4.14]
+    - [1.2, -3.26]
+    - [1.09, -3.54]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: crawler_track1
+    SegmentLength: 0.37
+    ZOffset: 1.79
+    TrackList:
+    - [0.81, -3.65]
+    - [0.53, -3.54]
+    - [-0.09, -2.43]
+    - [-0.21, -2.13]
+    - [-0.21, 3.01]
+    - [0.53, 4.42]
+    - [0.81, 4.53]
+    - [1.09, 4.42]
+    - [1.2, 4.14]
+    - [1.2, -3.26]
+    - [1.09, -3.54]

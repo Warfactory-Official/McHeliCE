@@ -1,0 +1,46 @@
+DisplayName: MIM-23 HAWK
+Type: aamissile
+BaseDamage: 58
+Ballistics:
+  Acceleration: 4.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 4.0
+  Pitch: 0.6
+  Name: hawk_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 5
+  DestructionPower: 5
+  ProximityFuseDist: 1.0
+Camera:
+  Sight: missilesight
+Missile:
+  LockOn:
+    Time: 14
+Ammo:
+  ReloadTime: 120
+  MagSize: 3
+  MaxAmmo: 9
+  ResupplyCount: 3
+  AmmoItems:
+  - Count: 4
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 5
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 3
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 6
+Render:
+  BulletModel: mim23missile
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

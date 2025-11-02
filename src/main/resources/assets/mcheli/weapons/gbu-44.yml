@@ -1,0 +1,47 @@
+DisplayName: GBU-44/B Viper Strike
+Type: atmissile
+BaseDamage: 70
+Ballistics:
+  Acceleration: 1.5
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 5
+  DestructionPower: 5
+  Flaming: true
+  ProximityFuseDist: 1.0
+Camera:
+  Sight: missilesight
+Missile:
+  LockOn:
+    Time: 25
+Ammo:
+  MagSize: 6
+  MaxAmmo: 6
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 200
+Mode: 1
+RidableOnly: true
+Render:
+  BulletModel: sdb
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

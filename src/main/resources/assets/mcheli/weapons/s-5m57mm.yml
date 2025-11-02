@@ -1,0 +1,36 @@
+DisplayName: S-5M 57mm Rocket
+Type: rocket
+BaseDamage: 32
+Ballistics:
+  Acceleration: 3.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: rocket_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 80
+  MagSize: 8
+  MaxAmmo: 16
+  ResupplyCount: 8
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+Render:
+  BulletModel: hydra70
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

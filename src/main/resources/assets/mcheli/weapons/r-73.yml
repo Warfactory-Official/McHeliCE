@@ -1,0 +1,40 @@
+DisplayName: R-73 missile
+Type: aamissile
+BaseDamage: 56
+Ballistics:
+  Acceleration: 3.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 4
+  ProximityFuseDist: 1.0
+Camera:
+  Sight: missilesight
+Ammo:
+  ReloadTime: 150
+  MagSize: 2
+  MaxAmmo: 6
+  ResupplyCount: 3
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 30
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

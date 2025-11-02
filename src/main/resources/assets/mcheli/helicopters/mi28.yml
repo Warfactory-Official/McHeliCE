@@ -1,0 +1,187 @@
+DisplayName:
+  DEFAULT: Mi-28N Havoc
+  ja_jp: Mi-28N ハボック
+Category: M.A
+MaxFuel: 1200
+MaxHP: 210
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.8, 4.0]
+PhysicalProperties:
+  Speed: 0.6
+  OnGroundPitch: -4.5
+Weapons:
+- Type: 2a42
+  Position: [0.0, 0.05, 2.68]
+  Pitch: -1.0
+  SeatID: 2
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -20.0
+  MaxPitch: 80.0
+- Type: s-8
+  Position: [1.33, 0.72, -0.45]
+  Yaw: 1.0
+  MaxPitch: 25.0
+- Type: s-8
+  Position: [-1.33, 0.72, -0.45]
+  Yaw: -1.0
+  MaxPitch: 25.0
+- Type: s-8dm
+  Position: [1.33, 0.72, -0.45]
+  Yaw: 1.0
+  MaxPitch: 25.0
+- Type: s-8dm
+  Position: [-1.33, 0.72, -0.45]
+  Yaw: -1.0
+  MaxPitch: 25.0
+- Type: s-8s
+  Position: [1.33, 0.72, -0.45]
+  Yaw: 1.0
+  MaxPitch: 25.0
+- Type: s-8s
+  Position: [-1.33, 0.72, -0.45]
+  Yaw: -1.0
+  MaxPitch: 25.0
+- Type: s-8tsm
+  Position: [1.33, 0.72, -0.45]
+  Yaw: 1.0
+  MaxPitch: 25.0
+- Type: s-8tsm
+  Position: [-1.33, 0.72, -0.45]
+  Yaw: -1.0
+  MaxPitch: 25.0
+- Type: 9m39
+  Position: [-2.18, 0.38, -0.38]
+  Yaw: 1.0
+- Type: 9m39
+  Position: [-2.73, 0.38, -0.38]
+  Yaw: -1.0
+- Type: 9k118
+  Position: [2.13, 0.92, -0.44]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9k118
+  Position: [2.13, 0.57, -0.44]
+  Yaw: -1.0
+  SeatID: 2
+- Type: 9k118tv
+  Position: [2.78, 0.92, -0.44]
+  Yaw: -1.0
+  SeatID: 2
+- Type: 9k118tv
+  Position: [2.78, 0.57, -0.44]
+  Yaw: -1.0
+  SeatID: 2
+- Type: targeting_pod_mob
+  Position: [0.0, 0.8, 4.0]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.8, 4.0]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [0.0, 1.76, 0.77]
+  Hud: heli
+- Position: [0.0, 1.23, 2.19]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 0.8, 4.0]
+  Hud: heli_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.5, -1.0]
+  Size: [2.2, 3.0, 2.2]
+- Type: DEFAULT
+  Position: [0.0, 2.5, -3.5]
+  Size: [2.2, 2.5, 2.2]
+- Type: DEFAULT
+  Position: [0.0, 2.2, -6.0]
+  Size: [1.8, 2.0, 1.8]
+- Type: DEFAULT
+  Position: [0.0, 3.0, -13.0]
+  Size: [2.0, 2.5, 2.0]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  EntityRadar: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Camera:
+  - Position: [0.0, 1.34, 4.66]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera0
+  - Position: [0.0, 1.15, 4.13]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera1
+  - Position: [0.0, 0.42, 2.65]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera2
+  Weapon:
+  - Position: [0.0, 0.11, 2.65]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: 2a42
+    HideGM: true
+    Yaw: true
+    Pitch: true
+  - Position: [0.0, 1.03, -1.46]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: s-8
+    Pitch: true
+  - Position: [-2.18, 0.38, -0.38]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: 9m39
+    IsMissile: true
+  - Position: [-2.73, 0.38, -0.38]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: 9m39
+    IsMissile: true
+  - Position: [2.13, 0.92, -0.44]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: 9k118
+    IsMissile: true
+  - Position: [2.13, 0.57, -0.44]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: 9k118
+    IsMissile: true
+  - Position: [2.78, 0.92, -0.44]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: 9k118tv
+    IsMissile: true
+  - Position: [2.78, 0.57, -0.44]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: 9k118tv
+    IsMissile: true
+  HeliRotor:
+  - Position: [0.0, 3.7, -0.92]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [-0.88, 3.85, -12.92]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1
+  - Position: [-0.65, 3.85, -12.92]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: blade2
+    BladeCount: 1

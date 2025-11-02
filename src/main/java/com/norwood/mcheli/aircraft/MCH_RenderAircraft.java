@@ -1045,6 +1045,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             }
 
             GlStateManager.popMatrix();
+            GlStateManager.color(1,1,1,1);
         }
     }
 
@@ -1082,7 +1083,6 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         font.drawString(s, -font.getStringWidth(s) / 2, 0, color);
 
         GlStateManager.popMatrix();
-        GlStateManager.resetColor();
     }
 
     public final boolean shouldRender(MCH_EntityAircraft livingEntity, ICamera camera, double camX, double camY, double camZ) {

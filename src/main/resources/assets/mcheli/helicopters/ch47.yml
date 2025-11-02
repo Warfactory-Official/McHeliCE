@@ -1,0 +1,209 @@
+DisplayName:
+  DEFAULT: CH47 chnuke
+  ja_jp: CH47 チヌーク
+Category: M.M
+MaxFuel: 2400
+MaxHP: 300
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 0.5
+  CanFloat: true
+  FloatOffset: -0.9
+  OnGroundPitch: -2.5
+  Mobility:
+    Yaw: 0.7
+    Pitch: 0.7
+    Roll: 0.7
+Weapons:
+- Type: m3m_l
+  Position: [-0.7, 1.6, -11.15]
+  SeatID: 3
+  CanUsePilot: false
+  DefaultYaw: -180.0
+  MinYaw: -70.0
+  MaxYaw: 70.0
+  MinPitch: -5.0
+  MaxPitch: 30.0
+- Type: m134_l50
+  Position: [-1.286, 1.971, -1.519]
+  SeatID: 4
+  CanUsePilot: false
+  DefaultYaw: 90.0
+  MinYaw: -70.0
+  MaxYaw: 70.0
+  MinPitch: -80.0
+  MaxPitch: 80.0
+- Type: m134_r50
+  Position: [1.286, 1.971, -1.519]
+  SeatID: 5
+  CanUsePilot: false
+  DefaultYaw: -90.0
+  MinYaw: -70.0
+  MaxYaw: 70.0
+  MinPitch: -80.0
+  MaxPitch: 80.0
+Seats:
+- Position: [0.79, 1.5, -0.5]
+  Hud: heli
+- Position: [-0.79, 1.5, -0.5]
+- Position: [-0.82, 1.2, -10.1]
+  Hud: gunner
+- Position: [-0.68, 1.3, -1.5]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [-1.2, 2.3, -1.5]
+  Hud: gunner
+- Position: [0.68, 1.3, -1.5]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [1.2, 2.3, -1.5]
+  Hud: gunner
+- Position: [0.4, 1.2, -9.9]
+  Hud: gunner
+- Position: [0.6, 1.2, -7.0]
+  Hud: gunner
+- Position: [-0.6, 1.2, -7.0]
+  Hud: gunner
+- Position: [0.6, 1.2, -8.1]
+  Hud: gunner
+- Position: [-0.6, 1.2, -8.1]
+  Hud: gunner
+- Position: [0.6, 1.2, -9.2]
+  Hud: gunner
+- Position: [-0.6, 1.2, -9.2]
+  Hud: gunner
+Racks:
+- Position: [0.0, 1.5, -3.0]
+  Camera:
+    Pos: [0.0, 1.5, -12.8]
+  Name: container
+  Range: 8.0
+  OpenParaAlt: 20.0
+- Position: [0.0, 2.4, -3.2]
+  Camera:
+    Pos: [0.0, 1.5, -12.8]
+  Name: container
+  Range: 8.0
+  OpenParaAlt: 20.0
+- Position: [0.0, 1.5, -4.6]
+  Camera:
+    Pos: [0.0, 1.5, -12.8]
+  Name: container
+  Range: 8.0
+  OpenParaAlt: 20.0
+  ExcludeWith:
+    Racks: [5]
+- Position: [0.0, 2.4, -4.6]
+  Camera:
+    Pos: [0.0, 1.5, -12.8]
+  Name: container
+  Range: 8.0
+  OpenParaAlt: 20.0
+  ExcludeWith:
+    Racks: [5]
+- Position: [0.0, 1.5, -5.6]
+  Camera:
+    Pos: [0.0, 1.5, -12.8]
+  Name: zodiac
+  Range: 12.0
+  OpenParaAlt: 20.0
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.5, -1.0]
+  Size: [2.5, 3.4, 2.5]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -4.0]
+  Size: [2.8, 3.0, 2.8]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -7.0]
+  Size: [2.8, 3.0, 2.8]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -10.0]
+  Size: [2.8, 3.0, 2.8]
+- Type: DEFAULT
+  Position: [0.0, 3.5, -12.0]
+  Size: [2.0, 3.0, 2.0]
+AircraftFeatures:
+  InventorySize: 54
+  NightVision: true
+  ThrottleUpDown: 0.3
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Hatch:
+  - Position: [0.0, 0.858, -11.549]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: hatch0
+    MaxRotation: 34.0
+  Weapon:
+  - Position: [-0.7, 1.6, -11.15]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: m3m_l
+    Yaw: true
+    Pitch: true
+  - Position: [-1.286, 1.941, -1.519]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: m134_l50
+    Yaw: true
+  - Position: [-1.286, 1.941, -1.519]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: m134_l50
+    Yaw: true
+    Pitch: true
+  - Position: [-1.286, 1.941, -1.519]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: m134_l50
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [1.286, 1.941, -1.519]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: m134_r50
+    Yaw: true
+  - Position: [1.286, 1.941, -1.519]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: m134_r50
+    Yaw: true
+    Pitch: true
+  - Position: [1.286, 1.941, -1.519]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: m134_r50
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  HeliRotor:
+  - Position: [0.0, 4.651, -0.298]
+    Rotation: [0.0, 1.0, 0.11]
+    PartName: blade0
+    BladeCount: 3
+    BladeRot: 120
+  - Position: [0.0, 6.049, -12.614]
+    Rotation: [0.0, -1.0, -0.093]
+    PartName: blade1
+    BladeCount: 3
+    BladeRot: 120
+  RepelHook:
+  - Position: [0.6, 2.75, -14.21]
+    Interval: 30
+  - Position: [-0.6, 2.75, -14.21]
+    Interval: 30

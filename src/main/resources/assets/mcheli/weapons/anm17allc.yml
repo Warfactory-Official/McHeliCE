@@ -1,0 +1,37 @@
+DisplayName: AN-M17All C
+Type: bomb
+BaseDamage: 15
+Ballistics:
+  Acceleration: 0.1
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+  ExplosionAltitude: 1
+  Flaming: true
+Ammo:
+  ReloadTime: 150
+  MagSize: 2
+  MaxAmmo: 8
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 50
+Render:
+  BulletModel: bomb
+  BombletModel: cbc
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

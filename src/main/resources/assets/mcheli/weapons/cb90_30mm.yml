@@ -1,0 +1,46 @@
+DisplayName: 30mm RWS
+Type: machinegun2
+BaseDamage: 16
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 3.0
+  Name: gun_h1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 1
+  DestructionPower: 1
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 3
+  MagSize: 80
+  MaxAmmo: 320
+  ResupplyCount: 80
+  AmmoItems:
+  - Count: 8
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 8
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 3
+Accuracy: 2.0
+Render:
+  SpentCasings:
+    Name: cartridge
+    Acceleration: 0.0
+    Yaw: 0.0
+    Pitch: 0.0
+    Scale: 3.5
+    Gravity: -0.04
+    Bound: 0.5
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

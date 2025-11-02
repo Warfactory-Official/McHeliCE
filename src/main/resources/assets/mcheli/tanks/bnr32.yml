@@ -1,0 +1,149 @@
+DisplayName:
+  DEFAULT: bnr32
+  ja_jp: スカイラインGT-R BNR32
+Category: C
+MaxFuel: 1200
+MaxHP: 120
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 8.0
+  AlwaysCameraView: true
+  Pos:
+  - Pos: [-0.54, 1.22, -0.02]
+  - Pos: [0.9, 0.5, 0.7]
+    FixedRot: true
+    Yaw: 130.0
+  - Pos: [0.7, 1.4, -0.5]
+    FixedRot: true
+    Yaw: 40.0
+    Pitch: 20.0
+  - Pos: [1.8, 0.2, 1.5]
+    FixedRot: true
+    Yaw: 15.0
+Sound:
+  MoveSound: prop
+PhysicalProperties:
+  Speed: 0.8
+  Gravity: -0.15
+  GravityInWater: -0.1
+  StepHeight: 1.2
+  PivotTurnThrottle: 0.1
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 5.0
+  GroundPitchFactors:
+    Pitch: 18.0
+    Roll: 4.8
+Armor:
+  DamageFactor: 0.85
+Seats:
+- Position: [-0.54, 0.12, -0.02]
+  Hud: bnr32_hud
+- Position: [0.54, 0.22, -0.02]
+Wheels:
+  Hitboxes:
+  - Position: [1.05, -0.24, 1.965]
+  - Position: [1.05, -0.24, -1.789]
+  WheelRotation: 40.0
+AircraftFeatures:
+  InventorySize: 9
+  NightVision: true
+  CanReverse: true
+  ThrottleUpDown: 3.0
+TankFeatures:
+  WeightType: CAR
+  WeightedCenterZ: 0.0
+Components:
+  Hatch:
+  - Position: [0.0, 0.62, 1.28]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: hatch0
+    MaxRotation: 5.0
+  SteeringWheel:
+  - Position: [-0.539, 0.882, 0.479]
+    Rotation: [0.0, 1.0, -1.73]
+    PartName: steering_wheel0
+    Direction: 130.0
+    Pivot: [-0.539, 0.882, 0.479]
+  Wheel:
+  - Position: [-1.05, 0.157, 1.965]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel0
+    Direction: 30.0
+    Pivot: [-1.05, 0.157, 1.965]
+  - Position: [1.05, 0.157, 1.965]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel1
+    Direction: 30.0
+    Pivot: [1.05, 0.157, 1.965]
+  - Position: [-1.05, 0.157, -1.789]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel2
+    Direction: 0.0
+    Pivot: [-1.05, 0.157, -1.789]
+  - Position: [1.05, 0.157, -1.789]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel3
+    Direction: 0.0
+    Pivot: [1.05, 0.157, -1.789]
+  SearchLight:
+  - Position: [0.77, 0.62, 2.85]
+    ColorStart: '#FFFFFF'
+    ColorEnd: '#FFFFC0'
+    Height: 27.0
+    Width: 15.0
+    Yaw: -5.0
+    FixedDirection: true
+  - Position: [-0.77, 0.62, 2.85]
+    ColorStart: '#FFFFFF'
+    ColorEnd: '#FFFFC0'
+    Height: 27.0
+    Width: 15.0
+    Yaw: 5.0
+    FixedDirection: true
+  - Position: [0.97, 0.78, -3.05]
+    ColorStart: '#FF0000'
+    ColorEnd: '#FF0000'
+    Height: 0.05
+    Width: 0.25
+    Yaw: 6.0
+    FixedDirection: true
+  - Position: [0.62, 0.78, -3.09]
+    ColorStart: '#FF0000'
+    ColorEnd: '#FF0000'
+    Height: 0.05
+    Width: 0.25
+    Yaw: 6.0
+    FixedDirection: true
+  - Position: [-0.62, 0.78, -3.09]
+    ColorStart: '#FF0000'
+    ColorEnd: '#FF0000'
+    Height: 0.05
+    Width: 0.25
+    Yaw: -6.0
+    FixedDirection: true
+  - Position: [-0.97, 0.78, -3.05]
+    ColorStart: '#FF0000'
+    ColorEnd: '#FF0000'
+    Height: 0.05
+    Width: 0.25
+    Yaw: -6.0
+    FixedDirection: true
+  Throttle:
+  - Position: [-0.454, 0.882, 0.8]
+    Rotation: [0.0, 1.0, -1.73]
+    PartName: throttle0
+    SlidePos: [0.0, 0.0, 0.0]
+    MaxAngle: -220.0
+  - Position: [-0.623, 0.882, 0.8]
+    Rotation: [0.0, 1.0, -1.73]
+    PartName: throttle1
+    SlidePos: [0.0, 0.0, 0.0]
+    MaxAngle: -175.0
+  - Position: [-0.623, 0.882, 0.8]
+    Rotation: [0.0, 1.0, -1.73]
+    PartName: throttle2
+    SlidePos: [0.0, 0.0, 0.0]

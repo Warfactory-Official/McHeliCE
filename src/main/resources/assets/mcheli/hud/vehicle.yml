@@ -1,0 +1,197 @@
+- Color: '0xcfffffff'
+- DrawString:
+    Text:
+      Fmt: x%.1f
+      Vars: [CAM_ZOOM]
+    Position: ['-70', '10']
+    Center: false
+- If: inventory > 0
+  Do:
+  - Color: '0xcf1fff1f'
+  - DrawString:
+      Text:
+        Fmt: Inventory [ %d ]
+        Vars: [INVENTORY]
+      Position: ['120', '-80']
+      Center: false
+- Color: '0xffffc90e'
+- Call: sight
+- Color: '0xffffc90e'
+- DrawString:
+    Text:
+      Fmt: 'X: %+.1f'
+      Vars: [POS_X]
+    Position: ['-205', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Y: %+.1f'
+      Vars: [POS_Y]
+    Position: ['-205', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Z: %+.1f'
+      Vars: [POS_Z]
+    Position: ['-205', '40']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_X]
+    Position: ['-150', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Y]
+    Position: ['-150', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Z]
+    Position: ['-150', '40']
+    Center: false
+- Color: hp_rto>0.2?0xffffc90e:0xffdf0408
+- DrawTexture:
+    Name: hud
+    Position: ['144', '95']
+    Size: ['64', '20']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- DrawString:
+    Text:
+      Fmt: '%3.0f'
+      Vars: [HP_PER]
+    Position: ['150', '97']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: / 100
+      Vars: [HP_PER]
+    Position: [150+26, '97']
+    Center: false
+- DrawRectangle:
+    Position: ['146', '107']
+    Size: [hp_rto*60, '6']
+- DrawTexture:
+    Name: hud
+    Position: ['-208', '57']
+    Size: ['62', '10']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- DrawTexture:
+    Name: hud
+    Position: ['-208', '68']
+    Size: ['106', '10']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- Color: reloading==0?0xffffc90e:0xffdf0408
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_AMMO]
+    Position: ['-207', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: /
+      Vars: [WPN_AMMO]
+    Position: ['-181', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_RM_AMMO]
+    Position: ['-172', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_NAME]
+    Position: ['-207', '69']
+    Center: false
+- If: is_heat_wpn==1
+  Do:
+  - Color: '0xffffc90e'
+  - DrawRectangle:
+      Position: ['-145', '57']
+      Size: ['43', '10']
+  - Color: '0xff806404'
+  - DrawRectangle:
+      Position: ['-144', '58']
+      Size: ['41', '8']
+  - Color: '0xffdf0408'
+  - DrawRectangle:
+      Position: ['-144', '58']
+      Size: [41*wpn_heat, '8']
+- Color: '0xffffc90e'
+- Call: mortar
+- If: cam_mode==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: NIGHT VISION
+        Vars: []
+      Position: ['30', '50']
+      Center: false
+- If: cam_mode==2
+  Do:
+  - DrawString:
+      Text:
+        Fmt: THERMAL VISION
+        Vars: []
+      Position: ['30', '50']
+      Center: false
+- If: have_flare==1
+  Do:
+  - Color: can_flare==1?0xffffc90e:0xffdf0408
+  - DrawString:
+      Text:
+        Fmt: '[ FLARE ]'
+        Vars: []
+      Position: ['-60', '50']
+      Center: true
+- If: have_radar==1
+  Do:
+  - DrawTexture:
+      Name: vehicle_hud
+      Position: ['144', '21']
+      Size: ['64', '64']
+      UVPos: ['0', '0']
+      UVSize: ['128', '128']
+      Rotation: '0'
+  - Color: '0x80ffffff'
+  - DrawLine:
+      Position:
+      - ['144', 21+32]
+      - [144+64, 21+32]
+      Striped: false
+  - DrawLine:
+      Position:
+      - [144+32, '21']
+      - [144+32, 21+64]
+      Striped: false
+  - Color: '0xff28d448'
+  - DrawRadar:
+      Position: ['144', '21']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: true
+  - Color: '0xffdf0408'
+  - DrawRadar:
+      Position: ['144', '21']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: false
+  - DrawTexture:
+      Name: vehicle_hud
+      Position: [144+16, '21']
+      Size: ['32', '64']
+      UVPos: ['128', '0']
+      UVSize: ['64', '128']
+      Rotation: radar_rot

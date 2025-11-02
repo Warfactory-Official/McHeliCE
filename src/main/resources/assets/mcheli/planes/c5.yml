@@ -1,0 +1,366 @@
+DisplayName:
+  DEFAULT: C5A galaxy
+  ja_jp: C5A ギャラクシー
+Category: M.C
+MaxFuel: 20000
+MaxHP: 1000
+FuelConsumption: 1.6
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 68.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: plane
+PhysicalProperties:
+  Speed: 0.8
+  Mobility:
+    Yaw: 0.1
+    Pitch: 0.1
+    Roll: 0.1
+  RotationLimits:
+    Roll:
+      Min: -30.0
+      Max: 30.0
+Seats:
+- Position: [0.62, 6.8, 2.4]
+  Hud: plane
+- Position: [-0.62, 6.8, 2.4]
+  Hud: plane
+Racks:
+- Position: [0.0, 2.1, -4.8]
+  Camera:
+    Pos: [0.0, 1.5, -2.5]
+  Names:
+  - mh-60g
+  - mh-60l_dap
+  - sh-60
+  - sh-3
+  Range: 11.0
+  OpenParaAlt: 100000.0
+- Position: [0.0, 2.1, -22.8]
+  Camera:
+    Pos: [0.0, 1.5, -42.3]
+  Names:
+  - mh-60g
+  - mh-60l_dap
+  - sh-60
+  - sh-3
+  Range: 11.0
+  OpenParaAlt: 100000.0
+- Position: [2.0, 2.1, -11.0]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [-2.0, 2.1, -11.0]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [2.0, 2.1, -12.5]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [-2.0, 2.1, -12.5]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [2.0, 2.1, -14.0]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [-2.0, 2.1, -14.0]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [2.0, 2.1, -31.0]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [-2.0, 2.1, -31.0]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [2.0, 2.1, -32.5]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [-2.0, 2.1, -32.5]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [2.0, 2.1, -34.0]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+- Position: [-2.0, 2.1, -34.0]
+  Camera:
+    Pos: [0.0, 1.5, -4.3]
+  Name: container
+  Range: 15.0
+  OpenParaAlt: 20.0
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 4.98, -0.31]
+  Size: [8.0, 6.0, 8.0]
+- Type: DEFAULT
+  Position: [0.0, 4.98, -8.74]
+  Size: [8.0, 6.0, 8.0]
+- Type: DEFAULT
+  Position: [0.0, 4.98, -21.99]
+  Size: [10.0, 10.0, 10.0]
+- Type: DEFAULT
+  Position: [0.0, 4.98, -34.96]
+  Size: [8.0, 6.0, 8.0]
+- Type: DEFAULT
+  Position: [0.0, 4.98, -48.43]
+  Size: [8.0, 6.0, 8.0]
+- Type: DEFAULT
+  Position: [0.0, 14.16, -57.6]
+  Size: [8.0, 13.0, 8.0]
+- Type: DEFAULT
+  Position: [-15.94, 6.43, -20.14]
+  Size: [10.0, 10.0, 10.0]
+- Type: DEFAULT
+  Position: [15.94, 6.43, -20.14]
+  Size: [10.0, 10.0, 10.0]
+- Type: DEFAULT
+  Position: [-27.83, 5.55, -29.85]
+  Size: [7.0, 4.0, 7.0]
+- Type: DEFAULT
+  Position: [27.83, 5.55, -29.85]
+  Size: [7.0, 4.0, 7.0]
+AircraftFeatures:
+  InventorySize: 54
+  NightVision: true
+  EntityRadar: true
+  ThrottleUpDown: 0.4
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - LARGE_AIRCRAFT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  LandingGear:
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 0.0
+    SlideVec: [-0.843, 0.0, 0.0]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: 0.0
+    SlideVec: [0.843, 0.0, 0.0]
+  - Position: [0.0, 1.478, -2.719]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 86.0
+  - Position: [1.891, 0.917, 0.0]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg3
+    MaxRotation: -60.0
+    IsHatch: true
+  - Position: [-1.891, 0.917, 0.0]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg4
+    MaxRotation: -60.0
+    IsHatch: true
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: lg5
+    MaxRotation: 0.0
+    SlideVec: [0.0, 1.11, 0.0]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: lg6
+    MaxRotation: 0.0
+    SlideVec: [0.0, 1.11, 0.0]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: lg7
+    MaxRotation: 0.0
+    SlideVec: [0.0, 1.11, 0.0]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: lg8
+    MaxRotation: 0.0
+    SlideVec: [0.0, 1.11, 0.0]
+  - Position: [-3.744, 3.643, 0.0]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg9
+    MaxRotation: -30.0
+    IsReverse: true
+  - Position: [3.744, 3.643, 0.0]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg10
+    MaxRotation: -30.0
+    IsReverse: true
+  - Position: [-3.337, 0.208, -22.8]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: lg11
+    MaxRotation: -90.0
+    SlideVec: [0.0, 1.131, 0.0]
+  - Position: [-3.337, 0.208, -22.8]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: lg12
+    MaxRotation: -90.0
+    SlideVec: [-0.644, 2.146, 0.35]
+  - Position: [-3.337, 0.208, -22.8]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: lg13
+    MaxRotation: -90.0
+    SlideVec: [-2.0, 1.131, 0.6]
+  - Position: [3.337, 0.208, -22.8]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: lg14
+    MaxRotation: -90.0
+    SlideVec: [0.0, 1.131, 0.0]
+  - Position: [3.337, 0.208, -22.8]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: lg15
+    MaxRotation: -90.0
+    SlideVec: [0.644, 2.146, 0.35]
+  - Position: [3.337, 0.208, -22.8]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: lg16
+    MaxRotation: -90.0
+    SlideVec: [-2.0, 1.131, 0.6]
+  - Position: [-3.337, 0.208, -28.26]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: lg17
+    MaxRotation: -90.0
+    SlideVec: [0.0, 1.131, 0.0]
+  - Position: [-3.337, 0.208, -28.26]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: lg18
+    MaxRotation: -90.0
+    SlideVec: [-0.644, 2.146, 0.35]
+  - Position: [-3.337, 0.208, -28.26]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: lg19
+    MaxRotation: -90.0
+    SlideVec: [-2.0, 1.131, 0.6]
+  - Position: [3.337, 0.208, -28.26]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: lg20
+    MaxRotation: -90.0
+    SlideVec: [0.0, 1.131, 0.0]
+  - Position: [3.337, 0.208, -28.26]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: lg21
+    MaxRotation: -90.0
+    SlideVec: [0.644, 2.146, 0.35]
+  - Position: [3.337, 0.208, -28.26]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: lg22
+    MaxRotation: -90.0
+    SlideVec: [-2.0, 1.131, 0.6]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: lg23
+    MaxRotation: 0.0
+    SlideVec: [0.843, 1.3, -1.8]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: lg24
+    MaxRotation: 0.0
+    SlideVec: [-0.843, 1.3, -1.8]
+  PlaneRotor:
+  - Position: [12.02, 4.182, -18.57]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: rotor0
+    RotFactor: 90.0
+    Blades:
+    - Position: [12.02, 4.182, -18.57]
+      Rotation: [0.0, 0.0, -1.0]
+      PartName: blade0
+      BladeNum: 1
+      BladeRot: 0
+  - Position: [-12.073, 4.148, -18.57]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor1
+    RotFactor: 90.0
+    Blades:
+    - Position: [-12.073, 4.148, -18.57]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade1
+      BladeNum: 1
+      BladeRot: 0
+  - Position: [18.601, 3.424, -18.57]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: rotor2
+    RotFactor: 90.0
+    Blades:
+    - Position: [18.601, 3.424, -18.57]
+      Rotation: [0.0, 0.0, -1.0]
+      PartName: blade2
+      BladeNum: 1
+      BladeRot: 0
+  - Position: [-18.601, 3.424, -18.57]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor3
+    RotFactor: 90.0
+    Blades:
+    - Position: [-18.601, 3.424, -18.57]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade3
+      BladeNum: 1
+      BladeRot: 0
+  Wing:
+  - Position: [0.0, 6.51, 0.0]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: wing0
+    MaxRotation: 90.0
+  - Position: [0.0, 2.01, -1.619]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: wing1
+    MaxRotation: 20.0
+  - Position: [0.0, 1.81, -34.967]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: wing2
+    MaxRotation: 20.0
+  - Position: [1.258, 5.519, -53.789]
+    Rotation: [1.451, -3.366, 14.361]
+    PartName: wing3
+    MaxRotation: 120.0
+  - Position: [-1.258, 5.519, -53.789]
+    Rotation: [-1.451, -3.366, 14.361]
+    PartName: wing4
+    MaxRotation: -120.0
+  - Position: [0.0, -2.0, -1.0]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: wing5
+    MaxRotation: -48.0
+  - Position: [0.0, -4.0, -36.0]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: wing6
+    MaxRotation: -39.0

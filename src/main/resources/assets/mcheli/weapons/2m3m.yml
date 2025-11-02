@@ -1,0 +1,40 @@
+DisplayName: 25mm 2M-3M
+Type: machinegun2
+BaseDamage: 18
+Ballistics:
+  Acceleration: 9.0
+  AccelerationInWater: 1.0
+  Gravity: -0.01
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 3.0
+  Name: gun_h2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 5
+    MaxHeatCount: 150
+Ammo:
+  MagSize: 900
+  MaxAmmo: 900
+  ResupplyCount: 180
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 1
+Accuracy: 1.5
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FF77FF74'

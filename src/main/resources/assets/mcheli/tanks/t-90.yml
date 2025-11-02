@@ -1,0 +1,206 @@
+DisplayName:
+  DEFAULT: T-90 MBT
+  ja_jp: T-90 主力戦車
+Category: ZZZ
+MaxFuel: 1200
+MaxHP: 300
+FuelConsumption: 2.0
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 8.0
+  DefaultFreeLook: true
+  RotationSpeed: 30.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: mbt_run
+PhysicalProperties:
+  Speed: 0.6
+  MotionFactor: 0.9
+  Gravity: -0.1
+  GravityInWater: -0.1
+  StepHeight: 1.7
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 3.0
+  GroundPitchFactors:
+    Pitch: 2.0
+    Roll: 1.9
+  RotationLimits:
+    Pitch:
+      Min: -14.0
+      Max: 5.0
+Render:
+  HideRiders: true
+Armor:
+  ArmorDamageFactor: 0.98
+  ArmorMinDamage: 9.0
+  ArmorMaxDamage: 250.0
+  DamageFactor: 0.0
+  SubmergedDamageHeight: 3.0
+Weapons:
+- Type: 2a46m-1_apfsds
+  Position: [0.0, 1.61, 0.44]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -14.0
+  MaxPitch: 5.0
+- Type: 2a46m-1_heatmp
+  Position: [0.0, 1.61, 0.44]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -14.0
+  MaxPitch: 5.0
+- Type: 2a46m-1_he
+  Position: [0.0, 1.61, 0.44]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -14.0
+  MaxPitch: 5.0
+- Type: 9m119m
+  Position: [0.0, 1.61, 0.44]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -90.0
+  MaxPitch: 90.0
+- Type: mg_coaxial
+  Position: [0.0, 1.61, 0.44]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -14.0
+  MaxPitch: 5.0
+Seats:
+- Position: [0.0, 1.58, 0.44]
+  Hud: mbt_hud
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.0, 1.5]
+  Size: [4.0, 2.0, 4.0]
+  DamageFactor: 0.75
+- Type: DEFAULT
+  Position: [0.0, 2.5, -0.5]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.0, -1.2]
+  Size: [4.0, 2.0, 4.0]
+  DamageFactor: 1.25
+Wheels:
+  Hitboxes:
+  - Position: [1.99, -0.24, 3.63]
+  - Position: [1.99, -0.24, 2.38]
+  - Position: [1.99, -0.24, 1.03]
+  - Position: [1.99, -0.24, -1.07]
+  - Position: [1.99, -0.24, -2.52]
+AircraftFeatures:
+  NightVision: true
+  CanReverse: true
+  ThrottleUpDown: 3.0
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SMOKE_LAUNCHER
+TankFeatures:
+  WeightType: TANK
+  WeightedCenterZ: 0.0
+Components:
+  Weapon:
+  - Position: [0.0, 1.58, 0.44]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: 2a46m-1_apfsds/2a46m-1_heatmp/2a46m-1_he
+    Yaw: true
+    Children:
+    - Position: [0.0, 1.6, 1.81]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+    - Position: [0.0, 1.6, 1.81]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+      RecoilBuf: 0.5
+  TrackRoller:
+  - Position: [-2.32, 0.6, 4.04]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller0
+  - Position: [-2.32, 0.16, 3.13]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller1
+  - Position: [-2.32, 0.16, 2.08]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller2
+  - Position: [-2.32, 0.16, 1.03]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller3
+  - Position: [-2.32, 0.16, -0.02]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller4
+  - Position: [-2.32, 0.16, -1.07]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller5
+  - Position: [-2.32, 0.16, -2.12]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller6
+  - Position: [-2.32, 0.6, -3.32]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller7
+  - Position: [2.32, 0.6, 4.04]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller8
+  - Position: [2.32, 0.16, 3.13]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller9
+  - Position: [2.32, 0.16, 2.08]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller10
+  - Position: [2.32, 0.16, 1.03]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller11
+  - Position: [2.32, 0.16, -0.02]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller12
+  - Position: [2.32, 0.16, -1.07]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller13
+  - Position: [2.32, 0.16, -2.12]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller14
+  - Position: [2.32, 0.6, -3.32]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller15
+  CrawlerTrack:
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: crawler_track0
+    SegmentLength: 0.23
+    ZOffset: -2.4
+    TrackList:
+    - [-0.31, -2.12]
+    - [0.34, -3.59]
+    - [0.61, -3.7]
+    - [0.87, -3.59]
+    - [0.98, -3.32]
+    - [0.98, 4.04]
+    - [0.87, 4.31]
+    - [0.61, 4.42]
+    - [0.34, 4.31]
+    - [-0.17, 3.46]
+    - [-0.3, 3.13]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: crawler_track1
+    SegmentLength: 0.23
+    ZOffset: 2.4
+    TrackList:
+    - [-0.31, -2.12]
+    - [0.34, -3.59]
+    - [0.61, -3.7]
+    - [0.87, -3.59]
+    - [0.98, -3.32]
+    - [0.98, 4.04]
+    - [0.87, 4.31]
+    - [0.61, 4.42]
+    - [0.34, 4.31]
+    - [-0.17, 3.46]
+    - [-0.3, 3.13]

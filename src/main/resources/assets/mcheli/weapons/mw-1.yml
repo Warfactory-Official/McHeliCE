@@ -1,0 +1,38 @@
+DisplayName: MW-1 BombDispenser
+Type: bomb
+BaseDamage: 15
+Ballistics:
+  Acceleration: 0.8
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: mw-1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+  FuseDelay: 40
+  FuseRebound: 0.3
+Ammo:
+  ReloadTime: 280
+  MagSize: 25
+  MaxAmmo: 50
+  ResupplyCount: 25
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 2
+Render:
+  BulletModel: cbc
+  BombletModel: cbc
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

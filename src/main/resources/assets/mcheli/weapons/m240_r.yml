@@ -1,0 +1,74 @@
+DisplayName: M240 7.62mm
+Type: machinegun2
+BaseDamage: 8
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 0.6
+  Name: gun_l1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 5
+    MaxHeatCount: 150
+Ammo:
+  MagSize: 1200
+  MaxAmmo: 1200
+  ResupplyCount: 300
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 1
+Accuracy: 0.7
+Render:
+  MuzzleFlashes:
+  - Distance: 1.6
+    Size: 0.22
+    Range: 0.0
+    Age: 2
+    Count: 1
+    Color: '#AAFE9F54'
+  - Distance: 1.5
+    Size: 0.2
+    Range: 0.0
+    Age: 1
+    Count: 1
+    Color: '#96FEDBB8'
+  MuzzleSmoke:
+  - Distance: 2.2
+    Size: 5.0
+    Range: 2.0
+    Age: 15
+    Count: 1
+    Color: '#B4FAF5F0'
+  - Distance: 3.2
+    Size: 3.0
+    Range: 1.0
+    Age: 5
+    Count: 1
+    Color: '#B4DCD9D6'
+  SpentCasings:
+    Name: cartridge
+    Acceleration: 0.1
+    Yaw: 90.0
+    Pitch: 30.0
+    Scale: 3.0
+    Gravity: -0.04
+    Bound: 0.4
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

@@ -1,0 +1,245 @@
+DisplayName:
+  DEFAULT: Kurganets-25 IFV
+  ja_jp: Kurganets-25 歩兵戦闘車
+Category: ZZZ
+MaxFuel: 1200
+MaxHP: 300
+FuelConsumption: 2.7
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 8.0
+  AlwaysCameraView: true
+  Zoom: 1
+  DefaultFreeLook: true
+  RotationSpeed: 35.0
+  Pos:
+  - Pos: [0.0, 2.99, 0.0]
+Sound:
+  MoveSound: mbt_run
+PhysicalProperties:
+  Speed: 0.55
+  MotionFactor: 0.9
+  Gravity: -0.1
+  GravityInWater: -0.1
+  StepHeight: 1.5
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 4.0
+  GroundPitchFactors:
+    Pitch: 2.5
+    Roll: 1.0
+  RotationLimits:
+    Pitch:
+      Min: -50.0
+      Max: 8.0
+Render:
+  ModelWidth: 0.8
+  ModelHeight: 0.8
+Armor:
+  ArmorDamageFactor: 0.95
+  ArmorMinDamage: 12.0
+  ArmorMaxDamage: 280.0
+  DamageFactor: 0.0
+  SubmergedDamageHeight: 4.0
+Weapons:
+- Type: 2a42_ifv
+  Position: [-0.04, 2.64, 3.42]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -20.0
+  MaxPitch: 8.0
+  Turret: true
+- Type: mg_coaxial
+  Position: [0.12, 2.57, 0.55]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -20.0
+  MaxPitch: 8.0
+  Turret: true
+- Type: 9m133
+  Position: [-1.74, 2.64, 0.64]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  Turret: true
+- Type: 9m133
+  Position: [1.74, 2.64, 0.64]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  Turret: true
+- Type: 9m133s
+  Position: [-1.41, 2.64, 0.64]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  Turret: true
+- Type: 9m133s
+  Position: [1.41, 2.64, 0.64]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  Turret: true
+- Type: kurganets_spot
+  Position: [0.0, 3.5, 0.0]
+  SeatID: 2
+  CanUsePilot: false
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -90.0
+  MaxPitch: 90.0
+Seats:
+- Position: [0.75, 0.33, 1.57]
+  Hud: mbt_hud
+- Position: [-0.75, 0.33, 1.57]
+  Gunner: true
+  SwitchGunner: true
+  MinPitch: -90.0
+  MaxPitch: 90.0
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 3.5, 0.0]
+  Hud: mbt_gnr
+- Position: [0.88, 0.45, -1.32]
+- Position: [-0.88, 0.45, -1.32]
+- Position: [0.88, 0.45, -0.72]
+- Position: [-0.88, 0.45, -0.72]
+- Position: [0.88, 0.45, -0.01]
+- Position: [-0.88, 0.45, -0.01]
+- Position: [0.88, 0.45, 0.68]
+- Position: [-0.88, 0.45, 0.68]
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.0, 3.0]
+  Size: [3.5, 2.0, 3.5]
+  DamageFactor: 0.9
+- Type: DEFAULT
+  Position: [0.0, 2.5, -0.5]
+  Size: [3.0, 1.0, 3.0]
+  DamageFactor: 1.2
+- Type: DEFAULT
+  Position: [0.0, 1.0, -0.5]
+  Size: [3.5, 2.0, 3.5]
+  DamageFactor: 1.1
+Wheels:
+  Hitboxes:
+  - Position: [1.37, -0.32, 3.6]
+  - Position: [1.37, -0.32, 1.43]
+  - Position: [1.37, -0.32, -0.75]
+  TrackRotation: 40.0
+AircraftFeatures:
+  NightVision: true
+  CanReverse: true
+  ThrottleUpDown: 3.0
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SMOKE_LAUNCHER
+TankFeatures:
+  WeightType: TANK
+  WeightedCenterZ: 0.0
+Components:
+  Hatch:
+  - Position: [-0.38, 1.05, -2.01]
+    Rotation: [0.05, 1.0, -0.1]
+    PartName: hatch0
+    MaxRotation: 110.0
+  Weapon:
+  - Position: [0.0, 2.14, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: 2a42_ifv/mg_coaxial/9m133/9m133s
+    Yaw: true
+    Children:
+    - Position: [0.0, 2.64, 0.23]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+  TrackRoller:
+  - Position: [-1.51, 0.49, 4.83]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller0
+  - Position: [-1.51, 0.02, 3.98]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller1
+  - Position: [-1.51, 0.02, 3.18]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller2
+  - Position: [-1.51, 0.02, 2.38]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller3
+  - Position: [-1.51, 0.02, 1.58]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller4
+  - Position: [-1.51, 0.02, 0.77]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller5
+  - Position: [-1.51, 0.02, -0.02]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller6
+  - Position: [-1.51, 0.02, -0.83]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller7
+  - Position: [-1.51, 0.49, -1.63]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller8
+  - Position: [1.51, 0.49, 4.83]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller9
+  - Position: [1.51, 0.02, 3.98]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller10
+  - Position: [1.51, 0.02, 3.18]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller11
+  - Position: [1.51, 0.02, 2.38]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller12
+  - Position: [1.51, 0.02, 1.58]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller13
+  - Position: [1.51, 0.02, 0.77]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller14
+  - Position: [1.51, 0.02, -0.02]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller15
+  - Position: [1.51, 0.02, -0.83]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller16
+  - Position: [1.51, 0.49, -1.63]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: track_roller17
+  CrawlerTrack:
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: crawler_track0
+    SegmentLength: 0.32
+    ZOffset: -1.51
+    TrackList:
+    - [1.35, 4.6]
+    - [0.49, 5.25]
+    - [0.25, 5.17]
+    - [-0.22, 4.22]
+    - [-0.32, 3.98]
+    - [-0.32, -0.83]
+    - [-0.22, -1.08]
+    - [0.24, -1.95]
+    - [0.49, -2.03]
+    - [0.74, -1.92]
+    - [0.84, -1.7]
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: crawler_track1
+    SegmentLength: 0.32
+    ZOffset: 1.51
+    TrackList:
+    - [1.35, 4.6]
+    - [0.49, 5.25]
+    - [0.25, 5.17]
+    - [-0.22, 4.22]
+    - [-0.32, 3.98]
+    - [-0.32, -0.83]
+    - [-0.22, -1.08]
+    - [0.24, -1.95]
+    - [0.49, -2.03]
+    - [0.74, -1.92]
+    - [0.84, -1.7]

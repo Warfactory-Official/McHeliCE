@@ -1,0 +1,38 @@
+DisplayName: S-8 80mmRocket
+Type: rocket
+BaseDamage: 42
+Ballistics:
+  Acceleration: 4.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_4_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 150
+  MagSize: 20
+  MaxAmmo: 20
+  ResupplyCount: 20
+  AmmoItems:
+  - Count: 4
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 7
+Mode: 2
+Render:
+  BulletModel: hydra70
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

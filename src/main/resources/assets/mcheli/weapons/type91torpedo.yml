@@ -1,0 +1,40 @@
+DisplayName: Type91 torpedo
+Type: torpedo
+BaseDamage: 35
+Ballistics:
+  Acceleration: 0.0
+  AccelerationInWater: 2.5
+  Gravity: -0.04
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 4
+  PowerUnderwater: 9
+Ammo:
+  ReloadTime: 120
+  MagSize: 2
+  MaxAmmo: 4
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 40
+Render:
+  BulletModel: type93torpedo
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

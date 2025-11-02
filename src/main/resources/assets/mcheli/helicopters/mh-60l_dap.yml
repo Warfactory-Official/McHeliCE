@@ -1,0 +1,157 @@
+DisplayName:
+  DEFAULT: MH-60L DAP
+  ja_jp: MH-60L DAP
+Category: M.M
+MaxFuel: 1500
+MaxHP: 180
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.7, 3.5]
+PhysicalProperties:
+  Speed: 0.6
+  Mobility:
+    Yaw: 0.9
+    Pitch: 0.9
+    Roll: 0.9
+Weapons:
+- Type: m230_30
+  Position: [-2.51, 1.29, -1.51]
+  MinPitch: -20.0
+  MaxPitch: 20.0
+- Type: hydra70_10
+  Position: [2.51, 1.19, -1.81]
+  MaxPitch: 20.0
+- Type: m134_r50
+  Position: [-1.79, 1.48, -0.25]
+  SeatID: 3
+  CanUsePilot: false
+  MaxYaw: 135.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: m134_l50
+  Position: [1.79, 1.48, -0.25]
+  SeatID: 4
+  CanUsePilot: false
+  MinYaw: -135.0
+  MinPitch: -50.0
+  MaxPitch: 80.0
+- Type: targeting_pod_mob
+  Position: [0.0, 0.7, 3.5]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.7, 3.5]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [-0.85, 0.9, 1.45]
+  Hud: heli
+- Position: [0.85, 0.9, 1.45]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 0.7, 3.5]
+  Hud: heli_gnr
+- Position: [-1.05, 0.9, -0.3]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [-1.55, 1.9, -0.3]
+  Hud: gunner
+- Position: [1.05, 0.9, -0.3]
+  Gunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [1.55, 1.9, -0.3]
+  Hud: gunner
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.3, -2.0]
+  Size: [2.8, 3.8, 2.8]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -4.5]
+  Size: [2.8, 2.4, 2.8]
+- Type: DEFAULT
+  Position: [0.0, 3.5, -14.5]
+  Size: [2.0, 3.0, 2.0]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  EntityRadar: true
+  ThrottleUpDown: 0.6
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: true
+Components:
+  Camera:
+  - Position: [0.0, 0.52, 2.84]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera0
+  Weapon:
+  - Position: [-2.51, 1.29, -1.51]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: m230_30
+    Yaw: true
+    Pitch: true
+  - Position: [-1.88, 1.28, -2.18]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: hydra70_10
+    Yaw: true
+    Pitch: true
+  - Position: [-1.825, 1.475, -0.25]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: m134_r50
+    Yaw: true
+  - Position: [-1.825, 1.475, -0.25]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: m134_r50
+    Yaw: true
+    Pitch: true
+  - Position: [-1.825, 1.475, -0.25]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon4
+    WeaponNames: m134_r50
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [1.792, 1.475, -0.25]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: m134_l50
+    Yaw: true
+  - Position: [1.792, 1.475, -0.25]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: m134_l50
+    Yaw: true
+    Pitch: true
+  - Position: [1.792, 1.475, -0.25]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon7
+    WeaponNames: m134_l50
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  HeliRotor:
+  - Position: [0.0, 3.98, -2.33]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 4
+    BladeRot: 90
+    CanFold: true
+  - Position: [-0.6, 4.07, -14.59]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1

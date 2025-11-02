@@ -1,0 +1,216 @@
+DisplayName:
+  DEFAULT: F-35C Lightning II
+  ja_jp: F-35C ライトニング II
+Category: M.F
+MaxFuel: 1200
+MaxHP: 200
+Stealth: 0.1
+FuelConsumption: 1.1
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 1.2
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: gau-22a
+  Position: [0.0, 0.79, -4.63]
+  Pitch: -3.0
+- Type: aim9_l
+  Position: [0.9, 1.16, -6.53]
+- Type: aim9_l
+  Position: [-0.9, 1.16, -6.53]
+- Type: aim120
+  Position: [1.33, 1.77, -6.75]
+- Type: aim120
+  Position: [-1.33, 1.77, -6.75]
+- Type: aim120
+  Position: [1.33, 1.77, -6.75]
+- Type: aim120
+  Position: [-1.33, 1.77, -6.75]
+- Type: agm84
+  Position: [3.42, 1.4, -8.17]
+- Type: agm84
+  Position: [-3.42, 1.4, -8.17]
+- Type: mk62
+  Position: [4.72, 1.18, -7.77]
+- Type: mk62
+  Position: [-4.72, 1.18, -7.77]
+- Type: mk62
+  Position: [4.72, 1.18, -7.77]
+- Type: mk62
+  Position: [-4.72, 1.18, -7.77]
+- Type: targeting_pod_ph75s
+  Position: [0.0, 3.0, 0.3]
+Seats:
+- Position: [0.0, 1.92, 0.32]
+  Hud: plane
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.9, -2.8]
+  Size: [3.0, 2.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.9, -6.6]
+  Size: [4.0, 2.0, 4.0]
+- Type: DEFAULT
+  Position: [-2.92, 2.2, -7.6]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [2.92, 2.2, -7.6]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -9.8]
+  Size: [2.0, 1.0, 2.0]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  ThrottleUpDown: 0.9
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - FRONT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 2.63, 1.91]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.44444445
+  - Position: [0.0, 2.63, 1.91]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.44444445
+  WeaponBay:
+  - Position: [1.65, 1.43, -2.64]
+    Rotation: [-0.027, -0.031, 1.0]
+    PartName: wb0
+    WeaponName: aim9_l / aim120
+    MaxRotation: 0.8888889
+  - Position: [-1.65, 1.43, -2.64]
+    Rotation: [0.027, -0.031, 1.0]
+    PartName: wb1
+    WeaponName: aim9_l / aim120
+    MaxRotation: -0.8888889
+  - Position: [0.51, 1.15, -2.64]
+    Rotation: [0.0, -0.011, 1.0]
+    PartName: wb2
+    WeaponName: aim9_l / aim120
+    MaxRotation: -0.8888889
+  - Position: [-0.51, 1.15, -2.64]
+    Rotation: [0.0, -0.011, 1.0]
+    PartName: wb3
+    WeaponName: aim9_l / aim120
+    MaxRotation: 0.8888889
+  - Position: [0.65, 1.22, -4.92]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb4
+    WeaponName: aim9_l
+    MaxRotation: -1.2222222
+  - Position: [-0.65, 1.22, -4.92]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wb5
+    WeaponName: aim9_l
+    MaxRotation: 1.2222222
+  LandingGear:
+  - Position: [0.0, 1.455, -0.076]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 104.00001
+  - Position: [0.27, 1.45, 1.84]
+    Rotation: [-0.05, 0.075, 1.0]
+    PartName: lg1
+    MaxRotation: 89.0
+    IsReverse: true
+  - Position: [-0.27, 1.45, 1.84]
+    Rotation: [0.05, 0.075, 1.0]
+    PartName: lg2
+    MaxRotation: -89.0
+    IsReverse: true
+  - Position: [2.18, 1.91, -7.23]
+    Rotation: [-1.0, 0.0, -0.05]
+    PartName: lg3
+    MaxRotation: 90.0
+    ArticulatedRotation: [0.0, -1.0, 0.0]
+    MaxArticulatedRotation: 90.0
+  - Position: [-2.18, 1.91, -7.23]
+    Rotation: [-1.0, 0.0, -0.05]
+    PartName: lg4
+    MaxRotation: 90.0
+    ArticulatedRotation: [0.0, 1.0, 0.0]
+    MaxArticulatedRotation: 90.0
+  Weapon:
+  - Position: [1.33, 1.77, -6.75]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [-1.33, 1.77, -6.75]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [1.33, 1.77, -6.75]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [-1.33, 1.77, -6.75]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: aim120
+    IsMissile: true
+  - Position: [3.42, 1.4, -8.17]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: agm84
+    IsMissile: true
+  - Position: [-3.42, 1.4, -8.17]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: agm84
+    IsMissile: true
+  - Position: [4.72, 1.18, -7.77]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: mk62
+    IsMissile: true
+  - Position: [-4.72, 1.18, -7.77]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: mk62
+    IsMissile: true
+  - Position: [4.72, 1.18, -7.77]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon8
+    WeaponNames: mk62
+    IsMissile: true
+  - Position: [-4.72, 1.18, -7.77]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon9
+    WeaponNames: mk62
+    IsMissile: true
+  Wing:
+  - Position: [5.1, 2.1, -9.0]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wing0
+    MaxRotation: 90.0
+  - Position: [-5.1, 2.1, -9.0]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: wing1
+    MaxRotation: 90.0
+  Nozzle:
+  - Position: [0.0, 2.2, -10.82]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: nozzle0

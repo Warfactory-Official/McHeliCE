@@ -1,0 +1,41 @@
+DisplayName: Krupp C/34 40.6cm
+Type: machinegun1
+BaseDamage: 80
+Ballistics:
+  Acceleration: 8.0
+  AccelerationInWater: 4.0
+  Gravity: -0.025
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 15.0
+  Pitch: 0.8
+  Name: cannon_1_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Recoil:
+  BufferCount: 40
+  BufferSpeed: 4
+Explosion:
+  Power: 12
+  DestructionPower: 0
+Camera:
+  DisplayMortarDistance: true
+Ammo:
+  MagSize: 30
+  MaxAmmo: 30
+  ResupplyCount: 10
+  AmmoItems:
+  - Count: 5
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 5
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 80
+Render:
+  BulletModel: 91ap_46
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

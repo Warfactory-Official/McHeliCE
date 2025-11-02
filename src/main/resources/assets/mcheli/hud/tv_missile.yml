@@ -1,0 +1,109 @@
+- Color: '0xcfffffff'
+- DrawString:
+    Text:
+      Fmt: x%.1f
+      Vars: [CAM_ZOOM]
+    Position: ['-100', '-85']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%3dm'
+      Vars: [ALTITUDE]
+    Position: ['80', '-85']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%3.0f'
+      Vars: [PLYR_PITCH]
+    Position: ['-120', '-4']
+    Center: false
+- DrawLine:
+    Position:
+    - ['-130', '-5']
+    - ['-90', '-5']
+    - ['-90', '5']
+    - ['-130', '5']
+    - ['-130', '-5']
+    Striped: false
+- DrawString:
+    Text:
+      Fmt: '%3.0f'
+      Vars: [PLYR_YAW]
+    Position: ['0', '-69']
+    Center: true
+- DrawLine:
+    Position:
+    - ['-20', '-70']
+    - ['20', '-70']
+    - ['20', '-60']
+    - ['-20', '-60']
+    - ['-20', '-70']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-50', '0']
+    - ['-10', '0']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['50', '0']
+    - ['10', '0']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['0', '-50']
+    - ['0', '-10']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['0', '50']
+    - ['0', '10']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-100', '-50']
+    - ['-100', '-75']
+    - ['-75', '-75']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-100', '+50']
+    - ['-100', '+75']
+    - ['-75', '+75']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['+100', '-50']
+    - ['+100', '-75']
+    - ['+75', '-75']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['+100', '+50']
+    - ['+100', '+75']
+    - ['+75', '+75']
+    Striped: false
+- DrawString:
+    Text:
+      Fmt: X:%+4.1f
+      Vars: [TVM_POS_X]
+    Position: ['-180', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: Y:%+4.1f
+      Vars: [TVM_POS_Y]
+    Position: ['-180', '40']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: Z:%+4.1f
+      Vars: [TVM_POS_Z]
+    Position: ['-180', '50']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%3.1f LR'
+      Vars: [TVM_DIFF]
+    Position: ['0', '70']
+    Center: true

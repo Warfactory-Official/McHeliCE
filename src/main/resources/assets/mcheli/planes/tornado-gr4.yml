@@ -1,0 +1,217 @@
+DisplayName:
+  DEFAULT: Panavia Tornado GR.4
+  ja_jp: パナヴィア トーネード GR.4
+Category: M.A
+MaxFuel: 1200
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+PhysicalProperties:
+  Speed: 0.9
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: bk27
+  Position: [-0.59, 1.23, 1.78]
+- Type: bk27
+  Position: [0.59, 1.23, 1.78]
+- Type: crv7
+  Position: [6.7, 1.51, -5.52]
+- Type: crv7
+  Position: [-6.7, 1.51, -5.52]
+- Type: asraam
+  Position: [3.53, 1.95, -4.11]
+- Type: asraam
+  Position: [-3.53, 1.95, -4.11]
+- Type: mk82_12
+  Position: [-0.4, 0.56, -2.74]
+  SeatID: 2
+- Type: mk82_12
+  Position: [0.4, 0.56, -2.74]
+  SeatID: 2
+- Type: mk82_12
+  Position: [-0.4, 0.56, -5.81]
+  SeatID: 2
+- Type: mk82_12
+  Position: [0.4, 0.56, -5.81]
+  SeatID: 2
+- Type: mk82_12
+  Position: [0.59, 0.87, -2.74]
+  SeatID: 2
+- Type: mk82_12
+  Position: [0.2, 0.87, -2.74]
+  SeatID: 2
+- Type: mk82_12
+  Position: [-0.2, 0.87, -2.74]
+  SeatID: 2
+- Type: mk82_12
+  Position: [-0.59, 0.87, -2.74]
+  SeatID: 2
+- Type: mk82_12
+  Position: [0.59, 0.87, -5.81]
+  SeatID: 2
+- Type: mk82_12
+  Position: [0.2, 0.87, -5.81]
+  SeatID: 2
+- Type: mk82_12
+  Position: [-0.2, 0.87, -5.81]
+  SeatID: 2
+- Type: mk82_12
+  Position: [-0.59, 0.87, -5.81]
+  SeatID: 2
+Seats:
+- Position: [0.0, 1.65, 0.34]
+  Hud: plane
+- Position: [0.0, 1.9, -1.59]
+  Hud: plane_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.2, -1.3]
+  Size: [2.5, 1.8, 2.5]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -4.5]
+  Size: [3.0, 2.5, 3.0]
+- Type: DEFAULT
+  Position: [0.0, 1.8, -8.0]
+  Size: [3.0, 2.0, 3.0]
+- Type: DEFAULT
+  Position: [-2.9, 1.9, -6.0]
+  Size: [3.0, 1.0, 3.0]
+- Type: DEFAULT
+  Position: [2.9, 1.9, -6.0]
+  Size: [3.0, 1.0, 3.0]
+AircraftFeatures:
+  NightVision: true
+  EntityRadar: true
+  EjectionSeat: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - FRONT
+PlaneFeatures:
+  VariableSweepWing: true
+  SweepWingSpeed: 1.2
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 3.22, -2.66]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 0.7777778
+  - Position: [0.0, 3.22, -2.66]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 0.7777778
+  LandingGear:
+  - Position: [0.0, 1.21, 0.2]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 100.00001
+  - Position: [-1.46, 1.98, -5.99]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: 90.0
+    ArticulatedRotation: [0.0, 0.0, 1.0]
+    MaxArticulatedRotation: 30.0
+  - Position: [1.46, 1.98, -5.99]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 90.0
+    ArticulatedRotation: [0.0, 0.0, -1.0]
+    MaxArticulatedRotation: 30.0
+  Weapon:
+  - Position: [-0.4, 0.56, -2.74]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [0.4, 0.56, -2.74]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [-0.4, 0.56, -5.81]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [0.4, 0.56, -5.81]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [0.59, 0.87, -2.74]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [0.2, 0.87, -2.74]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [-0.2, 0.87, -2.74]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [-0.59, 0.87, -2.74]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [0.59, 0.87, -5.81]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon8
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [0.2, 0.87, -5.81]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon9
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [-0.2, 0.87, -5.81]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon10
+    WeaponNames: mk82_12
+    IsMissile: true
+  - Position: [-0.59, 0.87, -5.81]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon11
+    WeaponNames: mk82_12
+    IsMissile: true
+  Wing:
+  - Position: [1.5, 2.5, -4.57]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wing0
+    MaxRotation: 35.0
+    Pylons:
+    - Position: [6.69, 2.5, -7.18]
+      Rotation: [0.0, -1.0, 0.0]
+      PartName: wing0_pylon0
+      MaxRotation: 35.0
+    - Position: [3.92, 2.5, -6.34]
+      Rotation: [0.0, -1.0, 0.0]
+      PartName: wing0_pylon1
+      MaxRotation: 35.0
+  - Position: [-1.5, 2.5, -4.57]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: wing1
+    MaxRotation: 35.0
+    Pylons:
+    - Position: [-6.69, 2.5, -7.18]
+      Rotation: [0.0, 1.0, 0.0]
+      PartName: wing1_pylon0
+      MaxRotation: 35.0
+    - Position: [-3.92, 2.5, -6.34]
+      Rotation: [0.0, 1.0, 0.0]
+      PartName: wing1_pylon1
+      MaxRotation: 35.0

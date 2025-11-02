@@ -75,7 +75,6 @@ public abstract class MCH_EntityAircraft
         IEntityAdditionalSpawnData,
         IEntitySinglePassenger,
         ITargetMarkerObject {
-    public static final float Y_OFFSET = W_Entity.GLOBAL_Y_OFFSET;
     public static final byte LIMIT_GROUND_PITCH = 40;
     public static final byte LIMIT_GROUND_ROLL = 40;
     public static final int CAMERA_PITCH_MIN = -30;
@@ -445,7 +444,7 @@ public abstract class MCH_EntityAircraft
     }
 
     public float getRotPitch() {
-        return this.rotationPitch;//+= 0.35f
+        return this.rotationPitch;
     }
 
     public void setRotPitch(float f) {
@@ -3284,7 +3283,7 @@ public abstract class MCH_EntityAircraft
 
     public void updateSeatsPosition(double px, double py, double pz, boolean setPrevPos) {
         MCH_SeatInfo[] info = this.getSeatsInfo();
-        py += Y_OFFSET;
+        py += GLOBAL_SEAT_OFFSET;
         if (this.pilotSeat != null && !this.pilotSeat.isDead) {
             this.pilotSeat.prevPosX = this.pilotSeat.posX;
             this.pilotSeat.prevPosY = this.pilotSeat.posY;

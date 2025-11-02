@@ -1,0 +1,35 @@
+DisplayName: CBU-72 FAE1
+Type: bomb
+BaseDamage: 40
+Ballistics:
+  Acceleration: 0.1
+  AccelerationInWater: 1.0
+  Gravity: -0.03
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 15
+  DestructionPower: 15
+  ExplosionAltitude: 8
+  Flaming: true
+Ammo:
+  MagSize: 2
+  MaxAmmo: 2
+  AmmoItems:
+  - Count: 5
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 5
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 350
+Render:
+  BulletModel: cbu87
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

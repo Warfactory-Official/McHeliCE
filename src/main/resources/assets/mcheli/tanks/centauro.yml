@@ -1,0 +1,219 @@
+DisplayName:
+  DEFAULT: B1 centauro
+  ja_jp: チェンタウロ偵察戦闘車
+Category: M.A
+MaxFuel: 1000
+MaxHP: 220
+FuelConsumption: 0.8
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 12.0
+  AlwaysCameraView: true
+  Zoom: 4
+  DefaultFreeLook: true
+  RotationSpeed: 35.0
+  Pos:
+  - Pos: [0.0, 3.4, 0.0]
+Sound:
+  MoveSound: vehicle_run
+PhysicalProperties:
+  Speed: 0.8
+  MotionFactor: 0.9
+  Gravity: -1.0
+  GravityInWater: -1.0
+  StepHeight: 1.5
+  PivotTurnThrottle: 0.2
+  Mobility:
+    Roll: 0.0
+    YawOnGround: 5.5
+  GroundPitchFactors:
+    Pitch: 2.0
+    Roll: 0.8
+  RotationLimits:
+    Pitch:
+      Min: -15.0
+      Max: 6.0
+Render:
+  HideRiders: true
+Armor:
+  ArmorMinDamage: 9.0
+  ArmorMaxDamage: 500.0
+  DamageFactor: 0.0
+  SubmergedDamageHeight: 3.0
+Weapons:
+- Type: 105mm
+  Position: [0.0, 2.39, 0.0]
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -15.0
+  MaxPitch: 7.0
+- Type: targeting_pod_mob
+  Position: [0.6, 3.4, 0.6]
+  SeatID: 2
+  Turret: true
+- Type: targeting_pod_pv10s
+  Position: [0.6, 3.4, 0.6]
+  SeatID: 2
+  CanUsePilot: false
+  Turret: true
+- Type: targeting_pod_block
+  Position: [0.6, 3.4, 0.6]
+  SeatID: 2
+  Turret: true
+- Type: mg3_l
+  Position: [1.182, 3.316, -0.143]
+  SeatID: 3
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -35.0
+  MaxPitch: 35.0
+  Turret: true
+- Type: mg3_r
+  Position: [-1.204, 3.316, -0.967]
+  SeatID: 4
+  CanUsePilot: false
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -35.0
+  MaxPitch: 35.0
+  Turret: true
+Seats:
+- Position: [0.0, 1.0, 0.0]
+  Gunner: true
+  Camera:
+    Pos: [0.0, 0.0, 0.0]
+  Hud: mbt_hud
+- Position: [0.0, 1.01, 0.0]
+  Gunner: true
+  MinPitch: -90.0
+  MaxPitch: 90.0
+  RotSeat: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.6, 3.4, 0.6]
+  Hud: mbt_gnr
+- Position: [0.78, 2.33, -0.16]
+  Gunner: true
+  SwitchGunner: true
+  MinPitch: -90.0
+  MaxPitch: 90.0
+  RotSeat: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.78, 3.63, -0.16]
+  Hud: gunner
+- Position: [-0.8, 2.41, -0.97]
+  Gunner: true
+  SwitchGunner: true
+  MinPitch: -90.0
+  MaxPitch: 90.0
+  RotSeat: true
+  InvCamPos: true
+  Camera:
+    Pos: [-0.8, 3.71, -0.97]
+  Hud: gunner
+RideRack:
+  c5: 2
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.0, 4.0]
+  Size: [3.4, 2.0, 3.4]
+  DamageFactor: 0.9
+- Type: DEFAULT
+  Position: [0.0, 1.4, 1.0]
+  Size: [3.4, 3.8, 3.4]
+- Type: DEFAULT
+  Position: [0.0, 1.0, -2.0]
+  Size: [3.4, 2.3, 3.4]
+  DamageFactor: 1.25
+Wheels:
+  Hitboxes:
+  - Position: [1.5, -0.24, 3.75]
+  - Position: [1.5, -0.24, 1.71]
+  - Position: [1.5, -0.24, -0.15]
+  - Position: [1.5, -0.24, -2.01]
+AircraftFeatures:
+  InventorySize: 10
+  NightVision: true
+  CanReverse: true
+  ThrottleUpDown: 3.0
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SMOKE_LAUNCHER
+TankFeatures:
+  WeightType: TANK
+  WeightedCenterZ: 0.0
+Components:
+  Wheel:
+  - Position: [1.25, 0.43, 3.75]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel0
+    Direction: 20.0
+    Pivot: [1.25, 0.43, 3.75]
+  - Position: [1.25, 0.43, 1.71]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel1
+    Direction: 10.0
+    Pivot: [1.25, 0.43, 1.71]
+  - Position: [0.0, 0.43, -0.15]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel2
+    Direction: 0.0
+    Pivot: [0.0, 0.43, -0.15]
+  - Position: [0.0, 0.43, -2.01]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel3
+    Direction: 0.0
+    Pivot: [0.0, 0.43, -2.01]
+  - Position: [-1.25, 0.43, 3.75]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel4
+    Direction: 20.0
+    Pivot: [-1.25, 0.43, 3.75]
+  - Position: [-1.25, 0.43, 1.71]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel5
+    Direction: 10.0
+    Pivot: [-1.25, 0.43, 1.71]
+  - Position: [0.0, 0.43, -0.15]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel6
+    Direction: 0.0
+    Pivot: [0.0, 0.43, -0.15]
+  - Position: [0.0, 0.43, -2.01]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: wheel7
+    Direction: 0.0
+    Pivot: [0.0, 0.43, -2.01]
+  Weapon:
+  - Position: [0.0, 2.01, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: 105mm
+    Yaw: true
+    Children:
+    - Position: [0.0, 2.36, 1.32]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+    - Position: [0.0, 2.36, 1.32]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+      RecoilBuf: 0.5
+  - Position: [1.182, 3.164, -0.143]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: mg3_l
+    Yaw: true
+    Pitch: true
+    Turret: true
+  - Position: [-1.204, 3.164, -0.967]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: mg3_r
+    Yaw: true
+    Pitch: true
+    Turret: true

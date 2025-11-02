@@ -1,0 +1,111 @@
+DisplayName:
+  DEFAULT: ZERO type21
+  ja_jp: 零式艦上戦闘機21型
+Category: W.F
+GlobalUnmountPos: [3.0, 1.0, -2.0]
+MaxFuel: 1200
+MaxHP: 130
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 12.0
+  Pos:
+  - Pos: [0.0, 0.0, 0.0]
+Sound:
+  MoveSound: prop
+PhysicalProperties:
+  Speed: 0.95
+  OnGroundPitch: -14.3
+Render:
+  ModelWidth: 0.8
+  ModelHeight: 0.8
+Weapons:
+- Type: mg7_7mm
+  Position: [0.19, 2.18, 1.62]
+  Pitch: -3.0
+- Type: mg7_7mm
+  Position: [-0.19, 2.18, 1.62]
+  Pitch: -3.0
+- Type: mg20mm
+  Position: [2.0, 1.41, 1.69]
+  Yaw: 2.0
+  Pitch: -5.0
+- Type: mg20mm
+  Position: [-2.0, 1.41, 1.69]
+  Yaw: -2.0
+  Pitch: -5.0
+Seats:
+- Position: [0.0, 1.46, 0.4]
+  Hud: plane_wwii
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.6, 0.0]
+  Size: [2.0, 1.8, 2.0]
+- Type: DEFAULT
+  Position: [-2.92, 1.6, 0.3]
+  Size: [2.0, 0.6, 2.0]
+- Type: DEFAULT
+  Position: [2.92, 1.6, 0.3]
+  Size: [2.0, 0.6, 2.0]
+AircraftFeatures:
+  ThrottleUpDown: 0.8
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Canopy:
+  - Position: [0.0, 0.0, -0.6]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: canopy0
+    MaxRotation: 90.0
+    IsSliding: true
+  - Position: [0.0, 0.0, -0.6]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: canopy
+    MaxRotation: 90.0
+    IsSliding: true
+  LandingGear:
+  - Position: [-1.96, 1.26, 1.13]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg0
+    MaxRotation: 86.5
+  - Position: [1.96, 1.26, 1.13]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg1
+    MaxRotation: 86.5
+  - Position: [-0.11, 1.05, 1.39]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg2
+    MaxRotation: 80.0
+  - Position: [0.11, 1.05, 1.39]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg3
+    MaxRotation: 80.0
+  - Position: [0.11, 1.49, -5.05]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg4
+    MaxRotation: 20.0
+  PlaneRotor:
+  - Position: [0.0, 1.64, 2.83]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: rotor0
+    RotFactor: 90.0
+    Blades:
+    - Position: [0.0, 1.64, 2.83]
+      Rotation: [0.0, 0.0, -1.0]
+      PartName: blade0
+      BladeNum: 1
+      BladeRot: 0
+  Wing:
+  - Position: [-5.74, 1.83, 0.0]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: wing0
+    MaxRotation: 100.0
+  - Position: [5.74, 1.83, 0.0]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: wing1
+    MaxRotation: 100.0

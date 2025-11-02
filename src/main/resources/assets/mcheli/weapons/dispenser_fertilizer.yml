@@ -1,0 +1,31 @@
+DisplayName: Fertilizer Dispenser
+Type: dispenser
+Ballistics:
+  Acceleration: 0.0
+  AccelerationInWater: 1.0
+  Gravity: -0.05
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Delay: 4
+  Name: smoke_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Ammo:
+  ReloadTime: 170
+  MagSize: 16
+  MaxAmmo: 48
+  ResupplyCount: 8
+  AmmoItems:
+  - Count: 64
+    Name: minecraft:dye
+    Meta: 15
+FireCooldown: 0
+Render:
+  Smoke:
+    SmokeSize: 1.0
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

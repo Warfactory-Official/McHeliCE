@@ -1,0 +1,39 @@
+DisplayName: Kh-31
+Type: asmissile
+BaseDamage: 40
+Ballistics:
+  Acceleration: 4.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: missile_2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 7
+  DestructionPower: 7
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  MagSize: 8
+  MaxAmmo: 8
+  ResupplyCount: 4
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 3
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 200
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

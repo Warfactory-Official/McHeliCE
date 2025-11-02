@@ -1,0 +1,39 @@
+DisplayName: Mark 46 torpedo
+Type: torpedo
+BaseDamage: 35
+Ballistics:
+  Acceleration: 1.0
+  AccelerationInWater: 1.5
+  Gravity: -0.03
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 2
+  PowerUnderwater: 8
+Ammo:
+  ReloadTime: 100
+  MagSize: 3
+  MaxAmmo: 9
+  ResupplyCount: 3
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 2
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 30
+Render:
+  BulletModel: mk46
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

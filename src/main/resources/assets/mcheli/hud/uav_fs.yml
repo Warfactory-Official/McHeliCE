@@ -1,0 +1,47 @@
+- If: is_uav==0
+  Do:
+  - Exit: exit
+- If: uav_fs < 0.3
+  Do:
+  - Color: '0xffdf0408'
+- If: uav_fs > 0.01
+  Do:
+  - DrawString:
+      Text:
+        Fmt: '[ %.2f ]'
+        Vars: [UAV_DIST]
+      Position: ['100', '95']
+      Center: false
+- If: uav_fs <= 0.01
+  Do:
+  - DrawString:
+      Text:
+        Fmt: '[ --.-- ]'
+        Vars: []
+      Position: ['100', '95']
+      Center: false
+- If: uav_fs >= 0.1
+  Do:
+  - DrawRectangle:
+      Position: ['100', '113']
+      Size: ['3', '2']
+- If: uav_fs >= 0.2
+  Do:
+  - DrawRectangle:
+      Position: ['104', '111']
+      Size: ['3', '4']
+- If: uav_fs >= 0.3
+  Do:
+  - DrawRectangle:
+      Position: ['108', '109']
+      Size: ['3', '6']
+- If: uav_fs >= 0.4
+  Do:
+  - DrawRectangle:
+      Position: ['112', '107']
+      Size: ['3', '8']
+- If: uav_fs >= 0.7
+  Do:
+  - DrawRectangle:
+      Position: ['116', '105']
+      Size: ['3', '10']

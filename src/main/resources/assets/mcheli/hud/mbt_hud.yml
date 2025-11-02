@@ -1,0 +1,412 @@
+- Color: '0xff28d448'
+- Call: uav_fs
+- If: inventory > 0
+  Do:
+  - Color: '0xcf1fff1f'
+  - DrawString:
+      Text:
+        Fmt: Inventory [ %d ]
+        Vars: [INVENTORY]
+      Position: ['120', '-80']
+      Center: false
+- Color: '0xffffe400'
+- DrawLine:
+    Position:
+    - ['-6', '16']
+    - ['0', '4']
+    - ['6', '16']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-7', '8']
+    - ['-9', '4']
+    - ['-11', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-16', '8']
+    - ['-18', '4']
+    - ['-20', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-25', '8']
+    - ['-27', '4']
+    - ['-29', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-34', '8']
+    - ['-36', '4']
+    - ['-38', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-43', '8']
+    - ['-45', '4']
+    - ['-47', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['7', '8']
+    - ['9', '4']
+    - ['11', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['16', '8']
+    - ['18', '4']
+    - ['20', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['25', '8']
+    - ['27', '4']
+    - ['29', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['34', '8']
+    - ['36', '4']
+    - ['38', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['43', '8']
+    - ['45', '4']
+    - ['47', '8']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-80', '-30']
+    - ['-80', '-40']
+    - ['-70', '-40']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['80', '-30']
+    - ['80', '-40']
+    - ['70', '-40']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['-80', '30']
+    - ['-80', '40']
+    - ['-70', '40']
+    Striped: false
+- DrawLine:
+    Position:
+    - ['80', '30']
+    - ['80', '40']
+    - ['70', '40']
+    Striped: false
+- Color: '0xffffe400'
+- DrawGraduation:
+    Type: YAW
+    Position: ['0', '-100']
+    Rotation: plyr_yaw
+    Roll: '0'
+- DrawLine:
+    Position:
+    - ['0', '-87']
+    - ['2', '-83']
+    - ['-2', '-83']
+    - ['0', '-87']
+    Striped: false
+- DrawString:
+    Text:
+      Fmt: '%.0f'
+      Vars: [PLYR_YAW]
+    Position: ['0', '-81']
+    Center: true
+- DrawString:
+    Text:
+      Fmt: '%.0f'
+      Vars: [PLYR_PITCH]
+    Position: ['65', '-4']
+    Center: true
+- DrawLine:
+    Position:
+    - ['55', '-5']
+    - ['75', '-5']
+    - ['75', '5']
+    - ['55', '5']
+    - ['55', '-5']
+    Striped: false
+- Color: '0xffffe400'
+- DrawString:
+    Text:
+      Fmt: x%.1f
+      Vars: [CAM_ZOOM]
+    Position: ['-70', '-10']
+    Center: false
+- Color: '0xffffe400'
+- DrawString:
+    Text:
+      Fmt: 'X: %+.1f'
+      Vars: [POS_X]
+    Position: ['-205', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Y: %+.1f'
+      Vars: [POS_Y]
+    Position: ['-205', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: 'Z: %+.1f'
+      Vars: [POS_Z]
+    Position: ['-205', '40']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_X]
+    Position: ['-150', '20']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Y]
+    Position: ['-150', '30']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '[%+.2f]'
+      Vars: [MOTION_Z]
+    Position: ['-150', '40']
+    Center: false
+- Color: '0xffffe400'
+- DrawString:
+    Text:
+      Fmt: 'Time:   %02d:%02d'
+      Vars: [MC_THOR, MC_TMIN]
+    Position: ['-205', '60']
+    Center: false
+- Color: '0xffffe400'
+- DrawLine:
+    Position:
+    - ['70', '67']
+    - ['-70', '67']
+    Striped: false
+- Color: reloading==0?0xffffe400:0xffdf0408
+- If: reloading==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: '%.2fsec'
+        Vars: [RELOAD_SEC]
+      Position: ['-90', '45']
+      Center: false
+- Color: '0xcfa99d38'
+- DrawRectangle:
+    Position: ['-90', '-40']
+    Size: ['2', '80']
+- Color: '0xffdf0408'
+- DrawRectangle:
+    Position: ['-90', '40']
+    Size: ['2', -80*reload_time]
+- If: reloading==0
+  Do:
+  - Color: '0xffffe400'
+  - DrawRectangle:
+      Position: ['-90', '-40']
+      Size: ['2', '80']
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_AMMO]
+    Position: ['-26', '68']
+    Center: true
+- DrawString:
+    Text:
+      Fmt: /
+      Vars: [WPN_AMMO]
+    Position: ['0', '68']
+    Center: true
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_RM_AMMO]
+    Position: ['26', '68']
+    Center: true
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_NAME]
+    Position: ['0', '57']
+    Center: true
+- If: is_heat_wpn==1
+  Do:
+  - Color: '0xcfa99d38'
+  - DrawRectangle:
+      Position: ['-20', '77']
+      Size: ['41', '2']
+  - Color: '0xffdf0408'
+  - DrawRectangle:
+      Position: ['-20', '77']
+      Size: [41*wpn_heat, '2']
+- Color: '0xcfa99d38'
+- Call: mortar
+- Color: '0xffffe400'
+- DrawLine:
+    Position:
+    - ['145', '106']
+    - ['207', '106']
+    - ['207', '114']
+    - ['145', '114']
+    - ['145', '106']
+    Striped: false
+- DrawString:
+    Text:
+      Fmt: '%.0f%%'
+      Vars: [THROTTLE]
+    Position: ['124', '105']
+    Center: false
+- DrawRectangle:
+    Position: ['146', '107']
+    Size: [throttle*60, '6']
+- DrawTexture:
+    Name: mbt_hud
+    Position: ['80', '55']
+    Size: ['32', '32']
+    UVPos: ['0', '0']
+    UVSize: ['64', '64']
+    Rotation: yaw-plyr_yaw
+- DrawTexture:
+    Name: mbt_hud
+    Position: ['80', '55']
+    Size: ['32', '32']
+    UVPos: ['64', '0']
+    UVSize: ['64', '64']
+    Rotation: '0'
+- Color: '0xffdf0408'
+- DrawString:
+    Text:
+      Fmt: E
+      Vars: []
+    Position: ['-205', '105']
+    Center: false
+- Color: '0xffffe400'
+- DrawString:
+    Text:
+      Fmt: F
+      Vars: []
+    Position: ['-131', '105']
+    Center: false
+- DrawLine:
+    Position:
+    - ['-136', '106']
+    - ['-198', '106']
+    - ['-198', '114']
+    - ['-136', '114']
+    - ['-136', '106']
+    Striped: false
+- Color: fuel>0.2?0xffffe400:0xffdf0408
+- DrawRectangle:
+    Position: ['-197', '107']
+    Size: [fuel*60, '6']
+- If: low_fuel
+  Do:
+  - DrawTexture:
+      Name: hud
+      Position: ['-211', '90']
+      Size: ['16', '16']
+      UVPos: ['0', '0']
+      UVSize: ['32', '32']
+      Rotation: '0'
+  - Color: '0xffdf0408'
+  - DrawString:
+      Text:
+        Fmt: '%s key'
+        Vars: [KEY_GUI]
+      Position: ['-195', '95']
+      Center: false
+- Color: '0xffffe400'
+- DrawLine:
+    Position:
+    - ['145', '22']
+    - ['207', '22']
+    - ['207', '14']
+    - ['145', '14']
+    - ['145', '22']
+    Striped: false
+- Color: hp_rto>0.2?0xffffe400:0xffdf0408
+- DrawString:
+    Text:
+      Fmt: '%3.0f'
+      Vars: [HP_PER]
+    Position: ['150', '5']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: / 100
+      Vars: [HP_PER]
+    Position: [150+26, '5']
+    Center: false
+- DrawRectangle:
+    Position: ['146', '15']
+    Size: [hp_rto*60, '6']
+- Color: '0xffffe400'
+- If: free_look==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: FREE LOOK
+        Vars: []
+      Position: ['145', '-40']
+      Center: false
+- If: cam_mode==1
+  Do:
+  - DrawString:
+      Text:
+        Fmt: NIGHT VISION
+        Vars: []
+      Position: ['145', '-30']
+      Center: false
+- If: cam_mode==2
+  Do:
+  - DrawString:
+      Text:
+        Fmt: THERMAL VISION
+        Vars: []
+      Position: ['145', '-30']
+      Center: false
+- If: have_flare==1
+  Do:
+  - Color: can_flare==1?0xffffe400:0xffdf0408
+  - DrawString:
+      Text:
+        Fmt: '[ FLARE ]'
+        Vars: []
+      Position: ['60', '45']
+      Center: true
+- If: have_radar==1
+  Do:
+  - DrawTexture:
+      Name: plane_hud
+      Position: ['144', '37']
+      Size: ['64', '64']
+      UVPos: ['0', '0']
+      UVSize: ['128', '128']
+      Rotation: '0'
+  - Color: '0xff28d448'
+  - DrawRadar:
+      Position: ['144', '37']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: true
+  - Color: '0xffdf0408'
+  - DrawRadar:
+      Position: ['144', '37']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: false
+  - DrawTexture:
+      Name: plane_hud
+      Position: [144+16, '37']
+      Size: ['32', '64']
+      UVPos: ['128', '0']
+      UVSize: ['64', '128']
+      Rotation: radar_rot

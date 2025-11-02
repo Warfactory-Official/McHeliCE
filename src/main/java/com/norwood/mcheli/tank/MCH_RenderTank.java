@@ -105,6 +105,7 @@ public class MCH_RenderTank extends MCH_RenderAircraft<MCH_EntityTank> {
                 }
 
                 tessellator.draw();
+                GlStateManager.resetColor();
             }
         }
     }

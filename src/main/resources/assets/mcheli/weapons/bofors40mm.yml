@@ -1,0 +1,43 @@
+DisplayName: Bofors 40mm gun
+Type: machinegun2
+BaseDamage: 30
+Ballistics:
+  Acceleration: 5.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Volume: 20.0
+  Pitch: 0.6
+  Name: cannon_2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 2
+  DestructionPower: 1
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 18
+    MaxHeatCount: 150
+Ammo:
+  MagSize: 4
+  MaxAmmo: 500
+  ResupplyCount: 100
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 3
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 5
+Accuracy: 3.0
+Render:
+  BulletModel: bullet76mm
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

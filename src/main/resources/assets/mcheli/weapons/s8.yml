@@ -1,0 +1,36 @@
+DisplayName: S-8 Rocket B-8M1
+Type: rocket
+BaseDamage: 40
+Ballistics:
+  Acceleration: 3.5
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: rocket_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 4
+  DestructionPower: 4
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 220
+  MagSize: 40
+  MaxAmmo: 40
+  ResupplyCount: 10
+  AmmoItems:
+  - Count: 3
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 4
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 12
+Render:
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

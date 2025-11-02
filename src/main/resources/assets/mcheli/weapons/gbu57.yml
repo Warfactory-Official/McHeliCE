@@ -1,0 +1,45 @@
+DisplayName: GBU-57
+Type: asmissile
+BaseDamage: 50
+Ballistics:
+  Acceleration: 2.0
+  AccelerationInWater: 1.0
+  Gravity: -0.01
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+  Piercing: 4
+Sound:
+  Volume: 3.0
+  Pitch: 0.1
+  Name: bomb_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 15
+  DestructionPower: 15
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 190
+  MagSize: 2
+  MaxAmmo: 4
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 4
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 4
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 4
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 50
+Render:
+  BulletModel: gbu57
+  Smoke:
+    DisableSmoke: true
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

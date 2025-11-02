@@ -1,0 +1,43 @@
+DisplayName: GSh-30-1 30mm Machine Gun
+Type: machinegun1
+BaseDamage: 30
+Ballistics:
+  Acceleration: 6.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Delay: 3
+  Pitch: 0.7
+  Name: gun_l2_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Camera:
+  Sight: movesight
+Missile:
+  Heat:
+    HeatCount: 1
+    MaxHeatCount: 50
+Ammo:
+  ReloadTime: 200
+  MagSize: 150
+  MaxAmmo: 450
+  ResupplyCount: 150
+  AmmoItems:
+  - Count: 2
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 2
+    Name: minecraft:gunpowder
+    Meta: 0
+FireCooldown: 0
+Accuracy: 1.0
+Render:
+  BulletModel: bullet
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

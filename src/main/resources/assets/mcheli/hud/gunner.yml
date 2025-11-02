@@ -1,0 +1,78 @@
+- Color: '0xff28d448'
+- Call: mortar
+- Color: hp_rto>0.2?0xff28d448:0xffdf0408
+- DrawTexture:
+    Name: hud
+    Position: ['144', '95']
+    Size: ['64', '20']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- DrawString:
+    Text:
+      Fmt: '%3.0f'
+      Vars: [HP_PER]
+    Position: ['150', '97']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: / 100
+      Vars: [HP_PER]
+    Position: [150+26, '97']
+    Center: false
+- DrawRectangle:
+    Position: ['146', '107']
+    Size: [hp_rto*60, '6']
+- DrawTexture:
+    Name: hud
+    Position: ['-208', '57']
+    Size: ['62', '10']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- DrawTexture:
+    Name: hud
+    Position: ['-208', '68']
+    Size: ['106', '10']
+    UVPos: ['128', '64']
+    UVSize: ['128', '20']
+    Rotation: '0'
+- Color: reloading==0?0xff28d448:0xffdf0408
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_AMMO]
+    Position: ['-207', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: /
+      Vars: [WPN_AMMO]
+    Position: ['-181', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_RM_AMMO]
+    Position: ['-172', '58']
+    Center: false
+- DrawString:
+    Text:
+      Fmt: '%s'
+      Vars: [WPN_NAME]
+    Position: ['-207', '69']
+    Center: false
+- If: is_heat_wpn==1
+  Do:
+  - Color: '0xff28d448'
+  - DrawRectangle:
+      Position: ['-145', '57']
+      Size: ['43', '10']
+  - Color: '0xff188428'
+  - DrawRectangle:
+      Position: ['-144', '58']
+      Size: ['41', '8']
+  - Color: '0xffdf0408'
+  - DrawRectangle:
+      Position: ['-144', '58']
+      Size: [41*wpn_heat, '8']

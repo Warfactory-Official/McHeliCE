@@ -1,0 +1,216 @@
+DisplayName:
+  DEFAULT: AC-130H Spectre
+  ja_jp: AC-130 H スペクター
+Category: M.A
+MaxFuel: 4800
+MaxHP: 800
+FuelConsumption: 2.0
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 28.0
+  Pos:
+  - Pos: [2.0, 1.4, -4.0]
+Sound:
+  MoveSound: turboprop
+PhysicalProperties:
+  Speed: 0.8
+  Mobility:
+    Yaw: 0.4
+    Pitch: 0.4
+    Roll: 0.2
+  RotationLimits:
+    Pitch:
+      Min: -60.0
+      Max: 60.0
+    Roll:
+      Min: -60.0
+      Max: 60.0
+Render:
+  ParticleScale: 0.7
+  EnableSeaSurfaceParticle: true
+Weapons:
+- Type: m61a1_1
+  Position: [1.65, 1.48, -2.26]
+  DefaultYaw: -90.0
+  MinYaw: -50.0
+  MaxYaw: 50.0
+  MinPitch: -20.0
+  MaxPitch: 70.0
+- Type: bofors40mm
+  Position: [1.85, 1.75, -10.96]
+  Yaw: 10.0
+  DefaultYaw: -90.0
+  MinYaw: -50.0
+  MaxYaw: 50.0
+  MinPitch: -20.0
+  MaxPitch: 70.0
+- Type: m61a1_2
+  Position: [1.65, 1.48, -3.06]
+  SeatID: 2
+  CanUsePilot: false
+  DefaultYaw: -90.0
+  MinYaw: -50.0
+  MaxYaw: 50.0
+  MinPitch: -20.0
+  MaxPitch: 70.0
+- Type: m102_105mm
+  Position: [1.87, 1.75, -12.51]
+  Yaw: 10.0
+  SeatID: 2
+  DefaultYaw: -90.0
+  MinYaw: -50.0
+  MaxYaw: 50.0
+  MinPitch: -20.0
+  MaxPitch: 70.0
+Seats:
+- Position: [0.65, 2.43, 2.0]
+  Hud: plane
+- Position: [0.0, 1.0, -7.5]
+  Gunner: true
+  Camera:
+    Pos: [0.0, 0.0, 0.0]
+  Hud: plane_gnr
+- Position: [-0.65, 2.43, 2.0]
+- Position: [0.65, 2.43, 0.75]
+- Position: [-0.65, 2.43, 0.75]
+- Position: [0.65, 2.43, -0.5]
+- Position: [-0.65, 2.43, -0.5]
+Racks:
+- Position: [0.0, 1.4, -4.7]
+  Camera:
+    Pos: [0.0, 1.5, -16.1]
+  Name: container
+  Range: 8.0
+  OpenParaAlt: 20.0
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.6, -1.6]
+  Size: [4.0, 4.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 2.6, -6.6]
+  Size: [4.0, 4.0, 4.0]
+- Type: DEFAULT
+  Position: [0.0, 2.6, -11.6]
+  Size: [4.0, 4.0, 4.0]
+- Type: DEFAULT
+  Position: [-4.92, 4.0, -6.6]
+  Size: [4.0, 1.0, 4.0]
+- Type: DEFAULT
+  Position: [4.92, 4.0, -6.6]
+  Size: [4.0, 1.0, 4.0]
+AircraftFeatures:
+  GunnerMode: true
+  InventorySize: 18
+  NightVision: true
+  EntityRadar: true
+  ConcurrentGunner: true
+  ThrottleUpDown: 0.3
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - LARGE_AIRCRAFT
+PlaneFeatures:
+  VariableSweepWing: false
+  SweepWingSpeed: 0.1
+  EnableVtol: false
+  EnableAutoPilot: false
+Components:
+  Hatch:
+  - Position: [0.0, 3.62, -18.65]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: hatch0
+    MaxRotation: 27.0
+  - Position: [0.0, 0.81, -13.46]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: hatch1
+    MaxRotation: 48.0
+  LandingGear:
+  - Position: [0.0, 1.19, 0.37]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 90.0
+  - Position: [0.0, 1.2, -7.16]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg1
+    MaxRotation: 60.0
+  - Position: [0.0, 1.2, -8.78]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg2
+    MaxRotation: 60.0
+  Weapon:
+  - Position: [1.65, 1.483, -2.255]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: m61a1_1
+    BarrelRot: true
+    HideGM: true
+    Yaw: true
+    Pitch: true
+  - Position: [1.85, 1.75, -10.96]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: bofors40mm
+    HideGM: true
+    Yaw: true
+    Pitch: true
+    RecoilBuf: 0.5
+  - Position: [1.65, 1.483, -3.056]
+    Rotation: [-1.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: m61a1_2
+    BarrelRot: true
+    HideGM: true
+    Yaw: true
+    Pitch: true
+  - Position: [1.87, 1.75, -12.51]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: m102_105mm
+    HideGM: true
+    Yaw: true
+    Pitch: true
+    RecoilBuf: 1.0
+  PlaneRotor:
+  - Position: [9.55, 3.4, -1.94]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor0
+    RotFactor: 90.0
+    Blades:
+    - Position: [9.55, 3.4, -1.94]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade0
+      BladeNum: 4
+      BladeRot: 90
+  - Position: [-9.55, 3.4, -1.94]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor1
+    RotFactor: 90.0
+    Blades:
+    - Position: [-9.55, 3.4, -1.94]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade1
+      BladeNum: 4
+      BladeRot: 90
+  - Position: [4.67, 3.4, -1.94]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor2
+    RotFactor: 90.0
+    Blades:
+    - Position: [4.67, 3.4, -1.94]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade2
+      BladeNum: 4
+      BladeRot: 90
+  - Position: [-4.67, 3.4, -1.94]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: rotor3
+    RotFactor: 90.0
+    Blades:
+    - Position: [-4.67, 3.4, -1.94]
+      Rotation: [0.0, 0.0, 1.0]
+      PartName: blade3
+      BladeNum: 4
+      BladeRot: 90

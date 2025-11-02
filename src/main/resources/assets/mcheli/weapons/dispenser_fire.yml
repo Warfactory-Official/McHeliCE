@@ -1,0 +1,32 @@
+DisplayName: Fire Dispenser
+Type: dispenser
+Ballistics:
+  Acceleration: 0.0
+  AccelerationInWater: 1.0
+  Gravity: -0.05
+  GravityInWater: -0.03
+  VelocityInWater: 0.999
+Sound:
+  Delay: 4
+  Name: smoke_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  DestructionPower: 0
+Ammo:
+  ReloadTime: 170
+  MagSize: 15
+  MaxAmmo: 15
+  ResupplyCount: 15
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:flint_and_steel
+    Meta: 0
+FireCooldown: 0
+Render:
+  TrajectoryParticle: flame
+  Smoke:
+    SmokeSize: 3.0
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

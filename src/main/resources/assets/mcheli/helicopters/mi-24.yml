@@ -1,0 +1,337 @@
+DisplayName:
+  DEFAULT: Mi-24VP Hind
+  ja_jp: Mi-24VP ハインド
+Category: M.A
+MaxFuel: 1200
+MaxHP: 200
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 20.0
+  Pos:
+  - Pos: [0.0, 0.3, 5.937]
+PhysicalProperties:
+  Speed: 0.5
+  OnGroundPitch: -4.56
+  Mobility:
+    Yaw: 0.9
+    Pitch: 0.9
+    Roll: 0.9
+Weapons:
+- Type: gsh-23-2
+  Position: [0.0, 0.43, 5.937]
+  Pitch: -1.0
+  SeatID: 2
+  MinYaw: -60.0
+  MaxYaw: 60.0
+  MinPitch: -10.0
+  MaxPitch: 60.0
+- Type: yakb-12_7
+  Position: [2.04, 1.11, 0.64]
+  Yaw: -1.0
+- Type: yakb-12_7
+  Position: [-2.04, 1.11, 0.64]
+  Yaw: 1.0
+- Type: gshg-7_62
+  Position: [2.2, 1.11, 0.39]
+  Yaw: -1.0
+- Type: gshg-7_62
+  Position: [1.88, 1.11, 0.39]
+  Yaw: -1.0
+- Type: gshg-7_62
+  Position: [-2.2, 1.11, 0.39]
+  Yaw: 1.0
+- Type: gshg-7_62
+  Position: [-1.88, 1.11, 0.39]
+  Yaw: 1.0
+- Type: 9m114
+  Position: [4.25, -2.47, -0.37]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9m114
+  Position: [3.97, -2.47, -0.37]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9m114
+  Position: [-4.25, -2.47, -0.37]
+  Yaw: -1.0
+  SeatID: 2
+- Type: 9m114
+  Position: [-3.97, -2.47, -0.37]
+  Yaw: -1.0
+  SeatID: 2
+- Type: s-8_h
+  Position: [2.92, 1.14, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.92, 1.14, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.78, 1.14, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.78, 1.14, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [3.0, 1.08, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-3.0, 1.08, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.7, 1.08, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.7, 1.08, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.9, 1.04, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.9, 1.04, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.81, 1.04, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.81, 1.04, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [3.04, 1.01, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-3.04, 1.01, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.66, 1.01, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.66, 1.01, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.96, 0.97, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.96, 0.97, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.75, 0.97, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.75, 0.97, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [3.04, 0.91, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-3.04, 0.91, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.92, 0.89, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.92, 0.89, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.77, 0.89, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.77, 0.89, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.67, 0.91, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.67, 0.91, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [3.0, 0.84, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-3.0, 0.84, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.85, 0.85, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.85, 0.85, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.7, 0.84, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.7, 0.84, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.93, 0.78, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.93, 0.78, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.85, 0.76, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.85, 0.76, -2.32]
+  Yaw: -1.0
+- Type: s-8_h
+  Position: [2.77, 0.78, -2.32]
+  Yaw: 1.0
+- Type: s-8_h
+  Position: [-2.77, 0.78, -2.32]
+  Yaw: -1.0
+- Type: targeting_pod_mob
+  Position: [0.0, 0.3, 5.94]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.3, 5.94]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [0.0, 0.9, 3.73]
+  Hud: heli
+- Position: [0.0, 0.44, 5.08]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 0.3, 5.937]
+  Hud: heli_gnr
+- Position: [0.27, 1.08, -0.59]
+- Position: [0.27, 1.08, 0.08]
+- Position: [-0.27, 1.08, -0.59]
+- Position: [-0.27, 1.08, 0.08]
+- Position: [0.25, 0.87, 1.1]
+- Position: [-0.25, 0.87, 1.1]
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.12, 4.49]
+  Size: [2.2, 2.2, 2.2]
+- Type: DEFAULT
+  Position: [0.0, 1.72, 2.49]
+  Size: [2.2, 3.0, 2.2]
+- Type: DEFAULT
+  Position: [0.0, 1.96, 0.01]
+  Size: [2.2, 3.5, 2.2]
+- Type: DEFAULT
+  Position: [0.0, 2.02, -5.06]
+  Size: [2.2, 2.2, 2.2]
+- Type: DEFAULT
+  Position: [0.0, 3.26, -11.42]
+  Size: [2.2, 2.2, 2.2]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Hatch:
+  - Position: [1.02, 2.07, 1.83]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: hatch0
+    MaxRotation: 85.0
+  - Position: [0.94, 0.75, 1.83]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: hatch1
+    MaxRotation: 130.0
+  - Position: [-1.02, 2.07, 1.83]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: hatch2
+    MaxRotation: 85.0
+  - Position: [-0.94, 0.75, 1.83]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: hatch3
+    MaxRotation: 130.0
+  LandingGear:
+  - Position: [0.0, 0.6, 4.0]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: lg0
+    MaxRotation: 43.0
+  - Position: [0.53, 0.59, -1.25]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: lg1
+    MaxRotation: 93.0
+    ArticulatedRotation: [0.0, 0.0, 1.0]
+    MaxArticulatedRotation: 36.0
+  - Position: [-0.53, 0.59, -1.25]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: lg2
+    MaxRotation: 93.0
+    ArticulatedRotation: [0.0, 0.0, -1.0]
+    MaxArticulatedRotation: 36.0
+  - Position: [0.9, 0.75, -1.4]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: lg3
+    MaxRotation: 127.0
+  - Position: [-0.9, 0.75, -1.4]
+    Rotation: [0.0, 0.0, 1.0]
+    PartName: lg4
+    MaxRotation: 127.0
+  Weapon:
+  - Position: [0.0, 0.43, 5.937]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: gsh-23-2
+    HideGM: true
+    Yaw: true
+    Children:
+    - Position: [0.0, 0.206, 6.22]
+      Rotation: [0.0, 0.0, 0.0]
+      Pitch: true
+  - Position: [2.043, 1.119, 0.64]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon1
+    WeaponNames: yakb-12_7
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [-2.043, 1.119, 0.64]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon2
+    WeaponNames: yakb-12_7
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [2.202, 1.118, 0.39]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon3
+    WeaponNames: gshg-7_62
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [1.887, 1.118, 0.39]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon4
+    WeaponNames: gshg-7_62
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [-2.202, 1.118, 0.39]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon5
+    WeaponNames: gshg-7_62
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  - Position: [-1.887, 1.118, 0.39]
+    Rotation: [0.0, 0.0, -1.0]
+    PartName: weapon6
+    WeaponNames: gshg-7_62
+    BarrelRot: true
+    Yaw: true
+    Pitch: true
+  HeliRotor:
+  - Position: [0.0, 3.0, 0.0]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [0.53, 4.36, -12.21]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1

@@ -1,0 +1,41 @@
+DisplayName: LAU-68/APKWS
+Type: tvmissile
+BaseDamage: 40
+Ballistics:
+  Acceleration: 2.0
+  AccelerationInWater: 1.0
+  Gravity: 0.0
+  GravityInWater: 0.0
+  VelocityInWater: 0.999
+Sound:
+  Name: lau-68_snd
+  Locations:
+    HitMetal: hit_metal
+    Railgun: railgun
+Explosion:
+  Power: 3
+  DestructionPower: 3
+  Flaming: true
+Camera:
+  Sight: movesight
+Ammo:
+  ReloadTime: 120
+  MagSize: 4
+  MaxAmmo: 8
+  ResupplyCount: 2
+  AmmoItems:
+  - Count: 1
+    Name: minecraft:iron_ingot
+    Meta: 0
+  - Count: 1
+    Name: minecraft:gunpowder
+    Meta: 0
+  - Count: 1
+    Name: minecraft:redstone
+    Meta: 0
+FireCooldown: 50
+Render:
+  BulletModel: hydra70
+  Smoke:
+    BulletColorInWater: '#FFFFFFFF'
+    BulletColor: '#FFFFFFFF'

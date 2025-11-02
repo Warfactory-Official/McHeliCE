@@ -1,0 +1,106 @@
+DisplayName:
+  DEFAULT: Kawasaki OH-1
+  ja_jp: 川崎 OH-1
+Category: M.R
+MaxFuel: 1000
+MaxHP: 160
+Stealth: 0.1
+FuelConsumption: 0.8
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 16.0
+  Pos:
+  - Pos: [0.0, 3.2, 0.42]
+PhysicalProperties:
+  Speed: 0.8
+  OnGroundPitch: -4.1
+  Mobility:
+    Yaw: 1.5
+    Pitch: 1.5
+    Roll: 1.5
+Weapons:
+- Type: hydra70_l
+  Position: [1.12, 1.08, -0.33]
+  Yaw: 1.0
+- Type: hydra70_l
+  Position: [-1.12, 1.08, -0.33]
+  Yaw: -1.0
+- Type: hydra70_m264rp
+  Position: [1.12, 1.08, -0.33]
+  Yaw: 1.0
+- Type: hydra70_m264rp
+  Position: [-1.12, 1.08, -0.33]
+  Yaw: -1.0
+- Type: sam2
+  Position: [1.82, 1.0, -0.4]
+  Yaw: 1.0
+- Type: sam2
+  Position: [-1.82, 1.0, -0.4]
+  Yaw: -1.0
+- Type: targeting_pod_mob
+  Position: [0.0, 0.3, 1.4]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.3, 1.4]
+- Type: targeting_pod_pv30s
+  Position: [0.0, 0.3, 1.4]
+  SeatID: 2
+  CanUsePilot: false
+- Type: targeting_pod_block
+  Position: [0.0, 0.3, 1.4]
+  SeatID: 2
+- Type: cas_gbu-38b
+  Position: [0.0, 150.0, 30.0]
+  SeatID: 2
+Seats:
+- Position: [0.0, 0.49, 1.75]
+  Hud: heli
+- Position: [0.0, 0.99, 0.1]
+  Gunner: true
+  SwitchGunner: true
+  InvCamPos: true
+  Camera:
+    Pos: [0.0, 3.2, 0.42]
+  Hud: heli_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.5, -2.0]
+  Size: [1.5, 3.3, 1.5]
+- Type: DEFAULT
+  Position: [0.0, 2.0, -4.0]
+  Size: [2.0, 2.0, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 2.5, -9.0]
+  Size: [2.0, 3.0, 2.0]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  EntityRadar: true
+  ThrottleUpDown: 1.4
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Camera:
+  - Position: [0.0, 3.2, -0.42]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera0
+  - Position: [0.0, 3.2, -0.42]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera1
+    PitchSync: true
+  HeliRotor:
+  - Position: [0.0, 3.93, -1.54]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [0.0, 2.01, -9.26]
+    Rotation: [1.0, 0.0, 0.0]
+    PartName: blade1
+    BladeCount: 1

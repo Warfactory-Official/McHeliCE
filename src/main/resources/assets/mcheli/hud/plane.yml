@@ -1,0 +1,38 @@
+- Call: common_pilot
+- If: have_radar==1
+  Do:
+  - DrawTexture:
+      Name: plane_hud
+      Position: ['144', '21']
+      Size: ['64', '64']
+      UVPos: ['0', '0']
+      UVSize: ['128', '128']
+      Rotation: '0'
+  - Color: '0xff28d448'
+  - DrawRadar:
+      Position: ['144', '21']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: true
+  - Color: '0xffdf0408'
+  - DrawRadar:
+      Position: ['144', '21']
+      Size: ['64', '64']
+      Rotation: -plyr_yaw-180
+      EntityRadar: false
+  - DrawTexture:
+      Name: plane_hud
+      Position: [144+16, '21']
+      Size: ['32', '64']
+      UVPos: ['128', '0']
+      UVSize: ['64', '128']
+      Rotation: radar_rot
+- If: vtol_stat>0
+  Do:
+  - Color: vtol_stat==2?0xff28d448:0xffdf0408
+  - DrawString:
+      Text:
+        Fmt: VTOL
+        Vars: []
+      Position: ['50', '10']
+      Center: false

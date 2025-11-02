@@ -1,0 +1,69 @@
+DisplayName:
+  DEFAULT: 25mmMachineGun
+  ja_jp: 25mm三連装機銃
+Category: W.A
+MaxHP: 100
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  Pos:
+  - Pos: [0.0, 2.4, 0.0]
+PhysicalProperties:
+  RotationLimits:
+    Pitch:
+      Min: -80.0
+      Max: 25.0
+Render:
+  HideRiders: true
+Armor:
+  DamageFactor: 0.8
+Weapons:
+- Type: mg25mm
+  Position: [-0.4, 1.43, -0.04]
+  Pitch: -1.0
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -80.0
+  MaxPitch: 25.0
+  Turret: true
+- Type: mg25mm
+  Position: [0.0, 1.43, -0.04]
+  Pitch: -1.0
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -80.0
+  MaxPitch: 25.0
+  Turret: true
+- Type: mg25mm
+  Position: [0.4, 1.43, -0.04]
+  Pitch: -1.0
+  MinYaw: -360.0
+  MaxYaw: 360.0
+  MinPitch: -80.0
+  MaxPitch: 25.0
+  Turret: true
+Seats:
+- Position: [0.0, 1.4, 0.0]
+  Hud: vehicle_wwii
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 1.0, 0.0]
+  Size: [2.5, 2.0, 2.5]
+Components:
+  Vpart:
+  - Position: [0.0, 0.0, -0.04]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: part0
+    DrawFP: true
+    CanYaw: true
+    CanPitch: false
+    Type: NORMAL
+  - Position: [0.0, 1.44, -0.04]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: part1
+    DrawFP: true
+    CanYaw: true
+    CanPitch: true
+    Type: NORMAL

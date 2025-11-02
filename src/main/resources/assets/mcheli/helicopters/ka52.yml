@@ -1,0 +1,259 @@
+DisplayName:
+  DEFAULT: Ka-52 Hokum B
+  ja_jp: Ka-52 ホーカムB
+Category: M.A
+MaxFuel: 1200
+MaxHP: 170
+FuelConsumption: 1.5
+RepairOtherVehicles:
+  Range: 0.0
+  Value: 10
+ThrottleDownFactor: 1.0
+Camera:
+  ThirdPersonDist: 12.0
+  Zoom: 10
+  Pos:
+  - Pos: [0.0, 0.24, 5.3]
+Sound:
+  MoveSound: heli_k
+PhysicalProperties:
+  Speed: 0.6
+  Mobility:
+    Yaw: 1.2
+    Pitch: 1.2
+    Roll: 1.2
+Weapons:
+- Type: 2a42_ka50
+  Position: [-1.04, 0.65, 2.0]
+  Pitch: -1.0
+  MinYaw: -3.0
+  MaxYaw: 6.0
+  MaxPitch: 30.0
+- Type: 9k121_ka52
+  Position: [2.12, 0.55, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121_ka52
+  Position: [-2.12, 0.55, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121_ka52
+  Position: [2.12, 0.55, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121_ka52
+  Position: [-2.12, 0.55, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121_ka52
+  Position: [2.12, 0.55, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121_ka52
+  Position: [-2.12, 0.55, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121tv_ka52
+  Position: [2.12, 0.55, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121tv_ka52
+  Position: [-2.12, 0.55, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121tv_ka52
+  Position: [2.12, 0.55, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121tv_ka52
+  Position: [-2.12, 0.55, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121tv_ka52
+  Position: [2.12, 0.55, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k121tv_ka52
+  Position: [-2.12, 0.55, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+  MaxPitch: 20.0
+- Type: 9k38_ka52
+  Position: [3.12, 0.35, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [-3.12, 0.35, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [3.12, 0.35, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [-3.12, 0.35, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [3.12, 0.35, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [-3.12, 0.35, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [3.12, 0.35, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [-3.12, 0.35, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [3.12, 0.35, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [-3.12, 0.35, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [3.12, 0.35, 2.0]
+  Yaw: 1.0
+  SeatID: 2
+- Type: 9k38_ka52
+  Position: [-3.12, 0.35, 2.0]
+  Yaw: -1.0
+  SeatID: 2
+- Type: targeting_pod_mob
+  Position: [0.0, 0.24, 5.3]
+  SeatID: 2
+- Type: targeting_pod_pv10s
+  Position: [0.0, 0.24, 5.3]
+  SeatID: 2
+  CanUsePilot: false
+Seats:
+- Position: [0.25, 0.7, 2.4]
+  Hud: heli
+- Position: [-0.25, 0.7, 2.4]
+  Hud: heli_gnr
+BoundingBoxes:
+- Type: DEFAULT
+  Position: [0.0, 2.2, 0.0]
+  Size: [2.0, 3.8, 2.0]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -2.0]
+  Size: [1.7, 1.8, 1.7]
+- Type: DEFAULT
+  Position: [0.0, 1.6, -4.0]
+  Size: [1.0, 1.5, 1.0]
+AircraftFeatures:
+  GunnerMode: true
+  NightVision: true
+  EntityRadar: true
+  ConcurrentGunner: true
+  ThrottleUpDown: 0.7
+  Flare:
+    Pos: [0.0, 0.0, 0.0]
+    Types:
+    - SIDE
+HeliFeatures:
+  IsFoldableBlade: false
+Components:
+  Camera:
+  - Position: [0.0, 0.2, 4.3]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera0
+    PitchSync: true
+  - Position: [0.0, 0.2, 4.3]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: camera1
+  Weapon:
+  - Position: [0.0, 0.7, 0.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon0
+    WeaponNames: 2a42_ka50
+    HideGM: true
+    Yaw: true
+    Pitch: true
+  - Position: [2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon1
+    WeaponNames: 9k121_ka50
+    IsMissile: true
+  - Position: [-2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon2
+    WeaponNames: 9k121_ka50
+    IsMissile: true
+  - Position: [2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon3
+    WeaponNames: 9k121_ka50
+    IsMissile: true
+  - Position: [-2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon4
+    WeaponNames: 9k121_ka50
+    IsMissile: true
+  - Position: [2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon5
+    WeaponNames: 9k121_ka50
+    IsMissile: true
+  - Position: [-2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon6
+    WeaponNames: 9k121_ka50
+    IsMissile: true
+  - Position: [2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon7
+    WeaponNames: 9k121tv_ka50
+    IsMissile: true
+  - Position: [-2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon8
+    WeaponNames: 9k121tv_ka50
+    IsMissile: true
+  - Position: [2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon9
+    WeaponNames: 9k121tv_ka50
+    IsMissile: true
+  - Position: [-2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon10
+    WeaponNames: 9k121tv_ka50
+    IsMissile: true
+  - Position: [2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon11
+    WeaponNames: 9k121tv_ka50
+    IsMissile: true
+  - Position: [-2.12, 0.55, 2.0]
+    Rotation: [0.0, 0.0, 0.0]
+    PartName: weapon12
+    WeaponNames: 9k121tv_ka50
+    IsMissile: true
+  HeliRotor:
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, -1.0, 0.0]
+    PartName: blade0
+    BladeCount: 1
+  - Position: [0.0, 0.0, 0.0]
+    Rotation: [0.0, 1.0, 0.0]
+    PartName: blade1
+    BladeCount: 1
