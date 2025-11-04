@@ -22,7 +22,35 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
 
     public ModelVBO(W_MetasequoiaObject obj) {
-        uploadVBO(obj.groupObjects);
+        uploadVBO(cleanUpMsqMess(obj.groupObjects));
+    }
+
+    //Metasequoia users seem to not understand what proper mesh grouping is, so we need to do it for them
+    private static List<GroupObject> cleanUpMsqMess(ArrayList<GroupObject> groupObjects) {
+        List<GroupObject> result = new ArrayList<>();
+        GroupObject currentKey = null;
+
+        for (GroupObject obj : groupObjects) {
+            String name = obj.name;
+
+            if (name.isEmpty()) continue;
+
+            if (name.charAt(0) == '$') {
+                // Start a new key group
+                currentKey = new GroupObject(name);
+                currentKey.faces.addAll(obj.faces); // keep existing faces if any
+                result.add(currentKey);
+            } else if (currentKey != null) {
+                // Merge into the most recent $ group
+                currentKey.faces.addAll(obj.faces);
+            } else {
+                // Ungrouped before any $, keep standalone
+                result.add(obj);
+            }
+        }
+
+        return result;
+
     }
 
     private void uploadVBO(List<GroupObject> obj) {
@@ -127,30 +155,12 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
     @Override
     public void renderPart(String partName) {
-        if (partName.charAt(0) == '$') {
-            for (int i = 0; i < this.groups.size(); i++) {
-                VBOBufferData groupObject = this.groups.get(i);
-                if (partName.equalsIgnoreCase(groupObject.name)) {
-                    renderVBO(groupObject);
-                    i++;
-
-                    while (i < this.groups.size()) {
-                        groupObject = this.groups.get(i);
-                        if (groupObject.name.charAt(0) == '$') {
-                            break;
-                        }
-                        renderVBO(groupObject);
-                        i++;
-                    }
+        for (ModelVBO.VBOBufferData data : groups) {
+                if (data.name.equalsIgnoreCase(partName)) {
+                    renderVBO(data);
                 }
-            }
-        } else {
-            for (VBOBufferData groupObject : this.groups) {
-                if (partName.equalsIgnoreCase(groupObject.name)) {
-                   renderVBO(groupObject);
-                }
-            }
         }
+
     }
 
     @Override
