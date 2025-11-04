@@ -63,12 +63,12 @@ public abstract class W_Render<T extends Entity> extends Render<T> {
         GlStateManager.color(0.75F, 0.75F, 0.75F, 1.0F);
 
         GlStateManager.enableBlend(); // 3042
-        this.srcBlend = GL11.glGetInteger(GL11.GL_BLEND_SRC); // 3041
-        this.dstBlend = GL11.glGetInteger(GL11.GL_BLEND_DST); // 3040
+//        this.srcBlend = GL11.glGetInteger(GL11.GL_BLEND_SRC); // 3041
+//        this.dstBlend = GL11.glGetInteger(GL11.GL_BLEND_DST); // 3040
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // 770, 771
     }
     public void restoreCommonRenderParam() {
-        GlStateManager.blendFunc(this.srcBlend, this.dstBlend);
+//        GlStateManager.blendFunc(this.srcBlend, this.dstBlend);
         GlStateManager.disableBlend();
         GlStateManager.shadeModel(GL11.GL_FLAT);
     }
