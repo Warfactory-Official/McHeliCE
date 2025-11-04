@@ -23,6 +23,7 @@ import com.norwood.mcheli.helper.client._IModelCustom;
 import com.norwood.mcheli.helper.client.model.LegacyModelLoader;
 import com.norwood.mcheli.helper.client.renderer.item.*;
 import com.norwood.mcheli.helper.info.ContentRegistries;
+import com.norwood.mcheli.helper.info.ShaderRegistry;
 import com.norwood.mcheli.hud.direct_drawable.HudGPS;
 import com.norwood.mcheli.hud.direct_drawable.HudMortarRadar;
 import com.norwood.mcheli.hud.direct_drawable.HudRWR;
@@ -645,5 +646,9 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         m.registerSprite(HudMortarRadar.CROSS);
         m.registerSprite(HudMortarRadar.RADAR);
         m.registerSprite(HudMortarRadar.TARGET);
+    }
+
+    public void registerShaders(TextureStitchEvent.Post event) {
+        ShaderRegistry.init();
     }
 }

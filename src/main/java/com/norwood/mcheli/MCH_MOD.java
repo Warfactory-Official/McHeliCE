@@ -573,4 +573,9 @@ public class MCH_MOD {
         proxy.registerParticleTextures(event);
     }
 
+    @SubscribeEvent
+    public void onTextureStitchPost(TextureStitchEvent.Post event) {
+        proxy.registerShaders(event);
+    }
+
 }

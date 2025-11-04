@@ -1,20 +1,24 @@
 package com.norwood.mcheli.helper.info;
 
+import com.norwood.mcheli.Tags;
 import lombok.SneakyThrows;
-import net.minecraft.client.shader.Shader;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
 import javax.annotation.Nullable;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +27,8 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4;
 @SideOnly(Side.CLIENT)
 public class ShaderRegistry {
     private static final FloatBuffer MATRIX_BUFFER = BufferUtils.createFloatBuffer(16);
-   private static final Map<String, ShaderProgram> shaderMap = new HashMap<>();
+    private static final Map<String, ShaderProgram> shaderMap = new HashMap<>();
+    public static final String SHADER_PATH = "/shaders/";
 
     public static void uploadMatrix4f(int uniformLoc, Matrix4f mat) {
         MATRIX_BUFFER.clear();
@@ -32,23 +37,55 @@ public class ShaderRegistry {
         GL20.glUniformMatrix4(uniformLoc, false, MATRIX_BUFFER);
     }
 
-   public void init(){
+    public static void init() {
+        registerShader("basic");
+    }
 
-   }
+    private static void registerShader(String name) {
+        IResource shaderVert = null;
+        IResource shaderFrag = null;
+        try {
+            shaderVert = Minecraft.getMinecraft().getResourceManager()
+                    .getResource(new ResourceLocation(Tags.MODID, SHADER_PATH + name + ".vert"));
+            shaderFrag = Minecraft.getMinecraft().getResourceManager()
+                    .getResource(new ResourceLocation(Tags.MODID, SHADER_PATH + name + ".vert"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-   @Nullable
-   public static ShaderProgram getShader(String key){
-       return shaderMap.get(key);
-   }
 
-    public class ShaderProgram {
+        var shaderProg = new ShaderProgram(shaderVert.getInputStream(), shaderFrag.getInputStream());
+        shaderMap.put(name,shaderProg);
+
+
+    }
+
+    private static String readStream(InputStream in) throws IOException {
+        try (BufferedReader reader =
+                     new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+            return sb.toString();
+        }
+    }
+
+
+    @Nullable
+    public static ShaderProgram getShader(String key) {
+        return shaderMap.get(key);
+    }
+
+    public static class ShaderProgram {
         private final int programId;
         private final Map<String, Integer> uniformCache = new HashMap<>();
 
         @SneakyThrows
-        public ShaderProgram(String vertexPath, String fragmentPath) {
-            int vert = compile(GL20.GL_VERTEX_SHADER, new String(Files.readAllBytes(Paths.get(vertexPath)), StandardCharsets.UTF_8));
-            int frag = compile(GL20.GL_FRAGMENT_SHADER,new String(Files.readAllBytes(Paths.get(fragmentPath)), StandardCharsets.UTF_8));
+        public ShaderProgram(InputStream vertexPath, InputStream fragmentPath) {
+            int vert = compile(GL20.GL_VERTEX_SHADER, readStream(vertexPath));
+            int frag = compile(GL20.GL_FRAGMENT_SHADER, readStream(fragmentPath));
             programId = GL20.glCreateProgram();
             GL20.glAttachShader(programId, vert);
             GL20.glAttachShader(programId, frag);
@@ -91,32 +128,4 @@ public class ShaderRegistry {
             glUniformMatrix4(getUniformLocation(name), false, matrix);
         }
     }
-
-    public class BasicLightingShader extends ShaderProgram {
-        private final int uModelMatrix;
-        private final int uLightDir;
-        private final int uColor;
-
-        public BasicLightingShader() {
-            super("shaders/basic.vert", "shaders/basic.frag");
-            uModelMatrix = getUniformLocation("u_ModelMatrix");
-            uLightDir = getUniformLocation("u_LightDir");
-            uColor = getUniformLocation("u_Color");
-        }
-
-        public void setModelMatrix(Matrix4f mat) {
-            uploadMatrix4f(uModelMatrix, mat);
-        }
-
-        public void setLightDir(Vector3f dir) {
-            GL20.glUniform3f(uLightDir, dir.x, dir.y, dir.z);
-        }
-
-        public void setColor(float r, float g, float b) {
-            GL20.glUniform3f(uColor, r, g, b);
-        }
-    }
-
-
-
 }

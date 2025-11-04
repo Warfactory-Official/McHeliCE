@@ -225,4 +225,7 @@ public class MCH_CommonProxy {
 
     public void registerParticleTextures(TextureStitchEvent.Pre event) {
     }
+
+    public void registerShaders(TextureStitchEvent.Post event) {
+    }
 }
