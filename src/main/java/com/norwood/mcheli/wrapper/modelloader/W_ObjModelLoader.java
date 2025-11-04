@@ -23,6 +23,7 @@ public class W_ObjModelLoader implements _IModelCustomLoader {
     @Override
     public _IModelCustom loadInstance(ResourceLocation resource) throws _ModelFormatException {
 //        return new W_WavefrontObject(resource);
+        return null;
     }
 
     @Override
