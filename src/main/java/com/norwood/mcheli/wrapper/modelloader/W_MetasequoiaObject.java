@@ -21,8 +21,8 @@ import java.util.Collections;
 @SideOnly(Side.CLIENT)
 public class W_MetasequoiaObject extends W_ModelCustom {
     public ArrayList<W_Vertex> vertices = new ArrayList<>();
-    public final ArrayList<W_GroupObject> groupObjects = new ArrayList<>();
-    private final W_GroupObject currentGroupObject = null;
+    public final ArrayList<GroupObject> groupObjects = new ArrayList<>();
+    private final GroupObject currentGroupObject = null;
     private final String fileName;
     private int vertexNum = 0;
     private int faceNum = 0;
@@ -75,7 +75,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
 
     @Override
     public boolean containsPart(String partName) {
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             if (partName.equalsIgnoreCase(groupObject.name)) {
                 return true;
             }
@@ -96,7 +96,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
                 lineCount++;
                 currentLine = normalizeWhitespace(currentLine);
                 if (isValidGroupObjectLine(currentLine)) {
-                    W_GroupObject group = this.parseGroupObject(currentLine, lineCount);
+                    GroupObject group = this.parseGroupObject(currentLine, lineCount);
                     if (group != null) {
                         group.glDrawingMode = 4;
                         this.vertices.clear();
@@ -203,7 +203,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
         }
     }
 
-    public void calcVerticesNormal(W_GroupObject group, boolean shading, double facet) {
+    public void calcVerticesNormal(GroupObject group, boolean shading, double facet) {
         for (W_Face f : group.faces) {
             f.vertexNormals = new W_Vertex[f.verticesID.length];
 
@@ -223,7 +223,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
         }
     }
 
-    public W_Vertex getVerticesNormalFromFace(W_Vertex faceNormal, int verticesID, W_GroupObject group, float facet) {
+    public W_Vertex getVerticesNormalFromFace(W_Vertex faceNormal, int verticesID, GroupObject group, float facet) {
         W_Vertex v = new W_Vertex(0.0F, 0.0F, 0.0F);
 
         for (W_Face f : group.faces) {
@@ -252,14 +252,14 @@ public class W_MetasequoiaObject extends W_ModelCustom {
     }
 
     public void tessellateAll(Tessellator tessellator) {
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             groupObject.render(tessellator);
         }
     }
 
     @Override
     public void renderOnly(String... groupNames) {
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             for (String groupName : groupNames) {
                 if (groupName.equalsIgnoreCase(groupObject.name)) {
                     groupObject.render();
@@ -269,7 +269,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
     }
 
     public void tessellateOnly(Tessellator tessellator, String... groupNames) {
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             for (String groupName : groupNames) {
                 if (groupName.equalsIgnoreCase(groupObject.name)) {
                     groupObject.render(tessellator);
@@ -282,7 +282,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
     public void renderPart(String partName) {
         if (partName.charAt(0) == '$') {
             for (int i = 0; i < this.groupObjects.size(); i++) {
-                W_GroupObject groupObject = this.groupObjects.get(i);
+                GroupObject groupObject = this.groupObjects.get(i);
                 if (partName.equalsIgnoreCase(groupObject.name)) {
                     groupObject.render();
                     i++;
@@ -299,7 +299,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
                 }
             }
         } else {
-            for (W_GroupObject groupObject : this.groupObjects) {
+            for (GroupObject groupObject : this.groupObjects) {
                 if (partName.equalsIgnoreCase(groupObject.name)) {
                     groupObject.render();
                 }
@@ -308,7 +308,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
     }
 
     public void tessellatePart(Tessellator tessellator, String partName) {
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             if (partName.equalsIgnoreCase(groupObject.name)) {
                 groupObject.render(tessellator);
             }
@@ -317,7 +317,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
 
     @Override
     public void renderAllExcept(String... excludedGroupNames) {
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             boolean skipPart = false;
 
             for (String excludedGroupName : excludedGroupNames) {
@@ -334,7 +334,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
     }
 
     public void tessellateAllExcept(Tessellator tessellator, String... excludedGroupNames) {
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             boolean exclude = false;
 
             for (String excludedGroupName : excludedGroupNames) {
@@ -414,13 +414,13 @@ public class W_MetasequoiaObject extends W_ModelCustom {
         }
     }
 
-    private W_GroupObject parseGroupObject(String line, int lineCount) throws _ModelFormatException {
-        W_GroupObject group = null;
+    private GroupObject parseGroupObject(String line, int lineCount) throws _ModelFormatException {
+        GroupObject group = null;
         if (isValidGroupObjectLine(line)) {
             String[] s = line.split(" ");
             String trimmedLine = s[1].substring(1, s[1].length() - 1);
             if (!trimmedLine.isEmpty()) {
-                group = new W_GroupObject(trimmedLine);
+                group = new GroupObject(trimmedLine);
             }
 
             return group;
@@ -447,7 +447,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
         int lineCnt = 0;
         BufferBuilder builder = tessellator.getBuffer();
 
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             if (!groupObject.faces.isEmpty()) {
                 for (W_Face face : groupObject.faces) {
                     for (int i = 0; i < face.vertices.length / 3; i++) {
@@ -504,7 +504,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
     public void renderAll(Tessellator tessellator, int startFace, int maxLine) {
         int faceCnt = 0;
 
-        for (W_GroupObject groupObject : this.groupObjects) {
+        for (GroupObject groupObject : this.groupObjects) {
             if (!groupObject.faces.isEmpty()) {
                 for (W_Face face : groupObject.faces) {
                     if (++faceCnt >= startFace) {

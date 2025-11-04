@@ -10,20 +10,20 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
-public class W_GroupObject {
+public class GroupObject {
     public final String name;
     public final ArrayList<W_Face> faces = new ArrayList<>();
     public int glDrawingMode;
 
-    public W_GroupObject() {
+    public GroupObject() {
         this("");
     }
 
-    public W_GroupObject(String name) {
+    public GroupObject(String name) {
         this(name, -1);
     }
 
-    public W_GroupObject(String name, int glDrawingMode) {
+    public GroupObject(String name, int glDrawingMode) {
         this.name = name;
         this.glDrawingMode = glDrawingMode;
     }
