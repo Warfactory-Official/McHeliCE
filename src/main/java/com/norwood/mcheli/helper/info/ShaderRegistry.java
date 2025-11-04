@@ -2,6 +2,8 @@ package com.norwood.mcheli.helper.info;
 
 import lombok.SneakyThrows;
 import net.minecraft.client.shader.Shader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
@@ -10,6 +12,7 @@ import org.lwjgl.opengl.GL20;
 
 import javax.annotation.Nullable;
 import java.nio.FloatBuffer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -17,6 +20,7 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.glUniformMatrix4;
 
+@SideOnly(Side.CLIENT)
 public class ShaderRegistry {
     private static final FloatBuffer MATRIX_BUFFER = BufferUtils.createFloatBuffer(16);
    private static final Map<String, ShaderProgram> shaderMap = new HashMap<>();
@@ -43,8 +47,8 @@ public class ShaderRegistry {
 
         @SneakyThrows
         public ShaderProgram(String vertexPath, String fragmentPath) {
-            int vert = compile(GL20.GL_VERTEX_SHADER, Files.readString(Paths.get(vertexPath)));
-            int frag = compile(GL20.GL_FRAGMENT_SHADER, Files.readString(Paths.get(fragmentPath)));
+            int vert = compile(GL20.GL_VERTEX_SHADER, new String(Files.readAllBytes(Paths.get(vertexPath)), StandardCharsets.UTF_8));
+            int frag = compile(GL20.GL_FRAGMENT_SHADER,new String(Files.readAllBytes(Paths.get(fragmentPath)), StandardCharsets.UTF_8));
             programId = GL20.glCreateProgram();
             GL20.glAttachShader(programId, vert);
             GL20.glAttachShader(programId, frag);

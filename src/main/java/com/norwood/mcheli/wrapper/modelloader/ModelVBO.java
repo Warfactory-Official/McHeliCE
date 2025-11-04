@@ -80,27 +80,31 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         return "obj_vbo";
     }
 
+   private void prepare(ModelVBO.VBOBufferData data) {
+       GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, data.vertexHandle);
+       GL11.glVertexPointer(VERTEX_SIZE, GL11.GL_FLOAT, 0, 0l);
+
+       GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, data.uvHandle);
+       GL11.glTexCoordPointer(UV_SIZE, GL11.GL_FLOAT, 0, 0l);
+
+       GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, data.normalHandle);
+       GL11.glNormalPointer(GL11.GL_FLOAT, 0, 0l);
+
+       GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+       GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+       GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
+   }
+   private void clean(){
+       GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
+       GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+       GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
+       GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+   }
+
     private void renderVBO(ModelVBO.VBOBufferData data) {
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, data.vertexHandle);
-        GL11.glVertexPointer(VERTEX_SIZE, GL11.GL_FLOAT, 0, 0l);
-
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, data.uvHandle);
-        GL11.glTexCoordPointer(UV_SIZE, GL11.GL_FLOAT, 0, 0l);
-
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, data.normalHandle);
-        GL11.glNormalPointer(GL11.GL_FLOAT, 0, 0l);
-
-        GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
-        GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
-        GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);
-
+        prepare(data);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, data.vertices);
-
-        GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-        GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
-        GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
-
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+        clean();
     }
 
     @Override
@@ -123,9 +127,28 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
     @Override
     public void renderPart(String partName) {
-        for (ModelVBO.VBOBufferData data : groups) {
-            if (data.name.equalsIgnoreCase(partName)) {
-                renderVBO(data);
+        if (partName.charAt(0) == '$') {
+            for (int i = 0; i < this.groups.size(); i++) {
+                VBOBufferData groupObject = this.groups.get(i);
+                if (partName.equalsIgnoreCase(groupObject.name)) {
+                    renderVBO(groupObject);
+                    i++;
+
+                    while (i < this.groups.size()) {
+                        groupObject = this.groups.get(i);
+                        if (groupObject.name.charAt(0) == '$') {
+                            break;
+                        }
+                        renderVBO(groupObject);
+                        i++;
+                    }
+                }
+            }
+        } else {
+            for (VBOBufferData groupObject : this.groups) {
+                if (partName.equalsIgnoreCase(groupObject.name)) {
+                   renderVBO(groupObject);
+                }
             }
         }
     }
