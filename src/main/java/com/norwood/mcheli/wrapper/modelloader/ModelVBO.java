@@ -141,11 +141,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         GL30.glBindVertexArray(data.vaoHandle);
         GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, data.vertices);
         GL30.glBindVertexArray(0);
-        KHRDebug.glDebugMessageInsert(KHRDebug.GL_DEBUG_SOURCE_APPLICATION,
-                KHRDebug.GL_DEBUG_TYPE_MARKER,
-                1235,
-                KHRDebug.GL_DEBUG_SEVERITY_NOTIFICATION,
-                "I DID A RENDER");
     }
 
     @Override
