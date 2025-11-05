@@ -24,6 +24,7 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.glUniformMatrix4;
 
+//Because of muh optifine compat im forced to abandon you for now :/
 @SideOnly(Side.CLIENT)
 public class ShaderRegistry {
     private static final FloatBuffer MATRIX_BUFFER = BufferUtils.createFloatBuffer(16);

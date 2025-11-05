@@ -470,7 +470,6 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
 
     public static void renderCrawlerTrack(MCH_EntityAircraft ac, MCH_AircraftInfo info, float tickTime) {
         if (!info.partCrawlerTrack.isEmpty()) {
-//            int prevWidth = GL11.glGetInteger(2833);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder builder = tessellator.getBuffer();
 

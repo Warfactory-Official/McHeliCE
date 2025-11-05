@@ -47,5 +47,9 @@ public class W_McClient {
 
     public static void setRenderEntity(EntityLivingBase entity) {
         Minecraft.getMinecraft().setRenderViewEntity(entity);
+        if(W_EntityRenderer.currentShader != null){
+            W_EntityRenderer.activateShader(W_EntityRenderer.currentShader);
+        }
+
     }
 }

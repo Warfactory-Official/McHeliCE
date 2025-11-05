@@ -10,6 +10,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class W_EntityRenderer {
+
+    public static ResourceLocation currentShader = null;
     @Deprecated
     public static void setItemRenderer(Minecraft mc, ItemRenderer ir) {
         W_Reflection.setItemRenderer(ir);

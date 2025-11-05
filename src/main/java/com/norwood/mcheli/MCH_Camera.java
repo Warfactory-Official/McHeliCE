@@ -6,6 +6,7 @@ import com.norwood.mcheli.wrapper.W_Lib;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -67,19 +68,20 @@ public class MCH_Camera {
 
                 case MODE_NIGHTVISION:
                     if (this.worldObj.isRemote) {
-                        W_EntityRenderer.activateShader("nightvision");
+                        W_EntityRenderer.currentShader = new ResourceLocation(Tags.MODID,"shaders/post/nightvision.json" );
                     }
                     break;
 
                 case MODE_THERMALVISION:
                     if (this.worldObj.isRemote) {
-                        W_EntityRenderer.activateShader("thermal");
+                        W_EntityRenderer.currentShader = new ResourceLocation(Tags.MODID,"shaders/post/thermal.json" );
                     }
                     break;
                 case MODE_NORMAL:
 
                 default:
                     if (this.worldObj.isRemote) {
+                        W_EntityRenderer.currentShader = null;
                         W_EntityRenderer.deactivateShader();
                     }
                     break;
