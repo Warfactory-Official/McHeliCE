@@ -49,8 +49,9 @@ public class VehicleRenderManager {
             GlStateManager.colorMaterial(GL11.GL_FRONT_AND_BACK, GL11.GL_AMBIENT_AND_DIFFUSE);
             GlStateManager.enableRescaleNormal();
 
-            GlStateManager.enableDepth();
+            GlStateManager.enableBlend();
             GlStateManager.depthMask(true);
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 
             minecraft.entityRenderer.enableLightmap();
