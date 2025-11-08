@@ -4,10 +4,7 @@ package com.norwood.mcheli.core;
 import net.minecraft.launchwrapper.IClassTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-
-import java.util.ListIterator;
 
 import static com.norwood.mcheli.core.MCHCore.coreLogger;
 import static org.objectweb.asm.Opcodes.*;
@@ -34,7 +31,7 @@ public class EntityRenderHooks implements IClassTransformer {
                 }
             }
 
-            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+            ClassWriter writer = new ClassWriter(classReader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
             classNode.accept(writer);
             return writer.toByteArray();
         } catch (Throwable t) {
@@ -42,28 +39,26 @@ public class EntityRenderHooks implements IClassTransformer {
             return basicClass;
         }
     }
-    private void patchRender(MethodNode method) {
-        ListIterator<AbstractInsnNode> iter = method.instructions.iterator();
 
-        while (iter.hasNext()) {
-            AbstractInsnNode insn = iter.next();
-            if (insn instanceof MethodInsnNode) {
-                //Looks for any renderglobal.renderEntities(entity, icamera, partialTicks) call
-                MethodInsnNode renderCall = (MethodInsnNode) insn;
-                if (renderCall.getOpcode() == Opcodes.INVOKEVIRTUAL &&
+    private static void patchRender(MethodNode method) {
+        for (AbstractInsnNode insn = method.instructions.getFirst(); insn != null; insn = insn.getNext()) {
+            if (insn.getOpcode() == INVOKEVIRTUAL && insn instanceof MethodInsnNode renderCall) {
+                //Looks for any renderglobal.renderEntities(entity, icamera, partialTicks) methodNode
+                if (renderCall.getOpcode() == INVOKEVIRTUAL &&
                         renderCall.owner.equals("net/minecraft/client/renderer/RenderGlobal") &&
                         renderCall.name.equals("renderEntities") &&
                         renderCall.desc.equals("(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V")) {
-
-                    method.instructions.insert(createRenderVehicleHook());
+                    InsnList toInject = createRenderVehicleHook();
+                    method.instructions.insert(renderCall, toInject);
                 }
             }
         }
     }
-    private InsnList createRenderVehicleHook() {
+
+    private static InsnList createRenderVehicleHook() {
         InsnList toInject = new InsnList();
         toInject.add(new FieldInsnNode(
-                Opcodes.GETSTATIC,
+                GETSTATIC,
                 "com/norwood/mcheli/core/VehicleRenderHook",
                 "INSTANCE",
                 "Lcom/norwood/mcheli/core/VehicleRenderHook;")); //access the instance
@@ -71,13 +66,11 @@ public class EntityRenderHooks implements IClassTransformer {
         toInject.add(new VarInsnNode(ALOAD, 8)); // camera
         toInject.add(new VarInsnNode(FLOAD, 2)); // partialTicks
         toInject.add(new MethodInsnNode(
-                Opcodes.INVOKEVIRTUAL,
+                INVOKEVIRTUAL,
                 "com/norwood/mcheli/core/VehicleRenderHook",
                 "renderVehicles",
                 "(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V",
                 false)); //execute
         return toInject;
     }
-
-
 }
