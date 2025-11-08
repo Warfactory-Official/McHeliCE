@@ -47,7 +47,7 @@ public class MCHCore implements IFMLLoadingPlugin{
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[]{RenderGobalTransformer.class.getName()};
+        return new String[]{RenderGobalTransformer.class.getName(), EntityRenderHooks.class.getName()};
     }
 
     @Override
