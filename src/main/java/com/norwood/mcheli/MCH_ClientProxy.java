@@ -100,7 +100,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void postInit(FMLPostInitializationEvent postEvent) {
-        MinecraftForge.EVENT_BUS.register(new VehicleRenderManager());
 
     }
 
