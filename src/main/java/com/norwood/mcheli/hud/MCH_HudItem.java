@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.norwood.mcheli.wrapper.GLStateManagerExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -523,14 +524,13 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     public void drawPoints(ArrayList<Double> points, int color, int pointWidth) {
-        int prevWidth = GL11.glGetInteger(2833);
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF),
                 (byte) (color >> 24 & 0xFF));
-        GL11.glPointSize(pointWidth);
+        GLStateManagerExt.setPointSize(pointWidth);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.getBuffer();
         builder.begin(0, DefaultVertexFormats.POSITION);
@@ -544,6 +544,6 @@ public abstract class MCH_HudItem extends Gui {
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
         GlStateManager.color((byte) -1, (byte) -1, (byte) -1, (byte) -1);
-        GL11.glPointSize(prevWidth);
+        GLStateManagerExt.restorePointSize();
     }
 }

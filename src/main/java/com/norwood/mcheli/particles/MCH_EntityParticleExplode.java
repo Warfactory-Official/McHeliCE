@@ -52,8 +52,6 @@ public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
         }
 
         GlStateManager.enableBlend();
-        int prevSrcBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_SRC);
-        int prevDstBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_DST);
         GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableCull();
         this.theRenderEngine.bindTexture(FLASH);
@@ -126,7 +124,6 @@ public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
 
         GlStateManager.enableLighting();
         GlStateManager.enableCull();
-        GlStateManager.blendFunc(prevSrcBlend, prevDstBlend);
         GlStateManager.disableBlend();
     }
 

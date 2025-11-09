@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import javax.annotation.Nullable;
 
+import com.norwood.mcheli.wrapper.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.*;
@@ -34,10 +35,6 @@ import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_EntityRenderer;
-import com.norwood.mcheli.wrapper.W_Lib;
-import com.norwood.mcheli.wrapper.W_Render;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 
 public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W_Render<T> {
@@ -750,7 +747,6 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                                 GlStateManager.enableBlend();
                                 GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                                 GlStateManager.disableTexture2D();
-                                int prevWidth = GL11.glGetInteger(2849);
                                 float size = Math.max(entity.width, entity.height) * 20.0F;
                                 if (entity instanceof MCH_EntityAircraft) {
                                     size *= 2.0F;
@@ -761,7 +757,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                                 builder.begin(2, MCH_Verts.POS_COLOR_LMAP);
                                 boolean isLockEntity = gs.isLockingEntity(entity);
                                 if (isLockEntity) {
-                                    GL11.glLineWidth(MCH_Gui.scaleFactor * 1.5F);
+                                   GLStateManagerExt.setPointSize(MCH_Gui.scaleFactor * 1.5F);
                                     builder.pos(-size - 1.0F, 0.0, 0.0).color(1.0F, 0.0F, 0.0F, 1.0F).lightmap(0, 240)
                                             .endVertex();
                                     builder.pos(-size - 1.0F, size * 2.0F, 0.0).color(1.0F, 0.0F, 0.0F, 1.0F)
@@ -771,7 +767,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                                     builder.pos(size + 1.0F, 0.0, 0.0).color(1.0F, 0.0F, 0.0F, 1.0F).lightmap(0, 240)
                                             .endVertex();
                                 } else {
-                                    GL11.glLineWidth(MCH_Gui.scaleFactor);
+                                   GLStateManagerExt.setPointSize(MCH_Gui.scaleFactor);
                                     builder.pos(-size - 1.0F, 0.0, 0.0).color(1.0F, 0.3F, 0.0F, 8.0F).lightmap(0, 240)
                                             .endVertex();
                                     builder.pos(-size - 1.0F, size * 2.0F, 0.0).color(1.0F, 0.3F, 0.0F, 8.0F)
@@ -799,7 +795,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                                     GlStateManager.popMatrix();
                                 }
 
-                                GL11.glLineWidth(prevWidth);
+                                GLStateManagerExt.restorePointSize();
                                 GlStateManager.enableTexture2D();
                                 GlStateManager.depthMask(true);
                                 GlStateManager.enableLighting();

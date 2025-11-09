@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.vecmath.Color4f;
 
+import com.norwood.mcheli.wrapper.GLStateManagerExt;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
@@ -35,17 +36,15 @@ public class WeaponPointRenderer {
     };
 
     public static void renderWeaponPoints(MCH_EntityAircraft ac, MCH_AircraftInfo info, double x, double y, double z) {
-        int prevPointSize = GlStateManager.glGetInteger(2833);
         int id = 0;
-        int prevFunc = GlStateManager.glGetInteger(2932);
         Map<Vec3d, Integer> poses = Maps.newHashMap();
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.enableLighting();
         GlStateManager.depthMask(false);
-        GlStateManager.depthFunc(519);
-        GL11.glPointSize(20.0F);
+        GlStateManager.depthFunc(GL11.GL_LEQUAL);
+        GLStateManagerExt.setPointSize(20F);
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
 
@@ -81,8 +80,7 @@ public class WeaponPointRenderer {
         }
 
         GlStateManager.popMatrix();
-        GL11.glPointSize(prevPointSize);
-        GlStateManager.depthFunc(prevFunc);
+        GLStateManagerExt.restorePointSize();
         GlStateManager.depthMask(true);
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();

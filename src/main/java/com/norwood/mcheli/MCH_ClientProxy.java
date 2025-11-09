@@ -637,6 +637,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         m.registerSprite(HudMortarRadar.CROSS);
         m.registerSprite(HudMortarRadar.RADAR);
         m.registerSprite(HudMortarRadar.TARGET);
+        GLStateManagerExt.pollSize(); //Should be fine...?
     }
 
     public void registerShaders(TextureStitchEvent.Post event) {

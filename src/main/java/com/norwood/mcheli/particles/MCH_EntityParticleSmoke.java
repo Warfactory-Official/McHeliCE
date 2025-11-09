@@ -142,8 +142,6 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
         W_McClient.MOD_bindTexture("textures/particles/smoke.png");
         GlStateManager.enableBlend();
 
-        int srcBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_SRC);
-        int dstBlend = GlStateManager.glGetInteger(GL11.GL_BLEND_DST);
 
         GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
