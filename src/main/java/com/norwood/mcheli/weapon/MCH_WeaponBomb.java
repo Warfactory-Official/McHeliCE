@@ -1,12 +1,13 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Explosion;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.MCH_Explosion;
+import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+
 public class MCH_WeaponBomb extends MCH_WeaponBase {
+
     public MCH_WeaponBomb(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         super(w, v, yaw, pitch, nm, wi);
         this.acceleration = 0.5F;
@@ -37,8 +38,7 @@ public class MCH_WeaponBomb extends MCH_WeaponBase {
                                 true,
                                 this.getInfo().flaming,
                                 true,
-                                0
-                        );
+                                0);
                         this.playSound(prm.entity);
                     }
 
@@ -57,8 +57,7 @@ public class MCH_WeaponBomb extends MCH_WeaponBase {
                     prm.entity.motionZ,
                     prm.entity.rotationYaw,
                     0.0F,
-                    this.acceleration
-            );
+                    this.acceleration);
             e.setName(this.name);
             e.setParameterFromWeapon(this, prm.entity, prm.user);
             e.motionX = prm.entity.motionX;

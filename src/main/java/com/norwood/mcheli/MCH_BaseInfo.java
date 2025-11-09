@@ -1,10 +1,12 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.helper.addon.AddonResourceLocation;
-import com.norwood.mcheli.helper.info.IContentData;
 import net.minecraft.util.math.Vec3d;
 
+import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import com.norwood.mcheli.helper.info.IContentData;
+
 public abstract class MCH_BaseInfo implements IContentData {
+
     public final String filePath;
     public final AddonResourceLocation location;
 
@@ -52,7 +54,8 @@ public abstract class MCH_BaseInfo implements IContentData {
     }
 
     public int hex2dec(String s) {
-        return !s.startsWith("0x") && !s.startsWith("0X") && s.indexOf(0) != 35 ? (int) (Long.decode("0x" + s) & -1L) : (int) (Long.decode(s) & -1L);
+        return !s.startsWith("0x") && !s.startsWith("0X") && s.indexOf(0) != 35 ? (int) (Long.decode("0x" + s) & -1L) :
+                (int) (Long.decode(s) & -1L);
     }
 
     public String[] splitParam(String data) {

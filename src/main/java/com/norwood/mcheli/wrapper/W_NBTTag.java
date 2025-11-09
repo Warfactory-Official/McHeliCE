@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 
 public class W_NBTTag {
+
     public static final int TAG_COMPOUND = 10;
 
     public static NBTTagCompound tagAt(NBTTagList list, int i) {

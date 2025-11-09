@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class SignPlusExpression extends Col1Expression {
+
     public SignPlusExpression() {
         this.setOperator("+");
     }

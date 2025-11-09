@@ -1,10 +1,10 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.helicopter.MCH_EntityHeli;
-import com.norwood.mcheli.plane.MCH_EntityPlane;
-import com.norwood.mcheli.tank.MCH_EntityTank;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
-import com.norwood.mcheli.wrapper.W_Block;
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -12,12 +12,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.tank.MCH_EntityTank;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
+import com.norwood.mcheli.wrapper.W_Block;
 
 public class MCH_Config {
+
     public static final List<Block> dummyBreakableBlocks = new ArrayList<>();
     public static final List<Material> dummyBreakableMaterials = new ArrayList<>();
     public static String mcPath;
@@ -186,7 +188,7 @@ public class MCH_Config {
         mcPath = minecraftPath;
         configFilePath = mcPath + cfgFile;
         DebugLog = false;
-        waitForModels = new MCH_ConfigPrm("WaitForModels",true);
+        waitForModels = new MCH_ConfigPrm("WaitForModels", true);
         configVer = "0.0.0";
         bulletBreakableBlocks = new ArrayList<>();
         carBreakableBlocks = new ArrayList<>();
@@ -220,7 +222,7 @@ public class MCH_Config {
         KeyDownFromRack = new MCH_ConfigPrm("KeyDownFromRack", 22);
         KeyScoreboard = new MCH_ConfigPrm("KeyScoreboard", 38);
         KeyMultiplayManager = new MCH_ConfigPrm("KeyMultiplayManager", 50);
-        KeyConfig = new MCH_ConfigPrm[]{
+        KeyConfig = new MCH_ConfigPrm[] {
                 KeyUp,
                 KeyDown,
                 KeyRight,
@@ -261,15 +263,17 @@ public class MCH_Config {
         Collision_DestroyBlock = new MCH_ConfigPrm("Collision_DestroyBlock", true);
         Explosion_DestroyBlock = new MCH_ConfigPrm("Explosion_DestroyBlock", true);
         Explosion_FlamingBlock = new MCH_ConfigPrm("Explosion_FlamingBlock", true);
-        Collision_Car_BreakableBlock = new MCH_ConfigPrm("Collision_Car_BreakableBlock", "double_plant, glass_pane,stained_glass_pane");
+        Collision_Car_BreakableBlock = new MCH_ConfigPrm("Collision_Car_BreakableBlock",
+                "double_plant, glass_pane,stained_glass_pane");
         Collision_Car_NoBreakableBlock = new MCH_ConfigPrm("Collision_Car_NoBreakBlock", "torch");
-        Collision_Car_BreakableMaterial = new MCH_ConfigPrm("Collision_Car_BreakableMaterial", "cactus, cake, gourd, leaves, vine, plants");
+        Collision_Car_BreakableMaterial = new MCH_ConfigPrm("Collision_Car_BreakableMaterial",
+                "cactus, cake, gourd, leaves, vine, plants");
         Collision_Tank_BreakableBlock = new MCH_ConfigPrm("Collision_Tank_BreakableBlock", "nether_brick_fence");
         Collision_Tank_BreakableBlock.validVer = "1.0.0";
         Collision_Tank_NoBreakableBlock = new MCH_ConfigPrm("Collision_Tank_NoBreakBlock", "torch, glowstone");
         Collision_Tank_BreakableMaterial = new MCH_ConfigPrm(
-                "Collision_Tank_BreakableMaterial", "cactus, cake, carpet, circuits, glass, gourd, leaves, vine, wood, plants"
-        );
+                "Collision_Tank_BreakableMaterial",
+                "cactus, cake, carpet, circuits, glass, gourd, leaves, vine, wood, plants");
         Collision_EntityDamage = new MCH_ConfigPrm("Collision_EntityDamage", true);
         Collision_EntityTankDamage = new MCH_ConfigPrm("Collision_EntityTankDamage", false);
         LWeaponAutoFire = new MCH_ConfigPrm("LWeaponAutoFire", false);
@@ -299,8 +303,8 @@ public class MCH_Config {
         HitMarkColor.desc = ";HitMarkColor = Alpha, Red, Green, Blue";
         SmoothShading = new MCH_ConfigPrm("SmoothShading", true);
         BulletBreakableBlock = new MCH_ConfigPrm(
-                "BulletBreakableBlocks", "glass_pane, stained_glass_pane, tallgrass, double_plant, yellow_flower, red_flower, vine, wheat, reeds, waterlily"
-        );
+                "BulletBreakableBlocks",
+                "glass_pane, stained_glass_pane, tallgrass, double_plant, yellow_flower, red_flower, vine, wheat, reeds, waterlily");
         BulletBreakableBlock.validVer = "0.10.4";
         EnableModEntityRender = new MCH_ConfigPrm("EnableModEntityRender", true);
         DisableRenderLivingSpecials = new MCH_ConfigPrm("DisableRenderLivingSpecials", true);
@@ -353,7 +357,8 @@ public class MCH_Config {
         ItemID_Chain = new MCH_ConfigPrm("ItemID_Chain", 28798);
         ItemID_Parachute = new MCH_ConfigPrm("ItemID_Parachute", 28797);
         ItemID_Container = new MCH_ConfigPrm("ItemID_Container", 28796);
-        ItemID_UavStation = new MCH_ConfigPrm[]{new MCH_ConfigPrm("ItemID_UavStation", 28795), new MCH_ConfigPrm("ItemID_UavStation2", 28790)};
+        ItemID_UavStation = new MCH_ConfigPrm[] { new MCH_ConfigPrm("ItemID_UavStation", 28795),
+                new MCH_ConfigPrm("ItemID_UavStation2", 28790) };
         ItemID_InvisibleItem = new MCH_ConfigPrm("ItemID_Internal", 28794);
         ItemID_Fuel = new MCH_ConfigPrm("ItemID_Fuel", 28793);
         ItemID_DraftingTable = new MCH_ConfigPrm("ItemID_DraftingTable", 28792);
@@ -363,7 +368,7 @@ public class MCH_Config {
         ItemID_StingerMissile = new MCH_ConfigPrm("ItemID_StingerMissile", 28901);
         BlockID_DraftingTableOFF = new MCH_ConfigPrm("BlockID_DraftingTable", 3450);
         BlockID_DraftingTableON = new MCH_ConfigPrm("BlockID_DraftingTableON", 3451);
-        General = new MCH_ConfigPrm[]{
+        General = new MCH_ConfigPrm[] {
                 TestMode,
                 __TextureAlpha,
                 EnableCommand,
@@ -463,7 +468,7 @@ public class MCH_Config {
         DamageTankByExternal = new DamageFactor(this, "DamageMCHeliTankByExternal");
         DamageVehicleByExternal = new DamageFactor(this, "DamageMCHeliVehicleByExternal");
         DamageOtherByExternal = new DamageFactor(this, "DamageMCHeliOtherByExternal");
-        DamageFactorList = new MCH_Config.DamageFactor[]{
+        DamageFactorList = new MCH_Config.DamageFactor[] {
                 DamageVsEntity,
                 DamageVsLiving,
                 DamageVsPlayer,
@@ -494,9 +499,8 @@ public class MCH_Config {
         Entity attackerSource = ds.getImmediateSource();
 
         for (MCH_Config.DamageEntity de : list) {
-            if (de.name.isEmpty()
-                    || attacker != null && attacker.getClass().toString().indexOf(de.name) > 0
-                    || attackerSource != null && attackerSource.getClass().toString().indexOf(de.name) > 0) {
+            if (de.name.isEmpty() || attacker != null && attacker.getClass().toString().indexOf(de.name) > 0 ||
+                    attackerSource != null && attackerSource.getClass().toString().indexOf(de.name) > 0) {
                 damage = (float) (damage * de.factor);
             }
         }
@@ -690,7 +694,8 @@ public class MCH_Config {
         if (splt.length == 1) {
             return new DamageEntity(this, Double.parseDouble(splt[0]), "");
         } else {
-            return splt.length == 2 ? new DamageEntity(this, Double.parseDouble(splt[0]), splt[1]) : new DamageEntity(this, 1.0, "");
+            return splt.length == 2 ? new DamageEntity(this, Double.parseDouble(splt[0]), splt[1]) :
+                    new DamageEntity(this, 1.0, "");
         }
     }
 
@@ -805,7 +810,8 @@ public class MCH_Config {
         }
 
         pw.println();
-        pw.println(";CommandPermission = commandName(eg, modlist, status, fill...):playerName1, playerName2, playerName3...");
+        pw.println(
+                ";CommandPermission = commandName(eg, modlist, status, fill...):playerName1, playerName2, playerName3...");
         if (CommandPermission.isEmpty()) {
             pw.println(";CommandPermission = modlist :example1, example2");
             pw.println(";CommandPermission = status :  example2");
@@ -827,6 +833,7 @@ public class MCH_Config {
     }
 
     public static class CommandPermission {
+
         public final String name;
         public final String[] players;
 
@@ -843,6 +850,7 @@ public class MCH_Config {
     }
 
     public static class DamageEntity {
+
         public final double factor;
         public final String name;
 
@@ -853,6 +861,7 @@ public class MCH_Config {
     }
 
     public static class DamageFactor {
+
         public final String itemName;
         public final List<MCH_Config.DamageEntity> list;
 

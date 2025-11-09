@@ -2,11 +2,13 @@ package com.norwood.mcheli.hud;
 
 import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.wrapper.W_TextureUtil;
+
 import lombok.Getter;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.GlStateManager;
 
 @Getter
 public class MCH_HudItemTexture extends MCH_HudItem {
+
     private final String name;
     private final String left;
     private final String top;
@@ -21,8 +23,8 @@ public class MCH_HudItemTexture extends MCH_HudItem {
     private int textureHeight;
 
     public MCH_HudItemTexture(
-            int fileLine, String name, String left, String top, String width, String height, String uLeft, String vTop, String uWidth, String vHeight, String rot
-    ) {
+                              int fileLine, String name, String left, String top, String width, String height,
+                              String uLeft, String vTop, String uWidth, String vHeight, String rot) {
         super(fileLine);
         this.name = name;
         this.left = toFormula(left);
@@ -40,10 +42,11 @@ public class MCH_HudItemTexture extends MCH_HudItem {
     @Override
     public void execute() {
         GlStateManager.enableBlend();
-         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         if (this.textureWidth == 0 || this.textureHeight == 0) {
             int w, h;
-            W_TextureUtil.TextureParam prm = W_TextureUtil.getTextureInfo(Tags.MODID, "textures/gui/" + this.name + ".png");
+            W_TextureUtil.TextureParam prm = W_TextureUtil.getTextureInfo(Tags.MODID,
+                    "textures/gui/" + this.name + ".png");
             w = prm.width;
             h = prm.height;
 
@@ -63,7 +66,6 @@ public class MCH_HudItemTexture extends MCH_HudItem {
                 calc(this.vHeight),
                 (float) calc(this.rot),
                 this.textureWidth,
-                this.textureHeight
-        );
+                this.textureHeight);
     }
 }

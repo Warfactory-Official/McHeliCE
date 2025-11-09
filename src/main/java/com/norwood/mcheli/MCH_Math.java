@@ -1,11 +1,12 @@
 package com.norwood.mcheli;
 
-import net.minecraft.util.math.MathHelper;
-
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+import net.minecraft.util.math.MathHelper;
+
 public class MCH_Math {
+
     public static final float PI = (float) Math.PI;
     public static final MCH_Math instance = new MCH_Math();
 
@@ -612,6 +613,7 @@ public class MCH_Math {
     }
 
     public static class FMatrix {
+
         float m00;
         float m10;
         float m20;
@@ -629,8 +631,7 @@ public class MCH_Math {
         float m23;
         float m33;
 
-        public FMatrix(MCH_Math paramMCH_Math) {
-        }
+        public FMatrix(MCH_Math paramMCH_Math) {}
 
         public FloatBuffer toFloatBuffer() {
             ByteBuffer bb = ByteBuffer.allocateDirect(64);
@@ -659,29 +660,29 @@ public class MCH_Math {
     }
 
     public static class FQuat {
+
         public float w;
         public float x;
         public float y;
         public float z;
 
-        public FQuat(MCH_Math paramMCH_Math) {
-        }
+        public FQuat(MCH_Math paramMCH_Math) {}
     }
 
     public static class FVector2D {
+
         public float x;
         public float y;
 
-        public FVector2D(MCH_Math paramMCH_Math) {
-        }
+        public FVector2D(MCH_Math paramMCH_Math) {}
     }
 
     public static class FVector3D {
+
         public float x;
         public float y;
         public float z;
 
-        public FVector3D(MCH_Math paramMCH_Math) {
-        }
+        public FVector3D(MCH_Math paramMCH_Math) {}
     }
 }

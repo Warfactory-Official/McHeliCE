@@ -1,11 +1,7 @@
 package com.norwood.mcheli.block;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.helper.block.EnumDirection8;
-import com.norwood.mcheli.helper.block.properties.PropertyDirection8;
-import com.norwood.mcheli.wrapper.W_BlockContainer;
-import com.norwood.mcheli.wrapper.W_Item;
+import java.util.Random;
+
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.EnumPushReaction;
@@ -24,11 +20,18 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.helper.block.EnumDirection8;
+import com.norwood.mcheli.helper.block.properties.PropertyDirection8;
+import com.norwood.mcheli.wrapper.W_BlockContainer;
+import com.norwood.mcheli.wrapper.W_Item;
 
 public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEntityProvider {
+
     public static final PropertyDirection8 DIRECTION8 = PropertyDirection8.create("direction8");
     private final boolean isLighting;
 
@@ -44,8 +47,9 @@ public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEnt
     }
 
     public boolean onBlockActivated(
-            World world, @NotNull BlockPos pos, @NotNull IBlockState state, @NotNull EntityPlayer player, @NotNull EnumHand hand, @NotNull EnumFacing facing, float par7, float par8, float par9
-    ) {
+                                    World world, @NotNull BlockPos pos, @NotNull IBlockState state,
+                                    @NotNull EntityPlayer player, @NotNull EnumHand hand, @NotNull EnumFacing facing,
+                                    float par7, float par8, float par9) {
         if (!world.isRemote) {
             if (!player.isSneaking()) {
                 MCH_Lib.DbgLog(
@@ -53,16 +57,18 @@ public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEnt
                         "MCH_DraftingTableGui.MCH_DraftingTableGui OPEN GUI (%d, %d, %d)",
                         pos.getX(),
                         pos.getY(),
-                        pos.getZ()
-                );
+                        pos.getZ());
                 player.openGui(MCH_MOD.instance, 4, world, pos.getX(), pos.getY(), pos.getZ());
             } else {
                 EnumDirection8 dir = state.getValue(DIRECTION8);
-                MCH_Lib.DbgLog(world, "MCH_DraftingTableBlock.onBlockActivated:yaw=%d Light %s", (int) dir.getAngle(), this.isLighting ? "OFF->ON" : "ON->OFF");
+                MCH_Lib.DbgLog(world, "MCH_DraftingTableBlock.onBlockActivated:yaw=%d Light %s", (int) dir.getAngle(),
+                        this.isLighting ? "OFF->ON" : "ON->OFF");
                 if (this.isLighting) {
-                    world.setBlockState(pos, MCH_MOD.blockDraftingTable.getDefaultState().withProperty(DIRECTION8, dir), 2);
+                    world.setBlockState(pos, MCH_MOD.blockDraftingTable.getDefaultState().withProperty(DIRECTION8, dir),
+                            2);
                 } else {
-                    world.setBlockState(pos, MCH_MOD.blockDraftingTableLit.getDefaultState().withProperty(DIRECTION8, dir), 2);
+                    world.setBlockState(pos,
+                            MCH_MOD.blockDraftingTableLit.getDefaultState().withProperty(DIRECTION8, dir), 2);
                 }
 
                 world.playSound(null, pos, SoundEvents.UI_BUTTON_CLICK, SoundCategory.BLOCKS, 0.3F, 0.5F);
@@ -80,7 +86,8 @@ public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEnt
         return new MCH_DraftingTableTileEntity();
     }
 
-    public boolean shouldCheckWeakPower(@NotNull IBlockState state, @NotNull IBlockAccess world, @NotNull BlockPos pos, @NotNull EnumFacing side) {
+    public boolean shouldCheckWeakPower(@NotNull IBlockState state, @NotNull IBlockAccess world, @NotNull BlockPos pos,
+                                        @NotNull EnumFacing side) {
         return true;
     }
 
@@ -104,11 +111,14 @@ public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEnt
         return EnumPushReaction.DESTROY;
     }
 
-    public IBlockState func_180642_a(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return this.getDefaultState().withProperty(DIRECTION8, EnumDirection8.fromAngle(MCH_Lib.getRotate360(placer.rotationYaw)));
+    public IBlockState func_180642_a(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
+                                     int meta, EntityLivingBase placer) {
+        return this.getDefaultState().withProperty(DIRECTION8,
+                EnumDirection8.fromAngle(MCH_Lib.getRotate360(placer.rotationYaw)));
     }
 
-    public void func_180633_a(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
+    public void func_180633_a(World world, BlockPos pos, IBlockState state, EntityLivingBase entity,
+                              ItemStack itemStack) {
         float pyaw = (float) MCH_Lib.getRotate360(entity.rotationYaw);
         pyaw += 22.5F;
         int yaw = (int) (pyaw / 45.0F);
@@ -116,7 +126,8 @@ public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEnt
             yaw = yaw % 8 + 8;
         }
 
-        world.setBlockState(pos, state.withProperty(DIRECTION8, EnumDirection8.fromAngle(MCH_Lib.getRotate360(entity.rotationYaw))), 2);
+        world.setBlockState(pos,
+                state.withProperty(DIRECTION8, EnumDirection8.fromAngle(MCH_Lib.getRotate360(entity.rotationYaw))), 2);
         MCH_Lib.DbgLog(world, "MCH_DraftingTableBlock.onBlockPlacedBy:yaw=%d", yaw);
     }
 

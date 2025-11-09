@@ -1,15 +1,18 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.ITickableTextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.helper.MCH_Utils;
+
 public class MCH_TextureManagerDummy extends TextureManager {
+
     public static final ResourceLocation R = MCH_Utils.suffix("textures/test.png");
     private final TextureManager tm;
 
@@ -26,7 +29,8 @@ public class MCH_TextureManagerDummy extends TextureManager {
         }
     }
 
-    public boolean loadTickableTexture(@NotNull ResourceLocation textureLocation, @NotNull ITickableTextureObject textureObj) {
+    public boolean loadTickableTexture(@NotNull ResourceLocation textureLocation,
+                                       @NotNull ITickableTextureObject textureObj) {
         return this.tm.loadTickableTexture(textureLocation, textureObj);
     }
 

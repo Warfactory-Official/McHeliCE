@@ -9,29 +9,24 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 public abstract class W_TickHandler implements ITickHandler {
+
     protected final Minecraft mc;
 
     public W_TickHandler(Minecraft m) {
         this.mc = m;
     }
 
-    public void onPlayerTickPre(EntityPlayer player) {
-    }
+    public void onPlayerTickPre(EntityPlayer player) {}
 
-    public void onPlayerTickPost(EntityPlayer player) {
-    }
+    public void onPlayerTickPost(EntityPlayer player) {}
 
-    public void onRenderTickPre(float partialTicks) {
-    }
+    public void onRenderTickPre(float partialTicks) {}
 
-    public void onRenderTickPost(float partialTicks) {
-    }
+    public void onRenderTickPost(float partialTicks) {}
 
-    public void onTickPre() {
-    }
+    public void onTickPre() {}
 
-    public void onTickPost() {
-    }
+    public void onTickPost() {}
 
     @SubscribeEvent
     public void onPlayerTickEvent(PlayerTickEvent event) {

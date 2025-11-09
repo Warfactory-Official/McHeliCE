@@ -1,14 +1,8 @@
 package com.norwood.mcheli.hud.direct_drawable;
 
-import com.norwood.mcheli.EntityInfo;
-import com.norwood.mcheli.MCH_EntityInfoClientTracker;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.helicopter.MCH_EntityHeli;
-import com.norwood.mcheli.plane.MCH_EntityPlane;
-import com.norwood.mcheli.tank.MCH_EntityTank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -22,15 +16,22 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.EntityInfo;
+import com.norwood.mcheli.MCH_EntityInfoClientTracker;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.tank.MCH_EntityTank;
+
+import lombok.AllArgsConstructor;
 
 public class HudRWR implements DirectDrawable {
 
     public static HudRWR INSTANCE = new HudRWR();
-
 
     public static final ResourceLocation RWR = new ResourceLocation(Tags.MODID, "textures/rwr.png");
     public static final ResourceLocation RWR_HELI = new ResourceLocation(Tags.MODID, "textures/rwr_heli.png");
@@ -45,7 +46,7 @@ public class HudRWR implements DirectDrawable {
     private static final double _MAX_DISTANCE = 1000.0;
     private static final int _MIN_RADIUS = 30;
 
-    public void renderHud(RenderGameOverlayEvent.Post event, Tuple<EntityPlayer, MCH_EntityAircraft> ctx ) {
+    public void renderHud(RenderGameOverlayEvent.Post event, Tuple<EntityPlayer, MCH_EntityAircraft> ctx) {
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
 
         Minecraft mc = Minecraft.getMinecraft();
@@ -103,8 +104,7 @@ public class HudRWR implements DirectDrawable {
                 Vec3d playerInterp = new Vec3d(
                         player.posX + (player.posX - player.lastTickPosX) * event.getPartialTicks(),
                         player.posY + (player.posY - player.lastTickPosY) * event.getPartialTicks(),
-                        player.posZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks()
-                );
+                        player.posZ + (player.posZ - player.lastTickPosZ) * event.getPartialTicks());
 
                 Vec3d delta = new Vec3d(xPos, yPos, zPos).subtract(playerInterp);
 
@@ -117,7 +117,8 @@ public class HudRWR implements DirectDrawable {
                 if (lookHorizontal.crossProduct(deltaHorizontal).y < 0) angle = -angle;
 
                 double distance = Math.sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
-                double radiusRatio = Math.min(Math.max((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE), 0.0), 1.0);
+                double radiusRatio = Math.min(Math.max((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE), 0.0),
+                        1.0);
                 double renderRadius = MIN_RADIUS + (circleRadius - MIN_RADIUS) * radiusRatio;
 
                 double radian = Math.toRadians(angle);
@@ -132,14 +133,12 @@ public class HudRWR implements DirectDrawable {
             }
         }
         GlStateManager.popMatrix();
-
     }
 
     @Override
     public DirectDrawable getInstance() {
-         return INSTANCE;
+        return INSTANCE;
     }
-
 
     public Vec3d getDirection(Entity e, float factor) {
         float f1;
@@ -164,10 +163,9 @@ public class HudRWR implements DirectDrawable {
         }
     }
 
-
     private boolean isValidEntity(EntityInfo entity, EntityPlayer player, double minDist) {
-        if (entity.entityClassName.contains("MCH_EntityChaff") || entity.entityClassName.contains("MCH_EntityFlare")
-                || entity.entityClassName.contains("EntityPlayer") || entity.entityClassName.contains("EntitySoldier")) {
+        if (entity.entityClassName.contains("MCH_EntityChaff") || entity.entityClassName.contains("MCH_EntityFlare") ||
+                entity.entityClassName.contains("EntityPlayer") || entity.entityClassName.contains("EntitySoldier")) {
             return false;
         }
         if (entity.getDistanceSqToEntity(player) < minDist * minDist) {
@@ -178,16 +176,15 @@ public class HudRWR implements DirectDrawable {
 
     private RWRResult getTargetTypeOnRadar(EntityInfo entity, MCH_EntityAircraft ac) {
         int color = 0x00FF00;
-        if (ac instanceof MCH_EntityTank
-                || (ac instanceof MCH_EntityPlane && ac.getAcInfo().isFloat)) {
+        if (ac instanceof MCH_EntityTank || (ac instanceof MCH_EntityPlane && ac.getAcInfo().isFloat)) {
             color = 0xFFCC00;
         }
         switch (ac.getAcInfo().rwrType) {
             case DIGITAL: {
-                if (entity.entityClassName.contains("MCH_EntityHeli")
-                        || entity.entityClassName.contains("MCP_EntityPlane")
-                        || entity.entityClassName.contains("MCH_EntityTank")
-                        || entity.entityClassName.contains("MCH_EntityVehicle")) {
+                if (entity.entityClassName.contains("MCH_EntityHeli") ||
+                        entity.entityClassName.contains("MCP_EntityPlane") ||
+                        entity.entityClassName.contains("MCH_EntityTank") ||
+                        entity.entityClassName.contains("MCH_EntityVehicle")) {
                     return new RWRResult(ac.getNameOnMyRadar(entity), color);
                 } else {
                     return new RWRResult("MSL", 0xFF0000);
@@ -196,7 +193,6 @@ public class HudRWR implements DirectDrawable {
         }
         return new RWRResult("?", 0x00FF00);
     }
-
 
     private void drawRWRCircle(double x, double y, ScaledResolution sc, ResourceLocation rwr, int size) {
         prepareRenderState();
@@ -228,7 +224,6 @@ public class HudRWR implements DirectDrawable {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
-
     private double interpolate(double now, double old, float partialTicks) {
         return old + (now - old) * partialTicks;
     }
@@ -239,10 +234,8 @@ public class HudRWR implements DirectDrawable {
 
     @AllArgsConstructor
     public static class RWRResult {
+
         public final String name;
         public final int color;
     }
-
 }
-
-

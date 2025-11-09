@@ -1,15 +1,17 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.wrapper.W_McClient;
+
 @SideOnly(Side.CLIENT)
 public abstract class MCH_ClientTickHandlerBase {
+
     public static float playerRotMinPitch = -90.0F;
     public static float playerRotMaxPitch = 90.0F;
     public static boolean playerRotLimitPitch = false;
@@ -68,8 +70,7 @@ public abstract class MCH_ClientTickHandlerBase {
                 }
             }
 
-            if (!playerRotLimitYaw) {
-            }
+            if (!playerRotLimitYaw) {}
         }
     }
 

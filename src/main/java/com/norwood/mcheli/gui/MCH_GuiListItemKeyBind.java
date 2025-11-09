@@ -1,11 +1,13 @@
 package com.norwood.mcheli.gui;
 
-import com.norwood.mcheli.MCH_ConfigPrm;
-import com.norwood.mcheli.MCH_KeyName;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
+import com.norwood.mcheli.MCH_ConfigPrm;
+import com.norwood.mcheli.MCH_KeyName;
+
 public class MCH_GuiListItemKeyBind extends MCH_GuiListItem {
+
     public final int defaultKeycode;
     public final String displayString;
     public final GuiButton button;

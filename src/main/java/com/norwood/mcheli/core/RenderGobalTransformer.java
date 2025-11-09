@@ -1,18 +1,20 @@
 package com.norwood.mcheli.core;
 
+import static com.norwood.mcheli.core.MCHCore.coreLogger;
+
+import java.util.ListIterator;
+
 import net.minecraft.launchwrapper.IClassTransformer;
+
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
-import java.util.ListIterator;
-
-import static com.norwood.mcheli.core.MCHCore.coreLogger;
-
-
 public class RenderGobalTransformer implements IClassTransformer {
+
     private static final ObfSafeName RENDER_ENTITIES = new ObfSafeName("renderEntities", "func_180446_a");
+
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
         if (!transformedName.equals("net.minecraft.client.renderer.RenderGlobal")) {
@@ -25,8 +27,8 @@ public class RenderGobalTransformer implements IClassTransformer {
             classReader.accept(classNode, 0);
 
             for (MethodNode method : classNode.methods) {
-                if (RENDER_ENTITIES.matches(method.name)
-                        && method.desc.equals("(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V")) {
+                if (RENDER_ENTITIES.matches(method.name) && method.desc
+                        .equals("(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V")) {
                     coreLogger.info("Patching method: {} / {}", RENDER_ENTITIES.mcp, method.name);
                     patchRender(method);
                 }
@@ -72,6 +74,4 @@ public class RenderGobalTransformer implements IClassTransformer {
             }
         }
     }
-
-
 }

@@ -1,20 +1,23 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.wrapper.W_Entity;
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.wrapper.W_Entity;
+
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
+
 @ElegantPacket
 public class PacketStatusResponse extends PacketBase implements ServerToClientPacket {
+
     public int entityID_AC = -1;
     public byte seatNum = -1;
-    public byte[] weaponIDs = new byte[]{-1};
+    public byte[] weaponIDs = new byte[] { -1 };
 
     public static void sendStatus(MCH_EntityAircraft ac, EntityPlayer player) {
         PacketStatusResponse packet = new PacketStatusResponse();
@@ -49,7 +52,6 @@ public class PacketStatusResponse extends PacketBase implements ServerToClientPa
         }
 
         MCH_Lib.DbgLog(true, msg.toString());
-
     }
 
     protected void setParameter(MCH_EntityAircraft ac) {
@@ -63,7 +65,7 @@ public class PacketStatusResponse extends PacketBase implements ServerToClientPa
                     this.weaponIDs[i] = (byte) ac.getWeaponIDBySeatID(i);
                 }
             } else {
-                this.weaponIDs = new byte[]{-1};
+                this.weaponIDs = new byte[] { -1 };
             }
         }
     }

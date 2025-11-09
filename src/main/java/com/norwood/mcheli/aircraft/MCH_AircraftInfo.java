@@ -1,5 +1,14 @@
 package com.norwood.mcheli.aircraft;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.math.Vec3d;
+
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.RWRType;
 import com.norwood.mcheli.RadarType;
@@ -10,18 +19,12 @@ import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.hud.MCH_HudManager;
 import com.norwood.mcheli.hud.direct_drawable.*;
 import com.norwood.mcheli.wrapper.W_Entity;
+
 import lombok.AllArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.math.Vec3d;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemContent {
+
     public final String name;
     public final List<IRecipe> recipe = new ArrayList<>();
     public final List<MCH_AircraftInfo.WeaponSet> weaponSetList = new ArrayList<>();
@@ -231,7 +234,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      */
     public boolean hasPhotoelectricJammer = false;
 
-
     /**
      * Scale of preview in TheOneProbe
      */
@@ -251,8 +253,9 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static String[] getCannotReloadItem() {
-        return new String[]{
-                "DisplayName", "AddDisplayName", "ItemID", "AddRecipe", "AddShapelessRecipe", "InventorySize", "Sound", "UAV", "SmallUAV", "TargetDrone", "Category"
+        return new String[] {
+                "DisplayName", "AddDisplayName", "ItemID", "AddRecipe", "AddShapelessRecipe", "InventorySize", "Sound",
+                "UAV", "SmallUAV", "TargetDrone", "Category"
         };
     }
 
@@ -365,8 +368,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             if (this.textureNameList.isEmpty()) {
                 throw new Exception("At least one texture must be set.");
             } else {
-                if (this.itemID <= 0) {
-                }
+                if (this.itemID <= 0) {}
 
                 for (int i = 0; i < this.partWeaponBay.size(); i++) {
                     MCH_AircraftInfo.WeaponBay wb = this.partWeaponBay.get(i);
@@ -509,7 +511,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         return this.weaponSetList.size();
     }
 
-
     public MCH_AircraftInfo.CrawlerTrack createCrawlerTrack(String data, String name) {
         String[] s = this.splitParam(data);
         int PC = s.length - 3;
@@ -540,7 +541,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                 double dist2 = dist;
 
                 for (int j = 1; dist >= LEN; j++) {
-                    lp.add(new CrawlerTrackPrm(this, (float) (cx[i] + x * (LEN * j / dist2)), (float) (cy[i] + y * (LEN * j / dist2))));
+                    lp.add(new CrawlerTrackPrm(this, (float) (cx[i] + x * (LEN * j / dist2)),
+                            (float) (cy[i] + y * (LEN * j / dist2))));
                     dist -= LEN;
                 }
             }
@@ -760,10 +762,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     // mlbv: @Builder can't handle inheritance
     @SuperBuilder(toBuilder = true)
     public static class Camera extends MCH_AircraftInfo.DrawnPart {
+
         public final boolean yawSync;
         public final boolean pitchSync;
 
-        public Camera(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry, float rz, String name, boolean ys, boolean ps) {
+        public Camera(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry,
+                      float rz, String name, boolean ys, boolean ps) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
             this.yawSync = ys;
             this.pitchSync = ps;
@@ -789,13 +793,17 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class CameraPosition {
+
         public final Vec3d pos;
         public final boolean fixRot;
         public final float yaw;
         public final float pitch;
 
-        public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d vec3, boolean fixRot, float yaw, float pitch) {
-            this.pos = vec3.add(0, W_Entity.GLOBAL_Y_OFFSET, 0); //FIXME Seems like basically everthing needs a 0.35 offset when it comes to mcheli rendering, this is temporary so for when I figure out where it belongs
+        public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d vec3, boolean fixRot, float yaw,
+                              float pitch) {
+            this.pos = vec3.add(0, W_Entity.GLOBAL_Y_OFFSET, 0); // FIXME Seems like basically everthing needs a 0.35
+                                                                 // offset when it comes to mcheli rendering, this is
+                                                                 // temporary so for when I figure out where it belongs
             this.fixRot = fixRot;
             this.yaw = yaw;
             this.pitch = pitch;
@@ -828,6 +836,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class Canopy extends MCH_AircraftInfo.DrawnPart {
+
         public final float maxRotFactor;
         public final boolean isSlide;
 
@@ -837,7 +846,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.isSlide = isSlide;
         }
 
-        public Canopy(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name, boolean slide) {
+        public Canopy(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry,
+                      float rz, float mr, String name, boolean slide) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
             this.maxRotFactor = mr;
             this.isSlide = slide;
@@ -857,6 +867,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class CrawlerTrack extends MCH_AircraftInfo.DrawnPart {
+
         public float len = W_Entity.GLOBAL_Y_OFFSET;
         public double[] cx;
         public double[] cy;
@@ -890,6 +901,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class CrawlerTrackPrm {
+
         public final float x;
         public final float y;
         public float nx;
@@ -920,12 +932,14 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @SuperBuilder(toBuilder = true)
     public static class DrawnPart {
+
         public final Vec3d pos;
         public final Vec3d rot;
         public final String modelName;
         public _IModelCustom model;
 
-        public DrawnPart(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry, float rz, String name) {
+        public DrawnPart(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry,
+                         float rz, String name) {
             this.pos = new Vec3d(px, py, pz);
             this.rot = new Vec3d(rx, ry, rz);
             this.modelName = name;
@@ -958,11 +972,11 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @AllArgsConstructor
     public static class Flare {
+
         public Vec3d pos = new Vec3d(0.0, 0.0, 0.0);
         public int[] types = new int[0];
 
-        public Flare(MCH_AircraftInfo paramMCH_AircraftInfo) {
-        }
+        public Flare(MCH_AircraftInfo paramMCH_AircraftInfo) {}
 
         @Override
         public String toString() {
@@ -974,6 +988,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class Hatch extends MCH_AircraftInfo.DrawnPart {
+
         public final float maxRotFactor;
         public final float maxRot;
         public final boolean isSlide;
@@ -985,7 +1000,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.isSlide = isSlide;
         }
 
-        public Hatch(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, String name, boolean slide) {
+        public Hatch(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry, float rz,
+                     float mr, String name, boolean slide) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
             this.maxRot = mr;
             this.maxRotFactor = this.maxRot / 90.0F;
@@ -1014,6 +1030,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class LandingGear extends MCH_AircraftInfo.DrawnPart {
+
         public final float maxRotFactor;
         public final boolean reverse;
         public final boolean hatch;
@@ -1030,18 +1047,17 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
 
         public LandingGear(
-                MCH_AircraftInfo paramMCH_AircraftInfo,
-                float x,
-                float y,
-                float z,
-                float rx,
-                float ry,
-                float rz,
-                String model,
-                float maxRotF,
-                boolean rev,
-                boolean isHatch
-        ) {
+                           MCH_AircraftInfo paramMCH_AircraftInfo,
+                           float x,
+                           float y,
+                           float z,
+                           float rx,
+                           float ry,
+                           float rz,
+                           String model,
+                           float maxRotF,
+                           boolean rev,
+                           boolean isHatch) {
             super(paramMCH_AircraftInfo, x, y, z, rx, ry, rz, model);
             this.maxRotFactor = maxRotF;
             this.enableRot2 = false;
@@ -1070,6 +1086,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class PartWeapon extends MCH_AircraftInfo.DrawnPart {
+
         public final String[] name;
         public final boolean rotBarrel;
         public final boolean isMissile;
@@ -1081,23 +1098,22 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final List<MCH_AircraftInfo.PartWeaponChild> child;
 
         public PartWeapon(
-                MCH_AircraftInfo paramMCH_AircraftInfo,
-                String[] name,
-                boolean rotBrl,
-                boolean missile,
-                boolean hgm,
-                boolean y,
-                boolean p,
-                float px,
-                float py,
-                float pz,
-                String modelName,
-                float rx,
-                float ry,
-                float rz,
-                float rb,
-                boolean turret
-        ) {
+                          MCH_AircraftInfo paramMCH_AircraftInfo,
+                          String[] name,
+                          boolean rotBrl,
+                          boolean missile,
+                          boolean hgm,
+                          boolean y,
+                          boolean p,
+                          float px,
+                          float py,
+                          float pz,
+                          String modelName,
+                          float rx,
+                          float ry,
+                          float rz,
+                          float rb,
+                          boolean turret) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, modelName);
             this.name = name;
             this.rotBarrel = rotBrl;
@@ -1110,7 +1126,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.turret = turret;
         }
 
-        public PartWeapon(DrawnPart other, String[] name, boolean rotBarrel, boolean isMissile, boolean hideGM, boolean yaw, boolean pitch, float recoilBuf, boolean turret) {
+        public PartWeapon(DrawnPart other, String[] name, boolean rotBarrel, boolean isMissile, boolean hideGM,
+                          boolean yaw, boolean pitch, float recoilBuf, boolean turret) {
             super(other);
             this.name = name;
             this.rotBarrel = rotBarrel;
@@ -1144,25 +1161,25 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class PartWeaponChild extends MCH_AircraftInfo.DrawnPart {
+
         public final String[] name;
         public final boolean yaw;
         public final boolean pitch;
         public final float recoilBuf;
 
         public PartWeaponChild(
-                MCH_AircraftInfo paramMCH_AircraftInfo,
-                String[] name,
-                boolean y,
-                boolean p,
-                float px,
-                float py,
-                float pz,
-                String modelName,
-                float rx,
-                float ry,
-                float rz,
-                float rb
-        ) {
+                               MCH_AircraftInfo paramMCH_AircraftInfo,
+                               String[] name,
+                               boolean y,
+                               boolean p,
+                               float px,
+                               float py,
+                               float pz,
+                               String modelName,
+                               float rx,
+                               float ry,
+                               float rz,
+                               float rb) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, modelName);
             this.name = name;
             this.yaw = y;
@@ -1170,7 +1187,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.recoilBuf = rb;
         }
 
-        public PartWeaponChild(Vec3d pos, Vec3d rot, String modelName, String[] name, boolean yaw, boolean pitch, float recoilBuf) {
+        public PartWeaponChild(Vec3d pos, Vec3d rot, String modelName, String[] name, boolean yaw, boolean pitch,
+                               float recoilBuf) {
             super(pos, rot, modelName);
             this.name = name;
             this.yaw = yaw;
@@ -1194,6 +1212,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class PartWheel extends MCH_AircraftInfo.DrawnPart {
+
         public final float rotDir;
         public final Vec3d pos2;
 
@@ -1203,27 +1222,26 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
             this.pos2 = pos2;
         }
 
-
         public PartWheel(
-                MCH_AircraftInfo paramMCH_AircraftInfo,
-                float px,
-                float py,
-                float pz,
-                float rx,
-                float ry,
-                float rz,
-                float rd,
-                float px2,
-                float py2,
-                float pz2,
-                String name
-        ) {
+                         MCH_AircraftInfo paramMCH_AircraftInfo,
+                         float px,
+                         float py,
+                         float pz,
+                         float rx,
+                         float ry,
+                         float rz,
+                         float rd,
+                         float px2,
+                         float py2,
+                         float pz2,
+                         String name) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
             this.rotDir = rd;
             this.pos2 = new Vec3d(px2, py2, pz2);
         }
 
-        public PartWheel(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry, float rz, float rd, String name) {
+        public PartWheel(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry,
+                         float rz, float rd, String name) {
             this(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, rd, px, py, pz, name);
         }
 
@@ -1242,6 +1260,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @AllArgsConstructor
     public static class ParticleSplash {
+
         public final int num;
         public final float acceleration;
         public final float size;
@@ -1250,7 +1269,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final float motionY;
         public final float gravity;
 
-        public ParticleSplash(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d v, int nm, float siz, float acc, int ag, float my, float gr) {
+        public ParticleSplash(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d v, int nm, float siz, float acc, int ag,
+                              float my, float gr) {
             this.num = nm;
             this.pos = v;
             this.size = siz;
@@ -1276,6 +1296,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @AllArgsConstructor
     public static class RepellingHook {
+
         public final Vec3d pos;
         public final int interval;
 
@@ -1295,6 +1316,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @AllArgsConstructor
     public static class RideRack {
+
         public final String name;
         public final int rackID;
 
@@ -1313,10 +1335,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class RotPart extends MCH_AircraftInfo.DrawnPart {
+
         public final float rotSpeed;
         public final boolean rotAlways;
 
-        public RotPart(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry, float rz, float mr, boolean a, String name) {
+        public RotPart(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry,
+                       float rz, float mr, boolean a, String name) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
             this.rotSpeed = mr;
             this.rotAlways = a;
@@ -1342,6 +1366,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class SearchLight {
+
         public final Vec3d pos;
         public final int colorStart;
         public final int colorEnd;
@@ -1355,8 +1380,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final float stRot;
 
         public SearchLight(
-                Vec3d pos, int cs, int ce, float h, float w, boolean fix, float y, float p, boolean st, float stRot
-        ) {
+                           Vec3d pos, int cs, int ce, float h, float w, boolean fix, float y, float p, boolean st,
+                           float stRot) {
             this.colorStart = cs;
             this.colorEnd = ce;
             this.pos = pos;
@@ -1371,8 +1396,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
 
         public SearchLight(
-                MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d pos, int cs, int ce, float h, float w, boolean fix, float y, float p, boolean st, float stRot
-        ) {
+                           MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d pos, int cs, int ce, float h, float w,
+                           boolean fix, float y, float p, boolean st, float stRot) {
             this.colorStart = cs;
             this.colorEnd = ce;
             this.pos = pos;
@@ -1405,23 +1430,23 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class Throttle extends MCH_AircraftInfo.DrawnPart {
+
         public final Vec3d slide;
         public final float rot2;
 
         public Throttle(
-                MCH_AircraftInfo paramMCH_AircraftInfo,
-                float px,
-                float py,
-                float pz,
-                float rx,
-                float ry,
-                float rz,
-                float rot,
-                String name,
-                float px2,
-                float py2,
-                float pz2
-        ) {
+                        MCH_AircraftInfo paramMCH_AircraftInfo,
+                        float px,
+                        float py,
+                        float pz,
+                        float rx,
+                        float ry,
+                        float rz,
+                        float rot,
+                        String name,
+                        float px2,
+                        float py2,
+                        float pz2) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
             this.rot2 = rot;
             this.slide = new Vec3d(px2, py2, pz2);
@@ -1447,6 +1472,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class TrackRoller extends MCH_AircraftInfo.DrawnPart {
+
         final int side;
 
         public TrackRoller(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, String name) {
@@ -1472,6 +1498,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class Weapon {
+
         public final Vec3d pos;
         public final float yaw;
         public final float pitch;
@@ -1485,21 +1512,20 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final boolean turret;
 
         public Weapon(
-                MCH_AircraftInfo paramMCH_AircraftInfo,
-                float x,
-                float y,
-                float z,
-                float yaw,
-                float pitch,
-                boolean canPirot,
-                int seatId,
-                float defy,
-                float mny,
-                float mxy,
-                float mnp,
-                float mxp,
-                boolean turret
-        ) {
+                      MCH_AircraftInfo paramMCH_AircraftInfo,
+                      float x,
+                      float y,
+                      float z,
+                      float yaw,
+                      float pitch,
+                      boolean canPirot,
+                      int seatId,
+                      float defy,
+                      float mny,
+                      float mxy,
+                      float mnp,
+                      float mxp,
+                      boolean turret) {
             this.pos = new Vec3d(x, y + W_Entity.GLOBAL_Y_OFFSET, z);
             this.yaw = yaw;
             this.pitch = pitch;
@@ -1514,20 +1540,19 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
 
         public Weapon(
-                float x,
-                float y,
-                float z,
-                float yaw,
-                float pitch,
-                boolean canPirot,
-                int seatId,
-                float defy,
-                float mny,
-                float mxy,
-                float mnp,
-                float mxp,
-                boolean turret
-        ) {
+                      float x,
+                      float y,
+                      float z,
+                      float yaw,
+                      float pitch,
+                      boolean canPirot,
+                      int seatId,
+                      float defy,
+                      float mny,
+                      float mxy,
+                      float mnp,
+                      float mxp,
+                      boolean turret) {
             this.pos = new Vec3d(x, y + W_Entity.GLOBAL_Y_OFFSET, z);
             this.yaw = yaw;
             this.pitch = pitch;
@@ -1560,16 +1585,18 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class WeaponBay extends MCH_AircraftInfo.DrawnPart {
+
         public final float maxRotFactor;
         public final boolean isSlide;
 
         public final String weaponName;
 
-        public Integer[] weaponIds;//TODO, get rid of that shit and just use hashmaps once the fucking old parser is dead
+        public Integer[] weaponIds;// TODO, get rid of that shit and just use hashmaps once the fucking old parser is
+                                   // dead
 
         public WeaponBay(
-                MCH_AircraftInfo paramMCH_AircraftInfo, String wn, float px, float py, float pz, float rx, float ry, float rz, float mr, String name, boolean slide
-        ) {
+                         MCH_AircraftInfo paramMCH_AircraftInfo, String wn, float px, float py, float pz, float rx,
+                         float ry, float rz, float mr, String name, boolean slide) {
             super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
             this.maxRotFactor = mr;
             this.isSlide = slide;
@@ -1601,6 +1628,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     }
 
     public static class WeaponSet {
+
         public final String type;
         public final ArrayList<MCH_AircraftInfo.Weapon> weapons;
 
@@ -1625,6 +1653,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @AllArgsConstructor
     public static class Wheel {
+
         public final Vec3d pos;
         public final float size;
 

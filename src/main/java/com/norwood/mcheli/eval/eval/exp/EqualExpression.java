@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class EqualExpression extends Col2Expression {
+
     public EqualExpression() {
         this.setOperator("==");
     }

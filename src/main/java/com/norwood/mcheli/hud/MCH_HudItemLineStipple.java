@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class MCH_HudItemLineStipple extends MCH_HudItem {
+
     private final String pat;
     private final String fac;
     private final String[] pos;

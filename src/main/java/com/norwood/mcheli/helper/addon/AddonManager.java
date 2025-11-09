@@ -1,11 +1,13 @@
 package com.norwood.mcheli.helper.addon;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.helper.MCH_Utils;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
+
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLModContainer;
 import net.minecraftforge.fml.common.MetadataCollection;
@@ -14,14 +16,15 @@ import net.minecraftforge.fml.common.discovery.ModCandidate;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.helper.MCH_Utils;
 
 public class AddonManager {
+
     public static final Pattern ZIP_PATTERN = Pattern.compile("(.+).(zip|jar)$");
     public static final String BUILTIN_ADDON_DOMAIN = "@builtin";
     private static final Map<String, AddonPack> ADDON_LIST = Maps.newLinkedHashMap();
@@ -43,7 +46,7 @@ public class AddonManager {
         List<AddonPack> addons = Lists.newArrayList();
         File[] addonFiles = addonDir.listFiles();
 
-        MCH_MOD.getLogger().info("Found contents: " + addonFiles.toString() );
+        MCH_MOD.getLogger().info("Found contents: " + addonFiles.toString());
         for (File addonFile : addonFiles) {
             if (validAddonPath(addonFile)) {
                 AddonPack data = loadAddon(addonFile);
@@ -111,14 +114,15 @@ public class AddonManager {
         descriptor.put("version", addonPack.getVersion());
         File file = addonPack.getFile();
         FMLModContainer container = new FMLModContainer(
-                clazz.getName(), new ModCandidate(file, file, file.isDirectory() ? ContainerType.DIR : ContainerType.JAR), descriptor
-        );
+                clazz.getName(),
+                new ModCandidate(file, file, file.isDirectory() ? ContainerType.DIR : ContainerType.JAR), descriptor);
         container.bindMetadata(MetadataCollection.from(null, ""));
         FMLClientHandler.instance().addModAsResource(container);
     }
 
     private static boolean validAddonPath(File addonFile) {
-        return !GeneratedAddonPack.isGeneratedAddonName(addonFile) && (addonFile.isDirectory() || ZIP_PATTERN.matcher(addonFile.getName()).matches());
+        return !GeneratedAddonPack.isGeneratedAddonName(addonFile) &&
+                (addonFile.isDirectory() || ZIP_PATTERN.matcher(addonFile.getName()).matches());
     }
 
     private static void checkExistAddonDir(File addonDir) {

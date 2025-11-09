@@ -5,6 +5,7 @@ import com.norwood.mcheli.eval.eval.lex.Lex;
 import com.norwood.mcheli.eval.util.CharUtil;
 
 public class CharExpression extends WordExpression {
+
     public CharExpression(String str) {
         super(str);
         this.setOperator("'");

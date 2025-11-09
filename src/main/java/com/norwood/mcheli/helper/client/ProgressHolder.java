@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 
 public class ProgressHolder {
+
     private static ProgressBar currentBar;
 
     public static void push(String title, int steps) {

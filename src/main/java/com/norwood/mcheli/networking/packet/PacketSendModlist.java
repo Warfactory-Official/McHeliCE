@@ -1,21 +1,23 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
+import static com.norwood.mcheli.multiplay.MultiplayerHandler.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.MCH_Lib;
 
-import static com.norwood.mcheli.multiplay.MultiplayerHandler.*;
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
 
 @ElegantPacket
-//FIXME:Terrible implementation, low prio
+// FIXME:Terrible implementation, low prio
 public class PacketSendModlist implements ServerToClientPacket, ClientToServerPacket {
 
     public List<String> list = new ArrayList<>();
@@ -82,7 +84,5 @@ public class PacketSendModlist implements ServerToClientPacket, ClientToServerPa
             MCH_Lib.Log(s);
             mc.player.sendMessage(new TextComponentString(s));
         }
-
     }
-
 }

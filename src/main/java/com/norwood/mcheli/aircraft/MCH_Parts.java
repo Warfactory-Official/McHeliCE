@@ -1,12 +1,14 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
+
 public class MCH_Parts {
+
     public final Entity parent;
     public final EntityDataManager dataManager;
     public final int shift;
@@ -42,7 +44,8 @@ public class MCH_Parts {
 
     public void setStatusServer(boolean stat, boolean playSound) {
         if (!this.parent.world.isRemote && this.getStatus() != stat) {
-            MCH_Lib.DbgLog(false, "setStatusServer(ID=%d %s :%s -> %s)", this.shift, this.partName, this.getStatus() ? "ON" : "OFF", stat ? "ON" : "OFF");
+            MCH_Lib.DbgLog(false, "setStatusServer(ID=%d %s :%s -> %s)", this.shift, this.partName,
+                    this.getStatus() ? "ON" : "OFF", stat ? "ON" : "OFF");
             this.updateDataWatcher(stat);
             this.playSound(this.soundSwitching);
             if (!stat) {
@@ -118,12 +121,12 @@ public class MCH_Parts {
     }
 
     public static class Sound {
+
         public String name = "";
         public float volume = 1.0F;
         public float pitch = 1.0F;
 
-        public Sound(MCH_Parts paramMCH_Parts) {
-        }
+        public Sound(MCH_Parts paramMCH_Parts) {}
 
         public void setPrm(String n, float v, float p) {
             this.name = n;

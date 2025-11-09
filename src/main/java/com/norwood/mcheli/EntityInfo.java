@@ -1,7 +1,8 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.entity.Entity;
+
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 
 public class EntityInfo {
 
@@ -17,7 +18,8 @@ public class EntityInfo {
     public double prevZ;
     public long lastUpdateTime;
 
-    public EntityInfo(int entityId, String worldName, String entityName, String entityClassName, double posX, double posY, double posZ, double lastTickPosX, double lastTickPosY, double lastTickPosZ) {
+    public EntityInfo(int entityId, String worldName, String entityName, String entityClassName, double posX,
+                      double posY, double posZ, double lastTickPosX, double lastTickPosY, double lastTickPosZ) {
         this.entityId = entityId;
         this.worldName = worldName;
         this.entityName = entityName;
@@ -33,9 +35,9 @@ public class EntityInfo {
 
     public static EntityInfo createInfo(Entity e) {
         String name = String.valueOf(e.getCommandSenderEntity());
-        if(e instanceof MCH_EntityAircraft) {
+        if (e instanceof MCH_EntityAircraft) {
             MCH_EntityAircraft ac = (MCH_EntityAircraft) e;
-            if(ac.getAcInfo() != null) {
+            if (ac.getAcInfo() != null) {
                 name = ac.getAcInfo().name;
             }
         }
@@ -44,8 +46,7 @@ public class EntityInfo {
                 name,
                 e.getClass().getName(),
                 e.posX, e.posY, e.posZ,
-                e.lastTickPosX, e.lastTickPosY, e.lastTickPosZ
-        );
+                e.lastTickPosX, e.lastTickPosY, e.lastTickPosZ);
     }
 
     public double getDistanceToEntity(Entity e) {
@@ -55,6 +56,7 @@ public class EntityInfo {
     public double getDistanceSqToEntity(Entity e) {
         return (e.posX - x) * (e.posX - x) + (e.posY - y) * (e.posY - y) + (e.posZ - z) * (e.posZ - z);
     }
+
     public double getHorizonalDistanceSqToEntity(Entity e) {
         return (e.posX - x) * (e.posX - x) + (e.posZ - z) * (e.posZ - z);
     }

@@ -1,11 +1,12 @@
 package com.norwood.mcheli.eval.eval.exp;
 
-import com.norwood.mcheli.eval.eval.EvalException;
-
 import java.util.List;
 import java.util.Objects;
 
+import com.norwood.mcheli.eval.eval.EvalException;
+
 public abstract class AbstractExpression {
+
     public static final int TRUE = 1;
     public static final int FALSE = 0;
     public ShareExpValue share;
@@ -15,8 +16,7 @@ public abstract class AbstractExpression {
     private String ope1;
     private String ope2;
 
-    protected AbstractExpression() {
-    }
+    protected AbstractExpression() {}
 
     protected AbstractExpression(AbstractExpression from, ShareExpValue s) {
         this.string = from.string;
@@ -131,7 +131,8 @@ public abstract class AbstractExpression {
     public abstract int hashCode();
 
     public boolean same(AbstractExpression exp) {
-        return same(this.getOperator(), exp.getOperator()) && same(this.getEndOperator(), exp.getEndOperator()) && this.equals(exp);
+        return same(this.getOperator(), exp.getOperator()) && same(this.getEndOperator(), exp.getEndOperator()) &&
+                this.equals(exp);
     }
 
     public abstract void dump(int var1);

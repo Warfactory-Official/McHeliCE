@@ -1,18 +1,21 @@
 package com.norwood.mcheli.ship;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_KeyName;
-import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
+import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+
 @SideOnly(Side.CLIENT)
 public class MCH_GuiShip extends MCH_AircraftCommonGui {
+
     public MCH_GuiShip(Minecraft minecraft) {
         super(minecraft);
     }
@@ -64,19 +67,22 @@ public class MCH_GuiShip extends MCH_AircraftCommonGui {
                 this.drawKeyBind(plane, info, player, seatID, RX, LX, colorActive, colorInactive);
                 if (seatID == 0 && info.isEnableGunnerMode && !Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
                     int c = plane.isHoveringMode() ? colorInactive : colorActive;
-                    String msg = (plane.getIsGunnerMode(player) ? "Normal" : "Gunner") + " : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
+                    String msg = (plane.getIsGunnerMode(player) ? "Normal" : "Gunner") + " : " +
+                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
                     this.drawString(msg, RX, this.centerY - 70, c);
                 }
 
                 if (seatID > 0 && plane.canSwitchGunnerModeOtherSeat(player)) {
-                    String msg = (plane.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
+                    String msg = (plane.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " +
+                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
                     this.drawString(msg, RX, this.centerY - 40, colorActive);
                 }
 
                 if (seatID == 0 && info.isEnableVtol && !Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
                     int stat = plane.getVtolMode();
                     if (stat != 1) {
-                        String msg = (stat == 0 ? "VTOL : " : "Normal : ") + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
+                        String msg = (stat == 0 ? "VTOL : " : "Normal : ") +
+                                MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
                         this.drawString(msg, RX, this.centerY - 60, colorActive);
                     }
                 }

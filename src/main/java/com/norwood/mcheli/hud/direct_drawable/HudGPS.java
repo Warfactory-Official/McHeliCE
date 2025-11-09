@@ -1,8 +1,5 @@
 package com.norwood.mcheli.hud.direct_drawable;
 
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.weapon.GPSPosition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -15,17 +12,21 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
 import org.lwjgl.opengl.GL11;
 
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.weapon.GPSPosition;
+
 public class HudGPS implements DirectDrawable {
+
     public static final ResourceLocation GPS_POS = new ResourceLocation(Tags.MODID, "textures/gps_position.png");
     private static final int ICON_SIZE_PX = 24;
     public static HudGPS INSTANCE = new HudGPS();
 
-
     @Override
     public void renderHud(RenderGameOverlayEvent.Post event, Tuple<EntityPlayer, MCH_EntityAircraft> ctx) {
-
         var gps = GPSPosition.currentClientGPSPosition;
         if (gps == null || !gps.isActive()) return;
 
@@ -117,7 +118,6 @@ public class HudGPS implements DirectDrawable {
     private float getViewRollDeg(Minecraft mc, MCH_EntityAircraft ac, float partialTicks) {
         return -ac.rotationRoll;
     }
-
 
     @Override
     public DirectDrawable getInstance() {

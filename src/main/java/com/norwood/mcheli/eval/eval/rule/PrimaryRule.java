@@ -5,6 +5,7 @@ import com.norwood.mcheli.eval.eval.exp.*;
 import com.norwood.mcheli.eval.eval.lex.Lex;
 
 public class PrimaryRule extends AbstractRule {
+
     public PrimaryRule(ShareRuleValue share) {
         super(share);
     }
@@ -30,7 +31,8 @@ public class PrimaryRule extends AbstractRule {
                         yield this.parseParen(lex, ope, pos);
                     }
 
-                    yield Col1Expression.create(this.newExpression(ope, lex.getShare()), lex.getString(), pos, this.parse(lex.next()));
+                    yield Col1Expression.create(this.newExpression(ope, lex.getShare()), lex.getString(), pos,
+                            this.parse(lex.next()));
                 }
 
                 throw new EvalException(1002, lex);
@@ -53,7 +55,7 @@ public class PrimaryRule extends AbstractRule {
     protected AbstractExpression parseParen(Lex lex, String ope, int pos) {
         AbstractExpression s = this.share.topRule.parse(lex.next());
         if (!lex.isOperator(this.share.paren.getEndOperator())) {
-            throw new EvalException(1001, new String[]{this.share.paren.getEndOperator()}, lex);
+            throw new EvalException(1001, new String[] { this.share.paren.getEndOperator() }, lex);
         } else {
             lex.next();
             return Col1Expression.create(this.newExpression(ope, lex.getShare()), lex.getString(), pos, s);

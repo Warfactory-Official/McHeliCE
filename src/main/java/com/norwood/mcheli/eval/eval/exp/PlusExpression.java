@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class PlusExpression extends Col2Expression {
+
     public PlusExpression() {
         this.setOperator("+");
     }

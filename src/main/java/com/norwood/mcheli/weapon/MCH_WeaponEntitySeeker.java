@@ -4,6 +4,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public abstract class MCH_WeaponEntitySeeker extends MCH_WeaponBase {
+
     public MCH_IEntityLockChecker entityLockChecker;
     public final MCH_WeaponGuidanceSystem guidanceSystem;
 

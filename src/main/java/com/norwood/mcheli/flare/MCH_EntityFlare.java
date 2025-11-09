@@ -1,10 +1,5 @@
 package com.norwood.mcheli.flare;
 
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -14,9 +9,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
+
+import io.netty.buffer.ByteBuf;
+
 public class MCH_EntityFlare extends W_Entity implements IEntityAdditionalSpawnData {
+
     public double gravity = -0.013;
     public double airResistance = 0.992;
     public float size;
@@ -31,7 +35,8 @@ public class MCH_EntityFlare extends W_Entity implements IEntityAdditionalSpawnD
         this.fuseCount = 0;
     }
 
-    public MCH_EntityFlare(World par1World, double pX, double pY, double pZ, double mX, double mY, double mZ, float size, int fuseCount) {
+    public MCH_EntityFlare(World par1World, double pX, double pY, double pZ, double mX, double mY, double mZ,
+                           float size, int fuseCount) {
         this(par1World);
         this.setLocationAndAngles(pX, pY, pZ, 0.0F, 0.0F);
         this.motionX = mX;
@@ -62,7 +67,8 @@ public class MCH_EntityFlare extends W_Entity implements IEntityAdditionalSpawnD
                 double x = (this.rand.nextDouble() - 0.5) * 10.0;
                 double y = (this.rand.nextDouble() - 0.5) * 10.0;
                 double z = (this.rand.nextDouble() - 0.5) * 10.0;
-                MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", this.posX + x, this.posY + y, this.posZ + z);
+                MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", this.posX + x, this.posY + y,
+                        this.posZ + z);
                 prm.age = 200 + this.rand.nextInt(100);
                 prm.size = 20 + this.rand.nextInt(25);
                 prm.motionX = (this.rand.nextDouble() - 0.5) * 0.45;
@@ -115,12 +121,12 @@ public class MCH_EntityFlare extends W_Entity implements IEntityAdditionalSpawnD
                 double z = (this.posZ - this.prevPosZ) / 2.0;
 
                 for (int i = 0; i < 2; i++) {
-                    MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", this.prevPosX + x * i, this.prevPosY + y * i, this.prevPosZ + z * i);
+                    MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", this.prevPosX + x * i,
+                            this.prevPosY + y * i, this.prevPosZ + z * i);
                     prm.size = 6.0F + this.rand.nextFloat();
                     if (this.size < 5.0F) {
                         prm.a = (float) (prm.a * 0.75);
-                        if (this.rand.nextInt(2) == 0) {
-                        }
+                        if (this.rand.nextInt(2) == 0) {}
                     }
 
                     if (this.fuseCount > 0) {

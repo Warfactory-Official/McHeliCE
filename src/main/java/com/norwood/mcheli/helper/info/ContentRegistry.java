@@ -1,11 +1,5 @@
 package com.norwood.mcheli.helper.info;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
-import com.norwood.mcheli.MCH_BaseInfo;
-import com.norwood.mcheli.helper.MCH_Logger;
-
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,7 +7,15 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import javax.annotation.Nullable;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
+import com.norwood.mcheli.MCH_BaseInfo;
+import com.norwood.mcheli.helper.MCH_Logger;
+
 public class ContentRegistry<T extends MCH_BaseInfo> {
+
     private final Class<T> contentClass;
     private final String dir;
     private final Map<String, T> registry;
@@ -49,12 +51,12 @@ public class ContentRegistry<T extends MCH_BaseInfo> {
             if (this.contentClass.isInstance(newContent)) {
                 T castedContent = this.contentClass.cast(newContent);
 
-
                 this.registry.replace(key, castedContent);
                 return true;
             }
 
-            MCH_Logger.get().error("Content cast error, old dir:{}, new dir:{}", content.getClass(), newContent.getClass());
+            MCH_Logger.get().error("Content cast error, old dir:{}, new dir:{}", content.getClass(),
+                    newContent.getClass());
         }
 
         return false;
@@ -81,6 +83,7 @@ public class ContentRegistry<T extends MCH_BaseInfo> {
     public void forEachValue(Consumer<? super T> action) {
         this.registry.values().forEach(action);
     }
+
     public boolean contains(String key) {
         return this.registry.containsKey(key);
     }
@@ -98,6 +101,7 @@ public class ContentRegistry<T extends MCH_BaseInfo> {
     }
 
     public static class Builder<E extends MCH_BaseInfo> {
+
         private final Class<E> clazz;
         private final String dirName;
         private final Map<String, E> map = Maps.newHashMap();

@@ -1,10 +1,5 @@
 package com.norwood.mcheli.helper.io;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.collect.Lists;
-import org.jline.utils.OSUtils;
-
-import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,7 +10,15 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.annotation.Nullable;
+
+import org.jline.utils.OSUtils;
+
+import com.google.common.base.CharMatcher;
+import com.google.common.collect.Lists;
+
 public abstract class ResourceLoader implements Closeable {
+
     protected final File dir;
 
     ResourceLoader(File file) {
@@ -51,6 +54,7 @@ public abstract class ResourceLoader implements Closeable {
     }
 
     static class DirectoryLoader extends ResourceLoader {
+
         private static final boolean ON_WINDOWS = OSUtils.IS_WINDOWS;
         private static final CharMatcher BACKSLASH_MATCHER = CharMatcher.is('\\');
 
@@ -66,7 +70,8 @@ public abstract class ResourceLoader implements Closeable {
             return list;
         }
 
-        private void loadFiles(File dir, List<ResourceLoader.ResourceEntry> list, Predicate<? super ResourceLoader.ResourceEntry> filePathFilter) {
+        private void loadFiles(File dir, List<ResourceLoader.ResourceEntry> list,
+                               Predicate<? super ResourceLoader.ResourceEntry> filePathFilter) {
             if (dir.exists()) {
                 if (dir.isDirectory()) {
                     for (File file : dir.listFiles()) {
@@ -102,7 +107,8 @@ public abstract class ResourceLoader implements Closeable {
         public InputStream getInputStreamFromEntry(ResourceLoader.ResourceEntry resource) throws IOException {
             File file1 = this.getFile(resource.getPath());
             if (file1 == null) {
-                throw new FileNotFoundException(String.format("'%s' in ResourcePack '%s'", this.dir, resource.getPath()));
+                throw new FileNotFoundException(
+                        String.format("'%s' in ResourcePack '%s'", this.dir, resource.getPath()));
             } else {
                 return new BufferedInputStream(Files.newInputStream(file1.toPath()));
             }
@@ -115,8 +121,7 @@ public abstract class ResourceLoader implements Closeable {
                 if (file1.isFile() && this.validatePath(file1, filepath)) {
                     return file1;
                 }
-            } catch (IOException var3) {
-            }
+            } catch (IOException var3) {}
 
             return null;
         }
@@ -131,11 +136,11 @@ public abstract class ResourceLoader implements Closeable {
         }
 
         @Override
-        public void close() {
-        }
+        public void close() {}
     }
 
     public static class ResourceEntry {
+
         private final String path;
         private final boolean isDirectory;
 
@@ -154,6 +159,7 @@ public abstract class ResourceLoader implements Closeable {
     }
 
     static class ZipJarFileLoader extends ResourceLoader {
+
         private ZipFile resourcePackZipFile;
 
         ZipJarFileLoader(File file) {
@@ -186,7 +192,8 @@ public abstract class ResourceLoader implements Closeable {
             ZipFile zipfile = this.getResourcePackZipFile();
             ZipEntry zipentry = zipfile.getEntry(resource.getPath());
             if (zipentry == null) {
-                throw new FileNotFoundException(String.format("'%s' in ResourcePack '%s'", this.dir, resource.getPath()));
+                throw new FileNotFoundException(
+                        String.format("'%s' in ResourcePack '%s'", this.dir, resource.getPath()));
             } else {
                 return zipfile.getInputStream(zipentry);
             }

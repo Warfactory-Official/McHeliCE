@@ -1,5 +1,8 @@
 package com.norwood.mcheli.helicopter;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_Lib;
@@ -13,10 +16,9 @@ import com.norwood.mcheli.networking.packet.control.PacketPlayerControlHeli;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Reflection;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
+
     public MCH_Key KeySwitchMode;
     public MCH_Key KeySwitchHovering;
     public MCH_Key KeyZoom;
@@ -33,7 +35,7 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
         this.KeySwitchMode = new MCH_Key(MCH_Config.KeySwitchMode.prmInt);
         this.KeySwitchHovering = new MCH_Key(MCH_Config.KeySwitchHovering.prmInt);
         this.KeyZoom = new MCH_Key(MCH_Config.KeyZoom.prmInt);
-        this.Keys = new MCH_Key[]{
+        this.Keys = new MCH_Key[] {
                 this.KeyUp,
                 this.KeyDown,
                 this.KeyRight,
@@ -137,7 +139,8 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityHeli heli, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, heli, isPilot, new PacketPlayerControlHeli(new DataPlayerControlVehicle()));
+        this.commonPlayerControlInGUI(player, heli, isPilot,
+                new PacketPlayerControlHeli(new DataPlayerControlVehicle()));
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityHeli heli, boolean isPilot) {
@@ -168,7 +171,8 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
 
             if (this.KeySwitchHovering.isKeyDown()) {
                 if (heli.canSwitchHoveringMode()) {
-                    pc.switchMode = (heli.isHoveringMode() ? DataPlayerControlAircraft.ModeSwitch.HOVERING_OFF : DataPlayerControlAircraft.ModeSwitch.HOVERING_ON);
+                    pc.switchMode = (heli.isHoveringMode() ? DataPlayerControlAircraft.ModeSwitch.HOVERING_OFF :
+                            DataPlayerControlAircraft.ModeSwitch.HOVERING_ON);
                     heli.switchHoveringMode(!heli.isHoveringMode());
                     send = true;
                 } else {
@@ -176,7 +180,8 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
                 }
             } else if (this.KeySwitchMode.isKeyDown()) {
                 if (heli.canSwitchGunnerMode()) {
-                    pc.setSwitchMode(heli.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF : DataPlayerControlAircraft.ModeSwitch.GUNNER_ON);
+                    pc.setSwitchMode(heli.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF :
+                            DataPlayerControlAircraft.ModeSwitch.GUNNER_ON);
                     heli.switchGunnerMode(!heli.getIsGunnerMode(player));
                     send = true;
                 } else {

@@ -1,17 +1,20 @@
 package com.norwood.mcheli.vehicle;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_KeyName;
-import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import org.lwjgl.opengl.GL11;
+
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
+import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiVehicle extends MCH_AircraftCommonGui {
+
     static final int COLOR1 = -14066;
     static final int COLOR2 = -2161656;
 
@@ -63,14 +66,12 @@ public class MCH_GuiVehicle extends MCH_AircraftCommonGui {
                     this.drawString(msg, RX, this.centerY - 50, c);
                 }
 
-                String msg = "Gunner "
-                        + (vehicle.getGunnerStatus() ? "ON" : "OFF")
-                        + " : "
-                        + MCH_KeyName.getDescOrName(MCH_Config.KeyFreeLook.prmInt)
-                        + " + "
-                        + MCH_KeyName.getDescOrName(MCH_Config.KeyCameraMode.prmInt);
+                String msg = "Gunner " + (vehicle.getGunnerStatus() ? "ON" : "OFF") + " : " +
+                        MCH_KeyName.getDescOrName(MCH_Config.KeyFreeLook.prmInt) + " + " +
+                        MCH_KeyName.getDescOrName(MCH_Config.KeyCameraMode.prmInt);
                 this.drawString(msg, LX, this.centerY - 40, colorActive);
-                if (vehicle.getSizeInventory() <= 0 || vehicle.getTowChainEntity() != null && !vehicle.getTowChainEntity().isDead) {
+                if (vehicle.getSizeInventory() <= 0 ||
+                        vehicle.getTowChainEntity() != null && !vehicle.getTowChainEntity().isDead) {
                     msg = "Drop  : " + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
                     this.drawString(msg, RX, this.centerY - 30, colorActive);
                 }

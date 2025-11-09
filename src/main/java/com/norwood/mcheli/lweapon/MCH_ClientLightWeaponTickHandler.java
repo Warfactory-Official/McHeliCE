@@ -1,5 +1,22 @@
 package com.norwood.mcheli.lweapon;
 
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.Vec3d;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
+
 import com.norwood.mcheli.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
@@ -12,22 +29,9 @@ import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponCreator;
 import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
 import com.norwood.mcheli.wrapper.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.Vec3d;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
-
-import javax.annotation.Nullable;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 
 public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase {
+
     public static int reloadCount;
     public static int lockonSoundCount;
     public static int weaponMode;
@@ -71,22 +75,26 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
             GL11.glGetFloat(2983, matProjection);
             GL11.glGetInteger(2978, matViewport);
             GLU.gluProject((float) x, (float) y, (float) z, matModel, matProjection, matViewport, screenPos);
-            MCH_AircraftInfo i = entity instanceof MCH_EntityAircraft ? ((MCH_EntityAircraft) entity).getAcInfo() : null;
+            MCH_AircraftInfo i = entity instanceof MCH_EntityAircraft ? ((MCH_EntityAircraft) entity).getAcInfo() :
+                    null;
             float w = entity.width > entity.height ? entity.width : (i != null ? i.markerWidth : entity.height);
             float h = i != null ? i.markerHeight : entity.height;
-            GLU.gluProject((float) x + w, (float) y + h, (float) z + w, matModel, matProjection, matViewport, screenPosBB);
+            GLU.gluProject((float) x + w, (float) y + h, (float) z + w, matModel, matProjection, matViewport,
+                    screenPosBB);
             markEntity = entity;
         }
     }
 
     @Nullable
     public static Vec3d getMartEntityPos() {
-        return gs.getLockingEntity() == markEntity && markEntity != null ? new Vec3d(screenPos.get(0), screenPos.get(1), screenPos.get(2)) : null;
+        return gs.getLockingEntity() == markEntity && markEntity != null ?
+                new Vec3d(screenPos.get(0), screenPos.get(1), screenPos.get(2)) : null;
     }
 
     @Nullable
     public static Vec3d getMartEntityBBPos() {
-        return gs.getLockingEntity() == markEntity && markEntity != null ? new Vec3d(screenPosBB.get(0), screenPosBB.get(1), screenPosBB.get(2)) : null;
+        return gs.getLockingEntity() == markEntity && markEntity != null ?
+                new Vec3d(screenPosBB.get(0), screenPosBB.get(1), screenPosBB.get(2)) : null;
     }
 
     public static int getPotionNightVisionDuration(EntityPlayer player) {
@@ -107,7 +115,8 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
         this.KeySwWeaponMode = new MCH_Key(MCH_Config.KeySwWeaponMode.prmInt);
         this.KeyZoom = new MCH_Key(MCH_Config.KeyZoom.prmInt);
         this.KeyCameraMode = new MCH_Key(MCH_Config.KeyCameraMode.prmInt);
-        this.Keys = new MCH_Key[]{this.KeyAttack, this.KeyUseWeapon, this.KeySwWeaponMode, this.KeyZoom, this.KeyCameraMode};
+        this.Keys = new MCH_Key[] { this.KeyAttack, this.KeyUseWeapon, this.KeySwWeaponMode, this.KeyZoom,
+                this.KeyCameraMode };
     }
 
     @Override
@@ -124,7 +133,8 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
         }
 
         ItemStack is = player != null ? player.getHeldItemMainhand() : ItemStack.EMPTY;
-        if (player == null || player.getRidingEntity() instanceof MCH_EntityGLTD || player.getRidingEntity() instanceof MCH_EntityAircraft) {
+        if (player == null || player.getRidingEntity() instanceof MCH_EntityGLTD ||
+                player.getRidingEntity() instanceof MCH_EntityAircraft) {
             is = ItemStack.EMPTY;
         }
 
@@ -133,9 +143,11 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
         }
 
         if (!is.isEmpty() && is.getItem() instanceof MCH_ItemLightWeaponBase lweapon) {
-            if (this.prevItemStack.isEmpty() || !this.prevItemStack.isItemEqual(is) && !this.prevItemStack.getTranslationKey().equals(is.getTranslationKey())) {
+            if (this.prevItemStack.isEmpty() || !this.prevItemStack.isItemEqual(is) &&
+                    !this.prevItemStack.getTranslationKey().equals(is.getTranslationKey())) {
                 this.initWeaponParam(player);
-                weapon = MCH_WeaponCreator.createWeapon(player.world, MCH_ItemLightWeaponBase.getName(is), Vec3d.ZERO, 0.0F, 0.0F, null, false);
+                weapon = MCH_WeaponCreator.createWeapon(player.world, MCH_ItemLightWeaponBase.getName(is), Vec3d.ZERO,
+                        0.0F, 0.0F, null, false);
                 if (weapon != null && weapon.getInfo() != null && weapon.getGuidanceSystem() != null) {
                     gs = weapon.getGuidanceSystem();
                 }
@@ -162,7 +174,8 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
                             lockonSoundCount--;
                         } else {
                             lockonSoundCount = 7;
-                            lockonSoundCount = (int) (lockonSoundCount * (1.0 - (float) gs.getLockCount() / gs.getLockCountMax()));
+                            lockonSoundCount = (int) (lockonSoundCount *
+                                    (1.0 - (float) gs.getLockCount() / gs.getLockCountMax()));
                             if (lockonSoundCount < 3) {
                                 lockonSoundCount = 2;
                             }
@@ -234,7 +247,8 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
     protected void playerControl(EntityPlayer player, ItemStack is, MCH_ItemLightWeaponBase item) {
         PacketPlayerLightWeaponControl packet = new PacketPlayerLightWeaponControl();
         boolean send = false;
-        boolean autoShot = MCH_Config.LWeaponAutoFire.prmBool && is.getMetadata() < is.getMaxDamage() && gs.isLockComplete();
+        boolean autoShot = MCH_Config.LWeaponAutoFire.prmBool && is.getMetadata() < is.getMaxDamage() &&
+                gs.isLockComplete();
 
         if (this.KeySwWeaponMode.isKeyDown() && weapon.numMode > 1) {
             weaponMode = (weaponMode + 1) % weapon.numMode;

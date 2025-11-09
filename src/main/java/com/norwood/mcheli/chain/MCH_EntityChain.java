@@ -1,8 +1,7 @@
 package com.norwood.mcheli.chain;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,13 +16,19 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityChain extends W_Entity {
-    private static final DataParameter<Integer> TOWED_ID = EntityDataManager.createKey(MCH_EntityChain.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> TOW_ID = EntityDataManager.createKey(MCH_EntityChain.class, DataSerializers.VARINT);
+
+    private static final DataParameter<Integer> TOWED_ID = EntityDataManager.createKey(MCH_EntityChain.class,
+            DataSerializers.VARINT);
+    private static final DataParameter<Integer> TOW_ID = EntityDataManager.createKey(MCH_EntityChain.class,
+            DataSerializers.VARINT);
     public Entity towEntity;
     public Entity towedEntity;
     public String towEntityUUID;
@@ -113,7 +118,8 @@ public class MCH_EntityChain extends W_Entity {
     }
 
     public void setTowEntity(Entity towedEntity, Entity towEntity) {
-        if (towedEntity != null && towEntity != null && !towedEntity.isDead && !towEntity.isDead && !W_Entity.isEqual(towedEntity, towEntity)) {
+        if (towedEntity != null && towEntity != null && !towedEntity.isDead && !towEntity.isDead &&
+                !W_Entity.isEqual(towedEntity, towEntity)) {
             this.isTowing = true;
             this.towedEntity = towedEntity;
             this.towEntity = towEntity;
@@ -138,8 +144,10 @@ public class MCH_EntityChain extends W_Entity {
     }
 
     public void searchTowingEntity() {
-        if ((this.towedEntity == null || this.towEntity == null) && !this.towedEntityUUID.isEmpty() && !this.towEntityUUID.isEmpty()) {
-            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(32.0, 32.0, 32.0));
+        if ((this.towedEntity == null || this.towEntity == null) && !this.towedEntityUUID.isEmpty() &&
+                !this.towEntityUUID.isEmpty()) {
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this,
+                    this.getEntityBoundingBox().grow(32.0, 32.0, 32.0));
             for (Entity entity : list) {
                 String uuid = entity.getPersistentID().toString();
                 if (this.towedEntity == null && uuid.compareTo(this.towedEntityUUID) == 0) {
@@ -178,7 +186,8 @@ public class MCH_EntityChain extends W_Entity {
 
     public void onUpdate_Client() {
         if (!this.isTowingEntity()) {
-            this.setTowEntity(this.world.getEntityByID(this.dataManager.get(TOWED_ID)), this.world.getEntityByID(this.dataManager.get(TOW_ID)));
+            this.setTowEntity(this.world.getEntityByID(this.dataManager.get(TOWED_ID)),
+                    this.world.getEntityByID(this.dataManager.get(TOW_ID)));
         }
 
         double d4 = this.posX + this.motionX;
@@ -243,7 +252,8 @@ public class MCH_EntityChain extends W_Entity {
             this.towedEntity.motionZ -= dz * accl / tmp;
             if (dist > MAX_DIST) {
                 this.towedEntity
-                        .setPosition(this.towEntity.posX + dx * MAX_DIST / dist, this.towEntity.posY + dy * MAX_DIST / dist, this.towEntity.posZ + dz * MAX_DIST / dist);
+                        .setPosition(this.towEntity.posX + dx * MAX_DIST / dist,
+                                this.towEntity.posY + dy * MAX_DIST / dist, this.towEntity.posZ + dz * MAX_DIST / dist);
             }
         }
     }
@@ -253,7 +263,8 @@ public class MCH_EntityChain extends W_Entity {
     }
 
     protected void writeEntityToNBT(@NotNull NBTTagCompound nbt) {
-        if (this.isTowing && this.towEntity != null && !this.towEntity.isDead && this.towedEntity != null && !this.towedEntity.isDead) {
+        if (this.isTowing && this.towEntity != null && !this.towEntity.isDead && this.towedEntity != null &&
+                !this.towedEntity.isDead) {
             nbt.setString("TowEntityUUID", this.towEntity.getPersistentID().toString());
             nbt.setString("TowedEntityUUID", this.towedEntity.getPersistentID().toString());
             nbt.setInteger("ChainLength", this.getChainLength());

@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class LetShiftRightLogicalExpression extends ShiftRightLogicalExpression {
+
     public LetShiftRightLogicalExpression() {
         this.setOperator(">>>=");
     }

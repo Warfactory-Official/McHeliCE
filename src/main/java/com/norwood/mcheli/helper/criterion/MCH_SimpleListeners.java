@@ -1,14 +1,16 @@
 package com.norwood.mcheli.helper.criterion;
 
-import com.google.common.collect.Sets;
+import java.util.Set;
+
 import net.minecraft.advancements.ICriterionTrigger.Listener;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.Set;
+import com.google.common.collect.Sets;
 
 public class MCH_SimpleListeners {
+
     private final Set<Listener<MCH_SimpleListeners.SimpleInstance>> listeners = Sets.newHashSet();
     private final PlayerAdvancements playerAdvancements;
 
@@ -35,6 +37,7 @@ public class MCH_SimpleListeners {
     }
 
     public static class SimpleInstance extends AbstractCriterionInstance {
+
         public SimpleInstance(ResourceLocation criterionIn) {
             super(criterionIn);
         }

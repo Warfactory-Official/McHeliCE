@@ -1,16 +1,7 @@
 package com.norwood.mcheli.helicopter;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_ServerSettings;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.aircraft.MCH_Rotor;
-import com.norwood.mcheli.networking.packet.PacketStatusRequest;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_Lib;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.item.Item;
@@ -23,10 +14,22 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_ServerSettings;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_Rotor;
+import com.norwood.mcheli.networking.packet.PacketStatusRequest;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_Lib;
 
 public class MCH_EntityHeli extends MCH_EntityAircraft {
-    private static final DataParameter<Byte> FOLD_STAT = EntityDataManager.createKey(MCH_EntityHeli.class, DataSerializers.BYTE);
+
+    private static final DataParameter<Byte> FOLD_STAT = EntityDataManager.createKey(MCH_EntityHeli.class,
+            DataSerializers.BYTE);
     public double prevRotationRotor = 0.0;
     public double rotationRotor = 0.0;
     public MCH_Rotor[] rotors;
@@ -74,7 +77,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         }
 
         if (this.heliInfo == null) {
-            MCH_Lib.Log(this, "##### MCH_EntityHeli changeHeliType() Heli info null %d, %s, %s", W_Entity.getEntityId(this), type, this.getEntityName());
+            MCH_Lib.Log(this, "##### MCH_EntityHeli changeHeliType() Heli info null %d, %s, %s",
+                    W_Entity.getEntityId(this), type, this.getEntityName());
             this.setDead(true);
         } else {
             this.setAcInfo(this.heliInfo);
@@ -118,26 +122,16 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             this.setCommonUniqueId(par1NBTTagCompound.getString("HeliUniqueId"));
             MCH_Lib.Log(
                     this,
-                    "# MCH_EntityHeli readEntityFromNBT() "
-                            + W_Entity.getEntityId(this)
-                            + ", "
-                            + this.getEntityName()
-                            + ", AircraftUniqueId=null, HeliUniqueId="
-                            + this.getCommonUniqueId()
-            );
+                    "# MCH_EntityHeli readEntityFromNBT() " + W_Entity.getEntityId(this) + ", " + this.getEntityName() +
+                            ", AircraftUniqueId=null, HeliUniqueId=" + this.getCommonUniqueId());
         }
 
         if (this.getTypeName().isEmpty()) {
             this.setTypeName(par1NBTTagCompound.getString("HeliType"));
             MCH_Lib.Log(
                     this,
-                    "# MCH_EntityHeli readEntityFromNBT() "
-                            + W_Entity.getEntityId(this)
-                            + ", "
-                            + this.getEntityName()
-                            + ", TypeName=null, HeliType="
-                            + this.getTypeName()
-            );
+                    "# MCH_EntityHeli readEntityFromNBT() " + W_Entity.getEntityId(this) + ", " + this.getEntityName() +
+                            ", TypeName=null, HeliType=" + this.getTypeName());
         }
 
         this.setCurrentThrottle(par1NBTTagCompound.getDouble("RotorSpeed"));
@@ -146,7 +140,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         if (this.heliInfo == null) {
             this.heliInfo = MCH_HeliInfoManager.get(this.getTypeName());
             if (this.heliInfo == null) {
-                MCH_Lib.Log(this, "##### MCH_EntityHeli readEntityFromNBT() Heli info null %d, %s", W_Entity.getEntityId(this), this.getEntityName());
+                MCH_Lib.Log(this, "##### MCH_EntityHeli readEntityFromNBT() Heli info null %d, %s",
+                        W_Entity.getEntityId(this), this.getEntityName());
                 this.setDead(true);
             } else {
                 this.setAcInfo(this.heliInfo);
@@ -162,7 +157,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
 
     @Override
     public float getSoundVolume() {
-        return this.getAcInfo() != null && this.getAcInfo().throttleUpDown <= 0.0F ? 0.0F : (float) this.getCurrentThrottle() * 2.0F;
+        return this.getAcInfo() != null && this.getAcInfo().throttleUpDown <= 0.0F ? 0.0F :
+                (float) this.getCurrentThrottle() * 2.0F;
     }
 
     @Override
@@ -200,8 +196,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
                         (float) r.rot.x,
                         (float) r.rot.y,
                         (float) r.rot.z,
-                        r.haveFoldFunc
-                );
+                        r.haveFoldFunc);
                 i++;
             }
         }
@@ -222,10 +217,9 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
     }
 
     protected boolean canSwitchFoldBlades() {
-        return this.heliInfo != null && this.rotors.length > 0 && this.heliInfo.isEnableFoldBlade
-                && this.getCurrentThrottle() <= 0.01
-                && this.foldBladesCooldown == 0
-                && (this.getFoldBladeStat() == 2 || this.getFoldBladeStat() == 0);
+        return this.heliInfo != null && this.rotors.length > 0 && this.heliInfo.isEnableFoldBlade &&
+                this.getCurrentThrottle() <= 0.01 && this.foldBladesCooldown == 0 &&
+                (this.getFoldBladeStat() == 2 || this.getFoldBladeStat() == 0);
     }
 
     protected boolean canUseBlades() {
@@ -282,7 +276,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         return this.dataManager.get(FOLD_STAT);
     }
 
-    //huh
+    // huh
     public void setFoldBladeStat(byte b) {
         if (!this.world.isRemote && b >= 0 && b <= 3) {
             this.dataManager.set(FOLD_STAT, b);
@@ -423,19 +417,23 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             rotRoll = 1.0F - rotRoll * partialTicks;
             if (MCH_ServerSettings.enableRotationLimit) {
                 if (this.getRotPitch() > MCH_ServerSettings.pitchLimitMax) {
-                    this.setRotPitch(this.getRotPitch() - Math.abs((this.getRotPitch() - MCH_ServerSettings.pitchLimitMax) * 0.1F * partialTicks));
+                    this.setRotPitch(this.getRotPitch() -
+                            Math.abs((this.getRotPitch() - MCH_ServerSettings.pitchLimitMax) * 0.1F * partialTicks));
                 }
 
                 if (this.getRotPitch() < MCH_ServerSettings.pitchLimitMin) {
-                    this.setRotPitch(this.getRotPitch() + Math.abs((this.getRotPitch() - MCH_ServerSettings.pitchLimitMin) * 0.2F * partialTicks));
+                    this.setRotPitch(this.getRotPitch() +
+                            Math.abs((this.getRotPitch() - MCH_ServerSettings.pitchLimitMin) * 0.2F * partialTicks));
                 }
 
                 if (this.getRotRoll() > MCH_ServerSettings.rollLimit) {
-                    this.setRotRoll(this.getRotRoll() - Math.abs((this.getRotRoll() - MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
+                    this.setRotRoll(this.getRotRoll() -
+                            Math.abs((this.getRotRoll() - MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
                 }
 
                 if (this.getRotRoll() < -MCH_ServerSettings.rollLimit) {
-                    this.setRotRoll(this.getRotRoll() + Math.abs((this.getRotRoll() + MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
+                    this.setRotRoll(this.getRotRoll() +
+                            Math.abs((this.getRotRoll() + MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
                 }
             }
 
@@ -460,7 +458,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
                     this.applyOnGroundPitch(0.97F);
                 }
 
-                if (this.heliInfo.isEnableFoldBlade && this.rotors.length > 0 && this.getFoldBladeStat() == 0 && !this.isDestroyed()) {
+                if (this.heliInfo.isEnableFoldBlade && this.rotors.length > 0 && this.getFoldBladeStat() == 0 &&
+                        !this.isDestroyed()) {
                     if (this.moveLeft && !this.moveRight) {
                         this.setRotYaw(this.getRotYaw() - 0.5F * partialTicks);
                     }
@@ -517,11 +516,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             this.switchGunnerMode(false);
         }
 
-        if (!this.isDestroyed()
-                && (this.getRiddenByEntity() != null || this.isHoveringMode())
-                && this.canUseBlades()
-                && this.isCanopyClose()
-                && this.canUseFuel(true)) {
+        if (!this.isDestroyed() && (this.getRiddenByEntity() != null || this.isHoveringMode()) && this.canUseBlades() &&
+                this.isCanopyClose() && this.canUseFuel(true)) {
             if (!this.isHovering()) {
                 this.onUpdate_ControlNotHovering();
             } else {
@@ -534,7 +530,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
                 this.setCurrentThrottle(0.0);
             }
 
-            if (this.heliInfo.isEnableFoldBlade && this.rotors.length > 0 && this.getFoldBladeStat() == 0 && this.onGround && !this.isDestroyed()) {
+            if (this.heliInfo.isEnableFoldBlade && this.rotors.length > 0 && this.getFoldBladeStat() == 0 &&
+                    this.onGround && !this.isDestroyed()) {
                 this.onUpdate_ControlFoldBladeAndOnGround();
             }
         }
@@ -557,7 +554,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         }
 
         this.prevRotationRotor = this.rotationRotor;
-        this.rotationRotor = this.rotationRotor + (1.0 - Math.pow(1.0 - this.getCurrentThrottle(), 5.0)) * this.getAcInfo().rotorSpeed;
+        this.rotationRotor = this.rotationRotor +
+                (1.0 - Math.pow(1.0 - this.getCurrentThrottle(), 5.0)) * this.getAcInfo().rotorSpeed;
         this.rotationRotor %= 360.0;
     }
 
@@ -575,13 +573,14 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             } else {
                 this.setCurrentThrottle(0.0);
             }
-        } else if ((!this.world.isRemote || W_Lib.isClientPlayer(this.getRiddenByEntity())) && this.cs_heliAutoThrottleDown) {
-            if (this.getCurrentThrottle() > 0.52) {
-                this.addCurrentThrottle(-0.01 * throttleUpDown);
-            } else if (this.getCurrentThrottle() < 0.48) {
-                this.addCurrentThrottle(0.01 * throttleUpDown);
-            }
-        }
+        } else if ((!this.world.isRemote || W_Lib.isClientPlayer(this.getRiddenByEntity())) &&
+                this.cs_heliAutoThrottleDown) {
+                    if (this.getCurrentThrottle() > 0.52) {
+                        this.addCurrentThrottle(-0.01 * throttleUpDown);
+                    } else if (this.getCurrentThrottle() < 0.48) {
+                        this.addCurrentThrottle(0.01 * throttleUpDown);
+                    }
+                }
 
         if (!this.world.isRemote) {
             boolean move = false;
@@ -720,8 +719,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
                                 if (p < this.rand.nextFloat() / 2.0F) {
                                     float c = 0.2F + this.rand.nextFloat() * 0.3F;
                                     MCH_ParticleParam prm = new MCH_ParticleParam(
-                                            this.world, "smoke", prev.x + (x - prev.x) * (i / num), prev.y + (y - prev.y) * (i / num), prev.z + (z - prev.z) * (i / num)
-                                    );
+                                            this.world, "smoke", prev.x + (x - prev.x) * (i / num),
+                                            prev.y + (y - prev.y) * (i / num), prev.z + (z - prev.z) * (i / num));
                                     prm.motionX = (this.rand.nextDouble() - 0.5) * 0.3;
                                     prm.motionY = this.rand.nextDouble() * 0.1;
                                     prm.motionZ = (this.rand.nextDouble() - 0.5) * 0.3;
@@ -788,8 +787,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             }
         }
 
-        if (this.getRiddenByEntity() != null) {
-        }
+        if (this.getRiddenByEntity() != null) {}
 
         this.onUpdate_ParticleSandCloud(false);
         this.onUpdate_Particle2();
@@ -806,15 +804,18 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             }
 
             if (dp == 0.0) {
-                this.motionY = this.motionY + (!this.isInWater() ? this.getAcInfo().gravity : this.getAcInfo().gravityInWater);
+                this.motionY = this.motionY +
+                        (!this.isInWater() ? this.getAcInfo().gravity : this.getAcInfo().gravityInWater);
                 float yaw = this.getRotYaw() / 180.0F * (float) Math.PI;
                 float pitch = this.getRotPitch();
                 if (MCH_Lib.getBlockIdY(this, 3, -3) > 0) {
                     pitch -= ogp;
                 }
 
-                this.motionX = this.motionX + 0.1 * MathHelper.sin(yaw) * this.currentSpeed * -(pitch * pitch * pitch / 20000.0F) * this.getCurrentThrottle();
-                this.motionZ = this.motionZ + 0.1 * MathHelper.cos(yaw) * this.currentSpeed * (pitch * pitch * pitch / 20000.0F) * this.getCurrentThrottle();
+                this.motionX = this.motionX + 0.1 * MathHelper.sin(yaw) * this.currentSpeed *
+                        -(pitch * pitch * pitch / 20000.0F) * this.getCurrentThrottle();
+                this.motionZ = this.motionZ + 0.1 * MathHelper.cos(yaw) * this.currentSpeed *
+                        (pitch * pitch * pitch / 20000.0F) * this.getCurrentThrottle();
                 double y = 0.0;
                 if (MathHelper.abs(this.getRotPitch()) + MathHelper.abs(this.getRotRoll() * 0.9F) <= 40.0F) {
                     y = 1.0 - y / 40.0;

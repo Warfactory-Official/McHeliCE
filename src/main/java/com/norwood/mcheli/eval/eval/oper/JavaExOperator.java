@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 public class JavaExOperator implements Operator {
+
     boolean inLong(Object x) {
         if (x instanceof Long) {
             return true;

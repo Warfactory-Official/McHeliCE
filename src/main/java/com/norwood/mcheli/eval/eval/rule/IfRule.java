@@ -6,6 +6,7 @@ import com.norwood.mcheli.eval.eval.exp.Col3Expression;
 import com.norwood.mcheli.eval.eval.lex.Lex;
 
 public class IfRule extends AbstractRule {
+
     public AbstractExpression cond;
 
     public IfRule(ShareRuleValue share) {
@@ -30,7 +31,7 @@ public class IfRule extends AbstractRule {
     protected AbstractExpression parseCond(Lex lex, AbstractExpression x, String ope, int pos) {
         AbstractExpression y = this.parse(lex.next());
         if (!lex.isOperator(this.cond.getEndOperator())) {
-            throw new EvalException(1001, new String[]{this.cond.getEndOperator()}, lex);
+            throw new EvalException(1001, new String[] { this.cond.getEndOperator() }, lex);
         } else {
             AbstractExpression z = this.parse(lex.next());
             return Col3Expression.create(this.newExpression(ope, lex.getShare()), lex.getString(), pos, x, y, z);

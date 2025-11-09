@@ -1,13 +1,15 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
 
 @ElegantPacket
 public class PacketCommandSave extends PacketBase implements ClientToServerPacket {
+
     public String str = "";
 
     public static void send(String cmd) {
@@ -19,10 +21,10 @@ public class PacketCommandSave extends PacketBase implements ClientToServerPacke
     @Override
     public void onReceive(EntityPlayerMP player) {
         if (player != null) {
-                MCH_EntityAircraft ac = MCH_EntityAircraft.getAircraft_RiddenOrControl(player);
-                if (ac != null) {
-                    ac.setCommand(str, player);
-                }
+            MCH_EntityAircraft ac = MCH_EntityAircraft.getAircraft_RiddenOrControl(player);
+            if (ac != null) {
+                ac.setCommand(str, player);
+            }
         }
     }
 }

@@ -1,12 +1,14 @@
 package com.norwood.mcheli.helicopter;
 
-import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
-import com.norwood.mcheli.helper.info.ContentRegistries;
-import net.minecraft.item.Item;
-
 import javax.annotation.Nullable;
 
+import net.minecraft.item.Item;
+
+import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
+import com.norwood.mcheli.helper.info.ContentRegistries;
+
 public class MCH_HeliInfoManager extends MCH_AircraftInfoManager<MCH_HeliInfo> {
+
     private static final MCH_HeliInfoManager instance = new MCH_HeliInfoManager();
 
     public static MCH_HeliInfoManager getInstance() {

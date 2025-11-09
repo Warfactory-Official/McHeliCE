@@ -1,6 +1,5 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -8,10 +7,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.MCH_Lib;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderAAMissile extends MCH_RenderBulletBase<MCH_EntityAAMissile> {
+
     public static final IRenderFactory<MCH_EntityAAMissile> FACTORY = MCH_RenderAAMissile::new;
 
     public MCH_RenderAAMissile(RenderManager renderManager) {
@@ -19,7 +20,8 @@ public class MCH_RenderAAMissile extends MCH_RenderBulletBase<MCH_EntityAAMissil
         this.shadowSize = 0.5F;
     }
 
-    public void renderBullet(MCH_EntityAAMissile entity, double posX, double posY, double posZ, float par8, float par9) {
+    public void renderBullet(MCH_EntityAAMissile entity, double posX, double posY, double posZ, float par8,
+                             float par9) {
         if (entity instanceof MCH_EntityAAMissile) {
             double mx = entity.prevMotionX + (entity.motionX - entity.prevMotionX) * par9;
             double my = entity.prevMotionY + (entity.motionY - entity.prevMotionY) * par9;

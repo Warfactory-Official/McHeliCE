@@ -1,17 +1,19 @@
 package com.norwood.mcheli.throwable;
 
-import com.norwood.mcheli.wrapper.W_Render;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.wrapper.W_Render;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderThrowable extends W_Render<MCH_EntityThrowable> {
+
     public static final IRenderFactory<MCH_EntityThrowable> FACTORY = MCH_RenderThrowable::new;
 
     public MCH_RenderThrowable(RenderManager renderManager) {
@@ -19,7 +21,8 @@ public class MCH_RenderThrowable extends W_Render<MCH_EntityThrowable> {
         this.shadowSize = 0.0F;
     }
 
-    public void doRender(MCH_EntityThrowable entity, double posX, double posY, double posZ, float par8, float tickTime) {
+    public void doRender(MCH_EntityThrowable entity, double posX, double posY, double posZ, float par8,
+                         float tickTime) {
         MCH_ThrowableInfo info = entity.getInfo();
         if (info != null) {
             GlStateManager.pushMatrix();

@@ -1,5 +1,9 @@
 package com.norwood.mcheli;
 
+import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -8,11 +12,8 @@ import com.google.common.collect.Multimaps;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.GeneratedAddonPack;
 
-import java.io.File;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class MCH_SoundsJson {
+
     public static void updateGenerated() {
         File soundsDir = new File(MCH_MOD.getSource().getPath() + "/assets/mcheli/sounds");
         File[] soundFiles = soundsDir.listFiles(f -> {
@@ -41,7 +42,8 @@ public class MCH_SoundsJson {
             for (String key : multimap.keySet()) {
                 cnt++;
                 String sounds = Joiner.on(",")
-                        .join(multimap.get(key).stream().map(namex -> '"' + MCH_Utils.suffix(namex).toString() + '"').collect(Collectors.toList()));
+                        .join(multimap.get(key).stream().map(namex -> '"' + MCH_Utils.suffix(namex).toString() + '"')
+                                .collect(Collectors.toList()));
                 String line = "\"" + key + "\": {\"category\": \"master\",\"sounds\": [" + sounds + "]}";
                 if (cnt < multimap.keySet().size()) {
                     line = line + ",";

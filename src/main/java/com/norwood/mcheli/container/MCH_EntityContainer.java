@@ -1,14 +1,7 @@
 package com.norwood.mcheli.container;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.aircraft.MCH_IEntityCanRideAircraft;
-import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
-import com.norwood.mcheli.multiplay.MCH_Multiplay;
-import com.norwood.mcheli.wrapper.*;
+import java.util.List;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
@@ -26,15 +19,28 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_IEntityCanRideAircraft;
+import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
+import com.norwood.mcheli.multiplay.MCH_Multiplay;
+import com.norwood.mcheli.wrapper.*;
 
 public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntityCanRideAircraft {
+
     public static final float Y_OFFSET = 0.5F;
-    private static final DataParameter<Integer> TIME_SINCE_HIT = EntityDataManager.createKey(MCH_EntityContainer.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> FORWARD_DIR = EntityDataManager.createKey(MCH_EntityContainer.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> DAMAGE_TAKEN = EntityDataManager.createKey(MCH_EntityContainer.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TIME_SINCE_HIT = EntityDataManager.createKey(MCH_EntityContainer.class,
+            DataSerializers.VARINT);
+    private static final DataParameter<Integer> FORWARD_DIR = EntityDataManager.createKey(MCH_EntityContainer.class,
+            DataSerializers.VARINT);
+    private static final DataParameter<Integer> DAMAGE_TAKEN = EntityDataManager.createKey(MCH_EntityContainer.class,
+            DataSerializers.VARINT);
     private double speedMultiplier = 0.07;
     private int boatPosRotationIncrements;
     private double boatX;
@@ -115,13 +121,15 @@ public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntit
             if (!MCH_Multiplay.canAttackEntity(ds, this)) {
                 return false;
             } else if (ds.getTrueSource() instanceof EntityPlayer && ds.getDamageType().equalsIgnoreCase("player")) {
-                MCH_Lib.DbgLog(this.world, "MCH_EntityContainer.attackEntityFrom:damage=%.1f:%s", damage, ds.getDamageType());
+                MCH_Lib.DbgLog(this.world, "MCH_EntityContainer.attackEntityFrom:damage=%.1f:%s", damage,
+                        ds.getDamageType());
                 W_WorldFunc.MOD_playSoundAtEntity(this, "hit", 1.0F, 1.3F);
                 this.setDamageTaken(this.getDamageTaken() + (int) (damage * 20.0F));
                 this.setForwardDirection(-this.getForwardDirection());
                 this.setTimeSinceHit(10);
                 this.markVelocityChanged();
-                boolean flag = ds.getTrueSource() instanceof EntityPlayer && ((EntityPlayer) ds.getTrueSource()).capabilities.isCreativeMode;
+                boolean flag = ds.getTrueSource() instanceof EntityPlayer &&
+                        ((EntityPlayer) ds.getTrueSource()).capabilities.isCreativeMode;
                 if (flag || this.getDamageTaken() > 40.0F) {
                     if (!flag) {
                         this.dropItemWithOffset(MCH_MOD.itemContainer, 1, 0.0F);
@@ -190,7 +198,8 @@ public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntit
             AxisAlignedBB boundingBox = this.getEntityBoundingBox();
             double d1 = boundingBox.minY + (boundingBox.maxY - boundingBox.minY) * (i) / b0 - 0.125;
             double d2 = boundingBox.minY + (boundingBox.maxY - boundingBox.minY) * (i + 1) / b0 - 0.125;
-            AxisAlignedBB axisalignedbb = W_AxisAlignedBB.getAABB(boundingBox.minX, d1, boundingBox.minZ, boundingBox.maxX, d2, boundingBox.maxZ);
+            AxisAlignedBB axisalignedbb = W_AxisAlignedBB.getAABB(boundingBox.minX, d1, boundingBox.minZ,
+                    boundingBox.maxX, d2, boundingBox.maxZ);
             if (this.world.isMaterialInBB(axisalignedbb, Material.WATER)) {
                 d0 += 1.0 / b0;
             } else if (this.world.isMaterialInBB(axisalignedbb, Material.LAVA)) {
@@ -199,8 +208,7 @@ public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntit
         }
 
         double d3 = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        if (d3 > 0.2625) {
-        }
+        if (d3 > 0.2625) {}
 
         if (this.world.isRemote) {
             if (this.boatPosRotationIncrements > 0) {
@@ -209,7 +217,8 @@ public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntit
                 double d11 = this.posZ + (this.boatZ - this.posZ) / this.boatPosRotationIncrements;
                 double d10 = MathHelper.wrapDegrees(this.boatYaw - this.rotationYaw);
                 this.rotationYaw = (float) (this.rotationYaw + d10 / this.boatPosRotationIncrements);
-                this.rotationPitch = (float) (this.rotationPitch + (this.boatPitch - this.rotationPitch) / this.boatPosRotationIncrements);
+                this.rotationPitch = (float) (this.rotationPitch +
+                        (this.boatPitch - this.rotationPitch) / this.boatPosRotationIncrements);
                 this.boatPosRotationIncrements--;
                 this.setPosition(d4, d5, d11);
                 this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -288,7 +297,8 @@ public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntit
             this.rotationYaw = (float) (this.rotationYaw + d12);
             this.setRotation(this.rotationYaw, this.rotationPitch);
             if (!this.world.isRemote) {
-                List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(0.2, 0.0, 0.2));
+                List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this,
+                        this.getEntityBoundingBox().grow(0.2, 0.0, 0.2));
                 if (!list.isEmpty()) {
                     for (Entity entity : list) {
                         if (entity.canBePushed() && entity instanceof MCH_EntityContainer) {

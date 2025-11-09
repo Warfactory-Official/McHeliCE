@@ -1,15 +1,19 @@
 package com.norwood.mcheli.tool;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.gui.MCH_Gui;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import org.lwjgl.opengl.GL11;
+
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.gui.MCH_Gui;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiWrench extends MCH_Gui {
+
     public MCH_GuiWrench(Minecraft minecraft) {
         super(minecraft);
     }
@@ -21,10 +25,8 @@ public class MCH_GuiWrench extends MCH_Gui {
 
     @Override
     public boolean isDrawGui(EntityPlayer player) {
-        return player != null
-                && player.world != null
-                && !player.getHeldItemMainhand().isEmpty()
-                && player.getHeldItemMainhand().getItem() instanceof MCH_ItemWrench;
+        return player != null && player.world != null && !player.getHeldItemMainhand().isEmpty() &&
+                player.getHeldItemMainhand().getItem() instanceof MCH_ItemWrench;
     }
 
     @Override
@@ -33,7 +35,8 @@ public class MCH_GuiWrench extends MCH_Gui {
             GL11.glLineWidth(scaleFactor);
             if (this.isDrawGui(player)) {
                 GlStateManager.disableBlend();
-                MCH_EntityAircraft ac = ((MCH_ItemWrench) player.getHeldItemMainhand().getItem()).getMouseOverAircraft(player);
+                MCH_EntityAircraft ac = ((MCH_ItemWrench) player.getHeldItemMainhand().getItem())
+                        .getMouseOverAircraft(player);
                 if (ac != null && ac.getMaxHP() > 0) {
                     int color = (float) ac.getHP() / ac.getMaxHP() > 0.3 ? -14101432 : -2161656;
                     this.drawHP(color, -15433180, ac.getHP(), ac.getMaxHP());

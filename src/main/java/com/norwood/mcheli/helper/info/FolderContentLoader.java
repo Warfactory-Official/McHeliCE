@@ -1,8 +1,5 @@
 package com.norwood.mcheli.helper.info;
 
-import com.google.common.collect.Lists;
-
-import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -10,7 +7,12 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
 
+import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
+
 public class FolderContentLoader extends ContentLoader {
+
     private final Path root;
 
     public FolderContentLoader(String domain, File addonDir, String loaderVersion, Predicate<String> fileFilter) {

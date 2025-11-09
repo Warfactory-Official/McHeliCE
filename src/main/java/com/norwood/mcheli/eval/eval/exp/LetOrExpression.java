@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class LetOrExpression extends BitOrExpression {
+
     public LetOrExpression() {
         this.setOperator("|=");
     }

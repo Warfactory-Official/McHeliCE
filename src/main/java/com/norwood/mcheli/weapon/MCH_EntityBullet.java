@@ -1,35 +1,39 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
-import java.util.List;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityBullet extends MCH_EntityBaseBullet {
+
     public MCH_EntityBullet(World par1World) {
         super(par1World);
     }
 
     public MCH_EntityBullet(
-            World par1World, double pX, double pY, double pZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration
-    ) {
+                            World par1World, double pX, double pY, double pZ, double targetX, double targetY,
+                            double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, pX, pY, pZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (!this.isDead && !this.world.isRemote && this.getCountOnUpdate() > 1 && this.getInfo() != null && this.explosionPower > 0) {
+        if (!this.isDead && !this.world.isRemote && this.getCountOnUpdate() > 1 && this.getInfo() != null &&
+                this.explosionPower > 0) {
             float pDist = this.getInfo().proximityFuseDist;
             if (pDist > 0.1) {
                 float rng = ++pDist + MathHelper.abs(this.getInfo().acceleration);
-                List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(rng, rng, rng));
+                List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this,
+                        this.getEntityBoundingBox().grow(rng, rng, rng));
 
                 for (Entity entity1 : list) {
                     if (this.canBeCollidedEntity(entity1) && entity1.getDistanceSq(this) < pDist * pDist) {
@@ -38,8 +42,8 @@ public class MCH_EntityBullet extends MCH_EntityBaseBullet {
                         this.posY = (entity1.posY + this.posY) / 2.0;
                         this.posZ = (entity1.posZ + this.posZ) / 2.0;
                         RayTraceResult mop = W_MovingObjectPosition.newMOP(
-                                (int) this.posX, (int) this.posY, (int) this.posZ, 0, entity1.getPositionVector(), false
-                        );
+                                (int) this.posX, (int) this.posY, (int) this.posZ, 0, entity1.getPositionVector(),
+                                false);
                         this.onImpact(mop, 1.0F);
                         break;
                     }
@@ -91,7 +95,8 @@ public class MCH_EntityBullet extends MCH_EntityBaseBullet {
             }
 
             Entity entity = null;
-            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(mx, my, mz).grow(21.0, 21.0, 21.0));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this,
+                    this.getEntityBoundingBox().expand(mx, my, mz).grow(21.0, 21.0, 21.0));
             double d0 = 0.0;
 
             for (Entity entity1 : list) {

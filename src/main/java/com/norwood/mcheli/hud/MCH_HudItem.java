@@ -1,5 +1,22 @@
 package com.norwood.mcheli.hud;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Random;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.MathHelper;
+
+import org.lwjgl.opengl.GL11;
+
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.eval.eval.ExpRuleFactory;
@@ -14,23 +31,9 @@ import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_McClient;
 import com.norwood.mcheli.wrapper.W_OpenGlHelper;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
 
 public abstract class MCH_HudItem extends Gui {
+
     public static Minecraft mc;
     public static EntityPlayer player;
     public static MCH_EntityAircraft ac;
@@ -66,7 +69,7 @@ public abstract class MCH_HudItem extends Gui {
     protected static Map<Object, Object> varMap = null;
     protected static float partialTicks;
     private static final MCH_HudItemExit dummy = new MCH_HudItemExit(0);
-    public final int fileLine;//It does NOTHING
+    public final int fileLine;// It does NOTHING
     protected MCH_Hud parent;
 
     public MCH_HudItem(int fileLine) {
@@ -123,7 +126,7 @@ public abstract class MCH_HudItem extends Gui {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         W_OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-         GlStateManager.color(f, f1, f2, f3);
+        GlStateManager.color(f, f1, f2, f3);
         builder.begin(7, DefaultVertexFormats.POSITION);
         builder.pos(par0, par3, 0.0).endVertex();
         builder.pos(par2, par3, 0.0).endVertex();
@@ -165,7 +168,8 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("motion_x", ac.motionX);
         updateVarMapItem("motion_y", ac.motionY);
         updateVarMapItem("motion_z", ac.motionZ);
-        updateVarMapItem("speed", Math.sqrt(ac.motionX * ac.motionX + ac.motionY * ac.motionY + ac.motionZ * ac.motionZ));
+        updateVarMapItem("speed",
+                Math.sqrt(ac.motionX * ac.motionX + ac.motionY * ac.motionY + ac.motionZ * ac.motionZ));
         updateVarMapItem("fuel", ac.getFuelP());
         updateVarMapItem("low_fuel", isLowFuel(ac));
         updateVarMapItem("stick_x", StickX);
@@ -199,7 +203,8 @@ public abstract class MCH_HudItem extends Gui {
                 String key = (String) keyObj;
                 dummy.drawString(key, x, y, 52992);
                 Double d = (Double) varMap.get(key);
-                String fmt = key.equalsIgnoreCase("color") ? String.format(": 0x%08X", d.intValue()) : String.format(": %.2f", d);
+                String fmt = key.equalsIgnoreCase("color") ? String.format(": 0x%08X", d.intValue()) :
+                        String.format(": %.2f", d);
                 dummy.drawString(fmt, x + 50, y, 52992);
                 i++;
                 y += 8;
@@ -334,8 +339,10 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     private static void updateStick() {
-        StickX_LPF.put((float) (MCH_ClientCommonTickHandler.getCurrentStickX() / MCH_ClientCommonTickHandler.getMaxStickLength()));
-        StickY_LPF.put((float) (-MCH_ClientCommonTickHandler.getCurrentStickY() / MCH_ClientCommonTickHandler.getMaxStickLength()));
+        StickX_LPF.put((float) (MCH_ClientCommonTickHandler.getCurrentStickX() /
+                MCH_ClientCommonTickHandler.getMaxStickLength()));
+        StickY_LPF.put((float) (-MCH_ClientCommonTickHandler.getCurrentStickY() /
+                MCH_ClientCommonTickHandler.getMaxStickLength()));
         StickX = StickX_LPF.getAvg();
         StickY = StickY_LPF.getAvg();
     }
@@ -453,19 +460,18 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     public void drawTexture(
-            String name,
-            double left,
-            double top,
-            double width,
-            double height,
-            double uLeft,
-            double vTop,
-            double uWidth,
-            double vHeight,
-            float rot,
-            int textureWidth,
-            int textureHeight
-    ) {
+                            String name,
+                            double left,
+                            double top,
+                            double width,
+                            double height,
+                            double uLeft,
+                            double vTop,
+                            double uWidth,
+                            double vHeight,
+                            float rot,
+                            int textureWidth,
+                            int textureHeight) {
         W_McClient.MOD_bindTexture("textures/gui/" + name + ".png");
         GlStateManager.pushMatrix();
         GlStateManager.translate(left + width / 2.0, top + height / 2.0, 0.0);
@@ -476,7 +482,8 @@ public abstract class MCH_HudItem extends Gui {
         BufferBuilder builder = tessellator.getBuffer();
         builder.begin(7, DefaultVertexFormats.POSITION_TEX);
         builder.pos(-width / 2.0, height / 2.0, this.zLevel).tex(uLeft * fx, (vTop + vHeight) * fy).endVertex();
-        builder.pos(width / 2.0, height / 2.0, this.zLevel).tex((uLeft + uWidth) * fx, (vTop + vHeight) * fy).endVertex();
+        builder.pos(width / 2.0, height / 2.0, this.zLevel).tex((uLeft + uWidth) * fx, (vTop + vHeight) * fy)
+                .endVertex();
         builder.pos(width / 2.0, -height / 2.0, this.zLevel).tex((uLeft + uWidth) * fx, vTop * fy).endVertex();
         builder.pos(-width / 2.0, -height / 2.0, this.zLevel).tex(uLeft * fx, vTop * fy).endVertex();
         tessellator.draw();
@@ -492,7 +499,8 @@ public abstract class MCH_HudItem extends Gui {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF), (byte) (color >> 24 & 0xFF));
+        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF),
+                (byte) (color >> 24 & 0xFF));
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.getBuffer();
         builder.begin(mode, DefaultVertexFormats.POSITION);
@@ -521,7 +529,8 @@ public abstract class MCH_HudItem extends Gui {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF), (byte) (color >> 24 & 0xFF));
+        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF),
+                (byte) (color >> 24 & 0xFF));
         GL11.glPointSize(pointWidth);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.getBuffer();

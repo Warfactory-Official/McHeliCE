@@ -1,17 +1,20 @@
 package com.norwood.mcheli.tank;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_KeyName;
-import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import org.lwjgl.opengl.GL11;
+
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
+import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiTank extends MCH_AircraftCommonGui {
+
     public MCH_GuiTank(Minecraft minecraft) {
         super(minecraft);
     }
@@ -69,7 +72,8 @@ public class MCH_GuiTank extends MCH_AircraftCommonGui {
                 }
 
                 if (seatID > 0 && tank.canSwitchGunnerModeOtherSeat(player)) {
-                    String msg = (tank.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
+                    String msg = (tank.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " +
+                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
                     this.drawString(msg, RX, this.centerY - 40, colorActive);
                 }
 

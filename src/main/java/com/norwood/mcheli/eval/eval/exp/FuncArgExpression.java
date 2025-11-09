@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.exp;
 import java.util.List;
 
 public class FuncArgExpression extends Col2OpeExpression {
+
     public FuncArgExpression() {
         this.setOperator(",");
     }

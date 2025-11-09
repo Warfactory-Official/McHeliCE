@@ -4,6 +4,7 @@ import com.norwood.mcheli.eval.eval.ExpRuleFactory;
 import com.norwood.mcheli.eval.eval.exp.AbstractExpression;
 
 public class JavaRuleFactory extends ExpRuleFactory {
+
     private static JavaRuleFactory me;
 
     public static ExpRuleFactory getInstance() {

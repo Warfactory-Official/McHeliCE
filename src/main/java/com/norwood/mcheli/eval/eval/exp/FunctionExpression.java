@@ -1,11 +1,12 @@
 package com.norwood.mcheli.eval.eval.exp;
 
-import com.norwood.mcheli.eval.eval.EvalException;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import com.norwood.mcheli.eval.eval.EvalException;
+
 public class FunctionExpression extends Col1Expression {
+
     protected AbstractExpression target;
     String name;
 
@@ -29,7 +30,8 @@ public class FunctionExpression extends Col1Expression {
         this.name = from.name;
     }
 
-    public static AbstractExpression create(AbstractExpression x, AbstractExpression args, int prio, ShareExpValue share) {
+    public static AbstractExpression create(AbstractExpression x, AbstractExpression args, int prio,
+                                            ShareExpValue share) {
         AbstractExpression obj;
         if (x instanceof VariableExpression) {
             obj = null;

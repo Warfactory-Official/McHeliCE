@@ -1,6 +1,7 @@
 package com.norwood.mcheli.weapon;
 
 public class MCH_DefaultBulletModels {
+
     public static MCH_BulletModel Bullet;
     public static MCH_BulletModel ATMissile;
     public static MCH_BulletModel ASMissile;

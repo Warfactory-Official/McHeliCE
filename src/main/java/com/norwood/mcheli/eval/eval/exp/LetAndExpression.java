@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public final class LetAndExpression extends BitAndExpression {
+
     public LetAndExpression() {
         this.setOperator("&=");
     }

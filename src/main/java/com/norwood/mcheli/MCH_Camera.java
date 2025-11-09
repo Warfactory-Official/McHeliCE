@@ -1,15 +1,16 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_EntityRenderer;
-import com.norwood.mcheli.wrapper.W_Lib;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_EntityRenderer;
+import com.norwood.mcheli.wrapper.W_Lib;
 
 public class MCH_Camera {
 
@@ -37,7 +38,7 @@ public class MCH_Camera {
 
     public MCH_Camera(World w, Entity p) {
         this.worldObj = w;
-        this.mode = new int[]{MODE_NORMAL, MODE_NORMAL};
+        this.mode = new int[] { MODE_NORMAL, MODE_NORMAL };
         this.zoom = 1.0F;
         this.lastMode = new int[this.getUserMax()];
         this.lastZoomDir = 0;
@@ -68,13 +69,14 @@ public class MCH_Camera {
 
                 case MODE_NIGHTVISION:
                     if (this.worldObj.isRemote) {
-                        W_EntityRenderer.currentShader = new ResourceLocation(Tags.MODID,"shaders/post/nightvision.json" );
+                        W_EntityRenderer.currentShader = new ResourceLocation(Tags.MODID,
+                                "shaders/post/nightvision.json");
                     }
                     break;
 
                 case MODE_THERMALVISION:
                     if (this.worldObj.isRemote) {
-                        W_EntityRenderer.currentShader = new ResourceLocation(Tags.MODID,"shaders/post/thermal.json" );
+                        W_EntityRenderer.currentShader = new ResourceLocation(Tags.MODID, "shaders/post/thermal.json");
                     }
                     break;
                 case MODE_NORMAL:
@@ -140,7 +142,8 @@ public class MCH_Camera {
                 if (this.getMode(uid) == MODE_NIGHTVISION || this.getMode(uid) == MODE_THERMALVISION) {
                     PotionEffect pe = W_Entity.getActivePotionEffect(viewer, MobEffects.NIGHT_VISION);
                     if ((pe == null || pe.getDuration() < 500) && !viewer.world.isRemote) {
-                        W_Entity.addPotionEffect(viewer, new PotionEffect(MobEffects.NIGHT_VISION, 250, 0, true, false));
+                        W_Entity.addPotionEffect(viewer,
+                                new PotionEffect(MobEffects.NIGHT_VISION, 250, 0, true, false));
                     }
                 }
             }

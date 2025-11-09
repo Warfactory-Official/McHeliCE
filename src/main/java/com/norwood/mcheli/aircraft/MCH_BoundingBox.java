@@ -1,10 +1,12 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Lib;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
+
+import com.norwood.mcheli.MCH_Lib;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Rotatable bounding box class that stores orientation and local axis vectors
@@ -99,8 +101,7 @@ public class MCH_BoundingBox {
 
         this.boundingBox = new AxisAlignedBB(
                 posX - halfWidth, posY - halfHeight, posZ - halfDepth,
-                posX + halfWidth, posY + halfHeight, posZ + halfDepth
-        );
+                posX + halfWidth, posY + halfHeight, posZ + halfDepth);
         this.backupBoundingBox = copyAABB(this.boundingBox);
     }
 
@@ -128,8 +129,7 @@ public class MCH_BoundingBox {
             bb.rotatedOffset = new Vec3d(
                     this.rotatedOffset.x,
                     this.rotatedOffset.y,
-                    this.rotatedOffset.z
-            );
+                    this.rotatedOffset.z);
         }
 
         bb.nowPos = new Vec3d(this.nowPos.x, this.nowPos.y, this.nowPos.z);
@@ -174,7 +174,7 @@ public class MCH_BoundingBox {
 
         prevPos = nowPos;
 
-        nowPos = new Vec3d( cx, cy, cz);
+        nowPos = new Vec3d(cx, cy, cz);
 
         center = new Vec3d(cx, cy, cz);
 
@@ -218,10 +218,10 @@ public class MCH_BoundingBox {
      * Full OBB-OBB intersection check using the Separating Axis Theorem (SAT).
      */
     public boolean intersectsOBB(MCH_BoundingBox other) {
-        Vec3d[] A = new Vec3d[]{this.axisX, this.axisY, this.axisZ};
-        Vec3d[] B = new Vec3d[]{other.axisX, other.axisY, other.axisZ};
-        double[] a = new double[]{this.halfWidth, this.halfHeight, this.halfDepth};
-        double[] b = new double[]{other.halfWidth, other.halfHeight, other.halfDepth};
+        Vec3d[] A = new Vec3d[] { this.axisX, this.axisY, this.axisZ };
+        Vec3d[] B = new Vec3d[] { other.axisX, other.axisY, other.axisZ };
+        double[] a = new double[] { this.halfWidth, this.halfHeight, this.halfDepth };
+        double[] b = new double[] { other.halfWidth, other.halfHeight, other.halfDepth };
 
         double[][] R = new double[3][3];
         double[][] absR = new double[3][3];
@@ -235,7 +235,7 @@ public class MCH_BoundingBox {
         }
 
         Vec3d d = other.center.subtract(this.center);
-        double[] t = new double[]{
+        double[] t = new double[] {
                 d.dotProduct(A[0]),
                 d.dotProduct(A[1]),
                 d.dotProduct(A[2])
@@ -320,7 +320,8 @@ public class MCH_BoundingBox {
         double hy = (aabb.maxY - aabb.minY) * 0.5;
         double hz = (aabb.maxZ - aabb.minZ) * 0.5;
 
-        MCH_BoundingBox tmp = new MCH_BoundingBox(cx, cy, cz, (float) (hx * 2.0), (float) (hy * 2.0), (float) (hz * 2.0), 1.0F);
+        MCH_BoundingBox tmp = new MCH_BoundingBox(cx, cy, cz, (float) (hx * 2.0), (float) (hy * 2.0),
+                (float) (hz * 2.0), 1.0F);
         tmp.center = new Vec3d(cx, cy, cz);
         tmp.halfWidth = (float) hx;
         tmp.halfHeight = (float) hy;
@@ -366,17 +367,17 @@ public class MCH_BoundingBox {
     }
 
     public static enum EnumBoundingBoxType {
-        DEFAULT, ENGINE, TURRET
+        DEFAULT,
+        ENGINE,
+        TURRET
     }
+
     public static AxisAlignedBB copyAABB(AxisAlignedBB bb) {
         if (bb == null) {
             return null;
         }
         return new AxisAlignedBB(
                 bb.minX, bb.minY, bb.minZ,
-                bb.maxX, bb.maxY, bb.maxZ
-        );
+                bb.maxX, bb.maxY, bb.maxZ);
     }
-
-
 }

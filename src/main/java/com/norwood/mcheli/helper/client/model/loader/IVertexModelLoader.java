@@ -1,17 +1,20 @@
 package com.norwood.mcheli.helper.client.model.loader;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
-import com.norwood.mcheli.helper.client._ModelFormatException;
+import java.io.IOException;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
+import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client._ModelFormatException;
 
 @SideOnly(Side.CLIENT)
 public interface IVertexModelLoader {
+
     String getExtension();
 
     @Nullable

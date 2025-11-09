@@ -1,5 +1,13 @@
 package com.norwood.mcheli.helper.addon;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import net.minecraft.util.JsonUtils;
+
+import org.apache.commons.io.IOUtils;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -8,14 +16,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.io.ResourceLoader;
-import net.minecraft.util.JsonUtils;
-import org.apache.commons.io.IOUtils;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 public class AddonPack {
+
     private final String addonDomain;
     private final String addonName;
     private final String addonVersion;
@@ -27,16 +30,15 @@ public class AddonPack {
     private final String loaderVersion;
 
     public AddonPack(
-            String addonDomain,
-            String addonName,
-            String addonVersion,
-            File addonFile,
-            String credits,
-            List<String> authors,
-            String description,
-            String loaderVersion,
-            ImmutableMap<String, JsonElement> packMetaMap
-    ) {
+                     String addonDomain,
+                     String addonName,
+                     String addonVersion,
+                     File addonFile,
+                     String credits,
+                     List<String> authors,
+                     String description,
+                     String loaderVersion,
+                     ImmutableMap<String, JsonElement> packMetaMap) {
         this.addonDomain = addonDomain;
         this.addonName = addonName;
         this.addonVersion = addonVersion;
@@ -61,8 +63,8 @@ public class AddonPack {
         String loaderVersion = JsonUtils.getString(addonJson, "loader_version", "1");
         List<String> authors = getAuthors(addonJson);
         return new AddonPack(
-                addonDomain, packName, version, addonFile, credits, authors, description, loaderVersion, ImmutableMap.copyOf(packMetaJson.entrySet())
-        );
+                addonDomain, packName, version, addonFile, credits, authors, description, loaderVersion,
+                ImmutableMap.copyOf(packMetaJson.entrySet()));
     }
 
     private static List<String> getAuthors(JsonObject jsonObject) {
@@ -89,7 +91,8 @@ public class AddonPack {
         BufferedReader bufferedReader = null;
 
         try {
-            bufferedReader = new BufferedReader(new InputStreamReader(loader.getInputStream("pack.mcmeta"), StandardCharsets.UTF_8));
+            bufferedReader = new BufferedReader(
+                    new InputStreamReader(loader.getInputStream("pack.mcmeta"), StandardCharsets.UTF_8));
             return new JsonParser().parse(bufferedReader).getAsJsonObject();
         } catch (FileNotFoundException var8) {
             MCH_Logger.get().warn("'pack.mcmeta' does not found in '{}'", addonFile.getName());

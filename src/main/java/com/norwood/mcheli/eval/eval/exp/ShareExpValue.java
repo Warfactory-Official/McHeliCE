@@ -12,6 +12,7 @@ import com.norwood.mcheli.eval.eval.var.MapVariable;
 import com.norwood.mcheli.eval.eval.var.Variable;
 
 public class ShareExpValue extends Expression {
+
     public AbstractExpression paren;
 
     public void setAbstractExpression(AbstractExpression ae) {

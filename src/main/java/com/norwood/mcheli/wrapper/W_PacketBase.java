@@ -1,11 +1,14 @@
 package com.norwood.mcheli.wrapper;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
-import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
+
+import io.netty.buffer.ByteBuf;
+
 public class W_PacketBase implements IMessage {
+
     ByteArrayDataInput data;
 
     public byte[] createData() {

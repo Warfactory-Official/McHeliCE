@@ -1,10 +1,5 @@
 package com.norwood.mcheli.tool.rangefinder;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_KeyName;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.gui.MCH_Gui;
-import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,10 +9,18 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import org.lwjgl.opengl.GL11;
+
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.gui.MCH_Gui;
+import com.norwood.mcheli.wrapper.W_McClient;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiRangeFinder extends MCH_Gui {
+
     public MCH_GuiRangeFinder(Minecraft minecraft) {
         super(minecraft);
     }
@@ -47,9 +50,7 @@ public class MCH_GuiRangeFinder extends MCH_Gui {
 
     void drawRF(EntityPlayer player) {
         GlStateManager.enableBlend();
-         GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
-        int srcBlend = GL11.glGetInteger(3041);
-        int dstBlend = GL11.glGetInteger(3040);
+        GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         W_McClient.MOD_bindTexture("textures/gui/rangefinder.png");
         double size = 512.0;
@@ -58,8 +59,8 @@ public class MCH_GuiRangeFinder extends MCH_Gui {
             size *= 2.0;
         }
 
-        this.drawTexturedModalRectRotate(-(size - this.width) / 2.0, -(size - this.height) / 2.0, size, size, 0.0, 0.0, 256.0, 256.0, 0.0F);
-        GL11.glBlendFunc(srcBlend, dstBlend);
+        this.drawTexturedModalRectRotate(-(size - this.width) / 2.0, -(size - this.height) / 2.0, size, size, 0.0, 0.0,
+                256.0, 256.0, 0.0F);
         GlStateManager.disableBlend();
         double factor = size / 512.0;
         double SCALE_FACTOR = scaleFactor * factor;
@@ -68,7 +69,7 @@ public class MCH_GuiRangeFinder extends MCH_Gui {
         double px = (CX - 80.0 * SCALE_FACTOR) / SCALE_FACTOR;
         double py = (CY + 55.0 * SCALE_FACTOR) / SCALE_FACTOR;
         GlStateManager.pushMatrix();
-       GlStateManager.scale(factor, factor, factor);
+        GlStateManager.scale(factor, factor, factor);
         ItemStack item = player.getHeldItemMainhand();
         int damage = (int) ((double) (item.getMaxDamage() - item.getMetadata()) / item.getMaxDamage() * 100.0);
         this.drawDigit(String.format("%3d", damage), (int) px, (int) py, 13, damage > 0 ? -15663328 : -61424);

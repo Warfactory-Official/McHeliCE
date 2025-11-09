@@ -1,6 +1,7 @@
 package com.norwood.mcheli.hud;
 
 public enum MCH_HudItemStringArgs {
+
     NONE,
     NAME,
     ALTITUDE,

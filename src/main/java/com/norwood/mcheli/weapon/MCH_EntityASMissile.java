@@ -1,12 +1,14 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.wrapper.W_WorldFunc;
+
 public class MCH_EntityASMissile extends MCH_EntityBaseBullet {
+
     public double targetPosX;
     public double targetPosY;
     public double targetPosZ;
@@ -19,8 +21,8 @@ public class MCH_EntityASMissile extends MCH_EntityBaseBullet {
     }
 
     public MCH_EntityASMissile(
-            World par1World, double posX, double posY, double posZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration
-    ) {
+                               World par1World, double posX, double posY, double posZ, double targetX, double targetY,
+                               double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
     }
 
@@ -42,7 +44,8 @@ public class MCH_EntityASMissile extends MCH_EntityBaseBullet {
         }
 
         if (this.getInfo() != null && !this.world.isRemote && this.isBomblet != 1) {
-            Block block = W_WorldFunc.getBlock(this.world, (int) this.targetPosX, (int) this.targetPosY, (int) this.targetPosZ);
+            Block block = W_WorldFunc.getBlock(this.world, (int) this.targetPosX, (int) this.targetPosY,
+                    (int) this.targetPosZ);
             if (block.isCollidable()) {
                 double dist = this.getDistance(this.targetPosX, this.targetPosY, this.targetPosZ);
                 if (dist < this.getInfo().proximityFuseDist) {
@@ -92,8 +95,8 @@ public class MCH_EntityASMissile extends MCH_EntityBaseBullet {
     public void sprinkleBomblet() {
         if (!this.world.isRemote) {
             MCH_EntityASMissile e = new MCH_EntityASMissile(
-                    this.world, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, this.rand.nextInt(360), 0.0F, this.acceleration
-            );
+                    this.world, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ,
+                    this.rand.nextInt(360), 0.0F, this.acceleration);
             e.setParameterFromWeapon(this, this.shootingAircraft, this.shootingEntity);
             e.setName(this.getName());
             float RANDOM = this.getInfo().bombletDiff;

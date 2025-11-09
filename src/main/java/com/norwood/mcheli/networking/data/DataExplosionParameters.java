@@ -1,16 +1,19 @@
 package com.norwood.mcheli.networking.data;
 
-import lombok.Getter;
-import lombok.Setter;
-import net.minecraft.util.math.BlockPos;
-
 import java.util.List;
 
+import net.minecraft.util.math.BlockPos;
+
+import lombok.Getter;
+import lombok.Setter;
+
 public class DataExplosionParameters {
-    public double x,y,z;
+
+    public double x, y, z;
     public float size;
     public int exploderID;
     public boolean inWater;
-    @Setter@Getter
+    @Setter
+    @Getter
     private List<BlockPos> affectedPositions;
 }

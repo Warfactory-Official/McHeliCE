@@ -1,11 +1,13 @@
 package com.norwood.mcheli.networking.packet.control;
 
-import com.norwood.mcheli.gltd.MCH_EntityGLTD;
-import com.norwood.mcheli.networking.packet.PacketBase;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+
+import com.norwood.mcheli.gltd.MCH_EntityGLTD;
+import com.norwood.mcheli.networking.packet.PacketBase;
+
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
 
 @ElegantPacket
 public class PacketGLTDControl extends PacketBase implements ClientToServerPacket {
@@ -13,7 +15,7 @@ public class PacketGLTDControl extends PacketBase implements ClientToServerPacke
     public byte switchCameraMode = -1;
     public byte switchWeapon = -1;
     public boolean useWeapon = false;
-    //TODO: See what can be done about raw IDs, perhaps forge like registry system
+    // TODO: See what can be done about raw IDs, perhaps forge like registry system
     public int useWeaponOption1 = 0;
     public int useWeaponOption2 = 0;
     public double useWeaponPosX = 0.0;

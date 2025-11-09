@@ -3,6 +3,7 @@ package com.norwood.mcheli.aircraft;
 import com.norwood.mcheli.MCH_Lib;
 
 public class MCH_Blade {
+
     private float baseRotation;
     private float rotation = 0.0F;
     private float prevRotation = 0.0F;

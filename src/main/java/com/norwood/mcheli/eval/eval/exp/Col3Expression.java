@@ -1,12 +1,12 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public abstract class Col3Expression extends AbstractExpression {
+
     protected AbstractExpression exp1;
     protected AbstractExpression exp2;
     protected AbstractExpression exp3;
 
-    protected Col3Expression() {
-    }
+    protected Col3Expression() {}
 
     protected Col3Expression(Col3Expression from, ShareExpValue s) {
         super(from, s);
@@ -23,7 +23,8 @@ public abstract class Col3Expression extends AbstractExpression {
         }
     }
 
-    public static AbstractExpression create(AbstractExpression exp, String string, int pos, AbstractExpression x, AbstractExpression y, AbstractExpression z) {
+    public static AbstractExpression create(AbstractExpression exp, String string, int pos, AbstractExpression x,
+                                            AbstractExpression y, AbstractExpression z) {
         Col3Expression n = (Col3Expression) exp;
         n.setExpression(x, y, z);
         n.setPos(string, pos);

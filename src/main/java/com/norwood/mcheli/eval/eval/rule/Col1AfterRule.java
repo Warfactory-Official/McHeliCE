@@ -8,6 +8,7 @@ import com.norwood.mcheli.eval.eval.exp.FunctionExpression;
 import com.norwood.mcheli.eval.eval.lex.Lex;
 
 public class Col1AfterRule extends AbstractRule {
+
     public AbstractExpression func;
     public AbstractExpression array;
     public AbstractExpression field;
@@ -50,7 +51,7 @@ public class Col1AfterRule extends AbstractRule {
         if (!lex.isOperator(this.func.getEndOperator())) {
             a = this.share.funcArgRule.parse(lex);
             if (!lex.isOperator(this.func.getEndOperator())) {
-                throw new EvalException(1001, new String[]{this.func.getEndOperator()}, lex);
+                throw new EvalException(1001, new String[] { this.func.getEndOperator() }, lex);
             }
         }
 
@@ -61,7 +62,7 @@ public class Col1AfterRule extends AbstractRule {
     protected AbstractExpression parseArray(Lex lex, AbstractExpression x, String ope, int pos) {
         AbstractExpression y = this.share.topRule.parse(lex.next());
         if (!lex.isOperator(this.array.getEndOperator())) {
-            throw new EvalException(1001, new String[]{this.array.getEndOperator()}, lex);
+            throw new EvalException(1001, new String[] { this.array.getEndOperator() }, lex);
         } else {
             lex.next();
             return Col2Expression.create(this.newExpression(ope, lex.getShare()), lex.getString(), pos, x, y);

@@ -1,13 +1,15 @@
 package com.norwood.mcheli.networking.packet.control;
 
+import net.minecraft.entity.player.EntityPlayerMP;
+
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
+
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 @RequiredArgsConstructor
@@ -31,7 +33,6 @@ public class PacketPlayerControlPlane extends PacketPlayerControlBase {
         }
 
         process(plane, controlBaseData, player);
-
     }
 
     @Override
@@ -41,12 +42,12 @@ public class PacketPlayerControlPlane extends PacketPlayerControlBase {
                 if (aircraft.getAcInfo().haveHatch()) {
                     aircraft.foldHatch(controlBaseData.switchHatch == DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                 } else {
-                    ((MCH_EntityPlane) aircraft).foldWing(data.switchHatch == DataPlayerControlAircraft.HatchSwitch.UNFOLD);
+                    ((MCH_EntityPlane) aircraft)
+                            .foldWing(data.switchHatch == DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                 }
             }
         }
     }
-
 
     @Override
     protected void handleVtolSwitch(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
@@ -56,6 +57,4 @@ public class PacketPlayerControlPlane extends PacketPlayerControlBase {
             case VTOL_ON -> plane.swithVtolMode(true);
         }
     }
-
 }
-

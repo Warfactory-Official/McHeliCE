@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class MCH_HudItemColor extends MCH_HudItem {
+
     private final String updateColor;
 
     public MCH_HudItemColor(int fileLine, String newColor) {
@@ -15,15 +16,13 @@ public class MCH_HudItemColor extends MCH_HudItem {
         if (prm.length == 1) {
             return new MCH_HudItemColor(fileLine, toFormula(prm[0]));
         } else {
-            return prm.length == 4
-                    ? new MCH_HudItemColor(
+            return prm.length == 4 ? new MCH_HudItemColor(
                     fileLine,
-                    "((" + toFormula(prm[0]) + ")<<24)|((" + toFormula(prm[1]) + ")<<16)|((" + toFormula(prm[2]) + ")<<8 )|((" + toFormula(prm[3]) + ")<<0 )"
-            )
-                    : null;
+                    "((" + toFormula(prm[0]) + ")<<24)|((" + toFormula(prm[1]) + ")<<16)|((" + toFormula(prm[2]) +
+                            ")<<8 )|((" + toFormula(prm[3]) + ")<<0 )") :
+                    null;
         }
     }
-
 
     @Override
     public void execute() {

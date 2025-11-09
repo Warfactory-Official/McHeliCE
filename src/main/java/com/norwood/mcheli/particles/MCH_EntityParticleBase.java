@@ -1,9 +1,11 @@
 package com.norwood.mcheli.particles;
 
-import com.norwood.mcheli.wrapper.W_EntityFX;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.wrapper.W_EntityFX;
+
 public abstract class MCH_EntityParticleBase extends W_EntityFX {
+
     public boolean isEffectedWind;
     public boolean diffusible;
     public boolean toWhite;

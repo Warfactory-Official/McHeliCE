@@ -6,6 +6,7 @@ import com.norwood.mcheli.eval.eval.repl.ReplaceAdapter;
 import com.norwood.mcheli.eval.eval.rule.ShareRuleValue;
 
 public class Replace4RefactorGetter extends ReplaceAdapter {
+
     protected final Refactor ref;
     protected final ShareRuleValue rule;
 

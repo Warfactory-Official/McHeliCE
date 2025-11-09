@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class IncAfterExpression extends Col1AfterExpression {
+
     public IncAfterExpression() {
         this.setOperator("++");
     }

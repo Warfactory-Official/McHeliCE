@@ -1,18 +1,20 @@
 package com.norwood.mcheli.ship;
 
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
-import com.norwood.mcheli.wrapper.W_Entity;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
+import com.norwood.mcheli.wrapper.W_Entity;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderShip extends MCH_RenderAircraft<MCH_EntityShip> {
+
     public static final IRenderFactory<MCH_EntityShip> FACTORY = MCH_RenderShip::new;
 
     public MCH_RenderShip(RenderManager renderManager) {
@@ -21,7 +23,8 @@ public class MCH_RenderShip extends MCH_RenderAircraft<MCH_EntityShip> {
     }
 
     @Override
-    public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch, float roll, float tickTime) {
+    public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch,
+                               float roll, float tickTime) {
         MCH_ShipInfo planeInfo;
         if (entity instanceof MCH_EntityShip plane) {
             planeInfo = plane.getPlaneInfo();
@@ -33,7 +36,8 @@ public class MCH_RenderShip extends MCH_RenderAircraft<MCH_EntityShip> {
                 GlStateManager.rotate(yaw, 0.0F, -1.0F, 0.0F);
                 GlStateManager.rotate(pitch, 1.0F, 0.0F, 0.0F);
                 GlStateManager.rotate(roll, 0.0F, 0.0F, 1.0F);
-                this.bindTexture("textures/ships/" + plane.getTextureName() + ".png", plane);//I <3 string references being in random places
+                this.bindTexture("textures/ships/" + plane.getTextureName() + ".png", plane);// I <3 string references
+                                                                                             // being in random places
                 if (planeInfo.haveNozzle() && plane.partNozzle != null) {
                     this.renderNozzle(plane, planeInfo, tickTime);
                 }
@@ -58,7 +62,8 @@ public class MCH_RenderShip extends MCH_RenderAircraft<MCH_EntityShip> {
         for (MCH_ShipInfo.Rotor r : planeInfo.rotorList) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(r.pos.x, r.pos.y, r.pos.z);
-            GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * r.maxRotFactor, (float) r.rot.x, (float) r.rot.y, (float) r.rot.z);
+            GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * r.maxRotFactor, (float) r.rot.x,
+                    (float) r.rot.y, (float) r.rot.z);
             GlStateManager.translate(-r.pos.x, -r.pos.y, -r.pos.z);
             renderPart(r.model, planeInfo.model, r.modelName);
 
@@ -91,14 +96,16 @@ public class MCH_RenderShip extends MCH_RenderAircraft<MCH_EntityShip> {
         for (MCH_ShipInfo.Wing w : planeInfo.wingList) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(w.pos.x, w.pos.y, w.pos.z);
-            GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * w.maxRotFactor, (float) w.rot.x, (float) w.rot.y, (float) w.rot.z);
+            GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * w.maxRotFactor, (float) w.rot.x,
+                    (float) w.rot.y, (float) w.rot.z);
             GlStateManager.translate(-w.pos.x, -w.pos.y, -w.pos.z);
             renderPart(w.model, planeInfo.model, w.modelName);
             if (w.pylonList != null) {
                 for (MCH_ShipInfo.Pylon p : w.pylonList) {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(p.pos.x, p.pos.y, p.pos.z);
-                    GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * p.maxRotFactor, (float) p.rot.x, (float) p.rot.y, (float) p.rot.z);
+                    GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * p.maxRotFactor, (float) p.rot.x,
+                            (float) p.rot.y, (float) p.rot.z);
                     GlStateManager.translate(-p.pos.x, -p.pos.y, -p.pos.z);
                     renderPart(p.model, planeInfo.model, p.modelName);
                     GlStateManager.popMatrix();
@@ -116,7 +123,8 @@ public class MCH_RenderShip extends MCH_RenderAircraft<MCH_EntityShip> {
         for (MCH_AircraftInfo.DrawnPart n : planeInfo.nozzles) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(n.pos.x, n.pos.y, n.pos.z);
-            GlStateManager.rotate(prevRot + (rot - prevRot) * tickTime, (float) n.rot.x, (float) n.rot.y, (float) n.rot.z);
+            GlStateManager.rotate(prevRot + (rot - prevRot) * tickTime, (float) n.rot.x, (float) n.rot.y,
+                    (float) n.rot.z);
             GlStateManager.translate(-n.pos.x, -n.pos.y, -n.pos.z);
             renderPart(n.model, planeInfo.model, n.modelName);
             GlStateManager.popMatrix();

@@ -1,18 +1,22 @@
 package com.norwood.mcheli.helper.network;
 
-import com.google.common.io.ByteArrayDataInput;
-import io.netty.handler.codec.EncoderException;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 
-import javax.annotation.Nullable;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import com.google.common.io.ByteArrayDataInput;
+
+import io.netty.handler.codec.EncoderException;
 
 public class PacketHelper {
+
     public static void writeCompoundTag(DataOutputStream dos, @Nullable NBTTagCompound nbt) throws IOException {
         if (nbt == null) {
             dos.writeByte(0);
@@ -69,5 +73,4 @@ public class PacketHelper {
             return itemstack;
         }
     }
-
 }

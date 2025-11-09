@@ -1,12 +1,13 @@
 package com.norwood.mcheli.helper.entity;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-
 public interface ITargetMarkerObject {
+
     static ITargetMarkerObject fromEntity(Entity target) {
         return new ITargetMarkerObject.EntityWrapper(target);
     }
@@ -24,6 +25,7 @@ public interface ITargetMarkerObject {
 
     @SideOnly(Side.CLIENT)
     class EntityWrapper implements ITargetMarkerObject {
+
         private final Entity target;
 
         public EntityWrapper(Entity entity) {

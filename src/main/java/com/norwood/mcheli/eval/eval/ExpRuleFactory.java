@@ -5,6 +5,7 @@ import com.norwood.mcheli.eval.eval.lex.LexFactory;
 import com.norwood.mcheli.eval.eval.rule.*;
 
 public class ExpRuleFactory {
+
     private static ExpRuleFactory me;
     protected final Rule rule;
     protected AbstractRule topRule;

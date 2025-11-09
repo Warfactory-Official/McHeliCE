@@ -1,21 +1,25 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.helper.client.MCH_CameraManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.stats.RecipeBook;
 import net.minecraft.stats.StatisticsManager;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.helper.client.MCH_CameraManager;
+
 public class MCH_ViewEntityDummy extends EntityPlayerSP {
+
     private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     private static MCH_ViewEntityDummy instance = null;
     private float zoom;
 
     private MCH_ViewEntityDummy(World world) {
-        super(Minecraft.getMinecraft(), world, Minecraft.getMinecraft().getConnection(), new StatisticsManager(), new RecipeBook());
+        super(Minecraft.getMinecraft(), world, Minecraft.getMinecraft().getConnection(), new StatisticsManager(),
+                new RecipeBook());
         this.hurtTime = 0;
         this.maxHurtTime = 1;
         this.setSize(1.0F, 1.0F);
@@ -60,8 +64,7 @@ public class MCH_ViewEntityDummy extends EntityPlayerSP {
         return ZERO_AABB;
     }
 
-    public void onUpdate() {
-    }
+    public void onUpdate() {}
 
     public void update(MCH_Camera camera) {
         if (camera != null) {

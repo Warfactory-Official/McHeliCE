@@ -1,18 +1,7 @@
 package com.norwood.mcheli.helper.info;
 
-import com.norwood.mcheli.Tags;
-import lombok.SneakyThrows;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.IResource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.joml.Matrix4f;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL20;
+import static org.lwjgl.opengl.GL20.glUniformMatrix4;
 
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,11 +11,27 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.lwjgl.opengl.GL20.glUniformMatrix4;
+import javax.annotation.Nullable;
 
-//Because of muh optifine compat im forced to abandon you for now :/
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+
+import com.norwood.mcheli.Tags;
+
+import lombok.SneakyThrows;
+
+// Because of muh optifine compat im forced to abandon you for now :/
 @SideOnly(Side.CLIENT)
 public class ShaderRegistry {
+
     private static final FloatBuffer MATRIX_BUFFER = BufferUtils.createFloatBuffer(16);
     private static final Map<String, ShaderProgram> shaderMap = new HashMap<>();
     public static final String SHADER_PATH = "shaders/";
@@ -39,15 +44,14 @@ public class ShaderRegistry {
     }
 
     public static void init() {
-
         registerShader("basic");
     }
 
     private static void registerShader(String name) {
         IResource shaderVert = null;
         IResource shaderFrag = null;
-        ResourceLocation fragLoc = new ResourceLocation(Tags.MODID, String.format("%s%s.frag",SHADER_PATH, name));
-        ResourceLocation vertLoc = new ResourceLocation(Tags.MODID, String.format("%s%s.vert",SHADER_PATH, name));
+        ResourceLocation fragLoc = new ResourceLocation(Tags.MODID, String.format("%s%s.frag", SHADER_PATH, name));
+        ResourceLocation vertLoc = new ResourceLocation(Tags.MODID, String.format("%s%s.vert", SHADER_PATH, name));
         try {
             shaderVert = Minecraft.getMinecraft().getResourceManager()
                     .getResource(vertLoc);
@@ -57,16 +61,12 @@ public class ShaderRegistry {
             throw new RuntimeException(e);
         }
 
-
         var shaderProg = new ShaderProgram(shaderVert.getInputStream(), vertLoc, shaderFrag.getInputStream(), fragLoc);
-        shaderMap.put(name,shaderProg);
-
-
+        shaderMap.put(name, shaderProg);
     }
 
     private static String readStream(InputStream in) throws IOException {
-        try (BufferedReader reader =
-                     new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -76,19 +76,20 @@ public class ShaderRegistry {
         }
     }
 
-
     @Nullable
     public static ShaderProgram getShader(String key) {
         return shaderMap.get(key);
     }
 
     public static class ShaderProgram {
+
         private final int programId;
         private final Map<String, Integer> uniformCache = new HashMap<>();
 
         @SneakyThrows
-        public ShaderProgram(InputStream vertStream, ResourceLocation vertexPath, InputStream fragStream, ResourceLocation fragPath) {
-            int vert = compile(GL20.GL_VERTEX_SHADER, readStream(vertStream),vertexPath.toString());
+        public ShaderProgram(InputStream vertStream, ResourceLocation vertexPath, InputStream fragStream,
+                             ResourceLocation fragPath) {
+            int vert = compile(GL20.GL_VERTEX_SHADER, readStream(vertStream), vertexPath.toString());
             int frag = compile(GL20.GL_FRAGMENT_SHADER, readStream(fragStream), fragPath.toString());
             programId = GL20.glCreateProgram();
             GL20.glAttachShader(programId, vert);
@@ -103,7 +104,8 @@ public class ShaderRegistry {
             GL20.glShaderSource(shader, src);
             GL20.glCompileShader(shader);
             if (GL20.glGetShaderi(shader, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE)
-                throw new RuntimeException("Error compiling shader " + path + "\n" + GL20.glGetShaderInfoLog(shader, 100));
+                throw new RuntimeException(
+                        "Error compiling shader " + path + "\n" + GL20.glGetShaderInfoLog(shader, 100));
             return shader;
         }
 

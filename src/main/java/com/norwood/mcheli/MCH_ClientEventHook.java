@@ -1,15 +1,8 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
-import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
-import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
-import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
-import com.norwood.mcheli.wrapper.W_ClientEventHook;
-import com.norwood.mcheli.wrapper.W_Reflection;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -25,12 +18,22 @@ import net.minecraftforge.client.event.RenderLivingEvent.Specials.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
+import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
+import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
+import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
+import com.norwood.mcheli.wrapper.W_ClientEventHook;
+import com.norwood.mcheli.wrapper.W_Reflection;
 
 public class MCH_ClientEventHook extends W_ClientEventHook {
+
     public static final List<MCH_EntityAircraft> haveSearchLightAircraft = new ArrayList<>();
     private static final ResourceLocation ir_strobe = new ResourceLocation(Tags.MODID, "textures/ir_strobe.png");
     private static boolean cancelRender = true;
@@ -67,7 +70,8 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
                         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                         float f1 = 0.080000006F;
                         GlStateManager.pushMatrix();
-                        GlStateManager.translate(event.getX(), event.getY() + (float) (entity.height * 0.75), event.getZ());
+                        GlStateManager.translate(event.getX(), event.getY() + (float) (entity.height * 0.75),
+                                event.getZ());
                         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                         GlStateManager.rotate(-rm.playerViewY, 0.0F, 1.0F, 0.0F);
                         GlStateManager.rotate(rm.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -82,10 +86,14 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
                         BufferBuilder builder = tessellator.getBuffer();
                         builder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
                         int i = (int) Math.max(entity.width, entity.height) * 20;
-                        builder.pos(-i, -i, 0.1).tex(0.0, 0.0).color(1.0F, 1.0F, 1.0F, alpha * (cm == 1 ? 0.9F : 0.5F)).endVertex();
-                        builder.pos(-i, i, 0.1).tex(0.0, 1.0).color(1.0F, 1.0F, 1.0F, alpha * (cm == 1 ? 0.9F : 0.5F)).endVertex();
-                        builder.pos(i, i, 0.1).tex(1.0, 1.0).color(1.0F, 1.0F, 1.0F, alpha * (cm == 1 ? 0.9F : 0.5F)).endVertex();
-                        builder.pos(i, -i, 0.1).tex(1.0, 0.0).color(1.0F, 1.0F, 1.0F, alpha * (cm == 1 ? 0.9F : 0.5F)).endVertex();
+                        builder.pos(-i, -i, 0.1).tex(0.0, 0.0).color(1.0F, 1.0F, 1.0F, alpha * (cm == 1 ? 0.9F : 0.5F))
+                                .endVertex();
+                        builder.pos(-i, i, 0.1).tex(0.0, 1.0).color(1.0F, 1.0F, 1.0F, alpha * (cm == 1 ? 0.9F : 0.5F))
+                                .endVertex();
+                        builder.pos(i, i, 0.1).tex(1.0, 1.0).color(1.0F, 1.0F, 1.0F, alpha * (cm == 1 ? 0.9F : 0.5F))
+                                .endVertex();
+                        builder.pos(i, -i, 0.1).tex(1.0, 0.0).color(1.0F, 1.0F, 1.0F, alpha * (cm == 1 ? 0.9F : 0.5F))
+                                .endVertex();
                         tessellator.draw();
                         GlStateManager.enableLighting();
                         GlStateManager.popMatrix();
@@ -105,12 +113,13 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
     @Override
     public void renderLivingEventPre(net.minecraftforge.client.event.RenderLivingEvent.Pre<EntityLivingBase> event) {
         for (MCH_EntityAircraft ac : haveSearchLightAircraft) {
-            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, ac.getSearchLightValue(event.getEntity()), 240.0F);
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,
+                    ac.getSearchLightValue(event.getEntity()), 240.0F);
         }
 
-        if (!MCH_Config.EnableModEntityRender.prmBool
-                || !cancelRender
-                || !(event.getEntity().getRidingEntity() instanceof MCH_EntityAircraft) && !(event.getEntity().getRidingEntity() instanceof MCH_EntitySeat)) {
+        if (!MCH_Config.EnableModEntityRender.prmBool || !cancelRender ||
+                !(event.getEntity().getRidingEntity() instanceof MCH_EntityAircraft) &&
+                        !(event.getEntity().getRidingEntity() instanceof MCH_EntitySeat)) {
             if (MCH_Config.EnableReplaceTextureManager.prmBool) {
                 RenderManager rm = W_Reflection.getRenderManager(event.getRenderer());
                 if (!(rm.renderEngine instanceof MCH_TextureManagerDummy)) {
@@ -131,17 +140,17 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
         MCH_RenderAircraft.renderEntityMarker(event.getEntity());
         if (event.getEntity() instanceof ITargetMarkerObject) {
             MCH_GuiTargetMarker.addMarkEntityPos(
-                    2, (ITargetMarkerObject) event.getEntity(), event.getX(), event.getY() + event.getEntity().height + 0.5, event.getZ()
-            );
+                    2, (ITargetMarkerObject) event.getEntity(), event.getX(),
+                    event.getY() + event.getEntity().height + 0.5, event.getZ());
         } else {
             MCH_GuiTargetMarker.addMarkEntityPos(
-                    2, ITargetMarkerObject.fromEntity(event.getEntity()), event.getX(), event.getY() + event.getEntity().height + 0.5, event.getZ()
-            );
+                    2, ITargetMarkerObject.fromEntity(event.getEntity()), event.getX(),
+                    event.getY() + event.getEntity().height + 0.5, event.getZ());
         }
 
-        MCH_ClientLightWeaponTickHandler.markEntity(event.getEntity(), event.getX(), event.getY() + event.getEntity().height / 2.0F, event.getZ());
+        MCH_ClientLightWeaponTickHandler.markEntity(event.getEntity(), event.getX(),
+                event.getY() + event.getEntity().height / 2.0F, event.getZ());
     }
-
 
     @Override
     public void renderPlayerPre(net.minecraftforge.client.event.RenderPlayerEvent.Pre event) {
@@ -156,7 +165,6 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
 
         }
     }
-
 
     @Override
     public void entityJoinWorldEvent(EntityJoinWorldEvent event) {

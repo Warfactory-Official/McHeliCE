@@ -1,11 +1,13 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+
 public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
+
     public boolean isSpawnParticle = true;
 
     public MCH_EntityTvMissile(World par1World) {
@@ -13,8 +15,8 @@ public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
     }
 
     public MCH_EntityTvMissile(
-            World par1World, double posX, double posY, double posZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration
-    ) {
+                               World par1World, double posX, double posY, double posZ, double targetX, double targetY,
+                               double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
     }
 
@@ -48,8 +50,10 @@ public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
             if (ac != null && ac.getTVMissile() == this) {
                 float yaw = e.rotationYaw;
                 float pitch = e.rotationPitch;
-                double tX = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-                double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
+                double tX = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) *
+                        MathHelper.cos(pitch / 180.0F * (float) Math.PI);
+                double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) *
+                        MathHelper.cos(pitch / 180.0F * (float) Math.PI);
                 double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
                 this.setMotion(tX, tY, tZ);
                 this.setRotation(yaw, pitch);

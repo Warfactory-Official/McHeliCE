@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapVariable implements Variable {
+
     protected Map<Object, Object> map;
 
     public MapVariable() {

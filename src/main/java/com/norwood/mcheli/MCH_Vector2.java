@@ -1,6 +1,7 @@
 package com.norwood.mcheli;
 
 public class MCH_Vector2 {
+
     public double x;
     public double y;
 

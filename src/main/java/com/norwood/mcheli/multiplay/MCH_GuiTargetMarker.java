@@ -1,33 +1,38 @@
 package com.norwood.mcheli.multiplay;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_MarkEntityPos;
-import com.norwood.mcheli.MCH_ServerSettings;
-import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.gui.MCH_Gui;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import javax.annotation.Nullable;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_MarkEntityPos;
+import com.norwood.mcheli.MCH_ServerSettings;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.gui.MCH_Gui;
+import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiTargetMarker extends MCH_Gui {
+
     private static final FloatBuffer matModel = BufferUtils.createFloatBuffer(16);
     private static final FloatBuffer matProjection = BufferUtils.createFloatBuffer(16);
     private static final IntBuffer matViewport = BufferUtils.createIntBuffer(16);
@@ -89,7 +94,8 @@ public class MCH_GuiTargetMarker extends MCH_Gui {
         addMarkEntityPos(reserve, target, x, y, z, false);
     }
 
-    public static void addMarkEntityPos(int reserve, ITargetMarkerObject target, double x, double y, double z, boolean nazo) {
+    public static void addMarkEntityPos(int reserve, ITargetMarkerObject target, double x, double y, double z,
+                                        boolean nazo) {
         if (isEnableEntityMarker()) {
             MCH_TargetType spotType = MCH_TargetType.NONE;
             EntityPlayer clientPlayer = s_minecraft.player;
@@ -103,7 +109,8 @@ public class MCH_GuiTargetMarker extends MCH_Gui {
                     spotType = MCH_TargetType.SAME_TEAM_PLAYER;
                 }
             } else if (entity instanceof EntityPlayer) {
-                if (entity == clientPlayer || entity.getRidingEntity() instanceof MCH_EntitySeat || entity.getRidingEntity() instanceof MCH_EntityAircraft) {
+                if (entity == clientPlayer || entity.getRidingEntity() instanceof MCH_EntitySeat ||
+                        entity.getRidingEntity() instanceof MCH_EntityAircraft) {
                     return;
                 }
 
@@ -115,8 +122,8 @@ public class MCH_GuiTargetMarker extends MCH_Gui {
 
             if (spotType == MCH_TargetType.NONE && isSpotedEntity(entity)) {
                 spotType = MCH_Multiplay.canSpotEntity(
-                        clientPlayer, clientPlayer.posX, clientPlayer.posY + clientPlayer.getEyeHeight(), clientPlayer.posZ, entity, false
-                );
+                        clientPlayer, clientPlayer.posX, clientPlayer.posY + clientPlayer.getEyeHeight(),
+                        clientPlayer.posZ, entity, false);
             }
 
             if (reserve == 100) {
@@ -147,12 +154,13 @@ public class MCH_GuiTargetMarker extends MCH_Gui {
     }
 
     public static boolean isEnableEntityMarker() {
-        return MCH_Config.DisplayEntityMarker.prmBool
-                && (Minecraft.getMinecraft().isSingleplayer() || MCH_ServerSettings.enableEntityMarker)
-                && MCH_Config.EntityMarkerSize.prmDouble > 0.0;
+        return MCH_Config.DisplayEntityMarker.prmBool &&
+                (Minecraft.getMinecraft().isSingleplayer() || MCH_ServerSettings.enableEntityMarker) &&
+                MCH_Config.EntityMarkerSize.prmDouble > 0.0;
     }
 
-    public static void drawRhombus(BufferBuilder builder, int dir, double x, double y, double z, double size, int color) {
+    public static void drawRhombus(BufferBuilder builder, int dir, double x, double y, double z, double size,
+                                   int color) {
         size *= 2.0;
         int red = color >> 16 & 0xFF;
         int green = color >> 8 & 0xFF;
@@ -221,7 +229,7 @@ public class MCH_GuiTargetMarker extends MCH_Gui {
     }
 
     void drawMark() {
-        int[] COLOR_TABLE = new int[]{0, -808464433, -805371904, -805306624, -822018049, -805351649, -65536, 0};
+        int[] COLOR_TABLE = new int[] { 0, -808464433, -805371904, -805306624, -822018049, -805351649, -65536, 0 };
         int scale = scaleFactor > 0 ? scaleFactor : 2;
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
@@ -257,7 +265,8 @@ public class MCH_GuiTargetMarker extends MCH_Gui {
 
                 if (i == 0) {
                     double size = MCH_Config.EntityMarkerSize.prmDouble;
-                    if (e.type < MCH_TargetType.POINT.ordinal() && z < 1.0 && x >= 0.0 && x <= DSW && y >= 0.0 && y <= DSH) {
+                    if (e.type < MCH_TargetType.POINT.ordinal() && z < 1.0 && x >= 0.0 && x <= DSW && y >= 0.0 &&
+                            y <= DSH) {
                         this.drawTriangle1(builder, x, y, size, color);
                     }
                 } else if (e.type == MCH_TargetType.POINT.ordinal() && e.getTarget() != null) {
@@ -266,11 +275,16 @@ public class MCH_GuiTargetMarker extends MCH_Gui {
                     if (z < 1.0 && x >= 0.0 && x <= DSW - 20 && y >= 0.0 && y <= DSH - 40) {
                         double dist = this.mc.player.getDistance(target.getX(), target.getY(), target.getZ());
                         GlStateManager.enableTexture2D();
-                        this.drawCenteredString(String.format("%.0fm", dist), (int) x, (int) (y + MARK_SIZE * 1.1 + 16.0), color);
-                        if (x >= (double) DSW / 2 - 20 && x <= (double) DSW / 2 + 20 && y >= (double) DSH / 2 - 20 && y <= (double) DSH / 2 + 20) {
-                            this.drawString(String.format("x : %.0f", target.getX()), (int) (x + MARK_SIZE + 18.0), (int) y - 12, color);
-                            this.drawString(String.format("y : %.0f", target.getY()), (int) (x + MARK_SIZE + 18.0), (int) y - 4, color);
-                            this.drawString(String.format("z : %.0f", target.getZ()), (int) (x + MARK_SIZE + 18.0), (int) y + 4, color);
+                        this.drawCenteredString(String.format("%.0fm", dist), (int) x,
+                                (int) (y + MARK_SIZE * 1.1 + 16.0), color);
+                        if (x >= (double) DSW / 2 - 20 && x <= (double) DSW / 2 + 20 && y >= (double) DSH / 2 - 20 &&
+                                y <= (double) DSH / 2 + 20) {
+                            this.drawString(String.format("x : %.0f", target.getX()), (int) (x + MARK_SIZE + 18.0),
+                                    (int) y - 12, color);
+                            this.drawString(String.format("y : %.0f", target.getY()), (int) (x + MARK_SIZE + 18.0),
+                                    (int) y - 4, color);
+                            this.drawString(String.format("z : %.0f", target.getZ()), (int) (x + MARK_SIZE + 18.0),
+                                    (int) y + 4, color);
                         }
 
                         GlStateManager.disableTexture2D();

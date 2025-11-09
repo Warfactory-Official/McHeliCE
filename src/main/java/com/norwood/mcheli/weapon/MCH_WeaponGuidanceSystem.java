@@ -1,5 +1,15 @@
 package com.norwood.mcheli.weapon;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.networking.packet.PacketNotifyLock;
@@ -8,16 +18,9 @@ import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Lib;
 import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class MCH_WeaponGuidanceSystem {
+
     public Entity lastLockEntity;
     public boolean canLockInWater;
     public boolean canLockOnGround;
@@ -79,11 +82,13 @@ public class MCH_WeaponGuidanceSystem {
         if (entity instanceof MCH_EntityAircraft) {
             return ((MCH_EntityAircraft) entity).getStealth();
         } else {
-            return entity != null && entity.getRidingEntity() instanceof MCH_EntityAircraft ? ((MCH_EntityAircraft) entity.getRidingEntity()).getStealth() : 0.0F;
+            return entity != null && entity.getRidingEntity() instanceof MCH_EntityAircraft ?
+                    ((MCH_EntityAircraft) entity.getRidingEntity()).getStealth() : 0.0F;
         }
     }
 
-    public static boolean inLockRange(Entity entity, float rotationYaw, float rotationPitch, Entity target, float lockAng) {
+    public static boolean inLockRange(Entity entity, float rotationYaw, float rotationPitch, Entity target,
+                                      float lockAng) {
         double dx = target.posX - entity.posX;
         double dy = target.posY + target.height / 2.0F - entity.posY;
         double dz = target.posZ - entity.posZ;
@@ -114,12 +119,14 @@ public class MCH_WeaponGuidanceSystem {
     }
 
     public boolean isLockingEntity(Entity entity) {
-        return this.getLockCount() > 0 && this.targetEntity != null && !this.targetEntity.isDead && W_Entity.isEqual(entity, this.targetEntity);
+        return this.getLockCount() > 0 && this.targetEntity != null && !this.targetEntity.isDead &&
+                W_Entity.isEqual(entity, this.targetEntity);
     }
 
     @Nullable
     public Entity getLockingEntity() {
-        return this.getLockCount() > 0 && this.targetEntity != null && !this.targetEntity.isDead ? this.targetEntity : null;
+        return this.getLockCount() > 0 && this.targetEntity != null && !this.targetEntity.isDead ? this.targetEntity :
+                null;
     }
 
     @Nullable
@@ -152,7 +159,8 @@ public class MCH_WeaponGuidanceSystem {
             boolean result = false;
             if (this.lockCount == 0) {
                 List<Entity> list = this.worldObj
-                        .getEntitiesWithinAABBExcludingEntity(user, user.getEntityBoundingBox().grow(this.lockRange, this.lockRange, this.lockRange));
+                        .getEntitiesWithinAABBExcludingEntity(user,
+                                user.getEntityBoundingBox().grow(this.lockRange, this.lockRange, this.lockRange));
                 Entity tgtEnt = null;
                 double dist = this.lockRange * this.lockRange * 2.0;
 
@@ -166,7 +174,8 @@ public class MCH_WeaponGuidanceSystem {
                         float stealth = 1.0F - getEntityStealth(entity);
                         double range = this.lockRange * stealth;
                         float angle = this.lockAngle * (stealth / 2.0F + 0.5F);
-                        if (d < range * range && d < dist && inLockRange(entityLocker, user.rotationYaw, user.rotationPitch, entity, angle)) {
+                        if (d < range * range && d < dist &&
+                                inLockRange(entityLocker, user.rotationYaw, user.rotationPitch, entity, angle)) {
                             Vec3d v1 = new Vec3d(entityLocker.posX, entityLocker.posY, entityLocker.posZ);
                             Vec3d v2 = new Vec3d(entity.posX, entity.posY + entity.height / 2.0F, entity.posZ);
                             RayTraceResult m = W_WorldFunc.clip(this.worldObj, v1, v2, false, true, false);
@@ -206,7 +215,8 @@ public class MCH_WeaponGuidanceSystem {
 
                         this.lockSoundCount = (this.lockSoundCount + 1) % 15;
                         Entity entityLocker = this.getLockEntity(user);
-                        if (inLockRange(entityLocker, user.rotationYaw, user.rotationPitch, this.targetEntity, this.lockAngle)) {
+                        if (inLockRange(entityLocker, user.rotationYaw, user.rotationPitch, this.targetEntity,
+                                this.lockAngle)) {
                             if (this.lockCount < this.getLockCountMax()) {
                                 this.lockCount++;
                             }

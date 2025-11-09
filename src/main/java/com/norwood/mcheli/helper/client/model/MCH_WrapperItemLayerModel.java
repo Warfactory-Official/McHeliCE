@@ -1,7 +1,10 @@
 package com.norwood.mcheli.helper.client.model;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
@@ -15,14 +18,14 @@ import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.client.model.SimpleModelState;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.model.TRSRTransformation;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 public class MCH_WrapperItemLayerModel implements IModel {
+
     private final ItemLayerModel model;
     private final ModelBlock raw;
 
@@ -39,7 +42,8 @@ public class MCH_WrapperItemLayerModel implements IModel {
         return this.model.retexture(textures);
     }
 
-    public @NotNull IBakedModel bake(@NotNull IModelState state, @NotNull VertexFormat format, @NotNull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
+    public @NotNull IBakedModel bake(@NotNull IModelState state, @NotNull VertexFormat format,
+                                     @NotNull Function<ResourceLocation, TextureAtlasSprite> bakedTextureGetter) {
         ItemCameraTransforms transforms = this.raw.getAllTransforms();
         Map<TransformType, TRSRTransformation> tMap = Maps.newEnumMap(TransformType.class);
         tMap.putAll(PerspectiveMapWrapper.getTransforms(transforms));

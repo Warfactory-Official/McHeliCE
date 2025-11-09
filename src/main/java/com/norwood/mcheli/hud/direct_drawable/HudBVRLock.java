@@ -1,10 +1,10 @@
 package com.norwood.mcheli.hud.direct_drawable;
 
-import com.norwood.mcheli.EntityInfo;
-import com.norwood.mcheli.MCH_EntityInfoClientTracker;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -17,12 +17,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.norwood.mcheli.EntityInfo;
+import com.norwood.mcheli.MCH_EntityInfoClientTracker;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 
 public class HudBVRLock implements DirectDrawable {
 
@@ -32,16 +34,13 @@ public class HudBVRLock implements DirectDrawable {
     private static final int BOX_SIZE = 24;
     public static final HudBVRLock INSTANCE = new HudBVRLock();
 
-
     public void renderHud(RenderGameOverlayEvent.Post event, Tuple<EntityPlayer, MCH_EntityAircraft> ctx) {
-
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
         Minecraft mc = Minecraft.getMinecraft();
         EntityPlayerSP player = (EntityPlayerSP) ctx.getFirst();
         var ac = ctx.getSecond();
         ScaledResolution sc = new ScaledResolution(mc);
         if (mc.gameSettings.thirdPersonView != 0) return;
-
 
         if (ac.getCurrentWeapon(player) == null || ac.getCurrentWeapon(player).getCurrentWeapon() == null)
             return;
@@ -96,8 +95,7 @@ public class HudBVRLock implements DirectDrawable {
                         drawMSLMarker(sx, sy, true, alpha);
                         mc.fontRenderer.drawString(
                                 String.format("[MSL %.1fm]", player.getDistance(x, y, z)),
-                                (int) (sx - 20), (int) (sy + 12), 0xFF0000, false
-                        );
+                                (int) (sx - 20), (int) (sy + 12), 0xFF0000, false);
                     }
                 } else {
                     drawEntityMarker(sx, sy, lock, alpha);
@@ -105,8 +103,7 @@ public class HudBVRLock implements DirectDrawable {
                         mc.fontRenderer.drawString(
                                 String.format("[%s %.1fm]", ac.getNameOnMyRadar(entity), player.getDistance(x, y, z)),
                                 (int) (sx - 20), (int) (sy + 12),
-                                lock ? 0xFF0000 : 0x00FF00, false
-                        );
+                                lock ? 0xFF0000 : 0x00FF00, false);
                     }
                 }
 
@@ -146,7 +143,7 @@ public class HudBVRLock implements DirectDrawable {
         Vec3d lookVec = player.getLookVec();
 
         double angle = Math.toDegrees(Math.acos(relPos.normalize().dotProduct(lookVec)));
-        if (angle > 45) return new double[]{-1, -1, -1, -1};
+        if (angle > 45) return new double[] { -1, -1, -1, -1 };
 
         Vec3d worldUp = new Vec3d(0, 1, 0);
         Vec3d right = lookVec.crossProduct(worldUp);
@@ -160,7 +157,7 @@ public class HudBVRLock implements DirectDrawable {
         double dx = relPos.dotProduct(right);
         double dy = relPos.dotProduct(up);
         double dz = relPos.dotProduct(lookVec);
-        if (dz <= 0) return new double[]{-1, -1, -1, -1};
+        if (dz <= 0) return new double[] { -1, -1, -1, -1 };
 
         ScaledResolution sc = new ScaledResolution(mc);
         double fov = mc.gameSettings.fovSetting;
@@ -173,7 +170,8 @@ public class HudBVRLock implements DirectDrawable {
         double screenX = sc.getScaledWidth() / 2.0 + xProj * (sc.getScaledWidth() / 2.0);
         double screenY = sc.getScaledHeight() / 2.0 - yProj * (sc.getScaledHeight() / 2.0);
 
-        return new double[]{screenX, screenY, screenX - sc.getScaledWidth() / 2.0, screenY - sc.getScaledHeight() / 2.0};
+        return new double[] { screenX, screenY, screenX - sc.getScaledWidth() / 2.0,
+                screenY - sc.getScaledHeight() / 2.0 };
     }
 
     private void drawEntityMarker(double x, double y, boolean lock, float alpha) {
@@ -220,5 +218,3 @@ public class HudBVRLock implements DirectDrawable {
         return old + (now - old) * partialTicks;
     }
 }
-
-

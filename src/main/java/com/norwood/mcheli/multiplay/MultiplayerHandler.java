@@ -1,13 +1,5 @@
 package com.norwood.mcheli.multiplay;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import lombok.Getter;
-import net.minecraft.command.server.CommandSummon;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,8 +9,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import net.minecraft.command.server.CommandSummon;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Utils;
+
+import lombok.Getter;
+
 @Getter
 public class MultiplayerHandler {
+
     public static EntityPlayer modListRequestPlayer = null;
     public static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
     public static byte[] imageData = null;
@@ -29,7 +32,7 @@ public class MultiplayerHandler {
     public static void destoryAllAircraft(EntityPlayer player) {
         CommandSummon cmd = new CommandSummon();
         if (cmd.checkPermission(MCH_Utils.getServer(), player)) {
-            for (Entity e :  new ArrayList<>(player.world.loadedEntityList)) {
+            for (Entity e : new ArrayList<>(player.world.loadedEntityList)) {
                 if (e instanceof MCH_EntityAircraft) {
                     e.setDead();
                 }
@@ -51,7 +54,7 @@ public class MultiplayerHandler {
 
         File file = new File(dir, playerName + "_" + dt + ".png");
         try (FileOutputStream fos = new FileOutputStream(file);
-             DataOutputStream dos = new DataOutputStream(fos)) {
+                DataOutputStream dos = new DataOutputStream(fos)) {
             dos.write(data);
         }
         LogInfo("[mcheli]Screenshot saved: %s", file.getAbsolutePath());
@@ -74,5 +77,4 @@ public class MultiplayerHandler {
 
         return playerInfoId;
     }
-
 }

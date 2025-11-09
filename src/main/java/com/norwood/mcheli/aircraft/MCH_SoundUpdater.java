@@ -1,13 +1,15 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.wrapper.W_SoundUpdater;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.norwood.mcheli.wrapper.W_SoundUpdater;
+
 @SideOnly(Side.CLIENT)
 public class MCH_SoundUpdater extends W_SoundUpdater {
+
     private final MCH_EntityAircraft theAircraft;
     private final EntityPlayerSP thePlayer;
     private boolean isMoving;
@@ -54,7 +56,8 @@ public class MCH_SoundUpdater extends W_SoundUpdater {
                     this.soundDelay--;
                 } else {
                     this.soundDelay = 20;
-                    this.playEntitySound(this.theAircraft.getSoundName(), this.theAircraft, this.aircraftVolume, this.aircraftPitch, true);
+                    this.playEntitySound(this.theAircraft.getSoundName(), this.theAircraft, this.aircraftVolume,
+                            this.aircraftPitch, true);
                 }
 
                 this.silent = false;
@@ -67,7 +70,8 @@ public class MCH_SoundUpdater extends W_SoundUpdater {
                 this.aircraftVolume = info.soundVolume * this.theAircraft.getSoundVolume();
                 this.aircraftPitch = info.soundPitch * this.theAircraft.getSoundPitch();
                 if (!isRide) {
-                    double dist = this.thePlayer.getDistance(this.theAircraft.posX, this.thePlayer.posY, this.theAircraft.posZ);
+                    double dist = this.thePlayer.getDistance(this.theAircraft.posX, this.thePlayer.posY,
+                            this.theAircraft.posZ);
                     double pitch = this.prevDist - dist;
                     if (Math.abs(pitch) > 0.3) {
                         this.addPitch = (float) (this.addPitch + pitch / 40.0);

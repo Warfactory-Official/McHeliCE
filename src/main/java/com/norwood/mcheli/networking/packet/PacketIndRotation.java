@@ -1,12 +1,14 @@
 package com.norwood.mcheli.networking.packet;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
+
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.wrapper.W_Entity;
+
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 public class PacketIndRotation extends PacketBase implements ClientToServerPacket {
@@ -45,8 +47,7 @@ public class PacketIndRotation extends PacketBase implements ClientToServerPacke
         if (this.rollRev) {
             MCH_Lib.DbgLog(ac.world,
                     "onPacketIndRotation Error:this.rollRev y=%.2f, p=%.2f, r=%.2f",
-                    this.yaw, this.pitch, this.roll
-            );
+                    this.yaw, this.pitch, this.roll);
 
             Entity rider = ac.getRiddenByEntity();
             if (rider != null) {
@@ -64,6 +65,5 @@ public class PacketIndRotation extends PacketBase implements ClientToServerPacke
 
         ac.setRotYaw(this.yaw);
         ac.setRotPitch(this.pitch);
-
     }
 }

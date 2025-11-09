@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class DecAfterExpression extends Col1AfterExpression {
+
     public DecAfterExpression() {
         this.setOperator("--");
     }

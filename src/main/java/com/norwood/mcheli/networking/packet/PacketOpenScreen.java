@@ -1,17 +1,18 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 
-@Deprecated //Will be replaced by modular
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+
+@Deprecated // Will be replaced by modular
 @ElegantPacket
 public class PacketOpenScreen implements ClientToServerPacket {
 
-    public int guiID = -1; //Raw integer again...
+    public int guiID = -1; // Raw integer again...
 
     public static void send(int gui_id) {
         if (gui_id >= 0) {
@@ -30,9 +31,8 @@ public class PacketOpenScreen implements ClientToServerPacket {
             }
         } else {
             player.openGui(
-                    MCH_MOD.instance, this.guiID, player.world, (int) player.posX, (int) player.posY, (int) player.posZ
-            );
+                    MCH_MOD.instance, this.guiID, player.world, (int) player.posX, (int) player.posY,
+                    (int) player.posZ);
         }
     }
-
 }

@@ -1,12 +1,9 @@
 package com.norwood.mcheli.gltd;
 
-import com.norwood.mcheli.MCH_RenderLib;
-import com.norwood.mcheli.helper.client._IModelCustom;
-import com.norwood.mcheli.wrapper.W_Lib;
-import com.norwood.mcheli.wrapper.W_Render;
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -14,13 +11,17 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
-import java.util.Random;
+import org.jetbrains.annotations.NotNull;
+
+import com.norwood.mcheli.MCH_RenderLib;
+import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.wrapper.W_Lib;
+import com.norwood.mcheli.wrapper.W_Render;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderGLTD extends W_Render<MCH_EntityGLTD> {
+
     public static final IRenderFactory<MCH_EntityGLTD> FACTORY = MCH_RenderGLTD::new;
     public static final Random rand = new Random();
     public static _IModelCustom model;
@@ -68,14 +69,15 @@ public class MCH_RenderGLTD extends W_Render<MCH_EntityGLTD> {
         GlStateManager.translate(0.0F, 0.45F, 0.0F);
         this.restoreCommonRenderParam();
         GlStateManager.disableLighting();
-        Vec3d[] v = new Vec3d[]{new Vec3d(0.0, 0.2, 0.0), new Vec3d(0.0, 0.2, 100.0)};
+        Vec3d[] v = new Vec3d[] { new Vec3d(0.0, 0.2, 0.0), new Vec3d(0.0, 0.2, 100.0) };
         int a = rand.nextInt(64);
         MCH_RenderLib.drawLine(v, 1619066752 | a << 24);
         GlStateManager.enableLighting();
         GlStateManager.popMatrix();
     }
 
-    public boolean shouldRender(@NotNull MCH_EntityGLTD livingEntity, @NotNull ICamera camera, double camX, double camY, double camZ) {
+    public boolean shouldRender(@NotNull MCH_EntityGLTD livingEntity, @NotNull ICamera camera, double camX, double camY,
+                                double camZ) {
         return true;
     }
 

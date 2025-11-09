@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.func;
 import java.lang.reflect.Method;
 
 public class InvokeFunction implements Function {
+
     public static Object callMethod(Object obj, String name, Object[] args) throws Exception {
         Class<?> c = obj.getClass();
         Class<?>[] types = new Class[args.length];

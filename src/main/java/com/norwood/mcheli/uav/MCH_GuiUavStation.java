@@ -1,5 +1,13 @@
 package com.norwood.mcheli.uav;
 
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
 import com.norwood.mcheli.helicopter.MCH_ItemHeli;
@@ -12,14 +20,9 @@ import com.norwood.mcheli.tank.MCH_ItemTank;
 import com.norwood.mcheli.tank.MCH_TankInfoManager;
 import com.norwood.mcheli.wrapper.W_GuiContainer;
 import com.norwood.mcheli.wrapper.W_McClient;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 public class MCH_GuiUavStation extends W_GuiContainer {
+
     static final int BX = 20;
     static final int BY = 22;
     final MCH_EntityUavStation uavStation;
@@ -80,10 +83,9 @@ public class MCH_GuiUavStation extends W_GuiContainer {
     protected void actionPerformed(@NotNull GuiButton btn) {
         if (btn.enabled) {
             if (btn.id == 256) {
-                if (this.uavStation != null
-                        && !this.uavStation.isDead
-                        && this.uavStation.getLastControlAircraft() != null
-                        && !this.uavStation.getLastControlAircraft().isDead) {
+                if (this.uavStation != null && !this.uavStation.isDead &&
+                        this.uavStation.getLastControlAircraft() != null &&
+                        !this.uavStation.getLastControlAircraft().isDead) {
                     var data = new PacketUavStatus();
                     data.posUavX = (byte) this.uavStation.posUavX;
                     data.posUavY = (byte) this.uavStation.posUavY;
@@ -94,10 +96,10 @@ public class MCH_GuiUavStation extends W_GuiContainer {
 
                 this.buttonContinue.enabled = false;
             } else {
-                int[] pos = new int[]{this.uavStation.posUavX, this.uavStation.posUavY, this.uavStation.posUavZ};
+                int[] pos = new int[] { this.uavStation.posUavX, this.uavStation.posUavY, this.uavStation.posUavZ };
                 int i = btn.id >> 4 & 15;
                 int j = (btn.id & 15) - 1;
-                int[] BTN = new int[]{-10, -1, 1, 10};
+                int[] BTN = new int[] { -10, -1, 1, 10 };
                 pos[i] += BTN[j];
                 if (pos[i] < -50) {
                     pos[i] = -50;
@@ -107,7 +109,8 @@ public class MCH_GuiUavStation extends W_GuiContainer {
                     pos[i] = 50;
                 }
 
-                if (this.uavStation.posUavX != pos[0] || this.uavStation.posUavY != pos[1] || this.uavStation.posUavZ != pos[2]) {
+                if (this.uavStation.posUavX != pos[0] || this.uavStation.posUavY != pos[1] ||
+                        this.uavStation.posUavZ != pos[2]) {
                     var data = new PacketUavStatus();
                     data.posUavX = (byte) pos[0];
                     data.posUavY = (byte) pos[1];
@@ -124,7 +127,7 @@ public class MCH_GuiUavStation extends W_GuiContainer {
         this.buttonList.clear();
         int x = this.width / 2 - 5;
         int y = this.height / 2 - 76;
-        String[] BTN = new String[]{"-10", "-1", "+1", "+10"};
+        String[] BTN = new String[] { "-10", "-1", "+1", "+10" };
 
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 4; col++) {
@@ -134,7 +137,8 @@ public class MCH_GuiUavStation extends W_GuiContainer {
         }
 
         this.buttonContinue = new GuiButton(256, x - 80 + 3, y + 44, 50, 20, "Continue");
-        this.buttonContinue.enabled = this.uavStation != null && !this.uavStation.isDead && this.uavStation.getAndSearchLastControlAircraft() != null;
+        this.buttonContinue.enabled = this.uavStation != null && !this.uavStation.isDead &&
+                this.uavStation.getAndSearchLastControlAircraft() != null;
 
         this.buttonList.add(this.buttonContinue);
     }

@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.oper;
 
 public interface Operator {
+
     Object power(Object var1, Object var2);
 
     Object signPlus(Object var1);

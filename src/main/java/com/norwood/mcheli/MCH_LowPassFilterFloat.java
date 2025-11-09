@@ -1,6 +1,7 @@
 package com.norwood.mcheli;
 
 public class MCH_LowPassFilterFloat {
+
     private final MCH_Queue<Float> filter;
 
     public MCH_LowPassFilterFloat(int filterLength) {

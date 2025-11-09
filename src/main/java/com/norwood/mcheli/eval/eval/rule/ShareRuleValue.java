@@ -1,5 +1,7 @@
 package com.norwood.mcheli.eval.eval.rule;
 
+import java.util.List;
+
 import com.norwood.mcheli.eval.eval.EvalException;
 import com.norwood.mcheli.eval.eval.Expression;
 import com.norwood.mcheli.eval.eval.Rule;
@@ -12,9 +14,8 @@ import com.norwood.mcheli.eval.eval.ref.Refactor;
 import com.norwood.mcheli.eval.eval.srch.Search;
 import com.norwood.mcheli.eval.eval.var.Variable;
 
-import java.util.List;
-
 public class ShareRuleValue extends Rule {
+
     public AbstractRule topRule;
     public AbstractRule funcArgRule;
     public LexFactory lexFactory;
@@ -51,6 +52,7 @@ public class ShareRuleValue extends Rule {
     }
 
     class EmptyExpression extends Expression {
+
         @Override
         public long evalLong() {
             return 0L;
@@ -67,28 +69,22 @@ public class ShareRuleValue extends Rule {
         }
 
         @Override
-        public void optimizeLong(Variable var) {
-        }
+        public void optimizeLong(Variable var) {}
 
         @Override
-        public void optimizeDouble(Variable var) {
-        }
+        public void optimizeDouble(Variable var) {}
 
         @Override
-        public void optimize(Variable var, Operator oper) {
-        }
+        public void optimize(Variable var, Operator oper) {}
 
         @Override
-        public void search(Search srch) {
-        }
+        public void search(Search srch) {}
 
         @Override
-        public void refactorName(Refactor ref) {
-        }
+        public void refactorName(Refactor ref) {}
 
         @Override
-        public void refactorFunc(Refactor ref, Rule rule) {
-        }
+        public void refactorFunc(Refactor ref, Rule rule) {}
 
         @Override
         public Expression dup() {

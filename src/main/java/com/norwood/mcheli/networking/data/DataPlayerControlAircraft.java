@@ -10,6 +10,7 @@ import lombok.experimental.Delegate;
 @Getter
 @Setter
 public class DataPlayerControlAircraft implements IByteBufSerializable {
+
     public UnmountAction isUnmount = UnmountAction.NONE;
     public VtolSwitch switchVtol = VtolSwitch.NONE;
     public ModeSwitch switchMode = ModeSwitch.NONE;
@@ -21,7 +22,7 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
     public PlayerControlSwitches switches;
     public byte switchWeapon = -1;
     public byte useFlareType = 0;
-    //TODO:Probably safe to squash to a short frankly
+    // TODO:Probably safe to squash to a short frankly
     public int useWeaponOption1 = 0;
     public int useWeaponOption2 = 0;
     public double useWeaponPosX = 0.0;
@@ -60,18 +61,18 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
 
     @SuppressWarnings("unused")
     public DataPlayerControlAircraft(ByteBuf buf) {
-        this.isUnmount   = UnmountAction.values()[buf.readByte()];
-        this.switchVtol  = VtolSwitch.values()[buf.readByte()];
-        this.switchMode  = ModeSwitch.values()[buf.readByte()];
+        this.isUnmount = UnmountAction.values()[buf.readByte()];
+        this.switchVtol = VtolSwitch.values()[buf.readByte()];
+        this.switchMode = ModeSwitch.values()[buf.readByte()];
         this.switchHatch = HatchSwitch.values()[buf.readByte()];
-        this.switchGear  = GearSwitch.values()[buf.readByte()];
+        this.switchGear = GearSwitch.values()[buf.readByte()];
         this.putDownRack = RackAction.values()[buf.readByte()];
         this.switchCameraMode = CameraMode.values()[buf.readByte()];
 
         this.switches = new PlayerControlSwitches(buf);
 
-        this.switchWeapon     = buf.readByte();
-        this.useFlareType     = buf.readByte();
+        this.switchWeapon = buf.readByte();
+        this.useFlareType = buf.readByte();
 
         this.useWeaponOption1 = buf.readInt();
         this.useWeaponOption2 = buf.readInt();
@@ -82,9 +83,6 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
 
         this.switchFreeLook = buf.readByte();
     }
-
-
-
 
     public static enum UnmountAction {
         NONE,           // 0
@@ -113,7 +111,6 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         UNFOLD    // 2
     }
 
-
     public static enum RackAction {
         NONE,       // 0
         MOUNT,      // 1
@@ -132,7 +129,6 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         NIGHT_VIS, // 1
         THERMAL_VIS // 2
     }
-
 
     @NoArgsConstructor
     @Getter
@@ -181,4 +177,3 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         }
     }
 }
-

@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class LetPowerExpression extends PowerExpression {
+
     public LetPowerExpression() {
         this.setOperator("**=");
     }

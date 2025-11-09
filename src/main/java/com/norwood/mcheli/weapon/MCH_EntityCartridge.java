@@ -1,10 +1,5 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.helper.client._IModelCustom;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -12,9 +7,17 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
+
 public class MCH_EntityCartridge extends W_Entity {
+
     public final String texture_name;
     public final _IModelCustom model;
     private final float bound;
@@ -24,7 +27,8 @@ public class MCH_EntityCartridge extends W_Entity {
     public float targetPitch;
     private int countOnUpdate;
 
-    public MCH_EntityCartridge(World par1World, MCH_Cartridge c, double x, double y, double z, double mx, double my, double mz) {
+    public MCH_EntityCartridge(World par1World, MCH_Cartridge c, double x, double y, double z, double mx, double my,
+                               double mz) {
         super(par1World);
         this.setPositionAndRotation(x, y, z, 0.0F, 0.0F);
         this.motionX = mx;
@@ -40,12 +44,12 @@ public class MCH_EntityCartridge extends W_Entity {
 
     @SideOnly(Side.CLIENT)
     public static void spawnCartridge(
-            World world, MCH_Cartridge cartridge, double x, double y, double z, double mx, double my, double mz, float yaw, float pitch
-    ) {
+                                      World world, MCH_Cartridge cartridge, double x, double y, double z, double mx,
+                                      double my, double mz, float yaw, float pitch) {
         if (cartridge != null) {
             MCH_EntityCartridge entityFX = new MCH_EntityCartridge(
-                    world, cartridge, x, y, z, mx + (world.rand.nextFloat() - 0.5) * 0.07, my, mz + (world.rand.nextFloat() - 0.5) * 0.07
-            );
+                    world, cartridge, x, y, z, mx + (world.rand.nextFloat() - 0.5) * 0.07, my,
+                    mz + (world.rand.nextFloat() - 0.5) * 0.07);
             entityFX.prevRotationYaw = yaw;
             entityFX.rotationYaw = yaw;
             entityFX.targetYaw = yaw;
@@ -117,8 +121,8 @@ public class MCH_EntityCartridge extends W_Entity {
     }
 
     public void move() {
-        Vec3d vec1 =new Vec3d( this.posX, this.posY, this.posZ);
-        Vec3d vec2 =new Vec3d( this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        Vec3d vec1 = new Vec3d(this.posX, this.posY, this.posZ);
+        Vec3d vec2 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         RayTraceResult m = W_WorldFunc.clip(this.world, vec1, vec2);
         double d = Math.max(Math.abs(this.motionX), Math.abs(this.motionY));
         d = Math.max(d, Math.abs(this.motionZ));
@@ -185,9 +189,7 @@ public class MCH_EntityCartridge extends W_Entity {
         }
     }
 
-    protected void readEntityFromNBT(@NotNull NBTTagCompound var1) {
-    }
+    protected void readEntityFromNBT(@NotNull NBTTagCompound var1) {}
 
-    protected void writeEntityToNBT(@NotNull NBTTagCompound var1) {
-    }
+    protected void writeEntityToNBT(@NotNull NBTTagCompound var1) {}
 }

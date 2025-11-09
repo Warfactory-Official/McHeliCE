@@ -1,20 +1,21 @@
 package com.norwood.mcheli.helicopter;
 
-import com.norwood.mcheli.aircraft.MCH_Blade;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
-import com.norwood.mcheli.aircraft.MCH_Rotor;
-import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.aircraft.MCH_Blade;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
+import com.norwood.mcheli.aircraft.MCH_Rotor;
+import com.norwood.mcheli.wrapper.W_Entity;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderHeli extends MCH_RenderAircraft<MCH_EntityHeli> {
+
     public static final IRenderFactory<MCH_EntityHeli> FACTORY = MCH_RenderHeli::new;
 
     public MCH_RenderHeli(RenderManager renderManager) {
@@ -23,7 +24,8 @@ public class MCH_RenderHeli extends MCH_RenderAircraft<MCH_EntityHeli> {
     }
 
     @Override
-    public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch, float roll, float tickTime) {
+    public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch,
+                               float roll, float tickTime) {
         MCH_HeliInfo heliInfo;
         if (entity instanceof MCH_EntityHeli heli) {
             heliInfo = heli.getHeliInfo();
@@ -65,7 +67,8 @@ public class MCH_RenderHeli extends MCH_RenderAircraft<MCH_EntityHeli> {
                     GlStateManager.translate(rotorInfo.pos.x, rotorInfo.pos.y, rotorInfo.pos.z);
                 }
 
-                GlStateManager.rotate(prevRot + (rot - prevRot) * tickTime, (float) rotorInfo.rot.x, (float) rotorInfo.rot.y, (float) rotorInfo.rot.z);
+                GlStateManager.rotate(prevRot + (rot - prevRot) * tickTime, (float) rotorInfo.rot.x,
+                        (float) rotorInfo.rot.y, (float) rotorInfo.rot.z);
                 if (!rotorInfo.oldRenderMethod) {
                     GlStateManager.translate(-rotorInfo.pos.x, -rotorInfo.pos.y, -rotorInfo.pos.z);
                 }

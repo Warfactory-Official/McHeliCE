@@ -1,14 +1,12 @@
 package com.norwood.mcheli.helper.world;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_DamageFactor;
-import com.norwood.mcheli.MCH_Explosion;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.flare.MCH_EntityFlare;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
-import com.norwood.mcheli.wrapper.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -31,13 +29,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_DamageFactor;
+import com.norwood.mcheli.MCH_Explosion;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.flare.MCH_EntityFlare;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
+import com.norwood.mcheli.wrapper.*;
 
 public class MCH_ExplosionV2 extends Explosion {
+
     private static final Random explosionRNG = new Random();
     public final int field_77289_h = 16;
     public final Entity exploder;
@@ -65,8 +68,8 @@ public class MCH_ExplosionV2 extends Explosion {
     }
 
     public MCH_ExplosionV2(
-            World worldIn, @Nullable Entity exploderIn, @Nullable Entity player, double x, double y, double z, float size, boolean flaming, boolean damagesTerrain
-    ) {
+                           World worldIn, @Nullable Entity exploderIn, @Nullable Entity player, double x, double y,
+                           double z, float size, boolean flaming, boolean damagesTerrain) {
         super(worldIn, exploderIn, x, y, z, size, flaming, damagesTerrain);
         this.world = worldIn;
         this.exploder = exploderIn;
@@ -94,17 +97,18 @@ public class MCH_ExplosionV2 extends Explosion {
                 SoundCategory.BLOCKS,
                 4.0F,
                 (1.0F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F) * 0.7F,
-                false
-        );
+                false);
     }
 
-    public static void effectMODExplosion(World world, double x, double y, double z, float size, List<BlockPos> affectedPositions) {
+    public static void effectMODExplosion(World world, double x, double y, double z, float size,
+                                          List<BlockPos> affectedPositions) {
         MCH_ExplosionV2 explosion = new MCH_ExplosionV2(world, x, y, z, size, affectedPositions);
         explosion.doExplosionA();
         explosion.doExplosionB(true, false);
     }
 
-    public static void effectVanillaExplosion(World world, double x, double y, double z, float size, List<BlockPos> affectedPositions) {
+    public static void effectVanillaExplosion(World world, double x, double y, double z, float size,
+                                              List<BlockPos> affectedPositions) {
         MCH_ExplosionV2 explosion = new MCH_ExplosionV2(world, x, y, z, size, affectedPositions);
         explosion.doExplosionA();
         explosion.doExplosionB(true, true);
@@ -122,7 +126,8 @@ public class MCH_ExplosionV2 extends Explosion {
                     for (int j1 = -range; j1 <= range; j1++) {
                         for (int k1 = -range; k1 <= range; k1++) {
                             int d = j1 * j1 + i1 * i1 + k1 * k1;
-                            if (d < range * range && W_Block.isEqualTo(W_WorldFunc.getBlock(world, ex + j1, ey + i1, ez + k1), W_Block.getWater())) {
+                            if (d < range * range && W_Block.isEqualTo(
+                                    W_WorldFunc.getBlock(world, ex + j1, ey + i1, ez + k1), W_Block.getWater())) {
                                 int n = explosionRNG.nextInt(2);
 
                                 for (int i = 0; i < n; i++) {
@@ -133,10 +138,10 @@ public class MCH_ExplosionV2 extends Explosion {
                                             ey + i1,
                                             ez + k1,
                                             (double) j1 / range * (explosionRNG.nextFloat() - 0.2),
-                                            1.0 - Math.sqrt(j1 * j1 + k1 * k1) / range + explosionRNG.nextFloat() * 0.4 * range * 0.4,
+                                            1.0 - Math.sqrt(j1 * j1 + k1 * k1) / range +
+                                                    explosionRNG.nextFloat() * 0.4 * range * 0.4,
                                             (double) k1 / range * (explosionRNG.nextFloat() - 0.2),
-                                            explosionRNG.nextInt(range) * 3 + range
-                                    );
+                                            explosionRNG.nextInt(range) * 3 + range);
                                     MCH_ParticlesUtil.spawnParticle(prm);
                                 }
                             }
@@ -176,7 +181,8 @@ public class MCH_ExplosionV2 extends Explosion {
                             if (k1 > 0) {
                                 float f3;
                                 if (this.exploder != null) {
-                                    f3 = W_Entity.getBlockExplosionResistance(this.exploder, this, this.world, l, i1, j1, block);
+                                    f3 = W_Entity.getBlockExplosionResistance(this.exploder, this, this.world, l, i1,
+                                            j1, block);
                                 } else {
                                     f3 = block.getExplosionResistance(this.world, blockpos, this.exploder, this);
                                 }
@@ -188,7 +194,8 @@ public class MCH_ExplosionV2 extends Explosion {
                                 f1 -= (f3 + 0.3F) * 0.3F;
                             }
 
-                            if (f1 > 0.0F && (this.exploder == null || W_Entity.shouldExplodeBlock(this.exploder, this, this.world, l, i1, j1, k1, f1))) {
+                            if (f1 > 0.0F && (this.exploder == null ||
+                                    W_Entity.shouldExplodeBlock(this.exploder, this, this.world, l, i1, j1, k1, f1))) {
                                 hashset.add(blockpos);
                             }
 
@@ -209,8 +216,9 @@ public class MCH_ExplosionV2 extends Explosion {
         int l1 = MathHelper.floor(this.y + f + 1.0);
         int i2 = MathHelper.floor(this.z - f - 1.0);
         int j2 = MathHelper.floor(this.z + f + 1.0);
-        List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this.exploder, W_AxisAlignedBB.getAABB(i, kx, i2, j, l1, j2));
-        Vec3d vec3 =new Vec3d( this.x, this.y, this.z);
+        List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this.exploder,
+                W_AxisAlignedBB.getAABB(i, kx, i2, j, l1, j2));
+        Vec3d vec3 = new Vec3d(this.x, this.y, this.z);
 
         for (Entity entity : list) {
             double d7 = entity.getDistance(this.x, this.y, this.z) / f;
@@ -226,18 +234,21 @@ public class MCH_ExplosionV2 extends Explosion {
                     double d9 = this.getBlockDensity(vec3, entity.getEntityBoundingBox());
                     double d10 = (1.0 - d7) * d9;
                     float damage = (int) ((d10 * d10 + d10) / 2.0 * 8.0 * f + 1.0);
-                    if (damage > 0.0F
-                            && !(entity instanceof EntityItem)
-                            && !(entity instanceof EntityExpBottle)
-                            && !(entity instanceof EntityXPOrb)
-                            && !W_Entity.isEntityFallingBlock(entity)) {
-                        if (!(entity instanceof MCH_EntityBaseBullet) || !(this.explodedPlayer instanceof EntityPlayer)) {
-                            MCH_Lib.DbgLog(this.world, "MCH_Explosion.doExplosionA:Damage=%.1f:HitEntity=" + entity.getClass(), damage);
+                    if (damage > 0.0F && !(entity instanceof EntityItem) && !(entity instanceof EntityExpBottle) &&
+                            !(entity instanceof EntityXPOrb) && !W_Entity.isEntityFallingBlock(entity)) {
+                        if (!(entity instanceof MCH_EntityBaseBullet) ||
+                                !(this.explodedPlayer instanceof EntityPlayer)) {
+                            MCH_Lib.DbgLog(this.world,
+                                    "MCH_Explosion.doExplosionA:Damage=%.1f:HitEntity=" + entity.getClass(), damage);
                             this.result.hitEntity = true;
-                        } else if (!W_Entity.isEqual(((MCH_EntityBaseBullet) entity).shootingEntity, this.explodedPlayer)) {
-                            this.result.hitEntity = true;
-                            MCH_Lib.DbgLog(this.world, "MCH_Explosion.doExplosionA:Damage=%.1f:HitEntityBullet=" + entity.getClass(), damage);
-                        }
+                        } else if (!W_Entity.isEqual(((MCH_EntityBaseBullet) entity).shootingEntity,
+                                this.explodedPlayer)) {
+                                    this.result.hitEntity = true;
+                                    MCH_Lib.DbgLog(this.world,
+                                            "MCH_Explosion.doExplosionA:Damage=%.1f:HitEntityBullet=" +
+                                                    entity.getClass(),
+                                            damage);
+                                }
                     }
 
                     MCH_Lib.applyEntityHurtResistantTimeConfig(entity);
@@ -257,7 +268,8 @@ public class MCH_ExplosionV2 extends Explosion {
                     }
 
                     if (entity instanceof EntityPlayer) {
-                        this.getPlayerKnockbackMap().put((EntityPlayer) entity,new Vec3d( d0 * d10, d1 * d10, d2 * d10));
+                        this.getPlayerKnockbackMap().put((EntityPlayer) entity,
+                                new Vec3d(d0 * d10, d1 * d10, d2 * d10));
                     }
 
                     if (damage > 0.0F && this.countSetFireEntity > 0) {
@@ -315,8 +327,7 @@ public class MCH_ExplosionV2 extends Explosion {
                             SoundEvents.ENTITY_GENERIC_EXPLODE,
                             SoundCategory.BLOCKS,
                             4.0F,
-                            (1.0F + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F
-                    );
+                            (1.0F + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
         }
 
         if (this.damagesTerrain) {
@@ -339,10 +350,12 @@ public class MCH_ExplosionV2 extends Explosion {
                     }
                 }
 
-                if (l > 0 && this.isDestroyBlock && this.explosionSizeBlock > 0.0F && MCH_Config.Explosion_DestroyBlock.prmBool) {
+                if (l > 0 && this.isDestroyBlock && this.explosionSizeBlock > 0.0F &&
+                        MCH_Config.Explosion_DestroyBlock.prmBool) {
                     Block block = W_Block.getBlockById(l);
                     if (block.canDropFromExplosion(this)) {
-                        block.dropBlockAsItemWithChance(this.world, chunkposition, this.world.getBlockState(chunkposition), 1.0F / this.explosionSizeBlock, 0);
+                        block.dropBlockAsItemWithChance(this.world, chunkposition,
+                                this.world.getBlockState(chunkposition), 1.0F / this.explosionSizeBlock, 0);
                     }
 
                     block.onBlockExploded(this.world, chunkposition, this);
@@ -389,7 +402,8 @@ public class MCH_ExplosionV2 extends Explosion {
         double r = Math.PI * this.world.rand.nextInt(360) / 180.0;
         if (this.size >= 4.0F && spawnFlare) {
             double a = Math.min(this.size / 12.0F, 0.6) * (0.5F + this.world.rand.nextFloat() * 0.5F);
-            this.world.spawnEntity(new MCH_EntityFlare(this.world, px, py + 2.0, pz, Math.sin(r) * a, (1.0 + my / 5.0) * a, Math.cos(r) * a, 2.0F, 0));
+            this.world.spawnEntity(new MCH_EntityFlare(this.world, px, py + 2.0, pz, Math.sin(r) * a,
+                    (1.0 + my / 5.0) * a, Math.cos(r) * a, 2.0F, 0));
             spawnedFlare = true;
         }
 
@@ -406,8 +420,7 @@ public class MCH_ExplosionV2 extends Explosion {
                     Math.sin(r) * bdf,
                     0.5 + my / 5.0 * bdf,
                     Math.cos(r) * bdf,
-                    Math.min(this.size / 2.0F, 3.0F) * (0.5F + this.world.rand.nextFloat() * 0.5F)
-            );
+                    Math.min(this.size / 2.0F, 3.0F) * (0.5F + this.world.rand.nextFloat() * 0.5F));
         }
 
         int es = (int) (Math.max(this.size, 4.0F));
@@ -423,8 +436,7 @@ public class MCH_ExplosionV2 extends Explosion {
             }
 
             MCH_ParticleParam prm = new MCH_ParticleParam(
-                    this.world, "explode", px, py, pz, mx, my, mz, this.size < 8.0F ? this.size * 2.0F : 16.0F
-            );
+                    this.world, "explode", px, py, pz, mx, my, mz, this.size < 8.0F ? this.size * 2.0F : 16.0F);
             prm.r = prm.g = prm.b = 0.3F + this.world.rand.nextFloat() * 0.4F;
             prm.r += 0.1F;
             prm.g += 0.05F;
@@ -455,7 +467,8 @@ public class MCH_ExplosionV2 extends Explosion {
         d3 *= d7;
         d4 *= d7;
         d5 *= d7;
-        MCH_ParticlesUtil.DEF_spawnParticle("explode", (d0 + this.x) / 2.0, (d1 + this.y) / 2.0, (d2 + this.z) / 2.0, d3, d4, d5, 10.0F);
+        MCH_ParticlesUtil.DEF_spawnParticle("explode", (d0 + this.x) / 2.0, (d1 + this.y) / 2.0, (d2 + this.z) / 2.0,
+                d3, d4, d5, 10.0F);
         MCH_ParticlesUtil.DEF_spawnParticle("smoke", d0, d1, d2, d3, d4, d5, 10.0F);
     }
 

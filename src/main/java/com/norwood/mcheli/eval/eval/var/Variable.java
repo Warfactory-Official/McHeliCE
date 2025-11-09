@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.var;
 
 public interface Variable {
+
     void setValue(Object var1, Object var2);
 
     Object getObject(Object var1);

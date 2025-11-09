@@ -1,17 +1,19 @@
 package com.norwood.mcheli.aircraft;
 
+import java.util.List;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.world.World;
+
 import com.norwood.mcheli.networking.packet.PacketNotifyLock;
 import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
 import com.norwood.mcheli.wrapper.W_Lib;
 import com.norwood.mcheli.wrapper.W_McClient;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.World;
-
-import java.util.List;
 
 public class MCH_MissileDetector {
+
     public static final int SEARCH_RANGE = 60;
     private final MCH_EntityAircraft ac;
     private final World world;
@@ -64,21 +66,24 @@ public class MCH_MissileDetector {
                             this.alertCount = 20;
                             W_WorldFunc.MOD_playSoundAtEntity(this.ac, "alert", 1.0F, 1.0F);
                         }
-                    } else if (this.ac.isUAV() && this.world.isRemote && this.alertCount == 0 && (isLocked || this.isLockedByMissile())) {
-                        this.alertCount = 20;
-                        if (W_Lib.isClientPlayer(rider)) {
-                            W_McClient.MOD_playSoundFX("alert", 1.0F, 1.0F);
-                        }
-                    }
+                    } else if (this.ac.isUAV() && this.world.isRemote && this.alertCount == 0 &&
+                            (isLocked || this.isLockedByMissile())) {
+                                this.alertCount = 20;
+                                if (W_Lib.isClientPlayer(rider)) {
+                                    W_McClient.MOD_playSoundFX("alert", 1.0F, 1.0F);
+                                }
+                            }
                 }
             }
         }
     }
 
     public boolean destroyMissile() {
-        List<MCH_EntityBaseBullet> list = this.world.getEntitiesWithinAABB(MCH_EntityBaseBullet.class, this.ac.getEntityBoundingBox().grow(60.0, 60.0, 60.0));
+        List<MCH_EntityBaseBullet> list = this.world.getEntitiesWithinAABB(MCH_EntityBaseBullet.class,
+                this.ac.getEntityBoundingBox().grow(60.0, 60.0, 60.0));
         for (MCH_EntityBaseBullet msl : list) {
-            if (msl.targetEntity != null && (this.ac.isMountedEntity(msl.targetEntity) || msl.targetEntity.equals(this.ac))) {
+            if (msl.targetEntity != null &&
+                    (this.ac.isMountedEntity(msl.targetEntity) || msl.targetEntity.equals(this.ac))) {
                 msl.targetEntity = null;
                 msl.setDead();
             }
@@ -88,9 +93,11 @@ public class MCH_MissileDetector {
     }
 
     public boolean isLockedByMissile() {
-        List<MCH_EntityBaseBullet> list = this.world.getEntitiesWithinAABB(MCH_EntityBaseBullet.class, this.ac.getEntityBoundingBox().grow(60.0, 60.0, 60.0));
+        List<MCH_EntityBaseBullet> list = this.world.getEntitiesWithinAABB(MCH_EntityBaseBullet.class,
+                this.ac.getEntityBoundingBox().grow(60.0, 60.0, 60.0));
         for (MCH_EntityBaseBullet msl : list) {
-            if (msl.targetEntity != null && (this.ac.isMountedEntity(msl.targetEntity) || msl.targetEntity.equals(this.ac))) {
+            if (msl.targetEntity != null &&
+                    (this.ac.isMountedEntity(msl.targetEntity) || msl.targetEntity.equals(this.ac))) {
                 return true;
             }
         }

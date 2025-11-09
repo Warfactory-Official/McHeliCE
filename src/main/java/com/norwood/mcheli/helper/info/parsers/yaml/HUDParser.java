@@ -1,30 +1,30 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
-import com.norwood.mcheli.helper.MCH_Logger;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.hud.*;
-import net.minecraft.util.Tuple;
+import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEntry;
+import static com.norwood.mcheli.hud.MCH_HudItem.toFormula;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEntry;
-import static com.norwood.mcheli.hud.MCH_HudItem.toFormula;
+import net.minecraft.util.Tuple;
 
-//Dude this is so fucking stupid, we should just move to groovy but muh 1.7 compat... ugh
+import com.norwood.mcheli.helper.MCH_Logger;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.hud.*;
+
+// Dude this is so fucking stupid, we should just move to groovy but muh 1.7 compat... ugh
 @SuppressWarnings("unchecked")
 public class HUDParser {
 
-    private HUDParser() {
-    }
+    private HUDParser() {}
 
     public static Tuple<String, String> setTuple(List<String> mapKeys, Object object) {
-        if (object instanceof List<?> tupleList) {
+        if (object instanceof List<?>tupleList) {
             if (tupleList.size() != 2) throw new IllegalArgumentException("Tuple list must have exactly 2 variables");
             List<String> tupleListTyped = toStringList(tupleList);
             return new Tuple<>(tupleListTyped.get(0), tupleListTyped.get(1));
-        } else if (object instanceof Map<?, ?> map) {
+        } else if (object instanceof Map<?, ?>map) {
             Map<String, String> tupleMapTyped = toStringMap((Map<String, ?>) map);
             return new Tuple<>(tupleMapTyped.get(mapKeys.get(0)), tupleMapTyped.get(mapKeys.get(1)));
         } else {
@@ -46,7 +46,8 @@ public class HUDParser {
             return (Map<String, String>) map;
         }
         if (firstValue instanceof Number) {
-            return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> ((Number) e.getValue()).toString()));
+            return map.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, e -> ((Number) e.getValue()).toString()));
         }
         throw new ClassCastException("Map values are not String or Number");
     }
@@ -60,7 +61,6 @@ public class HUDParser {
             throw new IllegalArgumentException("Root object must be a List");
         }
     }
-
 
     private static MCH_HudItem parseHUDCommands(Map.Entry<String, Object> entry) {
         switch (entry.getKey()) {
@@ -108,7 +108,6 @@ public class HUDParser {
                 return null;
             }
         }
-
     }
 
     private static MCH_HudItem parseGraduation(Map<String, Object> value) {
@@ -120,8 +119,8 @@ public class HUDParser {
 
         for (Map.Entry<String, Object> entry : value.entrySet()) {
             switch (entry.getKey()) {
-                case "Type" ->
-                        type = GraduationType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim());
+                case "Type" -> type = GraduationType
+                        .valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim());
                 case "Pos", "Position" -> {
                     Tuple<String, String> pos = setTuple(Arrays.asList("x", "y"), entry.getValue());
                     xCoord = MCH_HudItem.toFormula(pos.getFirst());
@@ -172,26 +171,27 @@ public class HUDParser {
 
     private static MCH_HudItem parseLine(Map<String, Object> value) {
         boolean isStriped = false;
-        String pattern =  "0";
+        String pattern = "0";
         String factor = "0";
         List<List<String>> positions = new ArrayList<>();
 
         for (Map.Entry<String, Object> entry : value.entrySet()) {
             switch (entry.getKey()) {
                 case "Striped" -> isStriped = (Boolean) entry.getValue();
-                case "Fac","Factor" -> factor = toFormula((String) entry.getValue());
-                case "Pat","Pattern" -> pattern = toFormula((String) entry.getValue());
+                case "Fac", "Factor" -> factor = toFormula((String) entry.getValue());
+                case "Pat", "Pattern" -> pattern = toFormula((String) entry.getValue());
                 case "StartPos", "Position", "Start" -> {
                     Object raw = entry.getValue();
 
-                    if (raw instanceof List<?> rawList) {
+                    if (raw instanceof List<?>rawList) {
                         for (Object pairObj : rawList) {
-                            if (pairObj instanceof List<?> pair && pair.size() == 2) {
+                            if (pairObj instanceof List<?>pair && pair.size() == 2) {
                                 String x = MCH_HudItem.toFormula(pair.get(0).toString());
                                 String y = MCH_HudItem.toFormula(pair.get(1).toString());
                                 positions.add(Arrays.asList(x, y));
                             } else {
-                                throw new IllegalArgumentException("Each position must be a list of exactly 2 elements.");
+                                throw new IllegalArgumentException(
+                                        "Each position must be a list of exactly 2 elements.");
                             }
                         }
                     } else {
@@ -211,9 +211,8 @@ public class HUDParser {
                 .flatMap(List::stream)
                 .toArray(String[]::new);
 
-        return isStriped
-                ? new MCH_HudItemLineStipple(0, pattern, factor, coordsArr)
-                : new MCH_HudItemLine(0, coordsArr);
+        return isStriped ? new MCH_HudItemLineStipple(0, pattern, factor, coordsArr) :
+                new MCH_HudItemLine(0, coordsArr);
     }
 
     private static MCH_HudItem parseCameraRot(Map<String, Object> value) {
@@ -277,7 +276,8 @@ public class HUDParser {
                 case "Text" -> {
                     var formatEntry = (Map<String, Object>) entry.getValue();
                     text = (String) MCH_Utils.getAny(formatEntry, Arrays.asList("Fmt", "Format"), null);
-                    varSubstitute = (List<String>) MCH_Utils.getAny(formatEntry, Arrays.asList("Vars", "Variables"), null);
+                    varSubstitute = (List<String>) MCH_Utils.getAny(formatEntry, Arrays.asList("Vars", "Variables"),
+                            null);
                 }
                 case "Center" -> center = (Boolean) entry.getValue();
                 case "Pos", "Position" -> {
@@ -295,12 +295,9 @@ public class HUDParser {
 
         String[] args = Stream.concat(
                 Stream.of(xCoord, yCoord, text),
-                varSubstitute != null ? varSubstitute.stream() : Stream.empty()
-        ).toArray(String[]::new);
-
+                varSubstitute != null ? varSubstitute.stream() : Stream.empty()).toArray(String[]::new);
 
         return new MCH_HudItemString(0, xCoord, yCoord, text, args, center);
-
     }
 
     private static MCH_HudItemTexture parseDrawTexture(Map<String, Object> map) {
@@ -347,11 +344,10 @@ public class HUDParser {
             throw new IllegalArgumentException("Texture, Pos fields are required for drawTexture element.");
 
         return new MCH_HudItemTexture(0, name, xCoord, yCoord, width, height, uLeft, vTop, uWidth, vHeight, rot);
-
     }
 
     private static void parseHudItem(MCH_Hud info, Object obj) {
-        if (obj instanceof Map<?, ?> map) {
+        if (obj instanceof Map<?, ?>map) {
             if (map.containsKey("If")) {
                 parseConditional(info, (LinkedHashMap<String, Object>) map);
             } else {
@@ -364,7 +360,6 @@ public class HUDParser {
             throw new IllegalArgumentException("Each HUD item must be a Map");
         }
     }
-
 
     private static void parseConditional(MCH_Hud info, Map<String, Object> map) {
         String condition = ((String) map.get("If")).trim();
@@ -379,7 +374,7 @@ public class HUDParser {
             MCH_Logger.get().warn("Hud " + info.getLocation().getPath() + " contains empty conditionals!");
 
         for (Object obj : doBlock) {
-            if (obj instanceof Map<?, ?> objMap) {
+            if (obj instanceof Map<?, ?>objMap) {
                 for (Map.Entry<String, Object> entry : ((Map<String, Object>) objMap).entrySet()) {
                     MCH_HudItem element = parseHUDCommands(entry);
                     if (element != null) info.list.add(element);
@@ -393,8 +388,10 @@ public class HUDParser {
         info.list.add(new MCH_HudItemConditional(0, true, null));
     }
 
-
     public static enum GraduationType {
-        YAW, PITCH, PITCH_ROLL, PITCH_ROLL_ALT;
+        YAW,
+        PITCH,
+        PITCH_ROLL,
+        PITCH_ROLL_ALT;
     }
 }

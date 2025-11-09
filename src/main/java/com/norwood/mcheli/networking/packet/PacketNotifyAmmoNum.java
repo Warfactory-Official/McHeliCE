@@ -1,17 +1,20 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.wrapper.W_Entity;
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.wrapper.W_Entity;
+
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
+
 @ElegantPacket
 public class PacketNotifyAmmoNum extends PacketBase implements ServerToClientPacket {
+
     public int entityID_Ac = -1;
     public boolean all = false;
     public byte weaponID = -1;
@@ -44,8 +47,8 @@ public class PacketNotifyAmmoNum extends PacketBase implements ServerToClientPac
         packet.entityID_Ac = W_Entity.getEntityId(ac);
         packet.all = false;
         packet.weaponID = (byte) wid;
-        packet.ammo = new short[]{(short) ammo};
-        packet.restAmmo = new short[]{(short) rest_ammo};
+        packet.ammo = new short[] { (short) ammo };
+        packet.restAmmo = new short[] { (short) rest_ammo };
         send(packet, ac, target);
     }
 
@@ -97,6 +100,5 @@ public class PacketNotifyAmmoNum extends PacketBase implements ServerToClientPac
         }
 
         MCH_Lib.DbgLog(entity.world, msg.toString());
-
     }
 }

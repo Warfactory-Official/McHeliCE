@@ -1,12 +1,14 @@
 package com.norwood.mcheli.flare;
 
-import com.norwood.mcheli.wrapper.W_ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.norwood.mcheli.wrapper.W_ModelBase;
+
 @SideOnly(Side.CLIENT)
 public class MCH_ModelFlare extends W_ModelBase {
+
     public final ModelRenderer model = new ModelRenderer(this, 0, 0).setTextureSize(4, 4);
 
     public MCH_ModelFlare() {

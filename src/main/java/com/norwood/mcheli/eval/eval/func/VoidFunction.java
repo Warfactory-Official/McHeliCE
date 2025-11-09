@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.func;
 
 public class VoidFunction implements Function {
+
     @Override
     public long evalLong(Object object, String name, Long[] args) {
         System.out.println(object + "." + name + "関数が呼ばれた(long)");

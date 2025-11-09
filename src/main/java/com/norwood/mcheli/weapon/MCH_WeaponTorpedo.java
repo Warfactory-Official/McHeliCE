@@ -1,14 +1,16 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
+
 public class MCH_WeaponTorpedo extends MCH_WeaponBase {
+
     public MCH_WeaponTorpedo(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         super(w, v, yaw, pitch, nm, wi);
         this.acceleration = 0.5F;
@@ -33,14 +35,17 @@ public class MCH_WeaponTorpedo extends MCH_WeaponBase {
         if (!this.worldObj.isRemote) {
             float yaw = prm.rotYaw;
             float pitch = prm.rotPitch;
-            double mx = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-            double mz = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
+            double mx = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) *
+                    MathHelper.cos(pitch / 180.0F * (float) Math.PI);
+            double mz = MathHelper.cos(yaw / 180.0F * (float) Math.PI) *
+                    MathHelper.cos(pitch / 180.0F * (float) Math.PI);
             double my = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
             mx = mx * this.getInfo().acceleration + prm.entity.motionX;
             my = my * this.getInfo().acceleration + prm.entity.motionY;
             mz = mz * this.getInfo().acceleration + prm.entity.motionZ;
             this.acceleration = MathHelper.sqrt(mx * mx + my * my + mz * mz);
-            MCH_EntityTorpedo e = new MCH_EntityTorpedo(this.worldObj, prm.posX, prm.posY, prm.posZ, mx, my, mz, yaw, 0.0F, this.acceleration);
+            MCH_EntityTorpedo e = new MCH_EntityTorpedo(this.worldObj, prm.posX, prm.posY, prm.posZ, mx, my, mz, yaw,
+                    0.0F, this.acceleration);
             e.setName(this.name);
             e.setParameterFromWeapon(this, prm.entity, prm.user);
             e.motionX = mx;
@@ -71,22 +76,24 @@ public class MCH_WeaponTorpedo extends MCH_WeaponBase {
             tZ = tZ * 150.0 / dist;
         }
 
-        Vec3d src =new Vec3d( prm.user.posX, prm.user.posY, prm.user.posZ);
-        Vec3d dst =new Vec3d( prm.user.posX + tX, prm.user.posY + tY, prm.user.posZ + tZ);
+        Vec3d src = new Vec3d(prm.user.posX, prm.user.posY, prm.user.posZ);
+        Vec3d dst = new Vec3d(prm.user.posX + tX, prm.user.posY + tY, prm.user.posZ + tZ);
         RayTraceResult m = W_WorldFunc.clip(this.worldObj, src, dst);
-        if (W_MovingObjectPosition.isHitTypeTile(m)
-                && MCH_Lib.isBlockInWater(this.worldObj, m.getBlockPos().getX(), m.getBlockPos().getY(), m.getBlockPos().getZ())) {
+        if (W_MovingObjectPosition.isHitTypeTile(m) && MCH_Lib.isBlockInWater(this.worldObj, m.getBlockPos().getX(),
+                m.getBlockPos().getY(), m.getBlockPos().getZ())) {
             if (!this.worldObj.isRemote) {
-                double mx = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-                double mz = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
+                double mx = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) *
+                        MathHelper.cos(pitch / 180.0F * (float) Math.PI);
+                double mz = MathHelper.cos(yaw / 180.0F * (float) Math.PI) *
+                        MathHelper.cos(pitch / 180.0F * (float) Math.PI);
                 double my = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
                 mx = mx * this.getInfo().acceleration + prm.entity.motionX;
                 my = my * this.getInfo().acceleration + prm.entity.motionY;
                 mz = mz * this.getInfo().acceleration + prm.entity.motionZ;
                 this.acceleration = MathHelper.sqrt(mx * mx + my * my + mz * mz);
                 MCH_EntityTorpedo e = new MCH_EntityTorpedo(
-                        this.worldObj, prm.posX, prm.posY, prm.posZ, prm.entity.motionX, prm.entity.motionY, prm.entity.motionZ, yaw, 0.0F, this.acceleration
-                );
+                        this.worldObj, prm.posX, prm.posY, prm.posZ, prm.entity.motionX, prm.entity.motionY,
+                        prm.entity.motionZ, yaw, 0.0F, this.acceleration);
                 e.setName(this.name);
                 e.setParameterFromWeapon(this, prm.entity, prm.user);
                 e.targetPosX = m.hitVec.x;

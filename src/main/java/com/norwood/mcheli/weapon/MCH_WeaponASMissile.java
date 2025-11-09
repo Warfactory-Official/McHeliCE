@@ -1,14 +1,16 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
+
 public class MCH_WeaponASMissile extends MCH_WeaponBase {
+
     public MCH_WeaponASMissile(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         super(w, v, yaw, pitch, nm, wi);
         this.acceleration = 3.0F;
@@ -48,13 +50,14 @@ public class MCH_WeaponASMissile extends MCH_WeaponBase {
             tZ = tZ * 250.0 / dist;
         }
 
-        Vec3d src =new Vec3d( prm.entity.posX, prm.entity.posY + 1.62, prm.entity.posZ);
-        Vec3d dst =new Vec3d( prm.entity.posX + tX, prm.entity.posY + 1.62 + tY, prm.entity.posZ + tZ);
+        Vec3d src = new Vec3d(prm.entity.posX, prm.entity.posY + 1.62, prm.entity.posZ);
+        Vec3d dst = new Vec3d(prm.entity.posX + tX, prm.entity.posY + 1.62 + tY, prm.entity.posZ + tZ);
         RayTraceResult m = W_WorldFunc.clip(this.worldObj, src, dst);
-        if (W_MovingObjectPosition.isHitTypeTile(m)
-                && !MCH_Lib.isBlockInWater(this.worldObj, m.getBlockPos().getX(), m.getBlockPos().getY(), m.getBlockPos().getZ())) {
+        if (W_MovingObjectPosition.isHitTypeTile(m) && !MCH_Lib.isBlockInWater(this.worldObj, m.getBlockPos().getX(),
+                m.getBlockPos().getY(), m.getBlockPos().getZ())) {
             if (!this.worldObj.isRemote) {
-                MCH_EntityASMissile e = new MCH_EntityASMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ, yaw, pitch, this.acceleration);
+                MCH_EntityASMissile e = new MCH_EntityASMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
+                        yaw, pitch, this.acceleration);
                 e.setName(this.name);
                 e.setParameterFromWeapon(this, prm.entity, prm.user);
                 e.targetPosX = m.hitVec.x;

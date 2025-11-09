@@ -4,6 +4,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class W_Vec3 {
+
     public static Vec3d rotateRoll(float par1, Vec3d vOut) {
         float f1 = MathHelper.cos(par1);
         float f2 = MathHelper.sin(par1);

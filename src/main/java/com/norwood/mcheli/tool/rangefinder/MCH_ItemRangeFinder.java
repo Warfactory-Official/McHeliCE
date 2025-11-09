@@ -1,11 +1,5 @@
 package com.norwood.mcheli.tool.rangefinder;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.networking.packet.PacketRequestSpotEnemy;
-import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -16,9 +10,18 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.networking.packet.PacketRequestSpotEnemy;
+import com.norwood.mcheli.wrapper.W_Item;
+import com.norwood.mcheli.wrapper.W_McClient;
+import com.norwood.mcheli.wrapper.W_Reflection;
+
 public class MCH_ItemRangeFinder extends W_Item {
+
     public static int rangeFinderUseCooldown = 0;
     public static boolean continueUsingItem = false;
     public static float zoom = 2.0F;
@@ -44,7 +47,8 @@ public class MCH_ItemRangeFinder extends W_Item {
         } else {
             if (player.getRidingEntity() instanceof MCH_EntitySeat) {
                 MCH_EntityAircraft ac = ((MCH_EntitySeat) player.getRidingEntity()).getParent();
-                return ac == null || (!ac.getIsGunnerMode(player) && ac.getWeaponIDBySeatID(ac.getSeatIdByEntity(player)) < 0);
+                return ac == null ||
+                        (!ac.getIsGunnerMode(player) && ac.getWeaponIDBySeatID(ac.getSeatIdByEntity(player)) < 0);
             }
 
             return true;
@@ -68,7 +72,8 @@ public class MCH_ItemRangeFinder extends W_Item {
 
     @SideOnly(Side.CLIENT)
     public void spotEntity(EntityPlayer player, ItemStack itemStack) {
-        if (player != null && player.world.isRemote && rangeFinderUseCooldown == 0 && player.getItemInUseMaxCount() > 8) {
+        if (player != null && player.world.isRemote && rangeFinderUseCooldown == 0 &&
+                player.getItemInUseMaxCount() > 8) {
             if (mode == 2) {
                 rangeFinderUseCooldown = 60;
                 new PacketRequestSpotEnemy(0).sendToServer();
@@ -81,13 +86,15 @@ public class MCH_ItemRangeFinder extends W_Item {
         }
     }
 
-    public void onPlayerStoppedUsing(@NotNull ItemStack stack, World worldIn, @NotNull EntityLivingBase entityLiving, int timeLeft) {
+    public void onPlayerStoppedUsing(@NotNull ItemStack stack, World worldIn, @NotNull EntityLivingBase entityLiving,
+                                     int timeLeft) {
         if (worldIn.isRemote) {
             onStopUseItem();
         }
     }
 
-    public @NotNull ItemStack onItemUseFinish(@NotNull ItemStack stack, @NotNull World worldIn, @NotNull EntityLivingBase entityLiving) {
+    public @NotNull ItemStack onItemUseFinish(@NotNull ItemStack stack, @NotNull World worldIn,
+                                              @NotNull EntityLivingBase entityLiving) {
         return stack;
     }
 
@@ -104,7 +111,8 @@ public class MCH_ItemRangeFinder extends W_Item {
         return 72000;
     }
 
-    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player, @NotNull EnumHand handIn) {
+    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player,
+                                                             @NotNull EnumHand handIn) {
         ItemStack itemstack = player.getHeldItem(handIn);
         if (canUse(player)) {
             player.setActiveHand(handIn);

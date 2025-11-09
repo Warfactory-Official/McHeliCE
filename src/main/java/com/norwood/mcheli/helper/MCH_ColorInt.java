@@ -1,6 +1,7 @@
 package com.norwood.mcheli.helper;
 
 public class MCH_ColorInt {
+
     public final int r;
     public final int g;
     public final int b;

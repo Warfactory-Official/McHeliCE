@@ -1,16 +1,18 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Vector2;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.MCH_Vector2;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_Radar {
+
     private final World worldObj;
     private final ArrayList<MCH_Vector2> entityList = new ArrayList<>();
     private final ArrayList<MCH_Vector2> enemyList = new ArrayList<>();
@@ -36,7 +38,8 @@ public class MCH_Radar {
         if (this.worldObj.isRemote) {
             this.clear();
             List<Entity> list = centerEntity.world
-                    .getEntitiesWithinAABBExcludingEntity(centerEntity, centerEntity.getEntityBoundingBox().grow(range, range, range));
+                    .getEntitiesWithinAABBExcludingEntity(centerEntity,
+                            centerEntity.getEntityBoundingBox().grow(range, range, range));
 
             for (Entity entity : list) {
                 if (entity instanceof EntityLiving) {

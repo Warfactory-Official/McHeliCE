@@ -1,5 +1,14 @@
 package com.norwood.mcheli.aircraft;
 
+import java.io.IOException;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.norwood.mcheli.networking.packet.PacketCommandSave;
 import com.norwood.mcheli.networking.packet.PacketHandleCommand;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
@@ -9,15 +18,9 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_GuiContainer;
 import com.norwood.mcheli.wrapper.W_McClient;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 public class MCH_AircraftGui extends W_GuiContainer {
+
     public static final int BUTTON_RELOAD = 1;
     public static final int BUTTON_NEXT = 2;
     public static final int BUTTON_PREV = 3;
@@ -53,9 +56,12 @@ public class MCH_AircraftGui extends W_GuiContainer {
         this.buttonReload.enabled = this.canReload(this.thePlayer);
         this.buttonNext.enabled = this.aircraft.getWeaponNum() >= 2;
         this.buttonPrev.enabled = this.aircraft.getWeaponNum() >= 2;
-        this.buttonInventory = new GuiButton(BUTTON_INVENTORY, this.guiLeft + 210 - 30 - 60, this.guiTop + 90, 80, 20, "Inventory");
-        this.buttonList.add(new GuiButton(BUTTON_CONFIG, this.guiLeft + 210 - 30 - 60, this.guiTop + 110, 80, 20, "MOD Options"));
-        this.buttonList.add(new GuiButton(BUTTON_CLOSE, this.guiLeft + 210 - 30 - 20, this.guiTop + 10, 40, 20, "Close"));
+        this.buttonInventory = new GuiButton(BUTTON_INVENTORY, this.guiLeft + 210 - 30 - 60, this.guiTop + 90, 80, 20,
+                "Inventory");
+        this.buttonList.add(
+                new GuiButton(BUTTON_CONFIG, this.guiLeft + 210 - 30 - 60, this.guiTop + 110, 80, 20, "MOD Options"));
+        this.buttonList
+                .add(new GuiButton(BUTTON_CLOSE, this.guiLeft + 210 - 30 - 20, this.guiTop + 10, 40, 20, "Close"));
         this.buttonList.add(this.buttonReload);
         this.buttonList.add(this.buttonNext);
         this.buttonList.add(this.buttonPrev);

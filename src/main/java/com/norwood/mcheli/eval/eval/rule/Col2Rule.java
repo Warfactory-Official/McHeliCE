@@ -5,6 +5,7 @@ import com.norwood.mcheli.eval.eval.exp.Col2Expression;
 import com.norwood.mcheli.eval.eval.lex.Lex;
 
 public class Col2Rule extends AbstractRule {
+
     public Col2Rule(ShareRuleValue share) {
         super(share);
     }

@@ -3,9 +3,11 @@ package com.norwood.mcheli.helper.block;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
+
 import org.jetbrains.annotations.NotNull;
 
 public enum EnumDirection8 implements IStringSerializable {
+
     SOUTH(0, 4, "south", new Vec3i(0, 0, 1)),
     SOUTHWEST(1, 5, "southwest", new Vec3i(-1, 0, 1)),
     WEST(2, 6, "west", new Vec3i(-1, 0, 0)),

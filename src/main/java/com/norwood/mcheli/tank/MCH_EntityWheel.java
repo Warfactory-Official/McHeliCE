@@ -1,10 +1,8 @@
 package com.norwood.mcheli.tank;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntityHitBox;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_Lib;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -25,12 +23,17 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntityHitBox;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_Lib;
 
 public class MCH_EntityWheel extends W_Entity {
+
     public Vec3d pos;
     boolean isPlus;
     private MCH_EntityAircraft parents;
@@ -48,8 +51,7 @@ public class MCH_EntityWheel extends W_Entity {
         this.isPlus = pos.z >= weightedCenter.z;
     }
 
-    public void travelToDimension(int dimensionId) {
-    }
+    public void travelToDimension(int dimensionId) {}
 
     public MCH_EntityAircraft getParents() {
         return this.parents;
@@ -63,8 +65,7 @@ public class MCH_EntityWheel extends W_Entity {
         this.setDead();
     }
 
-    protected void writeEntityToNBT(@NotNull NBTTagCompound compound) {
-    }
+    protected void writeEntityToNBT(@NotNull NBTTagCompound compound) {}
 
     public void move(@NotNull MoverType type, double x, double y, double z) {
         this.world.profiler.startSection("move");
@@ -237,7 +238,8 @@ public class MCH_EntityWheel extends W_Entity {
         List<Entity> list = entityIn.world.getEntitiesWithinAABBExcludingEntity(entityIn, aabb.grow(d0, d0, d0));
 
         for (Entity entity : list) {
-            if (!W_Lib.isEntityLivingBase(entity) && !(entity instanceof MCH_EntitySeat) && !(entity instanceof MCH_EntityHitBox) && entity != this.parents) {
+            if (!W_Lib.isEntityLivingBase(entity) && !(entity instanceof MCH_EntitySeat) &&
+                    !(entity instanceof MCH_EntityHitBox) && entity != this.parents) {
                 AxisAlignedBB axisalignedbb1 = entity.getCollisionBoundingBox();
                 if (axisalignedbb1 != null && axisalignedbb1.intersects(aabb)) {
                     collidingBoundingBoxes.add(axisalignedbb1);
@@ -286,7 +288,8 @@ public class MCH_EntityWheel extends W_Entity {
                                     iblockstate1 = entityIn.world.getBlockState(blockpos);
                                 }
 
-                                iblockstate1.addCollisionBoxToList(entityIn.world, blockpos, aabb, outList, entityIn, false);
+                                iblockstate1.addCollisionBoxToList(entityIn.world, blockpos, aabb, outList, entityIn,
+                                        false);
                             }
                         }
                     }

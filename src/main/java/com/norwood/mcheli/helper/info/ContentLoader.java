@@ -1,5 +1,13 @@
 package com.norwood.mcheli.helper.info;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
+
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -10,14 +18,8 @@ import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.parsers.IParser;
 
-import javax.annotation.Nullable;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 public abstract class ContentLoader {
+
     protected final String domain;
     protected final File dir;
     protected final String loaderVersion;
@@ -46,7 +48,8 @@ public abstract class ContentLoader {
 
     protected abstract InputStream getInputStreamByName(String name) throws IOException;
 
-    public <TYPE extends IContentData> List<TYPE> reloadAndParse(Class<TYPE> clazz, List<TYPE> oldContents, ContentType type) {
+    public <TYPE extends IContentData> List<TYPE> reloadAndParse(Class<TYPE> clazz, List<TYPE> oldContents,
+                                                                 ContentType type) {
         List<TYPE> list = Lists.newLinkedList();
         for (TYPE oldContent : oldContents) {
             try {
@@ -91,13 +94,15 @@ public abstract class ContentLoader {
 
     protected ContentEntry makeEntry(String filepath, ContentType type, boolean reload) throws IOException {
         List<String> lines;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getInputStreamByName(filepath), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(this.getInputStreamByName(filepath), StandardCharsets.UTF_8))) {
             lines = reader.lines().collect(Collectors.toList());
         }
         return new ContentEntry(filepath, this.domain, type, lines, reload);
     }
 
     public static class ContentEntry {
+
         private final String filepath;
         private final String domain;
         private final ContentType type;

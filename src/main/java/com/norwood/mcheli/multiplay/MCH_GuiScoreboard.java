@@ -1,21 +1,25 @@
 package com.norwood.mcheli.multiplay;
 
-import com.norwood.mcheli.wrapper.W_GuiButton;
-import com.norwood.mcheli.wrapper.W_GuiContainer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.entity.player.EntityPlayer;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
+
+import org.jetbrains.annotations.NotNull;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import com.norwood.mcheli.wrapper.W_GuiButton;
+import com.norwood.mcheli.wrapper.W_GuiContainer;
+
 public class MCH_GuiScoreboard extends W_GuiContainer implements MCH_IGuiScoreboard {
+
     public final EntityPlayer thePlayer;
     private MCH_GuiScoreboard_Base.SCREEN_ID screenID;
     private Map<MCH_GuiScoreboard_Base.SCREEN_ID, MCH_GuiScoreboard_Base> listScreen;
@@ -49,7 +53,8 @@ public class MCH_GuiScoreboard extends W_GuiContainer implements MCH_IGuiScorebo
         this.guiTop = 0;
         this.listScreen = new HashMap<>();
         this.listScreen.put(MCH_GuiScoreboard_Base.SCREEN_ID.MAIN, new MCH_GuiScoreboard_Main(this, this.thePlayer));
-        this.listScreen.put(MCH_GuiScoreboard_Base.SCREEN_ID.CREATE_TEAM, new MCH_GuiScoreboard_CreateTeam(this, this.thePlayer));
+        this.listScreen.put(MCH_GuiScoreboard_Base.SCREEN_ID.CREATE_TEAM,
+                new MCH_GuiScoreboard_CreateTeam(this, this.thePlayer));
 
         for (MCH_GuiScoreboard_Base s : this.listScreen.values()) {
             s.initGui(this.buttonList, this);
@@ -71,8 +76,7 @@ public class MCH_GuiScoreboard extends W_GuiContainer implements MCH_IGuiScorebo
             try {
                 s.updateScreenButtons(this.buttonList);
                 s.updateScreen();
-            } catch (Exception var5) {
-            }
+            } catch (Exception var5) {}
         }
     }
 
@@ -101,8 +105,7 @@ public class MCH_GuiScoreboard extends W_GuiContainer implements MCH_IGuiScorebo
             }
 
             super.mouseClicked(mouseX, mouseY, mouseButton);
-        } catch (Exception var6) {
-        }
+        } catch (Exception var6) {}
     }
 
     protected void actionPerformed(@NotNull GuiButton btn) throws IOException {
@@ -111,13 +114,12 @@ public class MCH_GuiScoreboard extends W_GuiContainer implements MCH_IGuiScorebo
         }
     }
 
-    public void func_146276_q_() {
-    }
+    public void func_146276_q_() {}
 
     public void func_146278_c(int tint) {
         GlStateManager.disableLighting();
         GL11.glDisable(2912);
-         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     protected void drawGuiContainerForegroundLayer(int x, int y) {

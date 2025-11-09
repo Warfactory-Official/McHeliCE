@@ -1,17 +1,18 @@
 package com.norwood.mcheli.helper.info;
 
-import com.google.common.collect.Maps;
-import com.norwood.mcheli.helper.info.parsers.IParser;
-
-import javax.annotation.Nullable;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
+import com.google.common.collect.Maps;
+import com.norwood.mcheli.helper.info.parsers.IParser;
+
 public final class ContentParsers {
+
     private static final Map<String, IParser> PARSERS = Maps.newHashMap();
 
-    private ContentParsers() {
-    }
+    private ContentParsers() {}
 
     public static void register(String extension, IParser parser) {
         if (extension == null || parser == null) {

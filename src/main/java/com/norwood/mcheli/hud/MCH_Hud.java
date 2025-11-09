@@ -1,19 +1,21 @@
 package com.norwood.mcheli.hud;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.wrapper.W_ScaledResolution;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MCH_Hud extends MCH_BaseInfo {
+
     public static final MCH_Hud NoDisp = new MCH_Hud(MCH_Utils.buildinAddon("none"), "none");
     public final String name;
     public final String fileName;
@@ -47,10 +49,7 @@ public class MCH_Hud extends MCH_BaseInfo {
     }
 
     @Override
-    public void onPostReload() {
-
-    }
-
+    public void onPostReload() {}
 
     public void draw(MCH_EntityAircraft ac, EntityPlayer player, float partialTicks) {
         if (MCH_HudItem.mc == null) {
@@ -60,7 +59,8 @@ public class MCH_Hud extends MCH_BaseInfo {
         MCH_HudItem.ac = ac;
         MCH_HudItem.player = player;
         MCH_HudItem.partialTicks = partialTicks;
-        ScaledResolution scaledresolution = new W_ScaledResolution(MCH_HudItem.mc, MCH_HudItem.mc.displayWidth, MCH_HudItem.mc.displayHeight);
+        ScaledResolution scaledresolution = new W_ScaledResolution(MCH_HudItem.mc, MCH_HudItem.mc.displayWidth,
+                MCH_HudItem.mc.displayHeight);
         MCH_HudItem.scaleFactor = scaledresolution.getScaleFactor();
         if (MCH_HudItem.scaleFactor <= 0) {
             MCH_HudItem.scaleFactor = 1;

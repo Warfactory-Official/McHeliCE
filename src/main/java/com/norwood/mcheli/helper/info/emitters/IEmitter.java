@@ -1,5 +1,8 @@
 package com.norwood.mcheli.helper.info.emitters;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.item.MCH_ItemInfo;
@@ -9,9 +12,6 @@ import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
-
-import java.io.IOException;
-import java.nio.file.Path;
 
 public interface IEmitter {
 
@@ -69,4 +69,3 @@ public interface IEmitter {
         YamlEmitter.writeTo(out, emitItem(info));
     }
 }
-

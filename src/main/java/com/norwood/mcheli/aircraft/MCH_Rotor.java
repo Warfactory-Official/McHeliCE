@@ -1,6 +1,7 @@
 package com.norwood.mcheli.aircraft;
 
 public class MCH_Rotor {
+
     public MCH_Blade[] blades;
     private int numBlade;
     private int invRot;
@@ -8,7 +9,8 @@ public class MCH_Rotor {
     private boolean isFoldBladeTarget;
     private final boolean haveFoldBladeFunc;
 
-    public MCH_Rotor(int numBlade, int invRot, int foldSpeed, float posx, float posy, float posz, float rotx, float roty, float rotz, boolean canFoldBlade) {
+    public MCH_Rotor(int numBlade, int invRot, int foldSpeed, float posx, float posy, float posz, float rotx,
+                     float roty, float rotz, boolean canFoldBlade) {
         this.setupBlade(numBlade, invRot, foldSpeed);
         this.isFoldBlade = false;
         this.isFoldBladeTarget = false;

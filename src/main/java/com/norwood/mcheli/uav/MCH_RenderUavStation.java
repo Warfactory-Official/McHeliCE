@@ -1,30 +1,35 @@
 package com.norwood.mcheli.uav;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_ModelManager;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
+
+import com.norwood.mcheli.MCH_Lib;
+import net.minecraft.client.renderer.GlStateManager;
+import com.norwood.mcheli.MCH_ModelManager;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_Render;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderUavStation extends W_Render<MCH_EntityUavStation> {
+
     public static final IRenderFactory<MCH_EntityUavStation> FACTORY = MCH_RenderUavStation::new;
-    public static final String[] MODEL_NAME = new String[]{"uav_station", "uav_portable_controller"};
-    public static final String[] TEX_NAME_ON = new String[]{"uav_station_on", "uav_portable_controller_on"};
-    public static final String[] TEX_NAME_OFF = new String[]{"uav_station", "uav_portable_controller"};
+    public static final String[] MODEL_NAME = new String[] { "uav_station", "uav_portable_controller" };
+    public static final String[] TEX_NAME_ON = new String[] { "uav_station_on", "uav_portable_controller_on" };
+    public static final String[] TEX_NAME_OFF = new String[] { "uav_station", "uav_portable_controller" };
 
     public MCH_RenderUavStation(RenderManager renderManager) {
         super(renderManager);
         this.shadowSize = 1.0F;
     }
 
-    public void doRender(@NotNull MCH_EntityUavStation entity, double posX, double posY, double posZ, float par8, float tickTime) {
+    public void doRender(@NotNull MCH_EntityUavStation entity, double posX, double posY, double posZ, float par8,
+                         float tickTime) {
         if (entity.getKind() > 0) {
             int kind = entity.getKind() - 1;
             GlStateManager.pushMatrix();
@@ -32,10 +37,8 @@ public class MCH_RenderUavStation extends W_Render<MCH_EntityUavStation> {
             GlStateManager.enableCull();
             GlStateManager.rotate(entity.rotationYaw, 0.0F, -1.0F, 0.0F);
             GlStateManager.rotate(entity.rotationPitch, 1.0F, 0.0F, 0.0F);
-             GlStateManager.color(0.75F, 0.75F, 0.75F, 1.0F);
+            GlStateManager.color(0.75F, 0.75F, 0.75F, 1.0F);
             GlStateManager.enableBlend();
-            int srcBlend = GL11.glGetInteger(3041);
-            int dstBlend = GL11.glGetInteger(3040);
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             if (kind == 0) {
                 if (entity.getControlAircract() != null && entity.getRiddenByEntity() != null) {
@@ -55,7 +58,6 @@ public class MCH_RenderUavStation extends W_Render<MCH_EntityUavStation> {
                 this.renderPortableController(entity, MODEL_NAME[kind], tickTime);
             }
 
-            GL11.glBlendFunc(srcBlend, dstBlend);
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }

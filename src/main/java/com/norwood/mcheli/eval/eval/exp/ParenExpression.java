@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class ParenExpression extends Col1Expression {
+
     public ParenExpression() {
         this.setOperator("(");
         this.setEndOperator(")");

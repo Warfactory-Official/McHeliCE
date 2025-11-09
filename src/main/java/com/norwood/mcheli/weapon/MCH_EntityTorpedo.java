@@ -4,6 +4,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class MCH_EntityTorpedo extends MCH_EntityBaseBullet {
+
     public double targetPosX;
     public double targetPosY;
     public double targetPosZ;
@@ -17,8 +18,8 @@ public class MCH_EntityTorpedo extends MCH_EntityBaseBullet {
     }
 
     public MCH_EntityTorpedo(
-            World par1World, double posX, double posY, double posZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration
-    ) {
+                             World par1World, double posX, double posY, double posZ, double targetX, double targetY,
+                             double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
     }
 

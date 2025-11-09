@@ -1,14 +1,16 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
+
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
 
 @ElegantPacket
 public class PacketNotifyLock extends PacketBase implements ServerToClientPacket, ClientToServerPacket {
@@ -23,8 +25,7 @@ public class PacketNotifyLock extends PacketBase implements ServerToClientPacket
         }
     }
 
-
-    @Override//Server
+    @Override// Server
     public void onReceive(EntityPlayerMP player) {
         if (this.entityID <= 0) return;
         Entity target = player.world.getEntityByID(this.entityID);
@@ -49,10 +50,9 @@ public class PacketNotifyLock extends PacketBase implements ServerToClientPacket
                 new PacketNotifyLock().sendToPlayer((EntityPlayerMP) target);
             }
         }
-
     }
 
-    @Override//Client
+    @Override// Client
     public void onReceive(Minecraft mc) {
         mc.addScheduledTask(() -> MCH_MOD.proxy.clientLocked());
     }

@@ -1,16 +1,17 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_ModelManager;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.MCH_ModelManager;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderA10 extends MCH_RenderBulletBase<MCH_EntityA10> {
+
     public static final IRenderFactory<MCH_EntityA10> FACTORY = MCH_RenderA10::new;
 
     public MCH_RenderA10(RenderManager renderManager) {

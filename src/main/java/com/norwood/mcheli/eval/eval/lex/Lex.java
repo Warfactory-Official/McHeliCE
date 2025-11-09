@@ -1,12 +1,13 @@
 package com.norwood.mcheli.eval.eval.lex;
 
+import java.util.List;
+
 import com.norwood.mcheli.eval.eval.exp.AbstractExpression;
 import com.norwood.mcheli.eval.eval.exp.ShareExpValue;
 import com.norwood.mcheli.eval.util.CharUtil;
 
-import java.util.List;
-
 public class Lex {
+
     public static final int TYPE_WORD = 2147483632;
     public static final int TYPE_NUM = 2147483633;
     public static final int TYPE_OPE = 2147483634;
@@ -136,7 +137,8 @@ public class Lex {
                 this.type = number ? 2147483633 : 2147483632;
                 this.len = 1;
 
-                while (!this.isSpace(this.pos + this.len) && (number && this.isSpecialNumber(this.pos + this.len) || this.isOperator(this.pos + this.len) == null)) {
+                while (!this.isSpace(this.pos + this.len) && (number && this.isSpecialNumber(this.pos + this.len) ||
+                        this.isOperator(this.pos + this.len) == null)) {
                     this.len++;
                 }
             }

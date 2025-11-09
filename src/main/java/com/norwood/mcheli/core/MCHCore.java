@@ -1,18 +1,22 @@
 package com.norwood.mcheli.core;
 
-import com.hbm.core.*;
-import lombok.Getter;
+import java.util.Map;
+
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Map;
+import com.hbm.core.*;
+
+import lombok.Getter;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
-@IFMLLoadingPlugin.TransformerExclusions({"com.norwood.mcheli.core"})
+@IFMLLoadingPlugin.TransformerExclusions({ "com.norwood.mcheli.core" })
 @IFMLLoadingPlugin.SortingIndex(2088)
-public class MCHCore implements IFMLLoadingPlugin{
+public class MCHCore implements IFMLLoadingPlugin {
+
     static final Logger coreLogger = LogManager.getLogger("MCH CoreMod");
     @Getter
     private static final MCHCore.Brand brand;
@@ -34,7 +38,9 @@ public class MCHCore implements IFMLLoadingPlugin{
     }
 
     static void fail(String className, Throwable t) {
-        coreLogger.fatal("Error transforming class {}. This is a coremod clash! Please report this on our issue tracker", className, t);
+        coreLogger.fatal(
+                "Error transforming class {}. This is a coremod clash! Please report this on our issue tracker",
+                className, t);
         if (hardCrash) {
             coreLogger.info("Crashing! To suppress the crash, launch Minecraft with -Dmch.core.disablecrash");
             throw new IllegalStateException("MCH CoreMod transformation failure: " + className, t);
@@ -47,7 +53,7 @@ public class MCHCore implements IFMLLoadingPlugin{
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[]{RenderGobalTransformer.class.getName(), EntityRenderHooks.class.getName()};
+        return new String[] { RenderGobalTransformer.class.getName(), EntityRenderHooks.class.getName() };
     }
 
     @Override
@@ -76,6 +82,10 @@ public class MCHCore implements IFMLLoadingPlugin{
     }
 
     public enum Brand {
-        FORGE, CAT_SERVER, MOHIST, MAGMA, CLEANROOM
+        FORGE,
+        CAT_SERVER,
+        MOHIST,
+        MAGMA,
+        CLEANROOM
     }
 }

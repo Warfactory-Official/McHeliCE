@@ -3,13 +3,14 @@ package com.norwood.mcheli.weapon;
 import net.minecraft.world.World;
 
 public class MCH_EntityRocket extends MCH_EntityBaseBullet {
+
     public MCH_EntityRocket(World par1World) {
         super(par1World);
     }
 
     public MCH_EntityRocket(
-            World par1World, double posX, double posY, double posZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration
-    ) {
+                            World par1World, double posX, double posY, double posZ, double targetX, double targetY,
+                            double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
     }
 
@@ -26,8 +27,8 @@ public class MCH_EntityRocket extends MCH_EntityBaseBullet {
     public void sprinkleBomblet() {
         if (!this.world.isRemote) {
             MCH_EntityRocket e = new MCH_EntityRocket(
-                    this.world, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, this.rotationYaw, this.rotationPitch, this.acceleration
-            );
+                    this.world, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ,
+                    this.rotationYaw, this.rotationPitch, this.acceleration);
             e.setName(this.getName());
             e.setParameterFromWeapon(this, this.shootingAircraft, this.shootingEntity);
             float MOTION = this.getInfo().bombletDiff;

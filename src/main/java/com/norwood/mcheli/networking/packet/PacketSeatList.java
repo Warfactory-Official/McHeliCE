@@ -1,19 +1,22 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.wrapper.W_Entity;
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.wrapper.W_Entity;
+
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
+
 @ElegantPacket
 public class PacketSeatList extends PacketBase implements ServerToClientPacket {
+
     public int entityID_AC = -1;
     public byte seatNum = -1;
-    public int[] seatEntityID = new int[]{-1};
+    public int[] seatEntityID = new int[] { -1 };
 
     public static void sendSeatList(MCH_EntityAircraft ac, EntityPlayerMP player) {
         var packet = new PacketSeatList();
@@ -32,7 +35,7 @@ public class PacketSeatList extends PacketBase implements ServerToClientPacket {
                     this.seatEntityID[i] = W_Entity.getEntityId(ac.getSeat(i));
                 }
             } else {
-                this.seatEntityID = new int[]{-1};
+                this.seatEntityID = new int[] { -1 };
             }
         }
     }
@@ -42,7 +45,6 @@ public class PacketSeatList extends PacketBase implements ServerToClientPacket {
         if (!mc.player.world.isRemote) {
             return;
         }
-
 
         if (this.entityID_AC <= 0) {
             return;

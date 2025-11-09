@@ -1,13 +1,14 @@
 package com.norwood.mcheli.eval.eval.rule;
 
+import java.util.*;
+
 import com.norwood.mcheli.eval.eval.exp.AbstractExpression;
 import com.norwood.mcheli.eval.eval.exp.ParenExpression;
 import com.norwood.mcheli.eval.eval.exp.ShareExpValue;
 import com.norwood.mcheli.eval.eval.lex.Lex;
 
-import java.util.*;
-
 public abstract class AbstractRule {
+
     private final Map<String, AbstractExpression> opes = new HashMap<>();
     public AbstractRule nextRule;
     public int prio;
@@ -34,7 +35,6 @@ public abstract class AbstractRule {
     }
 
     public final String[] getOperators() {
-
         List<String> list = new ArrayList<>(this.opes.keySet());
 
         return list.toArray(new String[0]);

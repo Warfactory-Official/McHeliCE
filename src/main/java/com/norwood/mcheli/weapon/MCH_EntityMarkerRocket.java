@@ -1,9 +1,5 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -13,8 +9,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+
 public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
-    private static final DataParameter<Byte> MARKER_STATUS = EntityDataManager.createKey(MCH_EntityMarkerRocket.class, DataSerializers.BYTE);
+
+    private static final DataParameter<Byte> MARKER_STATUS = EntityDataManager.createKey(MCH_EntityMarkerRocket.class,
+            DataSerializers.BYTE);
     public int countDown;
 
     public MCH_EntityMarkerRocket(World par1World) {
@@ -24,8 +27,8 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
     }
 
     public MCH_EntityMarkerRocket(
-            World par1World, double posX, double posY, double posZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration
-    ) {
+                                  World par1World, double posX, double posY, double posZ, double targetX,
+                                  double targetY, double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
         this.setMarkerStatus(0);
         this.countDown = 0;
@@ -63,7 +66,8 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
             if (this.getInfo() != null && !this.getInfo().disableSmoke && status != 0) {
                 if (status == 1) {
                     super.onUpdate();
-                    this.spawnParticle(this.getInfo().trajectoryParticleName, 3, 5.0F * this.getInfo().smokeSize * 0.5F);
+                    this.spawnParticle(this.getInfo().trajectoryParticleName, 3,
+                            5.0F * this.getInfo().smokeSize * 0.5F);
                 } else {
                     float gb = this.rand.nextFloat() * 0.3F;
                     this.spawnParticle(
@@ -75,8 +79,7 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
                             gb,
                             (this.rand.nextFloat() - 0.5F) * 0.7F,
                             0.3F + this.rand.nextFloat() * 0.3F,
-                            (this.rand.nextFloat() - 0.5F) * 0.7F
-                    );
+                            (this.rand.nextFloat() - 0.5F) * 0.7F);
                 }
             }
         } else if (status == 0 || this.isInWater()) {
@@ -99,8 +102,7 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
                             0.0,
                             0.0F,
                             90.0F,
-                            4.0
-                    );
+                            4.0);
                     e.setName(this.getName());
                     e.explosionPower = 3 + this.rand.nextInt(2);
                     e.explosionPowerInWater = 0;
@@ -116,7 +118,8 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
         }
     }
 
-    public void spawnParticle(String name, int num, float size, float r, float g, float b, float mx, float my, float mz) {
+    public void spawnParticle(String name, int num, float size, float r, float g, float b, float mx, float my,
+                              float mz) {
         if (this.world.isRemote) {
             if (name.isEmpty() || num < 1 || num > 50) {
                 return;
@@ -127,7 +130,8 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
             double z = (this.posZ - this.prevPosZ) / num;
 
             for (int i = 0; i < num; i++) {
-                MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", this.prevPosX + x * i, this.prevPosY + y * i, this.prevPosZ + z * i);
+                MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", this.prevPosX + x * i,
+                        this.prevPosY + y * i, this.prevPosZ + z * i);
                 prm.motionX = mx;
                 prm.motionY = my;
                 prm.motionZ = mz;

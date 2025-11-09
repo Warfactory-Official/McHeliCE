@@ -1,13 +1,16 @@
 package com.norwood.mcheli.wrapper;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.OpenGlHelper;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+
+import org.lwjgl.opengl.GL11;
+
 public class W_GuiButton extends GuiButton {
+
     public List<String> hoverStringList = null;
 
     public W_GuiButton(int par1, int par2, int par3, int par4, int par5, String par6Str) {

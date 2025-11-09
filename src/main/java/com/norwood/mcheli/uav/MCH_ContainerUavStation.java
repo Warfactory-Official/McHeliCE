@@ -6,9 +6,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+
 import org.jetbrains.annotations.NotNull;
 
 public class MCH_ContainerUavStation extends Container {
+
     protected final MCH_EntityUavStation uavStation;
 
     public MCH_ContainerUavStation(InventoryPlayer inventoryPlayer, MCH_EntityUavStation te) {

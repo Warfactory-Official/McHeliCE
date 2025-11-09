@@ -1,9 +1,11 @@
 package com.norwood.mcheli.helper;
 
-import com.norwood.mcheli.helper.criterion.MCH_SimpleTrigger;
 import net.minecraft.advancements.CriteriaTriggers;
 
+import com.norwood.mcheli.helper.criterion.MCH_SimpleTrigger;
+
 public class MCH_CriteriaTriggers {
+
     public static final MCH_SimpleTrigger PUT_AIRCRAFT = create("put_aircraft");
     public static final MCH_SimpleTrigger SUPPLY_AMMO = create("supply_ammo");
     public static final MCH_SimpleTrigger SUPPLY_FUEL = create("supply_fuel");

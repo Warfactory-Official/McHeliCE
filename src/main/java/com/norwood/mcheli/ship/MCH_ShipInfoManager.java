@@ -1,12 +1,14 @@
 package com.norwood.mcheli.ship;
 
-import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
-import com.norwood.mcheli.helper.info.ContentRegistries;
-import net.minecraft.item.Item;
-
 import javax.annotation.Nullable;
 
+import net.minecraft.item.Item;
+
+import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
+import com.norwood.mcheli.helper.info.ContentRegistries;
+
 public class MCH_ShipInfoManager extends MCH_AircraftInfoManager<MCH_ShipInfo> {
+
     private static final MCH_ShipInfoManager instance = new MCH_ShipInfoManager();
 
     public static MCH_ShipInfo get(String name) {

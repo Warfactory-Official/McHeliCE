@@ -1,5 +1,18 @@
 package com.norwood.mcheli.weapon;
 
+import static com.norwood.mcheli.compat.ModCompatManager.MODID_HBM;
+import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
@@ -7,26 +20,15 @@ import com.norwood.mcheli.compat.hbm.*;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
+
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import static com.norwood.mcheli.compat.ModCompatManager.MODID_HBM;
-import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
 
 public class MCH_WeaponInfo extends MCH_BaseInfo {
 
     public static Random rand = new Random();
     public final String name;
-    //HBM compat
+    // HBM compat
     public boolean useHBM = false;
     public Payload payloadNTM = Payload.NONE;
     public boolean effectOnly = false;
@@ -50,7 +52,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public int timeFuse = 0;
     public boolean flaming = false;
     public MCH_SightType sight = MCH_SightType.NONE;
-    public float[] zoom = new float[]{1.0F};
+    public float[] zoom = new float[] { 1.0F };
     public int delay = 10;
     public int reloadTime = 30;
     public int round = 0;
@@ -152,7 +154,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
      */
     public int maxLockOnAngle = 10;
     /**
-     * Maximum angle for pulse-Doppler radar; beyond this, the missile will lose lock (can be used for IR missile rear attacks)
+     * Maximum angle for pulse-Doppler radar; beyond this, the missile will lose lock (can be used for IR missile rear
+     * attacks)
      */
     public float pdHDNMaxDegree = 1000f;
     /**
@@ -327,9 +330,9 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
                 mukeContainer.loadRuntimeInstances();
             }
         } else if (useHBM && !isLoaded(MODID_HBM))
-            MCH_Logger.get().warn("Weapon:\"{}\" uses HBM capabilities, to use it please install HBM:NTM Community Edition", name);
+            MCH_Logger.get().warn(
+                    "Weapon:\"{}\" uses HBM capabilities, to use it please install HBM:NTM Community Edition", name);
     }
-
 
     public boolean validate() {
         if (this.explosionBlock < 0) {
@@ -376,7 +379,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         return this.damageFactor != null ? this.damageFactor.getDamageFactor(e) : 1.0F;
     }
 
-    //TODO:Enumify
+    // TODO:Enumify
     public String getWeaponTypeName() {
         return switch (this.type.toLowerCase()) {
             case "machinegun1", "machinegun2", "railgun" -> "MachineGun";
@@ -397,7 +400,6 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         };
     }
 
-
     public float getRecoilPitch() {
         return this.recoilPitch + (rand.nextFloat() * this.recoilPitchRange);
     }
@@ -405,7 +407,6 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public float getRecoilYaw() {
         return this.recoilYaw + ((rand.nextFloat() - 0.5F) * this.recoilYawRange);
     }
-
 
     public static enum Payload {
         NONE,
@@ -417,8 +418,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         NTM_MIST
     }
 
-
     public static class RoundItem {
+
         public final int num;
         public final ResourceLocation itemName;
         public final int damage;
@@ -434,12 +435,13 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     @Getter
     @Setter
     public static class MuzzleFlashRaw {
+
         float Distance;
         float Size;
         float Range;
         int Age;
         int Count;
-        String Color; //ARGB
+        String Color; // ARGB
     }
 
     public static class MuzzleFlash {
@@ -454,7 +456,6 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         public final float b;
         public final int num;
 
-
         public MuzzleFlash(MuzzleFlashRaw raw) {
             this.dist = raw.getDistance();
             this.size = raw.getSize();
@@ -468,7 +469,6 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             this.g = ((color >> 8) & 0xFF) / 255.0F;
             this.b = (color & 0xFF) / 255.0F;
         }
-
 
         @Deprecated
         public MuzzleFlash(float dist, float size, float range, int age, float a, float r, float g, float b, int num) {

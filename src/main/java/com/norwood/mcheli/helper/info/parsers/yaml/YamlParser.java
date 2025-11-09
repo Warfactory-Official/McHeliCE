@@ -1,5 +1,17 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
+import static com.norwood.mcheli.aircraft.MCH_AircraftInfo.*;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+
+import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.Yaml;
+
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.RWRType;
 import com.norwood.mcheli.RadarType;
@@ -22,27 +34,17 @@ import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
-import org.yaml.snakeyaml.Yaml;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.norwood.mcheli.aircraft.MCH_AircraftInfo.*;
-
-//TODO:Reforged Fields
-@SuppressWarnings({"unchecked", "unboxing"})
+// TODO:Reforged Fields
+@SuppressWarnings({ "unchecked", "unboxing" })
 public class YamlParser implements IParser {
 
     public static final Yaml YAML_INSTANCE = new Yaml();
     public static final YamlParser INSTANCE = new YamlParser();
-    public static final Set<String> DRAWN_PART_ARGS = new HashSet<>(Arrays.asList("Type", "Position", "Rotation", "PartName","Rot","Pos"));
+    public static final Set<String> DRAWN_PART_ARGS = new HashSet<>(
+            Arrays.asList("Type", "Position", "Rotation", "PartName", "Rot", "Pos"));
 
-    private YamlParser() {
-    }
+    private YamlParser() {}
 
     public static void register() {
         ContentParsers.register("yml", INSTANCE);
@@ -87,7 +89,7 @@ public class YamlParser implements IParser {
 
     public static Vec3d parseVector(Object vector) {
         if (vector == null) throw new IllegalArgumentException("Vector value is null");
-        if (vector instanceof List<?> list) {
+        if (vector instanceof List<?>list) {
             if (list.size() != 3) {
                 throw new IllegalArgumentException("Vector list must have exactly 3 elements, got " + list.size());
             }
@@ -103,7 +105,8 @@ public class YamlParser implements IParser {
     }
 
     @Override
-    public @Nullable MCH_HeliInfo parseHelicopter(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_HeliInfo parseHelicopter(AddonResourceLocation location, String filepath, List<String> lines,
+                                                  boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_HeliInfo(location, filepath);
         mapToAircraft(info, root);
@@ -115,7 +118,6 @@ public class YamlParser implements IParser {
                     ComponentParser.parseComponentsHeli(components, info);
                 }
             }
-
 
         }
         info.validate();
@@ -132,7 +134,8 @@ public class YamlParser implements IParser {
     }
 
     @Override
-    public @Nullable MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines,
+                                              boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_PlaneInfo(location, filepath);
         mapToAircraft(info, root);
@@ -149,9 +152,9 @@ public class YamlParser implements IParser {
         return info;
     }
 
-
     @Override
-    public @Nullable MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines,
+                                            boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_ShipInfo(location, filepath);
         mapToAircraft(info, root);
@@ -169,7 +172,8 @@ public class YamlParser implements IParser {
     }
 
     @Override
-    public @Nullable MCH_TankInfo parseTank(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_TankInfo parseTank(AddonResourceLocation location, String filepath, List<String> lines,
+                                            boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_TankInfo(location, filepath);
         mapToAircraft(info, root);
@@ -184,9 +188,12 @@ public class YamlParser implements IParser {
             switch (entry.getKey()) {
                 case "WeightType" -> {
                     try {
-                        info.weightType = TankWeight.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim()).ordinal();
+                        info.weightType = TankWeight
+                                .valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim()).ordinal();
                     } catch (RuntimeException e) {
-                        throw new IllegalArgumentException("Invalid Weight type: " + entry.getValue() + ". Allowed values: " + Arrays.stream(TankWeight.values()).map(Enum::name).collect(Collectors.joining(", ")));
+                        throw new IllegalArgumentException("Invalid Weight type: " + entry.getValue() +
+                                ". Allowed values: " +
+                                Arrays.stream(TankWeight.values()).map(Enum::name).collect(Collectors.joining(", ")));
                     }
                 }
                 case "WeightedCenterZ", "CenterZ" -> getClamped(-1000F, 1000F, entry.getValue());
@@ -194,11 +201,11 @@ public class YamlParser implements IParser {
             }
 
         }
-
     }
 
     @Override
-    public @Nullable MCH_VehicleInfo parseVehicle(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_VehicleInfo parseVehicle(AddonResourceLocation location, String filepath, List<String> lines,
+                                                  boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_VehicleInfo(location, filepath);
         mapToAircraft(info, root);
@@ -223,12 +230,11 @@ public class YamlParser implements IParser {
                 default -> logUnkownEntry(entry, "VehicleFeatures");
             }
         }
-
     }
 
-
     @Override
-    public @Nullable MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines,
+                                                boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_WeaponInfo(location, filepath);
         WeaponParser.parse(info, root);
@@ -237,7 +243,8 @@ public class YamlParser implements IParser {
     }
 
     @Override
-    public @Nullable MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath,
+                                                      List<String> lines, boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var throwable = new MCH_ThrowableInfo(location, filepath);
         ThrowableParser.parse(throwable, root);
@@ -246,7 +253,8 @@ public class YamlParser implements IParser {
     }
 
     @Override
-    public @Nullable MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines,
+                                      boolean reload) throws Exception {
         Object root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
         var info = new MCH_Hud(location, filepath);
         HUDParser.parse(info, root);
@@ -254,9 +262,9 @@ public class YamlParser implements IParser {
         return info;
     }
 
-
     @Override
-    public @Nullable MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception {
+    public @Nullable MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines,
+                                            boolean reload) throws Exception {
         return null;
     }
 
@@ -317,14 +325,12 @@ public class YamlParser implements IParser {
 
     @SuppressWarnings("unboxing")
     private void mapToAircraft(MCH_AircraftInfo info, Map<String, Object> root) {
-
-
         for (Map.Entry<String, Object> entry : root.entrySet()) {
             switch (entry.getKey()) {
                 case "DisplayName" -> {
                     Object nameObject = entry.getValue();
                     if (nameObject instanceof String name) info.displayName = name.trim();
-                    else if (nameObject instanceof Map<?, ?> translationNames) {
+                    else if (nameObject instanceof Map<?, ?>translationNames) {
                         var userNameMap = (Map<String, String>) translationNames;
                         if (userNameMap.containsKey("DEFAULT")) {
                             info.displayName = userNameMap.get("DEFAULT");
@@ -334,20 +340,20 @@ public class YamlParser implements IParser {
                     } else throw new ClassCastException();
                 }
                 case "Author" -> {
-                    //Proposal: would allow content creators to put their signature
+                    // Proposal: would allow content creators to put their signature
                 }
-                //Depricated on 1,12, around for 1.7 compat
+                // Depricated on 1,12, around for 1.7 compat
                 case "ItemID" -> {
                     info.itemID = (int) entry.getValue();
                 }
                 case "Category" -> {
                     if (entry.getValue() instanceof String category)
                         info.category = category.toUpperCase(Locale.ROOT).trim();
-                    else if (entry.getValue() instanceof List<?> categories) {
+                    else if (entry.getValue() instanceof List<?>categories) {
                         List<String> list = (List<String>) categories;
-                        info.category = list.stream().map(String::trim).map(String::toUpperCase).collect(Collectors.joining(","));
+                        info.category = list.stream().map(String::trim).map(String::toUpperCase)
+                                .collect(Collectors.joining(","));
                     } else throw new RuntimeException();
-
 
                 }
                 case "Recepie" -> {
@@ -355,8 +361,8 @@ public class YamlParser implements IParser {
                     for (Map.Entry<String, Object> recMapEntry : map.entrySet()) {
                         switch (recMapEntry.getKey()) {
                             case "isShaped" -> info.isShapedRecipe = (Boolean) recMapEntry.getValue();
-                            case "Pattern" ->
-                                    info.recipeString = ((List<String>) recMapEntry.getValue()).stream().map(String::toUpperCase).map(String::trim).collect(Collectors.toList());
+                            case "Pattern" -> info.recipeString = ((List<String>) recMapEntry.getValue()).stream()
+                                    .map(String::toUpperCase).map(String::trim).collect(Collectors.toList());
                         }
                     }
 
@@ -365,7 +371,7 @@ public class YamlParser implements IParser {
                 case "RotorSpeed" -> {
                     info.rotorSpeed = getClamped(-10000.0F, 10000.0F, entry.getValue());
                     if (info.rotorSpeed > 0.01F) info.rotorSpeed -= 0.01F;
-                    if (info.rotorSpeed < -0.01F) info.rotorSpeed += 0.01F; //Interesting
+                    if (info.rotorSpeed < -0.01F) info.rotorSpeed += 0.01F; // Interesting
                 }
 
                 case "TurretPosition" -> info.turretPosition = parseVector(entry.getValue());
@@ -411,14 +417,13 @@ public class YamlParser implements IParser {
                 case "ExplosionSizeByCrash" -> info.explosionSizeByCrash = getClamped(100, entry.getValue());
                 case "ThrottleDownFactor" -> info.throttleDownFactor = getClamped(10F, entry.getValue());
                 case "HUDType", "WeaponGroupType" -> {
-                    //Unimplemented
+                    // Unimplemented
                 }
 
                 case "Weapons" -> {
                     List<Map<String, Object>> weapons = (List<Map<String, Object>>) entry.getValue();
                     weapons.forEach(map -> parseWeapon(map, info));
                 }
-
 
                 case "GlobalUnmountPos" -> info.unmountPosition = parseVector(entry.getValue());
                 case "PhysicalProperties" -> {
@@ -473,7 +478,7 @@ public class YamlParser implements IParser {
 
                 case "Seats" -> {
                     List<Map<String, Object>> seatList = (List<Map<String, Object>>) entry.getValue();
-                    seatList.stream().forEachOrdered(seat -> parseSeatInfo(seat, info,  seatList.size()));
+                    seatList.stream().forEachOrdered(seat -> parseSeatInfo(seat, info, seatList.size()));
 
                 }
 
@@ -493,7 +498,9 @@ public class YamlParser implements IParser {
                         AxisAlignedBB aabb = box.boundingBox;
                         maxY = Math.max(maxY, (float) aabb.maxY);
 
-                        maxAbsXZ = Math.max(maxAbsXZ, Math.max(Math.max(Math.abs((float) aabb.maxX), Math.abs((float) aabb.minX)), Math.max(Math.abs((float) aabb.maxZ), Math.abs((float) aabb.minZ))));
+                        maxAbsXZ = Math.max(maxAbsXZ,
+                                Math.max(Math.max(Math.abs((float) aabb.maxX), Math.abs((float) aabb.minX)),
+                                        Math.max(Math.abs((float) aabb.maxZ), Math.abs((float) aabb.minZ))));
 
                         zMin = Math.min(zMin, (float) aabb.minZ);
                         zMax = Math.max(zMax, (float) aabb.maxZ);
@@ -504,23 +511,20 @@ public class YamlParser implements IParser {
                     info.bbZmax = zMax;
                 }
 
-
-                case "PlaneFeatures", "TankFeatures", "HeliFeatures", "VehicleFeatures" -> {
-                }
+                case "PlaneFeatures", "TankFeatures", "HeliFeatures", "VehicleFeatures" -> {}
                 default -> logUnkownEntry(entry, "AircraftInfo");
             }
         }
-
     }
 
     private void parseWheels(Map<String, Object> wheel, MCH_AircraftInfo info) {
-
         for (Map.Entry<String, Object> entry : wheel.entrySet()) {
             switch (entry.getKey()) {
                 case "Hitboxes" -> {
                     List<Map<String, Object>> wheels = (List<Map<String, Object>>) entry.getValue();
                     info.wheels.clear();
-                    info.wheels.addAll(wheels.stream().map(this::parseWheel).sorted((o1, o2) -> o1.pos.z > o2.pos.z ? -1 : 1).collect(Collectors.toList()));
+                    info.wheels.addAll(wheels.stream().map(this::parseWheel)
+                            .sorted((o1, o2) -> o1.pos.z > o2.pos.z ? -1 : 1).collect(Collectors.toList()));
                 }
                 case "WheelRotation" -> info.partWheelRot = getClamped(-10000.0F, 10000.0F, entry.getValue());
                 case "TrackRotation" -> info.trackRollerRot = getClamped(-10000.0F, 10000.0F, entry.getValue());
@@ -528,11 +532,9 @@ public class YamlParser implements IParser {
                 default -> logUnkownEntry(entry, "Wheels");
             }
         }
-
     }
 
     private void parseUAV(Map<String, Object> uav, MCH_AircraftInfo info) {
-
         for (Map.Entry<String, Object> entry : uav.entrySet()) {
             switch (entry.getKey()) {
                 case "IsUav" -> info.isUAV = (Boolean) entry.getValue();
@@ -542,9 +544,7 @@ public class YamlParser implements IParser {
                 default -> logUnkownEntry(entry, "Uav");
             }
 
-
         }
-
     }
 
     private void parseBoxes(Map<String, Object> box, MCH_AircraftInfo info) {
@@ -561,9 +561,12 @@ public class YamlParser implements IParser {
                 case "Name" -> name = name.trim();
                 case "Type" -> {
                     try {
-                        type = MCH_BoundingBox.EnumBoundingBoxType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim());
+                        type = MCH_BoundingBox.EnumBoundingBoxType
+                                .valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT).trim());
                     } catch (RuntimeException r) {
-                        throw new IllegalArgumentException("Invalid bounding box type: " + entry.getValue() + ". Allowed values: " + Arrays.stream(MCH_BoundingBox.EnumBoundingBoxType.values()).map(Enum::name).collect(Collectors.joining(", ")));
+                        throw new IllegalArgumentException("Invalid bounding box type: " + entry.getValue() +
+                                ". Allowed values: " + Arrays.stream(MCH_BoundingBox.EnumBoundingBoxType.values())
+                                        .map(Enum::name).collect(Collectors.joining(", ")));
                     }
                 }
 
@@ -574,15 +577,13 @@ public class YamlParser implements IParser {
         if (pos == null) throw new IllegalArgumentException("Bounding box must have a position!");
         if (size == null) throw new IllegalArgumentException("Bounding box must have a size!");
 
-        var parsedBox = new MCH_BoundingBox(pos.x, pos.y, pos.z, (float) size.x, (float) size.y, (float) size.z, damageFact);
+        var parsedBox = new MCH_BoundingBox(pos.x, pos.y, pos.z, (float) size.x, (float) size.y, (float) size.z,
+                damageFact);
         parsedBox.setBoundingBoxType(type);
         info.extraBoundingBox.add(parsedBox);
-
-
     }
 
     private void parseSound(Map<String, Object> soundSettings, MCH_AircraftInfo info) {
-
         for (Map.Entry<String, Object> entry : soundSettings.entrySet()) {
             switch (entry.getKey()) {
                 case "MoveSound" -> info.soundMove = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
@@ -714,15 +715,16 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "GunnerMode" -> info.isEnableGunnerMode = ((Boolean) entry.getValue()).booleanValue();
-                case "InventorySize" ->
-                        info.inventorySize = getClamped(54, entry.getValue()); //FIXME: Capped due to inventory code being fucking ass
+                case "InventorySize" -> info.inventorySize = getClamped(54, entry.getValue()); // FIXME: Capped due to
+                                                                                               // inventory code being
+                                                                                               // fucking ass
                 case "NightVision" -> info.isEnableNightVision = ((Boolean) entry.getValue()).booleanValue();
                 case "EntityRadar" -> info.isEnableEntityRadar = ((Boolean) entry.getValue()).booleanValue();
                 case "CanReverse" -> info.enableBack = ((Boolean) entry.getValue()).booleanValue();
-                case "CanRotateOnGround", "CanRotOnGround" ->
-                        info.canRotOnGround = ((Boolean) entry.getValue()).booleanValue();
-                case "ConcurrentGunner" ->
-                        info.isEnableConcurrentGunnerMode = ((Boolean) entry.getValue()).booleanValue();
+                case "CanRotateOnGround", "CanRotOnGround" -> info.canRotOnGround = ((Boolean) entry.getValue())
+                        .booleanValue();
+                case "ConcurrentGunner" -> info.isEnableConcurrentGunnerMode = ((Boolean) entry.getValue())
+                        .booleanValue();
                 case "EjectionSeat" -> info.isEnableEjectionSeat = ((Boolean) entry.getValue()).booleanValue();
                 case "ThrottleUpDown" -> info.throttleUpDown = getClamped(3F, entry.getValue());
                 case "ThrottleUpDownEntity" -> info.throttleUpDownOnEntity = getClamped(100_000F, entry.getValue());
@@ -734,13 +736,13 @@ public class YamlParser implements IParser {
     }
 
     private void parseParachuting(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
-        //I have no idea what im doing
+        // I have no idea what im doing
         Object value = entry.getValue();
         if (value instanceof Boolean bool) {
             info.isEnableParachuting = bool;
             return;
         }
-        if (value instanceof Map<?, ?> parachuteMapRaw) {
+        if (value instanceof Map<?, ?>parachuteMapRaw) {
             info.isEnableParachuting = true;
             for (Map.Entry<String, Object> mobEntry : ((Map<String, Object>) parachuteMapRaw).entrySet()) {
                 switch (mobEntry.getKey()) {
@@ -765,13 +767,14 @@ public class YamlParser implements IParser {
                     List<String> typeStrings = new ArrayList<>();
                     if (entry.getValue() instanceof String singleType) {
                         typeStrings.add(singleType);
-                    } else if (entry.getValue() instanceof String[] typeArray) {
+                    } else if (entry.getValue() instanceof String[]typeArray) {
                         typeStrings.addAll(Arrays.asList(typeArray));
-                    } else if (entry.getValue() instanceof List<?> typeList) {
+                    } else if (entry.getValue() instanceof List<?>typeList) {
                         for (Object obj : typeList) {
                             if (obj instanceof String s) typeStrings.add(s);
                             else
-                                throw new IllegalArgumentException("Flare type must be a string, got: " + obj.getClass());
+                                throw new IllegalArgumentException(
+                                        "Flare type must be a string, got: " + obj.getClass());
                         }
                     } else {
                         throw new IllegalArgumentException("Unsupported type value: " + entry.getValue().getClass());
@@ -782,7 +785,9 @@ public class YamlParser implements IParser {
                             FlareType type = FlareType.valueOf(typeRaw.trim().toUpperCase(Locale.ROOT));
                             flareTypes.add(type);
                         } catch (IllegalArgumentException e) {
-                            throw new IllegalArgumentException("Invalid flare type: " + typeRaw + ". Allowed values: " + Arrays.stream(FlareType.values()).map(Enum::name).collect(Collectors.joining(", ")));
+                            throw new IllegalArgumentException("Invalid flare type: " + typeRaw + ". Allowed values: " +
+                                    Arrays.stream(FlareType.values()).map(Enum::name)
+                                            .collect(Collectors.joining(", ")));
                         }
                     }
                 }
@@ -795,7 +800,8 @@ public class YamlParser implements IParser {
             flareTypes.add(FlareType.NONE);
         }
 
-        return new Flare(pos, flareTypes.stream().map(FlareType::getLegacyMapping).mapToInt(Integer::intValue).toArray());
+        return new Flare(pos,
+                flareTypes.stream().map(FlareType::getLegacyMapping).mapToInt(Integer::intValue).toArray());
     }
 
     @SuppressWarnings("unboxing")
@@ -808,18 +814,16 @@ public class YamlParser implements IParser {
             case "AlwaysCameraView" -> info.alwaysCameraView = (Boolean) entry.getValue();
             case "Pos", "Positons" -> {
                 List<Map<String, Object>> cameraList = (List<Map<String, Object>>) entry.getValue();
-                info.cameraPosition.addAll(cameraList.stream().map(camera -> parseCameraPosition(camera, info)).collect(Collectors.toList()));
+                info.cameraPosition.addAll(cameraList.stream().map(camera -> parseCameraPosition(camera, info))
+                        .collect(Collectors.toList()));
             }
             default -> logUnkownEntry(entry, "Camera");
         }
-
-
     }
 
     private Wheel parseWheel(Map<String, Object> map) {
         Vec3d wheelPos = null;
         float scale = 1;
-
 
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
@@ -828,7 +832,6 @@ public class YamlParser implements IParser {
                 default -> logUnkownEntry(entry, "Wheels");
             }
         }
-
 
         if (wheelPos == null) throw new IllegalArgumentException("Wheel must have a position!");
         return new Wheel(wheelPos, scale);
@@ -861,9 +864,9 @@ public class YamlParser implements IParser {
                 case "Camera", "Cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
                 case "Names", "Name" -> {
                     Object values = entry.getValue();
-                    if (values instanceof List<?> list) entityNames = list.toArray(new String[0]);
-                    else if (values instanceof String[] array) entityNames = array;
-                    else if (values instanceof String name) entityNames = new String[]{name};
+                    if (values instanceof List<?>list) entityNames = list.toArray(new String[0]);
+                    else if (values instanceof String[]array) entityNames = array;
+                    else if (values instanceof String name) entityNames = new String[] { name };
                     else throw new IllegalArgumentException("Rack name must be a string, array or list!");
                 }
                 case "Range" -> range = ((Number) entry.getValue()).floatValue();
@@ -903,13 +906,14 @@ public class YamlParser implements IParser {
             throw new IllegalArgumentException("Seat rack must have a camera position!");
         }
 
-        info.entityRackList.add(new MCH_SeatRackInfo(entityNames, position.x, position.y, position.z, cameraPos, range, openParaAlt, yaw, pitch, rotSeat));
+        info.entityRackList.add(new MCH_SeatRackInfo(entityNames, position.x, position.y, position.z, cameraPos, range,
+                openParaAlt, yaw, pitch, rotSeat));
         final int rackIndex0 = info.entityRackList.size() - 1;
 
         if (exclusionList != null) {
             for (Integer t : exclusionList) {
                 if (t == null) continue;
-                info.exclusionSeatList.add(new Integer[]{seatCount + rackIndex0, t});
+                info.exclusionSeatList.add(new Integer[] { seatCount + rackIndex0, t });
             }
         }
     }
@@ -1007,14 +1011,15 @@ public class YamlParser implements IParser {
         dfy = MathHelper.wrapDegrees(dfy);
         seatID = Math.max(0, seatID - 1);
 
-        MCH_AircraftInfo.Weapon weapon = new MCH_AircraftInfo.Weapon(info, (float) pos.x, (float) pos.y, (float) pos.z, yaw, pitch, canUsePilot, seatID, dfy, mny, mxy, mnp, mxp, turret);
+        MCH_AircraftInfo.Weapon weapon = new MCH_AircraftInfo.Weapon(info, (float) pos.x, (float) pos.y, (float) pos.z,
+                yaw, pitch, canUsePilot, seatID, dfy, mny, mxy, mnp, mxp, turret);
 
         WeaponSet set = info.getOrCreateWeaponSet(type);
         set.weapons.add(weapon);
     }
 
     @SuppressWarnings("unboxing")
-    private void parseSeatInfo(Map<String, Object> map, MCH_AircraftInfo info,  int seatCount) {
+    private void parseSeatInfo(Map<String, Object> map, MCH_AircraftInfo info, int seatCount) {
         Vec3d position = null;
         boolean isGunner = false;
         boolean canSwitchGunner = false;
@@ -1073,7 +1078,8 @@ public class YamlParser implements IParser {
             throw new IllegalArgumentException("Seat must have a position!");
         }
 
-        info.seatList.add(new MCH_SeatInfo(position, isGunner, cameraPos, invertCameraPos, canSwitchGunner, hasFixedRotation, fixedYaw, fixedPitch, minPitch, maxPitch, rotatableSeat));
+        info.seatList.add(new MCH_SeatInfo(position, isGunner, cameraPos, invertCameraPos, canSwitchGunner,
+                hasFixedRotation, fixedYaw, fixedPitch, minPitch, maxPitch, rotatableSeat));
 
         if (MCH_MOD.proxy.isRemote()) {
             info.hudList.add(MCH_HudManager.get(hudName) != null ? MCH_HudManager.get(hudName) : MCH_Hud.NoDisp);
@@ -1083,29 +1089,35 @@ public class YamlParser implements IParser {
         if (exclusionList != null) {
             for (Integer t : exclusionList) {
                 if (t == null) continue;
-                info.exclusionSeatList.add(new Integer[]{seatIndex0, t});
+                info.exclusionSeatList.add(new Integer[] { seatIndex0, t });
             }
         }
     }
 
-
     public static enum TankWeight {
-        UNKNOWN, CAR, TANK
+        UNKNOWN,
+        CAR,
+        TANK
     }
 
     public static enum FlareType {
-        NONE(0), NORMAL(1), LARGE_AIRCRAFT(2), SIDE(3), FRONT(4), DOWN(5), SMOKE_LAUNCHER(10);
+
+        NONE(0),
+        NORMAL(1),
+        LARGE_AIRCRAFT(2),
+        SIDE(3),
+        FRONT(4),
+        DOWN(5),
+        SMOKE_LAUNCHER(10);
 
         final byte legacyMapping;
 
         FlareType(int legacyMapping) {
-
             this.legacyMapping = (byte) legacyMapping;
         }
 
         public int getLegacyMapping() {
             return legacyMapping;
         }
-
     }
 }

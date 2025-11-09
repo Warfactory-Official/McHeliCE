@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class PowerExpression extends Col2Expression {
+
     public PowerExpression() {
         this.setOperator("**");
     }

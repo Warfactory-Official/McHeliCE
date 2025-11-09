@@ -1,18 +1,20 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.Random;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.Random;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.wrapper.W_McClient;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public abstract class MCH_WeaponBase {
+
     protected static final Random rand = new Random();
     public final World worldObj;
     public final Vec3d position;
@@ -51,7 +53,7 @@ public abstract class MCH_WeaponBase {
         this.displayName = wi != null ? wi.displayName : "";
         this.power = 0;
         this.acceleration = 0.0F;
-        this.nukeYield = 0; //REMOVE ME
+        this.nukeYield = 0; // REMOVE ME
         this.explosionPower = 0;
         this.explosionPowerInWater = 0;
         this.interval = 1;
@@ -76,8 +78,7 @@ public abstract class MCH_WeaponBase {
 
     public abstract boolean shot(MCH_WeaponParam var1);
 
-    public void setLockChecker(MCH_IEntityLockChecker checker) {
-    }
+    public void setLockChecker(MCH_IEntityLockChecker checker) {}
 
     public int getLockCount() {
         return 0;
@@ -87,8 +88,7 @@ public abstract class MCH_WeaponBase {
         return 0;
     }
 
-    public void setLockCountMax(int n) {
-    }
+    public void setLockCountMax(int n) {}
 
     public final int getNumAmmoMax() {
         return this.getInfo().round;
@@ -132,8 +132,7 @@ public abstract class MCH_WeaponBase {
         this.modifyParameters();
     }
 
-    public void modifyParameters() {
-    }
+    public void modifyParameters() {}
 
     public boolean switchMode() {
         if (this.getInfo() != null && this.getInfo().fixMode > 0) {
@@ -154,8 +153,7 @@ public abstract class MCH_WeaponBase {
         }
     }
 
-    public void onSwitchMode() {
-    }
+    public void onSwitchMode() {}
 
     public boolean use(MCH_WeaponParam prm) {
         Vec3d v = this.getShotPos(prm.entity);
@@ -188,8 +186,8 @@ public abstract class MCH_WeaponBase {
         if (!e.world.isRemote && this.canPlaySound && this.getInfo() != null) {
             float prnd = this.getInfo().soundPitchRandom;
             W_WorldFunc.MOD_playSoundEffect(
-                    this.worldObj, e.posX, e.posY, e.posZ, snd, this.getInfo().soundVolume, this.getInfo().soundPitch * (1.0F - prnd) + rand.nextFloat() * prnd
-            );
+                    this.worldObj, e.posX, e.posY, e.posZ, snd, this.getInfo().soundVolume,
+                    this.getInfo().soundPitch * (1.0F - prnd) + rand.nextFloat() * prnd);
         }
     }
 
@@ -252,6 +250,4 @@ public abstract class MCH_WeaponBase {
             return -1.0;
         }
     }
-
-
 }

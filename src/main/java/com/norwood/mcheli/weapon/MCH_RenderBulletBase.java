@@ -1,16 +1,20 @@
 package com.norwood.mcheli.weapon;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderManager;
+
+import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
+
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.wrapper.W_Block;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Render;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.entity.RenderManager;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
 public abstract class MCH_RenderBulletBase<T extends W_Entity> extends W_Render<T> {
+
     protected MCH_RenderBulletBase(RenderManager renderManager) {
         super(renderManager);
     }
@@ -20,27 +24,25 @@ public abstract class MCH_RenderBulletBase<T extends W_Entity> extends W_Render<
             MCH_Color c = ((MCH_EntityBaseBullet) e).getInfo().color;
 
             for (int y = 0; y < 3; y++) {
-                Block b = W_WorldFunc.getBlock(e.world, (int) (e.posX + 0.5), (int) (e.posY + 1.5 - y), (int) (e.posZ + 0.5));
+                Block b = W_WorldFunc.getBlock(e.world, (int) (e.posX + 0.5), (int) (e.posY + 1.5 - y),
+                        (int) (e.posZ + 0.5));
                 if (b == W_Block.getWater()) {
                     c = ((MCH_EntityBaseBullet) e).getInfo().colorInWater;
                     break;
                 }
             }
 
-             GlStateManager.color(c.r, c.g, c.b, c.a);
+            GlStateManager.color(c.r, c.g, c.b, c.a);
         } else {
-             GlStateManager.color(0.75F, 0.75F, 0.75F, 1.0F);
+            GlStateManager.color(0.75F, 0.75F, 0.75F, 1.0F);
         }
 
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.001F);
         GlStateManager.enableCull();
         GlStateManager.enableBlend();
-        int srcBlend = GL11.glGetInteger(3041);
-        int dstBlend = GL11.glGetInteger(3040);
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         this.renderBullet(e, var2, var4, var6, var8, var9);
-         GlStateManager.color(0.75F, 0.75F, 0.75F, 1.0F);
-        GL11.glBlendFunc(srcBlend, dstBlend);
+        GlStateManager.color(0.75F, 0.75F, 0.75F, 1.0F);
         GlStateManager.disableBlend();
     }
 

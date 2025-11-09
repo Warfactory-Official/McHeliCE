@@ -1,16 +1,18 @@
 package com.norwood.mcheli.tool;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+
 import com.norwood.mcheli.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
 import com.norwood.mcheli.wrapper.W_McClient;
 import com.norwood.mcheli.wrapper.W_Reflection;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 public class MCH_ClientToolTickHandler extends MCH_ClientTickHandlerBase {
+
     public MCH_Key KeyUseItem;
     public MCH_Key KeyZoomIn;
     public MCH_Key KeyZoomOut;
@@ -28,7 +30,7 @@ public class MCH_ClientToolTickHandler extends MCH_ClientTickHandlerBase {
         this.KeyZoomIn = new MCH_Key(MCH_Config.KeyZoom.prmInt);
         this.KeyZoomOut = new MCH_Key(MCH_Config.KeySwWeaponMode.prmInt);
         this.KeySwitchMode = new MCH_Key(MCH_Config.KeyFlare.prmInt);
-        this.Keys = new MCH_Key[]{this.KeyUseItem, this.KeyZoomIn, this.KeyZoomOut, this.KeySwitchMode};
+        this.Keys = new MCH_Key[] { this.KeyUseItem, this.KeyZoomIn, this.KeyZoomOut, this.KeySwitchMode };
     }
 
     @Override
@@ -91,7 +93,8 @@ public class MCH_ClientToolTickHandler extends MCH_ClientTickHandlerBase {
             }
         }
 
-        if (MCH_ItemRangeFinder.continueUsingItem && (itemStack.isEmpty() || !(itemStack.getItem() instanceof MCH_ItemRangeFinder))) {
+        if (MCH_ItemRangeFinder.continueUsingItem &&
+                (itemStack.isEmpty() || !(itemStack.getItem() instanceof MCH_ItemRangeFinder))) {
             MCH_ItemRangeFinder.onStopUseItem();
         }
     }

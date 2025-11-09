@@ -1,11 +1,13 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.Entity;
 
+import com.norwood.mcheli.helper.MCH_Utils;
+
 public class W_SoundUpdater {
+
     protected final SoundHandler theSoundHnadler;
     protected W_Sound es;
 
@@ -62,5 +64,4 @@ public class W_SoundUpdater {
             this.es.setPosition(x, y, z);
         }
     }
-
 }

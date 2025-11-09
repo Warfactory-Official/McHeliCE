@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.exp;
 import com.norwood.mcheli.eval.eval.EvalException;
 
 public class FieldExpression extends Col2OpeExpression {
+
     public FieldExpression() {
         this.setOperator(".");
     }

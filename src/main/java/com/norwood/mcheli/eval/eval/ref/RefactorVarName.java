@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.ref;
 
 public class RefactorVarName extends RefactorAdapter {
+
     protected final Class<?> targetClass;
     protected final String oldName;
     protected final String newName;

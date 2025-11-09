@@ -1,12 +1,14 @@
 package com.norwood.mcheli.hud;
 
-import com.norwood.mcheli.MCH_Lib;
-import lombok.Getter;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.MCH_Lib;
+
+import lombok.Getter;
 
 @Getter
 public class MCH_HudItemGraduation extends MCH_HudItem {
+
     private final String drawRot;
     private final String drawRoll;
     private final String drawPosX;
@@ -112,9 +114,11 @@ public class MCH_HudItemGraduation extends MCH_HudItem {
         }
 
         this.drawLine(line, color);
-        double[] verticalLine = new double[]{posX_L - 25, posY - 90, posX_L, posY - 90, posX_L, posY + 90, posX_L - 25, posY + 90};
+        double[] verticalLine = new double[] { posX_L - 25, posY - 90, posX_L, posY - 90, posX_L, posY + 90,
+                posX_L - 25, posY + 90 };
         this.drawLine(verticalLine, color, 3);
-        verticalLine = new double[]{posX_R + 25, posY - 90, posX_R, posY - 90, posX_R, posY + 90, posX_R + 25, posY + 90};
+        verticalLine = new double[] { posX_R + 25, posY - 90, posX_R, posY - 90, posX_R, posY + 90, posX_R + 25,
+                posY + 90 };
         this.drawLine(verticalLine, color, 3);
     }
 

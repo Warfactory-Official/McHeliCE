@@ -1,6 +1,20 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.helper.client.MCH_CameraManager;
+import java.util.ArrayList;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.lwjgl.opengl.Display;
+
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.command.MCH_GuiTitle;
 import com.norwood.mcheli.gltd.MCH_ClientGLTDTickHandler;
@@ -10,6 +24,7 @@ import com.norwood.mcheli.gui.MCH_Gui;
 import com.norwood.mcheli.helicopter.MCH_ClientHeliTickHandler;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helicopter.MCH_GuiHeli;
+import com.norwood.mcheli.helper.client.MCH_CameraManager;
 import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
 import com.norwood.mcheli.lweapon.MCH_GuiLightWeapon;
 import com.norwood.mcheli.mob.MCH_GuiSpawnGunner;
@@ -17,12 +32,12 @@ import com.norwood.mcheli.multiplay.MCH_GuiScoreboard;
 import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
-import com.norwood.mcheli.plane.MCP_ClientPlaneTickHandler;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.plane.MCP_ClientPlaneTickHandler;
 import com.norwood.mcheli.plane.MCP_GuiPlane;
-import com.norwood.mcheli.ship.MCH_GuiShip;
 import com.norwood.mcheli.ship.MCH_ClientShipTickHandler;
 import com.norwood.mcheli.ship.MCH_EntityShip;
+import com.norwood.mcheli.ship.MCH_GuiShip;
 import com.norwood.mcheli.tank.MCH_ClientTankTickHandler;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_GuiTank;
@@ -37,22 +52,10 @@ import com.norwood.mcheli.vehicle.MCH_GuiVehicle;
 import com.norwood.mcheli.weapon.GPSPosition;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.*;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.Display;
-
-import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
 public class MCH_ClientCommonTickHandler extends W_TickHandler {
+
     public static MCH_ClientCommonTickHandler instance;
     public static int cameraMode = 0;
     public static MCH_EntityAircraft ridingAircraft = null;
@@ -106,8 +109,9 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
         this.gui_RngFndr = new MCH_GuiRangeFinder(minecraft);
         this.gui_EMarker = new MCH_GuiTargetMarker(minecraft);
         this.gui_Title = new MCH_GuiTitle(minecraft);
-        this.guis = new MCH_Gui[]{this.gui_RngFndr, this.gui_LWeapon, this.gui_Heli, this.gui_Plane, this.gui_Ship, this.gui_Tank, this.gui_GLTD, this.gui_Vehicle};
-        this.guiTicks = new MCH_Gui[]{
+        this.guis = new MCH_Gui[] { this.gui_RngFndr, this.gui_LWeapon, this.gui_Heli, this.gui_Plane, this.gui_Ship,
+                this.gui_Tank, this.gui_GLTD, this.gui_Vehicle };
+        this.guiTicks = new MCH_Gui[] {
                 this.gui_Common,
                 this.gui_Heli,
                 this.gui_Plane,
@@ -122,7 +126,7 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                 this.gui_EMarker,
                 this.gui_Title
         };
-        this.ticks = new MCH_ClientTickHandlerBase[]{
+        this.ticks = new MCH_ClientTickHandlerBase[] {
                 new MCH_ClientHeliTickHandler(minecraft, config),
                 new MCP_ClientPlaneTickHandler(minecraft, config),
                 new MCH_ClientShipTickHandler(minecraft, config),
@@ -162,7 +166,8 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
         this.KeyCamDistDown = new MCH_Key(MCH_Config.KeyCameraDistDown.prmInt);
         this.KeyScoreboard = new MCH_Key(MCH_Config.KeyScoreboard.prmInt);
         this.KeyMultiplayManager = new MCH_Key(MCH_Config.KeyMultiplayManager.prmInt);
-        this.Keys = new MCH_Key[]{this.KeyCamDistUp, this.KeyCamDistDown, this.KeyScoreboard, this.KeyMultiplayManager};
+        this.Keys = new MCH_Key[] { this.KeyCamDistUp, this.KeyCamDistDown, this.KeyScoreboard,
+                this.KeyMultiplayManager };
 
         for (MCH_ClientTickHandlerBase t : this.ticks) {
             t.updateKeybind(config);
@@ -182,7 +187,8 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
 
         EntityPlayer player = this.mc.player;
         if (player != null && this.mc.currentScreen == null) {
-            if (MCH_ServerSettings.enableCamDistChange && (this.KeyCamDistUp.isKeyDown() || this.KeyCamDistDown.isKeyDown())) {
+            if (MCH_ServerSettings.enableCamDistChange &&
+                    (this.KeyCamDistUp.isKeyDown() || this.KeyCamDistDown.isKeyDown())) {
                 int camdist = (int) W_Reflection.getThirdPersonDistance();
                 if (this.KeyCamDistUp.isKeyDown() && camdist < 72) {
                     camdist += 4;
@@ -245,12 +251,11 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
             lockedSoundCount--;
         }
 
-        //GPS
+        // GPS
         if (mc.player.getRidingEntity() == null) {
             GPSPosition.currentClientGPSPosition.isActive = false;
         }
     }
-
 
     @Override
     public void onTickPre() {
@@ -346,10 +351,10 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                 }
 
                 MCH_EntityAircraft ac = null;
-                if (player.getRidingEntity() instanceof MCH_EntityHeli
-                        || player.getRidingEntity() instanceof MCH_EntityPlane
-                        || player.getRidingEntity() instanceof MCH_EntityShip
-                        || player.getRidingEntity() instanceof MCH_EntityTank) {
+                if (player.getRidingEntity() instanceof MCH_EntityHeli ||
+                        player.getRidingEntity() instanceof MCH_EntityPlane ||
+                        player.getRidingEntity() instanceof MCH_EntityShip ||
+                        player.getRidingEntity() instanceof MCH_EntityTank) {
                     ac = (MCH_EntityAircraft) player.getRidingEntity();
                 } else if (player.getRidingEntity() instanceof MCH_EntityUavStation) {
                     ac = ((MCH_EntityUavStation) player.getRidingEntity()).getControlAircract();
@@ -362,11 +367,9 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                     stickMode = MCH_Config.MouseControlStickModeHeli.prmBool;
                 }
 
-                if (ac instanceof MCH_EntityPlane || ac instanceof MCH_EntityShip) { //do the stanky leg
+                if (ac instanceof MCH_EntityPlane || ac instanceof MCH_EntityShip) { // do the stanky leg
                     stickMode = MCH_Config.MouseControlStickModePlane.prmBool;
                 }
-
-
 
                 for (int i = 0; i < 10 && prevTick > partialTicks; i++) {
                     prevTick--;
@@ -383,7 +386,8 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                     float fixYaw = 0.0F;
                     float fixPitch = 0.0F;
                     MCH_SeatInfo seatInfo = ac.getSeatInfo(player);
-                    if (seatInfo != null && seatInfo.fixRot && ac.getIsGunnerMode(player) && !ac.isGunnerLookMode(player)) {
+                    if (seatInfo != null && seatInfo.fixRot && ac.getIsGunnerMode(player) &&
+                            !ac.isGunnerLookMode(player)) {
                         fixRot = true;
                         fixYaw = seatInfo.fixYaw;
                         fixPitch = seatInfo.fixPitch;
@@ -411,12 +415,12 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                                 (float) (mouseDeltaY + prevMouseDeltaY) / 2.0F,
                                 (float) mouseRollDeltaX,
                                 (float) mouseRollDeltaY,
-                                partialTicks - prevTick
-                        );
+                                partialTicks - prevTick);
                     }
 
                     ac.setupAllRiderRenderPosition(partialTicks, player);
-                    double dist = MathHelper.sqrt(mouseRollDeltaX * mouseRollDeltaX + mouseRollDeltaY * mouseRollDeltaY);
+                    double dist = MathHelper
+                            .sqrt(mouseRollDeltaX * mouseRollDeltaX + mouseRollDeltaY * mouseRollDeltaY);
                     if (!stickMode || dist < getMaxStickLength() * 0.1) {
                         mouseRollDeltaX *= 0.95;
                         mouseRollDeltaY *= 0.95;
@@ -425,20 +429,23 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                     float roll = MathHelper.wrapDegrees(ac.getRotRoll());
                     float yaw = MathHelper.wrapDegrees(ac.getRotYaw() - player.rotationYaw);
                     roll *= MathHelper.cos((float) (yaw * Math.PI / 180.0));
-                    if (ac.getTVMissile() != null && W_Lib.isClientPlayer(ac.getTVMissile().shootingEntity) && ac.getIsGunnerMode(player)) {
+                    if (ac.getTVMissile() != null && W_Lib.isClientPlayer(ac.getTVMissile().shootingEntity) &&
+                            ac.getIsGunnerMode(player)) {
                         roll = 0.0F;
                     }
 
                     W_Reflection.setCameraRoll(roll);
                     this.correctViewEntityDummy(player);
                 } else {
-                    MCH_EntitySeat seat = player.getRidingEntity() instanceof MCH_EntitySeat ? (MCH_EntitySeat) player.getRidingEntity() : null;
+                    MCH_EntitySeat seat = player.getRidingEntity() instanceof MCH_EntitySeat ?
+                            (MCH_EntitySeat) player.getRidingEntity() : null;
                     if (seat != null && seat.getParent() != null) {
                         this.updateMouseDelta(stickMode, partialTicks);
                         ac = seat.getParent();
                         boolean fixRotx = false;
                         MCH_SeatInfo seatInfox = ac.getSeatInfo(player);
-                        if (seatInfox != null && seatInfox.fixRot && ac.getIsGunnerMode(player) && !ac.isGunnerLookMode(player)) {
+                        if (seatInfox != null && seatInfox.fixRot && ac.getIsGunnerMode(player) &&
+                                !ac.isGunnerLookMode(player)) {
                             fixRotx = true;
                             mouseRollDeltaX *= 0.0;
                             mouseRollDeltaY *= 0.0;
@@ -449,7 +456,8 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                         Vec3d v = new Vec3d(mouseDeltaX, mouseRollDeltaY, 0.0);
                         v = W_Vec3.rotateRoll((float) (ac.calcRotRoll(partialTicks) / 180.0F * Math.PI), v);
                         MCH_WeaponSet ws = ac.getCurrentWeapon(player);
-                        mouseDeltaY = mouseDeltaY * (ws != null && ws.getInfo() != null ? ws.getInfo().cameraRotationSpeedPitch : 1.0);
+                        mouseDeltaY = mouseDeltaY *
+                                (ws != null && ws.getInfo() != null ? ws.getInfo().cameraRotationSpeedPitch : 1.0);
                         player.turn((float) mouseDeltaX, (float) mouseDeltaY);
                         float y = ac.getRotYaw();
                         float p = ac.getRotPitch();
@@ -462,13 +470,15 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                             player.rotationYaw = ac.getRotYaw() + seatInfox.fixYaw;
                             player.rotationPitch = ac.getRotPitch() + seatInfox.fixPitch;
                             if (player.rotationPitch > 90.0F) {
-                                player.prevRotationPitch = player.prevRotationPitch - (player.rotationPitch - 90.0F) * 2.0F;
+                                player.prevRotationPitch = player.prevRotationPitch -
+                                        (player.rotationPitch - 90.0F) * 2.0F;
                                 player.rotationPitch = player.rotationPitch - (player.rotationPitch - 90.0F) * 2.0F;
                                 player.prevRotationYaw += 180.0F;
                                 player.rotationYaw += 180.0F;
                                 revRoll = 180.0F;
                             } else if (player.rotationPitch < -90.0F) {
-                                player.prevRotationPitch = player.prevRotationPitch - (player.rotationPitch - 90.0F) * 2.0F;
+                                player.prevRotationPitch = player.prevRotationPitch -
+                                        (player.rotationPitch - 90.0F) * 2.0F;
                                 player.rotationPitch = player.rotationPitch - (player.rotationPitch - 90.0F) * 2.0F;
                                 player.prevRotationYaw += 180.0F;
                                 player.rotationYaw += 180.0F;
@@ -485,7 +495,8 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                         float roll = MathHelper.wrapDegrees(ac.getRotRoll());
                         float yaw = MathHelper.wrapDegrees(ac.getRotYaw() - player.rotationYaw);
                         roll *= MathHelper.cos((float) (yaw * Math.PI / 180.0));
-                        if (ac.getTVMissile() != null && W_Lib.isClientPlayer(ac.getTVMissile().shootingEntity) && ac.getIsGunnerMode(player)) {
+                        if (ac.getTVMissile() != null && W_Lib.isClientPlayer(ac.getTVMissile().shootingEntity) &&
+                                ac.getIsGunnerMode(player)) {
                             roll = 0.0F;
                         }
 
@@ -545,10 +556,8 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
     public void onPlayerTickPre(EntityPlayer player) {
         if (player.world.isRemote) {
             ItemStack currentItemstack = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (!currentItemstack.isEmpty()
-                    && currentItemstack.getItem() instanceof MCH_ItemWrench
-                    && player.getItemInUseCount() > 0
-                    && player.getActiveItemStack() != currentItemstack) {
+            if (!currentItemstack.isEmpty() && currentItemstack.getItem() instanceof MCH_ItemWrench &&
+                    player.getItemInUseCount() > 0 && player.getActiveItemStack() != currentItemstack) {
                 int maxdm = currentItemstack.getMaxDamage();
                 int dm = currentItemstack.getMetadata();
                 if (dm <= maxdm && dm > 0) {
@@ -571,9 +580,8 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
             }
         }
 
-        if (this.mc.currentScreen == null
-                || this.mc.currentScreen instanceof GuiChat
-                || this.mc.currentScreen.getClass().toString().contains("GuiDriveableController")) {
+        if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat ||
+                this.mc.currentScreen.getClass().toString().contains("GuiDriveableController")) {
             for (MCH_Gui gui : this.guis) {
                 if (this.drawGui(gui, partialTicks)) {
                     break;

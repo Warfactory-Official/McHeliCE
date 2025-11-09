@@ -1,12 +1,14 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.wrapper.W_Entity;
+
 public class MCH_WeaponATMissile extends MCH_WeaponEntitySeeker {
+
     public MCH_WeaponATMissile(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         super(w, v, yaw, pitch, nm, wi);
         this.power = 32;
@@ -64,10 +66,13 @@ public class MCH_WeaponATMissile extends MCH_WeaponEntitySeeker {
         if (tgtEnt != null && !tgtEnt.isDead) {
             float yaw = prm.user.rotationYaw + this.fixRotationYaw;
             float pitch = prm.entity.rotationPitch + this.fixRotationPitch;
-            double tX = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-            double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
+            double tX = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) *
+                    MathHelper.cos(pitch / 180.0F * (float) Math.PI);
+            double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) *
+                    MathHelper.cos(pitch / 180.0F * (float) Math.PI);
             double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
-            MCH_EntityATMissile e = new MCH_EntityATMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ, yaw, pitch, this.acceleration);
+            MCH_EntityATMissile e = new MCH_EntityATMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
+                    yaw, pitch, this.acceleration);
             e.setName(this.name);
             e.setParameterFromWeapon(this, prm.entity, prm.user);
             e.setTargetEntity(tgtEnt);

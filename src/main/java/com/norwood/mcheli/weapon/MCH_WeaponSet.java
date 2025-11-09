@@ -1,17 +1,19 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.mob.MCH_EntityGunner;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
-import com.norwood.mcheli.wrapper.W_McClient;
+import java.util.Random;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.Random;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.mob.MCH_EntityGunner;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
+import com.norwood.mcheli.wrapper.W_McClient;
 
 public class MCH_WeaponSet {
+
     private static final Random rand = new Random();
     private final String name;
     public float rotationYaw;
@@ -61,14 +63,15 @@ public class MCH_WeaponSet {
         this.recoilBuf = new MCH_WeaponSet.Recoil[weapon.length];
 
         for (int i = 0; i < this.recoilBuf.length; i++) {
-            this.recoilBuf[i] = new Recoil(this, weapon[i].getInfo().recoilBufCount, weapon[i].getInfo().recoilBufCountSpeed);
+            this.recoilBuf[i] = new Recoil(this, weapon[i].getInfo().recoilBufCount,
+                    weapon[i].getInfo().recoilBufCountSpeed);
         }
 
         this.defaultRotationYaw = 0.0F;
     }
 
     public MCH_WeaponSet(MCH_WeaponBase weapon) {
-        this(new MCH_WeaponBase[]{weapon});
+        this(new MCH_WeaponBase[] { weapon });
     }
 
     public boolean isEqual(String s) {
@@ -95,7 +98,8 @@ public class MCH_WeaponSet {
         int debugBefore = this.numRestAllAmmo;
         int m = this.getInfo().maxAmmo - this.getAmmoNum();
         this.numRestAllAmmo = Math.min(n, m);
-        MCH_Lib.DbgLog(this.getFirstWeapon().worldObj, "MCH_WeaponSet.setRestAllAmmoNum:%s %d->%d (%d)", this.getName(), debugBefore, this.numRestAllAmmo, n);
+        MCH_Lib.DbgLog(this.getFirstWeapon().worldObj, "MCH_WeaponSet.setRestAllAmmoNum:%s %d->%d (%d)", this.getName(),
+                debugBefore, this.numRestAllAmmo, n);
     }
 
     public int getAllAmmoNum() {
@@ -223,7 +227,8 @@ public class MCH_WeaponSet {
             for (int i = 0; i < this.lastUsedCount.length; i++) {
                 if (this.lastUsedCount[i] > 0) {
                     if (this.lastUsedCount[i] == 4) {
-                        if (0 == this.getCurrentWeaponIndex() && this.canUse() && (this.getAmmoNum() > 0 || this.getAllAmmoNum() <= 0)) {
+                        if (0 == this.getCurrentWeaponIndex() && this.canUse() &&
+                                (this.getAmmoNum() > 0 || this.getAllAmmoNum() <= 0)) {
                             this.lastUsedCount[i]--;
                         }
                     } else {
@@ -294,8 +299,7 @@ public class MCH_WeaponSet {
             Vec3d v = crtWpn.getShotPos(shooter);
             float yaw = shooter.rotationYaw;
             float pitch = shooter.rotationPitch;
-            if (shooter instanceof MCH_EntityVehicle && shooter.isBeingRidden()) {
-            }
+            if (shooter instanceof MCH_EntityVehicle && shooter.isBeingRidden()) {}
 
             MCH_EntityCartridge.spawnCartridge(
                     shooter.world,
@@ -307,8 +311,7 @@ public class MCH_WeaponSet {
                     shooter.motionY,
                     shooter.motionZ,
                     yaw + this.rotationYaw,
-                    pitch + this.rotationPitch
-            );
+                    pitch + this.rotationPitch);
         }
 
         if (index < this.recoilBuf.length) {
@@ -343,7 +346,8 @@ public class MCH_WeaponSet {
         MCH_WeaponBase crtWpn = this.getCurrentWeapon();
         if (crtWpn != null && crtWpn.getInfo() != null) {
             MCH_WeaponInfo info = crtWpn.getInfo();
-            if ((this.getAmmoNumMax() <= 0 || this.getAmmoNum() > 0) && (info.maxHeatCount <= 0 || this.currentHeat < info.maxHeatCount)) {
+            if ((this.getAmmoNumMax() <= 0 || this.getAmmoNum() > 0) &&
+                    (info.maxHeatCount <= 0 || this.currentHeat < info.maxHeatCount)) {
                 crtWpn.canPlaySound = this.soundWait == 0;
                 prm.rotYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
                 prm.rotPitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
@@ -371,8 +375,10 @@ public class MCH_WeaponSet {
 
                     this.lastUsedOptionParameter1 = crtWpn.optionParameter1;
                     this.lastUsedOptionParameter2 = crtWpn.optionParameter2;
-                    this.lastUsedCount[this.currentWeaponIndex] = crtWpn.interval > 0 ? crtWpn.interval : -crtWpn.interval;
-                    if (crtWpn.isCooldownCountReloadTime() && crtWpn.getReloadCount() - 10 > this.lastUsedCount[this.currentWeaponIndex]) {
+                    this.lastUsedCount[this.currentWeaponIndex] = crtWpn.interval > 0 ? crtWpn.interval :
+                            -crtWpn.interval;
+                    if (crtWpn.isCooldownCountReloadTime() &&
+                            crtWpn.getReloadCount() - 10 > this.lastUsedCount[this.currentWeaponIndex]) {
                         this.lastUsedCount[this.currentWeaponIndex] = crtWpn.getReloadCount() - 10;
                     }
 
@@ -469,6 +475,7 @@ public class MCH_WeaponSet {
     }
 
     public static class Recoil {
+
         public final int recoilBufCountMax;
         public final int recoilBufCountSpeed;
         public int recoilBufCount;

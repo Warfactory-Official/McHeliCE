@@ -3,6 +3,7 @@ package com.norwood.mcheli.weapon;
 import com.norwood.mcheli.helper.client._IModelCustom;
 
 public class MCH_Cartridge {
+
     public final String name;
     public final float acceleration;
     public final float yaw;

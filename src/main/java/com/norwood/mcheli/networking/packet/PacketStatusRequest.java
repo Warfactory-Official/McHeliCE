@@ -1,14 +1,17 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.wrapper.W_Entity;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.wrapper.W_Entity;
+
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+
 @ElegantPacket
 public class PacketStatusRequest extends PacketBase implements ClientToServerPacket {
+
     public int entityID_AC = -1;
 
     public static void requestStatus(MCH_EntityAircraft ac) {
@@ -28,6 +31,4 @@ public class PacketStatusRequest extends PacketBase implements ClientToServerPac
             }
         }
     }
-
 }
-

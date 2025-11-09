@@ -1,7 +1,7 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -14,10 +14,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityA10 extends W_Entity {
-    private static final DataParameter<String> WEAPON_NAME = EntityDataManager.createKey(MCH_EntityA10.class, DataSerializers.STRING);
+
+    private static final DataParameter<String> WEAPON_NAME = EntityDataManager.createKey(MCH_EntityA10.class,
+            DataSerializers.STRING);
     static int snd_num = 0;
     public final int DESPAWN_COUNT = 70;
     public int despawnCount = 0;
@@ -150,7 +153,8 @@ public class MCH_EntityA10 extends W_Entity {
                 }
 
                 if (this.shotCount == 38) {
-                    W_WorldFunc.MOD_playSoundEffect(this.world, this.posX, this.posY, this.posZ, "gau-8_snd", 150.0F, 1.0F);
+                    W_WorldFunc.MOD_playSoundEffect(this.world, this.posX, this.posY, this.posZ, "gau-8_snd", 150.0F,
+                            1.0F);
                 }
             }
         }

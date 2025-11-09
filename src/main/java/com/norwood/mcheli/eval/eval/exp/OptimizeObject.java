@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.exp;
 import com.norwood.mcheli.eval.eval.repl.ReplaceAdapter;
 
 public class OptimizeObject extends ReplaceAdapter {
+
     protected boolean isConst(AbstractExpression x) {
         return x instanceof NumberExpression || x instanceof StringExpression || x instanceof CharExpression;
     }
@@ -17,7 +18,8 @@ public class OptimizeObject extends ReplaceAdapter {
             if (val instanceof String) {
                 return StringExpression.create(exp, (String) val);
             } else {
-                return val instanceof Character ? CharExpression.create(exp, val.toString()) : NumberExpression.create(exp, val.toString());
+                return val instanceof Character ? CharExpression.create(exp, val.toString()) :
+                        NumberExpression.create(exp, val.toString());
             }
         } catch (Exception var3) {
             return exp;

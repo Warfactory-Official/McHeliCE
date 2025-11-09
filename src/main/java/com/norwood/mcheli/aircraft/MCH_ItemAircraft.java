@@ -1,16 +1,14 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
-import com.norwood.mcheli.wrapper.W_EntityPlayer;
-import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockSponge;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecartEmpty;
@@ -27,22 +25,27 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import com.norwood.mcheli.wrapper.W_EntityPlayer;
+import com.norwood.mcheli.wrapper.W_Item;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public abstract class MCH_ItemAircraft extends W_Item {
+
     private static final boolean isRegistedDispenseBehavior = false;
 
-
     boolean BLOCK = true;
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if(worldIn == null) return;
+        if (worldIn == null) return;
         MCH_AircraftInfo info = this.getAircraftInfo().category.equals("zzz") ? null : this.getAircraftInfo();
         MCH_EntityAircraft ac = createAircraft(worldIn, -1.0D, -1.0D, -1.0D, stack);
 
@@ -75,7 +78,8 @@ public abstract class MCH_ItemAircraft extends W_Item {
     public abstract MCH_AircraftInfo getAircraftInfo();
 
     @Nullable
-    public abstract MCH_EntityAircraft createAircraft(World var1, double var2, double var4, double var6, ItemStack var8);
+    public abstract MCH_EntityAircraft createAircraft(World var1, double var2, double var4, double var6,
+                                                      ItemStack var8);
 
     public MCH_EntityAircraft onTileClick(ItemStack itemStack, World world, float rotationYaw, int x, int y, int z) {
         MCH_EntityAircraft ac = this.createAircraft(world, x + 0.5F, y + 1.0F, z + 0.5F, itemStack);
@@ -89,10 +93,12 @@ public abstract class MCH_ItemAircraft extends W_Item {
 
     public String toString() {
         MCH_AircraftInfo info = this.getAircraftInfo();
-        return info != null ? super.toString() + "(" + info.getDirectoryName() + ":" + info.name + ")" : super.toString() + "(null)";
+        return info != null ? super.toString() + "(" + info.getDirectoryName() + ":" + info.name + ")" :
+                super.toString() + "(null)";
     }
 
-    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player, @NotNull EnumHand handIn) {
+    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player,
+                                                             @NotNull EnumHand handIn) {
         ItemStack itemstack = player.getHeldItem(handIn);
         float f = 1.0F;
         float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
@@ -100,7 +106,7 @@ public abstract class MCH_ItemAircraft extends W_Item {
         double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
         double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + 1.62;
         double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
-        Vec3d vec3 =new Vec3d( d0, d1, d2);
+        Vec3d vec3 = new Vec3d(d0, d1, d2);
         float f3 = MathHelper.cos(-f2 * (float) (Math.PI / 180.0) - (float) Math.PI);
         float f4 = MathHelper.sin(-f2 * (float) (Math.PI / 180.0) - (float) Math.PI);
         float f5 = -MathHelper.cos(-f1 * (float) (Math.PI / 180.0));
@@ -117,8 +123,8 @@ public abstract class MCH_ItemAircraft extends W_Item {
             boolean flag = false;
             float f9 = 1.0F;
             List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(
-                    player, player.getEntityBoundingBox().expand(playerLook.x * d3, playerLook.y * d3, playerLook.z * d3).grow(f9, f9, f9)
-            );
+                    player, player.getEntityBoundingBox()
+                            .expand(playerLook.x * d3, playerLook.y * d3, playerLook.z * d3).grow(f9, f9, f9));
 
             for (Entity entity : list) {
                 if (entity.canBeCollidedWith()) {
@@ -143,7 +149,8 @@ public abstract class MCH_ItemAircraft extends W_Item {
 
                             for (int x = -1; x <= 1; x++) {
                                 for (int z = -1; z <= 1; z++) {
-                                    if (world.getBlockState(mop.getBlockPos().add(x, 0, z)).getBlock() != Blocks.WATER) {
+                                    if (world.getBlockState(mop.getBlockPos().add(x, 0, z)).getBlock() !=
+                                            Blocks.WATER) {
                                         return ActionResult.newResult(EnumActionResult.FAIL, itemstack);
                                     }
                                 }
@@ -166,8 +173,7 @@ public abstract class MCH_ItemAircraft extends W_Item {
 
     public MCH_EntityAircraft spawnAircraft(ItemStack itemStack, World world, EntityPlayer player, BlockPos blockpos) {
         MCH_EntityAircraft ac = this.onTileClick(
-                itemStack, world, player.rotationYaw, blockpos.getX(), blockpos.getY(), blockpos.getZ()
-        );
+                itemStack, world, player.rotationYaw, blockpos.getX(), blockpos.getY(), blockpos.getZ());
         if (ac != null) {
             if (ac.getAcInfo() != null && ac.getAcInfo().creativeOnly && !player.capabilities.isCreativeMode) {
                 return null;
@@ -200,7 +206,8 @@ public abstract class MCH_ItemAircraft extends W_Item {
     }
 
     public void rideEntity(ItemStack item, Entity target, EntityPlayer player) {
-        if (!MCH_Config.PlaceableOnSpongeOnly.prmBool && target instanceof EntityMinecartEmpty && target.getPassengers().isEmpty()) {
+        if (!MCH_Config.PlaceableOnSpongeOnly.prmBool && target instanceof EntityMinecartEmpty &&
+                target.getPassengers().isEmpty()) {
             BlockPos blockpos = new BlockPos((int) target.posX, (int) target.posY + 2, (int) target.posZ);
             MCH_EntityAircraft ac = this.spawnAircraft(item, player.world, player, blockpos);
             if (!player.world.isRemote && ac != null) {

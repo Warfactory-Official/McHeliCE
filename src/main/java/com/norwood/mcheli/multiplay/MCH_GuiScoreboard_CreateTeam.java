@@ -1,22 +1,25 @@
 package com.norwood.mcheli.multiplay;
 
-import com.norwood.mcheli.networking.packet.PacketHandleCommand;
-import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_ScaledResolution;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextFormatting;
-import org.jetbrains.annotations.NotNull;
-import net.minecraft.client.renderer.GlStateManager;
+import static com.norwood.mcheli.networking.packet.PacketHandleCommand.*;
 
 import java.io.IOException;
 
-import static com.norwood.mcheli.networking.packet.PacketHandleCommand.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.TextFormatting;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.norwood.mcheli.networking.packet.PacketHandleCommand;
+import com.norwood.mcheli.wrapper.W_McClient;
+import com.norwood.mcheli.wrapper.W_ScaledResolution;
 
 public class MCH_GuiScoreboard_CreateTeam extends MCH_GuiScoreboard_Base {
-    private static final String[] colorNames = new String[]{
+
+    private static final String[] colorNames = new String[] {
             "RESET",
             "BLACK",
             "DARK_BLUE",
@@ -103,9 +106,13 @@ public class MCH_GuiScoreboard_CreateTeam extends MCH_GuiScoreboard_Base {
                 case 528:
                     String teamName = this.editCreateTeamName.getText();
                     if (!teamName.isEmpty() && teamName.length() <= 16) {
-                        new PacketHandleCommand(CommandAction.RAW_COMMAND, "scoreboard teams add " + teamName).sendToServer();
-                        new PacketHandleCommand(CommandAction.RAW_COMMAND, "scoreboard teams option " + teamName + " color " + colorNames[this.lastTeamColor]).sendToServer();
-                        new PacketHandleCommand(CommandAction.RAW_COMMAND, "scoreboard teams option " + teamName + " friendlyfire " + friendlyFire).sendToServer();
+                        new PacketHandleCommand(CommandAction.RAW_COMMAND, "scoreboard teams add " + teamName)
+                                .sendToServer();
+                        new PacketHandleCommand(CommandAction.RAW_COMMAND,
+                                "scoreboard teams option " + teamName + " color " + colorNames[this.lastTeamColor])
+                                        .sendToServer();
+                        new PacketHandleCommand(CommandAction.RAW_COMMAND,
+                                "scoreboard teams option " + teamName + " friendlyfire " + friendlyFire).sendToServer();
                     }
 
                     this.switchScreen(MCH_GuiScoreboard_Base.SCREEN_ID.MAIN);
@@ -137,7 +144,7 @@ public class MCH_GuiScoreboard_CreateTeam extends MCH_GuiScoreboard_Base {
         ScaledResolution sr = new W_ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
         int factor = sr.getScaleFactor() > 0 ? sr.getScaleFactor() : 1;
         W_McClient.MOD_bindTexture("textures/gui/mp_new_team.png");
-         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         int x = (this.mc.displayWidth / factor - 222) / 2;
         int y = (this.mc.displayHeight / factor - 200) / 2;
         this.drawTexturedModalRect(x, y, 0, 0, 222, 200);

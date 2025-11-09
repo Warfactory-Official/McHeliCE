@@ -1,7 +1,7 @@
 package com.norwood.mcheli.core;
 
-
 public final class ObfSafeName {
+
     public final String mcp;
     public final String srg;
 
@@ -18,4 +18,3 @@ public final class ObfSafeName {
         return this.mcp.equals(name) || this.srg.equals(name);
     }
 }
-

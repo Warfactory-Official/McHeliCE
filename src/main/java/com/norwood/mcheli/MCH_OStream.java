@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class MCH_OStream extends ByteArrayOutputStream {
+
     public static final int SIZE = 30720;
     public int index = 0;
 

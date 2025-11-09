@@ -4,14 +4,15 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class MCH_EntityAAMissile extends MCH_EntityBaseBullet {
+
     public MCH_EntityAAMissile(World par1World) {
         super(par1World);
         this.targetEntity = null;
     }
 
     public MCH_EntityAAMissile(
-            World par1World, double posX, double posY, double posZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration
-    ) {
+                               World par1World, double posX, double posY, double posZ, double targetX, double targetY,
+                               double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
     }
 

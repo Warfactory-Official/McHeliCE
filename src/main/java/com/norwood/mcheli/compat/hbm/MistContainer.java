@@ -1,11 +1,13 @@
 package com.norwood.mcheli.compat.hbm;
 
-import lombok.NoArgsConstructor;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
+import lombok.NoArgsConstructor;
+
 @NoArgsConstructor
 public class MistContainer {
+
     public String fluidType = "None";
     public int cloudCount = 1;
     public float width = 10;
@@ -20,11 +22,11 @@ public class MistContainer {
         for (int i = 0; i < cloudCount; i++) {
             com.hbm.entity.effect.EntityMist mist = new com.hbm.entity.effect.EntityMist(world);
             mist.setType(com.hbm.inventory.fluid.Fluids.fromName(fluidType));
-            double xVariance = areaSpread == 0? x : x + world.rand.nextInt(areaSpread * 2) - areaSpread;
-            double zVariance = areaSpread == 0? z : z + world.rand.nextInt(areaSpread * 2) - areaSpread;
-            int calculatedLifetime =  lifetimeVariance == 0 ?  lifetime : lifetime + world.rand.nextInt(lifetimeVariance);
+            double xVariance = areaSpread == 0 ? x : x + world.rand.nextInt(areaSpread * 2) - areaSpread;
+            double zVariance = areaSpread == 0 ? z : z + world.rand.nextInt(areaSpread * 2) - areaSpread;
+            int calculatedLifetime = lifetimeVariance == 0 ? lifetime : lifetime + world.rand.nextInt(lifetimeVariance);
             mist.setPosition(xVariance, y, zVariance);
-            mist.setArea(width,height);
+            mist.setArea(width, height);
             mist.setDuration(calculatedLifetime);
             world.spawnEntity(mist);
         }

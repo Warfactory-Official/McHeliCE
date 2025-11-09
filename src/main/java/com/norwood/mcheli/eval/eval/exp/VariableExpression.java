@@ -4,6 +4,7 @@ import com.norwood.mcheli.eval.eval.EvalException;
 import com.norwood.mcheli.eval.eval.lex.Lex;
 
 public class VariableExpression extends WordExpression {
+
     public VariableExpression(String str) {
         super(str);
     }

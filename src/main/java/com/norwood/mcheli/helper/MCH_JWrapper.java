@@ -1,4 +1,3 @@
 package com.norwood.mcheli.helper;
 
-public class MCH_JWrapper {
-}
+public class MCH_JWrapper {}

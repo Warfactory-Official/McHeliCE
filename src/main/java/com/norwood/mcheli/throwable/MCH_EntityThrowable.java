@@ -1,10 +1,7 @@
 package com.norwood.mcheli.throwable;
 
-import com.norwood.mcheli.MCH_Explosion;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -18,12 +15,19 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IThrowableEntity;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.MCH_Explosion;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEntity {
-    private static final DataParameter<String> INFO_NAME = EntityDataManager.createKey(MCH_EntityThrowable.class, DataSerializers.STRING);
+
+    private static final DataParameter<String> INFO_NAME = EntityDataManager.createKey(MCH_EntityThrowable.class,
+            DataSerializers.STRING);
     public double boundPosX;
     public double boundPosY;
     public double boundPosZ;
@@ -69,10 +73,13 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
         this.dataManager.register(INFO_NAME, "");
     }
 
-    public void shoot(@NotNull Entity entityThrower, float rotationPitchIn, float rotationYawIn, float pitchOffset, float velocity, float inaccuracy) {
+    public void shoot(@NotNull Entity entityThrower, float rotationPitchIn, float rotationYawIn, float pitchOffset,
+                      float velocity, float inaccuracy) {
         float f = 0.4F;
-        this.motionX = -MathHelper.sin(rotationYawIn / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitchIn / 180.0F * (float) Math.PI) * f;
-        this.motionZ = MathHelper.cos(rotationYawIn / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitchIn / 180.0F * (float) Math.PI) * f;
+        this.motionX = -MathHelper.sin(rotationYawIn / 180.0F * (float) Math.PI) *
+                MathHelper.cos(rotationPitchIn / 180.0F * (float) Math.PI) * f;
+        this.motionZ = MathHelper.cos(rotationYawIn / 180.0F * (float) Math.PI) *
+                MathHelper.cos(rotationPitchIn / 180.0F * (float) Math.PI) * f;
         this.motionY = -MathHelper.sin((rotationPitchIn + pitchOffset) / 180.0F * (float) Math.PI) * f;
         this.shoot(this.motionX, this.motionY, this.motionZ, velocity, 1.0F);
     }
@@ -88,10 +95,10 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
         this.boundPosY = this.posY;
         this.boundPosZ = this.posZ;
         if (this.getInfo() != null) {
-            Block block = W_WorldFunc.getBlock(this.world, (int) (this.posX + 0.5), (int) this.posY, (int) (this.posZ + 0.5));
+            Block block = W_WorldFunc.getBlock(this.world, (int) (this.posX + 0.5), (int) this.posY,
+                    (int) (this.posZ + 0.5));
             Material mat = W_WorldFunc.getBlockMaterial(
-                    this.world, (int) (this.posX + 0.5), (int) this.posY, (int) (this.posZ + 0.5)
-            );
+                    this.world, (int) (this.posX + 0.5), (int) this.posY, (int) (this.posZ + 0.5));
             if (mat == Material.WATER) {
                 this.motionY = this.motionY + this.getInfo().gravityInWater;
             } else {
@@ -102,7 +109,8 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
         super.onUpdate();
         if (this.lastOnImpact != null) {
             this.boundBullet(this.lastOnImpact);
-            this.setPosition(this.boundPosX + this.motionX, this.boundPosY + this.motionY, this.boundPosZ + this.motionZ);
+            this.setPosition(this.boundPosX + this.motionX, this.boundPosY + this.motionY,
+                    this.boundPosZ + this.motionZ);
             this.lastOnImpact = null;
         }
 
@@ -142,8 +150,7 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
                                 true,
                                 false,
                                 true,
-                                0
-                        );
+                                0);
                         this.setDead();
                         return;
                     }
@@ -177,15 +184,15 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
                                 b,
                                 this.getInfo().smokeVelocityHorizontal * (this.rand.nextFloat() - 0.5F),
                                 this.getInfo().smokeVelocityVertical * this.rand.nextFloat(),
-                                this.getInfo().smokeVelocityHorizontal * (this.rand.nextFloat() - 0.5F)
-                        );
+                                this.getInfo().smokeVelocityHorizontal * (this.rand.nextFloat() - 0.5F));
                     }
                 }
             }
         }
     }
 
-    public void spawnParticle(String name, int num, float size, float r, float g, float b, float mx, float my, float mz) {
+    public void spawnParticle(String name, int num, float size, float r, float g, float b, float mx, float my,
+                              float mz) {
         if (this.world.isRemote) {
             if (name.isEmpty() || num < 1) {
                 return;
@@ -197,8 +204,7 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
 
             for (int i = 0; i < num; i++) {
                 MCH_ParticleParam prm = new MCH_ParticleParam(
-                        this.world, "smoke", this.prevPosX + x * i, 1.0 + this.prevPosY + y * i, this.prevPosZ + z * i
-                );
+                        this.world, "smoke", this.prevPosX + x * i, 1.0 + this.prevPosY + y * i, this.prevPosZ + z * i);
                 prm.setMotion(mx, my, mz);
                 prm.size = size;
                 prm.setColor(1.0F, r, g, b);
@@ -222,7 +228,8 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
                     this.motionX *= 0.9F;
                     this.motionZ *= 0.9F;
                     this.boundPosY = m.hitVec.y;
-                    if ((m.sideHit != EnumFacing.DOWN || !(this.motionY > 0.0)) && (m.sideHit != EnumFacing.UP || !(this.motionY < 0.0))) {
+                    if ((m.sideHit != EnumFacing.DOWN || !(this.motionY > 0.0)) &&
+                            (m.sideHit != EnumFacing.UP || !(this.motionY < 0.0))) {
                         this.motionY = 0.0;
                     } else {
                         this.motionY = -this.motionY * bound;

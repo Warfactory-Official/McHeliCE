@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class DataPlayerControlVehicle extends DataPlayerControlAircraft {
+
     public int unhitchChainId = -1;
     public BladeStatus bladeStatus = BladeStatus.NONE;
-
 
     @SuppressWarnings("unused")
     public DataPlayerControlVehicle(ByteBuf buf) {
@@ -28,8 +28,9 @@ public class DataPlayerControlVehicle extends DataPlayerControlAircraft {
         buf.writeByte(bladeStatus.ordinal());
     }
 
-
     public static enum BladeStatus {
-        NONE, UNFOLD, FOLD
+        NONE,
+        UNFOLD,
+        FOLD
     }
 }

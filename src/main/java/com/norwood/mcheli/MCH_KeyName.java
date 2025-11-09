@@ -1,10 +1,12 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.wrapper.W_KeyBinding;
 import net.minecraft.client.settings.KeyBinding;
 
+import com.norwood.mcheli.wrapper.W_KeyBinding;
+
 public class MCH_KeyName {
-    private static final MCH_KeyName[] list = new MCH_KeyName[]{
+
+    private static final MCH_KeyName[] list = new MCH_KeyName[] {
             new MCH_KeyName(0, "NONE", ""),
             new MCH_KeyName(1, "ESCAPE", "Escape"),
             new MCH_KeyName(2, "1", ""),

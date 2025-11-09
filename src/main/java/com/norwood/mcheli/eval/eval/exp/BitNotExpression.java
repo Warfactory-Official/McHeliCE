@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class BitNotExpression extends Col1Expression {
+
     public BitNotExpression() {
         this.setOperator("~");
     }

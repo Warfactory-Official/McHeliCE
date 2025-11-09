@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class LetDivExpression extends DivExpression {
+
     public LetDivExpression() {
         this.setOperator("/=");
     }

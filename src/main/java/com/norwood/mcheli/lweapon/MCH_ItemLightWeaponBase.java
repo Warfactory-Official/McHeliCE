@@ -1,6 +1,7 @@
 package com.norwood.mcheli.lweapon;
 
-import com.norwood.mcheli.wrapper.W_Item;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -11,11 +12,13 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.wrapper.W_Item;
 
 public class MCH_ItemLightWeaponBase extends W_Item {
+
     public final MCH_ItemLightWeaponBullet bullet;
 
     public MCH_ItemLightWeaponBase(int par1, MCH_ItemLightWeaponBullet bullet) {
@@ -63,7 +66,8 @@ public class MCH_ItemLightWeaponBase extends W_Item {
         return 72000;
     }
 
-    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World worldIn, EntityPlayer playerIn, @NotNull EnumHand handIn) {
+    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World worldIn, EntityPlayer playerIn,
+                                                             @NotNull EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
         if (!itemstack.isEmpty()) {
             playerIn.setActiveHand(handIn);

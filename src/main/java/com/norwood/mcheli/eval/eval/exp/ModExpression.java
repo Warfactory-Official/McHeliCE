@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class ModExpression extends Col2Expression {
+
     public ModExpression() {
         this.setOperator("%");
     }

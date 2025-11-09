@@ -1,6 +1,9 @@
 package com.norwood.mcheli.helper;
 
-import com.google.common.collect.Sets;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -10,14 +13,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-import javax.annotation.Nullable;
-import java.util.Set;
+import com.google.common.collect.Sets;
 
 @ObjectHolder("mcheli")
 @EventBusSubscriber(
-        modid = "mcheli"
-)
+                    modid = "mcheli")
 public class MCH_Items {
+
     private static final Set<Item> registryWrapper = Sets.newLinkedHashSet();
 
     @SubscribeEvent

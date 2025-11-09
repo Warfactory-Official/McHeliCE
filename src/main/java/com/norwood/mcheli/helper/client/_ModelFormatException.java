@@ -1,8 +1,8 @@
 package com.norwood.mcheli.helper.client;
 
 public class _ModelFormatException extends RuntimeException {
-    public _ModelFormatException() {
-    }
+
+    public _ModelFormatException() {}
 
     public _ModelFormatException(String message) {
         super(message);

@@ -1,11 +1,13 @@
 package com.norwood.mcheli.gltd;
 
-import com.norwood.mcheli.*;
-import com.norwood.mcheli.networking.packet.control.PacketGLTDControl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
+import com.norwood.mcheli.*;
+import com.norwood.mcheli.networking.packet.control.PacketGLTDControl;
+
 public class MCH_ClientGLTDTickHandler extends MCH_ClientTickHandlerBase {
+
     public MCH_Key KeyUseWeapon;
     public MCH_Key KeySwitchWeapon1;
     public MCH_Key KeySwitchWeapon2;
@@ -33,7 +35,8 @@ public class MCH_ClientGLTDTickHandler extends MCH_ClientTickHandlerBase {
         this.KeyCameraMode = new MCH_Key(MCH_Config.KeyCameraMode.prmInt);
         this.KeyUnmount = new MCH_Key(MCH_Config.KeyUnmount.prmInt);
         this.KeyUnmount_1_6 = new MCH_Key(42);
-        this.Keys = new MCH_Key[]{this.KeyUseWeapon, this.KeySwWeaponMode, this.KeySwitchWeapon1, this.KeySwitchWeapon2, this.KeyZoom, this.KeyCameraMode, this.KeyUnmount, this.KeyUnmount_1_6};
+        this.Keys = new MCH_Key[] { this.KeyUseWeapon, this.KeySwWeaponMode, this.KeySwitchWeapon1,
+                this.KeySwitchWeapon2, this.KeyZoom, this.KeyCameraMode, this.KeyUnmount, this.KeyUnmount_1_6 };
     }
 
     protected void updateGLTD(EntityPlayer player, MCH_EntityGLTD gltd) {
@@ -108,7 +111,6 @@ public class MCH_ClientGLTDTickHandler extends MCH_ClientTickHandlerBase {
         }
     }
 
-
     private boolean handleUnmount(PacketGLTDControl packet) {
         if (KeyUnmount.isKeyDown()) {
             packet.unmount = true;
@@ -159,6 +161,4 @@ public class MCH_ClientGLTDTickHandler extends MCH_ClientTickHandlerBase {
         }
         return false;
     }
-
-
 }

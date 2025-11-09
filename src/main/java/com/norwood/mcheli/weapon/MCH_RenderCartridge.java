@@ -1,17 +1,19 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.wrapper.W_Render;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.wrapper.W_Render;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderCartridge extends W_Render<MCH_EntityCartridge> {
+
     public static final IRenderFactory<MCH_EntityCartridge> FACTORY = MCH_RenderCartridge::new;
 
     public MCH_RenderCartridge(RenderManager renderManager) {
@@ -19,7 +21,8 @@ public class MCH_RenderCartridge extends W_Render<MCH_EntityCartridge> {
         this.shadowSize = 0.0F;
     }
 
-    public void doRender(MCH_EntityCartridge entity, double posX, double posY, double posZ, float par8, float tickTime) {
+    public void doRender(MCH_EntityCartridge entity, double posX, double posY, double posZ, float par8,
+                         float tickTime) {
         MCH_EntityCartridge cartridge = null;
         if (entity.model != null && !entity.texture_name.isEmpty()) {
             GlStateManager.pushMatrix();

@@ -1,10 +1,9 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
-import com.norwood.mcheli.mob.MCH_ItemSpawnGunner;
-import com.norwood.mcheli.tool.MCH_ItemWrench;
-import com.norwood.mcheli.wrapper.W_Entity;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,12 +14,17 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.List;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
+import com.norwood.mcheli.mob.MCH_ItemSpawnGunner;
+import com.norwood.mcheli.tool.MCH_ItemWrench;
+import com.norwood.mcheli.wrapper.W_Entity;
 
 public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
+
     public static final float BB_SIZE = 1.0F;
     public String parentUniqueID;
     public int seatID;
@@ -76,8 +80,8 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
     }
 
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport) {
-    }
+    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch,
+                                             int posRotationIncrements, boolean teleport) {}
 
     public void setDead() {
         super.setDead();
@@ -97,7 +101,8 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
                 this.getParent().onMountPlayerSeat(this, riddenByEntity);
             }
         } else if (this.lastRiddenByEntity != null && riddenByEntity == null && this.getParent() != null) {
-            MCH_Lib.DbgLog(this.world, "MCH_EntitySeat.onUpdate:SeatID=%d", this.seatID, this.lastRiddenByEntity.toString());
+            MCH_Lib.DbgLog(this.world, "MCH_EntitySeat.onUpdate:SeatID=%d", this.seatID,
+                    this.lastRiddenByEntity.toString());
             this.getParent().onUnmountPlayerSeat(this, this.lastRiddenByEntity);
         }
 
@@ -117,8 +122,7 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
     private void onUpdate_Server() {
         this.checkDetachmentAndDelete();
         Entity riddenByEntity = this.getRiddenByEntity();
-        if (riddenByEntity != null && riddenByEntity.isDead) {
-        }
+        if (riddenByEntity != null && riddenByEntity.isDead) {}
     }
 
     public void updatePassenger(@NotNull Entity passenger) {
@@ -155,7 +159,8 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
                 }
 
                 this.setParent(null);
-                MCH_Lib.DbgLog(this.world, "[Error]座席エンティティは本体が見つからないため削除 seat=%d, parentUniqueID=%s", this.seatID, this.parentUniqueID);
+                MCH_Lib.DbgLog(this.world, "[Error]座席エンティティは本体が見つからないため削除 seat=%d, parentUniqueID=%s", this.seatID,
+                        this.parentUniqueID);
             } else {
                 this.parentSearchCount++;
             }
@@ -180,7 +185,8 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
     }
 
     public boolean canRideMob(Entity entity) {
-        return this.getParent() != null && this.seatID >= 0 && !(this.getParent().getSeatInfo(this.seatID + 1) instanceof MCH_SeatRackInfo);
+        return this.getParent() != null && this.seatID >= 0 &&
+                !(this.getParent().getSeatInfo(this.seatID + 1) instanceof MCH_SeatRackInfo);
     }
 
     public boolean isGunnerMode() {
@@ -226,7 +232,8 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
         this.parent = parent;
         Entity riddenByEntity = this.getRiddenByEntity();
         if (riddenByEntity != null) {
-            MCH_Lib.DbgLog(this.world, "MCH_EntitySeat.setParent:SeatID=%d %s : " + this.getParent(), this.seatID, riddenByEntity.toString());
+            MCH_Lib.DbgLog(this.world, "MCH_EntitySeat.setParent:SeatID=%d %s : " + this.getParent(), this.seatID,
+                    riddenByEntity.toString());
             if (this.getParent() != null) {
                 this.getParent().onMountPlayerSeat(this, riddenByEntity);
             }

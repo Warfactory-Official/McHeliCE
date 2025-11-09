@@ -1,16 +1,18 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.info.ContentRegistries;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
+import java.util.ArrayList;
+import java.util.UUID;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.WorldServer;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.info.ContentRegistries;
+
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
 
 @ElegantPacket
 public class PacketContentReload extends PacketBase implements ClientToServerPacket {
@@ -31,7 +33,6 @@ public class PacketContentReload extends PacketBase implements ClientToServerPac
         }
     }
 
-
     private void reloadRiddenAircraft(EntityPlayerMP player) {
         MCH_EntityAircraft ridden = MCH_EntityAircraft.getAircraft_RiddenOrControl(player);
         if (ridden == null || ridden.getAcInfo() == null) return;
@@ -40,7 +41,8 @@ public class PacketContentReload extends PacketBase implements ClientToServerPac
 
         for (WorldServer world : MCH_Utils.getServer().worlds) {
             for (Entity entity : new ArrayList<>(world.loadedEntityList)) {
-                if (entity instanceof MCH_EntityAircraft ac && ac.getAcInfo() != null && ac.getAcInfo().name.equals(name)) {
+                if (entity instanceof MCH_EntityAircraft ac && ac.getAcInfo() != null &&
+                        ac.getAcInfo().name.equals(name)) {
                     ac.changeType(name);
                     ac.createSeats(UUID.randomUUID().toString());
                     ac.onAcInfoReloaded();
@@ -62,9 +64,9 @@ public class PacketContentReload extends PacketBase implements ClientToServerPac
         }
     }
 
-
     public static enum ReloadType {
-        VEHICLE, WEAPON
+        VEHICLE,
+        WEAPON
 
     }
 }

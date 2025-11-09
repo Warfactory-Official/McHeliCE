@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public abstract class WordExpression extends AbstractExpression {
+
     protected String word;
 
     protected WordExpression(String str) {

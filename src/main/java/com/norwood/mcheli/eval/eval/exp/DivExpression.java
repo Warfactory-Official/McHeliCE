@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class DivExpression extends Col2Expression {
+
     public DivExpression() {
         this.setOperator("/");
     }

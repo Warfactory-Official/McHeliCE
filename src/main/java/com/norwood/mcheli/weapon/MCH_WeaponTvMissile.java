@@ -1,14 +1,16 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.networking.packet.PacketNotifyTVMissileEntity;
-import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.networking.packet.PacketNotifyTVMissileEntity;
+import com.norwood.mcheli.wrapper.W_Entity;
+
 public class MCH_WeaponTvMissile extends MCH_WeaponBase {
+
     protected MCH_EntityTvMissile lastShotTvMissile;
     protected Entity lastShotEntity;
     protected boolean isTVGuided;
@@ -48,16 +50,13 @@ public class MCH_WeaponTvMissile extends MCH_WeaponBase {
         super.update(countWait);
         if (!this.worldObj.isRemote) {
             if (this.isTVGuided && this.tick <= 9) {
-                if (this.tick % 3 == 0
-                        && this.lastShotTvMissile != null
-                        && !this.lastShotTvMissile.isDead
-                        && this.lastShotEntity != null
-                        && !this.lastShotEntity.isDead) {
+                if (this.tick % 3 == 0 && this.lastShotTvMissile != null && !this.lastShotTvMissile.isDead &&
+                        this.lastShotEntity != null && !this.lastShotEntity.isDead) {
                     int heliEntityID = W_Entity.getEntityId(this.lastShotEntity);
                     new PacketNotifyTVMissileEntity(
-                    heliEntityID,
+                            heliEntityID,
                             W_Entity.getEntityId(this.lastShotTvMissile))
-                   .sendToClients();
+                                    .sendToClients();
                 }
 
                 if (this.tick == 9) {
@@ -95,7 +94,8 @@ public class MCH_WeaponTvMissile extends MCH_WeaponBase {
             acr = (float) (acr * 1.5);
         }
 
-        MCH_EntityTvMissile e = new MCH_EntityTvMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ, yaw, pitch, acr);
+        MCH_EntityTvMissile e = new MCH_EntityTvMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ, yaw,
+                pitch, acr);
         e.setName(this.name);
         e.setParameterFromWeapon(this, prm.entity, prm.user);
         this.lastShotEntity = prm.entity;

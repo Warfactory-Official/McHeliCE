@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class LetXorExpression extends BitXorExpression {
+
     public LetXorExpression() {
         this.setOperator("^=");
     }

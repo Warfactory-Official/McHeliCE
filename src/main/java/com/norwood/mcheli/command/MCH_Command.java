@@ -1,26 +1,13 @@
 package com.norwood.mcheli.command;
 
-import com.google.gson.JsonParseException;
-import com.norwood.mcheli.MCH_BaseInfo;
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.info.ContentRegistries;
-import com.norwood.mcheli.helper.info.ContentRegistry;
-import com.norwood.mcheli.helper.info.emitters.IEmitter;
-import com.norwood.mcheli.helper.info.emitters.YamlEmitter;
-import com.norwood.mcheli.helicopter.MCH_HeliInfo;
-import com.norwood.mcheli.plane.MCH_PlaneInfo;
-import com.norwood.mcheli.ship.MCH_ShipInfo;
-import com.norwood.mcheli.tank.MCH_TankInfo;
-import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
-import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
-import com.norwood.mcheli.weapon.MCH_WeaponInfo;
-import com.norwood.mcheli.multiplay.MultiplayerHandler;
-import com.norwood.mcheli.networking.packet.PacketHandleCommand;
-import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
-import com.norwood.mcheli.networking.packet.PacketTitle;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.*;
@@ -44,18 +31,34 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.CommandEvent;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.regex.Pattern;
+import com.google.gson.JsonParseException;
+import com.norwood.mcheli.MCH_BaseInfo;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.helicopter.MCH_HeliInfo;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.info.ContentRegistries;
+import com.norwood.mcheli.helper.info.ContentRegistry;
+import com.norwood.mcheli.helper.info.emitters.IEmitter;
+import com.norwood.mcheli.helper.info.emitters.YamlEmitter;
+import com.norwood.mcheli.multiplay.MultiplayerHandler;
+import com.norwood.mcheli.networking.packet.PacketHandleCommand;
+import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
+import com.norwood.mcheli.networking.packet.PacketTitle;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.tank.MCH_TankInfo;
+import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
+import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 
 public class MCH_Command extends CommandBase {
+
     public static final String CMD_GET_SS = "sendss";
     public static final String CMD_MOD_LIST = "modlist";
     public static final String CMD_RECONFIG = "reconfig";
@@ -69,8 +72,9 @@ public class MCH_Command extends CommandBase {
     public static final String CMD_DELAY_BB = "delayhitbox";
     public static final String CMD_LIST = "list";
     public static final String CMD_DUMP_YAML = "dumpyaml";
-    public static final String[] ALL_COMMAND = new String[]{
-            "sendss", "modlist", "reconfig", "title", "fill", "status", "killentity", "removeentity", "attackentity", "showboundingbox", "list", "delayhitbox", "dumpyaml"
+    public static final String[] ALL_COMMAND = new String[] {
+            "sendss", "modlist", "reconfig", "title", "fill", "status", "killentity", "removeentity", "attackentity",
+            "showboundingbox", "list", "delayhitbox", "dumpyaml"
     };
     public static final MCH_Command instance = new MCH_Command();
     private static final Pattern sanitize = Pattern.compile("[^a-zA-Z0-9._-]");
@@ -129,7 +133,8 @@ public class MCH_Command extends CommandBase {
     }
 
     @Override
-    public void execute(@NotNull MinecraftServer server, @NotNull ICommandSender sender, String @NotNull [] prm) throws CommandException {
+    public void execute(@NotNull MinecraftServer server, @NotNull ICommandSender sender,
+                        String @NotNull [] prm) throws CommandException {
         if (!MCH_Config.EnableCommand.prmBool) return;
         if (prm.length == 0) throw new CommandException("Missing subcommand. Use /mcheli list");
 
@@ -159,7 +164,8 @@ public class MCH_Command extends CommandBase {
         }
     }
 
-    private void handleSendScreenshot(MinecraftServer server, ICommandSender sender, String[] prm) throws CommandException {
+    private void handleSendScreenshot(MinecraftServer server, ICommandSender sender,
+                                      String[] prm) throws CommandException {
         if (prm.length != 2) throw new CommandException("Usage: /mcheli sendss playerName");
         EntityPlayerMP player = getPlayer(server, sender, prm[1]);
         PacketHandleCommand.send(player, PacketHandleCommand.CommandAction.NONE, prm[1]);
@@ -170,7 +176,8 @@ public class MCH_Command extends CommandBase {
         EntityPlayerMP reqPlayer = sender instanceof EntityPlayerMP ? (EntityPlayerMP) sender : null;
         for (int i = 1; i < prm.length; i++) {
             EntityPlayerMP player = getPlayer(server, sender, prm[i]);
-            PacketHandleCommand.send(player, PacketHandleCommand.CommandAction.REQUEST_MOD_INFO, "" + MultiplayerHandler.getPlayerInfoId(reqPlayer));
+            PacketHandleCommand.send(player, PacketHandleCommand.CommandAction.REQUEST_MOD_INFO,
+                    "" + MultiplayerHandler.getPlayerInfoId(reqPlayer));
         }
     }
 
@@ -180,9 +187,8 @@ public class MCH_Command extends CommandBase {
         if (!sender.getEntityWorld().isRemote) {
             PacketSyncServerSettings.sendAll();
         }
-        String msg = MCH_MOD.proxy.isSinglePlayer()
-                ? "Reload com.norwood.mcheli.cfg"
-                : "Reload server side com.norwood.mcheli.cfg";
+        String msg = MCH_MOD.proxy.isSinglePlayer() ? "Reload com.norwood.mcheli.cfg" :
+                "Reload server side com.norwood.mcheli.cfg";
         sender.sendMessage(new TextComponentString(msg));
     }
 
@@ -199,11 +205,11 @@ public class MCH_Command extends CommandBase {
             new PacketTitle(
                     Serializer.componentToJson(ichatcomponent),
                     20 * showTime,
-                    pos
-            ).sendToClients();
+                    pos).sendToClients();
         } catch (JsonParseException ex) {
             Throwable root = ExceptionUtils.getRootCause(ex);
-            throw new SyntaxErrorException("com.norwood.mcheli.title.jsonException", root == null ? "" : root.getMessage());
+            throw new SyntaxErrorException("com.norwood.mcheli.title.jsonException",
+                    root == null ? "" : root.getMessage());
         }
     }
 
@@ -245,7 +251,8 @@ public class MCH_Command extends CommandBase {
             written += dumpThrowable(emitter, base.resolve("throwable"), ContentRegistries.throwable());
             written += dumpHud(emitter, base.resolve("hud"), ContentRegistries.hud());
 
-            sender.sendMessage(new TextComponentString("Dumped " + written + " YAML files to " + base.toAbsolutePath()));
+            sender.sendMessage(
+                    new TextComponentString("Dumped " + written + " YAML files to " + base.toAbsolutePath()));
         } catch (IOException e) {
             throw new CommandException("Failed to dump YAML: " + e.getMessage());
         } catch (Exception e) {
@@ -253,7 +260,8 @@ public class MCH_Command extends CommandBase {
         }
     }
 
-    private int dumpRegistry(IEmitter emitter, Path dir, ContentRegistry<? extends MCH_BaseInfo> reg) throws IOException {
+    private int dumpRegistry(IEmitter emitter, Path dir,
+                             ContentRegistry<? extends MCH_BaseInfo> reg) throws IOException {
         int count = 0;
         if (reg == null) return 0;
         Files.createDirectories(dir);
@@ -307,7 +315,8 @@ public class MCH_Command extends CommandBase {
         return count;
     }
 
-    private int dumpHud(IEmitter emitter, Path dir, ContentRegistry<com.norwood.mcheli.hud.MCH_Hud> reg) throws IOException {
+    private int dumpHud(IEmitter emitter, Path dir,
+                        ContentRegistry<com.norwood.mcheli.hud.MCH_Hud> reg) throws IOException {
         int count = 0;
         if (reg == null) return 0;
         Files.createDirectories(dir);
@@ -322,21 +331,21 @@ public class MCH_Command extends CommandBase {
 
     private void handleDelayHitbox(ICommandSender sender, String[] prm) throws CommandException {
         if (prm.length == 1) {
-            sender.sendMessage(new TextComponentString("Current delay of hitbox = " + MCH_Config.HitBoxDelayTick.prmInt + " [0 ~ 50]"));
+            sender.sendMessage(new TextComponentString(
+                    "Current delay of hitbox = " + MCH_Config.HitBoxDelayTick.prmInt + " [0 ~ 50]"));
             return;
         }
         if (prm.length != 2) throw new CommandException("Usage: /mcheli delayhitbox 0 ~ 50");
         MCH_Config.HitBoxDelayTick.prmInt = Math.min(50, parseInt(prm[1]));
         MCH_MOD.proxy.save();
-        sender.sendMessage(new TextComponentString("Current delay of hitbox = " + MCH_Config.HitBoxDelayTick.prmInt + " [0 ~ 50]"));
+        sender.sendMessage(new TextComponentString(
+                "Current delay of hitbox = " + MCH_Config.HitBoxDelayTick.prmInt + " [0 ~ 50]"));
     }
-
 
     private void executeAttackEntity(ICommandSender sender, String[] args) throws WrongUsageException {
         if (args.length < 3) {
             throw new WrongUsageException(
-                    "/mcheli attackentity <entity class name : example1 EntityBat , example2 minecraft.entity.passive> <damage> [damage source]"
-            );
+                    "/mcheli attackentity <entity class name : example1 EntityBat , example2 minecraft.entity.passive> <damage> [damage source]");
         } else {
             String className = args[1].toLowerCase();
             float damage = Float.parseFloat(args[2]);
@@ -369,26 +378,30 @@ public class MCH_Command extends CommandBase {
             List<Entity> list = sender.getEntityWorld().loadedEntityList;
 
             for (Entity entity : list) {
-                if (entity != null && !(entity instanceof EntityPlayer) && entity.getClass().getName().toLowerCase().contains(className)) {
+                if (entity != null && !(entity instanceof EntityPlayer) &&
+                        entity.getClass().getName().toLowerCase().contains(className)) {
                     entity.attackEntityFrom(ds, damage);
                     attacked++;
                 }
             }
 
-            sender.sendMessage(new TextComponentString(attacked + " entity attacked(" + args[1] + ", damage=" + damage + ")."));
+            sender.sendMessage(
+                    new TextComponentString(attacked + " entity attacked(" + args[1] + ", damage=" + damage + ")."));
         }
     }
 
     private void executeKillEntity(ICommandSender sender, String[] args) throws WrongUsageException {
         if (args.length < 2) {
-            throw new WrongUsageException("/mcheli killentity <entity class name : example1 EntityBat , example2 minecraft.entity.passive>");
+            throw new WrongUsageException(
+                    "/mcheli killentity <entity class name : example1 EntityBat , example2 minecraft.entity.passive>");
         } else {
             String className = args[1].toLowerCase();
             int killed = 0;
             List<Entity> list = sender.getEntityWorld().loadedEntityList;
 
             for (Entity entity : list) {
-                if (entity != null && !(entity instanceof EntityPlayer) && entity.getClass().getName().toLowerCase().contains(className)) {
+                if (entity != null && !(entity instanceof EntityPlayer) &&
+                        entity.getClass().getName().toLowerCase().contains(className)) {
                     entity.setDead();
                     killed++;
                 }
@@ -400,14 +413,16 @@ public class MCH_Command extends CommandBase {
 
     private void executeRemoveEntity(ICommandSender sender, String[] args) throws WrongUsageException {
         if (args.length < 2) {
-            throw new WrongUsageException("/mcheli removeentity <entity class name : example1 EntityBat , example2 minecraft.entity.passive>");
+            throw new WrongUsageException(
+                    "/mcheli removeentity <entity class name : example1 EntityBat , example2 minecraft.entity.passive>");
         } else {
             String className = args[1].toLowerCase();
             List<Entity> list = sender.getEntityWorld().loadedEntityList;
             int removed = 0;
 
             for (Entity entity : list) {
-                if (entity != null && !(entity instanceof EntityPlayer) && entity.getClass().getName().toLowerCase().contains(className)) {
+                if (entity != null && !(entity instanceof EntityPlayer) &&
+                        entity.getClass().getName().toLowerCase().contains(className)) {
                     entity.isDead = true;
                     removed++;
                 }
@@ -422,9 +437,11 @@ public class MCH_Command extends CommandBase {
             throw new WrongUsageException("/mcheli status <entity or tile> [min num]");
         } else {
             if (args[1].equalsIgnoreCase("entity")) {
-                this.executeStatusSub(sender, args, "Server loaded Entity List", sender.getEntityWorld().loadedEntityList);
+                this.executeStatusSub(sender, args, "Server loaded Entity List",
+                        sender.getEntityWorld().loadedEntityList);
             } else if (args[1].equalsIgnoreCase("tile")) {
-                this.executeStatusSub(sender, args, "Server loaded Tile Entity List", sender.getEntityWorld().loadedTileEntityList);
+                this.executeStatusSub(sender, args, "Server loaded Tile Entity List",
+                        sender.getEntityWorld().loadedTileEntityList);
             }
         }
     }
@@ -464,7 +481,8 @@ public class MCH_Command extends CommandBase {
 
     public void executeFill(ICommandSender sender, String[] args) throws CommandException {
         if (args.length < 8) {
-            throw new WrongUsageException("/mcheli fill <x1> <y1> <z1> <x2> <y2> <z2> <block name> [meta data] [oldBlockHandling] [data tag]");
+            throw new WrongUsageException(
+                    "/mcheli fill <x1> <y1> <z1> <x2> <y2> <z2> <block name> [meta data] [oldBlockHandling] [data tag]");
         } else {
             int x1 = sender.getPosition().getX();
             int y1 = sender.getPosition().getY();
@@ -506,7 +524,8 @@ public class MCH_Command extends CommandBase {
             if (y1 >= 0 && y2 < 256) {
                 int blockNum = (x2 - x1 + 1) * (y2 - y1 + 1) * (z2 - z1 + 1);
                 if (blockNum > 3000000) {
-                    throw new CommandException("commands.setblock.tooManyBlocks " + blockNum + " limit=327680", blockNum, 3276800);
+                    throw new CommandException("commands.setblock.tooManyBlocks " + blockNum + " limit=327680",
+                            blockNum, 3276800);
                 } else {
                     boolean result = false;
                     boolean keep = args.length >= 10 && args[9].equals("keep");
@@ -576,7 +595,8 @@ public class MCH_Command extends CommandBase {
         }
     }
 
-    public @NotNull List<String> getTabCompletions(@NotNull MinecraftServer server, @NotNull ICommandSender sender, String @NotNull [] prm, BlockPos targetPos) {
+    public @NotNull List<String> getTabCompletions(@NotNull MinecraftServer server, @NotNull ICommandSender sender,
+                                                   String @NotNull [] prm, BlockPos targetPos) {
         if (!MCH_Config.EnableCommand.prmBool) {
             return super.getTabCompletions(server, sender, prm, targetPos);
         } else if (prm.length <= 1) {
@@ -598,9 +618,9 @@ public class MCH_Command extends CommandBase {
                         return a;
                     }
 
-                    return prm.length == 10
-                            ? getListOfStringsMatchingLastWord(prm, "replace", "destroy", "keep", "override")
-                            : (prm.length == 8 ? getListOfStringsMatchingLastWord(prm, Block.REGISTRY.getKeys()) : null);
+                    return prm.length == 10 ?
+                            getListOfStringsMatchingLastWord(prm, "replace", "destroy", "keep", "override") :
+                            (prm.length == 8 ? getListOfStringsMatchingLastWord(prm, Block.REGISTRY.getKeys()) : null);
                 }
 
                 if (prm[0].equalsIgnoreCase("status")) {

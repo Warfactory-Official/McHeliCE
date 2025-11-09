@@ -1,19 +1,19 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
-import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.KHRDebug;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
+import net.minecraft.client.renderer.GlStateManager;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+
+import com.norwood.mcheli.helper.client._IModelCustom;
 
 public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
@@ -24,15 +24,13 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
     public ModelVBO(W_WavefrontObject obj) {
         uploadVBO(obj.groupObjects);
-
     }
-
 
     public ModelVBO(W_MetasequoiaObject obj) {
         uploadVBO(cleanUpMsqMess(obj.groupObjects));
     }
 
-    //Metasequoia users seem to not understand what proper mesh grouping is, so we need to do it for them
+    // Metasequoia users seem to not understand what proper mesh grouping is, so we need to do it for them
     private static List<GroupObject> cleanUpMsqMess(ArrayList<GroupObject> groupObjects) {
         List<GroupObject> result = new ArrayList<>();
         GroupObject currentKey = null;
@@ -57,7 +55,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         }
 
         return result;
-
     }
 
     private void uploadVBO(List<GroupObject> obj) {
@@ -68,7 +65,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             List<Float> vertexData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
             List<Float> uvwData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
             List<Float> normalData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
-
 
             for (W_Face face : g.faces) {
                 for (int i = 0; i < face.vertices.length; i++) {
@@ -110,7 +106,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
                 combinedData[dst++] = normalData.get(i * 3 + 2);
             }
 
-
             FloatBuffer buffer = BufferUtils.createFloatBuffer(combinedData.length);
             buffer.put(combinedData);
             buffer.flip();
@@ -134,7 +129,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             groups.add(data);
         }
-
     }
 
     private void renderVBO(ModelVBO.VBOBufferData data) {
@@ -147,7 +141,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     public String getType() {
         return "obj_vbo";
     }
-
 
     @Override
     public void renderAll() {
@@ -174,7 +167,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
                 renderVBO(data);
             }
         }
-
     }
 
     @Override
@@ -209,14 +201,10 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     }
 
     @Override
-    public void renderAll(int var1, int var2) {
-
-    }
+    public void renderAll(int var1, int var2) {}
 
     @Override
-    public void renderAllLine(int var1, int var2) {
-
-    }
+    public void renderAllLine(int var1, int var2) {}
 
     @Override
     public int getVertexNum() {
@@ -234,7 +222,5 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         int vertices = 0;
         int vboHandle;
         int vaoHandle;
-
     }
-
 }

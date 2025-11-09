@@ -1,14 +1,17 @@
 package com.norwood.mcheli.helper.addon;
 
+import java.util.Locale;
+
+import net.minecraft.util.ResourceLocation;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.google.common.base.Strings;
 import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.helper.MCH_Utils;
-import net.minecraft.util.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Locale;
 
 public class AddonResourceLocation extends ResourceLocation {
+
     public static final AddonResourceLocation EMPTY_LOCATION = new AddonResourceLocation();
     public static final String SHARE_DOMAIN = "<!mcheli_share_domain>";
     public static final char SEPARATOR = '|';
@@ -45,7 +48,7 @@ public class AddonResourceLocation extends ResourceLocation {
 
     protected static String[] parsePath(String pathIn) {
         String[] spl = splitObjectName(pathIn);
-        String[] ret = new String[]{spl[0], null, spl[1]};
+        String[] ret = new String[] { spl[0], null, spl[1] };
         int i = ret[2].indexOf(124);
         if (i >= 0) {
             ret[1] = ret[2].substring(0, i);
@@ -65,7 +68,7 @@ public class AddonResourceLocation extends ResourceLocation {
 
     protected static String[] parsePath(String addonDomain, String pathIn) {
         String[] spl = splitObjectName(pathIn);
-        return new String[]{spl[0], addonDomain, spl[1]};
+        return new String[] { spl[0], addonDomain, spl[1] };
     }
 
     public static AddonResourceLocation share(ResourceLocation location) {

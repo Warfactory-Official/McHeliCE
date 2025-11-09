@@ -1,6 +1,5 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,9 +9,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.wrapper.W_Entity;
+
 public class MCH_EntityHitBox extends W_Entity {
+
     public MCH_EntityAircraft parent;
     public int debugId;
 
@@ -70,11 +73,9 @@ public class MCH_EntityHitBox extends W_Entity {
         super.onUpdate();
     }
 
-    protected void writeEntityToNBT(@NotNull NBTTagCompound par1NBTTagCompound) {
-    }
+    protected void writeEntityToNBT(@NotNull NBTTagCompound par1NBTTagCompound) {}
 
-    protected void readEntityFromNBT(@NotNull NBTTagCompound par1NBTTagCompound) {
-    }
+    protected void readEntityFromNBT(@NotNull NBTTagCompound par1NBTTagCompound) {}
 
     @SideOnly(Side.CLIENT)
     public float getShadowSize() {

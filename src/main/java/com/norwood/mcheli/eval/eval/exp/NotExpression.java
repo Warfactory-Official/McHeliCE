@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class NotExpression extends Col1Expression {
+
     public NotExpression() {
         this.setOperator("!");
     }

@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.util;
 
 public class CharUtil {
+
     public static String escapeString(String str) {
         return escapeString(str, 0, str.length());
     }
@@ -41,7 +42,6 @@ public class CharUtil {
         c = str.charAt(pos);
         ret[0] = 2;
 
-
         return switch (c) {
             case 'b' -> '\b';
             case 'f' -> '\f';
@@ -73,6 +73,4 @@ public class CharUtil {
             default -> c;
         };
     }
-
-
 }

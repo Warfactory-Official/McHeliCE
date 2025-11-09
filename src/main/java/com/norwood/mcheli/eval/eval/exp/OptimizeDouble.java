@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class OptimizeDouble extends OptimizeObject {
+
     @Override
     protected boolean isTrue(AbstractExpression x) {
         return x.evalDouble() != 0.0;

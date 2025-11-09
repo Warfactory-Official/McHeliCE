@@ -1,14 +1,8 @@
 package com.norwood.mcheli.hud.direct_drawable;
 
-import com.norwood.mcheli.EntityInfo;
-import com.norwood.mcheli.MCH_EntityInfoClientTracker;
-import com.norwood.mcheli.RWRType;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
-import com.norwood.mcheli.weapon.MCH_WeaponInfo;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -21,14 +15,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+
 import org.lwjgl.opengl.GL11;
-import scala.collection.parallel.ParIterableLike;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.norwood.mcheli.EntityInfo;
+import com.norwood.mcheli.MCH_EntityInfoClientTracker;
+import com.norwood.mcheli.RWRType;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
 
 public class HudMortarRadar implements DirectDrawable {
 
@@ -52,11 +49,10 @@ public class HudMortarRadar implements DirectDrawable {
         var mc = Minecraft.getMinecraft();
         var sc = new ScaledResolution(mc);
 
-
         double maxDist = MAX_DISTANCE;
         double currentDist = -1.0;
 
-        //TODO: Bake into the cache system
+        // TODO: Bake into the cache system
         MCH_WeaponSet ws = ac.getCurrentWeapon(player);
         if (ws != null) {
             MCH_WeaponInfo wi = ws.getInfo();
@@ -216,7 +212,6 @@ public class HudMortarRadar implements DirectDrawable {
     public List<EntityInfo> getServerLoadedEntity() {
         return new ArrayList<>(MCH_EntityInfoClientTracker.getAllTrackedEntities());
     }
-
 
     @Override
     public DirectDrawable getInstance() {

@@ -1,5 +1,26 @@
 package com.norwood.mcheli;
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+import net.minecraft.command.CommandHandler;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import org.apache.logging.log4j.Logger;
+
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.block.MCH_DraftingTableBlock;
 import com.norwood.mcheli.block.MCH_DraftingTableTileEntity;
@@ -29,8 +50,8 @@ import com.norwood.mcheli.mob.MCH_ItemSpawnGunner;
 import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.parachute.MCH_ItemParachute;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
-import com.norwood.mcheli.plane.MCP_ItemPlane;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.plane.MCP_ItemPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_ItemShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
@@ -51,32 +72,13 @@ import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.W_Item;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
 import com.norwood.mcheli.wrapper.W_NetworkRegistry;
-import net.minecraft.command.CommandHandler;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.world.World;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 @Mod(
-        modid = "mcheli",
-        name = "MC Helicopter MOD",
-        dependencies = "required-after:elegant_networking;after:hbm"
-)
+     modid = "mcheli",
+     name = "MC Helicopter MOD",
+     dependencies = "required-after:elegant_networking;after:hbm")
 public class MCH_MOD {
+
     public static final String MOD_ID = Tags.MODID;
     @Deprecated
     public static final String DOMAIN = MOD_ID;
@@ -85,9 +87,8 @@ public class MCH_MOD {
     @Instance("mcheli")
     public static MCH_MOD instance;
     @SidedProxy(
-            clientSide = "com.norwood.mcheli.MCH_ClientProxy",
-            serverSide = "com.norwood.mcheli.MCH_CommonProxy"
-    )
+                clientSide = "com.norwood.mcheli.MCH_ClientProxy",
+                serverSide = "com.norwood.mcheli.MCH_CommonProxy")
     public static MCH_CommonProxy proxy;
     public static MCH_Config config;
     public static String sourcePath;
@@ -142,7 +143,8 @@ public class MCH_MOD {
 
             // Check if item info is null
             if (info == null) {
-                System.out.println("[mcheli.MCH_MOD:registerItemCustom] Error: Item info for " + name + " is null! Skipping...");
+                System.out.println(
+                        "[mcheli.MCH_MOD:registerItemCustom] Error: Item info for " + name + " is null! Skipping...");
                 continue;
             }
 
@@ -161,16 +163,16 @@ public class MCH_MOD {
             W_LanguageRegistry.addName(info.item, info.displayName);
 
             // Register item names in multiple languages
-            //for (String lang : info.displayNameLang.keySet()) {
-            //   W_LanguageRegistry.addNameForObject(info.item, (Object) lang, info.displayNameLang.get(lang));
-            //}
-            //let's get one thing fucking clear before I split you in two. The lang is Fucking Working.
+            // for (String lang : info.displayNameLang.keySet()) {
+            // W_LanguageRegistry.addNameForObject(info.item, (Object) lang, info.displayNameLang.get(lang));
+            // }
+            // let's get one thing fucking clear before I split you in two. The lang is Fucking Working.
         }
     }
 
     private static boolean isThrowableItem(String name) {
         return name.toLowerCase().contains("grenade");
-        //worst method in the world award
+        // worst method in the world award
     }
 
     public static void registerItemThrowable() {
@@ -386,10 +388,10 @@ public class MCH_MOD {
     @EventHandler
     public void onLoadComplete(FMLLoadCompleteEvent evt) {
         MCH_WeaponInfoManager.setRoundItems();
-        ContentRegistries.weapon().values().parallelStream().filter(mchWeaponInfo -> mchWeaponInfo.useHBM).forEach(MCH_WeaponInfo::loadNTMFunctionality);
-        if(ModCompatManager.isLoaded(ModCompatManager.MODID_TOP))
+        ContentRegistries.weapon().values().parallelStream().filter(mchWeaponInfo -> mchWeaponInfo.useHBM)
+                .forEach(MCH_WeaponInfo::loadNTMFunctionality);
+        if (ModCompatManager.isLoaded(ModCompatManager.MODID_TOP))
             AircraftInfoProvider.register();
-
     }
 
     @EventHandler
@@ -431,7 +433,8 @@ public class MCH_MOD {
 
     @EventHandler
     public void registerCommand(FMLServerStartedEvent e) {
-        CommandHandler handler = (CommandHandler) FMLCommonHandler.instance().getSidedDelegate().getServer().getCommandManager();
+        CommandHandler handler = (CommandHandler) FMLCommonHandler.instance().getSidedDelegate().getServer()
+                .getCommandManager();
         handler.registerCommand(new MCH_Command());
     }
 
@@ -482,8 +485,8 @@ public class MCH_MOD {
     }
 
     public void registerItemUavStation() {
-        String[] dispName = new String[]{"UAV Station", "Portable UAV Controller"};
-        String[] localName = new String[]{"UAVステーション", "携帯UAV制御端末"};
+        String[] dispName = new String[] { "UAV Station", "Portable UAV Controller" };
+        String[] localName = new String[] { "UAVステーション", "携帯UAV制御端末" };
         itemUavStation = new MCH_ItemUavStation[MCH_ItemUavStation.UAV_STATION_KIND_NUM];
         String name = "uav_station";
 
@@ -577,5 +580,4 @@ public class MCH_MOD {
     public void onTextureStitchPost(TextureStitchEvent.Post event) {
         proxy.registerShaders(event);
     }
-
 }

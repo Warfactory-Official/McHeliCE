@@ -1,12 +1,5 @@
 package com.norwood.mcheli.vehicle;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_ModelManager;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_Lib;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -14,8 +7,17 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_ModelManager;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_Lib;
+
 @SideOnly(Side.CLIENT)
 public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
+
     public static final IRenderFactory<MCH_EntityVehicle> FACTORY = MCH_RenderVehicle::new;
 
     public MCH_RenderVehicle(RenderManager renderManager) {
@@ -24,7 +26,8 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
     }
 
     @Override
-    public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch, float roll, float tickTime) {
+    public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch,
+                               float roll, float tickTime) {
         MCH_VehicleInfo vehicleInfo;
         if (entity instanceof MCH_EntityVehicle vehicle) {
             vehicleInfo = vehicle.getVehicleInfo();
@@ -52,7 +55,8 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
         }
     }
 
-    public void drawPart(MCH_EntityVehicle vehicle, MCH_VehicleInfo info, float yaw, float pitch, MCH_WeaponSet ws, float tickTime) {
+    public void drawPart(MCH_EntityVehicle vehicle, MCH_VehicleInfo info, float yaw, float pitch, MCH_WeaponSet ws,
+                         float tickTime) {
         float rotBrl = ws.prevRotBarrel + (ws.rotBarrel - ws.prevRotBarrel) * tickTime;
         int index = 0;
 
@@ -62,16 +66,15 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
     }
 
     int drawPart(
-            MCH_VehicleInfo.VPart vp,
-            MCH_EntityVehicle vehicle,
-            MCH_VehicleInfo info,
-            float yaw,
-            float pitch,
-            float rotBrl,
-            float tickTime,
-            MCH_WeaponSet ws,
-            int index
-    ) {
+                 MCH_VehicleInfo.VPart vp,
+                 MCH_EntityVehicle vehicle,
+                 MCH_VehicleInfo info,
+                 float yaw,
+                 float pitch,
+                 float rotBrl,
+                 float tickTime,
+                 MCH_WeaponSet ws,
+                 int index) {
         GlStateManager.pushMatrix();
         float recoilBuf = 0.0F;
         if (index < ws.getWeaponsCount()) {
@@ -112,8 +115,8 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
             }
         }
 
-        if ((vp.drawFP || !W_Lib.isClientPlayer(vehicle.getRiddenByEntity()) || !W_Lib.isFirstPerson())
-                && (vp.type != 3 || !vehicle.isWeaponNotCooldown(ws, bkIndex))) {
+        if ((vp.drawFP || !W_Lib.isClientPlayer(vehicle.getRiddenByEntity()) || !W_Lib.isFirstPerson()) &&
+                (vp.type != 3 || !vehicle.isWeaponNotCooldown(ws, bkIndex))) {
             renderPart(vp.model, info.model, vp.modelName);
             MCH_ModelManager.render("vehicles", vp.modelName);
         }

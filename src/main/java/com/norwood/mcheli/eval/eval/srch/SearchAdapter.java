@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.srch;
 import com.norwood.mcheli.eval.eval.exp.*;
 
 public class SearchAdapter implements Search {
+
     protected boolean end = false;
 
     @Override
@@ -15,12 +16,10 @@ public class SearchAdapter implements Search {
     }
 
     @Override
-    public void search(AbstractExpression exp) {
-    }
+    public void search(AbstractExpression exp) {}
 
     @Override
-    public void search0(WordExpression exp) {
-    }
+    public void search0(WordExpression exp) {}
 
     @Override
     public boolean search1_begin(Col1Expression exp) {
@@ -28,8 +27,7 @@ public class SearchAdapter implements Search {
     }
 
     @Override
-    public void search1_end(Col1Expression exp) {
-    }
+    public void search1_end(Col1Expression exp) {}
 
     @Override
     public boolean search2_begin(Col2Expression exp) {
@@ -42,8 +40,7 @@ public class SearchAdapter implements Search {
     }
 
     @Override
-    public void search2_end(Col2Expression exp) {
-    }
+    public void search2_end(Col2Expression exp) {}
 
     @Override
     public boolean search3_begin(Col3Expression exp) {
@@ -61,8 +58,7 @@ public class SearchAdapter implements Search {
     }
 
     @Override
-    public void search3_end(Col3Expression exp) {
-    }
+    public void search3_end(Col3Expression exp) {}
 
     @Override
     public boolean searchFunc_begin(FunctionExpression exp) {
@@ -75,6 +71,5 @@ public class SearchAdapter implements Search {
     }
 
     @Override
-    public void searchFunc_end(FunctionExpression exp) {
-    }
+    public void searchFunc_end(FunctionExpression exp) {}
 }

@@ -1,6 +1,5 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.MCH_MOD;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -8,7 +7,10 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
+import com.norwood.mcheli.MCH_MOD;
+
 public class W_McClient {
+
     public static void playSoundClick(float volume, float pitch) {
         playSound(SoundEvents.UI_BUTTON_CLICK, volume, pitch);
     }
@@ -25,8 +27,7 @@ public class W_McClient {
         DEF_playSoundFX(MCH_MOD.DOMAIN + ":" + name, volume, pitch);
     }
 
-    public static void addSound(String name) {
-    }
+    public static void addSound(String name) {}
 
     public static void DEF_bindTexture(String tex) {
         Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(tex));
@@ -47,9 +48,8 @@ public class W_McClient {
 
     public static void setRenderEntity(EntityLivingBase entity) {
         Minecraft.getMinecraft().setRenderViewEntity(entity);
-        if(W_EntityRenderer.currentShader != null){
+        if (W_EntityRenderer.currentShader != null) {
             W_EntityRenderer.activateShader(W_EntityRenderer.currentShader);
         }
-
     }
 }

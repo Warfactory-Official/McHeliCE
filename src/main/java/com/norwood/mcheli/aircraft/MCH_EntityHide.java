@@ -1,8 +1,10 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_Lib;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -31,15 +33,19 @@ import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_Lib;
 
 public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
-    private static final DataParameter<Integer> ROPE_INDEX = EntityDataManager.createKey(MCH_EntityHide.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> AC_ID = EntityDataManager.createKey(MCH_EntityHide.class, DataSerializers.VARINT);
+
+    private static final DataParameter<Integer> ROPE_INDEX = EntityDataManager.createKey(MCH_EntityHide.class,
+            DataSerializers.VARINT);
+    private static final DataParameter<Integer> AC_ID = EntityDataManager.createKey(MCH_EntityHide.class,
+            DataSerializers.VARINT);
     private MCH_EntityAircraft ac;
     private Entity user;
     private int paraPosRotInc;
@@ -112,11 +118,9 @@ public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
         return !this.isDead;
     }
 
-    protected void writeEntityToNBT(@NotNull NBTTagCompound nbt) {
-    }
+    protected void writeEntityToNBT(@NotNull NBTTagCompound nbt) {}
 
-    protected void readEntityFromNBT(@NotNull NBTTagCompound nbt) {
-    }
+    protected void readEntityFromNBT(@NotNull NBTTagCompound nbt) {}
 
     @SideOnly(Side.CLIENT)
     public float getShadowSize() {
@@ -140,7 +144,8 @@ public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
     }
 
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9, boolean teleport) {
+    public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9,
+                                             boolean teleport) {
         this.paraPosRotInc = par9 + 10;
         this.paraX = par1;
         this.paraY = par3;
@@ -221,7 +226,8 @@ public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
             double z = this.posZ + (this.paraZ - this.posZ) / this.paraPosRotInc;
             double yaw = MathHelper.wrapDegrees(this.paraYaw - this.rotationYaw);
             this.rotationYaw = (float) (this.rotationYaw + yaw / this.paraPosRotInc);
-            this.rotationPitch = (float) (this.rotationPitch + (this.paraPitch - this.rotationPitch) / this.paraPosRotInc);
+            this.rotationPitch = (float) (this.rotationPitch +
+                    (this.paraPitch - this.rotationPitch) / this.paraPosRotInc);
             this.paraPosRotInc--;
             this.setPosition(x, y, z);
             this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -279,7 +285,8 @@ public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
                 for (int l1 = i1; l1 < j1; l1++) {
                     boolean flag2 = k1 == i || k1 == j - 1;
                     boolean flag3 = l1 == i1 || l1 == j1 - 1;
-                    if ((!flag2 || !flag3) && this.world.isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1))) {
+                    if ((!flag2 || !flag3) &&
+                            this.world.isBlockLoaded(blockpos$pooledmutableblockpos.setPos(k1, 64, l1))) {
                         for (int i2 = k; i2 < l; i2++) {
                             if (!flag2 && !flag3 || i2 != l - 1) {
                                 if (entityIn != null && flag == flag1) {
@@ -294,7 +301,8 @@ public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
                                     iblockstate1 = this.world.getBlockState(blockpos$pooledmutableblockpos);
                                 }
 
-                                iblockstate1.addCollisionBoxToList(this.world, blockpos$pooledmutableblockpos, aabb, outList, entityIn, false);
+                                iblockstate1.addCollisionBoxToList(this.world, blockpos$pooledmutableblockpos, aabb,
+                                        outList, entityIn, false);
                             }
                         }
                     }
@@ -311,10 +319,12 @@ public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
         List<AxisAlignedBB> list = new ArrayList<>();
         this.getCollisionBoxes(par1Entity, par2AxisAlignedBB, list);
         if (par1Entity != null) {
-            List<Entity> list1 = this.world.getEntitiesWithinAABBExcludingEntity(par1Entity, par2AxisAlignedBB.grow(0.25));
+            List<Entity> list1 = this.world.getEntitiesWithinAABBExcludingEntity(par1Entity,
+                    par2AxisAlignedBB.grow(0.25));
 
             for (Entity entity : list1) {
-                if (!W_Lib.isEntityLivingBase(entity) && !(entity instanceof MCH_EntitySeat) && !(entity instanceof MCH_EntityHitBox)) {
+                if (!W_Lib.isEntityLivingBase(entity) && !(entity instanceof MCH_EntitySeat) &&
+                        !(entity instanceof MCH_EntityHitBox)) {
                     AxisAlignedBB axisalignedbb = entity.getCollisionBoundingBox();
                     if (axisalignedbb != null && axisalignedbb.intersects(par2AxisAlignedBB)) {
                         list.add(axisalignedbb);
@@ -380,7 +390,8 @@ public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
             y = this.stepHeight;
             AxisAlignedBB axisalignedbb1 = this.getEntityBoundingBox();
             this.setEntityBoundingBox(axisalignedbb);
-            List<AxisAlignedBB> list = this.getCollidingBoundingBoxes(this, this.getEntityBoundingBox().expand(d2, y, d4));
+            List<AxisAlignedBB> list = this.getCollidingBoundingBoxes(this,
+                    this.getEntityBoundingBox().expand(d2, y, d4));
             AxisAlignedBB axisalignedbb2 = this.getEntityBoundingBox();
             AxisAlignedBB axisalignedbb3 = axisalignedbb2.expand(d2, 0.0, d4);
             double d8 = y;

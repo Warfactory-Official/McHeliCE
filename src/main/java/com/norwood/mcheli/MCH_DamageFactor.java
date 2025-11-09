@@ -1,10 +1,11 @@
 package com.norwood.mcheli;
 
-import net.minecraft.entity.Entity;
-
 import java.util.HashMap;
 
+import net.minecraft.entity.Entity;
+
 public class MCH_DamageFactor {
+
     private final HashMap<Class<? extends Entity>, Float> map = new HashMap<>();
 
     public void clear() {

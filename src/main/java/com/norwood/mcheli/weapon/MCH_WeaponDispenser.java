@@ -1,10 +1,12 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.MCH_Lib;
+
 public class MCH_WeaponDispenser extends MCH_WeaponBase {
+
     public MCH_WeaponDispenser(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         super(w, v, yaw, pitch, nm, wi);
         this.acceleration = 0.5F;
@@ -22,8 +24,8 @@ public class MCH_WeaponDispenser extends MCH_WeaponBase {
             this.playSound(prm.entity);
             Vec3d v = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -prm.rotYaw, -prm.rotPitch, -prm.rotRoll);
             MCH_EntityDispensedItem e = new MCH_EntityDispensedItem(
-                    this.worldObj, prm.posX, prm.posY, prm.posZ, v.x, v.y, v.z, prm.rotYaw, prm.rotPitch, this.acceleration
-            );
+                    this.worldObj, prm.posX, prm.posY, prm.posZ, v.x, v.y, v.z, prm.rotYaw, prm.rotPitch,
+                    this.acceleration);
             e.setName(this.name);
             e.setParameterFromWeapon(this, prm.entity, prm.user);
             e.motionX = prm.entity.motionX + e.motionX * 0.5;

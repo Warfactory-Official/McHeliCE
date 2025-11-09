@@ -1,16 +1,19 @@
 package com.norwood.mcheli.gui;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.wrapper.W_GuiButton;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
 public class MCH_GuiSliderVertical extends W_GuiButton {
+
     public final float valueMin;
     public float valueMax;
     public final float valueStep;
@@ -18,8 +21,8 @@ public class MCH_GuiSliderVertical extends W_GuiButton {
     private boolean isMousePress;
 
     public MCH_GuiSliderVertical(
-            int gui_id, int posX, int posY, int sliderWidth, int sliderHeight, String string, float defaultSliderPos, float minVal, float maxVal, float step
-    ) {
+                                 int gui_id, int posX, int posY, int sliderWidth, int sliderHeight, String string,
+                                 float defaultSliderPos, float minVal, float maxVal, float step) {
         super(gui_id, posX, posY, sliderWidth, sliderHeight, string);
         this.valueMin = minVal;
         this.valueMax = maxVal;
@@ -58,9 +61,10 @@ public class MCH_GuiSliderVertical extends W_GuiButton {
                 this.currentSlider = this.normalizeValue(this.denormalizeValue(this.currentSlider));
             }
 
-             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(this.x, this.y + (int) (this.currentSlider * (this.height - 8)), 66, 0, 20, 4);
-            this.drawTexturedModalRect(this.x, this.y + (int) (this.currentSlider * (this.height - 8)) + 4, 66, 196, 20, 4);
+            this.drawTexturedModalRect(this.x, this.y + (int) (this.currentSlider * (this.height - 8)) + 4, 66, 196, 20,
+                    4);
             if (!MCH_Key.isKeyDown(-100)) {
                 this.mouseReleased(x, y);
             }
@@ -88,7 +92,8 @@ public class MCH_GuiSliderVertical extends W_GuiButton {
     }
 
     public float normalizeValue(float f) {
-        return MathHelper.clamp((this.snapToStepClamp(f) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
+        return MathHelper.clamp((this.snapToStepClamp(f) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F,
+                1.0F);
     }
 
     public float denormalizeValue(float f) {
@@ -134,12 +139,13 @@ public class MCH_GuiSliderVertical extends W_GuiButton {
         if (this.isVisible()) {
             FontRenderer fontrenderer = mc.fontRenderer;
             mc.getTextureManager().bindTexture(new ResourceLocation(Tags.MODID, "textures/gui/widgets.png"));
-             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.setOnMouseOver(x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height);
             int k = this.getHoverState(this.isOnMouseOver());
             this.enableBlend();
             this.drawTexturedModalRect(this.x, this.y, 46 + k * 20, 0, this.width, this.height / 2);
-            this.drawTexturedModalRect(this.x, this.y + this.height / 2, 46 + k * 20, 200 - this.height / 2, this.width, this.height / 2);
+            this.drawTexturedModalRect(this.x, this.y + this.height / 2, 46 + k * 20, 200 - this.height / 2, this.width,
+                    this.height / 2);
             this.mouseDragged(mc, x, y);
             int l = 14737632;
             if (this.packedFGColour != 0) {
@@ -150,7 +156,8 @@ public class MCH_GuiSliderVertical extends W_GuiButton {
                 l = 16777120;
             }
 
-            this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, l);
+            this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2,
+                    this.y + (this.height - 8) / 2, l);
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
         }
     }

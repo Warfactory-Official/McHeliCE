@@ -1,5 +1,18 @@
 package com.norwood.mcheli.chain;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.aircraft.MCH_EntityHitBox;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
@@ -10,18 +23,9 @@ import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Item;
 import com.norwood.mcheli.wrapper.W_Lib;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class MCH_ItemChain extends W_Item {
+
     public MCH_ItemChain(int par1) {
         super(par1);
         this.setMaxStackSize(1);
@@ -82,8 +86,8 @@ public class MCH_ItemChain extends W_Item {
                 }
 
                 MCH_EntityChain chain = new MCH_EntityChain(
-                        world, (entityTowed.posX + entity.posX) / 2.0, (entityTowed.posY + entity.posY) / 2.0, (entityTowed.posZ + entity.posZ) / 2.0
-                );
+                        world, (entityTowed.posX + entity.posX) / 2.0, (entityTowed.posY + entity.posY) / 2.0,
+                        (entityTowed.posZ + entity.posZ) / 2.0);
                 chain.setChainLength((int) diff);
                 chain.setTowEntity(entityTowed, entity);
                 chain.prevPosX = chain.posX;
@@ -106,7 +110,8 @@ public class MCH_ItemChain extends W_Item {
 
     @Nullable
     public static MCH_EntityChain getTowedEntityChain(Entity entity) {
-        List<MCH_EntityChain> list = entity.world.getEntitiesWithinAABB(MCH_EntityChain.class, entity.getEntityBoundingBox().grow(25.0, 25.0, 25.0));
+        List<MCH_EntityChain> list = entity.world.getEntitiesWithinAABB(MCH_EntityChain.class,
+                entity.getEntityBoundingBox().grow(25.0, 25.0, 25.0));
         return null;
     }
 
@@ -144,6 +149,6 @@ public class MCH_ItemChain extends W_Item {
         return null;
     }
 
-    public void onCreated(@NotNull ItemStack par1ItemStack, @NotNull World par2World, @NotNull EntityPlayer par3EntityPlayer) {
-    }
+    public void onCreated(@NotNull ItemStack par1ItemStack, @NotNull World par2World,
+                          @NotNull EntityPlayer par3EntityPlayer) {}
 }

@@ -1,10 +1,10 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public abstract class Col1Expression extends AbstractExpression {
+
     protected AbstractExpression exp;
 
-    protected Col1Expression() {
-    }
+    protected Col1Expression() {}
 
     protected Col1Expression(Col1Expression from, ShareExpValue s) {
         super(from, s);

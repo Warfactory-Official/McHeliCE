@@ -3,9 +3,11 @@ package com.norwood.mcheli.wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import org.lwjgl.opengl.GL11;
 
 public class W_TextureUtil {
+
     private static final W_TextureUtil instance = new W_TextureUtil();
 
     public static W_TextureUtil.TextureParam getTextureInfo(String domain, String name) {
@@ -23,10 +25,10 @@ public class W_TextureUtil {
     }
 
     public static class TextureParam {
+
         public int width;
         public int height;
 
-        public TextureParam(W_TextureUtil paramW_TextureUtil) {
-        }
+        public TextureParam(W_TextureUtil paramW_TextureUtil) {}
     }
 }

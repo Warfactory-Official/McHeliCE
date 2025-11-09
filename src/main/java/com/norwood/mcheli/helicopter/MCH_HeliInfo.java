@@ -1,25 +1,27 @@
 package com.norwood.mcheli.helicopter;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 
 public class MCH_HeliInfo extends MCH_AircraftInfo {
+
     public MCH_ItemHeli item = null;
     public boolean isEnableFoldBlade = false;
     public final List<MCH_HeliInfo.Rotor> rotorList = new ArrayList<>();
 
     public MCH_HeliInfo(AddonResourceLocation location, String path) {
         super(location, path);
-        //        this.minRotationPitch = -20.0F;
-//        this.maxRotationPitch = 20.0F;
+        // this.minRotationPitch = -20.0F;
+        // this.maxRotationPitch = 20.0F;
     }
 
     public float getMinRotationPitch() {
@@ -91,11 +93,11 @@ public class MCH_HeliInfo extends MCH_AircraftInfo {
     }
 
     public static class Rotor extends MCH_AircraftInfo.DrawnPart {
+
         public final int bladeNum;
         public final int bladeRot;
         public final boolean haveFoldFunc;
         public final boolean oldRenderMethod;
-
 
         public Rotor(DrawnPart other, int bladeNum, int bladeRot, boolean haveFoldFunc, boolean oldRenderMethod) {
             super(other);
@@ -106,8 +108,8 @@ public class MCH_HeliInfo extends MCH_AircraftInfo {
         }
 
         public Rotor(
-                MCH_HeliInfo paramMCH_HeliInfo, int bladeNum, int bladeRot, float x, float y, float z, float rx, float ry, float rz, String model, boolean haveFoldFunc, boolean oldRenderMethod
-        ) {
+                     MCH_HeliInfo paramMCH_HeliInfo, int bladeNum, int bladeRot, float x, float y, float z, float rx,
+                     float ry, float rz, String model, boolean haveFoldFunc, boolean oldRenderMethod) {
             super(paramMCH_HeliInfo, x, y, z, rx, ry, rz, model);
             this.bladeNum = bladeNum;
             this.bladeRot = bladeRot;

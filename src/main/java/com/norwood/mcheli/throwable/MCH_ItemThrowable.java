@@ -1,7 +1,5 @@
 package com.norwood.mcheli.throwable;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,9 +12,14 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.wrapper.W_Item;
+
 public class MCH_ItemThrowable extends W_Item {
+
     public MCH_ItemThrowable(int par1) {
         super(par1);
         this.setMaxStackSize(1);
@@ -26,13 +29,15 @@ public class MCH_ItemThrowable extends W_Item {
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, new MCH_ItemThrowableDispenseBehavior());
     }
 
-    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player, @NotNull EnumHand handIn) {
+    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player,
+                                                             @NotNull EnumHand handIn) {
         ItemStack itemstack = player.getHeldItem(handIn);
         player.setActiveHand(handIn);
         return ActionResult.newResult(EnumActionResult.SUCCESS, itemstack);
     }
 
-    public void onPlayerStoppedUsing(@NotNull ItemStack itemStack, @NotNull World world, @NotNull EntityLivingBase entityLiving, int par4) {
+    public void onPlayerStoppedUsing(@NotNull ItemStack itemStack, @NotNull World world,
+                                     @NotNull EntityLivingBase entityLiving, int par4) {
         if (entityLiving instanceof EntityPlayer player) {
             if (!itemStack.isEmpty() && itemStack.getCount() > 0) {
                 MCH_ThrowableInfo info = MCH_ThrowableInfoManager.get(itemStack.getItem());
@@ -52,8 +57,7 @@ public class MCH_ItemThrowable extends W_Item {
                             SoundEvents.ENTITY_ARROW_SHOOT,
                             SoundCategory.PLAYERS,
                             0.5F,
-                            0.4F / (itemRand.nextFloat() * 0.4F + 0.8F)
-                    );
+                            0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
                     if (!world.isRemote) {
                         float acceleration = 1.0F;
                         par4 = itemStack.getMaxItemUseDuration() - par4;

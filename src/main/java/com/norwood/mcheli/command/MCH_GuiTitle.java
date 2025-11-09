@@ -1,7 +1,8 @@
 package com.norwood.mcheli.command;
 
-import com.google.common.collect.Lists;
-import com.norwood.mcheli.gui.MCH_Gui;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.renderer.GlStateManager;
@@ -12,13 +13,15 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Lists;
+import com.norwood.mcheli.gui.MCH_Gui;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiTitle extends MCH_Gui {
+
     private final List<ChatLine> chatLines = new ArrayList<>();
     private int prevPlayerTick = 0;
     private int restShowTick = 0;
@@ -170,7 +173,8 @@ public class MCH_GuiTitle extends MCH_Gui {
             case 1 -> 0.0F;
             case 2 -> (float) this.mc.displayHeight / scaleFactor - this.chatLines.size() * 9.0F * scale;
             case 3 -> (float) this.mc.displayHeight / 3 / scaleFactor - this.chatLines.size() / 2.0F * 9.0F * scale;
-            case 4 -> (float) (this.mc.displayHeight * 2) / 3 / scaleFactor - this.chatLines.size() / 2.0F * 9.0F * scale;
+            case 4 -> (float) (this.mc.displayHeight * 2) / 3 / scaleFactor -
+                    this.chatLines.size() / 2.0F * 9.0F * scale;
             default -> (float) this.mc.displayHeight / 2 / scaleFactor - this.chatLines.size() / 2.0F * 9.0F * scale;
         };
 

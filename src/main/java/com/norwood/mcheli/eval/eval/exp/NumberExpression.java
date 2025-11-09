@@ -5,6 +5,7 @@ import com.norwood.mcheli.eval.eval.lex.Lex;
 import com.norwood.mcheli.eval.util.NumberUtil;
 
 public class NumberExpression extends WordExpression {
+
     public NumberExpression(String str) {
         super(str);
     }

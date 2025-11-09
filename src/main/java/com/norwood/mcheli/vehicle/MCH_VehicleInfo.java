@@ -1,16 +1,18 @@
 package com.norwood.mcheli.vehicle;
 
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 
 public class MCH_VehicleInfo extends MCH_AircraftInfo {
+
     public MCH_ItemVehicle item = null;
     public boolean isEnableMove = false;
     public boolean isEnableRot = false;
@@ -19,39 +21,48 @@ public class MCH_VehicleInfo extends MCH_AircraftInfo {
     public MCH_VehicleInfo(AddonResourceLocation location, String path) {
         super(location, path);
     }
+
     public float getMinRotationPitch() {
         return -90.0F;
     }
+
     public float getMaxRotationPitch() {
         return 90.0F;
     }
+
     @Override
     public Item getItem() {
         return this.item;
     }
+
     @Override
     public boolean validate() throws Exception {
         return super.validate();
     }
+
     @Override
     public String getDefaultHudName(int seatId) {
         return "vehicle";
     }
+
     @Override
     public String getDirectoryName() {
         return "vehicles";
     }
+
     @Override
     public String getKindName() {
         return "vehicle";
     }
+
     @Override
     public void onPostReload() {
-           item = (MCH_ItemVehicle) ForgeRegistries.ITEMS.getValue(new ResourceLocation(MCH_MOD.MOD_ID, name));
+        item = (MCH_ItemVehicle) ForgeRegistries.ITEMS.getValue(new ResourceLocation(MCH_MOD.MOD_ID, name));
         MCH_MOD.proxy.registerModelsVehicle(this, true);
     }
 
     public static class VPart extends MCH_AircraftInfo.DrawnPart {
+
         public final boolean rotPitch;
         public final boolean rotYaw;
         public final int type;
@@ -60,8 +71,8 @@ public class MCH_VehicleInfo extends MCH_AircraftInfo {
         public List<MCH_VehicleInfo.VPart> child;
 
         public VPart(
-                MCH_VehicleInfo paramMCH_VehicleInfo, float x, float y, float z, String model, boolean drawfp, boolean roty, boolean rotp, int type, float rb
-        ) {
+                     MCH_VehicleInfo paramMCH_VehicleInfo, float x, float y, float z, String model, boolean drawfp,
+                     boolean roty, boolean rotp, int type, float rb) {
             super(paramMCH_VehicleInfo, x, y, z, 0.0F, 0.0F, 0.0F, model);
             this.rotYaw = roty;
             this.rotPitch = rotp;

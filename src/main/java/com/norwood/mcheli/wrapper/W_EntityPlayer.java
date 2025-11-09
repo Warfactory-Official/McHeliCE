@@ -10,6 +10,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public abstract class W_EntityPlayer extends EntityPlayer {
+
     public W_EntityPlayer(World par1World, EntityPlayer player) {
         super(par1World, player.getGameProfile());
     }
@@ -37,7 +38,8 @@ public abstract class W_EntityPlayer extends EntityPlayer {
         player.sendMessage(new TextComponentString(s));
     }
 
-    public static EntityItem dropPlayerItemWithRandomChoice(EntityPlayer player, ItemStack item, boolean b1, boolean b2) {
+    public static EntityItem dropPlayerItemWithRandomChoice(EntityPlayer player, ItemStack item, boolean b1,
+                                                            boolean b2) {
         return player.dropItem(item, b1, b2);
     }
 

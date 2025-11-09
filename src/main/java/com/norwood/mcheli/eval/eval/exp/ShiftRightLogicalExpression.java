@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class ShiftRightLogicalExpression extends Col2Expression {
+
     public ShiftRightLogicalExpression() {
         this.setOperator(">>>");
     }

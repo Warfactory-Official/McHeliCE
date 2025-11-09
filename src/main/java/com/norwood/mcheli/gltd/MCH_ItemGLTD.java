@@ -1,8 +1,7 @@
 package com.norwood.mcheli.gltd;
 
-import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.List;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,25 +10,33 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import com.norwood.mcheli.wrapper.W_Item;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_ItemGLTD extends W_Item {
+
     public MCH_ItemGLTD(int par1) {
         super(par1);
         this.maxStackSize = 1;
     }
 
-    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World par2World, EntityPlayer par3EntityPlayer, @NotNull EnumHand handIn) {
+    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World par2World, EntityPlayer par3EntityPlayer,
+                                                             @NotNull EnumHand handIn) {
         ItemStack itemstack = par3EntityPlayer.getHeldItem(handIn);
         float f = 1.0F;
-        float f1 = par3EntityPlayer.prevRotationPitch + (par3EntityPlayer.rotationPitch - par3EntityPlayer.prevRotationPitch) * f;
-        float f2 = par3EntityPlayer.prevRotationYaw + (par3EntityPlayer.rotationYaw - par3EntityPlayer.prevRotationYaw) * f;
+        float f1 = par3EntityPlayer.prevRotationPitch +
+                (par3EntityPlayer.rotationPitch - par3EntityPlayer.prevRotationPitch) * f;
+        float f2 = par3EntityPlayer.prevRotationYaw +
+                (par3EntityPlayer.rotationYaw - par3EntityPlayer.prevRotationYaw) * f;
         double d0 = par3EntityPlayer.prevPosX + (par3EntityPlayer.posX - par3EntityPlayer.prevPosX) * f;
-        double d1 = par3EntityPlayer.prevPosY + (par3EntityPlayer.posY - par3EntityPlayer.prevPosY) * f + par3EntityPlayer.getEyeHeight();
+        double d1 = par3EntityPlayer.prevPosY + (par3EntityPlayer.posY - par3EntityPlayer.prevPosY) * f +
+                par3EntityPlayer.getEyeHeight();
         double d2 = par3EntityPlayer.prevPosZ + (par3EntityPlayer.posZ - par3EntityPlayer.prevPosZ) * f;
-        Vec3d vec3 =new Vec3d( d0, d1, d2);
+        Vec3d vec3 = new Vec3d(d0, d1, d2);
         float f3 = MathHelper.cos(-f2 * (float) (Math.PI / 180.0) - (float) Math.PI);
         float f4 = MathHelper.sin(-f2 * (float) (Math.PI / 180.0) - (float) Math.PI);
         float f5 = -MathHelper.cos(-f1 * (float) (Math.PI / 180.0));
@@ -46,8 +53,8 @@ public class MCH_ItemGLTD extends W_Item {
             boolean flag = false;
             float f9 = 1.0F;
             List<Entity> list = par2World.getEntitiesWithinAABBExcludingEntity(
-                    par3EntityPlayer, par3EntityPlayer.getEntityBoundingBox().expand(vec32.x * d3, vec32.y * d3, vec32.z * d3).grow(f9, f9, f9)
-            );
+                    par3EntityPlayer, par3EntityPlayer.getEntityBoundingBox()
+                            .expand(vec32.x * d3, vec32.y * d3, vec32.z * d3).grow(f9, f9, f9));
 
             for (Entity entity : list) {
                 if (entity.canBeCollidedWith()) {
@@ -69,7 +76,9 @@ public class MCH_ItemGLTD extends W_Item {
                     int k = blockpos.getZ();
                     MCH_EntityGLTD entityboat = new MCH_EntityGLTD(par2World, ix + 0.5F, j + 1.0F, k + 0.5F);
                     entityboat.rotationYaw = par3EntityPlayer.rotationYaw;
-                    if (!par2World.getCollisionBoxes(entityboat, entityboat.getEntityBoundingBox().grow(-0.1, -0.1, -0.1)).isEmpty()) {
+                    if (!par2World
+                            .getCollisionBoxes(entityboat, entityboat.getEntityBoundingBox().grow(-0.1, -0.1, -0.1))
+                            .isEmpty()) {
                         return ActionResult.newResult(EnumActionResult.FAIL, itemstack);
                     }
 

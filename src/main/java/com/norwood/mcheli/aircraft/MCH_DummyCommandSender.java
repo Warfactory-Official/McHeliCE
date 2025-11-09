@@ -1,14 +1,17 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.helper.MCH_Utils;
+
 public class MCH_DummyCommandSender implements ICommandSender {
+
     public static final MCH_DummyCommandSender instance = new MCH_DummyCommandSender();
 
     public static void execCommand(String s) {
@@ -24,8 +27,7 @@ public class MCH_DummyCommandSender implements ICommandSender {
         return null;
     }
 
-    public void sendMessage(@NotNull ITextComponent component) {
-    }
+    public void sendMessage(@NotNull ITextComponent component) {}
 
     public boolean canUseCommand(int permLevel, @NotNull String commandName) {
         return true;

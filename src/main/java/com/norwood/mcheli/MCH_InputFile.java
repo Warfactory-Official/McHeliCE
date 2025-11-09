@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class MCH_InputFile {
+
     public File file = null;
     public BufferedReader br = null;
 
@@ -32,7 +33,8 @@ public class MCH_InputFile {
         this.file = new File(path);
 
         try {
-            this.br = new BufferedReader(new InputStreamReader(Files.newInputStream(this.file.toPath()), StandardCharsets.UTF_8));
+            this.br = new BufferedReader(
+                    new InputStreamReader(Files.newInputStream(this.file.toPath()), StandardCharsets.UTF_8));
             return true;
         } catch (Exception var3) {
             var3.printStackTrace();
@@ -53,8 +55,7 @@ public class MCH_InputFile {
             if (this.br != null) {
                 this.br.close();
             }
-        } catch (IOException var2) {
-        }
+        } catch (IOException var2) {}
 
         this.br = null;
     }

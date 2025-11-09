@@ -1,13 +1,5 @@
 package com.norwood.mcheli.networking.packet.control;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.lweapon.MCH_ItemLightWeaponBase;
-import com.norwood.mcheli.weapon.MCH_WeaponBase;
-import com.norwood.mcheli.weapon.MCH_WeaponCreator;
-import com.norwood.mcheli.weapon.MCH_WeaponParam;
-import com.norwood.mcheli.wrapper.W_EntityPlayer;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
@@ -15,8 +7,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.Vec3d;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.lweapon.MCH_ItemLightWeaponBase;
+import com.norwood.mcheli.weapon.MCH_WeaponBase;
+import com.norwood.mcheli.weapon.MCH_WeaponCreator;
+import com.norwood.mcheli.weapon.MCH_WeaponParam;
+import com.norwood.mcheli.wrapper.W_EntityPlayer;
+
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+
 @ElegantPacket
 public class PacketPlayerLightWeaponControl implements ClientToServerPacket {
+
     public boolean useWeapon = false;
     public int useWeaponOption1 = 0;
     public int useWeaponOption2 = 0;
@@ -29,8 +32,7 @@ public class PacketPlayerLightWeaponControl implements ClientToServerPacket {
     private void handleWeaponFire(EntityPlayer player, ItemStack weaponStack) {
         String weaponName = MCH_ItemLightWeaponBase.getName(weaponStack);
         MCH_WeaponBase weapon = MCH_WeaponCreator.createWeapon(
-                player.world, weaponName, Vec3d.ZERO, 0.0F, 0.0F, null, false
-        );
+                player.world, weaponName, Vec3d.ZERO, 0.0F, 0.0F, null, false);
 
         MCH_WeaponParam prm = new MCH_WeaponParam();
         prm.entity = player;
@@ -52,7 +54,6 @@ public class PacketPlayerLightWeaponControl implements ClientToServerPacket {
 
     @Override
     public void onReceive(EntityPlayerMP player) {
-
         final ItemStack held = player.getHeldItemMainhand();
 
         if (camMode == 1) {
@@ -81,6 +82,4 @@ public class PacketPlayerLightWeaponControl implements ClientToServerPacket {
             held.setItemDamage(0);
         }
     }
-
-
 }

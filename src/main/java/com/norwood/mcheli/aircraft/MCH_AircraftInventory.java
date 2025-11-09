@@ -1,7 +1,8 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.parachute.MCH_ItemParachute;
-import com.norwood.mcheli.wrapper.W_NBTTag;
+import java.util.Arrays;
+import java.util.Random;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -10,12 +11,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Random;
+import com.norwood.mcheli.parachute.MCH_ItemParachute;
+import com.norwood.mcheli.wrapper.W_NBTTag;
 
 public class MCH_AircraftInventory implements IInventory {
+
     public final int SLOT_FUEL0 = 0;
     public final int SLOT_FUEL1 = 1;
     public final int SLOT_FUEL2 = 2;
@@ -98,8 +101,7 @@ public class MCH_AircraftInventory implements IInventory {
                                 this.aircraft.posX + x,
                                 this.aircraft.posY + y,
                                 this.aircraft.posZ + z,
-                                new ItemStack(itemstack.getItem(), j, itemstack.getMetadata())
-                        );
+                                new ItemStack(itemstack.getItem(), j, itemstack.getMetadata()));
                         if (itemstack.hasTagCompound()) {
                             entityitem.getItem().setTagCompound(itemstack.getTagCompound().copy());
                         }
@@ -184,8 +186,7 @@ public class MCH_AircraftInventory implements IInventory {
         return 64;
     }
 
-    public void markDirty() {
-    }
+    public void markDirty() {}
 
     public boolean isUsableByPlayer(EntityPlayer player) {
         return player.getDistanceSq(this.aircraft) <= 144.0;
@@ -199,11 +200,9 @@ public class MCH_AircraftInventory implements IInventory {
         return true;
     }
 
-    public void openInventory(@NotNull EntityPlayer player) {
-    }
+    public void openInventory(@NotNull EntityPlayer player) {}
 
-    public void closeInventory(@NotNull EntityPlayer player) {
-    }
+    public void closeInventory(@NotNull EntityPlayer player) {}
 
     protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
         NBTTagList nbttaglist = new NBTTagList();
@@ -234,15 +233,13 @@ public class MCH_AircraftInventory implements IInventory {
         }
     }
 
-    public void onInventoryChanged() {
-    }
+    public void onInventoryChanged() {}
 
     public int getField(int id) {
         return 0;
     }
 
-    public void setField(int id, int value) {
-    }
+    public void setField(int id, int value) {}
 
     public int getFieldCount() {
         return 0;

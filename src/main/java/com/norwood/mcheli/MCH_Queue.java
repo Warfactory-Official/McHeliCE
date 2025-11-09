@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MCH_Queue<T> {
+
     private int current;
     private final List<T> list;
 

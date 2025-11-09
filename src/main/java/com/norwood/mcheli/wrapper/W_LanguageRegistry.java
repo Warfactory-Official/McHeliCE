@@ -1,15 +1,17 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.helper.addon.GeneratedAddonPack;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
+import net.minecraft.advancements.Advancement;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+
+import com.norwood.mcheli.helper.addon.GeneratedAddonPack;
+
 public class W_LanguageRegistry {
+
     private static HashMap<String, ArrayList<String>> map = new HashMap<>();
 
     public static void addName(Object objectToName, String name) {

@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class MCH_HudItemConditional extends MCH_HudItem {
+
     private final boolean isEndif;
     private final String conditional;
 

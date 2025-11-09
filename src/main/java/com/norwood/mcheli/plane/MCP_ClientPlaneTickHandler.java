@@ -1,5 +1,8 @@
 package com.norwood.mcheli.plane;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_Lib;
@@ -11,10 +14,9 @@ import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.control.PacketPlayerControlPlane;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.wrapper.W_Reflection;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
+
     public MCH_Key KeySwitchMode;
     public MCH_Key KeyEjectSeat;
     public MCH_Key KeyZoom;
@@ -31,7 +33,7 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
         this.KeySwitchMode = new MCH_Key(MCH_Config.KeySwitchMode.prmInt);
         this.KeyEjectSeat = new MCH_Key(MCH_Config.KeySwitchHovering.prmInt);
         this.KeyZoom = new MCH_Key(MCH_Config.KeyZoom.prmInt);
-        this.Keys = new MCH_Key[]{
+        this.Keys = new MCH_Key[] {
                 this.KeyUp,
                 this.KeyDown,
                 this.KeyRight,
@@ -106,7 +108,8 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
             }
 
             boolean hideHand = true;
-            if ((!isPilot || !plane.isAlwaysCameraView()) && !plane.getIsGunnerMode(player) && plane.getCameraId() <= 0) {
+            if ((!isPilot || !plane.isAlwaysCameraView()) && !plane.getIsGunnerMode(player) &&
+                    plane.getCameraId() <= 0) {
                 MCH_Lib.setRenderViewEntity(player);
                 if (!isPilot && plane.getCurrentWeaponID(player) < 0) {
                     hideHand = false;
@@ -136,7 +139,8 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityPlane plane, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, plane, isPilot, new PacketPlayerControlPlane(new DataPlayerControlAircraft()));
+        this.commonPlayerControlInGUI(player, plane, isPilot,
+                new PacketPlayerControlPlane(new DataPlayerControlAircraft()));
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityPlane plane, boolean isPilot) {
@@ -156,7 +160,8 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
                         plane.setCameraId(0);
                     }
                 } else if (plane.canSwitchGunnerMode()) {
-                    pc.switchMode = plane.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF : DataPlayerControlAircraft.ModeSwitch.GUNNER_ON;
+                    pc.switchMode = plane.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF :
+                            DataPlayerControlAircraft.ModeSwitch.GUNNER_ON;
                     plane.switchGunnerMode(!plane.getIsGunnerMode(player));
                     plane.setCameraId(0);
                     send = true;
@@ -170,7 +175,8 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
             if (this.KeyExtra.isKeyDown()) {
                 if (plane.canSwitchVtol()) {
                     boolean currentMode = plane.getNozzleStat();
-                    pc.switchVtol = currentMode ? DataPlayerControlAircraft.VtolSwitch.VTOL_OFF : DataPlayerControlAircraft.VtolSwitch.VTOL_ON;
+                    pc.switchVtol = currentMode ? DataPlayerControlAircraft.VtolSwitch.VTOL_OFF :
+                            DataPlayerControlAircraft.VtolSwitch.VTOL_ON;
                     plane.swithVtolMode(!currentMode);
                     send = true;
                 } else {
@@ -219,6 +225,5 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
         if (send) {
             new PacketPlayerControlPlane(pc).sendToServer();
         }
-
     }
 }

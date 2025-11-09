@@ -1,35 +1,32 @@
 package com.norwood.mcheli.compat.hbm;
 
-
-import com.norwood.mcheli.compat.ModCompatManager;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import net.minecraft.entity.Entity;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
+
+import com.norwood.mcheli.compat.ModCompatManager;
+
+import lombok.NoArgsConstructor;
 
 @SuppressWarnings("unchecked")
 public class VNTSettingContainer {
 
     public static final String HBM_VANILLANT_PACKAGE = "com.hbm.explosion.vanillant.standard";
-    public static Map<String, Class<?>> vanillantClassSet = null; //Simple name : Class
+    public static Map<String, Class<?>> vanillantClassSet = null; // Simple name : Class
     private final Map<String, Object> rawEntry;
-    //ONLY ASSIGNABLE AT RUNTIME
+    // ONLY ASSIGNABLE AT RUNTIME
     private Object blockAllocator;
     private Object blockProcessor;
     private Object entityProcessor;
     private Object playerProcessor;
     public ExplosionEffect explosionEffect = ExplosionEffect.standard();
-//    private Object[] sfx;
-
+    // private Object[] sfx;
 
     public VNTSettingContainer(Map<String, Object> rawEntry) {
         this.rawEntry = rawEntry;
@@ -84,28 +81,29 @@ public class VNTSettingContainer {
         blockAllocator = processMap((Map<String, Object>) rawEntry.get("BlockAllocator"));
         entityProcessor = processMap((Map<String, Object>) rawEntry.get("EntityProcessor"));
         playerProcessor = processMap((Map<String, Object>) rawEntry.get("PlayerProcessor"));
-//        sfx = ((List<Map<String, Object>>) rawEntry.get("SFX")).stream().map((x) -> processMap(x)).collect(Collectors.toList()).toArray();
+        // sfx = ((List<Map<String, Object>>) rawEntry.get("SFX")).stream().map((x) ->
+        // processMap(x)).collect(Collectors.toList()).toArray();
     }
 
     @Optional.Method(modid = "hbm")
-    public void buildExplosion(World world, double x, double y, double z, float size, Entity exploder, boolean effectOnly) {
-        if(!effectOnly) {
+    public void buildExplosion(World world, double x, double y, double z, float size, Entity exploder,
+                               boolean effectOnly) {
+        if (!effectOnly) {
             var vnt = new com.hbm.explosion.vanillant.ExplosionVNT(world, x, y, z, size, exploder);
             vnt.setBlockAllocator((com.hbm.explosion.vanillant.interfaces.IBlockAllocator) blockAllocator);
             vnt.setEntityProcessor((com.hbm.explosion.vanillant.interfaces.IEntityProcessor) entityProcessor);
             vnt.setBlockProcessor((com.hbm.explosion.vanillant.interfaces.IBlockProcessor) blockProcessor);
             vnt.setPlayerProcessor((com.hbm.explosion.vanillant.interfaces.IPlayerProcessor) playerProcessor);
-//        vnt.setSFX((com.hbm.explosion.vanillant.interfaces.IExplosionSFX[]) sfx);
+            // vnt.setSFX((com.hbm.explosion.vanillant.interfaces.IExplosionSFX[]) sfx);
             vnt.explode();
         }
         explosionEffect.execute(world, x, y, z);
-
     }
 
     public Object processMap(Map<String, Object> map) {
         if (map == null || map.isEmpty()) return null;
 
-        //Get the class if specified
+        // Get the class if specified
         Object instance = null;
         if (map.containsKey("Type")) {
             String typeName = (String) map.get("Type");
@@ -118,7 +116,7 @@ public class VNTSettingContainer {
             // Constructor args if present
             Object ctorArgs = map.get("Constructor");
             try {
-                if (ctorArgs instanceof List<?> argsList) {
+                if (ctorArgs instanceof List<?>argsList) {
                     Constructor<?> ctor = findMatchingConstructor(clazz, argsList);
                     instance = ctor.newInstance(argsList.toArray());
                 } else {
@@ -138,7 +136,7 @@ public class VNTSettingContainer {
             if (key.equals("Type") || key.equals("Constructor")) continue;
 
             try {
-                if (value instanceof Map<?, ?> nestedMap) {
+                if (value instanceof Map<?, ?>nestedMap) {
                     Object nestedObj = processMap((Map<String, Object>) nestedMap);
                     invokeSetter(instance, key, nestedObj);
                 } else {
@@ -158,7 +156,9 @@ public class VNTSettingContainer {
         if (instance == null || value == null) return;
 
         Class<?> clazz = instance.getClass();
-        String methodName = Character.toLowerCase(key.charAt(0)) + key.substring(1); // Ideally user provides exact method name, safety if they decide to use the pascal case
+        String methodName = Character.toLowerCase(key.charAt(0)) + key.substring(1); // Ideally user provides exact
+                                                                                     // method name, safety if they
+                                                                                     // decide to use the pascal case
 
         try {
             Method m = clazz.getMethod(methodName, value.getClass());
@@ -168,8 +168,7 @@ public class VNTSettingContainer {
                 Field f = clazz.getDeclaredField(key);
                 f.setAccessible(true);
                 f.set(instance, value);
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,6 +176,7 @@ public class VNTSettingContainer {
 
     @NoArgsConstructor
     public static class ExplosionEffect {
+
         public boolean isSmall;
 
         public int cloudCount = 0;
@@ -194,17 +194,17 @@ public class VNTSettingContainer {
         public float soundRange = 0.0F;
 
         public ExplosionEffect(boolean isSmall,
-                                   int cloudCount,
-                                   float cloudScale,
-                                   float cloudSpeedMult,
-                                   float waveScale,
-                                   int debrisCount,
-                                   int debrisSize,
-                                   int debrisRetry,
-                                   float debrisVelocity,
-                                   float debrisHorizontalDeviation,
-                                   float debrisVerticalOffset,
-                                   float soundRange) {
+                               int cloudCount,
+                               float cloudScale,
+                               float cloudSpeedMult,
+                               float waveScale,
+                               int debrisCount,
+                               int debrisSize,
+                               int debrisRetry,
+                               float debrisVelocity,
+                               float debrisHorizontalDeviation,
+                               float debrisVerticalOffset,
+                               float soundRange) {
             this.isSmall = isSmall;
             this.cloudCount = cloudCount;
             this.cloudScale = cloudScale;
@@ -227,8 +227,7 @@ public class VNTSettingContainer {
                         x, y, z,
                         cloudCount,
                         cloudScale,
-                        cloudSpeedMult
-                );
+                        cloudSpeedMult);
             } else {
                 com.hbm.particle.helper.ExplosionCreator.composeEffect(
                         world,
@@ -243,11 +242,9 @@ public class VNTSettingContainer {
                         debrisVelocity,
                         debrisHorizontalDeviation,
                         debrisVerticalOffset,
-                        soundRange
-                );
+                        soundRange);
             }
         }
-
 
         public static ExplosionEffect medium() {
             return new ExplosionEffect(
@@ -262,8 +259,7 @@ public class VNTSettingContainer {
                     0.75F,
                     1F,
                     -2F,
-                    150F
-            );
+                    150F);
         }
 
         public static ExplosionEffect standard() {
@@ -279,8 +275,7 @@ public class VNTSettingContainer {
                     1F,
                     3F,
                     -2F,
-                    200F
-            );
+                    200F);
         }
 
         public static ExplosionEffect large() {
@@ -296,12 +291,7 @@ public class VNTSettingContainer {
                     1.25F,
                     3F,
                     -2F,
-                    350F
-            );
+                    350F);
         }
-
-
     }
-
-
 }

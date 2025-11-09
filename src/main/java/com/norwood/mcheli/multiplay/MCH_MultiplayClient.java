@@ -1,23 +1,5 @@
 package com.norwood.mcheli.multiplay;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_FileSearch;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_OStream;
-import com.norwood.mcheli.networking.packet.PacketImgDataChunk;
-import com.norwood.mcheli.networking.packet.PacketSendModlist;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.relauncher.CoreModManager;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.IntBuffer;
@@ -29,7 +11,29 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
+import javax.imageio.ImageIO;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.relauncher.CoreModManager;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_FileSearch;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_OStream;
+import com.norwood.mcheli.networking.packet.PacketImgDataChunk;
+import com.norwood.mcheli.networking.packet.PacketSendModlist;
+
 public class MCH_MultiplayClient {
+
     private static IntBuffer pixelBuffer;
     private static int[] pixelValues;
     private static MCH_OStream dataOutputStream;
@@ -83,8 +87,7 @@ public class MCH_MultiplayClient {
 
             dataOutputStream = new MCH_OStream();
             ImageIO.write(bufferedimage, "png", dataOutputStream);
-        } catch (Exception var8) {
-        }
+        } catch (Exception var8) {}
     }
 
     public static void readImageData(DataOutputStream dos) {
@@ -118,7 +121,7 @@ public class MCH_MultiplayClient {
     }
 
     public static double getPerData() {
-         return  (double) dataOutputStream.index / dataOutputStream.size();
+        return (double) dataOutputStream.index / dataOutputStream.size();
     }
 
     public static void readModList(String playerName, String commandSenderName) {
@@ -132,7 +135,8 @@ public class MCH_MultiplayClient {
             if (classFileName.length() > 1) {
                 File javaClassFile = new File(classFileName);
                 if (javaClassFile.getAbsolutePath().toLowerCase().contains("versions")) {
-                    modList.add(TextFormatting.AQUA + "# Client class=" + javaClassFile.getName() + " : file size= " + javaClassFile.length());
+                    modList.add(TextFormatting.AQUA + "# Client class=" + javaClassFile.getName() + " : file size= " +
+                            javaClassFile.length());
                 }
             }
         }
@@ -140,7 +144,8 @@ public class MCH_MultiplayClient {
         modList.add(TextFormatting.YELLOW + "=== ActiveModList ===");
 
         for (ModContainer mod : Loader.instance().getActiveModList()) {
-            modList.add(mod + "  [" + mod.getModId() + "]  " + mod.getName() + "[" + mod.getDisplayVersion() + "]  " + mod.getSource().getName());
+            modList.add(mod + "  [" + mod.getModId() + "]  " + mod.getName() + "[" + mod.getDisplayVersion() + "]  " +
+                    mod.getSource().getName());
         }
 
         if (!CoreModManager.getAccessTransformers().isEmpty()) {

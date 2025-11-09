@@ -1,10 +1,9 @@
 package com.norwood.mcheli.parachute;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.*;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -22,13 +21,19 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.List;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.*;
 
 public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassenger {
-    private static final DataParameter<Byte> TYPE = EntityDataManager.createKey(MCH_EntityParachute.class, DataSerializers.BYTE);
+
+    private static final DataParameter<Byte> TYPE = EntityDataManager.createKey(MCH_EntityParachute.class,
+            DataSerializers.BYTE);
     public Entity user;
     public int onGroundCount;
     private double speedMultiplier = 0.07;
@@ -107,7 +112,8 @@ public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassen
     }
 
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport) {
+    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch,
+                                             int posRotationIncrements, boolean teleport) {
         this.paraPosRotInc = posRotationIncrements + 10;
         this.paraX = x;
         this.paraY = y;
@@ -149,11 +155,13 @@ public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassen
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        double d1 = this.getEntityBoundingBox().minY + (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) * 0.0 / 5.0 - 0.125;
-        double d2 = this.getEntityBoundingBox().minY + (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) / 5.0 - 0.125;
+        double d1 = this.getEntityBoundingBox().minY +
+                (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) * 0.0 / 5.0 - 0.125;
+        double d2 = this.getEntityBoundingBox().minY +
+                (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) / 5.0 - 0.125;
         AxisAlignedBB axisalignedbb = W_AxisAlignedBB.getAABB(
-                this.getEntityBoundingBox().minX, d1, this.getEntityBoundingBox().minZ, this.getEntityBoundingBox().maxX, d2, this.getEntityBoundingBox().maxZ
-        );
+                this.getEntityBoundingBox().minX, d1, this.getEntityBoundingBox().minZ,
+                this.getEntityBoundingBox().maxX, d2, this.getEntityBoundingBox().maxZ);
         if (this.world.isMaterialInBB(axisalignedbb, Material.WATER)) {
             this.onWaterSetBoat();
             this.setDead();
@@ -173,7 +181,8 @@ public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassen
             double z = this.posZ + (this.paraZ - this.posZ) / this.paraPosRotInc;
             double yaw = MathHelper.wrapDegrees(this.paraYaw - this.rotationYaw);
             this.rotationYaw = (float) (this.rotationYaw + yaw / this.paraPosRotInc);
-            this.rotationPitch = (float) (this.rotationPitch + (this.paraPitch - this.rotationPitch) / this.paraPosRotInc);
+            this.rotationPitch = (float) (this.rotationPitch +
+                    (this.paraPitch - this.rotationPitch) / this.paraPosRotInc);
             this.paraPosRotInc--;
             this.setPosition(x, y, z);
             this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -182,8 +191,7 @@ public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassen
             }
         } else {
             this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            if (this.onGround) {
-            }
+            if (this.onGround) {}
 
             this.motionX *= 0.99;
             this.motionY *= 0.95;
@@ -203,8 +211,7 @@ public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassen
                         "smoke",
                         this.prevPosX + (this.posX - this.prevPosX) * (i / num) * 0.8,
                         this.prevPosY + (this.posY - this.prevPosY) * (i / num) * 0.8,
-                        this.prevPosZ + (this.posZ - this.prevPosZ) * (i / num) * 0.8
-                );
+                        this.prevPosZ + (this.posZ - this.prevPosZ) * (i / num) * 0.8);
                 prm.motionX = this.motionX * 0.5 + (this.rand.nextDouble() - 0.5) * 0.5;
                 prm.motionX = this.motionY * -0.5 + (this.rand.nextDouble() - 0.5) * 0.5;
                 prm.motionX = this.motionZ * 0.5 + (this.rand.nextDouble() - 0.5) * 0.5;
@@ -305,10 +312,12 @@ public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassen
             this.setRotation(this.rotationYaw, this.rotationPitch);
         }
 
-        List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(0.2, 0.0, 0.2));
+        List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this,
+                this.getEntityBoundingBox().grow(0.2, 0.0, 0.2));
         if (!list.isEmpty()) {
             for (Entity entity : list) {
-                if (entity != this.getRiddenByEntity() && entity.canBePushed() && entity instanceof MCH_EntityParachute) {
+                if (entity != this.getRiddenByEntity() && entity.canBePushed() &&
+                        entity instanceof MCH_EntityParachute) {
                     entity.applyEntityCollision(this);
                 }
             }
@@ -379,7 +388,8 @@ public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassen
         if (this.isPassenger(passenger)) {
             double x = -Math.sin(this.rotationYaw * Math.PI / 180.0) * 0.1;
             double z = Math.cos(this.rotationYaw * Math.PI / 180.0) * 0.1;
-            passenger.setPosition(this.posX + x, this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ + z);
+            passenger.setPosition(this.posX + x, this.posY + this.getMountedYOffset() + passenger.getYOffset(),
+                    this.posZ + z);
         }
     }
 

@@ -1,5 +1,9 @@
 package com.norwood.mcheli.networking.packet.control;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.chain.MCH_EntityChain;
@@ -9,11 +13,9 @@ import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.data.DataPlayerControlVehicle;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
+
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 @RequiredArgsConstructor
@@ -23,12 +25,9 @@ public class PacketPlayerControlVehicle extends PacketPlayerControlBase {
 
     @Override
     public void onReceive(EntityPlayerMP player) {
-
         if (player.getRidingEntity() instanceof MCH_EntityVehicle vehicle)
             process(vehicle, data, player);
-
     }
-
 
     protected void process(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
         if (aircraft == null) return;
@@ -50,10 +49,9 @@ public class PacketPlayerControlVehicle extends PacketPlayerControlBase {
         handleGear(aircraft, data);
         handleRack(aircraft, data);
         handleGunnerStatus(aircraft, data);
-
     }
 
-    //This looks odd, propably can be a bool
+    // This looks odd, propably can be a bool
     protected void handleFold(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
         var heliData = (DataPlayerControlVehicle) data;
         switch (heliData.getBladeStatus()) {
@@ -62,7 +60,6 @@ public class PacketPlayerControlVehicle extends PacketPlayerControlBase {
         }
     }
 
-
     @Override
     protected void handleChain(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
         var heliData = (DataPlayerControlVehicle) data;
@@ -70,9 +67,8 @@ public class PacketPlayerControlVehicle extends PacketPlayerControlBase {
         if (heliData.getUnhitchChainId() >= 0) {
             Entity e = player.world.getEntityByID(heliData.getUnhitchChainId());
             if (e instanceof MCH_EntityChain) {
-                if (((MCH_EntityChain) e).towedEntity instanceof MCH_EntityContainer
-                        && MCH_Lib.getBlockIdY(aircraft, 3, -20) == 0
-                        && player instanceof EntityPlayerMP) {
+                if (((MCH_EntityChain) e).towedEntity instanceof MCH_EntityContainer &&
+                        MCH_Lib.getBlockIdY(aircraft, 3, -20) == 0 && player instanceof EntityPlayerMP) {
                     MCH_CriteriaTriggers.RELIEF_SUPPLIES.trigger((EntityPlayerMP) player);
                 }
 

@@ -1,9 +1,5 @@
 package com.norwood.mcheli.particles;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
-import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
-import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,13 +7,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
+import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
+import com.norwood.mcheli.wrapper.W_Reflection;
 
 public class MCH_EntityParticleMarkPoint extends MCH_EntityParticleBase implements ITargetMarkerObject {
+
     final Team team;
 
     public MCH_EntityParticleMarkPoint(World par1World, double x, double y, double z, Team team) {
@@ -54,15 +55,14 @@ public class MCH_EntityParticleMarkPoint extends MCH_EntityParticleBase implemen
 
     @Override
     public void renderParticle(
-            @NotNull BufferBuilder buffer,
-            @NotNull Entity entity,
-            float partialTicks,
-            float rotationX,
-            float rotationZ,
-            float rotationYZ,
-            float rotationXY,
-            float rotationXZ) {
-
+                               @NotNull BufferBuilder buffer,
+                               @NotNull Entity entity,
+                               float partialTicks,
+                               float rotationX,
+                               float rotationZ,
+                               float rotationYZ,
+                               float rotationXY,
+                               float rotationXZ) {
         GlStateManager.pushMatrix();
         Minecraft minecraft = Minecraft.getMinecraft();
         EntityPlayer player = minecraft.player;
@@ -85,13 +85,11 @@ public class MCH_EntityParticleMarkPoint extends MCH_EntityParticleBase implemen
                 Vec3d playerEyePosition = new Vec3d(
                         entity.posX,
                         entity.posY + entity.getEyeHeight(),
-                        entity.posZ
-                );
+                        entity.posZ);
 
                 RayTraceResult rayTraceResult = entity.world.rayTraceBlocks(
                         playerEyePosition,
-                        playerEyePosition.add(cameraOffset)
-                );
+                        playerEyePosition.add(cameraOffset));
 
                 double effectiveDistance = cameraDistance;
                 if (rayTraceResult != null && rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK) {
@@ -105,8 +103,7 @@ public class MCH_EntityParticleMarkPoint extends MCH_EntityParticleBase implemen
                 GlStateManager.translate(
                         cameraOffset.x * scaleFactor,
                         cameraOffset.y * scaleFactor,
-                        cameraOffset.z * scaleFactor
-                );
+                        cameraOffset.z * scaleFactor);
 
                 interpX += cameraOffset.x * scaleFactor;
                 interpY += cameraOffset.y * scaleFactor;
@@ -128,13 +125,11 @@ public class MCH_EntityParticleMarkPoint extends MCH_EntityParticleBase implemen
                     renderX / distanceScale,
                     renderY / distanceScale,
                     renderZ / distanceScale,
-                    false
-            );
+                    false);
 
             GlStateManager.popMatrix();
         }
     }
-
 
     @Override
     public double getX() {

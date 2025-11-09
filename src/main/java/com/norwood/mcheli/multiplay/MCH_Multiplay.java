@@ -1,16 +1,9 @@
 package com.norwood.mcheli.multiplay;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.helicopter.MCH_EntityHeli;
-import com.norwood.mcheli.networking.packet.PacketMarkPos;
-import com.norwood.mcheli.networking.packet.PacketSpotEnemy;
-import com.norwood.mcheli.plane.MCH_EntityPlane;
-import com.norwood.mcheli.ship.MCH_EntityShip;
-import com.norwood.mcheli.tank.MCH_EntityTank;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
+import java.util.*;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.command.CommandException;
 import net.minecraft.command.server.CommandScoreboard;
 import net.minecraft.command.server.CommandTeleport;
@@ -27,25 +20,35 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 
-import javax.annotation.Nullable;
-import java.util.*;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
+import com.norwood.mcheli.networking.packet.PacketMarkPos;
+import com.norwood.mcheli.networking.packet.PacketSpotEnemy;
+import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.ship.MCH_EntityShip;
+import com.norwood.mcheli.tank.MCH_EntityTank;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 
 public class MCH_Multiplay {
-    public static final MCH_TargetType[][] ENTITY_SPOT_TABLE = new MCH_TargetType[][]{
-            {MCH_TargetType.NONE, MCH_TargetType.NONE},
-            {MCH_TargetType.OTHER_MOB, MCH_TargetType.OTHER_MOB},
-            {MCH_TargetType.MONSTER, MCH_TargetType.MONSTER},
-            {MCH_TargetType.NONE, MCH_TargetType.NO_TEAM_PLAYER},
-            {MCH_TargetType.NONE, MCH_TargetType.SAME_TEAM_PLAYER},
-            {MCH_TargetType.NONE, MCH_TargetType.OTHER_TEAM_PLAYER},
-            {MCH_TargetType.NONE, MCH_TargetType.NONE},
-            {MCH_TargetType.NONE, MCH_TargetType.NO_TEAM_PLAYER},
-            {MCH_TargetType.NONE, MCH_TargetType.SAME_TEAM_PLAYER},
-            {MCH_TargetType.NONE, MCH_TargetType.OTHER_TEAM_PLAYER}
+
+    public static final MCH_TargetType[][] ENTITY_SPOT_TABLE = new MCH_TargetType[][] {
+            { MCH_TargetType.NONE, MCH_TargetType.NONE },
+            { MCH_TargetType.OTHER_MOB, MCH_TargetType.OTHER_MOB },
+            { MCH_TargetType.MONSTER, MCH_TargetType.MONSTER },
+            { MCH_TargetType.NONE, MCH_TargetType.NO_TEAM_PLAYER },
+            { MCH_TargetType.NONE, MCH_TargetType.SAME_TEAM_PLAYER },
+            { MCH_TargetType.NONE, MCH_TargetType.OTHER_TEAM_PLAYER },
+            { MCH_TargetType.NONE, MCH_TargetType.NONE },
+            { MCH_TargetType.NONE, MCH_TargetType.NO_TEAM_PLAYER },
+            { MCH_TargetType.NONE, MCH_TargetType.SAME_TEAM_PLAYER },
+            { MCH_TargetType.NONE, MCH_TargetType.OTHER_TEAM_PLAYER }
     };
 
     public static boolean canSpotEntityWithFilter(int filter, Entity entity) {
-        if (entity instanceof MCH_EntityPlane || entity instanceof MCH_EntityShip) { //spaghetti
+        if (entity instanceof MCH_EntityPlane || entity instanceof MCH_EntityShip) { // spaghetti
             return (filter & 32) != 0;
         } else if (entity instanceof MCH_EntityHeli) {
             return (filter & 16) != 0;
@@ -64,7 +67,8 @@ public class MCH_Multiplay {
         return entity.getClass().toString().toLowerCase().contains("monster");
     }
 
-    public static MCH_TargetType canSpotEntity(Entity user, double posX, double posY, double posZ, Entity target, boolean checkSee) {
+    public static MCH_TargetType canSpotEntity(Entity user, double posX, double posY, double posZ, Entity target,
+                                               boolean checkSee) {
         if (!(user instanceof EntityLivingBase spotter)) {
             return MCH_TargetType.NONE;
         } else {
@@ -131,9 +135,10 @@ public class MCH_Multiplay {
 
             if (target instanceof EntityPlayer) {
                 targetPlayer = (EntityPlayer) target;
-            } else if (target instanceof IEntitySinglePassenger && ((IEntitySinglePassenger) target).getRiddenByEntity() instanceof EntityPlayer) {
-                targetPlayer = (EntityPlayer) ((IEntitySinglePassenger) target).getRiddenByEntity();
-            }
+            } else if (target instanceof IEntitySinglePassenger &&
+                    ((IEntitySinglePassenger) target).getRiddenByEntity() instanceof EntityPlayer) {
+                        targetPlayer = (EntityPlayer) ((IEntitySinglePassenger) target).getRiddenByEntity();
+                    }
 
             if (target instanceof MCH_EntityAircraft ac) {
                 if (ac.getRiddenByEntity() instanceof EntityPlayer) {
@@ -167,7 +172,7 @@ public class MCH_Multiplay {
                     }
 
                     if (cc != null) {
-                        String[] cmdStr = new String[]{
+                        String[] cmdStr = new String[] {
                                 playerName,
                                 String.format("%.1f", cc.getX() + 0.5),
                                 String.format("%.1f", cc.getY() + 0.1),
@@ -225,16 +230,15 @@ public class MCH_Multiplay {
     }
 
     public static boolean spotEntity(
-            EntityLivingBase player,
-            @Nullable MCH_EntityAircraft ac,
-            double posX,
-            double posY,
-            double posZ,
-            int targetFilter,
-            float spotLength,
-            int markTime,
-            float angle
-    ) {
+                                     EntityLivingBase player,
+                                     @Nullable MCH_EntityAircraft ac,
+                                     double posX,
+                                     double posY,
+                                     double posZ,
+                                     int targetFilter,
+                                     float spotLength,
+                                     int markTime,
+                                     float angle) {
         boolean ret = false;
         if (!player.world.isRemote) {
             float acRoll = 0.0F;
@@ -246,7 +250,8 @@ public class MCH_Multiplay {
             double tx = vv.x;
             double tz = vv.z;
             List<Entity> list = player.world
-                    .getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(spotLength, spotLength, spotLength));
+                    .getEntitiesWithinAABBExcludingEntity(player,
+                            player.getEntityBoundingBox().grow(spotLength, spotLength, spotLength));
             List<Integer> entityList = new ArrayList<>();
             Vec3d pos = new Vec3d(posX, posY, posZ);
 
@@ -304,7 +309,8 @@ public class MCH_Multiplay {
         ve = vs.add(ve.x * 300.0, ve.y * 300.0, ve.z * 300.0);
         RayTraceResult mop = player.world.rayTraceBlocks(vs, ve, true);
         if (mop != null && mop.typeOfHit == Type.BLOCK) {
-            sendMarkPointToSameTeam(player, mop.getBlockPos().getX(), mop.getBlockPos().getY() + 2, mop.getBlockPos().getZ());
+            sendMarkPointToSameTeam(player, mop.getBlockPos().getX(), mop.getBlockPos().getY() + 2,
+                    mop.getBlockPos().getZ());
             return true;
         } else {
             sendMarkPointToSameTeam(player, 0, 1000, 0);
@@ -317,7 +323,7 @@ public class MCH_Multiplay {
 
         for (EntityPlayer notifyPlayer : svCnf.getPlayers()) {
             if (player == notifyPlayer || player.isOnSameTeam(notifyPlayer)) {
-                new PacketMarkPos(x,y,z).sendToPlayer((EntityPlayerMP) player);
+                new PacketMarkPos(x, y, z).sendToPlayer((EntityPlayerMP) player);
             }
         }
     }

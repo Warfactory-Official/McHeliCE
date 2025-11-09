@@ -1,6 +1,7 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.helper.client.MCH_CameraManager;
+import javax.annotation.Nonnull;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -10,9 +11,10 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-import javax.annotation.Nonnull;
+import com.norwood.mcheli.helper.client.MCH_CameraManager;
 
 public class W_Reflection {
+
     public static RenderManager getRenderManager(Render<?> render) {
         return render.getRenderManager();
     }
@@ -25,7 +27,7 @@ public class W_Reflection {
         return MCH_CameraManager.getThirdPeasonCameraDistance();
     }
 
-    //Why is this here?
+    // Why is this here?
     public static void setThirdPersonDistance(float dist) {
         if (!(dist < 0.1)) {
             MCH_CameraManager.setThirdPeasonCameraDistance(dist);
@@ -53,7 +55,8 @@ public class W_Reflection {
     public static void setCreativeDigSpeed(int n) {
         try {
             Minecraft mc = Minecraft.getMinecraft();
-            ObfuscationReflectionHelper.setPrivateValue(PlayerControllerMP.class, mc.playerController, n, "field_78781_i");
+            ObfuscationReflectionHelper.setPrivateValue(PlayerControllerMP.class, mc.playerController, n,
+                    "field_78781_i");
         } catch (Exception var2) {
             var2.printStackTrace();
         }
@@ -64,8 +67,7 @@ public class W_Reflection {
     }
 
     @Deprecated
-    public static void setItemRenderer(ItemRenderer r) {
-    }
+    public static void setItemRenderer(ItemRenderer r) {}
 
     @Nonnull
     public static ItemStack getItemRendererMainHand() {
@@ -79,7 +81,8 @@ public class W_Reflection {
 
     public static void setItemRendererMainHand(ItemStack itemToRender) {
         try {
-            ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, getItemRenderer(), itemToRender, "field_187467_d");
+            ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, getItemRenderer(), itemToRender,
+                    "field_187467_d");
         } catch (Exception var2) {
             var2.printStackTrace();
         }
@@ -87,7 +90,8 @@ public class W_Reflection {
 
     public static void setItemRendererMainProgress(float equippedProgress) {
         try {
-            ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, getItemRenderer(), equippedProgress, "field_187469_f");
+            ObfuscationReflectionHelper.setPrivateValue(ItemRenderer.class, getItemRenderer(), equippedProgress,
+                    "field_187469_f");
         } catch (Exception var2) {
             var2.printStackTrace();
         }

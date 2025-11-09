@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.exp;
 import com.norwood.mcheli.eval.eval.EvalException;
 
 public class ArrayExpression extends Col2OpeExpression {
+
     public ArrayExpression() {
         this.setOperator("[");
         this.setEndOperator("]");

@@ -1,13 +1,15 @@
 package com.norwood.mcheli.multiplay;
 
-import com.google.common.collect.Lists;
-import com.norwood.mcheli.wrapper.W_GuiContainer;
-import com.norwood.mcheli.wrapper.W_ScaledResolution;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,13 +17,13 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.text.TextFormatting;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.Lists;
+import com.norwood.mcheli.wrapper.W_GuiContainer;
+import com.norwood.mcheli.wrapper.W_ScaledResolution;
 
 public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
+
     public static final int BUTTON_ID_SHUFFLE = 256;
     public static final int BUTTON_ID_CREATE_TEAM = 512;
     public static final int BUTTON_ID_CREATE_TEAM_OK = 528;
@@ -93,7 +95,8 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
         }
     }
 
-    public static void drawPlayersList(Minecraft mc, FontRenderer fontRendererObj, ScorePlayerTeam team, int teamIndex, int teamNum) {
+    public static void drawPlayersList(Minecraft mc, FontRenderer fontRendererObj, ScorePlayerTeam team, int teamIndex,
+                                       int teamNum) {
         ScaledResolution scaledresolution = new W_ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int ScaledHeight = scaledresolution.getScaledHeight();
         ScoreObjective scoreobjective = mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
@@ -121,7 +124,7 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
             int y = listTop + drawY * 9;
             int rectY = listTop + i * 9;
             drawRect(listLeft, rectY, listLeft + width - 1, rectY + 8, 553648127);
-             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableAlpha();
             if (i < list.size()) {
                 NetworkPlayerInfo guiplayerinfo = list.get(i);
@@ -134,9 +137,11 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
                         int j4 = listLeft + fontRendererObj.getStringWidth(playerName) + 5;
                         int k4 = listLeft + width - 12 - 5;
                         if (k4 - j4 > 5) {
-                            Score score = scoreobjective.getScoreboard().getOrCreateScore(guiplayerinfo.getGameProfile().getName(), scoreobjective);
+                            Score score = scoreobjective.getScoreboard()
+                                    .getOrCreateScore(guiplayerinfo.getGameProfile().getName(), scoreobjective);
                             String s1 = TextFormatting.YELLOW + "" + score.getScorePoints();
-                            fontRendererObj.drawStringWithShadow(s1, k4 - fontRendererObj.getStringWidth(s1), y, 16777215);
+                            fontRendererObj.drawStringWithShadow(s1, k4 - fontRendererObj.getStringWidth(s1), y,
+                                    16777215);
                         }
                     }
 
@@ -147,7 +152,7 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
     }
 
     public static void drawResponseTime(int x, int y, int responseTime) {
-         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(ICONS);
         byte b2;
         if (responseTime < 0) {
@@ -178,8 +183,7 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
         tessellator.draw();
     }
 
-    public void initGui() {
-    }
+    public void initGui() {}
 
     public void initGui(List<GuiButton> buttonList, GuiScreen parents) {
         this.listGui = new ArrayList<>();
@@ -198,18 +202,15 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
         this.buttonList.clear();
     }
 
-    public void updateScreenButtons(List<GuiButton> list) {
-    }
+    public void updateScreenButtons(List<GuiButton> list) {}
 
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-    }
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {}
 
     public int getTeamNum() {
         return this.mc.world.getScoreboard().getTeams().size();
     }
 
-    protected void acviveScreen() {
-    }
+    protected void acviveScreen() {}
 
     public void onSwitchScreen() {
         for (Object b : this.listGui) {

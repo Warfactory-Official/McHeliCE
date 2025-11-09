@@ -1,22 +1,24 @@
 package com.norwood.mcheli.helper;
 
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.helper.addon.AddonResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import org.apache.logging.log4j.Logger;
-
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import org.apache.logging.log4j.Logger;
+
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 
 public class MCH_Utils {
+
     public static ResourceLocation suffix(String name) {
         return new ResourceLocation(Tags.MODID, name);
     }
@@ -37,8 +39,6 @@ public class MCH_Utils {
         }
         return defReturn;
     }
-
-
 
     public static File getSource() {
         return MCH_MOD.getSource();

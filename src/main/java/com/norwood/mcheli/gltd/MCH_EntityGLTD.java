@@ -1,5 +1,28 @@
 package com.norwood.mcheli.gltd;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.norwood.mcheli.MCH_Camera;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_MOD;
@@ -11,33 +34,16 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
 import com.norwood.mcheli.wrapper.W_Block;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
+
     public static final float Y_OFFSET = 0.25F;
-    private static final DataParameter<Integer> TIME_SINCE_HIT = EntityDataManager.createKey(MCH_EntityGLTD.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> FORWARD_DIR = EntityDataManager.createKey(MCH_EntityGLTD.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> DAMAGE_TAKEN = EntityDataManager.createKey(MCH_EntityGLTD.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TIME_SINCE_HIT = EntityDataManager.createKey(MCH_EntityGLTD.class,
+            DataSerializers.VARINT);
+    private static final DataParameter<Integer> FORWARD_DIR = EntityDataManager.createKey(MCH_EntityGLTD.class,
+            DataSerializers.VARINT);
+    private static final DataParameter<Integer> DAMAGE_TAKEN = EntityDataManager.createKey(MCH_EntityGLTD.class,
+            DataSerializers.VARINT);
     public final MCH_Camera camera;
     public final MCH_WeaponCAS weaponCAS;
     public boolean zoomDir;
@@ -131,7 +137,8 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
                 this.setTimeSinceHit(10);
                 this.setDamageTaken((int) (this.getDamageTaken() + damage * 100.0F));
                 this.markVelocityChanged();
-                boolean flag = ds.getTrueSource() instanceof EntityPlayer && ((EntityPlayer) ds.getTrueSource()).capabilities.isCreativeMode;
+                boolean flag = ds.getTrueSource() instanceof EntityPlayer &&
+                        ((EntityPlayer) ds.getTrueSource()).capabilities.isCreativeMode;
                 if (flag || this.getDamageTaken() > 40.0F) {
                     Entity riddenByEntity = this.getRiddenByEntity();
                     this.camera.initCamera(0, riddenByEntity);
@@ -155,8 +162,7 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
     }
 
     @SideOnly(Side.CLIENT)
-    public void performHurtAnimation() {
-    }
+    public void performHurtAnimation() {}
 
     public boolean canBeCollidedWith() {
         return !this.isDead;
@@ -290,7 +296,8 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
             double d11x = this.posZ + (this.gltdZ - this.posZ) / this.gltdPosRotInc;
             double d10x = MathHelper.wrapDegrees(this.gltdYaw - this.rotationYaw);
             this.rotationYaw = (float) (this.rotationYaw + d10x / this.gltdPosRotInc);
-            this.rotationPitch = (float) (this.rotationPitch + (this.gltdPitch - this.rotationPitch) / this.gltdPosRotInc);
+            this.rotationPitch = (float) (this.rotationPitch +
+                    (this.gltdPitch - this.rotationPitch) / this.gltdPosRotInc);
             this.gltdPosRotInc--;
             this.setPosition(d4x, d5x, d11x);
             this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -394,18 +401,17 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
         if (this.isPassenger(passenger)) {
             double x = Math.sin(this.rotationYaw * Math.PI / 180.0) * 0.5;
             double z = -Math.cos(this.rotationYaw * Math.PI / 180.0) * 0.5;
-            passenger.setPosition(this.posX + x, this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ + z);
+            passenger.setPosition(this.posX + x, this.posY + this.getMountedYOffset() + passenger.getYOffset(),
+                    this.posZ + z);
         }
     }
 
-    public void switchWeapon(int id) {
-    }
+    public void switchWeapon(int id) {}
 
     public boolean useCurrentWeapon(int option1, int option2) {
         Entity riddenByEntity = this.getRiddenByEntity();
-        if (this.countWait == 0
-                && riddenByEntity != null
-                && this.weaponCAS.shot(riddenByEntity, this.camera.posX, this.camera.posY, this.camera.posZ, option1, option2)) {
+        if (this.countWait == 0 && riddenByEntity != null && this.weaponCAS.shot(riddenByEntity, this.camera.posX,
+                this.camera.posY, this.camera.posZ, option1, option2)) {
             this.countWait = this.weaponCAS.interval;
             if (this.world.isRemote) {
                 this.countWait = this.countWait + (this.countWait > 0 ? 10 : -10);
@@ -419,11 +425,9 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
         }
     }
 
-    protected void writeEntityToNBT(@NotNull NBTTagCompound par1NBTTagCompound) {
-    }
+    protected void writeEntityToNBT(@NotNull NBTTagCompound par1NBTTagCompound) {}
 
-    protected void readEntityFromNBT(@NotNull NBTTagCompound par1NBTTagCompound) {
-    }
+    protected void readEntityFromNBT(@NotNull NBTTagCompound par1NBTTagCompound) {}
 
     @SideOnly(Side.CLIENT)
     public float getShadowSize() {
@@ -489,8 +493,7 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
         double size = 150;
         return new AxisAlignedBB(
                 this.posX - size, this.posY - size, this.posZ - size,
-                this.posX + size, this.posY + size, this.posZ + size
-        );
+                this.posX + size, this.posY + size, this.posZ + size);
     }
 
     @Nullable

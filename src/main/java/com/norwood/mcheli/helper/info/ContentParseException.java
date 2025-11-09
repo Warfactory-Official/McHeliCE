@@ -1,6 +1,7 @@
 package com.norwood.mcheli.helper.info;
 
 public class ContentParseException extends RuntimeException {
+
     private static final long serialVersionUID = 4338814389788695295L;
     private final int lineNo;
 

@@ -1,8 +1,5 @@
 package com.norwood.mcheli.helper.info;
 
-import com.google.common.collect.Lists;
-import com.norwood.mcheli.helper.MCH_Logger;
-
 import java.io.*;
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +7,11 @@ import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import com.google.common.collect.Lists;
+import com.norwood.mcheli.helper.MCH_Logger;
+
 public class FileContentLoader extends ContentLoader implements Closeable {
+
     private ZipFile resourcePackZipFile;
 
     public FileContentLoader(String domain, File addonDir, String loaderVersion, Predicate<String> fileFilter) {
@@ -56,7 +57,8 @@ public class FileContentLoader extends ContentLoader implements Closeable {
         String name = zipEntry.getName();
         String[] split = name.split("/");
         String lootDir = split.length >= 2 ? split[0] : "";
-        return !zipEntry.isDirectory() && (deep || "assets".equals(lootDir) || split.length <= 2) && this.isReadable(name);
+        return !zipEntry.isDirectory() && (deep || "assets".equals(lootDir) || split.length <= 2) &&
+                this.isReadable(name);
     }
 
     @Override

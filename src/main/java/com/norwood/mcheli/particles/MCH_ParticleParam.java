@@ -3,6 +3,7 @@ package com.norwood.mcheli.particles;
 import net.minecraft.world.World;
 
 public class MCH_ParticleParam {
+
     public final World world;
     public final String name;
     public double posX;
@@ -31,7 +32,8 @@ public class MCH_ParticleParam {
         this.posZ = z;
     }
 
-    public MCH_ParticleParam(World w, String name, double x, double y, double z, double mx, double my, double mz, float size) {
+    public MCH_ParticleParam(World w, String name, double x, double y, double z, double mx, double my, double mz,
+                             float size) {
         this(w, name, x, y, z);
         this.motionX = mx;
         this.motionY = my;

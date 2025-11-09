@@ -1,13 +1,15 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.helper.MCH_SoundEvents;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 
+import com.norwood.mcheli.helper.MCH_SoundEvents;
+
 public class W_Sound extends MovingSound {
+
     protected W_Sound(ResourceLocation r, float volume, float pitch, double x, double y, double z) {
         super(MCH_SoundEvents.getSound(r), SoundCategory.MASTER);
         this.setVolumeAndPitch(volume, pitch);
@@ -59,6 +61,5 @@ public class W_Sound extends MovingSound {
         this.setPosition(e.posX, e.posY, e.posZ);
     }
 
-    public void update() {
-    }
+    public void update() {}
 }

@@ -1,12 +1,15 @@
 package com.norwood.mcheli.helper.network;
 
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.norwood.mcheli.wrapper.W_PacketBase;
+
 import io.netty.buffer.ByteBuf;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class MCH_WrapPacketData implements IMessage {
+
     private byte[] data;
 
     public MCH_WrapPacketData() {

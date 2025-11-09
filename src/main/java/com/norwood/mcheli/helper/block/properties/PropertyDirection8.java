@@ -1,15 +1,17 @@
 package com.norwood.mcheli.helper.block.properties;
 
+import java.util.Collection;
+
+import net.minecraft.block.properties.PropertyEnum;
+
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.norwood.mcheli.helper.block.EnumDirection8;
-import net.minecraft.block.properties.PropertyEnum;
-
-import java.util.Collection;
 
 public class PropertyDirection8 extends PropertyEnum<EnumDirection8> {
+
     protected PropertyDirection8(String name, Collection<EnumDirection8> allowedValues) {
         super(name, EnumDirection8.class, allowedValues);
     }

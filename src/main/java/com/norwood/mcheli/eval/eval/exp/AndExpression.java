@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class AndExpression extends Col2OpeExpression {
+
     public AndExpression() {
         this.setOperator("&&");
     }

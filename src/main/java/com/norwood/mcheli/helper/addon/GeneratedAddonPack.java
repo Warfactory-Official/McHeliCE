@@ -1,15 +1,16 @@
 package com.norwood.mcheli.helper.addon;
 
+import java.io.File;
+import java.util.List;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.MCH_OutputFile;
 import com.norwood.mcheli.helper.MCH_Utils;
 
-import java.io.File;
-import java.util.List;
-
 public class GeneratedAddonPack extends AddonPack {
+
     private static GeneratedAddonPack instance = null;
     private static File generatedDir = null;
 
@@ -23,8 +24,7 @@ public class GeneratedAddonPack extends AddonPack {
                 ImmutableList.of("EMB4", "Murachiki27"),
                 "Generated addon(auto generate or update files)",
                 "1",
-                ImmutableMap.of()
-        );
+                ImmutableMap.of());
     }
 
     public static GeneratedAddonPack instance() {

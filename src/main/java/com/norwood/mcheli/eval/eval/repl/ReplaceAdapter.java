@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.repl;
 import com.norwood.mcheli.eval.eval.exp.*;
 
 public class ReplaceAdapter implements Replace {
+
     @Override
     public AbstractExpression replace0(WordExpression exp) {
         return exp;

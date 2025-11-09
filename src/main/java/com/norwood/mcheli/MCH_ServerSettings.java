@@ -1,6 +1,7 @@
 package com.norwood.mcheli;
 
 public class MCH_ServerSettings {
+
     public static boolean enableCamDistChange = true;
     public static boolean enableEntityMarker = true;
     public static boolean enablePVP = true;

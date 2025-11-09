@@ -1,8 +1,8 @@
 package com.norwood.mcheli.helper;
 
-import com.google.common.collect.Sets;
-import com.norwood.mcheli.MCH_Lib;
-import net.minecraft.client.Minecraft;
+import java.util.Objects;
+import java.util.Set;
+
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -15,14 +15,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.Set;
+import com.google.common.collect.Sets;
+import com.norwood.mcheli.MCH_Lib;
 
 @EventBusSubscriber(
-        modid = "mcheli"
-)
+                    modid = "mcheli")
 public class MCH_SoundEvents {
+
     private static final Set<ResourceLocation> registryWrapper = Sets.newLinkedHashSet();
 
     @SubscribeEvent
@@ -50,14 +49,14 @@ public class MCH_SoundEvents {
         return Objects.requireNonNull(sound);
     }
 
-    //THIS IS NOT FUCKING NULLABLE
+    // THIS IS NOT FUCKING NULLABLE
     public static SoundEvent getSound(ResourceLocation location) {
         SoundEvent sound = ForgeRegistries.SOUND_EVENTS.getValue(location);
         if (sound == null) {
             MCH_Lib.Log("[WARNING] Sound event does not found. event name= " + location);
             return SoundEvents.BLOCK_STONE_BREAK;
         }
-        if (FMLCommonHandler.instance().getSide() ==  Side.CLIENT && sound.getSoundName() == null ) {
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT && sound.getSoundName() == null) {
             MCH_Lib.Log("[WARNING] Sound event is empty. event name= " + location);
             return SoundEvents.BLOCK_STONE_BREAK;
         }

@@ -1,12 +1,11 @@
 package com.norwood.mcheli;
 
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Client relies only on “full snapshot heartbeats” for incremental/overwrite updates;
@@ -34,7 +33,8 @@ public class MCH_EntityInfoClientTracker {
      */
     public static int CLEANUP_TICK_INTERVAL = 10;
     private static volatile long lastAppliedSeq = -1L;    // Latest snapshot sequence that has been applied
-    private static volatile long latestSeqObserved = -1L; // Maximum sequence number recently received (used for absence detection)
+    private static volatile long latestSeqObserved = -1L; // Maximum sequence number recently received (used for absence
+                                                          // detection)
     private static int clientTickCounter = 0;
 
     static {
@@ -66,7 +66,6 @@ public class MCH_EntityInfoClientTracker {
 
         lastAppliedSeq = snapshotSeq;
     }
-
 
     public static EntityInfo getEntityInfo(int entityId) {
         Tracked t = tracked.get(entityId);
@@ -105,6 +104,7 @@ public class MCH_EntityInfoClientTracker {
     }
 
     private static final class Tracked {
+
         EntityInfo info;
         long lastSeenMillis;
         long lastSeenSeq;
@@ -120,6 +120,7 @@ public class MCH_EntityInfoClientTracker {
      * Note: must be public to be accessed by ASMEventHandler
      */
     public static class ClientTicker {
+
         @SubscribeEvent
         public void onClientTick(TickEvent.ClientTickEvent event) {
             if (event.phase != TickEvent.Phase.END) return;
@@ -130,4 +131,3 @@ public class MCH_EntityInfoClientTracker {
         }
     }
 }
-

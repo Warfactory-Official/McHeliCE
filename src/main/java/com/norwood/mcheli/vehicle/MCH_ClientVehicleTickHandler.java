@@ -1,5 +1,8 @@
 package com.norwood.mcheli.vehicle;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_Lib;
@@ -11,10 +14,9 @@ import com.norwood.mcheli.networking.data.DataPlayerControlVehicle;
 import com.norwood.mcheli.networking.packet.control.PacketPlayerControlVehicle;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Reflection;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler {
+
     public MCH_Key KeySwitchMode;
     public MCH_Key KeySwitchHovering;
     public MCH_Key KeyZoom;
@@ -33,7 +35,7 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
         this.KeySwitchHovering = new MCH_Key(MCH_Config.KeySwitchHovering.prmInt);
         this.KeyZoom = new MCH_Key(MCH_Config.KeyZoom.prmInt);
         this.KeyExtra = new MCH_Key(MCH_Config.KeyExtra.prmInt);
-        this.Keys = new MCH_Key[]{
+        this.Keys = new MCH_Key[] {
                 this.KeyUp,
                 this.KeyDown,
                 this.KeyRight,
@@ -113,7 +115,8 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityVehicle vehicle, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, vehicle, isPilot, new PacketPlayerControlVehicle(new DataPlayerControlVehicle()));
+        this.commonPlayerControlInGUI(player, vehicle, isPilot,
+                new PacketPlayerControlVehicle(new DataPlayerControlVehicle()));
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityVehicle vehicle, boolean isPilot) {
@@ -130,10 +133,9 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
             }
         }
 
-        //FIXME: Why is it like that?
-//        if (!this.KeySwitchHovering.isKeyDown() && this.KeySwitchMode.isKeyDown()) {
-//        }
-
+        // FIXME: Why is it like that?
+        // if (!this.KeySwitchHovering.isKeyDown() && this.KeySwitchMode.isKeyDown()) {
+        // }
 
         if (this.KeyZoom.isKeyDown()) {
             if (vehicle.canZoom()) {

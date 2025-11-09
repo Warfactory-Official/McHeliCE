@@ -1,17 +1,18 @@
 package com.norwood.mcheli.networking.packet.control;
 
+import static com.norwood.mcheli.networking.data.DataPlayerControlAircraft.HatchSwitch.UNFOLD;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.PacketBase;
 import com.norwood.mcheli.weapon.MCH_WeaponParam;
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 
-import static com.norwood.mcheli.networking.data.DataPlayerControlAircraft.HatchSwitch.UNFOLD;
+import hohserg.elegant.networking.api.ClientToServerPacket;
 
 public abstract class PacketPlayerControlBase extends PacketBase implements ClientToServerPacket {
-
 
     protected void process(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
         if (aircraft == null) return;
@@ -33,12 +34,10 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         handleGear(aircraft, data);
         handleRack(aircraft, data);
         handleGunnerStatus(aircraft, data);
-
     }
 
-    //Heli
-    protected void handleChain(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
-    }
+    // Heli
+    protected void handleChain(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {}
 
     protected void handleUnmount(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
         switch (data.isUnmount) {
@@ -52,9 +51,8 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         if (data.isEjectSeat()) aircraft.ejectSeat(entity);
     }
 
-    //Planes only
-    protected void handleVtolSwitch(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
-    }
+    // Planes only
+    protected void handleVtolSwitch(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {}
 
     protected void handleModeSwitch(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
         switch (data.switchMode) {
@@ -70,10 +68,12 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
     }
 
     protected void handleCameraMode(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
-        if (data.switchCameraMode != DataPlayerControlAircraft.CameraMode.NORMAL) aircraft.switchCameraMode(player, data.getSwitchCameraMode().ordinal());
+        if (data.switchCameraMode != DataPlayerControlAircraft.CameraMode.NORMAL)
+            aircraft.switchCameraMode(player, data.getSwitchCameraMode().ordinal());
     }
 
-    protected void handleWeaponSwitch(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
+    protected void handleWeaponSwitch(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data,
+                                      EntityPlayer player) {
         if (data.switchWeapon >= 0) aircraft.switchWeapon(player, data.switchWeapon);
     }
 
@@ -89,8 +89,9 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         aircraft.useCurrentWeapon(prm);
     }
 
-    //TODO: integrate br
-    protected void handlePilotControls(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
+    // TODO: integrate br
+    protected void handlePilotControls(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data,
+                                       EntityPlayer player) {
         if (!aircraft.isPilot(player)) return;
 
         aircraft.throttleUp = data.isThrottleUp();
@@ -121,7 +122,7 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         if (data.switchFreeLook > 0) aircraft.switchFreeLookMode(data.switchFreeLook == 1);
     }
 
-    //Plane
+    // Plane
     protected void handleGear(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
         switch (data.switchGear) {
             case FOLD -> aircraft.foldLandingGear();
@@ -140,6 +141,4 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
     protected void handleGunnerStatus(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
         if (data.isSwitchGunnerStatus()) aircraft.setGunnerStatus(!aircraft.getGunnerStatus());
     }
-
-
 }

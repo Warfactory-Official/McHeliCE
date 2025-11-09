@@ -1,5 +1,8 @@
 package com.norwood.mcheli.tank;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_Lib;
@@ -12,10 +15,9 @@ import com.norwood.mcheli.networking.data.DataPlayerControlVehicle;
 import com.norwood.mcheli.networking.packet.control.PacketPlayerControlTank;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.wrapper.W_Reflection;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
+
     public MCH_Key KeySwitchMode;
     public MCH_Key KeyZoom;
     public MCH_Key[] Keys;
@@ -30,7 +32,7 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
         super.updateKeybind(config);
         this.KeySwitchMode = new MCH_Key(MCH_Config.KeySwitchMode.prmInt);
         this.KeyZoom = new MCH_Key(MCH_Config.KeyZoom.prmInt);
-        this.Keys = new MCH_Key[]{
+        this.Keys = new MCH_Key[] {
                 this.KeyUp,
                 this.KeyDown,
                 this.KeyRight,
@@ -135,7 +137,8 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
     }
 
     protected void playerControlInGUI(EntityPlayer player, MCH_EntityTank tank, boolean isPilot) {
-        this.commonPlayerControlInGUI(player, tank, isPilot, new PacketPlayerControlTank(new DataPlayerControlAircraft()));
+        this.commonPlayerControlInGUI(player, tank, isPilot,
+                new PacketPlayerControlTank(new DataPlayerControlAircraft()));
     }
 
     protected void playerControl(EntityPlayer player, MCH_EntityTank tank, boolean isPilot) {
@@ -159,7 +162,8 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
                         tank.setCameraId(0);
                     }
                 } else if (tank.canSwitchGunnerMode()) {
-                    pc.switchMode = tank.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF : DataPlayerControlAircraft.ModeSwitch.GUNNER_ON;
+                    pc.switchMode = tank.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF :
+                            DataPlayerControlAircraft.ModeSwitch.GUNNER_ON;
                     tank.switchGunnerMode(!tank.getIsGunnerMode(player));
                     send = true;
                     tank.setCameraId(0);

@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class IfExpression extends Col3Expression {
+
     public IfExpression() {
         this.setOperator("?");
         this.setEndOperator(":");

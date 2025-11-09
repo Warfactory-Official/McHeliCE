@@ -1,18 +1,10 @@
 package com.norwood.mcheli.mob;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.aircraft.MCH_SeatInfo;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
-import com.norwood.mcheli.weapon.MCH_WeaponBase;
-import com.norwood.mcheli.weapon.MCH_WeaponEntitySeeker;
-import com.norwood.mcheli.weapon.MCH_WeaponParam;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -35,14 +27,27 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ITeleporter;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_SeatInfo;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
+import com.norwood.mcheli.weapon.MCH_WeaponBase;
+import com.norwood.mcheli.weapon.MCH_WeaponEntitySeeker;
+import com.norwood.mcheli.weapon.MCH_WeaponParam;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityGunner extends EntityLivingBase {
-    private static final DataParameter<String> TEAM_NAME = EntityDataManager.createKey(MCH_EntityGunner.class, DataSerializers.STRING);
+
+    private static final DataParameter<String> TEAM_NAME = EntityDataManager.createKey(MCH_EntityGunner.class,
+            DataSerializers.STRING);
     public boolean isCreative = false;
     public String ownerUUID = "";
     public int targetType = 0;
@@ -88,7 +93,9 @@ public class MCH_EntityGunner extends EntityLivingBase {
 
     public @NotNull ITextComponent getDisplayName() {
         Team team = this.getTeam();
-        return team != null ? new TextComponentString(ScorePlayerTeam.formatPlayerName(team, team.getName() + " Gunner")) : new TextComponentString("");
+        return team != null ?
+                new TextComponentString(ScorePlayerTeam.formatPlayerName(team, team.getName() + " Gunner")) :
+                new TextComponentString("");
     }
 
     @Override
@@ -138,9 +145,8 @@ public class MCH_EntityGunner extends EntityLivingBase {
 
             player.sendMessage(
                     new TextComponentString(
-                            "Remove gunner" + name + " by " + ScorePlayerTeam.formatPlayerName(player.getTeam(), player.getDisplayName().getFormattedText()) + "."
-                    )
-            );
+                            "Remove gunner" + name + " by " + ScorePlayerTeam.formatPlayerName(player.getTeam(),
+                                    player.getDisplayName().getFormattedText()) + "."));
             this.dismountRidingEntity();
         }
     }
@@ -154,13 +160,15 @@ public class MCH_EntityGunner extends EntityLivingBase {
 
             if (this.getRidingEntity() instanceof MCH_EntityAircraft) {
                 this.shotTarget((MCH_EntityAircraft) this.getRidingEntity());
-            } else if (this.getRidingEntity() instanceof MCH_EntitySeat && ((MCH_EntitySeat) this.getRidingEntity()).getParent() != null) {
-                this.shotTarget(((MCH_EntitySeat) this.getRidingEntity()).getParent());
-            } else if (this.despawnCount < 20) {
-                this.despawnCount++;
-            } else if (this.getRidingEntity() == null || this.ticksExisted > 100) {
-                this.setDead();
-            }
+            } else if (this.getRidingEntity() instanceof MCH_EntitySeat &&
+                    ((MCH_EntitySeat) this.getRidingEntity()).getParent() != null) {
+                        this.shotTarget(((MCH_EntitySeat) this.getRidingEntity()).getParent());
+                    } else
+                if (this.despawnCount < 20) {
+                    this.despawnCount++;
+                } else if (this.getRidingEntity() == null || this.ticksExisted > 100) {
+                    this.setDead();
+                }
 
             if (this.targetEntity == null) {
                 if (this.idleCount == 0) {
@@ -186,20 +194,12 @@ public class MCH_EntityGunner extends EntityLivingBase {
     public boolean canAttackEntity(EntityLivingBase entity, MCH_EntityAircraft ac, MCH_WeaponSet ws) {
         boolean ret;
         if (this.targetType == 0) {
-            ret = entity != this
-                    && !(entity instanceof EntityEnderman)
-                    && !entity.isDead
-                    && !this.isOnSameTeam(entity)
-                    && entity.getHealth() > 0.0F
-                    && !ac.isMountedEntity(entity);
+            ret = entity != this && !(entity instanceof EntityEnderman) && !entity.isDead &&
+                    !this.isOnSameTeam(entity) && entity.getHealth() > 0.0F && !ac.isMountedEntity(entity);
         } else {
-            ret = entity != this
-                    && !((EntityPlayer) entity).capabilities.isCreativeMode
-                    && !entity.isDead
-                    && !this.getTeamName().isEmpty()
-                    && !this.isOnSameTeam(entity)
-                    && entity.getHealth() > 0.0F
-                    && !ac.isMountedEntity(entity);
+            ret = entity != this && !((EntityPlayer) entity).capabilities.isCreativeMode && !entity.isDead &&
+                    !this.getTeamName().isEmpty() && !this.isOnSameTeam(entity) && entity.getHealth() > 0.0F &&
+                    !ac.isMountedEntity(entity);
         }
 
         if (ret && ws.getCurrentWeapon().getGuidanceSystem() != null) {
@@ -215,9 +215,9 @@ public class MCH_EntityGunner extends EntityLivingBase {
                 MCH_WeaponSet ws = ac.getCurrentWeapon(this);
                 if (ws != null && ws.getInfo() != null && ws.getCurrentWeapon() != null) {
                     MCH_WeaponBase cw = ws.getCurrentWeapon();
-                    if (this.targetEntity != null
-                            && (this.targetEntity.isDead || ((EntityLivingBase) this.targetEntity).getHealth() <= 0.0F)
-                            && this.switchTargetCount > 20) {
+                    if (this.targetEntity != null &&
+                            (this.targetEntity.isDead || ((EntityLivingBase) this.targetEntity).getHealth() <= 0.0F) &&
+                            this.switchTargetCount > 20) {
                         this.switchTargetCount = 20;
                     }
 
@@ -229,19 +229,19 @@ public class MCH_EntityGunner extends EntityLivingBase {
                         if (this.targetType == 0) {
                             int rh = MCH_Config.RangeOfGunner_VsMonster_Horizontal.prmInt;
                             int rv = MCH_Config.RangeOfGunner_VsMonster_Vertical.prmInt;
-                            list = this.world.getEntitiesWithinAABB(EntityLivingBase.class, this.getEntityBoundingBox().grow(rh, rv, rh), IMob.MOB_SELECTOR);
+                            list = this.world.getEntitiesWithinAABB(EntityLivingBase.class,
+                                    this.getEntityBoundingBox().grow(rh, rv, rh), IMob.MOB_SELECTOR);
                         } else {
                             int rh = MCH_Config.RangeOfGunner_VsPlayer_Horizontal.prmInt;
                             int rv = MCH_Config.RangeOfGunner_VsPlayer_Vertical.prmInt;
-                            list = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.getEntityBoundingBox().grow(rh, rv, rh));
+                            list = this.world.getEntitiesWithinAABB(EntityPlayer.class,
+                                    this.getEntityBoundingBox().grow(rh, rv, rh));
                         }
 
                         for (EntityLivingBase entity : list) {
-                            if (this.canAttackEntity(entity, ac, ws)
-                                    && this.checkPitch(entity, ac, pos)
-                                    && (nextTarget == null || this.getDistance(entity) < this.getDistance(nextTarget))
-                                    && this.canEntityBeSeen(entity)
-                                    && this.isInAttackable(entity, ac, ws, pos)) {
+                            if (this.canAttackEntity(entity, ac, ws) && this.checkPitch(entity, ac, pos) &&
+                                    (nextTarget == null || this.getDistance(entity) < this.getDistance(nextTarget)) &&
+                                    this.canEntityBeSeen(entity) && this.isInAttackable(entity, ac, ws, pos)) {
                                 nextTarget = entity;
                                 this.switchTargetCount = 60;
                             }
@@ -270,12 +270,14 @@ public class MCH_EntityGunner extends EntityLivingBase {
                             tick = dist / ws.getInfo().acceleration;
                         }
 
-                        if (this.targetEntity.getRidingEntity() instanceof MCH_EntitySeat || this.targetEntity.getRidingEntity() instanceof MCH_EntityAircraft) {
+                        if (this.targetEntity.getRidingEntity() instanceof MCH_EntitySeat ||
+                                this.targetEntity.getRidingEntity() instanceof MCH_EntityAircraft) {
                             tick -= MCH_Config.HitBoxDelayTick.prmInt;
                         }
 
                         double dx = (this.targetEntity.posX - this.targetPrevPosX) * tick;
-                        double dy = (this.targetEntity.posY - this.targetPrevPosY) * tick + this.targetEntity.height * this.rand.nextDouble();
+                        double dy = (this.targetEntity.posY - this.targetPrevPosY) * tick +
+                                this.targetEntity.height * this.rand.nextDouble();
                         double dz = (this.targetEntity.posZ - this.targetPrevPosZ) * tick;
                         double d0 = this.targetEntity.posX + dx - pos.x;
                         double d1 = this.targetEntity.posY + dy - pos.y;
@@ -283,7 +285,8 @@ public class MCH_EntityGunner extends EntityLivingBase {
                         double d3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
                         float yaw = MathHelper.wrapDegrees((float) (Math.atan2(d2, d0) * 180.0 / Math.PI) - 90.0F);
                         float pitch = (float) (-(Math.atan2(d1, d3) * 180.0 / Math.PI));
-                        if (Math.abs(this.rotationPitch - pitch) < rotSpeed && Math.abs(this.rotationYaw - yaw) < rotSpeed) {
+                        if (Math.abs(this.rotationPitch - pitch) < rotSpeed &&
+                                Math.abs(this.rotationYaw - yaw) < rotSpeed) {
                             float r = ac.isPilot(this) ? 0.1F : 0.5F;
                             this.rotationPitch = pitch + (this.rand.nextFloat() - 0.5F) * r - cw.fixRotationPitch;
                             this.rotationYaw = yaw + (this.rand.nextFloat() - 0.5F) * r;
@@ -293,15 +296,18 @@ public class MCH_EntityGunner extends EntityLivingBase {
                                 prm.setPosition(ac.posX, ac.posY, ac.posZ);
                                 prm.user = this;
                                 prm.entity = ac;
-                                prm.option1 = cw instanceof MCH_WeaponEntitySeeker ? this.targetEntity.getEntityId() : 0;
-                                if (ac.useCurrentWeapon(prm) && ws.getInfo().maxHeatCount > 0 && ws.currentHeat > ws.getInfo().maxHeatCount * 4 / 5) {
+                                prm.option1 = cw instanceof MCH_WeaponEntitySeeker ? this.targetEntity.getEntityId() :
+                                        0;
+                                if (ac.useCurrentWeapon(prm) && ws.getInfo().maxHeatCount > 0 &&
+                                        ws.currentHeat > ws.getInfo().maxHeatCount * 4 / 5) {
                                     this.waitCooldown = true;
                                 }
                             }
                         }
 
                         if (Math.abs(pitch - this.rotationPitch) >= rotSpeed) {
-                            this.rotationPitch = this.rotationPitch + (pitch > this.rotationPitch ? rotSpeed : -rotSpeed);
+                            this.rotationPitch = this.rotationPitch +
+                                    (pitch > this.rotationPitch ? rotSpeed : -rotSpeed);
                         }
 
                         if (Math.abs(yaw - this.rotationYaw) >= rotSpeed) {
@@ -332,7 +338,8 @@ public class MCH_EntityGunner extends EntityLivingBase {
             double d3 = MathHelper.sqrt(d0 * d0 + d2 * d2);
             float pitch = (float) (-(Math.atan2(d1, d3) * 180.0 / Math.PI));
             MCH_AircraftInfo ai = ac.getAcInfo();
-            if (ac instanceof MCH_EntityVehicle && ac.isPilot(this) && Math.abs(ai.minRotationPitch) + Math.abs(ai.maxRotationPitch) > 0.0F) {
+            if (ac instanceof MCH_EntityVehicle && ac.isPilot(this) &&
+                    Math.abs(ai.minRotationPitch) + Math.abs(ai.maxRotationPitch) > 0.0F) {
                 if (pitch < ai.minRotationPitch) {
                     return false;
                 }
@@ -355,17 +362,16 @@ public class MCH_EntityGunner extends EntityLivingBase {
                     }
                 }
             }
-        } catch (Exception var16) {
-        }
+        } catch (Exception var16) {}
 
         return true;
     }
 
     public Vec3d getGunnerWeaponPos(MCH_EntityAircraft ac, MCH_WeaponSet ws) {
         MCH_SeatInfo seatInfo = ac.getSeatInfo(this);
-        return (seatInfo == null || !seatInfo.rotSeat) && !(ac instanceof MCH_EntityVehicle)
-                ? ac.getTransformedPosition(ws.getCurrentWeapon().position)
-                : ac.calcOnTurretPos(ws.getCurrentWeapon().position).add(ac.posX, ac.posY, ac.posZ);
+        return (seatInfo == null || !seatInfo.rotSeat) && !(ac instanceof MCH_EntityVehicle) ?
+                ac.getTransformedPosition(ws.getCurrentWeapon().position) :
+                ac.calcOnTurretPos(ws.getCurrentWeapon().position).add(ac.posX, ac.posY, ac.posZ);
     }
 
     private boolean isInAttackable(EntityLivingBase entity, MCH_EntityAircraft ac, MCH_WeaponSet ws, Vec3d pos) {
@@ -397,9 +403,9 @@ public class MCH_EntityGunner extends EntityLivingBase {
         if (this.getRidingEntity() == null) {
             return null;
         } else {
-            return this.getRidingEntity() instanceof MCH_EntityAircraft
-                    ? (MCH_EntityAircraft) this.getRidingEntity()
-                    : (this.getRidingEntity() instanceof MCH_EntitySeat ? ((MCH_EntitySeat) this.getRidingEntity()).getParent() : null);
+            return this.getRidingEntity() instanceof MCH_EntityAircraft ? (MCH_EntityAircraft) this.getRidingEntity() :
+                    (this.getRidingEntity() instanceof MCH_EntitySeat ?
+                            ((MCH_EntitySeat) this.getRidingEntity()).getParent() : null);
         }
     }
 
@@ -449,8 +455,7 @@ public class MCH_EntityGunner extends EntityLivingBase {
         return ItemStack.EMPTY;
     }
 
-    public void setItemStackToSlot(@NotNull EntityEquipmentSlot slotIn, @NotNull ItemStack stack) {
-    }
+    public void setItemStackToSlot(@NotNull EntityEquipmentSlot slotIn, @NotNull ItemStack stack) {}
 
     public @NotNull Iterable<ItemStack> getArmorInventoryList() {
         return Collections.emptyList();

@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class BitOrExpression extends Col2Expression {
+
     public BitOrExpression() {
         this.setOperator("|");
     }

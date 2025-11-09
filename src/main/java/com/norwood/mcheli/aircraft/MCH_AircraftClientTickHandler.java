@@ -1,19 +1,22 @@
 package com.norwood.mcheli.aircraft;
 
+import static com.norwood.mcheli.networking.packet.PacketSeatPlayerControl.PlayerControlState;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+
+import org.lwjgl.input.Keyboard;
+
 import com.norwood.mcheli.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
-import com.norwood.mcheli.networking.packet.control.PacketPlayerControlBase;
 import com.norwood.mcheli.networking.packet.PacketSeatPlayerControl;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.input.Keyboard;
-
-import static com.norwood.mcheli.networking.packet.PacketSeatPlayerControl.PlayerControlState;
+import com.norwood.mcheli.networking.packet.control.PacketPlayerControlBase;
 
 public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandlerBase {
+
     public MCH_Key KeyUp;
     public MCH_Key KeyDown;
     public MCH_Key KeyRight;
@@ -64,10 +67,11 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         this.KeyBrake = new MCH_Key(MCH_Config.KeySwitchHovering.prmInt);
     }
 
-    protected void commonPlayerControlInGUI(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, PacketPlayerControlBase pc) {
-    }
+    protected void commonPlayerControlInGUI(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot,
+                                            PacketPlayerControlBase pc) {}
 
-    public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, DataPlayerControlAircraft pc) {
+    public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot,
+                                       DataPlayerControlAircraft pc) {
         if (Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
             if (this.KeyGUI.isKeyDown() || this.KeyExtra.isKeyDown()) {
                 PacketSeatPlayerControl psc = new PacketSeatPlayerControl();
@@ -190,11 +194,10 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
                     pc.setMoveLeft(ac.moveLeft = false);
                 }
 
-
                 pc.setUseBrake(true);
             } else {
                 send |= this.KeyBrake.isKeyUp();
-                MCH_Key[] dKey = new MCH_Key[]{this.KeyUp, this.KeyDown, this.KeyRight, this.KeyLeft};
+                MCH_Key[] dKey = new MCH_Key[] { this.KeyUp, this.KeyDown, this.KeyRight, this.KeyLeft };
 
                 for (MCH_Key k : dKey) {
                     if (k.isKeyDown() || k.isKeyUp()) {
@@ -210,7 +213,6 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
 
             }
         }
-
 
         if (!ac.isDestroyed() && this.KeyFlare.isKeyDown() && ac.getSeatIdByEntity(player) <= 1) {
             if (ac.canUseFlare() && ac.useFlare(ac.getCurrentFlareType())) {
@@ -249,7 +251,5 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         }
 
         return send || player.ticksExisted % 100 == 0;
-
     }
-
 }

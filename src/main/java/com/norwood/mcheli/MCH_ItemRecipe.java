@@ -1,13 +1,30 @@
 package com.norwood.mcheli;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipes;
+import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.registries.IForgeRegistry;
+
 import com.google.common.collect.Sets;
-import com.norwood.mcheli.helper.MCH_Recipes;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
+import com.norwood.mcheli.helper.MCH_Recipes;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.plane.MCP_PlaneInfoManager;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
@@ -19,23 +36,9 @@ import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfoManager;
 import com.norwood.mcheli.wrapper.W_Block;
 import com.norwood.mcheli.wrapper.W_Item;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.registries.IForgeRegistry;
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 public class MCH_ItemRecipe implements MCH_IRecipeList {
+
     private static final MCH_ItemRecipe instance = new MCH_ItemRecipe();
     private static final List<IRecipe> commonItemRecipe = new ArrayList<>();
 
@@ -112,7 +115,8 @@ public class MCH_ItemRecipe implements MCH_IRecipeList {
         }
     }
 
-    private static <T extends MCH_AircraftInfo> void addRecipeAndRegisterList(MCH_AircraftInfo info, Item item, MCH_AircraftInfoManager<T> im) {
+    private static <T extends MCH_AircraftInfo> void addRecipeAndRegisterList(MCH_AircraftInfo info, Item item,
+                                                                              MCH_AircraftInfoManager<T> im) {
         int count = 0;
 
         for (String s : info.recipeString) {
@@ -188,7 +192,8 @@ public class MCH_ItemRecipe implements MCH_IRecipeList {
                         }
 
                         if (!needShortChars.contains((int) c)) {
-                            MCH_Utils.logger().warn("Key defines symbols that aren't used in pattern: [{}], item:{}", c, name);
+                            MCH_Utils.logger().warn("Key defines symbols that aren't used in pattern: [{}], item:{}", c,
+                                    name);
                             flag = true;
                         }
 

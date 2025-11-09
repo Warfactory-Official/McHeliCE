@@ -1,11 +1,14 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.wrapper.W_KeyBinding;
 import net.minecraft.client.settings.KeyBinding;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import com.norwood.mcheli.wrapper.W_KeyBinding;
+
 public class MCH_Key {
+
     public final int key;
     private boolean isPress;
     private boolean isBeforePress;
@@ -52,5 +55,4 @@ public class MCH_Key {
             isPress = Mouse.isButtonDown(mouseButton);
         }
     }
-
 }

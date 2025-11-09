@@ -1,5 +1,24 @@
 package com.norwood.mcheli.gui;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+
+import org.jetbrains.annotations.NotNull;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import com.google.common.collect.Sets;
 import com.norwood.mcheli.MCH_ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_Config;
@@ -14,25 +33,9 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.wrapper.W_GuiButton;
 import com.norwood.mcheli.wrapper.W_GuiContainer;
 import com.norwood.mcheli.wrapper.W_McClient;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 public class MCH_ConfigGui extends W_GuiContainer {
+
     public static final int BUTTON_RENDER = 50;
     public static final int BUTTON_KEY_BINDING = 51;
     public static final int BUTTON_PREV_CONTROL = 52;
@@ -100,7 +103,8 @@ public class MCH_ConfigGui extends W_GuiContainer {
         int y = this.guiTop;
         this.listControlButtons = new ArrayList<>();
         this.buttonMouseInv = new MCH_GuiOnOffButton(0, x1, y + 25, 150, 20, "Invert Mouse : ");
-        this.sliderSensitivity = new MCH_GuiSlider(0, x1, y + 50, 150, 20, "Sensitivity : %.1f", 0.0F, 0.0F, 30.0F, 0.1F);
+        this.sliderSensitivity = new MCH_GuiSlider(0, x1, y + 50, 150, 20, "Sensitivity : %.1f", 0.0F, 0.0F, 30.0F,
+                0.1F);
         this.buttonFlightSimMode = new MCH_GuiOnOffButton(0, x1, y + 75, 150, 20, "Mouse Flight Sim Mode : ");
         this.buttonSwitchWeaponWheel = new MCH_GuiOnOffButton(0, x1, y + 100, 150, 20, "Switch Weapon Wheel : ");
         this.listControlButtons.add(new W_GuiButton(50, x1, y + 125, 150, 20, "Render Settings >>"));
@@ -128,7 +132,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
         this.listRenderButtons = new ArrayList<>();
         this.buttonShowHUDTP = new MCH_GuiOnOffButton(0, x1, y + 25, 150, 20, "Show HUD Third Person : ");
         this.buttonHideKeyBind = new MCH_GuiOnOffButton(0, x1, y + 50, 150, 20, "Hide Key Binding : ");
-        this.sliderHitMark = new MCH_GuiSlider[]{
+        this.sliderHitMark = new MCH_GuiSlider[] {
                 new MCH_GuiSlider(0, x1, y + 125, 75, 20, "Alpha:%.0f", 0.0F, 0.0F, 255.0F, 16.0F),
                 new MCH_GuiSlider(0, x1 + 75, y + 75, 75, 20, "Red:%.0f", 0.0F, 0.0F, 255.0F, 16.0F),
                 new MCH_GuiSlider(0, x1 + 75, y + 100, 75, 20, "Green:%.0f", 0.0F, 0.0F, 255.0F, 16.0F),
@@ -138,8 +142,10 @@ public class MCH_ConfigGui extends W_GuiContainer {
         this.listRenderButtons.add(new W_GuiButton(52, x1, y + 175, 90, 20, "Controls <<"));
         this.buttonSmoothShading = new MCH_GuiOnOffButton(0, x2, y + 25, 150, 20, "Smooth Shading : ");
         this.buttonShowEntityMarker = new MCH_GuiOnOffButton(0, x2, y + 50, 150, 20, "Show Entity Maker : ");
-        this.sliderEntityMarkerSize = new MCH_GuiSlider(0, x2 + 30, y + 75, 120, 20, "Entity Marker Size:%.0f", 10.0F, 0.0F, 30.0F, 1.0F);
-        this.sliderBlockMarkerSize = new MCH_GuiSlider(0, x2 + 60, y + 100, 90, 20, "Block Marker Size:%.0f", 10.0F, 0.0F, 20.0F, 1.0F);
+        this.sliderEntityMarkerSize = new MCH_GuiSlider(0, x2 + 30, y + 75, 120, 20, "Entity Marker Size:%.0f", 10.0F,
+                0.0F, 30.0F, 1.0F);
+        this.sliderBlockMarkerSize = new MCH_GuiSlider(0, x2 + 60, y + 100, 90, 20, "Block Marker Size:%.0f", 10.0F,
+                0.0F, 20.0F, 1.0F);
         this.buttonMarkThroughWall = new MCH_GuiOnOffButton(0, x2 + 30, y + 100, 120, 20, "Mark Through Wall : ");
         this.buttonNewExplosion = new MCH_GuiOnOffButton(0, x2, y + 150, 150, 20, "Default Explosion : ");
         this.listRenderButtons.add(this.buttonShowHUDTP);
@@ -163,7 +169,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
         this.listKeyBindingButtons.add(this.keyBindingList);
         this.listKeyBindingButtons.add(new W_GuiButton(52, x1, y + 175, 90, 20, "Controls <<"));
         this.listKeyBindingButtons.add(new W_GuiButton(54, x1 + 90, y + 175, 60, 20, "Reset All"));
-        MCH_GuiListItemKeyBind[] listKeyBindItems = new MCH_GuiListItemKeyBind[]{
+        MCH_GuiListItemKeyBind[] listKeyBindItems = new MCH_GuiListItemKeyBind[] {
                 new MCH_GuiListItemKeyBind(200, 300, x1, "Up", MCH_Config.KeyUp),
                 new MCH_GuiListItemKeyBind(201, 301, x1, "Down", MCH_Config.KeyDown),
                 new MCH_GuiListItemKeyBind(202, 302, x1, "Right", MCH_Config.KeyRight),
@@ -200,7 +206,8 @@ public class MCH_ConfigGui extends W_GuiContainer {
             this.buttonReloadAircraftInfo = new W_GuiButton(400, x1, y + 50, 150, 20, "Reload aircraft setting");
             this.buttonReloadWeaponInfo = new W_GuiButton(401, x1, y + 75, 150, 20, "Reload All Weapons");
             this.buttonReloadAllHUD = new W_GuiButton(402, x1, y + 100, 150, 20, "Reload All HUD");
-            this.__sliderTextureAlpha = new MCH_GuiSlider(432, x1, y + 125, 150, 20, "Texture Alpha:%.0f", 1.0F, 0.0F, 255.0F, 1.0F);
+            this.__sliderTextureAlpha = new MCH_GuiSlider(432, x1, y + 125, 150, 20, "Texture Alpha:%.0f", 1.0F, 0.0F,
+                    255.0F, 1.0F);
             this.listDevelopButtons.add(this.buttonReloadAircraftInfo);
             this.listDevelopButtons.add(this.buttonReloadWeaponInfo);
             this.listDevelopButtons.add(this.buttonReloadAllHUD);
@@ -379,7 +386,8 @@ public class MCH_ConfigGui extends W_GuiContainer {
 
     public void acceptKeycode(int code) {
         if (code != 1 && this.mc.currentScreen instanceof MCH_ConfigGui) {
-            MCH_GuiListItemKeyBind kb = (MCH_GuiListItemKeyBind) this.keyBindingList.getItem(this.waitKeyButtonId - 200);
+            MCH_GuiListItemKeyBind kb = (MCH_GuiListItemKeyBind) this.keyBindingList
+                    .getItem(this.waitKeyButtonId - 200);
             if (kb != null) {
                 kb.setKeycode(code);
             }
@@ -434,48 +442,36 @@ public class MCH_ConfigGui extends W_GuiContainer {
             }
 
             switch (button.id) {
-                case 50:
-                    this.switchScreen(1);
-                    break;
-                case 51:
-                    this.switchScreen(2);
-                    break;
-                case 52:
-                    this.switchScreen(0);
-                    break;
-                case 53:
+                case BUTTON_RENDER -> this.switchScreen(SCREEN_RENDER);
+                case BUTTON_KEY_BINDING -> this.switchScreen(SCREEN_KEY_BIND);
+                case BUTTON_PREV_CONTROL -> this.switchScreen(SCREEN_CONTROLS);
+                case BUTTON_KEY_LIST -> {
                     MCH_GuiListItem item = this.keyBindingList.lastPushItem;
-                    if (item != null) {
-                        MCH_GuiListItemKeyBind kb = (MCH_GuiListItemKeyBind) item;
-                        if (kb.lastPushButton != null) {
-                            int kb_num = this.keyBindingList.getItemNum();
-                            if (kb.lastPushButton.id >= 200 && kb.lastPushButton.id < 200 + kb_num) {
-                                this.waitKeyButtonId = kb.lastPushButton.id;
-                                this.waitKeyAcceptCount = 5;
-                            } else if (kb.lastPushButton.id >= 300 && kb.lastPushButton.id < 300 + kb_num) {
-                                kb.resetKeycode();
-                            }
-
-                            kb.lastPushButton = null;
-                        }
+                    if (item instanceof MCH_GuiListItemKeyBind kb && kb.lastPushButton != null) {
+                        int kbNum = this.keyBindingList.getItemNum();
+                        if (kb.lastPushButton.id >= BUTTON_KEY_LIST_BASE &&
+                                kb.lastPushButton.id < BUTTON_KEY_LIST_BASE + kbNum) {
+                            this.waitKeyButtonId = kb.lastPushButton.id;
+                            this.waitKeyAcceptCount = 5;
+                        } else if (kb.lastPushButton.id >= BUTTON_KEY_RESET_BASE &&
+                                kb.lastPushButton.id < BUTTON_KEY_RESET_BASE + kbNum) {
+                                    kb.resetKeycode();
+                                }
+                        kb.lastPushButton = null;
                     }
-                    break;
-                case 54:
-                    for (int ixx = 0; ixx < this.keyBindingList.getItemNum(); ixx++) {
-                        ((MCH_GuiListItemKeyBind) this.keyBindingList.getItem(ixx)).resetKeycode();
+                }
+                case BUTTON_KEY_RESET_ALL -> {
+                    for (int i = 0; i < this.keyBindingList.getItemNum(); i++) {
+                        ((MCH_GuiListItemKeyBind) this.keyBindingList.getItem(i)).resetKeycode();
                     }
-                    break;
-                case 55:
-                    this.switchScreen(3);
-                    break;
-                case 100:
+                }
+                case BUTTON_DEVELOP -> this.switchScreen(SCREEN_DEVELOP);
+                case BUTTON_SAVE_CLOSE -> {
                     this.saveAndApplyConfig();
                     this.mc.player.closeScreen();
-                    break;
-                case 101:
-                    this.mc.player.closeScreen();
-                    break;
-                case 401:
+                }
+                case BUTTON_CANCEL -> this.mc.player.closeScreen();
+                case BUTTON_DEV_RELOAD_WEAPON -> {
                     MCH_Lib.DbgLog(true, "MCH_BaseInfo.reload all weapon info.");
                     ContentRegistries.get(MCH_WeaponInfo.class).reloadAll();
                     new PacketContentReload(PacketContentReload.ReloadType.WEAPON).sendToServer();
@@ -484,20 +480,19 @@ public class MCH_ConfigGui extends W_GuiContainer {
 
                     for (Entity value : list) {
                         if (value instanceof MCH_EntityAircraft ac) {
-                            if (ac.getAcInfo() != null && !reloaded.contains(ac.getAcInfo().name)) {
+                            if (ac.getAcInfo() != null && reloaded.add(ac.getAcInfo().name)) {
                                 ContentRegistries.get(ac.getAcInfo().getClass()).reload(ac.getAcInfo().name);
                                 ac.changeType(ac.getAcInfo().name);
                                 ac.onAcInfoReloaded();
-                                reloaded.add(ac.getAcInfo().name);
                             }
                         }
                     }
-
                     this.mc.player.closeScreen();
-                    break;
-                case 402:
-                    MCH_MOD.proxy.reloadHUD();
-                case 400:
+                }
+                case BUTTON_DEV_RELOAD_HUD, BUTTON_DEV_RELOAD_AC -> {
+                    if (button.id == BUTTON_DEV_RELOAD_HUD)
+                        MCH_MOD.proxy.reloadHUD();
+
                     MCH_EntityAircraft ac = MCH_EntityAircraft.getAircraft_RiddenOrControl(this.thePlayer);
                     if (ac != null && ac.getAcInfo() != null) {
                         String name = ac.getAcInfo().name;
@@ -506,20 +501,20 @@ public class MCH_ConfigGui extends W_GuiContainer {
                         List<Entity> entityList = new ArrayList<>(this.mc.world.loadedEntityList);
 
                         for (Entity entity : entityList) {
-                            if (entity instanceof MCH_EntityAircraft) {
-                                ac = (MCH_EntityAircraft) entity;
-                                if (ac.getAcInfo() != null && ac.getAcInfo().name.equals(name)) {
-                                    ac.changeType(name);
-                                    ac.onAcInfoReloaded();
-                                }
+                            if (entity instanceof MCH_EntityAircraft aircraft &&
+                                    aircraft.getAcInfo() != null &&
+                                    aircraft.getAcInfo().name.equals(name)) {
+                                aircraft.changeType(name);
+                                aircraft.onAcInfoReloaded();
                             }
                         }
-
                         new PacketContentReload(PacketContentReload.ReloadType.VEHICLE).sendToServer();
                     }
-
                     this.mc.player.closeScreen();
+                }
+                default -> throw new IllegalStateException("Unexpected value: " + button.id);
             }
+
         } catch (Exception var7) {
             var7.printStackTrace();
         }
@@ -546,7 +541,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
             double size = this.sliderEntityMarkerSize.getSliderValue();
             double x = 170.0 + (30.0 - size) / 2.0;
             double y = this.sliderEntityMarkerSize.y - this.sliderEntityMarkerSize.getHeight();
-            double[] ls = new double[]{x + size, y, x, y, x + size / 2.0, y + size};
+            double[] ls = new double[] { x + size, y, x, y, x + size / 2.0, y + size };
             this.drawLine(ls, -65536, 4);
             size = this.sliderBlockMarkerSize.getSliderValue();
             x = 185.0;
@@ -556,7 +551,8 @@ public class MCH_ConfigGui extends W_GuiContainer {
             GlStateManager.enableBlend();
             GlStateManager.disableTexture2D();
             GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF), (byte) (color >> 24 & 0xFF));
+            GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF),
+                    (byte) (color >> 24 & 0xFF));
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder builder = tessellator.getBuffer();
             builder.begin(1, DefaultVertexFormats.POSITION_COLOR);
@@ -595,7 +591,8 @@ public class MCH_ConfigGui extends W_GuiContainer {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRectRotate(x, y, this.xSize, this.ySize, 0.0, 0.0, this.xSize, this.ySize, 0.0F, 512.0, 256.0);
+        this.drawTexturedModalRectRotate(x, y, this.xSize, this.ySize, 0.0, 0.0, this.xSize, this.ySize, 0.0F, 512.0,
+                256.0);
     }
 
     public void drawSampleHitMark(int x, int y, int color) {
@@ -603,8 +600,9 @@ public class MCH_ConfigGui extends W_GuiContainer {
         int IVY = 10;
         int SZX = 5;
         int SZY = 5;
-        double[] ls = new double[]{
-                x - IVX, y - IVY, x - SZX, y - SZY, x - IVX, y + IVY, x - SZX, y + SZY, x + IVX, y - IVY, x + SZX, y - SZY, x + IVX, y + IVY, x + SZX, y + SZY
+        double[] ls = new double[] {
+                x - IVX, y - IVY, x - SZX, y - SZY, x - IVX, y + IVY, x - SZX, y + SZY, x + IVX, y - IVY, x + SZX,
+                y - SZY, x + IVX, y + IVY, x + SZX, y + SZY
         };
         this.drawLine(ls, color, 1);
     }
@@ -614,7 +612,8 @@ public class MCH_ConfigGui extends W_GuiContainer {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF), (byte) (color >> 24 & 0xFF));
+        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF),
+                (byte) (color >> 24 & 0xFF));
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(mode, DefaultVertexFormats.POSITION);
@@ -631,18 +630,17 @@ public class MCH_ConfigGui extends W_GuiContainer {
     }
 
     public void drawTexturedModalRectRotate(
-            double left,
-            double top,
-            double width,
-            double height,
-            double uLeft,
-            double vTop,
-            double uWidth,
-            double vHeight,
-            float rot,
-            double texWidth,
-            double texHeight
-    ) {
+                                            double left,
+                                            double top,
+                                            double width,
+                                            double height,
+                                            double uLeft,
+                                            double vTop,
+                                            double uWidth,
+                                            double vHeight,
+                                            float rot,
+                                            double texWidth,
+                                            double texHeight) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(left + width / 2.0, top + height / 2.0, 0.0);
         GlStateManager.rotate(rot, 0.0F, 0.0F, 1.0F);
@@ -652,7 +650,8 @@ public class MCH_ConfigGui extends W_GuiContainer {
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
         buffer.pos(-width / 2.0, height / 2.0, this.zLevel).tex(uLeft * fw, (vTop + vHeight) * fh).endVertex();
-        buffer.pos(width / 2.0, height / 2.0, this.zLevel).tex((uLeft + uWidth) * fw, (vTop + vHeight) * fh).endVertex();
+        buffer.pos(width / 2.0, height / 2.0, this.zLevel).tex((uLeft + uWidth) * fw, (vTop + vHeight) * fh)
+                .endVertex();
         buffer.pos(width / 2.0, -height / 2.0, this.zLevel).tex((uLeft + uWidth) * fw, vTop * fh).endVertex();
         buffer.pos(-width / 2.0, -height / 2.0, this.zLevel).tex(uLeft * fw, vTop * fh).endVertex();
         tessellator.draw();

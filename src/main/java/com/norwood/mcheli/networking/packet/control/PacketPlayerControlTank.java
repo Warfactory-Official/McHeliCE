@@ -1,14 +1,16 @@
 package com.norwood.mcheli.networking.packet.control;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
+
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 
 @RequiredArgsConstructor
 @ElegantPacket
@@ -47,7 +49,5 @@ public class PacketPlayerControlTank extends PacketPlayerControlBase {
         }
 
         tank.setBrake(data.isUseBrake());
-
-
     }
 }

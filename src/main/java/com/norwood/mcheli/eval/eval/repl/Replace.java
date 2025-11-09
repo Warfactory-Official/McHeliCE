@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.repl;
 import com.norwood.mcheli.eval.eval.exp.*;
 
 public interface Replace {
+
     AbstractExpression replace0(WordExpression var1);
 
     AbstractExpression replace1(Col1Expression var1);

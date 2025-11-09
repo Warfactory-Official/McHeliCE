@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class MCH_HudItemRect extends MCH_HudItem {
+
     private final String left;
     private final String top;
     private final String width;

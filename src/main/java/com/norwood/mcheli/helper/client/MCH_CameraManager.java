@@ -1,11 +1,7 @@
 package com.norwood.mcheli.helper.client;
 
-import com.norwood.mcheli.MCH_ViewEntityDummy;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.hud.direct_drawable.DirectDrawable;
-import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -19,13 +15,17 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.MCH_ViewEntityDummy;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
+import com.norwood.mcheli.uav.MCH_EntityUavStation;
 
 @EventBusSubscriber(
-        modid = "mcheli",
-        value = {Side.CLIENT}
-)
+                    modid = "mcheli",
+                    value = { Side.CLIENT })
 public class MCH_CameraManager {
+
     private static final float DEF_THIRD_CAMERA_DIST = 4.0F;
     private static final Minecraft mc = Minecraft.getMinecraft();
     private static float cameraRoll = 0.0F;
@@ -33,20 +33,18 @@ public class MCH_CameraManager {
     private static float cameraZoom = 1.0F;
     private static MCH_EntityAircraft ridingAircraft = null;
 
-    //For hud canceling
+    // For hud canceling
     @SubscribeEvent
-    public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {
-    }
+    public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {}
 
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
         Tuple<EntityPlayer, MCH_EntityAircraft> ctx = getActivePilotContext();
         if (ctx == null) return;
-        if(ctx.getSecond().getAcInfo() == null) return;
-        ctx.getSecond().getAcInfo().getHudCache().forEach(drawable -> drawable.renderHud(event,ctx));
+        if (ctx.getSecond().getAcInfo() == null) return;
+        ctx.getSecond().getAcInfo().getHudCache().forEach(drawable -> drawable.renderHud(event, ctx));
     }
-
 
     @Nullable
     private static Tuple<EntityPlayer, MCH_EntityAircraft> getActivePilotContext() {
@@ -55,7 +53,7 @@ public class MCH_CameraManager {
         if (player == null || mc.world == null)
             return null;
 
-        MCH_EntityAircraft ac = getRiddenAircraft(mc,player);
+        MCH_EntityAircraft ac = getRiddenAircraft(mc, player);
         if (ac == null)
             return null;
 
@@ -74,9 +72,6 @@ public class MCH_CameraManager {
         }
         return null;
     }
-
-
-
 
     @SubscribeEvent
     static void onCameraSetupEvent(CameraSetup event) {

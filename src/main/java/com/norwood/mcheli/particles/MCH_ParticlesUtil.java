@@ -1,6 +1,8 @@
 package com.norwood.mcheli.particles;
 
-import com.norwood.mcheli.wrapper.W_Particle;
+import java.util.Locale;
+import java.util.function.Supplier;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
@@ -21,13 +23,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
-import java.util.Locale;
-import java.util.function.Supplier;
+import com.norwood.mcheli.wrapper.W_Particle;
 
 public class MCH_ParticlesUtil {
+
     public static MCH_EntityParticleMarkPoint markPoint = null;
 
-    public static void spawnParticleMuzzleFlash(World w, double x, double y, double z, float size, float r, float g, float b, float a, int age) {
+    public static void spawnParticleMuzzleFlash(World w, double x, double y, double z, float size, float r, float g,
+                                                float b, float a, int age) {
         MCH_EntityParticleExplode epe = new MCH_EntityParticleExplode(w, x, y, z, size, age, 0.0);
         epe.setParticleMaxAge(age);
         epe.setRBGColorF(r, g, b);
@@ -35,19 +38,22 @@ public class MCH_ParticlesUtil {
         FMLClientHandler.instance().getClient().effectRenderer.addEffect(epe);
     }
 
-    public static void spawnParticleTileCrack(World w, int blockX, int blockY, int blockZ, double x, double y, double z, double mx, double my, double mz) {
+    public static void spawnParticleTileCrack(World w, int blockX, int blockY, int blockZ, double x, double y, double z,
+                                              double mx, double my, double mz) {
         W_Particle.BlockParticleParam name = W_Particle.getParticleTileCrackName(w, blockX, blockY, blockZ);
         if (!name.isEmpty()) {
             DEF_spawnParticle(name.name, x, y, z, mx, my, mz, 20.0F, name.stateId);
         }
     }
 
-    public static boolean spawnParticleTileDust(World w, int blockX, int blockY, int blockZ, double x, double y, double z, double mx, double my, double mz, float scale) {
+    public static boolean spawnParticleTileDust(World w, int blockX, int blockY, int blockZ, double x, double y,
+                                                double z, double mx, double my, double mz, float scale) {
         boolean ret = false;
-        int[][] offset = new int[][]{{0, 0, 0}, {0, 0, -1}, {0, 0, 1}, {1, 0, 0}, {-1, 0, 0}};
+        int[][] offset = new int[][] { { 0, 0, 0 }, { 0, 0, -1 }, { 0, 0, 1 }, { 1, 0, 0 }, { -1, 0, 0 } };
 
         for (int[] ints : offset) {
-            W_Particle.BlockParticleParam name = W_Particle.getParticleTileDustName(w, blockX + ints[0], blockY + ints[1], blockZ + ints[2]);
+            W_Particle.BlockParticleParam name = W_Particle.getParticleTileDustName(w, blockX + ints[0],
+                    blockY + ints[1], blockZ + ints[2]);
             if (!name.isEmpty()) {
                 Particle e = DEF_spawnParticle(name.name, x, y, z, mx, my, mz, 20.0F, name.stateId);
                 if (e instanceof MCH_EntityBlockDustFX) {
@@ -61,16 +67,16 @@ public class MCH_ParticlesUtil {
         return ret;
     }
 
-    public static Particle DEF_spawnParticle(String s, double x, double y, double z, double mx, double my, double mz, float dist, int... params) {
+    public static Particle DEF_spawnParticle(String s, double x, double y, double z, double mx, double my, double mz,
+                                             float dist, int... params) {
         Particle e = doSpawnParticle(s, x, y, z, mx, my, mz, params);
-        if (e != null) {
-        }
+        if (e != null) {}
 
         return e;
     }
 
-
-    public static Particle doSpawnParticle(String type, double x, double y, double z, double mx, double my, double mz, int... params) {
+    public static Particle doSpawnParticle(String type, double x, double y, double z, double mx, double my, double mz,
+                                           int... params) {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.getRenderViewEntity() == null || mc.effectRenderer == null) return null;
 
@@ -89,64 +95,67 @@ public class MCH_ParticlesUtil {
 
         switch (key) {
             case "hugeexplosion" -> entityfx = create(Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "largeexplode" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleExplosionLarge.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "fireworksspark" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleFirework.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "bubble" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleBubble.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "suspended" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleSuspend.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "depthsuspend", "townaura" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleSuspendedTown.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "crit" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleCrit.Factory::new, mc.world, x, y, z, mx, my, mz);
+            case "largeexplode" -> entityfx = create(net.minecraft.client.particle.ParticleExplosionLarge.Factory::new,
+                    mc.world, x, y, z, mx, my, mz);
+            case "fireworksspark" -> entityfx = create(net.minecraft.client.particle.ParticleFirework.Factory::new,
+                    mc.world, x, y, z, mx, my, mz);
+            case "bubble" -> entityfx = create(net.minecraft.client.particle.ParticleBubble.Factory::new, mc.world, x,
+                    y, z, mx, my, mz);
+            case "suspended" -> entityfx = create(net.minecraft.client.particle.ParticleSuspend.Factory::new, mc.world,
+                    x, y, z, mx, my, mz);
+            case "depthsuspend", "townaura" -> entityfx = create(
+                    net.minecraft.client.particle.ParticleSuspendedTown.Factory::new, mc.world, x, y, z, mx, my, mz);
+            case "crit" -> entityfx = create(net.minecraft.client.particle.ParticleCrit.Factory::new, mc.world, x, y, z,
+                    mx, my, mz);
             case "magiccrit" -> entityfx = create(MagicFactory::new, mc.world, x, y, z, mx, my, mz);
-            case "smoke" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleSmokeNormal.Factory::new, mc.world, x, y, z, mx, my, mz);
+            case "smoke" -> entityfx = create(net.minecraft.client.particle.ParticleSmokeNormal.Factory::new, mc.world,
+                    x, y, z, mx, my, mz);
             case "mobspell" -> entityfx = create(MobFactory::new, mc.world, x, y, z, mx, my, mz);
             case "mobspellambient" -> entityfx = create(AmbientMobFactory::new, mc.world, x, y, z, mx, my, mz);
-            case "spell" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleSpell.Factory::new, mc.world, x, y, z, mx, my, mz);
+            case "spell" -> entityfx = create(net.minecraft.client.particle.ParticleSpell.Factory::new, mc.world, x, y,
+                    z, mx, my, mz);
             case "instantspell" -> entityfx = create(InstantFactory::new, mc.world, x, y, z, mx, my, mz);
             case "witchmagic" -> entityfx = create(WitchFactory::new, mc.world, x, y, z, mx, my, mz);
-            case "note" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleNote.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "portal" ->
-                    entityfx = create(net.minecraft.client.particle.ParticlePortal.Factory::new, mc.world, x, y, z, mx, my, mz);
+            case "note" -> entityfx = create(net.minecraft.client.particle.ParticleNote.Factory::new, mc.world, x, y, z,
+                    mx, my, mz);
+            case "portal" -> entityfx = create(net.minecraft.client.particle.ParticlePortal.Factory::new, mc.world, x,
+                    y, z, mx, my, mz);
             case "enchantmenttable" -> entityfx = create(EnchantmentTable::new, mc.world, x, y, z, mx, my, mz);
-            case "explode" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleExplosion.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "flame" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleFlame.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "lava" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleLava.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "footstep" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleFootStep.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "splash" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleSplash.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "wake" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleWaterWake.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "largesmoke" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleSmokeLarge.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "cloud" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleCloud.Factory::new, mc.world, x, y, z, mx, my, mz);
-            case "reddust" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleRedstone.Factory::new, mc.world, x, y, z, mx, my, mz);
+            case "explode" -> entityfx = create(net.minecraft.client.particle.ParticleExplosion.Factory::new, mc.world,
+                    x, y, z, mx, my, mz);
+            case "flame" -> entityfx = create(net.minecraft.client.particle.ParticleFlame.Factory::new, mc.world, x, y,
+                    z, mx, my, mz);
+            case "lava" -> entityfx = create(net.minecraft.client.particle.ParticleLava.Factory::new, mc.world, x, y, z,
+                    mx, my, mz);
+            case "footstep" -> entityfx = create(net.minecraft.client.particle.ParticleFootStep.Factory::new, mc.world,
+                    x, y, z, mx, my, mz);
+            case "splash" -> entityfx = create(net.minecraft.client.particle.ParticleSplash.Factory::new, mc.world, x,
+                    y, z, mx, my, mz);
+            case "wake" -> entityfx = create(net.minecraft.client.particle.ParticleWaterWake.Factory::new, mc.world, x,
+                    y, z, mx, my, mz);
+            case "largesmoke" -> entityfx = create(net.minecraft.client.particle.ParticleSmokeLarge.Factory::new,
+                    mc.world, x, y, z, mx, my, mz);
+            case "cloud" -> entityfx = create(net.minecraft.client.particle.ParticleCloud.Factory::new, mc.world, x, y,
+                    z, mx, my, mz);
+            case "reddust" -> entityfx = create(net.minecraft.client.particle.ParticleRedstone.Factory::new, mc.world,
+                    x, y, z, mx, my, mz);
             case "snowballpoof" -> entityfx = create(SnowballFactory::new, mc.world, x, y, z, mx, my, mz);
             case "dripwater" -> entityfx = create(WaterFactory::new, mc.world, x, y, z, mx, my, mz);
             case "driplava" -> entityfx = create(LavaFactory::new, mc.world, x, y, z, mx, my, mz);
-            case "snowshovel" ->
-                    entityfx = create(net.minecraft.client.particle.ParticleSnowShovel.Factory::new, mc.world, x, y, z, mx, my, mz);
+            case "snowshovel" -> entityfx = create(net.minecraft.client.particle.ParticleSnowShovel.Factory::new,
+                    mc.world, x, y, z, mx, my, mz);
             case "slime" -> entityfx = create(SlimeFactory::new, mc.world, x, y, z, mx, my, mz);
-            case "heart" -> entityfx = create(net.minecraft.client.particle.ParticleHeart.Factory::new, mc.world, x, y, z, mx, my, mz);
+            case "heart" -> entityfx = create(net.minecraft.client.particle.ParticleHeart.Factory::new, mc.world, x, y,
+                    z, mx, my, mz);
             case "angryvillager" -> entityfx = create(AngryVillagerFactory::new, mc.world, x, y, z, mx, my, mz);
             case "happyvillager" -> entityfx = create(HappyVillagerFactory::new, mc.world, x, y, z, mx, my, mz);
             default -> {
                 if (key.startsWith("iconcrack"))
-                    entityfx = create(net.minecraft.client.particle.ParticleBreaking.Factory::new, mc.world, x, y, z, mx, my, mz, params);
+                    entityfx = create(net.minecraft.client.particle.ParticleBreaking.Factory::new, mc.world, x, y, z,
+                            mx, my, mz, params);
                 else if (key.startsWith("blockcrack"))
-                    entityfx = create(net.minecraft.client.particle.ParticleDigging.Factory::new, mc.world, x, y, z, mx, my, mz, params);
+                    entityfx = create(net.minecraft.client.particle.ParticleDigging.Factory::new, mc.world, x, y, z, mx,
+                            my, mz, params);
                 else if (key.startsWith("blockdust"))
                     entityfx = create(MCH_EntityBlockDustFX.Factory::new, mc.world, x, y, z, mx, my, mz, params);
             }
@@ -161,9 +170,11 @@ public class MCH_ParticlesUtil {
         if (p.world.isRemote) {
             MCH_EntityParticleBase entityFX;
             if (p.name.equalsIgnoreCase("Splash")) {
-                entityFX = new MCH_EntityParticleSplash(p.world, p.posX, p.posY, p.posZ, p.motionX, p.motionY, p.motionZ);
+                entityFX = new MCH_EntityParticleSplash(p.world, p.posX, p.posY, p.posZ, p.motionX, p.motionY,
+                        p.motionZ);
             } else {
-                entityFX = new MCH_EntityParticleSmoke(p.world, p.posX, p.posY, p.posZ, p.motionX, p.motionY, p.motionZ);
+                entityFX = new MCH_EntityParticleSmoke(p.world, p.posX, p.posY, p.posZ, p.motionX, p.motionY,
+                        p.motionZ);
             }
 
             entityFX.setRBGColorF(p.r, p.g, p.b);
@@ -201,7 +212,8 @@ public class MCH_ParticlesUtil {
         }
     }
 
-    private static Particle create(Supplier<IParticleFactory> factoryFunc, World world, double x, double y, double z, double mx, double my, double mz, int... param) {
+    private static Particle create(Supplier<IParticleFactory> factoryFunc, World world, double x, double y, double z,
+                                   double mx, double my, double mz, int... param) {
         return factoryFunc.get().createParticle(-1, world, x, y, z, mx, my, mz, param);
     }
 }

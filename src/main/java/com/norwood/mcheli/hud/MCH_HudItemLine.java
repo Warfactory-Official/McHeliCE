@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class MCH_HudItemLine extends MCH_HudItem {
+
     private final String[] pos;
 
     public MCH_HudItemLine(int fileLine, String[] position) {

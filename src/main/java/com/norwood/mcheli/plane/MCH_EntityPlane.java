@@ -1,5 +1,18 @@
 package com.norwood.mcheli.plane;
 
+import javax.annotation.Nullable;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
@@ -12,20 +25,9 @@ import com.norwood.mcheli.wrapper.W_Block;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Lib;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class MCH_EntityPlane extends MCH_EntityAircraft {
+
     public float soundVolume;
     public MCH_Parts partNozzle;
     public MCH_Parts partWing;
@@ -74,7 +76,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         }
 
         if (this.planeInfo == null) {
-            MCH_Lib.Log(this, "##### MCP_EntityPlane changePlaneType() Plane info null %d, %s, %s", W_Entity.getEntityId(this), type, this.getEntityName());
+            MCH_Lib.Log(this, "##### MCP_EntityPlane changePlaneType() Plane info null %d, %s, %s",
+                    W_Entity.getEntityId(this), type, this.getEntityName());
             this.setDead();
         } else {
             this.setAcInfo(this.planeInfo);
@@ -113,7 +116,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         if (this.planeInfo == null) {
             this.planeInfo = MCP_PlaneInfoManager.get(this.getTypeName());
             if (this.planeInfo == null) {
-                MCH_Lib.Log(this, "##### MCP_EntityPlane readEntityFromNBT() Plane info null %d, %s", W_Entity.getEntityId(this), this.getEntityName());
+                MCH_Lib.Log(this, "##### MCP_EntityPlane readEntityFromNBT() Plane info null %d, %s",
+                        W_Entity.getEntityId(this), this.getEntityName());
                 this.setDead();
             } else {
                 this.setAcInfo(this.planeInfo);
@@ -149,7 +153,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         } else {
             float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRotRoll()));
             float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getRotPitch()));
-            return !(roll > 40.0F) && !(pitch > 40.0F) && this.getCurrentThrottle() > 0.6F && MCH_Lib.getBlockIdY(this, 3, -5) == 0;
+            return !(roll > 40.0F) && !(pitch > 40.0F) && this.getCurrentThrottle() > 0.6F &&
+                    MCH_Lib.getBlockIdY(this, 3, -5) == 0;
         }
     }
 
@@ -318,7 +323,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             }
 
             boolean isFly = MCH_Lib.getBlockIdY(this, 3, -3) == 0;
-            if (!isFly || this.isFreeLookMode() || this.isGunnerMode || this.getAcInfo().isFloat && this.getWaterDepth() > 0.0) {
+            if (!isFly || this.isFreeLookMode() || this.isGunnerMode ||
+                    this.getAcInfo().isFloat && this.getWaterDepth() > 0.0) {
                 float gmy = 1.0F;
                 if (!isFly) {
                     gmy = this.getAcInfo().mobilityYawOnGround;
@@ -362,12 +368,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         }
 
         this.throttleBack = (float) (this.throttleBack * 0.8);
-        if (this.getRiddenByEntity() != null
-                && !this.getRiddenByEntity().isDead
-                && this.isCanopyClose()
-                && this.canUseWing()
-                && this.canUseFuel()
-                && !this.isDestroyed()) {
+        if (this.getRiddenByEntity() != null && !this.getRiddenByEntity().isDead && this.isCanopyClose() &&
+                this.canUseWing() && this.canUseFuel() && !this.isDestroyed()) {
             this.onUpdate_ControlNotHovering();
         } else if (this.isTargetDrone() && this.canUseFuel() && !this.isDestroyed()) {
             this.throttleUp = true;
@@ -403,7 +405,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             float throttleUpDown = this.getAcInfo().throttleUpDown;
             boolean turn = this.moveLeft && !this.moveRight || !this.moveLeft && this.moveRight;
             boolean localThrottleUp = this.throttleUp;
-            if (turn && this.getCurrentThrottle() < this.getAcInfo().pivotTurnThrottle && !localThrottleUp && !this.throttleDown) {
+            if (turn && this.getCurrentThrottle() < this.getAcInfo().pivotTurnThrottle && !localThrottleUp &&
+                    !this.throttleDown) {
                 localThrottleUp = true;
                 throttleUpDown *= 2.0F;
             }
@@ -524,8 +527,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         for (int i = 0; i < num; i++) {
             float c = 0.2F + this.rand.nextFloat() * 0.3F;
             MCH_ParticleParam prm = new MCH_ParticleParam(
-                    this.world, "smoke", prev.x + (x - prev.x) * i / 3.0, prev.y + (y - prev.y) * i / 3.0, prev.z + (z - prev.z) * i / 3.0
-            );
+                    this.world, "smoke", prev.x + (x - prev.x) * i / 3.0, prev.y + (y - prev.y) * i / 3.0,
+                    prev.z + (z - prev.z) * i / 3.0);
             prm.motionX = size * (this.rand.nextDouble() - 0.5) * 0.3;
             prm.motionY = size * this.rand.nextDouble() * 0.1;
             prm.motionZ = size * (this.rand.nextDouble() - 0.5) * 0.3;
@@ -553,8 +556,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                     this.posZ + (this.rand.nextFloat() - 0.5) * this.width,
                     -this.motionX * 4.0,
                     1.5,
-                    -this.motionZ * 4.0
-            );
+                    -this.motionZ * 4.0);
         }
     }
 
@@ -571,7 +573,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                 for (MCH_AircraftInfo.ParticleSplash p : this.getAcInfo().particleSplashs) {
                     for (int i = 0; i < p.num; i++) {
                         if (dist > 0.03 + this.rand.nextFloat() * 0.1) {
-                            this.setParticleSplash(p.pos, -mx * p.acceleration, p.motionY, -mz * p.acceleration, p.gravity, p.size * (0.5 + dist * 0.5), p.age);
+                            this.setParticleSplash(p.pos, -mx * p.acceleration, p.motionY, -mz * p.acceleration,
+                                    p.gravity, p.size * (0.5 + dist * 0.5), p.age);
                         }
                     }
                 }
@@ -614,7 +617,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                         double y = this.posY + nozzlePos.y + nozzleRot.y;
                         double z = this.posZ + nozzlePos.z + nozzleRot.z;
                         float a = 0.7F;
-                        if (W_WorldFunc.getBlockId(this.world, (int) (x + nozzleRot.x * 3.0), (int) (y + nozzleRot.y * 3.0), (int) (z + nozzleRot.z * 3.0)) != 0) {
+                        if (W_WorldFunc.getBlockId(this.world, (int) (x + nozzleRot.x * 3.0),
+                                (int) (y + nozzleRot.y * 3.0), (int) (z + nozzleRot.z * 3.0)) != 0) {
                             a = 2.0F;
                         }
 
@@ -627,8 +631,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                                 nozzleRot.x + (this.rand.nextFloat() - 0.5F) * a,
                                 nozzleRot.y,
                                 nozzleRot.z + (this.rand.nextFloat() - 0.5F) * a,
-                                5.0F * this.getAcInfo().particlesScale
-                        );
+                                5.0F * this.getAcInfo().particlesScale);
                         MCH_ParticlesUtil.spawnParticle(prm);
                     }
                 }
@@ -687,8 +690,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             }
         }
 
-        if (this.getRiddenByEntity() != null) {
-        }
+        if (this.getRiddenByEntity() != null) {}
 
         this.updateSound();
         this.onUpdate_Particle();
@@ -729,7 +731,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             }
 
             if (!levelOff) {
-                this.motionY = this.motionY + (0.04 + (!this.isInWater() ? this.getAcInfo().gravity : this.getAcInfo().gravityInWater));
+                this.motionY = this.motionY +
+                        (0.04 + (!this.isInWater() ? this.getAcInfo().gravity : this.getAcInfo().gravityInWater));
                 this.motionY = this.motionY + -0.047 * (1.0 - this.getCurrentThrottle());
             } else {
                 this.motionY *= 0.8;
@@ -878,7 +881,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     public void updateParts(int stat) {
         super.updateParts(stat);
         if (!this.isDestroyed()) {
-            MCH_Parts[] parts = new MCH_Parts[]{this.partNozzle, this.partWing};
+            MCH_Parts[] parts = new MCH_Parts[] { this.partNozzle, this.partWing };
 
             for (MCH_Parts p : parts) {
                 if (p != null) {
@@ -887,12 +890,9 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                 }
             }
 
-            if (!this.world.isRemote
-                    && this.partWing != null
-                    && this.getPlaneInfo().isVariableSweepWing
-                    && this.partWing.isON()
-                    && this.getCurrentThrottle() >= 0.2F
-                    && (this.getCurrentThrottle() < 0.5 || MCH_Lib.getBlockIdY(this, 1, -10) != 0)) {
+            if (!this.world.isRemote && this.partWing != null && this.getPlaneInfo().isVariableSweepWing &&
+                    this.partWing.isON() && this.getCurrentThrottle() >= 0.2F &&
+                    (this.getCurrentThrottle() < 0.5 || MCH_Lib.getBlockIdY(this, 1, -10) != 0)) {
                 this.partWing.setStatusServer(false);
             }
         }

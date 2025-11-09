@@ -1,9 +1,5 @@
 package com.norwood.mcheli.compat;
 
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
-
-import javax.annotation.Nullable;
 import java.io.File;
 import java.net.URI;
 import java.net.URL;
@@ -11,6 +7,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
+
+import javax.annotation.Nullable;
+
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 
 public class ModCompatManager {
 
@@ -23,16 +24,15 @@ public class ModCompatManager {
         return LOADED_CACHE.computeIfAbsent(modid, Loader::isModLoaded);
     }
 
-
-
-    public static @Nullable URI getModUri(String modID){
+    public static @Nullable URI getModUri(String modID) {
         ModContainer mod = Loader.instance().getIndexedModList().get(modID);
-        if(mod == null) return null;
+        if (mod == null) return null;
         File source = mod.getSource();
         return source != null ? source.toURI() : null;
     }
-    public static Map<String,Class<?>> getClassesInPackage(String packageName) {
-        Map<String,Class<?>> classes = new HashMap<>();
+
+    public static Map<String, Class<?>> getClassesInPackage(String packageName) {
+        Map<String, Class<?>> classes = new HashMap<>();
         String path = packageName.replace('.', '/');
 
         try {
@@ -56,7 +56,7 @@ public class ModCompatManager {
                                 String className = name.replace('/', '.').substring(0, name.length() - 6);
                                 try {
                                     Class<?> clazz = Class.forName(className);
-                                    classes.put(clazz.getSimpleName(),clazz);
+                                    classes.put(clazz.getSimpleName(), clazz);
                                 } catch (Throwable ignored) {}
                             }
                         }
@@ -69,7 +69,7 @@ public class ModCompatManager {
         return classes;
     }
 
-    private static void findClassesInDirPackage(String packageName, File directory, Map<String,Class<?>> classes) {
+    private static void findClassesInDirPackage(String packageName, File directory, Map<String, Class<?>> classes) {
         if (!directory.exists()) return;
 
         for (File file : directory.listFiles()) {
@@ -79,7 +79,7 @@ public class ModCompatManager {
                 String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
                 try {
                     Class<?> clazz = Class.forName(className);
-                    classes.put(clazz.getSimpleName(),clazz);
+                    classes.put(clazz.getSimpleName(), clazz);
                 } catch (Throwable ignored) {}
             }
         }

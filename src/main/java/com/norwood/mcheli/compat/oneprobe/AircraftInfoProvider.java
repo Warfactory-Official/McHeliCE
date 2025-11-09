@@ -1,15 +1,17 @@
 package com.norwood.mcheli.compat.oneprobe;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
+
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+
 import mcjty.theoneprobe.TheOneProbe;
 import mcjty.theoneprobe.api.IEntityDisplayOverride;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "mcjty.theoneprobe.api.IProbeInfoProvider", modid = "theoneprobe")
 public class AircraftInfoProvider implements IEntityDisplayOverride {
@@ -19,17 +21,17 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
         TheOneProbe.theOneProbeImp.registerEntityDisplayOverride(new AircraftInfoProvider());
     }
 
-
     @Override
     @Optional.Method(modid = "theoneprobe")
-    public boolean overrideStandardInfo(ProbeMode probeMode, IProbeInfo iProbeInfo, EntityPlayer entityPlayer, World world, Entity entity, IProbeHitEntityData iProbeHitEntityData) {
+    public boolean overrideStandardInfo(ProbeMode probeMode, IProbeInfo iProbeInfo, EntityPlayer entityPlayer,
+                                        World world, Entity entity, IProbeHitEntityData iProbeHitEntityData) {
         if (entity instanceof MCH_EntityAircraft aircraft) {
             var info = aircraft.getAcInfo();
             if (info == null) return false;
 
             IProbeInfo root = iProbeInfo.vertical();
 
-            for(int j = 0; j<2;j++)
+            for (int j = 0; j < 2; j++)
                 root.text(" ");
 
             IProbeInfo row = root.horizontal();
@@ -44,9 +46,8 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
             root.text(String.format("HP: %d / %d", aircraft.getHP(), aircraft.getMaxHP()));
             root.text(String.format("Speed: %.0f m/s", aircraft.currentSpeed));
             root.text(String.format("Weapon: %s",
-                    aircraft.getCurrentWeapon(entityPlayer) != null
-                            ? aircraft.getCurrentWeapon(entityPlayer).getName()
-                            : "None"));
+                    aircraft.getCurrentWeapon(entityPlayer) != null ?
+                            aircraft.getCurrentWeapon(entityPlayer).getName() : "None"));
 
             if (aircraft.getRiddenByEntity() != null) {
                 root.text("Pilot: " + aircraft.getRiddenByEntity().getName());
@@ -55,6 +56,5 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
             return true;
         }
         return false;
-
     }
 }

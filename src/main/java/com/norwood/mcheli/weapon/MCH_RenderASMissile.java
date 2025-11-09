@@ -6,10 +6,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderASMissile extends MCH_RenderBulletBase<MCH_EntityBaseBullet> {
+
     public static final IRenderFactory<MCH_EntityBaseBullet> FACTORY = MCH_RenderASMissile::new;
 
     public MCH_RenderASMissile(RenderManager renderManager) {
@@ -17,7 +17,8 @@ public class MCH_RenderASMissile extends MCH_RenderBulletBase<MCH_EntityBaseBull
         this.shadowSize = 0.5F;
     }
 
-    public void renderBullet(MCH_EntityBaseBullet entity, double posX, double posY, double posZ, float yaw, float partialTickTime) {
+    public void renderBullet(MCH_EntityBaseBullet entity, double posX, double posY, double posZ, float yaw,
+                             float partialTickTime) {
         if (entity instanceof MCH_EntityBaseBullet) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(posX, posY, posZ);

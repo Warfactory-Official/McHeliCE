@@ -1,12 +1,12 @@
 package com.norwood.mcheli.hud;
 
-import com.norwood.mcheli.helper.info.ContentRegistries;
-
 import javax.annotation.Nullable;
 
+import com.norwood.mcheli.helper.info.ContentRegistries;
+
 public class MCH_HudManager {
-    private MCH_HudManager() {
-    }
+
+    private MCH_HudManager() {}
 
     @Nullable
     public static MCH_Hud get(String name) {

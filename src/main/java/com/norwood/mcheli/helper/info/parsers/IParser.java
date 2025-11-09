@@ -1,5 +1,9 @@
 package com.norwood.mcheli.helper.info.parsers;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.hud.MCH_Hud;
@@ -11,34 +15,41 @@ import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 
-import javax.annotation.Nullable;
-import java.util.List;
-
 public interface IParser {
-    @Nullable
-    MCH_HeliInfo parseHelicopter(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
 
     @Nullable
-    MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_HeliInfo parseHelicopter(AddonResourceLocation location, String filepath, List<String> lines,
+                                 boolean reload) throws Exception;
 
     @Nullable
-    MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines,
+                             boolean reload) throws Exception;
 
     @Nullable
-    MCH_TankInfo parseTank(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines,
+                           boolean reload) throws Exception;
 
     @Nullable
-    MCH_VehicleInfo parseVehicle(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_TankInfo parseTank(AddonResourceLocation location, String filepath, List<String> lines,
+                           boolean reload) throws Exception;
 
     @Nullable
-    MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_VehicleInfo parseVehicle(AddonResourceLocation location, String filepath, List<String> lines,
+                                 boolean reload) throws Exception;
 
     @Nullable
-    MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines,
+                               boolean reload) throws Exception;
 
     @Nullable
-    MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines,
+                                     boolean reload) throws Exception;
 
     @Nullable
-    MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines, boolean reload) throws Exception;
+    MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines,
+                     boolean reload) throws Exception;
+
+    @Nullable
+    MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines,
+                           boolean reload) throws Exception;
 }

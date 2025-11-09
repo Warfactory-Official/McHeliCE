@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.TreeSet;
 
 public class MCH_FileSearch {
+
     public static final int TYPE_FILE_OR_DIR = 1;
     public static final int TYPE_FILE = 2;
     public static final int TYPE_DIR = 3;
@@ -60,8 +61,7 @@ public class MCH_FileSearch {
                 Date designatedDate = new Date(System.currentTimeMillis() - periodTime);
                 String designatedDateStr = new SimpleDateFormat("yyyyMMdd").format(designatedDate);
                 if (period > 0) {
-                    if (lastModifiedDateStr.compareTo(designatedDateStr) >= 0) {
-                    }
+                    if (lastModifiedDateStr.compareTo(designatedDateStr) >= 0) {}
                 } else if (lastModifiedDateStr.compareTo(designatedDateStr) > 0) {
                     return;
                 }

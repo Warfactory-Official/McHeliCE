@@ -1,16 +1,18 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import com.google.common.base.Joiner;
+import java.util.ArrayList;
+
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.ArrayList;
+import com.google.common.base.Joiner;
 
 @SideOnly(Side.CLIENT)
 public class GroupObject {
+
     public final String name;
     public final ArrayList<W_Face> faces = new ArrayList<>();
     public int glDrawingMode;

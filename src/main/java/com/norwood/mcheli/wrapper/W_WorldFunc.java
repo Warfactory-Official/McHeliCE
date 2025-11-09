@@ -1,7 +1,7 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.helper.MCH_SoundEvents;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -10,11 +10,13 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.helper.MCH_SoundEvents;
 
 public class W_WorldFunc {
 
-    public static void MOD_playSoundEffect(World w, double x, double y, double z, String name, float volume, float pitch) {
+    public static void MOD_playSoundEffect(World w, double x, double y, double z, String name, float volume,
+                                           float pitch) {
         MCH_SoundEvents.playSound(w, x, y, z, MCH_MOD.DOMAIN + ":" + name, volume, pitch);
     }
 
@@ -56,5 +58,4 @@ public class W_WorldFunc {
     public static RayTraceResult clip(World w, Vec3d par1Vec3, Vec3d par2Vec3, boolean b1, boolean b2, boolean b3) {
         return w.rayTraceBlocks(par1Vec3, par2Vec3, b1, b2, b3);
     }
-
 }

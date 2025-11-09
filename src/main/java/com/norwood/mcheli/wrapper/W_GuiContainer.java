@@ -2,13 +2,14 @@ package com.norwood.mcheli.wrapper;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
 public abstract class W_GuiContainer extends GuiContainer {
+
     private float time;
 
     public W_GuiContainer(Container par1Container) {

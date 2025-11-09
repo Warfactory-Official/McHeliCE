@@ -1,15 +1,7 @@
 package com.norwood.mcheli.vehicle;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.networking.packet.PacketStatusRequest;
-import com.norwood.mcheli.weapon.MCH_WeaponParam;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_Lib;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import javax.annotation.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.item.Item;
@@ -20,9 +12,19 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.networking.packet.PacketStatusRequest;
+import com.norwood.mcheli.weapon.MCH_WeaponParam;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_Lib;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityVehicle extends MCH_EntityAircraft {
+
     public boolean isUsedPlayer;
     public float lastRiderYaw;
     public float lastRiderPitch;
@@ -68,7 +70,8 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         }
 
         if (this.vehicleInfo == null) {
-            MCH_Lib.Log(this, "##### MCH_EntityVehicle changeVehicleType() Vehicle info null %d, %s, %s", W_Entity.getEntityId(this), type, this.getEntityName());
+            MCH_Lib.Log(this, "##### MCH_EntityVehicle changeVehicleType() Vehicle info null %d, %s, %s",
+                    W_Entity.getEntityId(this), type, this.getEntityName());
             this.setDead();
         } else {
             this.setAcInfo(this.vehicleInfo);
@@ -99,7 +102,8 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         if (this.vehicleInfo == null) {
             this.vehicleInfo = MCH_VehicleInfoManager.get(this.getTypeName());
             if (this.vehicleInfo == null) {
-                MCH_Lib.Log(this, "##### MCH_EntityVehicle readEntityFromNBT() Vehicle info null %d, %s", W_Entity.getEntityId(this), this.getEntityName());
+                MCH_Lib.Log(this, "##### MCH_EntityVehicle readEntityFromNBT() Vehicle info null %d, %s",
+                        W_Entity.getEntityId(this), this.getEntityName());
                 this.setDead();
             } else {
                 this.setAcInfo(this.vehicleInfo);
@@ -193,7 +197,8 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                     this.fixPosY = this.posY;
                 }
 
-                this.setPosition((this.posX + this.fixPosX) / 2.0, (this.posY + this.fixPosY) / 2.0, (this.posZ + this.fixPosZ) / 2.0);
+                this.setPosition((this.posX + this.fixPosX) / 2.0, (this.posY + this.fixPosY) / 2.0,
+                        (this.posZ + this.fixPosZ) / 2.0);
             } else {
                 this.fixPosX = this.posX;
                 this.fixPosY = this.posY;
@@ -310,7 +315,8 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         for (y = 0; y < 5 && !b; y++) {
             for (int x = -1; x <= 1; x++) {
                 for (int z = -1; z <= 1; z++) {
-                    int block = W_WorldFunc.getBlockId(this.world, (int) (this.posX + 0.5) + x, (int) (this.posY + 0.5) - y, (int) (this.posZ + 0.5) + z);
+                    int block = W_WorldFunc.getBlockId(this.world, (int) (this.posX + 0.5) + x,
+                            (int) (this.posY + 0.5) - y, (int) (this.posZ + 0.5) + z);
                     if (block != 0 && !b) {
                         particlePosY = (int) (this.posY + 1.0) - y;
                         b = true;
@@ -320,7 +326,8 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
             for (int x = -3; b && x <= 3; x++) {
                 for (int zx = -3; zx <= 3; zx++) {
-                    if (W_WorldFunc.isBlockWater(this.world, (int) (this.posX + 0.5) + x, (int) (this.posY + 0.5) - y, (int) (this.posZ + 0.5) + zx)) {
+                    if (W_WorldFunc.isBlockWater(this.world, (int) (this.posX + 0.5) + x, (int) (this.posY + 0.5) - y,
+                            (int) (this.posZ + 0.5) + zx)) {
                         for (int i = 0; i < 7.0 * this.getCurrentThrottle(); i++) {
                             this.world
                                     .spawnParticle(
@@ -330,8 +337,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                                             this.posZ + 0.5 + zx + (this.rand.nextDouble() - 0.5) * 2.0,
                                             x + (this.rand.nextDouble() - 0.5) * 2.0,
                                             -0.3,
-                                            zx + (this.rand.nextDouble() - 0.5) * 2.0
-                                    );
+                                            zx + (this.rand.nextDouble() - 0.5) * 2.0);
                         }
                     }
                 }
@@ -349,8 +355,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                                 this.posZ + (this.rand.nextDouble() - 0.5),
                                 (this.rand.nextDouble() - 0.5) * 2.0,
                                 -0.4,
-                                (this.rand.nextDouble() - 0.5) * 2.0
-                        );
+                                (this.rand.nextDouble() - 0.5) * 2.0);
             }
         }
     }
@@ -369,8 +374,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.setPosition(
                     this.posX + (this.aircraftX - this.posX) / rpinc,
                     this.posY + (this.aircraftY - this.posY) / rpinc,
-                    this.posZ + (this.aircraftZ - this.posZ) / rpinc
-            );
+                    this.posZ + (this.aircraftZ - this.posZ) / rpinc);
             this.setRotation(this.rotationYaw, this.rotationPitch);
             this.aircraftPosRotInc--;
         } else {
@@ -386,8 +390,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             }
         }
 
-        if (this.getRiddenByEntity() != null) {
-        }
+        if (this.getRiddenByEntity() != null) {}
 
         this.updateCamera(this.posX, this.posY, this.posZ);
     }
@@ -395,7 +398,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
     private void onUpdate_Server() {
         this.updateCameraViewers();
 
-        //Gravity / buoyancy
+        // Gravity / buoyancy
         if (this.canFloatWater()) {
             double dp = this.getWaterDepth();
             if (dp == 0.0) {
@@ -413,7 +416,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.motionY += this.getAcInfo().gravity;
         }
 
-        //Horizontal aceleration
+        // Horizontal aceleration
         if (this.getCurrentThrottle() > 0.0) {
             double yawRad = Math.toRadians(this.rotationYaw);
             double accel = 0.03 * this.getCurrentThrottle(); // scale throttle → accel
@@ -421,7 +424,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.motionZ += Math.cos(yawRad) * accel;
         }
 
-        //Speed
+        // Speed
         double motionH = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
         float speedLimit = this.getAcInfo().speed;
         if (motionH > speedLimit) {
@@ -430,26 +433,24 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.motionZ *= scale;
         }
 
-        //Friction
+        // Friction
         double groundFriction = this.onGround ? 0.91 : 0.99;
         this.motionX *= groundFriction;
         this.motionZ *= groundFriction;
         this.motionY *= 0.95;
 
-        //Move
+        // Move
         this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 
-        //Cleanup
+        // Cleanup
         this.onUpdate_updateBlock();
         if (this.getRiddenByEntity() != null && this.getRiddenByEntity().isDead) {
             this.unmountEntity();
         }
     }
 
-
     @Override
-    public void onUpdateAngles(float partialTicks) {
-    }
+    public void onUpdateAngles(float partialTicks) {}
 
     @Override
     public boolean canSwitchFreeLook() {

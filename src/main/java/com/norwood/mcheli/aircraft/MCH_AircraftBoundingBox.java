@@ -5,9 +5,11 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+
 import org.jetbrains.annotations.NotNull;
 
 public class MCH_AircraftBoundingBox extends AxisAlignedBB {
+
     private final MCH_EntityAircraft ac;
 
     protected MCH_AircraftBoundingBox(MCH_EntityAircraft ac) {
@@ -23,7 +25,7 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
         return new MCH_AircraftBoundingBox(this.ac, new AxisAlignedBB(x1, y1, z1, x2, y2, z2));
     }
 
-    public double getDistanceSquareBetween  (AxisAlignedBB box1, AxisAlignedBB box2) {
+    public double getDistanceSquareBetween(AxisAlignedBB box1, AxisAlignedBB box2) {
         double centerX1 = (box1.minX + box1.maxX) / 2.0;
         double centerY1 = (box1.minY + box1.maxY) / 2.0;
         double centerZ1 = (box1.minZ + box1.maxZ) / 2.0;
@@ -39,9 +41,7 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
         return dx * dx + dy * dy + dz * dz;
     }
 
-
     public boolean intersects(@NotNull AxisAlignedBB aabb) {
-
         boolean ret = false;
         double dist = 1.0E7D;
         this.ac.lastBBDamageFactor = 1.0F;
@@ -71,6 +71,7 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
         }
         return ret;
     }
+
     public @NotNull AxisAlignedBB grow(double x, double y, double z) {
         double newMinX = this.minX - x;
         double newMinY = this.minY - y;
@@ -81,7 +82,6 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
 
         return this.NewAABB(newMinX, newMinY, newMinZ, newMaxX, newMaxY, newMaxZ);
     }
-
 
     public @NotNull AxisAlignedBB union(AxisAlignedBB other) {
         double d0 = Math.min(this.minX, other.minX);
@@ -160,7 +160,11 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
                 double invDx = 1.0D / dirX;
                 double t1 = (-bb.halfWidth - startX) * invDx;
                 double t2 = (bb.halfWidth - startX) * invDx;
-                if (t1 > t2) { double tmp = t1; t1 = t2; t2 = tmp; }
+                if (t1 > t2) {
+                    double tmp = t1;
+                    t1 = t2;
+                    t2 = tmp;
+                }
                 tMin = Math.max(tMin, t1);
                 tMax = Math.min(tMax, t2);
             } else if (Math.abs(startX) > bb.halfWidth + 1e-6) {
@@ -173,7 +177,11 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
                     double invDy = 1.0D / dirY;
                     double t1 = (-bb.halfHeight - startY) * invDy;
                     double t2 = (bb.halfHeight - startY) * invDy;
-                    if (t1 > t2) { double tmp = t1; t1 = t2; t2 = tmp; }
+                    if (t1 > t2) {
+                        double tmp = t1;
+                        t1 = t2;
+                        t2 = tmp;
+                    }
                     tMin = Math.max(tMin, t1);
                     tMax = Math.min(tMax, t2);
                 } else if (Math.abs(startY) > bb.halfHeight + 1e-6) {
@@ -187,7 +195,11 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
                     double invDz = 1.0D / dirZ;
                     double t1 = (-bb.halfDepth - startZ) * invDz;
                     double t2 = (bb.halfDepth - startZ) * invDz;
-                    if (t1 > t2) { double tmp = t1; t1 = t2; t2 = tmp; }
+                    if (t1 > t2) {
+                        double tmp = t1;
+                        t1 = t2;
+                        t2 = tmp;
+                    }
                     tMin = Math.max(tMin, t1);
                     tMax = Math.min(tMax, t2);
                 } else if (Math.abs(startZ) > bb.halfDepth + 1e-6) {
@@ -208,7 +220,11 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
 
                     bestDist = dist;
                     Vec3d hitVec = new Vec3d(hit.x, hit.y, hit.z);
-                    bestResult = new RayTraceResult(hitVec, EnumFacing.DOWN, new BlockPos(hitVec) ); //Yes, the facing is set to DOWN (0), no I don't know if its a good idea
+                    bestResult = new RayTraceResult(hitVec, EnumFacing.DOWN, new BlockPos(hitVec)); // Yes, the facing
+                                                                                                    // is set to DOWN
+                                                                                                    // (0), no I don't
+                                                                                                    // know if its a
+                                                                                                    // good idea
                     this.ac.lastBBDamageFactor = bb.damageFactor;
                     this.ac.lastBBName = bb.name;
                 }
@@ -217,5 +233,4 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
 
         return bestResult;
     }
-
 }

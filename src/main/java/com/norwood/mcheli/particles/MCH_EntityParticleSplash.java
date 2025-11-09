@@ -1,8 +1,5 @@
 package com.norwood.mcheli.particles;
 
-import com.norwood.mcheli.wrapper.W_Block;
-import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -10,10 +7,16 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
+import com.norwood.mcheli.wrapper.W_Block;
+import com.norwood.mcheli.wrapper.W_McClient;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
+
 public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
+
     public MCH_EntityParticleSplash(World par1World, double x, double y, double z, double mx, double my, double mz) {
         super(par1World, x, y, z, mx, my, mz);
         this.particleRed = this.particleGreen = this.particleBlue = this.rand.nextFloat() * 0.3F + 0.7F;
@@ -33,10 +36,12 @@ public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
         }
 
         this.motionY -= 0.06F;
-        Block block = W_WorldFunc.getBlock(this.world, (int) (this.posX + 0.5), (int) (this.posY + 0.5), (int) (this.posZ + 0.5));
+        Block block = W_WorldFunc.getBlock(this.world, (int) (this.posX + 0.5), (int) (this.posY + 0.5),
+                (int) (this.posZ + 0.5));
         boolean beforeInWater = W_Block.isEqualTo(block, W_Block.getWater());
         this.move(this.motionX, this.motionY, this.motionZ);
-        block = W_WorldFunc.getBlock(this.world, (int) (this.posX + 0.5), (int) (this.posY + 0.5), (int) (this.posZ + 0.5));
+        block = W_WorldFunc.getBlock(this.world, (int) (this.posX + 0.5), (int) (this.posY + 0.5),
+                (int) (this.posZ + 0.5));
         boolean nowInWater = W_Block.isEqualTo(block, W_Block.getWater());
         if (this.motionY < -0.6 && !beforeInWater && nowInWater) {
             double p = -this.motionY * 10.0;
@@ -50,8 +55,7 @@ public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
                                 this.posZ + 0.5 + (this.rand.nextDouble() - 0.5) * 2.0,
                                 (this.rand.nextDouble() - 0.5) * 2.0,
                                 4.0,
-                                (this.rand.nextDouble() - 0.5) * 2.0
-                        );
+                                (this.rand.nextDouble() - 0.5) * 2.0);
                 this.world
                         .spawnParticle(
                                 EnumParticleTypes.WATER_BUBBLE,
@@ -60,8 +64,7 @@ public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
                                 this.posZ + 0.5 + (this.rand.nextDouble() - 0.5) * 2.0,
                                 (this.rand.nextDouble() - 0.5) * 2.0,
                                 -0.5,
-                                (this.rand.nextDouble() - 0.5) * 2.0
-                        );
+                                (this.rand.nextDouble() - 0.5) * 2.0);
             }
         } else if (this.onGround) {
             this.setExpired();
@@ -73,15 +76,14 @@ public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
 
     @Override
     public void renderParticle(
-            BufferBuilder buffer,
-            @NotNull Entity entity,
-            float partialTicks,
-            float rotationX,
-            float rotationZ,
-            float rotationYZ,
-            float rotationXY,
-            float rotationXZ) {
-
+                               BufferBuilder buffer,
+                               @NotNull Entity entity,
+                               float partialTicks,
+                               float rotationX,
+                               float rotationZ,
+                               float rotationYZ,
+                               float rotationXY,
+                               float rotationXZ) {
         // Bind smoke particle texture
         W_McClient.MOD_bindTexture("textures/particles/smoke.png");
 
@@ -108,34 +110,38 @@ public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 
         buffer.pos(renderX - rotationX * scale - rotationXY * scale,
-                        renderY - rotationZ * scale,
-                        renderZ - rotationYZ * scale - rotationXZ * scale)
+                renderY - rotationZ * scale,
+                renderZ - rotationYZ * scale - rotationXZ * scale)
                 .tex(textureUEnd, textureVEnd)
-                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor, this.particleBlue * brightnessFactor, this.particleAlpha)
+                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor,
+                        this.particleBlue * brightnessFactor, this.particleAlpha)
                 .lightmap(lightU, lightV)
                 .endVertex();
 
         buffer.pos(renderX - rotationX * scale + rotationXY * scale,
-                        renderY + rotationZ * scale,
-                        renderZ - rotationYZ * scale + rotationXZ * scale)
+                renderY + rotationZ * scale,
+                renderZ - rotationYZ * scale + rotationXZ * scale)
                 .tex(textureUEnd, textureVStart)
-                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor, this.particleBlue * brightnessFactor, this.particleAlpha)
+                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor,
+                        this.particleBlue * brightnessFactor, this.particleAlpha)
                 .lightmap(lightU, lightV)
                 .endVertex();
 
         buffer.pos(renderX + rotationX * scale + rotationXY * scale,
-                        renderY + rotationZ * scale,
-                        renderZ + rotationYZ * scale + rotationXZ * scale)
+                renderY + rotationZ * scale,
+                renderZ + rotationYZ * scale + rotationXZ * scale)
                 .tex(textureUStart, textureVStart)
-                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor, this.particleBlue * brightnessFactor, this.particleAlpha)
+                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor,
+                        this.particleBlue * brightnessFactor, this.particleAlpha)
                 .lightmap(lightU, lightV)
                 .endVertex();
 
         buffer.pos(renderX + rotationX * scale - rotationXY * scale,
-                        renderY - rotationZ * scale,
-                        renderZ + rotationYZ * scale - rotationXZ * scale)
+                renderY - rotationZ * scale,
+                renderZ + rotationYZ * scale - rotationXZ * scale)
                 .tex(textureUStart, textureVEnd)
-                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor, this.particleBlue * brightnessFactor, this.particleAlpha)
+                .color(this.particleRed * brightnessFactor, this.particleGreen * brightnessFactor,
+                        this.particleBlue * brightnessFactor, this.particleAlpha)
                 .lightmap(lightU, lightV)
                 .endVertex();
         Tessellator.getInstance().draw();
@@ -145,5 +151,4 @@ public class MCH_EntityParticleSplash extends MCH_EntityParticleBase {
     public int getFXLayer() {
         return 3;
     }
-
 }

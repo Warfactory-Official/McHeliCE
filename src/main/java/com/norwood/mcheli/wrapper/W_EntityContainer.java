@@ -1,6 +1,7 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.MCH_Lib;
+import java.util.Arrays;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,11 +13,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ITeleporter;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import com.norwood.mcheli.MCH_Lib;
 
 public abstract class W_EntityContainer extends W_Entity implements IInventory {
+
     public static final int MAX_INVENTORY_SIZE = 54;
     public boolean dropContentsWhenDead = true;
     private ItemStack[] containerItems;
@@ -101,8 +104,7 @@ public abstract class W_EntityContainer extends W_Entity implements IInventory {
         this.markDirty();
     }
 
-    public void onInventoryChanged() {
-    }
+    public void onInventoryChanged() {}
 
     public boolean isUsableByPlayer(@NotNull EntityPlayer par1EntityPlayer) {
         return !this.isDead;
@@ -157,8 +159,8 @@ public abstract class W_EntityContainer extends W_Entity implements IInventory {
 
                         itemstack.shrink(j);
                         EntityItem entityitem = new EntityItem(
-                                this.world, this.posX + x, this.posY + y, this.posZ + z, new ItemStack(itemstack.getItem(), j, itemstack.getMetadata())
-                        );
+                                this.world, this.posX + x, this.posY + y, this.posZ + z,
+                                new ItemStack(itemstack.getItem(), j, itemstack.getMetadata()));
                         if (itemstack.hasTagCompound()) {
                             entityitem.getItem().setTagCompound(itemstack.getTagCompound().copy());
                         }
@@ -220,28 +222,23 @@ public abstract class W_EntityContainer extends W_Entity implements IInventory {
         }
     }
 
-    public void openInventory(@NotNull EntityPlayer player) {
-    }
+    public void openInventory(@NotNull EntityPlayer player) {}
 
-    public void closeInventory(@NotNull EntityPlayer player) {
-    }
+    public void closeInventory(@NotNull EntityPlayer player) {}
 
-    public void markDirty() {
-    }
+    public void markDirty() {}
 
     public int getSizeInventory() {
         return 0;
     }
 
-    public void clear() {
-    }
+    public void clear() {}
 
     public int getField(int id) {
         return 0;
     }
 
-    public void setField(int id, int value) {
-    }
+    public void setField(int id, int value) {}
 
     public int getFieldCount() {
         return 0;

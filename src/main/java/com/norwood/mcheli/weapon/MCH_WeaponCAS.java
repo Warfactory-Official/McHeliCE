@@ -1,15 +1,17 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
+
 public class MCH_WeaponCAS extends MCH_WeaponBase {
+
     public int direction;
     public Entity user;
     private double targetPosX;
@@ -135,8 +137,8 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
             tZ = tZ * 150.0 / dist;
         }
 
-        Vec3d src =new Vec3d( prm.entity.posX, prm.entity.posY + 2.0, prm.entity.posZ);
-        Vec3d dst =new Vec3d( prm.entity.posX + tX, prm.entity.posY + tY + 2.0, prm.entity.posZ + tZ);
+        Vec3d src = new Vec3d(prm.entity.posX, prm.entity.posY + 2.0, prm.entity.posZ);
+        Vec3d dst = new Vec3d(prm.entity.posX + tX, prm.entity.posY + tY + 2.0, prm.entity.posZ + tZ);
         RayTraceResult m = W_WorldFunc.clip(this.worldObj, src, dst);
         if (W_MovingObjectPosition.isHitTypeTile(m)) {
             this.targetPosX = m.hitVec.x;
@@ -180,8 +182,8 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
             tZ = tZ * 120.0 / dist;
         }
 
-        Vec3d src =new Vec3d( px, py, pz);
-        Vec3d dst =new Vec3d( px + tX, py + tY, pz + tZ);
+        Vec3d src = new Vec3d(px, py, pz);
+        Vec3d dst = new Vec3d(px + tX, py + tY, pz + tZ);
         RayTraceResult m = W_WorldFunc.clip(this.worldObj, src, dst);
         if (W_MovingObjectPosition.isHitTypeTile(m)) {
             if (this.worldObj.isRemote) {

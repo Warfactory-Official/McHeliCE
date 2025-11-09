@@ -1,4 +1,3 @@
 package com.norwood.mcheli.wrapper;
 
-public class ChatMessageComponent {
-}
+public class ChatMessageComponent {}

@@ -1,6 +1,7 @@
 package com.norwood.mcheli.wrapper;
 
 public class W_Version {
+
     public static final boolean VER_1_12 = true;
     public static final boolean VER_1_7 = false;
     public static final boolean VER_1_6 = false;

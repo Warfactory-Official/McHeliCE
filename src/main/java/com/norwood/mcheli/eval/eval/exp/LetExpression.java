@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class LetExpression extends Col2OpeExpression {
+
     public LetExpression() {
         this.setOperator("=");
     }

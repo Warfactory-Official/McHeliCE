@@ -1,12 +1,8 @@
 package com.norwood.mcheli.tank;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_Block;
-import com.norwood.mcheli.wrapper.W_Lib;
+import java.util.List;
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.MoverType;
@@ -16,12 +12,18 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.List;
-import java.util.Random;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.W_Block;
+import com.norwood.mcheli.wrapper.W_Lib;
 
-//1.12.2
+// 1.12.2
 
 public class MCH_WheelManager {
+
     private static final Random rand = new Random();
     public final MCH_EntityAircraft parent;
     public MCH_EntityWheel[] wheels;
@@ -138,7 +140,8 @@ public class MCH_WheelManager {
         // 4) Compute aggregated normal-like vector 'rv' from wheel pairs
         Vec3d rv = Vec3d.ZERO;
         Vec3d wc = ac.getTransformedPosition(this.weightedCenter);
-        wc = new Vec3d(wc.x - ac.posX, this.weightedCenter.y + WHEEL_Y_COMP, wc.z - ac.posZ); // use compensated weighted center
+        wc = new Vec3d(wc.x - ac.posX, this.weightedCenter.y + WHEEL_Y_COMP, wc.z - ac.posZ); // use compensated
+                                                                                              // weighted center
 
         for (int ixx = 0; ixx < this.wheels.length / 2; ixx++) {
             MCH_EntityWheel w1 = this.wheels[ixx * 2];
@@ -182,7 +185,7 @@ public class MCH_WheelManager {
 
             // compute pitch/roll from rv (same formula as original)
             float pitch = (float) (90.0 - Math.atan2(rv.y, rv.z) * 180.0 / Math.PI);
-            float roll  = -((float) (90.0 - Math.atan2(rv.y, rv.x) * 180.0 / Math.PI));
+            float roll = -((float) (90.0 - Math.atan2(rv.y, rv.x) * 180.0 / Math.PI));
 
             // Limit change per ac's configured on-ground factors (same as original)
             float ogpf = ac.getAcInfo().onGroundPitchFactor;
@@ -221,11 +224,11 @@ public class MCH_WheelManager {
             }
 
             float newPitch = ac.getRotPitch() + (pitch - ac.getRotPitch()) * blend;
-            float newRoll  = ac.getRotRoll()  + (roll  - ac.getRotRoll())  * blend;
+            float newRoll = ac.getRotRoll() + (roll - ac.getRotRoll()) * blend;
 
             // clamp per-tick delta
             float dpitch = newPitch - ac.getRotPitch();
-            float droll  = newRoll  - ac.getRotRoll();
+            float droll = newRoll - ac.getRotRoll();
             if (dpitch > MAX_DELTA_PER_TICK) dpitch = MAX_DELTA_PER_TICK;
             if (dpitch < -MAX_DELTA_PER_TICK) dpitch = -MAX_DELTA_PER_TICK;
             if (droll > MAX_DELTA_PER_TICK) droll = MAX_DELTA_PER_TICK;
@@ -239,7 +242,8 @@ public class MCH_WheelManager {
 
         // 6) Reposition wheels to follow targetPitch/targetRoll (respecting movement limits)
         for (MCH_EntityWheel wheel : this.wheels) {
-            Vec3d vx = this.getTransformedPosition(wheel.pos.x, wheel.pos.y, wheel.pos.z, ac, ac.getRotYaw(), this.targetPitch, this.targetRoll);
+            Vec3d vx = this.getTransformedPosition(wheel.pos.x, wheel.pos.y, wheel.pos.z, ac, ac.getRotYaw(),
+                    this.targetPitch, this.targetRoll);
             double rangeH = 2.0;
             double poy = wheel.stepHeight / 2.0F;
             if (wheel.posX > vx.x + rangeH) {
@@ -262,9 +266,8 @@ public class MCH_WheelManager {
         }
     }
 
-
-
-    public Vec3d getTransformedPosition(double x, double y, double z, MCH_EntityAircraft ac, float yaw, float pitch, float roll) {
+    public Vec3d getTransformedPosition(double x, double y, double z, MCH_EntityAircraft ac, float yaw, float pitch,
+                                        float roll) {
         Vec3d v = MCH_Lib.RotVec3(x, y, z, -yaw, -pitch, -roll);
         return v.add(ac.posX, ac.posY, ac.posZ);
     }
@@ -323,8 +326,7 @@ public class MCH_WheelManager {
                                 v.z + (rand.nextFloat() - 0.5),
                                 -ac.motionX * 4.0 + (rand.nextFloat() - 0.5) * 0.1,
                                 rand.nextFloat() * 0.5,
-                                -ac.motionZ * 4.0 + (rand.nextFloat() - 0.5) * 0.1
-                        );
+                                -ac.motionZ * 4.0 + (rand.nextFloat() - 0.5) * 0.1);
                     }
                 }
             }

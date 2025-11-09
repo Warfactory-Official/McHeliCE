@@ -1,5 +1,12 @@
 package com.norwood.mcheli.helper.info;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -19,14 +26,8 @@ import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
-
 public class ContentRegistries {
+
     private static final Pattern PATH_SPLIT = Pattern.compile("[/\\\\]+");
     private static ContentRegistry<MCH_HeliInfo> REGISTORY_HELI = null;
     private static ContentRegistry<MCH_PlaneInfo> REGISTORY_PLANE = null;
@@ -143,7 +144,7 @@ public class ContentRegistries {
 
         for (AddonPack addon : AddonManager.getLoadedAddons()) {
             ContentLoader packLoader = getPackLoader(addon, getFilterOnly(registry.getDirectoryName()));
-            
+
             ContentType type = ContentFactories.getType(registry.getDirectoryName());
             if (type != null) {
                 list.addAll(packLoader.reloadAndParse(registry.getType(), registry.values(), type));
@@ -161,11 +162,11 @@ public class ContentRegistries {
 
     private static <T extends MCH_BaseInfo> ContentRegistry<T> parseContents(Class<T> clazz, String dir,
                                                                              Collection<ContentLoader.ContentEntry> values) {
-
         ContentRegistry.Builder<T> builder = ContentRegistry.builder(clazz, dir);
         MCH_MOD.proxy.onLoadStartContents(dir, values.size());
 
-        values.stream().map(ContentLoader.ContentEntry::parse).filter(Objects::nonNull).map(clazz::cast).forEach(builder::put);
+        values.stream().map(ContentLoader.ContentEntry::parse).filter(Objects::nonNull).map(clazz::cast)
+                .forEach(builder::put);
 
         MCH_MOD.proxy.onLoadFinishContents(dir);
         return builder.build();
@@ -177,8 +178,9 @@ public class ContentRegistries {
 
     public static ContentLoader getPackLoader(AddonPack pack, Predicate<String> fileFilter) {
         String loaderVersion = pack.getLoaderVersion();
-        return pack.getFile().isDirectory() ? new FolderContentLoader(pack.getDomain(), pack.getFile(), loaderVersion, fileFilter) :
-               new FileContentLoader(pack.getDomain(), pack.getFile(), loaderVersion, fileFilter);
+        return pack.getFile().isDirectory() ?
+                new FolderContentLoader(pack.getDomain(), pack.getFile(), loaderVersion, fileFilter) :
+                new FileContentLoader(pack.getDomain(), pack.getFile(), loaderVersion, fileFilter);
     }
 
     private static boolean filter(String filepath) {

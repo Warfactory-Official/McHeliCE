@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval;
 import com.norwood.mcheli.eval.eval.lex.Lex;
 
 public class EvalException extends RuntimeException {
+
     public static final int PARSE_NOT_FOUND_END_OP = 1001;
     public static final int PARSE_INVALID_OP = 1002;
     public static final int PARSE_INVALID_CHAR = 1003;

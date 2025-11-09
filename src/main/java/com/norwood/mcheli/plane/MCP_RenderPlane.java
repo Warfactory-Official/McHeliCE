@@ -1,18 +1,20 @@
 package com.norwood.mcheli.plane;
 
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
-import com.norwood.mcheli.wrapper.W_Entity;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
+import com.norwood.mcheli.wrapper.W_Entity;
 
 @SideOnly(Side.CLIENT)
 public class MCP_RenderPlane extends MCH_RenderAircraft<MCH_EntityPlane> {
+
     public static final IRenderFactory<MCH_EntityPlane> FACTORY = MCP_RenderPlane::new;
 
     public MCP_RenderPlane(RenderManager renderManager) {
@@ -21,7 +23,8 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCH_EntityPlane> {
     }
 
     @Override
-    public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch, float roll, float tickTime) {
+    public void renderAircraft(MCH_EntityAircraft entity, double posX, double posY, double posZ, float yaw, float pitch,
+                               float roll, float tickTime) {
         MCH_PlaneInfo planeInfo;
         if (entity instanceof MCH_EntityPlane plane) {
             planeInfo = plane.getPlaneInfo();
@@ -58,7 +61,8 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCH_EntityPlane> {
         for (MCH_PlaneInfo.Rotor r : planeInfo.rotorList) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(r.pos.x, r.pos.y, r.pos.z);
-            GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * r.maxRotFactor, (float) r.rot.x, (float) r.rot.y, (float) r.rot.z);
+            GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * r.maxRotFactor, (float) r.rot.x,
+                    (float) r.rot.y, (float) r.rot.z);
             GlStateManager.translate(-r.pos.x, -r.pos.y, -r.pos.z);
             renderPart(r.model, planeInfo.model, r.modelName);
 
@@ -91,14 +95,16 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCH_EntityPlane> {
         for (MCH_PlaneInfo.Wing w : planeInfo.wingList) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(w.pos.x, w.pos.y, w.pos.z);
-            GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * w.maxRotFactor, (float) w.rot.x, (float) w.rot.y, (float) w.rot.z);
+            GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * w.maxRotFactor, (float) w.rot.x,
+                    (float) w.rot.y, (float) w.rot.z);
             GlStateManager.translate(-w.pos.x, -w.pos.y, -w.pos.z);
             renderPart(w.model, planeInfo.model, w.modelName);
             if (w.pylonList != null) {
                 for (MCH_PlaneInfo.Pylon p : w.pylonList) {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(p.pos.x, p.pos.y, p.pos.z);
-                    GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * p.maxRotFactor, (float) p.rot.x, (float) p.rot.y, (float) p.rot.z);
+                    GlStateManager.rotate((prevRot + (rot - prevRot) * tickTime) * p.maxRotFactor, (float) p.rot.x,
+                            (float) p.rot.y, (float) p.rot.z);
                     GlStateManager.translate(-p.pos.x, -p.pos.y, -p.pos.z);
                     renderPart(p.model, planeInfo.model, p.modelName);
                     GlStateManager.popMatrix();
@@ -116,7 +122,8 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCH_EntityPlane> {
         for (MCH_AircraftInfo.DrawnPart n : planeInfo.nozzles) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(n.pos.x, n.pos.y, n.pos.z);
-            GlStateManager.rotate(prevRot + (rot - prevRot) * tickTime, (float) n.rot.x, (float) n.rot.y, (float) n.rot.z);
+            GlStateManager.rotate(prevRot + (rot - prevRot) * tickTime, (float) n.rot.x, (float) n.rot.y,
+                    (float) n.rot.z);
             GlStateManager.translate(-n.pos.x, -n.pos.y, -n.pos.z);
             renderPart(n.model, planeInfo.model, n.modelName);
             GlStateManager.popMatrix();

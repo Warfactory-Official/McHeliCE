@@ -1,8 +1,5 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -11,10 +8,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.uav.MCH_EntityUavStation;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderTvMissile extends MCH_RenderBulletBase<MCH_EntityBaseBullet> {
+
     public static final IRenderFactory<MCH_EntityBaseBullet> FACTORY = MCH_RenderTvMissile::new;
 
     public MCH_RenderTvMissile(RenderManager renderManager) {
@@ -22,7 +23,8 @@ public class MCH_RenderTvMissile extends MCH_RenderBulletBase<MCH_EntityBaseBull
         this.shadowSize = 0.5F;
     }
 
-    public void renderBullet(MCH_EntityBaseBullet entity, double posX, double posY, double posZ, float par8, float par9) {
+    public void renderBullet(MCH_EntityBaseBullet entity, double posX, double posY, double posZ, float par8,
+                             float par9) {
         MCH_EntityAircraft ac = null;
         Entity ridingEntity = Minecraft.getMinecraft().player.getRidingEntity();
         if (ridingEntity instanceof MCH_EntityAircraft) {

@@ -1,13 +1,16 @@
 package com.norwood.mcheli.gui;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.MathHelper;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.wrapper.W_GuiButton;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.math.MathHelper;
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
 public class MCH_GuiSlider extends W_GuiButton {
+
     public final String stringFormat;
     public final float valueMin;
     public final float valueMax;
@@ -16,8 +19,8 @@ public class MCH_GuiSlider extends W_GuiButton {
     private boolean isMousePress;
 
     public MCH_GuiSlider(
-            int gui_id, int posX, int posY, int sliderWidth, int sliderHeight, String string_format, float defaultSliderPos, float minVal, float maxVal, float step
-    ) {
+                         int gui_id, int posX, int posY, int sliderWidth, int sliderHeight, String string_format,
+                         float defaultSliderPos, float minVal, float maxVal, float step) {
         super(gui_id, posX, posY, sliderWidth, sliderHeight, "");
         this.stringFormat = string_format;
         this.valueMin = minVal;
@@ -46,9 +49,10 @@ public class MCH_GuiSlider extends W_GuiButton {
                 this.updateDisplayString();
             }
 
-             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(this.x + (int) (this.currentSlider * (this.width - 8)), this.y, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.x + (int) (this.currentSlider * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);
+            this.drawTexturedModalRect(this.x + (int) (this.currentSlider * (this.width - 8)) + 4, this.y, 196, 66, 4,
+                    20);
             if (!MCH_Key.isKeyDown(-100)) {
                 this.mouseReleased(x, y);
             }
@@ -81,7 +85,8 @@ public class MCH_GuiSlider extends W_GuiButton {
     }
 
     public float normalizeValue(float f) {
-        return MathHelper.clamp((this.snapToStepClamp(f) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F, 1.0F);
+        return MathHelper.clamp((this.snapToStepClamp(f) - this.valueMin) / (this.valueMax - this.valueMin), 0.0F,
+                1.0F);
     }
 
     public float denormalizeValue(float f) {

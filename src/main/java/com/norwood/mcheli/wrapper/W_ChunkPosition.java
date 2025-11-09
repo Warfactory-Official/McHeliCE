@@ -3,6 +3,7 @@ package com.norwood.mcheli.wrapper;
 import net.minecraft.util.math.BlockPos;
 
 public class W_ChunkPosition {
+
     public static int getChunkPosX(BlockPos c) {
         return c.getX();
     }

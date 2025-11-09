@@ -1,11 +1,10 @@
 package com.norwood.mcheli.tool;
 
-import com.google.common.collect.Multimap;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLogic;
 import net.minecraft.block.state.IBlockState;
@@ -31,13 +30,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
+import com.google.common.collect.Multimap;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.wrapper.W_Item;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_ItemWrench extends W_Item {
+
     private static final Random rand = new Random();
     private final ToolMaterial toolMaterial;
     private final float damageVsEntity;
@@ -132,7 +136,8 @@ public class MCH_ItemWrench extends W_Item {
         return true;
     }
 
-    public void onPlayerStoppedUsing(@NotNull ItemStack stack, @NotNull World worldIn, @NotNull EntityLivingBase entityLiving, int timeLeft) {
+    public void onPlayerStoppedUsing(@NotNull ItemStack stack, @NotNull World worldIn,
+                                     @NotNull EntityLivingBase entityLiving, int timeLeft) {
         setUseAnimCount(stack, 0, 0);
     }
 
@@ -156,7 +161,8 @@ public class MCH_ItemWrench extends W_Item {
             MCH_EntityAircraft ac = this.getMouseOverAircraft(player);
             if (ac != null && ac.getHP() > 0 && ac.repair(10)) {
                 stack.damageItem(1, player);
-                W_WorldFunc.MOD_playSoundEffect(player.world, (int) ac.posX, (int) ac.posY, (int) ac.posZ, "wrench", 1.0F, 0.9F + rand.nextFloat() * 0.2F);
+                W_WorldFunc.MOD_playSoundEffect(player.world, (int) ac.posX, (int) ac.posY, (int) ac.posZ, "wrench",
+                        1.0F, 0.9F + rand.nextFloat() * 0.2F);
             }
         }
     }
@@ -202,7 +208,8 @@ public class MCH_ItemWrench extends W_Item {
         Vec3d vec33 = null;
         float f1 = 1.0F;
         List<Entity> list = user.world
-                .getEntitiesWithinAABBExcludingEntity(user, user.getEntityBoundingBox().expand(vec31.x * d0, vec31.y * d0, vec31.z * d0).grow(f1, f1, f1));
+                .getEntitiesWithinAABBExcludingEntity(user,
+                        user.getEntityBoundingBox().expand(vec31.x * d0, vec31.y * d0, vec31.z * d0).grow(f1, f1, f1));
         double d2 = d1;
 
         for (Entity entity : list) {
@@ -239,7 +246,8 @@ public class MCH_ItemWrench extends W_Item {
         return objectMouseOver;
     }
 
-    public boolean onBlockDestroyed(@NotNull ItemStack itemStack, @NotNull World world, IBlockState state, @NotNull BlockPos pos, @NotNull EntityLivingBase entity) {
+    public boolean onBlockDestroyed(@NotNull ItemStack itemStack, @NotNull World world, IBlockState state,
+                                    @NotNull BlockPos pos, @NotNull EntityLivingBase entity) {
         if (state.getBlockHardness(world, pos) != 0.0) {
             itemStack.damageItem(2, entity);
         }
@@ -260,7 +268,8 @@ public class MCH_ItemWrench extends W_Item {
         return 72000;
     }
 
-    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player, @NotNull EnumHand handIn) {
+    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, EntityPlayer player,
+                                                             @NotNull EnumHand handIn) {
         player.setActiveHand(handIn);
         return ActionResult.newResult(EnumActionResult.SUCCESS, player.getHeldItem(handIn));
     }
@@ -281,7 +290,8 @@ public class MCH_ItemWrench extends W_Item {
     public @NotNull Multimap<String, AttributeModifier> getItemAttributeModifiers(@NotNull EntityEquipmentSlot equipmentSlot) {
         Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(equipmentSlot);
         if (equipmentSlot == EntityEquipmentSlot.MAINHAND) {
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.damageVsEntity, 0));
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
+                    new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.damageVsEntity, 0));
         }
 
         return multimap;

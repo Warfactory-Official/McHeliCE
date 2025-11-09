@@ -1,14 +1,7 @@
 package com.norwood.mcheli.lweapon;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_KeyName;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.gltd.MCH_EntityGLTD;
-import com.norwood.mcheli.gui.MCH_Gui;
-import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
-import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -17,10 +10,21 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import org.lwjgl.opengl.GL11;
+
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.gltd.MCH_EntityGLTD;
+import com.norwood.mcheli.gui.MCH_Gui;
+import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
+import com.norwood.mcheli.wrapper.W_McClient;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiLightWeapon extends MCH_Gui {
+
     public MCH_GuiLightWeapon(Minecraft minecraft) {
         super(minecraft);
     }
@@ -46,16 +50,15 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             GL11.glLineWidth(scaleFactor);
             if (this.isDrawGui(player)) {
                 MCH_WeaponGuidanceSystem gs = MCH_ClientLightWeaponTickHandler.gs;
-                if (gs != null && MCH_ClientLightWeaponTickHandler.weapon != null && MCH_ClientLightWeaponTickHandler.weapon.getInfo() != null) {
+                if (gs != null && MCH_ClientLightWeaponTickHandler.weapon != null &&
+                        MCH_ClientLightWeaponTickHandler.weapon.getInfo() != null) {
                     PotionEffect pe = player.getActivePotionEffect(MobEffects.NIGHT_VISION);
                     if (pe != null) {
                         this.drawNightVisionNoise();
                     }
 
                     GlStateManager.enableBlend();
-                     GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
-                    int srcBlend = GL11.glGetInteger(3041);
-                    int dstBlend = GL11.glGetInteger(3040);
+                    GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
                     GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                     double dist = 0.0;
                     if (gs.getTargetEntity() != null) {
@@ -64,12 +67,13 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
                         dist = Math.sqrt(dx * dx + dz * dz);
                     }
 
-                    boolean canFire = MCH_ClientLightWeaponTickHandler.weaponMode == 0 || dist >= 40.0 || gs.getLockCount() <= 0;
+                    boolean canFire = MCH_ClientLightWeaponTickHandler.weaponMode == 0 || dist >= 40.0 ||
+                            gs.getLockCount() <= 0;
                     if ("fgm148".equalsIgnoreCase(MCH_ItemLightWeaponBase.getName(player.getHeldItemMainhand()))) {
                         this.drawGuiFGM148(player, gs, canFire, player.getHeldItemMainhand());
                         this.drawKeyBind(-805306369, true);
                     } else {
-                         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                         W_McClient.MOD_bindTexture("textures/gui/stinger.png");
                         double size = 512.0;
 
@@ -77,11 +81,11 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
                             size *= 2.0;
                         }
 
-                        this.drawTexturedModalRectRotate(-(size - this.width) / 2.0, -(size - this.height) / 2.0 - 20.0, size, size, 0.0, 0.0, 256.0, 256.0, 0.0F);
+                        this.drawTexturedModalRectRotate(-(size - this.width) / 2.0, -(size - this.height) / 2.0 - 20.0,
+                                size, size, 0.0, 0.0, 256.0, 256.0, 0.0F);
                         this.drawKeyBind(-805306369, false);
                     }
 
-                    GL11.glBlendFunc(srcBlend, dstBlend);
                     GlStateManager.disableBlend();
                     this.drawLock(-14101432, -2161656, gs.getLockCount(), gs.getLockCountMax());
                     this.drawRange(player, gs, canFire, -14101432, -2161656);
@@ -92,13 +96,12 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
 
     public void drawNightVisionNoise() {
         GlStateManager.enableBlend();
-         GlStateManager.color(0.0F, 1.0F, 0.0F, 0.3F);
-        int srcBlend = GL11.glGetInteger(3041);
-        int dstBlend = GL11.glGetInteger(3040);
-        GL11.glBlendFunc(1, 1);
+        GlStateManager.color(0.0F, 1.0F, 0.0F, 0.3F);
+        GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
         W_McClient.MOD_bindTexture("textures/gui/alpha.png");
-        this.drawTexturedModalRectRotate(0.0, 0.0, this.width, this.height, this.rand.nextInt(256), this.rand.nextInt(256), 256.0, 256.0, 0.0F);
-        GL11.glBlendFunc(srcBlend, dstBlend);
+        this.drawTexturedModalRectRotate(0.0, 0.0, this.width, this.height, this.rand.nextInt(256),
+                this.rand.nextInt(256), 256.0, 256.0, 0.0F);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableBlend();
     }
 
@@ -107,7 +110,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
         int posY = this.centerY + 20;
         drawRect(posX - 20, posY + 20 + 1, posX - 20 + 40, posY + 20 + 1 + 1 + 3 + 1, color);
         float lock = (float) cntLock / cntMax;
-        drawRect(posX - 20 + 1, posY + 20 + 1 + 1, posX - 20 + 1 + (int) (38.0 * lock), posY + 20 + 1 + 1 + 3, -2161656);
+        drawRect(posX - 20 + 1, posY + 20 + 1 + 1, posX - 20 + 1 + (int) (38.0 * lock), posY + 20 + 1 + 1 + 3,
+                -2161656);
     }
 
     void drawRange(EntityPlayer player, MCH_WeaponGuidanceSystem gs, boolean canFire, int color1, int color2) {
@@ -131,7 +135,7 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
     }
 
     void drawGuiFGM148(EntityPlayer player, MCH_WeaponGuidanceSystem gs, boolean canFire, ItemStack itemStack) {
-         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         double fac = Math.min(this.width / 800.0, this.height / 700.0);
         int size = (int) (1024.0 * fac);
         size = size / 64 * 64;
@@ -154,13 +158,15 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double sx = MCH_Lib.RNG(cx, left + IX, right - IX);
             double sy = MCH_Lib.RNG(cy, top + IY, bottom - IY);
             if (gs.getLockCount() >= gs.getLockCountMax() / 2) {
-                this.drawLine(new double[]{-1.0, sy, this.width + 1, sy, sx, -1.0, sx, this.height + 1}, -1593835521);
+                this.drawLine(new double[] { -1.0, sy, this.width + 1, sy, sx, -1.0, sx, this.height + 1 },
+                        -1593835521);
             }
 
             if (player.ticksExisted % 6 >= 3) {
                 pos = MCH_ClientLightWeaponTickHandler.getMartEntityBBPos();
                 if (pos == null) {
-                    pos = new Vec3d(((double) this.width / 2 - 65) * scale, ((double) this.height / 2 + 50) * scale, 0.0);
+                    pos = new Vec3d(((double) this.width / 2 - 65) * scale, ((double) this.height / 2 + 50) * scale,
+                            0.0);
                 }
 
                 double bx = pos.x / scale;
@@ -174,11 +180,15 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
                 dy += (70.0 - dy) * p;
                 int lx = 10;
                 int ly = 6;
-                this.drawLine(new double[]{sx - dx, sy - dy + ly, sx - dx, sy - dy, sx - dx + lx, sy - dy}, -1593835521, 3);
-                this.drawLine(new double[]{sx + dx, sy - dy + ly, sx + dx, sy - dy, sx + dx - lx, sy - dy}, -1593835521, 3);
+                this.drawLine(new double[] { sx - dx, sy - dy + ly, sx - dx, sy - dy, sx - dx + lx, sy - dy },
+                        -1593835521, 3);
+                this.drawLine(new double[] { sx + dx, sy - dy + ly, sx + dx, sy - dy, sx + dx - lx, sy - dy },
+                        -1593835521, 3);
                 dy /= 6.0;
-                this.drawLine(new double[]{sx - dx, sy + dy - ly, sx - dx, sy + dy, sx - dx + lx, sy + dy}, -1593835521, 3);
-                this.drawLine(new double[]{sx + dx, sy + dy - ly, sx + dx, sy + dy, sx + dx - lx, sy + dy}, -1593835521, 3);
+                this.drawLine(new double[] { sx - dx, sy + dy - ly, sx - dx, sy + dy, sx - dx + lx, sy + dy },
+                        -1593835521, 3);
+                this.drawLine(new double[] { sx + dx, sy + dy - ly, sx + dx, sy + dy, sx + dx - lx, sy + dy },
+                        -1593835521, 3);
             }
         }
 
@@ -187,7 +197,7 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
         drawRect(-1, -1, this.width + 1, (int) top + 1, -16777216);
         drawRect(-1, (int) bottom - 1, this.width + 1, this.height + 1, -16777216);
         GlStateManager.enableBlend();
-         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         W_McClient.MOD_bindTexture("textures/gui/javelin.png");
         this.drawTexturedModalRectRotate(left, top, size, size, 0.0, 0.0, 256.0, 256.0, 0.0F);
         W_McClient.MOD_bindTexture("textures/gui/javelin2.png");
@@ -197,7 +207,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double y = 211.0;
             double w = 380.0;
             double h = 350.0;
-            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y, 1024.0, 1024.0);
+            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y,
+                    1024.0, 1024.0);
         }
 
         if (player.getItemInUseMaxCount() <= 60) {
@@ -205,7 +216,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double y = 334.0;
             double w = 257.0;
             double h = 455.0;
-            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y, 1024.0, 1024.0);
+            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y,
+                    1024.0, 1024.0);
         }
 
         if (MCH_ClientLightWeaponTickHandler.selectedZoom == 0) {
@@ -213,15 +225,18 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double y = 211.0;
             double w = 510.0;
             double h = 350.0;
-            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y, 1024.0, 1024.0);
+            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y,
+                    1024.0, 1024.0);
         }
 
-        if (MCH_ClientLightWeaponTickHandler.selectedZoom == MCH_ClientLightWeaponTickHandler.weapon.getInfo().zoom.length - 1) {
+        if (MCH_ClientLightWeaponTickHandler.selectedZoom ==
+                MCH_ClientLightWeaponTickHandler.weapon.getInfo().zoom.length - 1) {
             double x = 511.0;
             double y = 211.0;
             double w = 645.0;
             double h = 350.0;
-            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y, 1024.0, 1024.0);
+            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y,
+                    1024.0, 1024.0);
         }
 
         if (gs.getLockCount() > 0) {
@@ -229,7 +244,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double y = 211.0;
             double w = 775.0;
             double h = 350.0;
-            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y, 1024.0, 1024.0);
+            this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y,
+                    1024.0, 1024.0);
         }
 
         double x = 768.0;
@@ -243,7 +259,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             y = 456.0;
             h = 565.0;
         }
-        this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y, 1024.0, 1024.0);
+        this.drawTexturedRect(left + x * fac, top + y * fac, (w - x) * fac, (h - y) * fac, x, y, w - x, h - y, 1024.0,
+                1024.0);
 
         if (!canFire) {
             double var53 = 379.0;
@@ -251,8 +268,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double var75 = 511.0;
             double var86 = 810.0;
             this.drawTexturedRect(
-                    left + var53 * fac, top + var64 * fac, (var75 - var53) * fac, (var86 - var64) * fac, var53, var64, var75 - var53, var86 - var64, 1024.0, 1024.0
-            );
+                    left + var53 * fac, top + var64 * fac, (var75 - var53) * fac, (var86 - var64) * fac, var53, var64,
+                    var75 - var53, var86 - var64, 1024.0, 1024.0);
         }
 
         if (itemStack.getMetadata() >= itemStack.getMaxDamage()) {
@@ -261,8 +278,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double var76 = 645.0;
             double var87 = 810.0;
             this.drawTexturedRect(
-                    left + var54 * fac, top + var65 * fac, (var76 - var54) * fac, (var87 - var65) * fac, var54, var65, var76 - var54, var87 - var65, 1024.0, 1024.0
-            );
+                    left + var54 * fac, top + var65 * fac, (var76 - var54) * fac, (var87 - var65) * fac, var54, var65,
+                    var76 - var54, var87 - var65, 1024.0, 1024.0);
         }
 
         if (gs.getLockCount() < gs.getLockCountMax()) {
@@ -271,8 +288,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double var77 = 776.0;
             double var88 = 810.0;
             this.drawTexturedRect(
-                    left + var55 * fac, top + var66 * fac, (var77 - var55) * fac, (var88 - var66) * fac, var55, var66, var77 - var55, var88 - var66, 1024.0, 1024.0
-            );
+                    left + var55 * fac, top + var66 * fac, (var77 - var55) * fac, (var88 - var66) * fac, var55, var66,
+                    var77 - var55, var88 - var66, 1024.0, 1024.0);
         }
 
         if (pe != null) {
@@ -281,8 +298,8 @@ public class MCH_GuiLightWeapon extends MCH_Gui {
             double var78 = 890.0;
             double var89 = 694.0;
             this.drawTexturedRect(
-                    left + var56 * fac, top + var67 * fac, (var78 - var56) * fac, (var89 - var67) * fac, var56, var67, var78 - var56, var89 - var67, 1024.0, 1024.0
-            );
+                    left + var56 * fac, top + var67 * fac, (var78 - var56) * fac, (var89 - var67) * fac, var56, var67,
+                    var78 - var56, var89 - var67, 1024.0, 1024.0);
         }
     }
 

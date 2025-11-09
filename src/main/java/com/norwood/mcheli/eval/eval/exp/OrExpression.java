@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class OrExpression extends Col2OpeExpression {
+
     public OrExpression() {
         this.setOperator("||");
     }

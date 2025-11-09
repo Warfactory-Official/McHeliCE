@@ -1,13 +1,15 @@
 package com.norwood.mcheli.networking.packet;
 
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import static com.norwood.mcheli.multiplay.MultiplayerHandler.*;
 
-@ElegantPacket//FIXME
+import net.minecraft.entity.player.EntityPlayerMP;
+
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+
+@ElegantPacket// FIXME
 public class PacketImgDataChunk implements ClientToServerPacket {
+
     public static final int PACKET_MAX_SIZE = 128;
     public int imageDataIndex = -1;
     public int imageDataSize = 0;
@@ -49,8 +51,7 @@ public class PacketImgDataChunk implements ClientToServerPacket {
                         player.getDisplayName(),
                         dataPercent,
                         this.imageDataIndex + this.imageDataSize,
-                        this.imageDataTotalSize
-                );
+                        this.imageDataTotalSize);
                 lastDataPercent = dataPercent;
             }
 

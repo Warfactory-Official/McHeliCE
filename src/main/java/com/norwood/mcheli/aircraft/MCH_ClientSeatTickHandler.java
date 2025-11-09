@@ -1,15 +1,17 @@
 package com.norwood.mcheli.aircraft;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.norwood.mcheli.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.networking.packet.PacketSeatPlayerControl;
 import com.norwood.mcheli.wrapper.W_Reflection;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class MCH_ClientSeatTickHandler extends MCH_ClientTickHandlerBase {
+
     public MCH_Key KeySwitchNextSeat;
     public MCH_Key KeySwitchPrevSeat;
     public MCH_Key KeyParachuting;
@@ -31,7 +33,8 @@ public class MCH_ClientSeatTickHandler extends MCH_ClientTickHandlerBase {
         this.KeyParachuting = new MCH_Key(MCH_Config.KeySwitchHovering.prmInt);
         this.KeyUnmountForce = new MCH_Key(42);
         this.KeyFreeLook = new MCH_Key(MCH_Config.KeyFreeLook.prmInt);
-        this.Keys = new MCH_Key[]{this.KeySwitchNextSeat, this.KeySwitchPrevSeat, this.KeyParachuting, this.KeyUnmountForce, this.KeyFreeLook};
+        this.Keys = new MCH_Key[] { this.KeySwitchNextSeat, this.KeySwitchPrevSeat, this.KeyParachuting,
+                this.KeyUnmountForce, this.KeyFreeLook };
     }
 
     @Override

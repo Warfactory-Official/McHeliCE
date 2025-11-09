@@ -1,12 +1,7 @@
 package com.norwood.mcheli.block;
 
-import com.norwood.mcheli.MCH_IRecipeList;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.helper.MCH_Recipes;
-import com.norwood.mcheli.wrapper.W_Block;
-import com.norwood.mcheli.wrapper.W_EntityPlayer;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -15,11 +10,19 @@ import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.MCH_IRecipeList;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.helper.MCH_Recipes;
+import com.norwood.mcheli.wrapper.W_Block;
+import com.norwood.mcheli.wrapper.W_EntityPlayer;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_DraftingTableGuiContainer extends Container {
+
     public final EntityPlayer player;
     public final int posX;
     public final int posY;
@@ -45,6 +48,7 @@ public class MCH_DraftingTableGuiContainer extends Container {
 
         this.outputSlotIndex = this.inventoryItemStacks.size();
         Slot a = new Slot(this.outputSlot, this.outputSlotIndex, 178, 90) {
+
             public boolean isItemValid(@NotNull ItemStack stack) {
                 return false;
             }
@@ -59,7 +63,9 @@ public class MCH_DraftingTableGuiContainer extends Container {
 
     public boolean canInteractWith(EntityPlayer player) {
         Block block = W_WorldFunc.getBlock(player.world, this.posX, this.posY, this.posZ);
-        return (W_Block.isEqual(block, MCH_MOD.blockDraftingTable) || W_Block.isEqual(block, MCH_MOD.blockDraftingTableLit)) && player.getDistanceSq(this.posX, this.posY, this.posZ) <= 144.0;
+        return (W_Block.isEqual(block, MCH_MOD.blockDraftingTable) ||
+                W_Block.isEqual(block, MCH_MOD.blockDraftingTableLit)) &&
+                player.getDistanceSq(this.posX, this.posY, this.posZ) <= 144.0;
     }
 
     public @NotNull ItemStack transferStackInSlot(@NotNull EntityPlayer player, int slotIndex) {
@@ -122,7 +128,8 @@ public class MCH_DraftingTableGuiContainer extends Container {
                 result = true;
             }
 
-            MCH_Lib.DbgLog(this.player.world, "MCH_DraftingTableGuiContainer:Result=" + result + ":Recipe=" + recipe.getRegistryName());
+            MCH_Lib.DbgLog(this.player.world,
+                    "MCH_DraftingTableGuiContainer:Result=" + result + ":Recipe=" + recipe.getRegistryName());
         }
     }
 

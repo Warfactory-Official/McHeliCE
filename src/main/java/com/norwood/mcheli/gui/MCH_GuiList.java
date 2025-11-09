@@ -1,13 +1,16 @@
 package com.norwood.mcheli.gui;
 
-import com.norwood.mcheli.wrapper.W_GuiButton;
-import net.minecraft.client.Minecraft;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.norwood.mcheli.wrapper.W_GuiButton;
+
 public class MCH_GuiList extends W_GuiButton {
+
     public final int maxRowNum;
     public final List<MCH_GuiListItem> listItems;
     public final MCH_GuiSliderVertical scrollBar;

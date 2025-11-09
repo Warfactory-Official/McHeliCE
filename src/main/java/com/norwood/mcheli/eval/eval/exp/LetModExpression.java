@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class LetModExpression extends ModExpression {
+
     public LetModExpression() {
         this.setOperator("%=");
     }

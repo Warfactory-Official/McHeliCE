@@ -3,6 +3,7 @@ package com.norwood.mcheli.eval.eval.srch;
 import com.norwood.mcheli.eval.eval.exp.*;
 
 public interface Search {
+
     boolean end();
 
     void search(AbstractExpression var1);

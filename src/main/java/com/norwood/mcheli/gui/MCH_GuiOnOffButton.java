@@ -1,10 +1,13 @@
 package com.norwood.mcheli.gui;
 
-import com.norwood.mcheli.wrapper.W_GuiButton;
 import net.minecraft.client.Minecraft;
+
 import org.jetbrains.annotations.NotNull;
 
+import com.norwood.mcheli.wrapper.W_GuiButton;
+
 public class MCH_GuiOnOffButton extends W_GuiButton {
+
     private final String dispOnOffString;
     private boolean statOnOff;
 

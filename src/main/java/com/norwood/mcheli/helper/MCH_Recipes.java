@@ -1,7 +1,7 @@
 package com.norwood.mcheli.helper;
 
-import com.google.common.collect.Sets;
-import com.norwood.mcheli.MCH_ItemRecipe;
+import java.util.Set;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -13,12 +13,13 @@ import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.Set;
+import com.google.common.collect.Sets;
+import com.norwood.mcheli.MCH_ItemRecipe;
 
 @EventBusSubscriber(
-        modid = "mcheli"
-)
+                    modid = "mcheli")
 public class MCH_Recipes {
+
     private static final Set<IRecipe> registryWrapper = Sets.newLinkedHashSet();
 
     @SubscribeEvent

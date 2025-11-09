@@ -1,5 +1,7 @@
 package com.norwood.mcheli.wrapper;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -17,20 +19,19 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-
 public abstract class W_Entity extends Entity {
+
     protected double _renderDistanceWeight = 1.0;
 
-    //GLOBAL OFFSET, anything that has to do with world spawning, rendering, you should apply this offset
+    // GLOBAL OFFSET, anything that has to do with world spawning, rendering, you should apply this offset
     public static final float GLOBAL_Y_OFFSET = 0.35F;
-    //Obtained I kid you not, via comparing player y values in both versions
+    // Obtained I kid you not, via comparing player y values in both versions
     public static final double GLOBAL_SEAT_OFFSET = 0.22443D;
 
     public W_Entity(World par1World) {
-
         super(par1World);
         this.ignoreFrustumCheck = true;
     }
@@ -53,10 +54,12 @@ public abstract class W_Entity extends Entity {
         return entity.attackEntityFrom(ds, par2);
     }
 
-    public static float getBlockExplosionResistance(Entity entity, Explosion par1Explosion, World par2World, int par3, int par4, int par5, Block par6Block) {
+    public static float getBlockExplosionResistance(Entity entity, Explosion par1Explosion, World par2World, int par3,
+                                                    int par4, int par5, Block par6Block) {
         if (par6Block != null) {
             try {
-                return entity.getExplosionResistance(par1Explosion, par2World, new BlockPos(par3, par4, par5), par6Block.getDefaultState());
+                return entity.getExplosionResistance(par1Explosion, par2World, new BlockPos(par3, par4, par5),
+                        par6Block.getDefaultState());
             } catch (Exception var8) {
                 var8.printStackTrace();
             }
@@ -65,12 +68,15 @@ public abstract class W_Entity extends Entity {
         return 0.0F;
     }
 
-    public static boolean shouldExplodeBlock(Entity entity, Explosion par1Explosion, World par2World, int par3, int par4, int par5, int par6, float par7) {
-        return entity.canExplosionDestroyBlock(par1Explosion, par2World, new BlockPos(par3, par4, par5), W_Block.getBlockById(par6).getDefaultState(), par7);
+    public static boolean shouldExplodeBlock(Entity entity, Explosion par1Explosion, World par2World, int par3,
+                                             int par4, int par5, int par6, float par7) {
+        return entity.canExplosionDestroyBlock(par1Explosion, par2World, new BlockPos(par3, par4, par5),
+                W_Block.getBlockById(par6).getDefaultState(), par7);
     }
 
     public static PotionEffect getActivePotionEffect(Entity entity, Potion par1Potion) {
-        return entity instanceof EntityLivingBase ? ((EntityLivingBase) entity).getActivePotionEffect(par1Potion) : null;
+        return entity instanceof EntityLivingBase ? ((EntityLivingBase) entity).getActivePotionEffect(par1Potion) :
+                null;
     }
 
     public static void removePotionEffectClient(Entity entity, Potion potion) {
@@ -91,8 +97,7 @@ public abstract class W_Entity extends Entity {
         }
     }
 
-    protected void entityInit() {
-    }
+    protected void entityInit() {}
 
     public EntityItem dropItemWithOffset(@NotNull Item item, int par2, float par3) {
         return this.entityDropItem(new ItemStack(item, par2, 0), par3);
@@ -129,15 +134,12 @@ public abstract class W_Entity extends Entity {
         return distance < d0 * d0;
     }
 
-
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
         double huge = 1.0e6;
         return new AxisAlignedBB(
                 posX - huge, posY - huge, posZ - huge,
-                posX + huge, posY + huge, posZ + huge
-        );
+                posX + huge, posY + huge, posZ + huge);
     }
-
 }

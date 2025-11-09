@@ -3,6 +3,7 @@ package com.norwood.mcheli.aircraft;
 import net.minecraft.util.math.Vec3d;
 
 public class MCH_SeatInfo {
+
     public final Vec3d pos;
     public final boolean gunner;
     public final boolean switchgunner;
@@ -16,18 +17,17 @@ public class MCH_SeatInfo {
     public final boolean invCamPos;
 
     public MCH_SeatInfo(
-            Vec3d p,
-            boolean g,
-            MCH_AircraftInfo.CameraPosition cp,
-            boolean icp,
-            boolean sg,
-            boolean fr,
-            float yaw,
-            float pitch,
-            float pmin,
-            float pmax,
-            boolean rotSeat
-    ) {
+                        Vec3d p,
+                        boolean g,
+                        MCH_AircraftInfo.CameraPosition cp,
+                        boolean icp,
+                        boolean sg,
+                        boolean fr,
+                        float yaw,
+                        float pitch,
+                        float pmin,
+                        float pmax,
+                        boolean rotSeat) {
         this.camPos = cp;
         this.pos = p;
         this.gunner = g;
@@ -41,7 +41,8 @@ public class MCH_SeatInfo {
         this.rotSeat = rotSeat;
     }
 
-    public MCH_SeatInfo(Vec3d p, boolean g, MCH_AircraftInfo.CameraPosition cp, boolean icp, boolean sg, boolean fr, float yaw, float pitch, boolean rotSeat) {
+    public MCH_SeatInfo(Vec3d p, boolean g, MCH_AircraftInfo.CameraPosition cp, boolean icp, boolean sg, boolean fr,
+                        float yaw, float pitch, boolean rotSeat) {
         this(p, g, cp, icp, sg, fr, yaw, pitch, -30.0F, 70.0F, rotSeat);
     }
 

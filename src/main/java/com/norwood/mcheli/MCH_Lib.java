@@ -1,6 +1,11 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.wrapper.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,14 +20,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import com.norwood.mcheli.wrapper.*;
 
 public class MCH_Lib {
-    public static final String[] AZIMUTH_8 = new String[]{"S", "SW", "W", "NW", "N", "NE", "E", "SE"};
+
+    public static final String[] AZIMUTH_8 = new String[] { "S", "SW", "W", "NW", "N", "NE", "E", "SE" };
     public static final int AZIMUTH_8_ANG = 360 / AZIMUTH_8.length;
     private static final HashMap<String, Material> mapMaterial = new HashMap<>();
 
@@ -69,8 +71,10 @@ public class MCH_Lib {
     }
 
     public static Vec3d calculateFaceNormal(Vec3d[] vertices) {
-        Vec3d v1 = new Vec3d(vertices[1].x - vertices[0].x, vertices[1].y - vertices[0].y, vertices[1].z - vertices[0].z);
-        Vec3d v2 = new Vec3d(vertices[2].x - vertices[0].x, vertices[2].y - vertices[0].y, vertices[2].z - vertices[0].z);
+        Vec3d v1 = new Vec3d(vertices[1].x - vertices[0].x, vertices[1].y - vertices[0].y,
+                vertices[1].z - vertices[0].z);
+        Vec3d v2 = new Vec3d(vertices[2].x - vertices[0].x, vertices[2].y - vertices[0].y,
+                vertices[2].z - vertices[0].z);
         return v1.crossProduct(v2).normalize();
     }
 
@@ -135,8 +139,7 @@ public class MCH_Lib {
         return new Vec3d(
                 -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI),
                 -MathHelper.sin(pitch / 180.0F * (float) Math.PI),
-                MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI)
-        );
+                MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI));
     }
 
     public static Vec3d RotVec3(double x, double y, double z, float yaw, float pitch) {
@@ -169,8 +172,7 @@ public class MCH_Lib {
         return new Vec3d(
                 -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI),
                 -MathHelper.sin(pitch / 180.0F * (float) Math.PI),
-                MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI)
-        );
+                MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI));
     }
 
     public static double getRotate360(double r) {
@@ -202,8 +204,7 @@ public class MCH_Lib {
     public static void DbgLog(boolean isRemote, String format, Object... data) {
         if (MCH_Config.DebugLog) {
             if (isRemote) {
-                if (getClientPlayer() instanceof EntityPlayer) {
-                }
+                if (getClientPlayer() instanceof EntityPlayer) {}
 
                 System.out.printf((format) + "%n", data);
             } else {
@@ -259,7 +260,8 @@ public class MCH_Lib {
     }
 
     public static boolean isBlockInWater(World w, int x, int y, int z) {
-        int[][] offset = new int[][]{{0, -1, 0}, {0, 0, 0}, {0, 0, -1}, {0, 0, 1}, {-1, 0, 0}, {1, 0, 0}, {0, 1, 0}};
+        int[][] offset = new int[][] { { 0, -1, 0 }, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 0, 1 }, { -1, 0, 0 }, { 1, 0, 0 },
+                { 0, 1, 0 } };
         if (y > 0) {
             for (int[] o : offset) {
                 if (W_WorldFunc.isBlockWater(w, x + o[0], y + o[1], z + o[2])) {
@@ -271,7 +273,8 @@ public class MCH_Lib {
         return false;
     }
 
-    public static int getBlockIdY(World w, double posX, double posY, double posZ, int size, int lenY, boolean canColliableOnly) {
+    public static int getBlockIdY(World w, double posX, double posY, double posZ, int size, int lenY,
+                                  boolean canColliableOnly) {
         Block block = getBlockY(w, posX, posY, posZ, size, lenY, canColliableOnly);
         return block == null ? 0 : W_Block.getIdFromBlock(block);
     }
@@ -293,7 +296,8 @@ public class MCH_Lib {
         return getBlockY(world, pos.x, pos.y, pos.z, size, lenY, canColliableOnly);
     }
 
-    public static Block getBlockY(World world, double posX, double posY, double posZ, int size, int lenY, boolean canColliableOnly) {
+    public static Block getBlockY(World world, double posX, double posY, double posZ, int size, int lenY,
+                                  boolean canColliableOnly) {
         if (lenY != 0) {
             int px = (int) (posX + 0.5);
             int py = (int) (posY + 0.5);
@@ -307,7 +311,8 @@ public class MCH_Lib {
 
                 for (int x = -size / 2; x <= size / 2; x++) {
                     for (int z = -size / 2; z <= size / 2; z++) {
-                        IBlockState iblockstate = world.getBlockState(new BlockPos(px + x, py + (lenY > 0 ? y : -y), pz + z));
+                        IBlockState iblockstate = world
+                                .getBlockState(new BlockPos(px + x, py + (lenY > 0 ? y : -y), pz + z));
                         Block block = W_WorldFunc.getBlock(world, px + x, py + (lenY > 0 ? y : -y), pz + z);
                         if (block != Blocks.AIR) {
                             if (!canColliableOnly) {
@@ -357,13 +362,13 @@ public class MCH_Lib {
         switch (MCH_Config.DisableItemRender.prmInt) {
             case 2 -> MCH_ItemRendererDummy.disableDummyItemRenderer();
             case 3 -> W_Reflection.restoreCameraZoom();
-            default -> {
-            }
+            default -> {}
         }
     }
 
     public static void disableFirstPersonItemRender(ItemStack itemStack) {
-        if (!itemStack.isEmpty() || !(itemStack.getItem() instanceof ItemMapBase) || W_McClient.getRenderEntity() instanceof MCH_ViewEntityDummy) {
+        if (!itemStack.isEmpty() || !(itemStack.getItem() instanceof ItemMapBase) ||
+                W_McClient.getRenderEntity() instanceof MCH_ViewEntityDummy) {
             disableFirstPersonItemRender();
         }
     }
@@ -396,7 +401,8 @@ public class MCH_Lib {
             return false;
         } else {
             String className = entity.getClass().getName();
-            return className.contains("EntityVehicle") || className.contains("EntityPlane") || className.contains("EntityMecha") || className.contains("EntityAAGun");
+            return className.contains("EntityVehicle") || className.contains("EntityPlane") ||
+                    className.contains("EntityMecha") || className.contains("EntityAAGun");
         }
     }
 }

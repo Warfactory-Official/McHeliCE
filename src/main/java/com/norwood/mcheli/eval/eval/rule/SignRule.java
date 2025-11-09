@@ -5,6 +5,7 @@ import com.norwood.mcheli.eval.eval.exp.Col1Expression;
 import com.norwood.mcheli.eval.eval.lex.Lex;
 
 public class SignRule extends AbstractRule {
+
     public SignRule(ShareRuleValue share) {
         super(share);
     }
@@ -15,7 +16,8 @@ public class SignRule extends AbstractRule {
             String ope = lex.getOperator();
             if (this.isMyOperator(ope)) {
                 int pos = lex.getPos();
-                return Col1Expression.create(this.newExpression(ope, lex.getShare()), lex.getString(), pos, this.parse(lex.next()));
+                return Col1Expression.create(this.newExpression(ope, lex.getShare()), lex.getString(), pos,
+                        this.parse(lex.next()));
             }
 
             return this.nextRule.parse(lex);

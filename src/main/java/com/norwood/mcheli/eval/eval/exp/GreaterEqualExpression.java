@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class GreaterEqualExpression extends Col2Expression {
+
     public GreaterEqualExpression() {
         this.setOperator(">=");
     }

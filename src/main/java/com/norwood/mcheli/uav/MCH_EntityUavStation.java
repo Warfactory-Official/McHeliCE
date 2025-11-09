@@ -1,29 +1,9 @@
 package com.norwood.mcheli.uav;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Explosion;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
-import com.norwood.mcheli.helper.network.PooledGuiParameter;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.helicopter.MCH_HeliInfo;
-import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
-import com.norwood.mcheli.helicopter.MCH_ItemHeli;
-import com.norwood.mcheli.multiplay.MCH_Multiplay;
-import com.norwood.mcheli.plane.MCP_ItemPlane;
-import com.norwood.mcheli.plane.MCH_PlaneInfo;
-import com.norwood.mcheli.plane.MCP_PlaneInfoManager;
-import com.norwood.mcheli.ship.MCH_ItemShip;
-import com.norwood.mcheli.ship.MCH_ShipInfo;
-import com.norwood.mcheli.ship.MCH_ShipInfoManager;
-import com.norwood.mcheli.tank.MCH_ItemTank;
-import com.norwood.mcheli.tank.MCH_TankInfo;
-import com.norwood.mcheli.tank.MCH_TankInfoManager;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_EntityContainer;
-import com.norwood.mcheli.wrapper.W_EntityPlayer;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
@@ -42,16 +22,42 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.List;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Explosion;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helicopter.MCH_HeliInfo;
+import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
+import com.norwood.mcheli.helicopter.MCH_ItemHeli;
+import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
+import com.norwood.mcheli.helper.network.PooledGuiParameter;
+import com.norwood.mcheli.multiplay.MCH_Multiplay;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.plane.MCP_ItemPlane;
+import com.norwood.mcheli.plane.MCP_PlaneInfoManager;
+import com.norwood.mcheli.ship.MCH_ItemShip;
+import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.ship.MCH_ShipInfoManager;
+import com.norwood.mcheli.tank.MCH_ItemTank;
+import com.norwood.mcheli.tank.MCH_TankInfo;
+import com.norwood.mcheli.tank.MCH_TankInfoManager;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_EntityContainer;
+import com.norwood.mcheli.wrapper.W_EntityPlayer;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySinglePassenger {
 
-    private static final DataParameter<Byte> STATUS = EntityDataManager.createKey(MCH_EntityUavStation.class, DataSerializers.BYTE);
-    private static final DataParameter<Integer> LAST_AC_ID = EntityDataManager.createKey(MCH_EntityUavStation.class, DataSerializers.VARINT);
-    private static final DataParameter<BlockPos> UAV_POS = EntityDataManager.createKey(MCH_EntityUavStation.class, DataSerializers.BLOCK_POS);
+    private static final DataParameter<Byte> STATUS = EntityDataManager.createKey(MCH_EntityUavStation.class,
+            DataSerializers.BYTE);
+    private static final DataParameter<Integer> LAST_AC_ID = EntityDataManager.createKey(MCH_EntityUavStation.class,
+            DataSerializers.VARINT);
+    private static final DataParameter<BlockPos> UAV_POS = EntityDataManager.createKey(MCH_EntityUavStation.class,
+            DataSerializers.BLOCK_POS);
     public boolean isRequestedSyncStatus;
     public int posUavX;
     public int posUavY;
@@ -248,7 +254,8 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
                     this.dropContentsWhenDead = true;
                     this.setDead();
                     if (!isDamegeSourcePlayer) {
-                        MCH_Explosion.newExplosion(this.world, null, riddenByEntity, this.posX, this.posY, this.posZ, 1.0F, 0.0F, true, true, false, false, 0);
+                        MCH_Explosion.newExplosion(this.world, null, riddenByEntity, this.posX, this.posY, this.posZ,
+                                1.0F, 0.0F, true, true, false, false, 0);
                     }
 
                     if (!isCreative) {
@@ -301,11 +308,9 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         return !this.isDead;
     }
 
-    public void applyEntityCollision(@NotNull Entity par1Entity) {
-    }
+    public void applyEntityCollision(@NotNull Entity par1Entity) {}
 
-    public void addVelocity(double par1, double par3, double par5) {
-    }
+    public void addVelocity(double par1, double par3, double par5) {}
 
     @SideOnly(Side.CLIENT)
     public void setVelocity(double par1, double par3, double par5) {
@@ -401,7 +406,8 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
 
     public void searchLastControlAircraft() {
         if (!this.loadedLastControlAircraftGuid.isEmpty()) {
-            List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(MCH_EntityAircraft.class, this.getCollisionBoundingBox().grow(120.0, 120.0, 120.0));
+            List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(MCH_EntityAircraft.class,
+                    this.getCollisionBoundingBox().grow(120.0, 120.0, 120.0));
             for (MCH_EntityAircraft ac : list) {
                 if (ac.getCommonUniqueId().equals(this.loadedLastControlAircraftGuid)) {
                     String n = "no info : " + ac;
@@ -424,8 +430,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
             this.setPosition(
                     this.posX + (this.aircraftX - this.posX) / rpinc,
                     this.posY + (this.aircraftY - this.posY) / rpinc,
-                    this.posZ + (this.aircraftZ - this.posZ) / rpinc
-            );
+                    this.posZ + (this.aircraftZ - this.posZ) / rpinc);
             this.setRotation(this.rotationYaw, this.rotationPitch);
             this.aircraftPosRotInc--;
         } else {
@@ -465,7 +470,8 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         }
     }
 
-    public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9, boolean teleport) {
+    public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9,
+                                             boolean teleport) {
         this.aircraftPosRotInc = par9 + 8;
         this.aircraftX = par1;
         this.aircraftY = par3;
@@ -481,7 +487,9 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         if (this.isPassenger(passenger)) {
             double x = -Math.sin(this.rotationYaw * Math.PI / 180.0) * 0.9;
             double z = Math.cos(this.rotationYaw * Math.PI / 180.0) * 0.9;
-            passenger.setPosition(this.posX + x, this.posY + this.getMountedYOffset() + passenger.getYOffset() + W_Entity.GLOBAL_Y_OFFSET, this.posZ + z);
+            passenger.setPosition(this.posX + x,
+                    this.posY + this.getMountedYOffset() + passenger.getYOffset() + W_Entity.GLOBAL_Y_OFFSET,
+                    this.posZ + z);
         }
     }
 
@@ -606,7 +614,8 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
                 PooledGuiParameter.setEntity(player, this);
                 if (!this.world.isRemote) {
                     player.startRiding(this);
-                    player.openGui(MCH_MOD.instance, 0, player.world, (int) this.posX, (int) this.posY, (int) this.posZ);
+                    player.openGui(MCH_MOD.instance, 0, player.world, (int) this.posX, (int) this.posY,
+                            (int) this.posZ);
                 }
 
                 return true;

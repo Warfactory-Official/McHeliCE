@@ -1,7 +1,7 @@
 package com.norwood.mcheli.gui;
 
-import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_ScaledResolution;
+import java.util.Random;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -12,13 +12,15 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
-import java.util.Random;
+import com.norwood.mcheli.wrapper.W_McClient;
+import com.norwood.mcheli.wrapper.W_ScaledResolution;
 
 @SideOnly(Side.CLIENT)
 public abstract class MCH_Gui extends GuiScreen {
+
     public static int scaleFactor;
     protected int centerX = 0;
     protected int centerY = 0;
@@ -39,8 +41,7 @@ public abstract class MCH_Gui extends GuiScreen {
         return false;
     }
 
-    public void onTick() {
-    }
+    public void onTick() {}
 
     public abstract boolean isDrawGui(EntityPlayer var1);
 
@@ -48,7 +49,8 @@ public abstract class MCH_Gui extends GuiScreen {
 
     public void drawScreen(int par1, int par2, float partialTicks) {
         this.smoothCamPartialTicks = partialTicks;
-        ScaledResolution scaledresolution = new W_ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+        ScaledResolution scaledresolution = new W_ScaledResolution(this.mc, this.mc.displayWidth,
+                this.mc.displayHeight);
         scaleFactor = scaledresolution.getScaleFactor();
         if (!this.mc.gameSettings.hideGUI) {
             this.width = this.mc.displayWidth / scaleFactor;
@@ -56,19 +58,19 @@ public abstract class MCH_Gui extends GuiScreen {
             this.centerX = this.width / 2;
             this.centerY = this.height / 2;
             GlStateManager.pushMatrix();
-             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             if (this.mc.player != null) {
                 this.drawGui(this.mc.player, this.mc.gameSettings.thirdPersonView != 0);
             }
 
-             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.popMatrix();
         }
     }
 
     public void drawTexturedModalRectRotate(
-            double left, double top, double width, double height, double uLeft, double vTop, double uWidth, double vHeight, float rot
-    ) {
+                                            double left, double top, double width, double height, double uLeft,
+                                            double vTop, double uWidth, double vHeight, float rot) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(left + width / 2.0, top + height / 2.0, 0.0);
         GlStateManager.rotate(rot, 0.0F, 0.0F, 1.0F);
@@ -85,15 +87,16 @@ public abstract class MCH_Gui extends GuiScreen {
     }
 
     public void drawTexturedRect(
-            double left, double top, double width, double height, double uLeft, double vTop, double uWidth, double vHeight, double textureWidth, double textureHeight
-    ) {
+                                 double left, double top, double width, double height, double uLeft, double vTop,
+                                 double uWidth, double vHeight, double textureWidth, double textureHeight) {
         float fx = (float) (1.0 / textureWidth);
         float fy = (float) (1.0 / textureHeight);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.getBuffer();
         builder.begin(7, DefaultVertexFormats.POSITION_TEX);
         builder.pos(left, top + height, this.zLevel).tex(uLeft * fx, (vTop + vHeight) * fy).endVertex();
-        builder.pos(left + width, top + height, this.zLevel).tex((uLeft + uWidth) * fx, (vTop + vHeight) * fy).endVertex();
+        builder.pos(left + width, top + height, this.zLevel).tex((uLeft + uWidth) * fx, (vTop + vHeight) * fy)
+                .endVertex();
         builder.pos(left + width, top, this.zLevel).tex((uLeft + uWidth) * fx, vTop * fy).endVertex();
         builder.pos(left, top, this.zLevel).tex(uLeft * fx, vTop * fy).endVertex();
         tessellator.draw();
@@ -109,9 +112,8 @@ public abstract class MCH_Gui extends GuiScreen {
 
     public void drawDigit(String s, int x, int y, int interval, int color) {
         GlStateManager.enableBlend();
-        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color & 0xFF), (byte) (color >> 24 & 0xFF));
-        int srcBlend = GL11.glGetInteger(3041);
-        int dstBlend = GL11.glGetInteger(3040);
+        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color & 0xFF),
+                (byte) (color >> 24 & 0xFF));
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         W_McClient.MOD_bindTexture("textures/gui/digit.png");
 
@@ -126,7 +128,7 @@ public abstract class MCH_Gui extends GuiScreen {
             }
         }
 
-        GL11.glBlendFunc(srcBlend, dstBlend);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableBlend();
     }
 
@@ -139,7 +141,8 @@ public abstract class MCH_Gui extends GuiScreen {
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF), (byte) (color >> 24 & 0xFF));
+        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF),
+                (byte) (color >> 24 & 0xFF));
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.getBuffer();
         builder.begin(mode, DefaultVertexFormats.POSITION);
@@ -153,53 +156,5 @@ public abstract class MCH_Gui extends GuiScreen {
         GlStateManager.disableBlend();
         GlStateManager.color((byte) -1, (byte) -1, (byte) -1, (byte) -1);
         GlStateManager.popMatrix();
-    }
-
-    public void drawPoints(double[] points, int color, int pointWidth) {
-        int prevWidth = GL11.glGetInteger(2833);
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF), (byte) (color >> 24 & 0xFF));
-        GL11.glPointSize(pointWidth);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder builder = tessellator.getBuffer();
-        builder.begin(0, DefaultVertexFormats.POSITION);
-
-        for (int i = 0; i < points.length; i += 2) {
-            builder.pos(points[i], points[i + 1], 0.0).endVertex();
-        }
-
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
-        GlStateManager.color((byte) -1, (byte) -1, (byte) -1, (byte) -1);
-        GL11.glPointSize(prevWidth);
-    }
-
-    public void drawPoints(ArrayList<Double> points, int color, int pointWidth) {
-        int prevWidth = GL11.glGetInteger(2833);
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4ub((byte) (color >> 16 & 0xFF), (byte) (color >> 8 & 0xFF), (byte) (color >> 0 & 0xFF), (byte) (color >> 24 & 0xFF));
-        GL11.glPointSize(pointWidth);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder builder = tessellator.getBuffer();
-        builder.begin(0, DefaultVertexFormats.POSITION);
-
-        for (int i = 0; i < points.size(); i += 2) {
-            builder.pos(points.get(i), points.get(i + 1), 0.0).endVertex();
-        }
-
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
-        GlStateManager.color((byte) -1, (byte) -1, (byte) -1, (byte) -1);
-        GL11.glPointSize(prevWidth);
     }
 }

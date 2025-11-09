@@ -1,15 +1,5 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
-import com.norwood.mcheli.helper.client._ModelFormatException;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.IResource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,15 +9,31 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client._ModelFormatException;
+
 @SideOnly(Side.CLIENT)
 public class W_WavefrontObject extends W_ModelCustom {
-    private static Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+\\.\\d+){3,4} *\\n)|(v( (\\-){0,1}\\d+\\.\\d+){3,4} *$)");
 
-    private static Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+\\.\\d+){3,4} *\\n)|(vn( (\\-){0,1}\\d+\\.\\d+){3,4} *$)");
+    private static Pattern vertexPattern = Pattern
+            .compile("(v( (\\-){0,1}\\d+\\.\\d+){3,4} *\\n)|(v( (\\-){0,1}\\d+\\.\\d+){3,4} *$)");
 
-    private static Pattern textureCoordinatePattern = Pattern.compile("(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *\\n)|(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *$)");
+    private static Pattern vertexNormalPattern = Pattern
+            .compile("(vn( (\\-){0,1}\\d+\\.\\d+){3,4} *\\n)|(vn( (\\-){0,1}\\d+\\.\\d+){3,4} *$)");
 
-    private static Pattern face_V_VT_VN_Pattern = Pattern.compile("(f( \\d+/\\d+/\\d+){3,4} *\\n)|(f( \\d+/\\d+/\\d+){3,4} *$)");
+    private static Pattern textureCoordinatePattern = Pattern
+            .compile("(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *\\n)|(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *$)");
+
+    private static Pattern face_V_VT_VN_Pattern = Pattern
+            .compile("(f( \\d+/\\d+/\\d+){3,4} *\\n)|(f( \\d+/\\d+/\\d+){3,4} *$)");
 
     private static Pattern face_V_VT_Pattern = Pattern.compile("(f( \\d+/\\d+){3,4} *\\n)|(f( \\d+/\\d+){3,4} *$)");
 
@@ -35,7 +41,8 @@ public class W_WavefrontObject extends W_ModelCustom {
 
     private static Pattern face_V_Pattern = Pattern.compile("(f( \\d+){3,4} *\\n)|(f( \\d+){3,4} *$)");
 
-    private static Pattern groupObjectPattern = Pattern.compile("([go]( [-\\$\\w\\d]+) *\\n)|([go]( [-\\$\\w\\d]+) *$)");
+    private static Pattern groupObjectPattern = Pattern
+            .compile("([go]( [-\\$\\w\\d]+) *\\n)|([go]( [-\\$\\w\\d]+) *$)");
 
     private static Matcher vertexMatcher;
 
@@ -127,7 +134,8 @@ public class W_WavefrontObject extends W_ModelCustom {
     }
 
     private static boolean isValidFaceLine(String line) {
-        return (isValidFace_V_VT_VN_Line(line) || isValidFace_V_VT_Line(line) || isValidFace_V_VN_Line(line) || isValidFace_V_Line(line));
+        return (isValidFace_V_VT_VN_Line(line) || isValidFace_V_VT_Line(line) || isValidFace_V_VN_Line(line) ||
+                isValidFace_V_Line(line));
     }
 
     private static boolean isValidGroupObjectLine(String line) {
@@ -180,17 +188,18 @@ public class W_WavefrontObject extends W_ModelCustom {
                     W_Face face = parseFace(currentLine, lineCount);
 
                     currentGroupObject.faces.add(face);
-                } else if (((currentLine.startsWith("g ") | currentLine.startsWith("o "))) && currentLine.charAt(2) == '$') {
-                    GroupObject group = parseGroupObject(currentLine, lineCount);
+                } else if (((currentLine.startsWith("g ") | currentLine.startsWith("o "))) &&
+                        currentLine.charAt(2) == '$') {
+                            GroupObject group = parseGroupObject(currentLine, lineCount);
 
-                    if (group != null) {
-                        if (currentGroupObject != null) {
-                            groupObjects.add(currentGroupObject);
+                            if (group != null) {
+                                if (currentGroupObject != null) {
+                                    groupObjects.add(currentGroupObject);
+                                }
+                            }
+
+                            currentGroupObject = group;
                         }
-                    }
-
-                    currentGroupObject = group;
-                }
             }
 
             groupObjects.add(currentGroupObject);
@@ -279,12 +288,15 @@ public class W_WavefrontObject extends W_ModelCustom {
             try {
                 if (tokens.length == 2) return new W_Vertex(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]));
                 if (tokens.length == 3)
-                    return new W_Vertex(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]));
+                    return new W_Vertex(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]));
             } catch (NumberFormatException e) {
-                throw new _ModelFormatException(String.format("Number formatting error at line %d", new Object[]{Integer.valueOf(lineCount)}), e);
+                throw new _ModelFormatException(String.format("Number formatting error at line %d",
+                        new Object[] { Integer.valueOf(lineCount) }), e);
             }
         } else {
-            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName + "' - Incorrect format");
+            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" +
+                    this.fileName + "' - Incorrect format");
         }
         return vertex;
     }
@@ -296,12 +308,15 @@ public class W_WavefrontObject extends W_ModelCustom {
             String[] tokens = line.split(" ");
             try {
                 if (tokens.length == 3)
-                    return new W_Vertex(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]));
+                    return new W_Vertex(Float.parseFloat(tokens[0]), Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]));
             } catch (NumberFormatException e) {
-                throw new _ModelFormatException(String.format("Number formatting error at line %d", new Object[]{Integer.valueOf(lineCount)}), e);
+                throw new _ModelFormatException(String.format("Number formatting error at line %d",
+                        new Object[] { Integer.valueOf(lineCount) }), e);
             }
         } else {
-            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName + "' - Incorrect format");
+            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" +
+                    this.fileName + "' - Incorrect format");
         }
         return vertexNormal;
     }
@@ -315,12 +330,15 @@ public class W_WavefrontObject extends W_ModelCustom {
                 if (tokens.length == 2)
                     return new W_TextureCoordinate(Float.parseFloat(tokens[0]), 1.0F - Float.parseFloat(tokens[1]));
                 if (tokens.length == 3)
-                    return new W_TextureCoordinate(Float.parseFloat(tokens[0]), 1.0F - Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]));
+                    return new W_TextureCoordinate(Float.parseFloat(tokens[0]), 1.0F - Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]));
             } catch (NumberFormatException e) {
-                throw new _ModelFormatException(String.format("Number formatting error at line %d", new Object[]{Integer.valueOf(lineCount)}), e);
+                throw new _ModelFormatException(String.format("Number formatting error at line %d",
+                        new Object[] { Integer.valueOf(lineCount) }), e);
             }
         } else {
-            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName + "' - Incorrect format");
+            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" +
+                    this.fileName + "' - Incorrect format");
         }
         return textureCoordinate;
     }
@@ -336,13 +354,17 @@ public class W_WavefrontObject extends W_ModelCustom {
                 if (this.currentGroupObject.glDrawingMode == -1) {
                     this.currentGroupObject.glDrawingMode = 4;
                 } else if (this.currentGroupObject.glDrawingMode != 4) {
-                    throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName + "' - Invalid number of points for face (expected 4, found " + tokens.length + ")");
+                    throw new _ModelFormatException(
+                            "Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName +
+                                    "' - Invalid number of points for face (expected 4, found " + tokens.length + ")");
                 }
             } else if (tokens.length == 4) {
                 if (this.currentGroupObject.glDrawingMode == -1) {
                     this.currentGroupObject.glDrawingMode = 7;
                 } else if (this.currentGroupObject.glDrawingMode != 7) {
-                    throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName + "' - Invalid number of points for face (expected 3, found " + tokens.length + ")");
+                    throw new _ModelFormatException(
+                            "Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName +
+                                    "' - Invalid number of points for face (expected 3, found " + tokens.length + ")");
                 }
             }
             if (isValidFace_V_VT_VN_Line(line)) {
@@ -380,10 +402,12 @@ public class W_WavefrontObject extends W_ModelCustom {
                     face.vertices[i] = this.vertices.get(Integer.parseInt(tokens[i]) - 1);
                 face.faceNormal = face.calculateFaceNormal();
             } else {
-                throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName + "' - Incorrect format");
+                throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount +
+                        ") in file '" + this.fileName + "' - Incorrect format");
             }
         } else {
-            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName + "' - Incorrect format");
+            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" +
+                    this.fileName + "' - Incorrect format");
         }
         return face;
     }
@@ -394,7 +418,8 @@ public class W_WavefrontObject extends W_ModelCustom {
             String trimmedLine = line.substring(line.indexOf(" ") + 1);
             if (trimmedLine.length() > 0) group = new GroupObject(trimmedLine);
         } else {
-            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" + this.fileName + "' - Incorrect format");
+            throw new _ModelFormatException("Error parsing entry ('" + line + "', line " + lineCount + ") in file '" +
+                    this.fileName + "' - Incorrect format");
         }
         return group;
     }

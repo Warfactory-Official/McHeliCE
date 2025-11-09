@@ -1,8 +1,8 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public abstract class Col1AfterExpression extends Col1Expression {
-    protected Col1AfterExpression() {
-    }
+
+    protected Col1AfterExpression() {}
 
     protected Col1AfterExpression(Col1Expression from, ShareExpValue s) {
         super(from, s);

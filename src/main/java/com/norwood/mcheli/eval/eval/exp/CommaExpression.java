@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class CommaExpression extends Col2OpeExpression {
+
     public CommaExpression() {
         this.setOperator(",");
     }

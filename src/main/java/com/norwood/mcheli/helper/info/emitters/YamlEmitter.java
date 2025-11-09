@@ -1,5 +1,23 @@
 package com.norwood.mcheli.helper.info.emitters;
 
+import static com.google.common.base.Predicates.instanceOf;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import net.minecraft.util.math.Vec3d;
+
+import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.nodes.Node;
+import org.yaml.snakeyaml.nodes.Tag;
+import org.yaml.snakeyaml.representer.Representer;
+
 import com.google.common.primitives.Floats;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_BoundingBox;
@@ -17,22 +35,6 @@ import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.wrapper.W_Entity;
-import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.Tag;
-import org.yaml.snakeyaml.representer.Representer;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.google.common.base.Predicates.instanceOf;
 
 @SuppressWarnings("AutoBoxing")
 public class YamlEmitter implements IEmitter {
@@ -95,7 +97,6 @@ public class YamlEmitter implements IEmitter {
     private static InlineSeq<Double> vecMinusYOffset(Vec3d v) {
         return inline(v.x, v.y - W_Entity.GLOBAL_Y_OFFSET, v.z);
     }
-
 
     private static String tankWeight(int ordinal) {
         return ordinal == 1 ? "CAR" : ordinal == 2 ? "TANK" : "UNKNOWN";
@@ -399,7 +400,6 @@ public class YamlEmitter implements IEmitter {
         if (!expl.isEmpty())
             root.put("Explosion", expl);
 
-
         // Camera
         Map<String, Object> cam = new LinkedHashMap<>();
         if (info.hasMortarRadar != dummy.hasMortarRadar)
@@ -419,7 +419,6 @@ public class YamlEmitter implements IEmitter {
             cam.put("Zoom", Floats.asList(info.zoom));
         if (!cam.isEmpty())
             root.put("Camera", cam);
-
 
         // Missile
         Map<String, Object> missile = new LinkedHashMap<>();
@@ -559,7 +558,7 @@ public class YamlEmitter implements IEmitter {
                 int r = (int) Math.round(Math.max(0, Math.min(1, mf.r)) * 255.0);
                 int g = (int) Math.round(Math.max(0, Math.min(1, mf.g)) * 255.0);
                 int b = (int) Math.round(Math.max(0, Math.min(1, mf.b)) * 255.0);
-                int argb = (a <<24) | (r << 16) | (g << 8) | b;
+                int argb = (a << 24) | (r << 16) | (g << 8) | b;
                 mm.put("Color", String.format("#%06X", argb));
                 flashes.add(mm);
             }
@@ -578,7 +577,7 @@ public class YamlEmitter implements IEmitter {
                 int r = (int) Math.round(Math.max(0, Math.min(1, mf.r)) * 255.0);
                 int g = (int) Math.round(Math.max(0, Math.min(1, mf.g)) * 255.0);
                 int b = (int) Math.round(Math.max(0, Math.min(1, mf.b)) * 255.0);
-                int argb = (a <<24) | (r << 16) | (g << 8) | b;
+                int argb = (a << 24) | (r << 16) | (g << 8) | b;
                 mm.put("Color", String.format("#%06X", argb));
                 flashes.add(mm);
             }
@@ -600,7 +599,8 @@ public class YamlEmitter implements IEmitter {
             render.put("BulletModel", info.bulletModelName);
         if (!Objects.equals(info.bombletModelName, dummy.bombletModelName) && notBlank(info.bombletModelName))
             render.put("BombletModel", info.bombletModelName);
-        if (!Objects.equals(info.trajectoryParticleName, dummy.trajectoryParticleName) && notBlank(info.trajectoryParticleName))
+        if (!Objects.equals(info.trajectoryParticleName, dummy.trajectoryParticleName) &&
+                notBlank(info.trajectoryParticleName))
             render.put("TrajectoryParticle", info.trajectoryParticleName);
         if (info.trajectoryParticleStartTick != dummy.trajectoryParticleStartTick)
             render.put("TrajectoryParticleStartTick", info.trajectoryParticleStartTick);
@@ -620,7 +620,7 @@ public class YamlEmitter implements IEmitter {
             int r = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.r)) * 255.0);
             int g = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.g)) * 255.0);
             int b = (int) Math.round(Math.max(0, Math.min(1, info.colorInWater.b)) * 255.0);
-            int rgba1 = (a << 24)| (r << 16) | (g << 8) | b;
+            int rgba1 = (a << 24) | (r << 16) | (g << 8) | b;
             smoke.put("BulletColorInWater", String.format("#%06X", rgba1));
         }
         if (!Objects.equals(info.color, dummy.color) && info.color != null) {
@@ -634,14 +634,13 @@ public class YamlEmitter implements IEmitter {
         if (!smoke.isEmpty()) render.put("Smoke", smoke);
         if (!render.isEmpty()) root.put("Render", render);
 
-
         return YAML.dump(root);
     }
 
     @Override
     public String emitThrowable(MCH_ThrowableInfo info) {
         Map<String, Object> root = new LinkedHashMap<>();
-        var dummy = new MCH_ThrowableInfo(info.location, info.filePath); //Contains default values
+        var dummy = new MCH_ThrowableInfo(info.location, info.filePath); // Contains default values
 
         // DisplayName
         if (!Objects.equals(info.displayName, dummy.displayName) || !info.displayNameLang.isEmpty()) {
@@ -702,10 +701,10 @@ public class YamlEmitter implements IEmitter {
         if (!Objects.equals(info.particleName, dummy.particleName)) root.put("Particle", info.particleName);
 
         // Smoke
-        if (info.disableSmoke != dummy.disableSmoke || info.smokeSize != dummy.smokeSize
-                || info.smokeNum != dummy.smokeNum || info.smokeColor != null
-                || info.smokeVelocityHorizontal != dummy.smokeVelocityHorizontal
-                || info.smokeVelocityVertical != dummy.smokeVelocityVertical) {
+        if (info.disableSmoke != dummy.disableSmoke || info.smokeSize != dummy.smokeSize ||
+                info.smokeNum != dummy.smokeNum || info.smokeColor != null ||
+                info.smokeVelocityHorizontal != dummy.smokeVelocityHorizontal ||
+                info.smokeVelocityVertical != dummy.smokeVelocityVertical) {
             Map<String, Object> smokeMap = new LinkedHashMap<>();
             if (info.disableSmoke != dummy.disableSmoke) smokeMap.put("DisableSmoke", info.disableSmoke);
             if (info.smokeSize != dummy.smokeSize) smokeMap.put("Size", info.smokeSize);
@@ -780,7 +779,6 @@ public class YamlEmitter implements IEmitter {
         return list;
     }
 
-
     public Map.Entry<String, Object> getHudEntry(MCH_HudItem hudItem) {
         if (hudItem instanceof MCH_HudItemColor color) {
             return new AbstractMap.SimpleEntry<>("Color", color.getUpdateColor());
@@ -804,11 +802,9 @@ public class YamlEmitter implements IEmitter {
             Map<String, Object> stringSettings = new LinkedHashMap<>();
             Map<String, Object> textMap = new LinkedHashMap<>();
 
-
             textMap.put("Fmt", string.getFormat());
             textMap.put("Vars",
-                    inline(Arrays.stream(string.getArgs()).map(Enum::name).toArray(String[]::new))
-            );
+                    inline(Arrays.stream(string.getArgs()).map(Enum::name).toArray(String[]::new)));
 
             stringSettings.put("Text", textMap);
 
@@ -838,8 +834,7 @@ public class YamlEmitter implements IEmitter {
             List<List<String>> positions = new ArrayList<>();
             for (int i = 0; i < posArray.length; i += 2) {
                 positions.add(
-                        inline(posArray[i], posArray[i + 1])
-                );
+                        inline(posArray[i], posArray[i + 1]));
             }
 
             lineSettings.put("Position", positions);
@@ -854,8 +849,7 @@ public class YamlEmitter implements IEmitter {
             List<List<String>> positions = new ArrayList<>();
             for (int i = 0; i < posArray.length; i += 2) {
                 positions.add(
-                        inline(posArray[i], posArray[i + 1])
-                );
+                        inline(posArray[i], posArray[i + 1]));
             }
 
             lineSettings.put("Position", positions);
@@ -881,9 +875,8 @@ public class YamlEmitter implements IEmitter {
         if (hudItem instanceof MCH_HudItemGraduation grad) {
             Map<String, Object> gradSettings = new LinkedHashMap<>();
 
-            HUDParser.GraduationType typeEnum = grad.getType() >= 0
-                    ? HUDParser.GraduationType.values()[grad.getType()]
-                    : null;
+            HUDParser.GraduationType typeEnum = grad.getType() >= 0 ?
+                    HUDParser.GraduationType.values()[grad.getType()] : null;
             if (typeEnum != null) {
                 gradSettings.put("Type", typeEnum.name());
             }
@@ -897,7 +890,6 @@ public class YamlEmitter implements IEmitter {
 
         return null;
     }
-
 
     @Override
     public String emitItem(MCH_ItemInfo info) {
@@ -914,7 +906,6 @@ public class YamlEmitter implements IEmitter {
     }
 
     private Map<String, Object> baseAircraft(MCH_AircraftInfo info, MCH_AircraftInfo dummyInfo) {
-
         Map<String, Object> root = new LinkedHashMap<>();
 
         if (info.displayNameLang != null && !info.displayNameLang.isEmpty()) {
@@ -1037,7 +1028,7 @@ public class YamlEmitter implements IEmitter {
         if (info.pivotTurnThrottle != dummyInfo.pivotTurnThrottle)
             phys.put("PivotTurnThrottle", info.pivotTurnThrottle);
 
-// Mobility
+        // Mobility
         Map<String, Object> mobility = new LinkedHashMap<>();
         if (info.mobilityYaw != dummyInfo.mobilityYaw) mobility.put("Yaw", info.mobilityYaw);
         if (info.mobilityPitch != dummyInfo.mobilityPitch) mobility.put("Pitch", info.mobilityPitch);
@@ -1076,7 +1067,6 @@ public class YamlEmitter implements IEmitter {
 
         if (!phys.isEmpty()) root.put("PhysicalProperties", phys);
 
-
         // Render
         Map<String, Object> render = new LinkedHashMap<>();
 
@@ -1106,7 +1096,8 @@ public class YamlEmitter implements IEmitter {
             for (MCH_AircraftInfo.ParticleSplash ps : info.particleSplashs) {
                 Map<String, Object> pm = new LinkedHashMap<>();
 
-                MCH_AircraftInfo.ParticleSplash dummyPs = dummyInfo.particleSplashs.size() > splash.size() ? dummyInfo.particleSplashs.get(splash.size()) : null;
+                MCH_AircraftInfo.ParticleSplash dummyPs = dummyInfo.particleSplashs.size() > splash.size() ?
+                        dummyInfo.particleSplashs.get(splash.size()) : null;
 
                 if (dummyPs == null || !ps.pos.equals(dummyPs.pos)) pm.put("Position", vec(ps.pos));
                 if (dummyPs == null || ps.num != dummyPs.num) pm.put("Count", ps.num);
@@ -1141,7 +1132,7 @@ public class YamlEmitter implements IEmitter {
 
         if (!armor.isEmpty()) root.put("Armor", armor);
 
-// Weapons list
+        // Weapons list
         List<Map<String, Object>> weapons = new ArrayList<>();
 
         for (MCH_AircraftInfo.WeaponSet set : info.weaponSetList) {
@@ -1152,10 +1143,14 @@ public class YamlEmitter implements IEmitter {
                 m.put("Type", set.type);
                 m.put("Position", vecMinusYOffset(w.pos));
 
-                if (w.yaw != 0 || dummyInfo.weaponSetList.contains(set) && w.yaw != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons.get(set.weapons.indexOf(w)).yaw)
+                if (w.yaw != 0 || dummyInfo.weaponSetList.contains(set) &&
+                        w.yaw != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons
+                                .get(set.weapons.indexOf(w)).yaw)
                     m.put("Yaw", w.yaw);
 
-                if (w.pitch != 0 || dummyInfo.weaponSetList.contains(set) && w.pitch != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons.get(set.weapons.indexOf(w)).pitch)
+                if (w.pitch != 0 || dummyInfo.weaponSetList.contains(set) &&
+                        w.pitch != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons
+                                .get(set.weapons.indexOf(w)).pitch)
                     m.put("Pitch", w.pitch);
 
                 if (w.seatID > 0) m.put("SeatID", w.seatID + 1);
@@ -1172,7 +1167,6 @@ public class YamlEmitter implements IEmitter {
         }
 
         if (!weapons.isEmpty()) root.put("Weapons", weapons);
-
 
         // Seats
         if (!info.seatList.isEmpty()) {
@@ -1204,7 +1198,7 @@ public class YamlEmitter implements IEmitter {
                 int smallerListSize;
                 int hudSize = info.hudList.size();
                 int seatSize = info.getNumSeat();
-                //Content creators cannot adhere to their own fucking rules sometimes
+                // Content creators cannot adhere to their own fucking rules sometimes
                 if (hudSize > seatSize || hudSize == seatSize) {
                     smallerListSize = seatSize;
                 } else smallerListSize = hudSize;
@@ -1220,14 +1214,14 @@ public class YamlEmitter implements IEmitter {
             if (!info.exclusionSeatList.isEmpty())
                 appendExlusionEntries(seats, info, false);
 
-
             root.put("Seats", seats);
         }
 
         // Racks
         if (info.getNumSeat() < info.getNumSeatAndRack()) {
             List<Map<String, Object>> racks = new ArrayList<>();
-            List<MCH_SeatRackInfo> rackInfos = info.seatList.stream().filter(instanceOf(MCH_SeatRackInfo.class)).map(MCH_SeatRackInfo.class::cast).collect(Collectors.toList());
+            List<MCH_SeatRackInfo> rackInfos = info.seatList.stream().filter(instanceOf(MCH_SeatRackInfo.class))
+                    .map(MCH_SeatRackInfo.class::cast).collect(Collectors.toList());
             for (MCH_SeatRackInfo r : rackInfos) {
                 Map<String, Object> rm = new LinkedHashMap<>();
                 rm.put("Position", vec(r.pos));
@@ -1345,7 +1339,6 @@ public class YamlEmitter implements IEmitter {
 
         if (!feats.isEmpty()) root.put("AircraftFeatures", feats);
 
-
         return root;
     }
 
@@ -1357,7 +1350,8 @@ public class YamlEmitter implements IEmitter {
         return m;
     }
 
-    private void appendExlusionEntries(List<Map<String, Object>> targetList, MCH_AircraftInfo info, boolean isRackList) {
+    private void appendExlusionEntries(List<Map<String, Object>> targetList, MCH_AircraftInfo info,
+                                       boolean isRackList) {
         if (info.exclusionSeatList.isEmpty()) return;
 
         final int seatCount = info.getNumSeat();
@@ -1630,17 +1624,20 @@ public class YamlEmitter implements IEmitter {
     }
 
     private static final class ExAgg {
+
         final Set<Integer> seats = new LinkedHashSet<>(); // 0-based
         final Set<Integer> racks = new LinkedHashSet<>(); // 0-based
     }
 
     private static final class InlineSeq<E> extends ArrayList<E> {
+
         InlineSeq(int cap) {
             super(cap);
         }
     }
 
     private static final class InlineAwareRepresenter extends Representer {
+
         public InlineAwareRepresenter(DumperOptions options) {
             super(options);
         }

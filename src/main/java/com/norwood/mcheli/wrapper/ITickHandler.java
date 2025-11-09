@@ -1,4 +1,3 @@
 package com.norwood.mcheli.wrapper;
 
-public interface ITickHandler {
-}
+public interface ITickHandler {}

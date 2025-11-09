@@ -5,6 +5,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class MCH_EntityATMissile extends MCH_EntityBaseBullet {
+
     public int guidanceType = 0;
 
     public MCH_EntityATMissile(World par1World) {
@@ -12,15 +13,16 @@ public class MCH_EntityATMissile extends MCH_EntityBaseBullet {
     }
 
     public MCH_EntityATMissile(
-            World par1World, double posX, double posY, double posZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration
-    ) {
+                               World par1World, double posX, double posY, double posZ, double targetX, double targetY,
+                               double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (this.getInfo() != null && !this.getInfo().disableSmoke && this.ticksExisted >= this.getInfo().trajectoryParticleStartTick) {
+        if (this.getInfo() != null && !this.getInfo().disableSmoke &&
+                this.ticksExisted >= this.getInfo().trajectoryParticleStartTick) {
             this.spawnParticle(this.getInfo().trajectoryParticleName, 3, 5.0F * this.getInfo().smokeSize * 0.5F);
         }
 
@@ -56,13 +58,16 @@ public class MCH_EntityATMissile extends MCH_EntityBaseBullet {
             this.onImpact(mop, 1.0F);
         } else {
             int rigidityTime = this.getInfo().rigidityTime;
-            float af = this.getCountOnUpdate() < rigidityTime + this.getInfo().trajectoryParticleStartTick ? 0.5F : 1.0F;
+            float af = this.getCountOnUpdate() < rigidityTime + this.getInfo().trajectoryParticleStartTick ? 0.5F :
+                    1.0F;
             if (this.getCountOnUpdate() > rigidityTime) {
                 if (this.guidanceType == 1) {
                     if (this.getCountOnUpdate() <= rigidityTime + 20) {
-                        this.guidanceToTarget(this.targetEntity.posX, this.shootingEntity.posY + 150.0, this.targetEntity.posZ, af);
+                        this.guidanceToTarget(this.targetEntity.posX, this.shootingEntity.posY + 150.0,
+                                this.targetEntity.posZ, af);
                     } else if (this.getCountOnUpdate() <= rigidityTime + 30) {
-                        this.guidanceToTarget(this.targetEntity.posX, this.shootingEntity.posY, this.targetEntity.posZ, af);
+                        this.guidanceToTarget(this.targetEntity.posX, this.shootingEntity.posY, this.targetEntity.posZ,
+                                af);
                     } else {
                         if (this.getCountOnUpdate() == rigidityTime + 35) {
                             this.setPower((int) (this.getPower() * 1.2F));
@@ -71,7 +76,8 @@ public class MCH_EntityATMissile extends MCH_EntityBaseBullet {
                             }
                         }
 
-                        this.guidanceToTarget(this.targetEntity.posX, this.targetEntity.posY, this.targetEntity.posZ, af);
+                        this.guidanceToTarget(this.targetEntity.posX, this.targetEntity.posY, this.targetEntity.posZ,
+                                af);
                     }
                 } else {
                     d = MathHelper.sqrt(d);

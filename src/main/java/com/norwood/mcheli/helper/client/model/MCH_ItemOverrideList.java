@@ -1,6 +1,9 @@
 package com.norwood.mcheli.helper.client.model;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Collections;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemOverride;
 import net.minecraft.client.renderer.block.model.ItemOverrideList;
@@ -8,12 +11,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.Collections;
+import com.google.common.collect.ImmutableList;
 
 public class MCH_ItemOverrideList extends ItemOverrideList {
+
     private final IBakedModel bakedModel;
 
     public MCH_ItemOverrideList(IBakedModel bakedModel) {
@@ -23,11 +27,13 @@ public class MCH_ItemOverrideList extends ItemOverrideList {
 
     @Nullable
     @Deprecated
-    public ResourceLocation applyOverride(@NotNull ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn) {
+    public ResourceLocation applyOverride(@NotNull ItemStack stack, @Nullable World worldIn,
+                                          @Nullable EntityLivingBase entityIn) {
         return this.bakedModel.getOverrides().applyOverride(stack, worldIn, entityIn);
     }
 
-    public @NotNull IBakedModel handleItemState(@NotNull IBakedModel originalModel, @NotNull ItemStack stack, @Nullable World world, @Nullable EntityLivingBase entity) {
+    public @NotNull IBakedModel handleItemState(@NotNull IBakedModel originalModel, @NotNull ItemStack stack,
+                                                @Nullable World world, @Nullable EntityLivingBase entity) {
         PooledModelParameters.setItemAndUser(stack, entity);
         return this.bakedModel.getOverrides().handleItemState(originalModel, stack, world, entity);
     }

@@ -6,6 +6,7 @@ import com.norwood.mcheli.eval.util.CharUtil;
 import com.norwood.mcheli.eval.util.NumberUtil;
 
 public class StringExpression extends WordExpression {
+
     public StringExpression(String str) {
         super(str);
         this.setOperator("\"");

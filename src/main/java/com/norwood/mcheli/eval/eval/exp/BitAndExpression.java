@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class BitAndExpression extends Col2Expression {
+
     public BitAndExpression() {
         this.setOperator("&");
     }

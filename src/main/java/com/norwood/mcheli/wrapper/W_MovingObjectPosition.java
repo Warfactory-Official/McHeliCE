@@ -7,6 +7,7 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 
 public class W_MovingObjectPosition {
+
     public static boolean isHitTypeEntity(RayTraceResult m) {
         return m != null && m.typeOfHit == Type.ENTITY;
     }

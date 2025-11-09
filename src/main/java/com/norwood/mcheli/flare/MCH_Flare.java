@@ -1,10 +1,7 @@
 package com.norwood.mcheli.flare;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_McClient;
+import java.util.Random;
+
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -12,9 +9,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.util.Random;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.W_McClient;
 
 public class MCH_Flare {
+
     private static MCH_Flare.FlareParam[] FLARE_DATA = null;
     public final World worldObj;
     public final MCH_EntityAircraft aircraft;
@@ -53,7 +55,8 @@ public class MCH_Flare {
 
     public boolean isUsing() {
         int type = this.getFlareType();
-        return this.tick != 0 && type < FLARE_DATA.length && this.tick > FLARE_DATA[type].tickWait - FLARE_DATA[type].tickEnable;
+        return this.tick != 0 && type < FLARE_DATA.length &&
+                this.tick > FLARE_DATA[type].tickWait - FLARE_DATA[type].tickEnable;
     }
 
     public int getFlareType() {
@@ -72,8 +75,8 @@ public class MCH_Flare {
 
             for (int i = 0; i < num; i++) {
                 MCH_ParticleParam prm = new MCH_ParticleParam(
-                        this.worldObj, "smoke", this.aircraft.prevPosX + x * i, this.aircraft.prevPosY + y * i, this.aircraft.prevPosZ + z * i
-                );
+                        this.worldObj, "smoke", this.aircraft.prevPosX + x * i, this.aircraft.prevPosY + y * i,
+                        this.aircraft.prevPosZ + z * i);
                 prm.size = size + this.rand.nextFloat();
                 MCH_ParticlesUtil.spawnParticle(prm);
             }
@@ -112,9 +115,11 @@ public class MCH_Flare {
                 this.tick--;
             }
 
-            if (!this.worldObj.isRemote && this.tick > 0 && this.tick % FLARE_DATA[type].interval == 0 && this.numFlare < FLARE_DATA[type].numFlareMax) {
+            if (!this.worldObj.isRemote && this.tick > 0 && this.tick % FLARE_DATA[type].interval == 0 &&
+                    this.numFlare < FLARE_DATA[type].numFlareMax) {
                 Vec3d v = this.aircraft.getAcInfo().flare.pos;
-                v = this.aircraft.getTransformedPosition(v.x, v.y, v.z, this.aircraft.prevPosX, this.aircraft.prevPosY, this.aircraft.prevPosZ);
+                v = this.aircraft.getTransformedPosition(v.x, v.y, v.z, this.aircraft.prevPosX, this.aircraft.prevPosY,
+                        this.aircraft.prevPosZ);
                 this.spawnFlare(v);
             }
 
@@ -138,8 +143,7 @@ public class MCH_Flare {
                         SoundEvents.BLOCK_FIRE_EXTINGUISH,
                         SoundCategory.BLOCKS,
                         0.5F,
-                        2.6F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.8F
-                );
+                        2.6F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.8F);
 
         for (int i = 0; i < num; i++) {
             x = v.x - this.aircraft.motionX * 2.0;
@@ -196,7 +200,8 @@ public class MCH_Flare {
                 fuseCount = 10;
             }
 
-            MCH_EntityFlare e = new MCH_EntityFlare(this.worldObj, x, y, z, tx * 0.5, ty * 0.5, tz * 0.5, 6.0F, fuseCount);
+            MCH_EntityFlare e = new MCH_EntityFlare(this.worldObj, x, y, z, tx * 0.5, ty * 0.5, tz * 0.5, 6.0F,
+                    fuseCount);
             e.rotationPitch = this.rand.nextFloat() * 360.0F;
             e.rotationYaw = this.rand.nextFloat() * 360.0F;
             e.prevRotationPitch = this.rand.nextFloat() * 360.0F;
@@ -211,6 +216,7 @@ public class MCH_Flare {
     }
 
     static class FlareParam {
+
         public final int num;
         public final int interval;
         public final int tickWait;

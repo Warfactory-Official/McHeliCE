@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.util;
 
 public class NumberUtil {
+
     public static long parseLong(String str) {
         if (str == null) {
             return 0L;
@@ -32,7 +33,6 @@ public class NumberUtil {
         return parseLongDec(str, 0, len);
     }
 
-
     public static long parseLongBin(String str) {
         return str == null ? 0L : parseLongBin(str, 0, str.length());
     }
@@ -54,7 +54,6 @@ public class NumberUtil {
         return result;
     }
 
-
     public static long parseLongOct(String str) {
         return str == null ? 0L : parseLongOct(str, 0, str.length());
     }
@@ -75,7 +74,6 @@ public class NumberUtil {
 
         return result;
     }
-
 
     public static long parseLongDec(String str) {
         return str == null ? 0L : parseLongDec(str, 0, str.length());
@@ -130,5 +128,4 @@ public class NumberUtil {
 
         return result;
     }
-
 }

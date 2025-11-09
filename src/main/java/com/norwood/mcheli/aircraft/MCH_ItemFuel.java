@@ -1,6 +1,7 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.wrapper.W_Item;
+import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemCoal;
 import net.minecraft.item.ItemStack;
@@ -8,11 +9,13 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import com.norwood.mcheli.wrapper.W_Item;
 
 public class MCH_ItemFuel extends W_Item {
+
     public MCH_ItemFuel(int itemID) {
         super(itemID);
         this.setMaxDamage(600);
@@ -21,7 +24,8 @@ public class MCH_ItemFuel extends W_Item {
         this.setFull3D();
     }
 
-    public @NotNull ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @NotNull EnumHand handIn) {
+    public @NotNull ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player,
+                                                             @NotNull EnumHand handIn) {
         ItemStack stack = player.getHeldItem(handIn);
         if (!world.isRemote && stack.isItemDamaged() && !player.capabilities.isCreativeMode) {
             this.refuel(stack, player, 1);

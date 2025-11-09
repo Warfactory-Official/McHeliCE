@@ -1,13 +1,15 @@
 package com.norwood.mcheli.hud;
 
+import java.util.ArrayList;
+
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_Vector2;
-import lombok.Getter;
 
-import java.util.ArrayList;
+import lombok.Getter;
 
 @Getter
 public class MCH_HudItemRadar extends MCH_HudItem {
+
     private final String rot;
     private final String left;
     private final String top;
@@ -15,7 +17,8 @@ public class MCH_HudItemRadar extends MCH_HudItem {
     private final String height;
     private final boolean isEntityRadar;
 
-    public MCH_HudItemRadar(int fileLine, boolean isEntityRadar, String rot, String left, String top, String width, String height) {
+    public MCH_HudItemRadar(int fileLine, boolean isEntityRadar, String rot, String left, String top, String width,
+                            String height) {
         super(fileLine);
         this.isEntityRadar = isEntityRadar;
         this.rot = toFormula(rot);
@@ -29,10 +32,12 @@ public class MCH_HudItemRadar extends MCH_HudItem {
     public void execute() {
         if (this.isEntityRadar) {
             if (EntityList != null && !EntityList.isEmpty()) {
-                this.drawEntityList(EntityList, (float) calc(this.rot), centerX + calc(this.left), centerY + calc(this.top), calc(this.width), calc(this.height));
+                this.drawEntityList(EntityList, (float) calc(this.rot), centerX + calc(this.left),
+                        centerY + calc(this.top), calc(this.width), calc(this.height));
             }
         } else if (EnemyList != null && !EnemyList.isEmpty()) {
-            this.drawEntityList(EnemyList, (float) calc(this.rot), centerX + calc(this.left), centerY + calc(this.top), calc(this.width), calc(this.height));
+            this.drawEntityList(EnemyList, (float) calc(this.rot), centerX + calc(this.left), centerY + calc(this.top),
+                    calc(this.width), calc(this.height));
         }
     }
 

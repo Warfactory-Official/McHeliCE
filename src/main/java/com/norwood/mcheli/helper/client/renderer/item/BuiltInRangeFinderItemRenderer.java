@@ -1,8 +1,6 @@
 package com.norwood.mcheli.helper.client.renderer.item;
 
-import com.norwood.mcheli.MCH_ModelManager;
-import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
-import com.norwood.mcheli.wrapper.W_McClient;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,17 +8,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
+
+import com.norwood.mcheli.MCH_ModelManager;
+import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
+import com.norwood.mcheli.wrapper.W_McClient;
 
 @SideOnly(Side.CLIENT)
 public class BuiltInRangeFinderItemRenderer implements IItemModelRenderer {
+
     @Override
     public boolean shouldRenderer(ItemStack itemStack, TransformType transformType) {
-        return IItemModelRenderer.isFirstPerson(transformType) || IItemModelRenderer.isThirdPerson(transformType) || transformType == TransformType.GROUND;
+        return IItemModelRenderer.isFirstPerson(transformType) || IItemModelRenderer.isThirdPerson(transformType) ||
+                transformType == TransformType.GROUND;
     }
 
     @Override
-    public void renderItem(ItemStack itemStack, EntityLivingBase entity, TransformType transformType, float partialTicks) {
+    public void renderItem(ItemStack itemStack, EntityLivingBase entity, TransformType transformType,
+                           float partialTicks) {
         GlStateManager.pushMatrix();
         W_McClient.MOD_bindTexture("textures/rangefinder.png");
         boolean flag = true;

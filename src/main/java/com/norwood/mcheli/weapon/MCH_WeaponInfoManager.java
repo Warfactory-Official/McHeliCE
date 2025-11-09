@@ -1,22 +1,22 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.helper.info.ContentRegistries;
-import com.norwood.mcheli.wrapper.W_Item;
+import javax.annotation.Nullable;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.helper.info.ContentRegistries;
 
 public class MCH_WeaponInfoManager {
-    private MCH_WeaponInfoManager() {
-    }
+
+    private MCH_WeaponInfoManager() {}
 
     public static void setRoundItems() {
         for (MCH_WeaponInfo mchWeaponInfo : ContentRegistries.weapon().values()) {
             for (MCH_WeaponInfo.RoundItem roundItem : mchWeaponInfo.roundItems) {
                 Item item = ForgeRegistries.ITEMS.getValue(roundItem.itemName);
-                if(item==null) continue;
+                if (item == null) continue;
                 roundItem.itemStack = new ItemStack(item, 1, roundItem.damage);
             }
         }

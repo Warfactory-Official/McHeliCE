@@ -1,5 +1,13 @@
 package com.norwood.mcheli;
 
+import java.io.File;
+import java.util.List;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_SoundUpdater;
@@ -17,55 +25,37 @@ import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-
-import java.io.File;
-import java.util.List;
 
 public class MCH_CommonProxy {
+
     public MCH_Config config = null;
     public String lastConfigFileName;
 
-    public void postInit(FMLPostInitializationEvent postEvent) {
-
-    }
+    public void postInit(FMLPostInitializationEvent postEvent) {}
 
     public String getDataDir() {
         return MCH_Utils.getServer().getFolderName();
     }
 
-    public void registerRenderer() {
-    }
+    public void registerRenderer() {}
 
-    public void registerBlockRenderer() {
-    }
+    public void registerBlockRenderer() {}
 
-    public void registerModels() {
-    }
+    public void registerModels() {}
 
-    public void registerModelsHeli(MCH_HeliInfo info, boolean reload) {
-    }
+    public void registerModelsHeli(MCH_HeliInfo info, boolean reload) {}
 
-    public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {
-    }
+    public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {}
 
-    public void registerModelsShip(MCH_ShipInfo info, boolean reload) {
-    }
+    public void registerModelsShip(MCH_ShipInfo info, boolean reload) {}
 
-    public void registerModelsVehicle(MCH_VehicleInfo info, boolean reload) {
-    }
+    public void registerModelsVehicle(MCH_VehicleInfo info, boolean reload) {}
 
-    public void registerModelsTank(MCH_TankInfo info, boolean reload) {
-    }
+    public void registerModelsTank(MCH_TankInfo info, boolean reload) {}
 
-    public void registerClientTick() {
-    }
+    public void registerClientTick() {}
 
-    public void registerServerTick() {
-    }
+    public void registerServerTick() {}
 
     public boolean isRemote() {
         return false;
@@ -147,18 +137,15 @@ public class MCH_CommonProxy {
         this.config.write();
     }
 
-    public void reloadHUD() {
-    }
+    public void reloadHUD() {}
 
     public Entity getClientPlayer() {
         return null;
     }
 
-    public void setCreativeDigDelay(int n) {
-    }
+    public void setCreativeDigDelay(int n) {}
 
-    public void init() {
-    }
+    public void init() {}
 
     public boolean isFirstPerson() {
         return false;
@@ -168,48 +155,39 @@ public class MCH_CommonProxy {
         return MCH_Utils.getServer().isSinglePlayer();
     }
 
-    public void readClientModList() {
-    }
+    public void readClientModList() {}
 
-    public void printChatMessage(ITextComponent chat, int showTime, int pos) {
-    }
+    public void printChatMessage(ITextComponent chat, int showTime, int pos) {}
 
-    public void hitBullet() {
-    }
+    public void hitBullet() {}
 
-    public void clientLocked() {
-    }
+    public void clientLocked() {}
 
-    public void setRenderEntityDistanceWeight(double renderDistWeight) {
-    }
+    public void setRenderEntityDistanceWeight(double renderDistWeight) {}
 
     public List<AddonPack> loadAddonPacks(File addonDir) {
         return AddonManager.loadAddons(addonDir);
     }
 
-    public void onLoadStartAddons(int addonSize) {
-    }
+    public void onLoadStartAddons(int addonSize) {}
 
     public void onLoadStepAddon(String addonDomain) {
         MCH_Utils.logger().debug("addon({}) loading start.", addonDomain);
     }
 
-    public void onLoadFinishAddons() {
-    }
+    public void onLoadFinishAddons() {}
 
     public void onLoadStartContents(String typeName, int fileSize) {
         MCH_Utils.logger().debug("content type({}) loading start. steps:{}", typeName, fileSize);
     }
 
-    public void onLoadFinishContents(String typeName) {
-    }
+    public void onLoadFinishContents(String typeName) {}
 
     public void onParseStartFile(AddonResourceLocation location) {
         MCH_Utils.logger().debug("content file({}) loading start.", location);
     }
 
-    public void onParseFinishFile(AddonResourceLocation location) {
-    }
+    public void onParseFinishFile(AddonResourceLocation location) {}
 
     public boolean canLoadContentDirName(String dir) {
         return ContentType.validateDirName(dir);
@@ -220,12 +198,9 @@ public class MCH_CommonProxy {
     }
 
     @Deprecated
-    public void updateSoundsJson() {
-    }
+    public void updateSoundsJson() {}
 
-    public void registerParticleTextures(TextureStitchEvent.Pre event) {
-    }
+    public void registerParticleTextures(TextureStitchEvent.Pre event) {}
 
-    public void registerShaders(TextureStitchEvent.Post event) {
-    }
+    public void registerShaders(TextureStitchEvent.Post event) {}
 }

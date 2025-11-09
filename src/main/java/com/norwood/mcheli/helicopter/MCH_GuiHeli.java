@@ -1,20 +1,23 @@
 package com.norwood.mcheli.helicopter;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_KeyName;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.weapon.MCH_EntityTvMissile;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11; import net.minecraft.client.renderer.GlStateManager;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiHeli extends MCH_AircraftCommonGui {
+
     public MCH_GuiHeli(Minecraft minecraft) {
         super(minecraft);
     }
@@ -75,18 +78,21 @@ public class MCH_GuiHeli extends MCH_AircraftCommonGui {
                 this.drawKeyBind(heli, info, player, seatID, RX, LX, colorActive, colorInactive);
                 if (seatID == 0 && info.isEnableGunnerMode && !Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
                     int c = heli.isHoveringMode() ? colorInactive : colorActive;
-                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Gunner") + " : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
+                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Gunner") + " : " +
+                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
                     this.drawString(msg, RX, this.centerY - 70, c);
                 }
 
                 if (seatID > 0 && heli.canSwitchGunnerModeOtherSeat(player)) {
-                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
+                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " +
+                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
                     this.drawString(msg, RX, this.centerY - 40, colorActive);
                 }
 
                 if (seatID == 0 && !Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
                     int c = heli.getIsGunnerMode(player) ? colorInactive : colorActive;
-                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Hovering") + " : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchHovering.prmInt);
+                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Hovering") + " : " +
+                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchHovering.prmInt);
                     this.drawString(msg, RX, this.centerY - 60, c);
                 }
 
@@ -94,12 +100,12 @@ public class MCH_GuiHeli extends MCH_AircraftCommonGui {
                     if (heli.getTowChainEntity() != null && !heli.getTowChainEntity().isDead) {
                         String msg = "Drop  : " + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
                         this.drawString(msg, RX, this.centerY - 30, colorActive);
-                    } else if (info.isEnableFoldBlade
-                            && MCH_Lib.getBlockIdY(heli.world, heli.posX, heli.posY, heli.posZ, 1, -2, true) > 0
-                            && heli.getCurrentThrottle() <= 0.01) {
-                        String msg = "FoldBlade  : " + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
-                        this.drawString(msg, RX, this.centerY - 30, colorActive);
-                    }
+                    } else if (info.isEnableFoldBlade &&
+                            MCH_Lib.getBlockIdY(heli.world, heli.posX, heli.posY, heli.posZ, 1, -2, true) > 0 &&
+                            heli.getCurrentThrottle() <= 0.01) {
+                                String msg = "FoldBlade  : " + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
+                                this.drawString(msg, RX, this.centerY - 30, colorActive);
+                            }
                 }
 
                 if ((heli.getIsGunnerMode(player) || heli.isUAV()) && info.cameraZoom > 1) {

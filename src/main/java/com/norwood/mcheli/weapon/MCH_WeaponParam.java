@@ -3,6 +3,7 @@ package com.norwood.mcheli.weapon;
 import net.minecraft.entity.Entity;
 
 public class MCH_WeaponParam {
+
     public Entity entity = null;
     public Entity user = null;
     public double posX = 0.0;

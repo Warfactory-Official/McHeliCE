@@ -1,6 +1,7 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.wrapper.W_ItemArmor;
+import javax.annotation.Nullable;
+
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -8,11 +9,13 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
+import com.norwood.mcheli.wrapper.W_ItemArmor;
 
 public class MCH_ItemArmor extends W_ItemArmor {
+
     public static final String HELMET_TEXTURE = "mcheli:textures/helicopters/ah-64.png";
     public static final String CHESTPLATE_TEXTURE = "mcheli:textures/armor/plate.png";
     public static final String LEGGINGS_TEXTURE = "mcheli:textures/armor/leg.png";
@@ -23,7 +26,8 @@ public class MCH_ItemArmor extends W_ItemArmor {
         super(par1, par3, par4);
     }
 
-    public String getArmorTexture(@NotNull ItemStack stack, @NotNull Entity entity, @NotNull EntityEquipmentSlot slot, @NotNull String type) {
+    public String getArmorTexture(@NotNull ItemStack stack, @NotNull Entity entity, @NotNull EntityEquipmentSlot slot,
+                                  @NotNull String type) {
         if (slot == EntityEquipmentSlot.HEAD) {
             return "mcheli:textures/helicopters/ah-64.png";
         } else if (slot == EntityEquipmentSlot.CHEST) {
@@ -37,7 +41,8 @@ public class MCH_ItemArmor extends W_ItemArmor {
 
     @Nullable
     @SideOnly(Side.CLIENT)
-    public ModelBiped getArmorModel(@NotNull EntityLivingBase entityLiving, @NotNull ItemStack itemStack, @NotNull EntityEquipmentSlot armorSlot, @NotNull ModelBiped _default) {
+    public ModelBiped getArmorModel(@NotNull EntityLivingBase entityLiving, @NotNull ItemStack itemStack,
+                                    @NotNull EntityEquipmentSlot armorSlot, @NotNull ModelBiped _default) {
         if (model == null) {
             model = new MCH_TEST_ModelBiped();
         }

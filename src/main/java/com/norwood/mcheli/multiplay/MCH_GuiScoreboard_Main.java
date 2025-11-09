@@ -1,17 +1,20 @@
 package com.norwood.mcheli.multiplay;
 
-import com.norwood.mcheli.MCH_ServerSettings;
-import com.norwood.mcheli.networking.packet.PacketHandleCommand;
-import com.norwood.mcheli.wrapper.W_GuiButton;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.entity.player.EntityPlayer;
-import org.jetbrains.annotations.NotNull;
+import static com.norwood.mcheli.networking.packet.PacketHandleCommand.*;
 
 import java.util.List;
 
-import static com.norwood.mcheli.networking.packet.PacketHandleCommand.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.EntityPlayer;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.norwood.mcheli.MCH_ServerSettings;
+import com.norwood.mcheli.networking.packet.PacketHandleCommand;
+import com.norwood.mcheli.wrapper.W_GuiButton;
 
 public class MCH_GuiScoreboard_Main extends MCH_GuiScoreboard_Base {
+
     private W_GuiButton buttonSwitchPVP;
 
     public MCH_GuiScoreboard_Main(MCH_IGuiScoreboard switcher, EntityPlayer player) {

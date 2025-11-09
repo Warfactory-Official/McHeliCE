@@ -1,6 +1,7 @@
 package com.norwood.mcheli.eval.eval.exp;
 
 public class NotEqualExpression extends Col2Expression {
+
     public NotEqualExpression() {
         this.setOperator("!=");
     }

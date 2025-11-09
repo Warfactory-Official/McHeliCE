@@ -1,7 +1,7 @@
 package com.norwood.mcheli.particles;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.wrapper.W_McClient;
+import java.util.List;
+
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.GlStateManager.DestFactor;
@@ -14,12 +14,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
-import java.util.List;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.wrapper.W_McClient;
 
 public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
+
     private static final VertexFormat VERTEX_FORMAT = new VertexFormat()
             .addElement(DefaultVertexFormats.POSITION_3F)
             .addElement(DefaultVertexFormats.TEX_2F)
@@ -96,7 +99,8 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
 
     public void effectWind() {
         if (this.isEffectedWind) {
-            List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(MCH_EntityAircraft.class, this.getCollisionBoundingBox().grow(15.0, 15.0, 15.0));
+            List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(MCH_EntityAircraft.class,
+                    this.getCollisionBoundingBox().grow(15.0, 15.0, 15.0));
 
             for (MCH_EntityAircraft ac : list) {
                 if (ac.getThrottle() > 0.1F) {
@@ -127,15 +131,14 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
 
     @Override
     public void renderParticle(
-            @NotNull BufferBuilder buffer,
-            @NotNull Entity entity,
-            float partialTicks,
-            float rotationX,
-            float rotationZ,
-            float rotationYZ,
-            float rotationXY,
-            float rotationXZ) {
-
+                               @NotNull BufferBuilder buffer,
+                               @NotNull Entity entity,
+                               float partialTicks,
+                               float rotationX,
+                               float rotationZ,
+                               float rotationYZ,
+                               float rotationXY,
+                               float rotationXZ) {
         W_McClient.MOD_bindTexture("textures/particles/smoke.png");
         GlStateManager.enableBlend();
 
@@ -166,8 +169,8 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
         buffer.begin(GL11.GL_QUADS, VERTEX_FORMAT);
 
         buffer.pos(renderX - rotationX * scale - rotationXY * scale,
-                        renderY - rotationZ * scale,
-                        renderZ - rotationYZ * scale - rotationXZ * scale)
+                renderY - rotationZ * scale,
+                renderZ - rotationYZ * scale - rotationXZ * scale)
                 .tex(texUEnd, texVEnd)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
                 .lightmap(lightU, lightV)
@@ -175,8 +178,8 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
                 .endVertex();
 
         buffer.pos(renderX - rotationX * scale + rotationXY * scale,
-                        renderY + rotationZ * scale,
-                        renderZ - rotationYZ * scale + rotationXZ * scale)
+                renderY + rotationZ * scale,
+                renderZ - rotationYZ * scale + rotationXZ * scale)
                 .tex(texUEnd, texVStart)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
                 .lightmap(lightU, lightV)
@@ -184,8 +187,8 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
                 .endVertex();
 
         buffer.pos(renderX + rotationX * scale + rotationXY * scale,
-                        renderY + rotationZ * scale,
-                        renderZ + rotationYZ * scale + rotationXZ * scale)
+                renderY + rotationZ * scale,
+                renderZ + rotationYZ * scale + rotationXZ * scale)
                 .tex(texUStart, texVStart)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
                 .lightmap(lightU, lightV)
@@ -193,8 +196,8 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
                 .endVertex();
 
         buffer.pos(renderX + rotationX * scale - rotationXY * scale,
-                        renderY - rotationZ * scale,
-                        renderZ + rotationYZ * scale - rotationXZ * scale)
+                renderY - rotationZ * scale,
+                renderZ + rotationYZ * scale - rotationXZ * scale)
                 .tex(texUStart, texVEnd)
                 .color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha)
                 .lightmap(lightU, lightV)
@@ -205,10 +208,9 @@ public class MCH_EntityParticleSmoke extends MCH_EntityParticleBase {
 
         GlStateManager.enableCull();
         GlStateManager.enableLighting();
-        GlStateManager.blendFunc(srcBlend, dstBlend);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableBlend();
     }
-
 
     private float getDistance(MCH_EntityAircraft entity) {
         float f = (float) (this.posX - entity.posX);

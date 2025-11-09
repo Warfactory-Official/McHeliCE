@@ -9,6 +9,7 @@ import com.norwood.mcheli.eval.eval.srch.Search;
 import com.norwood.mcheli.eval.eval.var.Variable;
 
 public abstract class Expression {
+
     public Variable var;
     public Function func;
     public Operator oper;
