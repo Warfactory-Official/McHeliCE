@@ -1,10 +1,10 @@
 package com.norwood.mcheli;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -13,6 +13,8 @@ import com.norwood.mcheli.helper.client.MCH_Models;
 import com.norwood.mcheli.helper.client._IModelCustom;
 import com.norwood.mcheli.wrapper.W_ModelBase;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SideOnly(Side.CLIENT)
 public class MCH_ModelManager extends W_ModelBase {
@@ -38,41 +40,35 @@ public class MCH_ModelManager extends W_ModelBase {
         forceReloadMode = b;
     }
 
-    @Nullable
-    public static _IModelCustom load(String path, String name) {
-        return name != null && !name.isEmpty() ? load(path + "/" + name) : null;
+    public static _IModelCustom load(@NotNull String path, @NotNull String name) {
+        Objects.requireNonNull(path);
+        Objects.requireNonNull(name);
+        if (path.isEmpty() || name.isEmpty()) throw new IllegalArgumentException();
+        return load(path + "/" + name);
     }
 
     @Nullable
     public static _IModelCustom load(String name) {
-        if (name != null && !name.isEmpty()) {
-            _IModelCustom obj = map.get(name);
-            if (obj != null) {
-                if (!forceReloadMode) {
-                    return obj;
-                }
-
-                map.remove(name);
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException();
+        _IModelCustom obj = map.get(name);
+        if (obj != null) {
+            if (!forceReloadMode) {
+                return obj;
             }
 
-            _IModelCustom model;
-
-            try {
-                model = MCH_Models.loadModel(name);
-            } catch (Exception var4) {
-                var4.printStackTrace();
-                model = null;
-            }
-
-            if (model != null) {
-                map.put(name, model);
-                return model;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
+            map.remove(name);
         }
+
+        _IModelCustom model;
+
+        try {
+            model = MCH_Models.loadModel(name);
+        } catch (MCH_Models.ModelLoadException mle) {
+            MCH_Utils.logger().catching(mle);
+            model = null;
+        }
+        if (model != null) map.put(name, model);
+        return model;
     }
 
     public static void render(String path, String name) {

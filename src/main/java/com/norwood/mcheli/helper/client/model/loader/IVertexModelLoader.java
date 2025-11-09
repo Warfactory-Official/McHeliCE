@@ -11,13 +11,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.norwood.mcheli.helper.client._IModelCustom;
 import com.norwood.mcheli.helper.client._ModelFormatException;
+import org.jetbrains.annotations.Contract;
 
 @SideOnly(Side.CLIENT)
 public interface IVertexModelLoader {
 
     String getExtension();
 
-    @Nullable
+    @Contract("_, _ -> new")
     _IModelCustom load(IResourceManager var1, ResourceLocation var2) throws IOException, _ModelFormatException;
 
     default ResourceLocation withExtension(ResourceLocation location) {

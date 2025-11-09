@@ -275,12 +275,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerModelsHeli(MCH_HeliInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
-        info.model = MCH_ModelManager.load("helicopters", info.name);
-        CompletableFuture<Void> done = new CompletableFuture<>();
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            info.model = info.model.toVBO();
-            done.complete(null);
-        });
+        uploadModel(info, "helicopters");
 
         for (MCH_HeliInfo.Rotor rotor : info.rotorList) {
             rotor.model = this.loadPartModel("helicopters", info.name, info.model, rotor.modelName);
@@ -290,15 +285,20 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         MCH_ModelManager.setForceReloadMode(false);
     }
 
-    @Override
-    public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {
-        MCH_ModelManager.setForceReloadMode(reload);
-        info.model = MCH_ModelManager.load("planes", info.name);
+    private static void uploadModel(MCH_AircraftInfo info, String path) {
+        info.model = MCH_ModelManager.load(path, info.name);
+//        if (info.model == null) return;
         CompletableFuture<Void> done = new CompletableFuture<>();
         Minecraft.getMinecraft().addScheduledTask(() -> {
             info.model = info.model.toVBO();
             done.complete(null);
         });
+    }
+
+    @Override
+    public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {
+        MCH_ModelManager.setForceReloadMode(reload);
+        uploadModel(info, "planes");
 
         for (MCH_AircraftInfo.DrawnPart n : info.nozzles) {
             n.model = this.loadPartModel("planes", info.name, info.model, n.modelName);
@@ -328,12 +328,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerModelsShip(MCH_ShipInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
-        info.model = MCH_ModelManager.load("ships", info.name);
-        CompletableFuture<Void> done = new CompletableFuture<>();
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            info.model = info.model.toVBO();
-            done.complete(null);
-        });
+        uploadModel(info, "ships");
 
         for (MCH_AircraftInfo.DrawnPart n : info.nozzles) {
             n.model = this.loadPartModel("ships", info.name, info.model, n.modelName);
@@ -363,12 +358,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerModelsVehicle(MCH_VehicleInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
-        info.model = MCH_ModelManager.load("vehicles", info.name);
-        CompletableFuture<Void> done = new CompletableFuture<>();
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            info.model = info.model.toVBO();
-            done.complete(null);
-        });
+        uploadModel(info, "vehicles");
         for (MCH_VehicleInfo.VPart vp : info.partList) {
             vp.model = this.loadPartModel("vehicles", info.name, info.model, vp.modelName);
             if (vp.child != null) {
@@ -383,12 +373,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerModelsTank(MCH_TankInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
-        info.model = MCH_ModelManager.load("tanks", info.name);
-        CompletableFuture<Void> done = new CompletableFuture<>();
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            info.model = info.model.toVBO();
-            done.complete(null);
-        });
+        uploadModel(info, "tanks");
         this.registerCommonPart("tanks", info);
         MCH_ModelManager.setForceReloadMode(false);
     }
