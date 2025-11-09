@@ -29,7 +29,6 @@ import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_OpenGlHelper;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public abstract class MCH_HudItem extends Gui {
@@ -125,7 +124,7 @@ public abstract class MCH_HudItem extends Gui {
         BufferBuilder builder = tessellator.getBuffer();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
-        W_OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(f, f1, f2, f3);
         builder.begin(7, DefaultVertexFormats.POSITION);
         builder.pos(par0, par3, 0.0).endVertex();
