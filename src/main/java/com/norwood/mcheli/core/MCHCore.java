@@ -8,8 +8,6 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.hbm.core.*;
-
 import lombok.Getter;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
@@ -53,7 +51,7 @@ public class MCHCore implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] {/* RenderGobalTransformer.class.getName(),*/ EntityRenderHooks.class.getName() };
+        return new String[] {RenderGlobalTransformer.class.getName(), EntityRenderHooks.class.getName() };
     }
 
     @Override

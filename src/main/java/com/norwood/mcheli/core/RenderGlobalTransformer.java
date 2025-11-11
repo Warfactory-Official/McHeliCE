@@ -11,9 +11,24 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
-public class RenderGobalTransformer implements IClassTransformer {
+public class RenderGlobalTransformer implements IClassTransformer {
 
     private static final ObfSafeName RENDER_ENTITIES = new ObfSafeName("renderEntities", "func_180446_a");
+
+    public class SafeClassWriter extends ClassWriter {
+        public SafeClassWriter(int flags) {
+            super(flags);
+        }
+
+        @Override
+        protected String getCommonSuperClass(String type1, String type2) {
+            if (type1.equals("com/norwood/mcheli/aircraft/MCH_EntityAircraft") && type2.equals("net/minecraft/entity/Entity"))
+                return "net/minecraft/entity/Entity";
+            if (type2.equals("com/norwood/mcheli/aircraft/MCH_EntityAircraft") && type1.equals("net/minecraft/entity/Entity"))
+                return "net/minecraft/entity/Entity";
+            return "java/lang/Object";
+        }
+    }
 
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
@@ -34,7 +49,7 @@ public class RenderGobalTransformer implements IClassTransformer {
                 }
             }
 
-            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+            SafeClassWriter writer = new SafeClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
             classNode.accept(writer);
             return writer.toByteArray();
         } catch (Throwable t) {
