@@ -25,12 +25,16 @@ Seats:
 BoundingBoxes:
 - Type: DEFAULT
   Position: [0.0, 1.7, 1.5]
-  Size: [2.4, 2.5, 2.4]
+  Size: [2.4, 2.5, 3]
 - Type: DEFAULT
   Position: [0.0, 2.1, -1.5]
-  Size: [2.4, 3.3, 2.4]
+  Size: [2.4, 3.3, 3]
+- Type: DEFAULT
+  Position: [0.0, 3.0, -7]
+  Size: [1.0, 0.8, 8.0]
 - Type: DEFAULT
   Position: [0.0, 3.2, -11.5]
+  DamageFactor: 2.4
   Size: [1.0, 2.4, 1.0]
 AircraftFeatures:
   InventorySize: 27

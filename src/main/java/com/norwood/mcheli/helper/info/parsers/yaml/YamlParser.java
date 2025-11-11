@@ -307,6 +307,7 @@ public class YamlParser implements IParser {
                     if (vtol instanceof Boolean)
                         info.isEnableVtol = (Boolean) entry.getValue();
                     else if (vtol instanceof Map<?, ?>) {
+                        info.isEnableVtol = true;
                         for (Map.Entry<String, Object> vtolEntry : map.entrySet()) {
                             switch (vtolEntry.getKey()) {
                                 case "IsDefault" -> info.isDefaultVtol = (Boolean) entry.getValue();
