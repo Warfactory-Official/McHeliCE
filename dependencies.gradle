@@ -40,7 +40,7 @@
 dependencies {
     compileOnly rfg.deobf("curse.maven:hbm-nuclear-tech-mod-community-edition-1312314:7165124")
     runtimeOnly rfg.deobf("curse.maven:hbm-nuclear-tech-mod-community-edition-1312314:7165124")
-    runtimeOnly ("curse.maven:replay-mod-fabric-and-forge-775651:4798232")
+//    runtimeOnly ("curse.maven:replay-mod-fabric-and-forge-775651:4798232")
     compileOnly("org.projectlombok:lombok:1.18.42")
     implementation "io.gitlab.hohserg.elegant.networking:elegant-networking-1.12:3.14"
     annotationProcessor "org.projectlombok:lombok:1.18.42", "io.gitlab.hohserg.elegant.networking:annotation-processor:3.14"
