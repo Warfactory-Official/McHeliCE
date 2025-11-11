@@ -12,6 +12,7 @@ import org.objectweb.asm.tree.*;
 public class EntityRenderHooks implements IClassTransformer {
 
     private static final ObfSafeName RENDER_WORLD_PASS = new ObfSafeName("renderWorldPass", "func_175068_a");
+    private static final ObfSafeName RENDER_ENTITES = new ObfSafeName("renderEntities", "func_180446_a");
 
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
@@ -46,7 +47,7 @@ public class EntityRenderHooks implements IClassTransformer {
                 // Looks for any renderglobal.renderEntities(entity, icamera, partialTicks) methodNode
                 if (renderCall.getOpcode() == INVOKEVIRTUAL &&
                         renderCall.owner.equals("net/minecraft/client/renderer/RenderGlobal") &&
-                        renderCall.name.equals("renderEntities") &&
+                       RENDER_ENTITES.matches(renderCall.name) &&
                         renderCall.desc.equals(
                                 "(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/renderer/culling/ICamera;F)V")) {
                     InsnList toInject = createRenderVehicleHook();

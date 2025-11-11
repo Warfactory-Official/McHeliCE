@@ -5876,6 +5876,12 @@ public abstract class MCH_EntityAircraft
         super.setEntityBoundingBox(new MCH_AircraftBoundingBox(this, bb));
     }
 
+    @Override //REMOVE ASAP
+    public boolean isRidingOrBeingRiddenBy(Entity entityIn)
+    {
+        return false;
+    }
+
     @Override
     public double getX() {
         return this.posX;

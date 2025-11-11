@@ -34,7 +34,7 @@ public class RenderGobalTransformer implements IClassTransformer {
                 }
             }
 
-            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
             classNode.accept(writer);
             return writer.toByteArray();
         } catch (Throwable t) {
