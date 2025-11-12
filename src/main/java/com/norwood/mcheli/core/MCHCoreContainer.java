@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.ModMetadata;
 
 import com.google.common.eventbus.EventBus;
 
+@SuppressWarnings("unused")
 public class MCHCoreContainer extends DummyModContainer {
 
     public MCHCoreContainer() {
@@ -16,8 +17,8 @@ public class MCHCoreContainer extends DummyModContainer {
         meta.modId = "mchcore";
         meta.name = "MCHCore";
         meta.description = "McHeli core mod";
-        meta.version = "1.12.2-2.0";
-        meta.authorList = Arrays.asList("Movblock", "MrNorwood");
+        meta.version = "1.12.2-1.1";
+        meta.authorList = Arrays.asList("MovBlock", "MrNorwood");
     }
 
     @Override
