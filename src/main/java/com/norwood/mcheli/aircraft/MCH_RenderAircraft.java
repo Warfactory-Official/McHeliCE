@@ -1099,6 +1099,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
 
         FontRenderer font = this.getFontRendererFromRenderManager();
 
+        if(font == null) return;
         int strWidth = font.getStringWidth(s) / 2;
 
         Tessellator tess = Tessellator.getInstance();
