@@ -1,22 +1,5 @@
 package com.norwood.mcheli;
 
-import java.io.File;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.SplashProgress;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.block.MCH_DraftingTableRenderer;
 import com.norwood.mcheli.block.MCH_DraftingTableTileEntity;
@@ -70,8 +53,37 @@ import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.SplashProgress;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MCH_ClientProxy extends MCH_CommonProxy {
+
+    private static final Field splashThread;
+
+    //Prevents crashes when the splash thread is not running
+    static {
+        try {
+            splashThread = SplashProgress.class.getDeclaredField("thread");
+        } catch (NoSuchFieldException e) {
+            throw new AssertionError(e);
+        }
+        splashThread.setAccessible(true);
+    }
 
     public static void registerModels_Bullet() {
         for (MCH_WeaponInfo wi : ContentRegistries.weapon().values()) {
@@ -99,6 +111,26 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         }
     }
 
+    private static void uploadModel(MCH_AircraftInfo info, String path) {
+        info.model = MCH_ModelManager.load(path, info.name);
+//        if (info.model == null) return;
+        CompletableFuture<Void> done = new CompletableFuture<>();
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            info.model = info.model.toVBO();
+            done.complete(null);
+        });
+    }
+
+    private static boolean splashNotTerminated() {
+        Thread splashThread;
+        try {
+            splashThread = (Thread) MCH_ClientProxy.splashThread.get(null);
+        } catch (IllegalAccessException e) {
+            throw new AssertionError(e);
+        }
+        return splashThread.getState() != Thread.State.TERMINATED;
+    }
+
     @Override
     public String getDataDir() {
         return Minecraft.getMinecraft().gameDir.getPath();
@@ -106,8 +138,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void registerRenderer() {
-        RenderingRegistry.registerEntityRenderingHandler(MCH_EntitySeat.class,
-                com.norwood.mcheli.helper.debug.MCH_RenderTest.factory(0.0F, 0.3125F, 0.0F, "seat"));
+        RenderingRegistry.registerEntityRenderingHandler(MCH_EntitySeat.class, com.norwood.mcheli.helper.debug.MCH_RenderTest.factory(0.0F, 0.3125F, 0.0F, "seat"));
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityHeli.class, MCH_RenderHeli.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityPlane.class, MCP_RenderPlane.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityShip.class, MCH_RenderShip.FACTORY);
@@ -146,10 +177,8 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void registerBlockRenderer() {
-        ClientRegistry.bindTileEntitySpecialRenderer(MCH_DraftingTableTileEntity.class,
-                new MCH_DraftingTableRenderer());
-        MCH_ItemModelRenderers.registerRenderer(W_Item.getItemFromBlock(MCH_MOD.blockDraftingTable),
-                new BuiltInDraftingTableItemRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(MCH_DraftingTableTileEntity.class, new MCH_DraftingTableRenderer());
+        MCH_ItemModelRenderers.registerRenderer(W_Item.getItemFromBlock(MCH_MOD.blockDraftingTable), new BuiltInDraftingTableItemRenderer());
     }
 
     @Override
@@ -196,12 +225,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             long end = System.nanoTime();
             System.out.println("[MCH-LOADER][UAV] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
-//
-//        CompletableFuture<Void> basic = CompletableFuture.runAsync(() -> {
-//                    long startBasic = System.nanoTime();
-//                    long endBasic = System.nanoTime();
-//                    System.out.println("[MCH-LOADER][BASIC MODELS] Loaded in " + ((endBasic - startBasic) / 1_000_000) + " ms");
-//                });
 
         CompletableFuture<Void> heliFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
@@ -257,9 +280,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             System.out.println("[MCH-LOADER][THROWABLES] Loaded in " + ((end - start) / 1_000_000) + " ms");
         });
 
-        CompletableFuture<Void> allTasks = CompletableFuture.allOf(
-                heliFuture, planeFuture, shipFuture, tankFuture, vehicleFuture, bulletFuture, throwableFuture,
-                uavFuture, miscFuture);
+        CompletableFuture<Void> allTasks = CompletableFuture.allOf(heliFuture, planeFuture, shipFuture, tankFuture, vehicleFuture, bulletFuture, throwableFuture, uavFuture, miscFuture);
 
         MCH_ModelManager.load("blocks", "drafting_table");
 
@@ -275,9 +296,9 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
         allTasks.join();
 
-        SplashProgress.pause();
+        if (splashNotTerminated()) SplashProgress.pause();
         MCH_ModelManager.makeVBO();
-        SplashProgress.resume();
+        if (splashNotTerminated()) SplashProgress.resume();
     }
 
     @Override
@@ -291,16 +312,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
         this.registerCommonPart("helicopters", info);
         MCH_ModelManager.setForceReloadMode(false);
-    }
-
-    private static void uploadModel(MCH_AircraftInfo info, String path) {
-        info.model = MCH_ModelManager.load(path, info.name);
-//        if (info.model == null) return;
-        CompletableFuture<Void> done = new CompletableFuture<>();
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            info.model = info.model.toVBO();
-            done.complete(null);
-        });
     }
 
     @Override
@@ -392,49 +403,36 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     }
 
     private _IModelCustom loadPartModel(String path, String name, _IModelCustom body, String part) {
-        return body instanceof W_ModelCustom && ((W_ModelCustom) body).containsPart("$" + part) ? null :
-                MCH_ModelManager.load(path, name + "_" + part);
+        return body instanceof W_ModelCustom && ((W_ModelCustom) body).containsPart("$" + part) ? null : MCH_ModelManager.load(path, name + "_" + part, true);
     }
 
     private void registerCommonPart(String path, MCH_AircraftInfo info) {
-        info.hatchList.parallelStream()
-                .forEach(h -> h.model = this.loadPartModel(path, info.name, info.model, h.modelName));
+        info.hatchList.parallelStream().forEach(h -> h.model = this.loadPartModel(path, info.name, info.model, h.modelName));
 
-        info.cameraList.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        info.cameraList.parallelStream().forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
 
-        info.partThrottle.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        info.partThrottle.parallelStream().forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
 
-        info.partRotPart.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        info.partRotPart.parallelStream().forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
 
         info.partWeapon.parallelStream().forEach(p -> {
             p.model = this.loadPartModel(path, info.name, info.model, p.modelName);
-            p.child.parallelStream()
-                    .forEach(wc -> wc.model = this.loadPartModel(path, info.name, info.model, wc.modelName));
+            p.child.parallelStream().forEach(wc -> wc.model = this.loadPartModel(path, info.name, info.model, wc.modelName));
         });
 
-        info.canopyList.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        info.canopyList.parallelStream().forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
 
-        info.landingGear.parallelStream()
-                .forEach(n -> n.model = this.loadPartModel(path, info.name, info.model, n.modelName));
+        info.landingGear.parallelStream().forEach(n -> n.model = this.loadPartModel(path, info.name, info.model, n.modelName));
 
-        info.partWeaponBay.parallelStream()
-                .forEach(w -> w.model = this.loadPartModel(path, info.name, info.model, w.modelName));
+        info.partWeaponBay.parallelStream().forEach(w -> w.model = this.loadPartModel(path, info.name, info.model, w.modelName));
 
-        info.partCrawlerTrack.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        info.partCrawlerTrack.parallelStream().forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
 
-        info.partTrackRoller.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        info.partTrackRoller.parallelStream().forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
 
-        info.partWheel.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        info.partWheel.parallelStream().forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
 
-        info.partSteeringWheel.parallelStream()
-                .forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
+        info.partSteeringWheel.parallelStream().forEach(c -> c.model = this.loadPartModel(path, info.name, info.model, c.modelName));
     }
 
     private void registerVCPModels(MCH_VehicleInfo info, MCH_VehicleInfo.VPart vp) {
@@ -465,8 +463,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public MCH_SoundUpdater CreateSoundUpdater(MCH_EntityAircraft aircraft) {
-        return aircraft != null && aircraft.world.isRemote ?
-                new MCH_SoundUpdater(Minecraft.getMinecraft(), aircraft, Minecraft.getMinecraft().player) : null;
+        return aircraft != null && aircraft.world.isRemote ? new MCH_SoundUpdater(Minecraft.getMinecraft(), aircraft, Minecraft.getMinecraft().player) : null;
     }
 
     @Override
@@ -597,6 +594,8 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         Entity.setRenderDistanceWeight(renderDistWeight);
     }
 
+    //mlbv: yes, i hate reflections as much as you do, but somehow AccessTransformer doesn't work on this
+
     @Override
     public List<AddonPack> loadAddonPacks(File addonDir) {
         return AddonManager.loadAddonsAndAddResources(addonDir);
@@ -611,6 +610,8 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void updateGeneratedLanguage() {
         W_LanguageRegistry.updateGeneratedLang();
     }
+
+    //mlbv: yes, i hate reflections as much as you do, but somehow AccessTransformer doesn't work on this
 
     @Deprecated
     @Override
@@ -636,4 +637,8 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void registerShaders(TextureStitchEvent.Post event) {
         ShaderRegistry.init();
     }
+
 }
+
+
+

@@ -4,6 +4,7 @@ import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.client.MCH_Models;
 import com.norwood.mcheli.helper.client._IModelCustom;
 import com.norwood.mcheli.wrapper.W_ModelBase;
+import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,15 +43,22 @@ public class MCH_ModelManager extends W_ModelBase {
         forceReloadMode = b;
     }
 
-    public static _IModelCustom load(@NotNull String path, @NotNull String name) {
+    public static _IModelCustom load(@NotNull String path, @NotNull String name, boolean noThrow) {
         Objects.requireNonNull(path);
         Objects.requireNonNull(name);
         if (path.isEmpty() || name.isEmpty()) throw new IllegalArgumentException();
-        return load(path + "/" + name);
+        return load(path + "/" + name, noThrow);
     }
 
+    public static _IModelCustom load(@NotNull String path, @NotNull String name) {
+        return load(path,name,false);
+
+    }
+
+
+
     @Nullable
-    public static _IModelCustom load(String name) {
+    public static _IModelCustom load(String name, boolean noThrow) {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException();
         _IModelCustom obj = map.get(name);
         if (obj != null) {
@@ -58,6 +66,8 @@ public class MCH_ModelManager extends W_ModelBase {
                 return obj;
             }
 
+            if (obj instanceof ModelVBO)
+                ((ModelVBO) obj).delete();
             map.remove(name);
         }
 
@@ -66,11 +76,15 @@ public class MCH_ModelManager extends W_ModelBase {
         try {
             model = MCH_Models.loadModel(name);
         } catch (MCH_Models.ModelLoadException mle) {
-            MCH_Utils.logger().catching(mle);
+            if (!noThrow)
+                MCH_Utils.logger().catching(mle);
             model = null;
         }
         if (model != null) map.put(name, model);
         return model;
+    }
+    public static _IModelCustom load(String name) {
+        return load(name, false);
     }
 
     public static void render(String path, String name) {

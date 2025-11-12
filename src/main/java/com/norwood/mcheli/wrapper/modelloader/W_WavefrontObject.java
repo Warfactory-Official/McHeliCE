@@ -126,71 +126,94 @@ public class W_WavefrontObject extends W_ModelCustom {
 
     private void loadObjModel(InputStream inputStream) throws _ModelFormatException {
         BufferedReader reader = null;
-        String currentLine = null;
+        String currentLine;
         int lineCount = 0;
+
         try {
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             while ((currentLine = reader.readLine()) != null) {
                 lineCount++;
-                currentLine = currentLine.replaceAll("\\s+", " ").trim();
+                currentLine = normalizeWhitespace(currentLine);
+                if (currentLine.startsWith("#") || currentLine.isEmpty()) continue;
 
-                if (currentLine.startsWith("#") || currentLine.length() == 0) {
-                    continue;
-                } else if (currentLine.startsWith("v ")) {
-                    W_Vertex vertex = parseVertex(currentLine, lineCount);
-                    if (vertex != null) {
-                        vertices.add(vertex);
-                    }
-                } else if (currentLine.startsWith("vn ")) {
-                    W_Vertex vertex = parseVertexNormal(currentLine, lineCount);
-                    if (vertex != null) {
-                        vertexNormals.add(vertex);
-                    }
-                } else if (currentLine.startsWith("vt ")) {
-                    W_TextureCoordinate textureCoordinate = parseTextureCoordinate(currentLine, lineCount);
-                    if (textureCoordinate != null) {
-                        textureCoordinates.add(textureCoordinate);
-                    }
-                } else if (currentLine.startsWith("f ")) {
+                char c0 = currentLine.charAt(0);
 
-                    if (currentGroupObject == null) {
-                        currentGroupObject = new GroupObject("$body");
-                    }
-
-                    W_Face face = parseFace(currentLine, lineCount);
-
-                    currentGroupObject.faces.add(face);
-                } else if (((currentLine.startsWith("g ") | currentLine.startsWith("o "))) && currentLine.charAt(2) == '$') {
-                    GroupObject group = parseGroupObject(currentLine, lineCount);
-
-                    if (group != null) {
-                        if (currentGroupObject != null) {
-                            groupObjects.add(currentGroupObject);
+                switch (c0) {
+                    case 'v':
+                        if (currentLine.length() > 1) {
+                            char c1 = currentLine.charAt(1);
+                            switch (c1) {
+                                case ' ' -> {
+                                    // vertex
+                                    W_Vertex vertex = parseVertex(currentLine, lineCount);
+                                    if (vertex != null) {
+                                        checkMinMax(vertex);
+                                        vertices.add(vertex);
+                                    }
+                                }
+                                case 'n' -> {
+                                    // vertex normal
+                                    W_Vertex normal = parseVertexNormal(currentLine, lineCount);
+                                    if (normal != null) vertexNormals.add(normal);
+                                }
+                                case 't' -> {
+                                    // texture coordinate
+                                    W_TextureCoordinate tex = parseTextureCoordinate(currentLine, lineCount);
+                                    if (tex != null) textureCoordinates.add(tex);
+                                }
+                            }
                         }
-                    }
+                        break;
 
-                    currentGroupObject = group;
+                    case 'f':
+                        if (currentGroupObject == null) currentGroupObject = new GroupObject("Default");
+                        W_Face face = parseFace(currentLine, lineCount);
+                        currentGroupObject.faces.add(face);
+                        break;
+
+                    case 'g':
+                        // group
+                        if (currentLine.length() > 2 && currentLine.charAt(2) == '$') {
+                            GroupObject group = parseGroupObject(currentLine, lineCount);
+                            if (group != null && currentGroupObject != null) groupObjects.add(currentGroupObject);
+                            currentGroupObject = group;
+                        }
+                        break;
+
+                    case 'o':
+                        if (currentLine.length() > 2 && currentLine.charAt(2) == '$') {
+                            GroupObject group2 = parseGroupObject(currentLine, lineCount);
+                            if (group2 != null && currentGroupObject != null) groupObjects.add(currentGroupObject);
+                            currentGroupObject = group2;
+                        }
+                        break;
+
+                    default:
+                        // ignore unknown lines
+                        break;
                 }
             }
 
-            groupObjects.add(currentGroupObject);
-        } catch (IOException e) {
-            throw new _ModelFormatException("IO Exception reading model format", e);
+            this.groupObjects.add(this.currentGroupObject);
+        } catch (IOException var16) {
+            throw new _ModelFormatException("IO Exception reading model format", var16);
         } finally {
+            this.checkMinMaxFinal();
+
             try {
                 reader.close();
-            } catch (IOException e) {
-                // hush
+            } catch (IOException var15) {
             }
 
             try {
                 inputStream.close();
-            } catch (IOException e) {
-                // hush
+            } catch (IOException var14) {
             }
         }
     }
+
+
 
     public void renderAll() {
         Tessellator tessellator = Tessellator.getInstance();

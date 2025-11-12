@@ -25,7 +25,7 @@ public class MCH_RenderUavStation extends W_Render<MCH_EntityUavStation> {
 
     public MCH_RenderUavStation(RenderManager renderManager) {
         super(renderManager);
-        this.shadowSize = 1.0F;
+        this.shadowSize = 0F;
     }
 
     public void doRender(@NotNull MCH_EntityUavStation entity, double posX, double posY, double posZ, float par8,

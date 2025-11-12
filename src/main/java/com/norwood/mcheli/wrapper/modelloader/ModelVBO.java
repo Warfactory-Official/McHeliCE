@@ -3,7 +3,9 @@ package com.norwood.mcheli.wrapper.modelloader;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import net.minecraft.client.renderer.GlStateManager;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 
 import com.norwood.mcheli.helper.client._IModelCustom;
@@ -129,6 +132,20 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             groups.add(data);
         }
+    }
+
+    public void delete(){
+        var vaoIDBuffer = BufferUtils.createIntBuffer(groups.size());
+        var vboIDBuffer = BufferUtils.createIntBuffer(groups.size());
+        for(VBOBufferData data : groups){
+            vaoIDBuffer.put(data.vaoHandle);
+            vboIDBuffer.put(data.vboHandle);
+        }
+        vaoIDBuffer.flip();
+        vboIDBuffer.flip();
+
+        GL30.glDeleteVertexArrays(vaoIDBuffer);
+        GL15.glDeleteBuffers(vboIDBuffer);
     }
 
     private void renderVBO(ModelVBO.VBOBufferData data) {
