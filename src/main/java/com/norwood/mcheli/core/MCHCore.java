@@ -51,12 +51,12 @@ public class MCHCore implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] {RenderGlobalTransformer.class.getName(), EntityRenderHooks.class.getName() };
+        return new String[] {RenderGlobalTransformer.class.getName(), EntityRenderHooks.class.getName(), EntityTrackerEntryTransformer.class.getName() };
     }
 
     @Override
     public String getModContainerClass() {
-        return "com.norwood.mcheli.core.MCHCoreContainer";
+        return MCHCoreContainer.class.getName();
     }
 
     @Override
