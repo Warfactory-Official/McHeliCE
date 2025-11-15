@@ -82,10 +82,6 @@ public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEnt
         return new MCH_DraftingTableTileEntity();
     }
 
-    public TileEntity createNewTileEntity(World world) {
-        return new MCH_DraftingTableTileEntity();
-    }
-
     public boolean shouldCheckWeakPower(@NotNull IBlockState state, @NotNull IBlockAccess world, @NotNull BlockPos pos,
                                         @NotNull EnumFacing side) {
         return true;
