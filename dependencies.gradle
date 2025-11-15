@@ -47,6 +47,7 @@ dependencies {
     shadowImplementation("org.yaml:snakeyaml:2.5")
     shadowImplementation("org.joml:joml:1.10.8")
     shadowImplementation("com.googlecode.aviator:aviator:5.4.3")
+
     testImplementation("org.assertj:assertj-core:3.25.3")
 
 }

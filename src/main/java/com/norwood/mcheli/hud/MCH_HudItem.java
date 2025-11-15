@@ -1,10 +1,10 @@
 package com.norwood.mcheli.hud;
 
+import com.googlecode.aviator.AviatorEvaluator;
+import com.googlecode.aviator.AviatorEvaluatorInstance;
+import com.googlecode.aviator.Expression;
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.eval.eval.ExpRuleFactory;
-import com.norwood.mcheli.eval.eval.Expression;
-import com.norwood.mcheli.eval.eval.var.MapVariable;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.weapon.MCH_SightType;
@@ -29,9 +29,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class MCH_HudItem extends Gui {
 
+    public static final AviatorEvaluatorInstance AVIATOR = AviatorEvaluator.newInstance();
+    public static final Map<String, Expression> EXPR_CACHE = new ConcurrentHashMap();
+    protected static final MCH_LowPassFilterFloat StickX_LPF = new MCH_LowPassFilterFloat(4);
+    protected static final MCH_LowPassFilterFloat StickY_LPF = new MCH_LowPassFilterFloat(4);
+    private static final MCH_HudItemExit dummy = new MCH_HudItemExit(0);
     public static Minecraft mc;
     public static EntityPlayer player;
     public static MCH_EntityAircraft ac;
@@ -52,8 +58,6 @@ public abstract class MCH_HudItem extends Gui {
     protected static float ReloadPer = 0.0F;
     protected static float ReloadSec = 0.0F;
     protected static float MortarDist = 0.0F;
-    protected static final MCH_LowPassFilterFloat StickX_LPF = new MCH_LowPassFilterFloat(4);
-    protected static final MCH_LowPassFilterFloat StickY_LPF = new MCH_LowPassFilterFloat(4);
     protected static double StickX;
     protected static double StickY;
     protected static double TVM_PosX;
@@ -64,9 +68,8 @@ public abstract class MCH_HudItem extends Gui {
     protected static int countFuelWarn;
     protected static ArrayList<MCH_Vector2> EntityList;
     protected static ArrayList<MCH_Vector2> EnemyList;
-    protected static Map<Object, Object> varMap = null;
+    protected static Map<String, Object> varMap = null;
     protected static float partialTicks;
-    private static final MCH_HudItemExit dummy = new MCH_HudItemExit(0);
     public final int fileLine;// It does NOTHING
     protected MCH_Hud parent;
 
@@ -90,17 +93,16 @@ public abstract class MCH_HudItem extends Gui {
         return s.toLowerCase().replaceAll("#", "0x").replace("\t", " ").replace(" ", "");
     }
 
-    public static double calc(String s) {
-        Expression exp = ExpRuleFactory.getDefaultRule().parse(s);
-        exp.setVariable(new MapVariable(varMap));
-        return exp.evalDouble();
+    public static double calc(String formula) {
+        Expression expr = EXPR_CACHE.computeIfAbsent(formula, form -> AVIATOR.compile(form, true));
+        Object result = expr.execute(varMap);
+        if (result instanceof Number num)
+            return num.doubleValue();
+        else if (result instanceof Boolean bool)
+            return  bool ? 1 : 0;
+        else throw new RuntimeException("Expression returned unsupported type: " + result);
     }
 
-    public static long calcLong(String s) {
-        Expression exp = ExpRuleFactory.getDefaultRule().parse(s);
-        exp.setVariable(new MapVariable(varMap));
-        return exp.evalLong();
-    }
 
     public static void drawRect(double par0, double par1, double par2, double par3, int par4) {
         if (par0 < par2) {
@@ -197,8 +199,7 @@ public abstract class MCH_HudItem extends Gui {
             int x = (int) (-300.0 + centerX);
             int y = (int) (-100.0 + centerY);
 
-            for (Object keyObj : varMap.keySet()) {
-                String key = (String) keyObj;
+            for (String key : varMap.keySet()) {
                 dummy.drawString(key, x, y, 52992);
                 Double d = (Double) varMap.get(key);
                 String fmt = key.equalsIgnoreCase("color") ? String.format(": 0x%08X", d.intValue()) :
@@ -458,18 +459,18 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     public void drawTexture(
-                            String name,
-                            double left,
-                            double top,
-                            double width,
-                            double height,
-                            double uLeft,
-                            double vTop,
-                            double uWidth,
-                            double vHeight,
-                            float rot,
-                            int textureWidth,
-                            int textureHeight) {
+            String name,
+            double left,
+            double top,
+            double width,
+            double height,
+            double uLeft,
+            double vTop,
+            double uWidth,
+            double vHeight,
+            float rot,
+            int textureWidth,
+            int textureHeight) {
         W_McClient.MOD_bindTexture("textures/gui/" + name + ".png");
         GlStateManager.pushMatrix();
         GlStateManager.translate(left + width / 2.0, top + height / 2.0, 0.0);
