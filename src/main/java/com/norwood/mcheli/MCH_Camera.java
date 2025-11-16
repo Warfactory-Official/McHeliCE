@@ -1,16 +1,15 @@
 package com.norwood.mcheli;
 
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_EntityRenderer;
+import com.norwood.mcheli.wrapper.W_Lib;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_EntityRenderer;
-import com.norwood.mcheli.wrapper.W_Lib;
+import javax.annotation.Nullable;
 
 public class MCH_Camera {
 

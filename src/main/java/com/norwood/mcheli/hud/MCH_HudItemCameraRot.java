@@ -1,11 +1,9 @@
 package com.norwood.mcheli.hud;
 
-import net.minecraft.entity.Entity;
-
 import com.norwood.mcheli.MCH_Camera;
 import com.norwood.mcheli.MCH_Lib;
-
 import lombok.Getter;
+import net.minecraft.entity.Entity;
 
 @Getter
 public class MCH_HudItemCameraRot extends MCH_HudItem {

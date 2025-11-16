@@ -1,11 +1,10 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityASMissile extends MCH_EntityBaseBullet {
 

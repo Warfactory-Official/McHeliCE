@@ -1,18 +1,17 @@
 package com.norwood.mcheli.helper.info;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
+import com.norwood.mcheli.MCH_BaseInfo;
+import com.norwood.mcheli.helper.MCH_Logger;
+
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
-import com.norwood.mcheli.MCH_BaseInfo;
-import com.norwood.mcheli.helper.MCH_Logger;
 
 public class ContentRegistry<T extends MCH_BaseInfo> {
 

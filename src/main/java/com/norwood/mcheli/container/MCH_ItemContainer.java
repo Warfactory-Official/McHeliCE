@@ -1,7 +1,8 @@
 package com.norwood.mcheli.container;
 
-import java.util.List;
-
+import com.norwood.mcheli.wrapper.W_Item;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,12 +14,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.util.List;
 
 public class MCH_ItemContainer extends W_Item {
 

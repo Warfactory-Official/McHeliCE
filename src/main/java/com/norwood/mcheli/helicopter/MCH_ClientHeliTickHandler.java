@@ -1,8 +1,5 @@
 package com.norwood.mcheli.helicopter;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_Lib;
@@ -16,6 +13,8 @@ import com.norwood.mcheli.networking.packet.control.PacketPlayerControlHeli;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Reflection;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
 

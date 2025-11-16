@@ -1,9 +1,8 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.MCH_Lib;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import com.norwood.mcheli.MCH_Lib;
 
 public class MCH_WeaponMarkerRocket extends MCH_WeaponBase {
 

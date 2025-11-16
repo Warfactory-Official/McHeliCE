@@ -1,8 +1,15 @@
 package com.norwood.mcheli;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
+import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
+import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
+import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
+import com.norwood.mcheli.wrapper.W_ClientEventHook;
+import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -18,19 +25,10 @@ import net.minecraftforge.client.event.RenderLivingEvent.Specials.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-
 import org.lwjgl.opengl.GL11;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
-import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
-import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
-import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
-import com.norwood.mcheli.wrapper.W_ClientEventHook;
-import com.norwood.mcheli.wrapper.W_Reflection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MCH_ClientEventHook extends W_ClientEventHook {
 

@@ -1,18 +1,16 @@
 package com.norwood.mcheli.compat.hbm;
 
+import com.norwood.mcheli.compat.ModCompatManager;
+import lombok.NoArgsConstructor;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
-
-import com.norwood.mcheli.compat.ModCompatManager;
-
-import lombok.NoArgsConstructor;
 
 @SuppressWarnings("unchecked")
 public class VNTSettingContainer {

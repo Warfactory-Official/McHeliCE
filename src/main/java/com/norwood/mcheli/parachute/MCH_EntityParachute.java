@@ -1,9 +1,10 @@
 package com.norwood.mcheli.parachute;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -21,14 +22,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.*;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassenger {
 

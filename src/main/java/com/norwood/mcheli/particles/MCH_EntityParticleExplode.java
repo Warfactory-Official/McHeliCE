@@ -1,5 +1,6 @@
 package com.norwood.mcheli.particles;
 
+import com.norwood.mcheli.Tags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,11 +15,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
-
-import com.norwood.mcheli.Tags;
 
 public class MCH_EntityParticleExplode extends MCH_EntityParticleBase {
 

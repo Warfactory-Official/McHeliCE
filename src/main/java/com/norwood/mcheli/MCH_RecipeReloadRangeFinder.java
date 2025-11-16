@@ -1,15 +1,13 @@
 package com.norwood.mcheli;
 
+import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemRedstone;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.IForgeRegistryEntry.Impl;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
 
 public class MCH_RecipeReloadRangeFinder extends Impl<IRecipe> implements IRecipe {
 

@@ -1,18 +1,5 @@
 package com.norwood.mcheli.weapon;
 
-import static com.norwood.mcheli.compat.ModCompatManager.MODID_HBM;
-import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
@@ -20,9 +7,20 @@ import com.norwood.mcheli.compat.hbm.*;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
-
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import static com.norwood.mcheli.compat.ModCompatManager.MODID_HBM;
+import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
 
 public class MCH_WeaponInfo extends MCH_BaseInfo {
 

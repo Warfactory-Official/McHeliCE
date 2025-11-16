@@ -1,16 +1,14 @@
 package com.norwood.mcheli.networking.packet;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.block.MCH_DraftingTableGuiContainer;
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.block.MCH_DraftingTableGuiContainer;
-
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ElegantPacket

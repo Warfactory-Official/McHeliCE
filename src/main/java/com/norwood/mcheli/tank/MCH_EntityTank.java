@@ -1,9 +1,20 @@
 package com.norwood.mcheli.tank;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.MCH_Math;
+import com.norwood.mcheli.aircraft.*;
+import com.norwood.mcheli.chain.MCH_EntityChain;
+import com.norwood.mcheli.networking.packet.PacketStatusRequest;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import com.norwood.mcheli.wrapper.W_Block;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_Lib;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -32,21 +43,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.MCH_Math;
-import com.norwood.mcheli.aircraft.*;
-import com.norwood.mcheli.chain.MCH_EntityChain;
-import com.norwood.mcheli.networking.packet.PacketStatusRequest;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
-import com.norwood.mcheli.wrapper.W_Block;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_Lib;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class MCH_EntityTank extends MCH_EntityAircraft {
 
@@ -1391,7 +1389,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     }
 
     public float getMaxSpeed() {
-        return this.getTankInfo().speed + 0.0F;
+        return this.getTankInfo().speed;
     }
 
     @Override

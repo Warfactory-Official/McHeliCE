@@ -1,11 +1,19 @@
 package com.norwood.mcheli.hud;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
-
+import com.googlecode.aviator.AviatorEvaluator;
+import com.googlecode.aviator.AviatorEvaluatorInstance;
+import com.googlecode.aviator.Expression;
+import com.norwood.mcheli.*;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.weapon.MCH_SightType;
+import com.norwood.mcheli.weapon.MCH_WeaponBase;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.GLStateManagerExt;
+import com.norwood.mcheli.wrapper.W_McClient;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -15,25 +23,20 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
-
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.opengl.GL11;
 
-import com.norwood.mcheli.*;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.eval.eval.ExpRuleFactory;
-import com.norwood.mcheli.eval.eval.Expression;
-import com.norwood.mcheli.eval.eval.var.MapVariable;
-import com.norwood.mcheli.helicopter.MCH_EntityHeli;
-import com.norwood.mcheli.plane.MCH_EntityPlane;
-import com.norwood.mcheli.weapon.MCH_SightType;
-import com.norwood.mcheli.weapon.MCH_WeaponBase;
-import com.norwood.mcheli.weapon.MCH_WeaponInfo;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
-import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class MCH_HudItem extends Gui {
 
+    public static final AviatorEvaluatorInstance AVIATOR = AviatorEvaluator.newInstance();
+    public static final Map<String, Expression> EXPR_CACHE = new ConcurrentHashMap();
+    protected static final MCH_LowPassFilterFloat StickX_LPF = new MCH_LowPassFilterFloat(4);
+    protected static final MCH_LowPassFilterFloat StickY_LPF = new MCH_LowPassFilterFloat(4);
+    private static final MCH_HudItemExit dummy = new MCH_HudItemExit(0);
     public static Minecraft mc;
     public static EntityPlayer player;
     public static MCH_EntityAircraft ac;
@@ -54,8 +57,6 @@ public abstract class MCH_HudItem extends Gui {
     protected static float ReloadPer = 0.0F;
     protected static float ReloadSec = 0.0F;
     protected static float MortarDist = 0.0F;
-    protected static final MCH_LowPassFilterFloat StickX_LPF = new MCH_LowPassFilterFloat(4);
-    protected static final MCH_LowPassFilterFloat StickY_LPF = new MCH_LowPassFilterFloat(4);
     protected static double StickX;
     protected static double StickY;
     protected static double TVM_PosX;
@@ -66,9 +67,8 @@ public abstract class MCH_HudItem extends Gui {
     protected static int countFuelWarn;
     protected static ArrayList<MCH_Vector2> EntityList;
     protected static ArrayList<MCH_Vector2> EnemyList;
-    protected static Map<Object, Object> varMap = null;
+    protected static Map<String, Object> varMap = null;
     protected static float partialTicks;
-    private static final MCH_HudItemExit dummy = new MCH_HudItemExit(0);
     public final int fileLine;// It does NOTHING
     protected MCH_Hud parent;
 
@@ -89,20 +89,64 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     public static String toFormula(String s) {
-        return s.toLowerCase().replaceAll("#", "0x").replace("\t", " ").replace(" ", "");
+        if (s == null) return "0";
+        String f = s.toLowerCase();
+        f = f.replaceAll("#", "0x");
+        f = f.replace("\t", " ").replace(" ", "");
+        if(f.startsWith("+")) f = f.substring(1);
+        return preprocessCond(f);
     }
 
-    public static double calc(String s) {
-        Expression exp = ExpRuleFactory.getDefaultRule().parse(s);
-        exp.setVariable(new MapVariable(varMap));
-        return exp.evalDouble();
+
+    public static final Set<String> LEGACY_VARS = new HashSet<>();
+    static {
+        LEGACY_VARS.add("reloading");
+        LEGACY_VARS.add("is_heat_wpn");
+        LEGACY_VARS.add("have_radar");
+        LEGACY_VARS.add("dsp_mt_dist");
+        LEGACY_VARS.add("can_flare");
+        LEGACY_VARS.add("have_flare");
+        LEGACY_VARS.add("gunner_mode");
+        LEGACY_VARS.add("test_mode");
+        LEGACY_VARS.add("is_uav");
+
+    }
+    //Fixes old integer bool config
+    public static String preprocessCond(String s){
+        for(String boolVar : LEGACY_VARS){
+            if(s.startsWith(boolVar)){
+                // ==0 → !bVar
+                s = s.replaceAll("\\b" + boolVar + "\\s*==\\s*0\\b", "!" + boolVar);
+                // !=0 → bVar
+                s = s.replaceAll("\\b" + boolVar + "\\s*!=\\s*0\\b", boolVar);
+                // ==1 → bVar
+                s = s.replaceAll("\\b" + boolVar + "\\s*==\\s*1\\b", boolVar);
+                // !=1 → !bVar
+                s = s.replaceAll("\\b" + boolVar + "\\s*!=\\s*1\\b", "!" + boolVar);
+            }
+        }
+
+        return s;
     }
 
-    public static long calcLong(String s) {
-        Expression exp = ExpRuleFactory.getDefaultRule().parse(s);
-        exp.setVariable(new MapVariable(varMap));
-        return exp.evalLong();
+    public static double calc(String formula) {
+        Expression expr = EXPR_CACHE.computeIfAbsent(formula, form -> {
+            try {
+                return AVIATOR.compile(form, true);
+            } catch (RuntimeException e){
+                throw new RuntimeException(MessageFormat.format("GUI calculation failed for:{0}StackTrace:\n{1}", formula, e.getStackTrace())
+                );
+            }
+
+        });
+        Object result = expr.execute(varMap);
+        if (result instanceof Number num)
+            return num.doubleValue();
+        else if (result instanceof Boolean bool)
+            return  bool ? 1 : 0;
+        else throw new RuntimeException("Expression returned unsupported type: " + result);
     }
+
 
     public static void drawRect(double par0, double par1, double par2, double par3, int par4) {
         if (par0 < par2) {
@@ -148,7 +192,7 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("width", width);
         updateVarMapItem("height", height);
         updateVarMapItem("time", player.world.getWorldTime() % 24000L);
-        updateVarMapItem("test_mode", MCH_Config.TestMode.prmBool ? 1.0 : 0.0);
+        updateVarMapItem("test_mode", MCH_Config.TestMode.prmBool);
         updateVarMapItem("plyr_yaw", MathHelper.wrapDegrees(player.rotationYaw));
         updateVarMapItem("plyr_pitch", player.rotationPitch);
         updateVarMapItem("yaw", MathHelper.wrapDegrees(ac.getRotYaw()));
@@ -156,7 +200,7 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("roll", MathHelper.wrapDegrees(ac.getRotRoll()));
         updateVarMapItem("altitude", Altitude);
         updateVarMapItem("sea_alt", getSeaAltitude(ac));
-        updateVarMapItem("have_radar", ac.isEntityRadarMounted() ? 1.0 : 0.0);
+        updateVarMapItem("have_radar", ac.isEntityRadarMounted());
         updateVarMapItem("radar_rot", getRadarRot(ac));
         updateVarMapItem("hp", ac.getHP());
         updateVarMapItem("max_hp", ac.getMaxHP());
@@ -177,44 +221,67 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMap_Weapon(ws);
         updateVarMapItem("vtol_stat", getVtolStat(ac));
         updateVarMapItem("free_look", getFreeLook(ac, player));
-        updateVarMapItem("gunner_mode", ac.getIsGunnerMode(player) ? 1.0 : 0.0);
+        updateVarMapItem("gunner_mode", ac.getIsGunnerMode(player));
         updateVarMapItem("cam_mode", ac.getCameraMode(player));
         updateVarMapItem("cam_zoom", ac.camera.getCameraZoom());
         updateVarMapItem("auto_pilot", getAutoPilot(ac, player));
-        updateVarMapItem("have_flare", ac.haveFlare() ? 1.0 : 0.0);
-        updateVarMapItem("can_flare", ac.canUseFlare() ? 1.0 : 0.0);
+        updateVarMapItem("have_flare", ac.haveFlare());
+        updateVarMapItem("can_flare", ac.canUseFlare());
         updateVarMapItem("inventory", ac.getSizeInventory());
-        updateVarMapItem("hovering", ac instanceof MCH_EntityHeli && ac.isHoveringMode() ? 1.0 : 0.0);
-        updateVarMapItem("is_uav", ac.isUAV() ? 1.0 : 0.0);
+        updateVarMapItem("hovering", ac instanceof MCH_EntityHeli && ac.isHoveringMode());
+        updateVarMapItem("is_uav", ac.isUAV());
         updateVarMapItem("uav_fs", getUAV_Fs(ac));
     }
 
-    public static void updateVarMapItem(String key, double value) {
+    public static void updateVarMapItem(String key, Object value) {
         varMap.put(key, value);
     }
 
     public static void drawVarMap() {
-        if (MCH_Config.TestMode.prmBool) {
-            int i = 0;
-            int x = (int) (-300.0 + centerX);
-            int y = (int) (-100.0 + centerY);
+        if (!MCH_Config.TestMode.prmBool) {
+            return;
+        }
 
-            for (Object keyObj : varMap.keySet()) {
-                String key = (String) keyObj;
-                dummy.drawString(key, x, y, 52992);
-                Double d = (Double) varMap.get(key);
-                String fmt = key.equalsIgnoreCase("color") ? String.format(": 0x%08X", d.intValue()) :
-                        String.format(": %.2f", d);
-                dummy.drawString(fmt, x + 50, y, 52992);
-                i++;
-                y += 8;
-                if (i == varMap.size() / 2) {
-                    x = (int) (200.0 + centerX);
-                    y = (int) (-100.0 + centerY);
+        int i = 0;
+        int x = (int) (-350.0 + centerX);
+        int y = (int) (-110.0 + centerY);
+
+        for (String key : varMap.keySet()) {
+            dummy.drawString(key, x, y, 52992);
+
+            Object val = varMap.get(key);
+            String fmt;
+
+            if (key.equalsIgnoreCase("color")) {
+                int color = 0;
+                if (val instanceof Number) {
+                    color = ((Number) val).intValue();
                 }
+                fmt = String.format(": 0x%08X", color);
+            }
+            else if (val instanceof Boolean) {
+                boolean b = (Boolean) val;
+                fmt = String.format(": %s (%.2f)", b, b ? 1.0 : 0.0);
+            }
+            else if (val instanceof Number) {
+                double d = ((Number) val).doubleValue();
+                fmt = String.format(": %.2f", d);
+            }
+            else {
+                fmt = ": " + String.valueOf(val);
+            }
+
+            dummy.drawString(fmt, x + 50, y, 52992);
+
+            i++;
+            y += 8;
+            if (i == varMap.size() / 2) {
+                x = (int) (200.0 + centerX);
+                y = (int) (-100.0 + centerY);
             }
         }
     }
+
 
     private static double getUAV_Fs(MCH_EntityAircraft ac) {
         double uav_fs = 0.0;
@@ -233,13 +300,15 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     private static void updateVarMap_Weapon(MCH_WeaponSet ws) {
-        int reloading = 0;
         double wpn_heat = 0.0;
-        int is_heat_wpn = 0;
-        int sight_type = 0;
-        double lock = 0.0;
         float rel_time = 0.0F;
-        int display_mortar_dist = 0;
+        double lock = 0.0;
+        int sight_type = 0;
+
+        boolean reloading = false;
+        boolean is_heat_wpn = false;
+        boolean display_mortar_dist = false;
+
         if (ws != null) {
             MCH_WeaponBase wb = ws.getCurrentWeapon();
             MCH_WeaponInfo wi = wb.getInfo();
@@ -247,15 +316,15 @@ public abstract class MCH_HudItem extends Gui {
                 return;
             }
 
-            is_heat_wpn = wi.maxHeatCount > 0 ? 1 : 0;
-            reloading = ws.isInPreparation() ? 1 : 0;
-            display_mortar_dist = wi.displayMortarDistance ? 1 : 0;
+            is_heat_wpn = wi.maxHeatCount > 0;
+            reloading = ws.isInPreparation();
+            display_mortar_dist = wi.displayMortarDistance;
+
             if (wi.delay > wi.reloadTime) {
                 rel_time = (float) ws.countWait / (wi.delay > 0 ? wi.delay : 1);
                 if (rel_time < 0.0F) {
                     rel_time = -rel_time;
                 }
-
                 if (rel_time > 1.0F) {
                     rel_time = 1.0F;
                 }
@@ -274,7 +343,6 @@ public abstract class MCH_HudItem extends Gui {
                 lock = (double) wb.getLockCount() / cntLockMax;
                 sight_type = 2;
             }
-
             if (sight == MCH_SightType.ROCKET) {
                 sight_type = 1;
             }
@@ -289,6 +357,7 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("dsp_mt_dist", display_mortar_dist);
         updateVarMapItem("mt_dist", MortarDist);
     }
+
 
     public static int isLowFuel(MCH_EntityAircraft ac) {
         int is_low_fuel = 0;
@@ -460,18 +529,18 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     public void drawTexture(
-                            String name,
-                            double left,
-                            double top,
-                            double width,
-                            double height,
-                            double uLeft,
-                            double vTop,
-                            double uWidth,
-                            double vHeight,
-                            float rot,
-                            int textureWidth,
-                            int textureHeight) {
+            String name,
+            double left,
+            double top,
+            double width,
+            double height,
+            double uLeft,
+            double vTop,
+            double uWidth,
+            double vHeight,
+            float rot,
+            int textureWidth,
+            int textureHeight) {
         W_McClient.MOD_bindTexture("textures/gui/" + name + ".png");
         GlStateManager.pushMatrix();
         GlStateManager.translate(left + width / 2.0, top + height / 2.0, 0.0);

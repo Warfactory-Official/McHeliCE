@@ -1,14 +1,13 @@
 package com.norwood.mcheli.wrapper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-
+import com.norwood.mcheli.helper.addon.GeneratedAddonPack;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
-import com.norwood.mcheli.helper.addon.GeneratedAddonPack;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class W_LanguageRegistry {
 

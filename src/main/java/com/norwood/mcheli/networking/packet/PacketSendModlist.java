@@ -1,20 +1,18 @@
 package com.norwood.mcheli.networking.packet;
 
-import static com.norwood.mcheli.multiplay.MultiplayerHandler.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.norwood.mcheli.MCH_Lib;
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
-import com.norwood.mcheli.MCH_Lib;
+import java.util.ArrayList;
+import java.util.List;
 
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
+import static com.norwood.mcheli.multiplay.MultiplayerHandler.*;
 
 @ElegantPacket
 // FIXME:Terrible implementation, low prio

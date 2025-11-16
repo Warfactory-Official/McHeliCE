@@ -1,12 +1,11 @@
 package com.norwood.mcheli.weapon.registry;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.norwood.mcheli.weapon.*;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import com.norwood.mcheli.weapon.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WeaponTypeRegistry {
 

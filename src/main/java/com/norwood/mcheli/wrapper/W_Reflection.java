@@ -1,7 +1,6 @@
 package com.norwood.mcheli.wrapper;
 
-import javax.annotation.Nonnull;
-
+import com.norwood.mcheli.helper.client.MCH_CameraManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -11,7 +10,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-import com.norwood.mcheli.helper.client.MCH_CameraManager;
+import javax.annotation.Nonnull;
 
 public class W_Reflection {
 

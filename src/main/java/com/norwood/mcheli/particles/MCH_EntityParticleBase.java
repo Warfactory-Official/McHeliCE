@@ -1,8 +1,7 @@
 package com.norwood.mcheli.particles;
 
-import net.minecraft.world.World;
-
 import com.norwood.mcheli.wrapper.W_EntityFX;
+import net.minecraft.world.World;
 
 public abstract class MCH_EntityParticleBase extends W_EntityFX {
 

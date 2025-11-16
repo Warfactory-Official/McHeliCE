@@ -1,8 +1,7 @@
 package com.norwood.mcheli.aircraft;
 
-import java.util.Arrays;
-import java.util.Random;
-
+import com.norwood.mcheli.parachute.MCH_ItemParachute;
+import com.norwood.mcheli.wrapper.W_NBTTag;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -11,11 +10,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.parachute.MCH_ItemParachute;
-import com.norwood.mcheli.wrapper.W_NBTTag;
+import java.util.Arrays;
+import java.util.Random;
 
 public class MCH_AircraftInventory implements IInventory {
 

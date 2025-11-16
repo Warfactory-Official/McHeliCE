@@ -1,8 +1,10 @@
 package com.norwood.mcheli.throwable;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.block.Block;
+import com.norwood.mcheli.MCH_Explosion;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,14 +17,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IThrowableEntity;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.MCH_Explosion;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import javax.annotation.Nullable;
 
 public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEntity {
 

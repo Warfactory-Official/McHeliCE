@@ -1,13 +1,12 @@
 package com.norwood.mcheli.weapon;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.norwood.mcheli.networking.packet.PacketResetGPS;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.norwood.mcheli.networking.packet.PacketResetGPS;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GPSPosition {
 

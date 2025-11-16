@@ -1,7 +1,9 @@
 package com.norwood.mcheli.gltd;
 
-import java.util.Random;
-
+import com.norwood.mcheli.MCH_RenderLib;
+import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.wrapper.W_Lib;
+import com.norwood.mcheli.wrapper.W_Render;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.culling.ICamera;
@@ -11,13 +13,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.MCH_RenderLib;
-import com.norwood.mcheli.helper.client._IModelCustom;
-import com.norwood.mcheli.wrapper.W_Lib;
-import com.norwood.mcheli.wrapper.W_Render;
+import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderGLTD extends W_Render<MCH_EntityGLTD> {

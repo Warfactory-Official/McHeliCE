@@ -1,5 +1,10 @@
 package com.norwood.mcheli.tank;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
+import com.norwood.mcheli.helper.MCH_ColorInt;
+import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -10,12 +15,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
-import com.norwood.mcheli.helper.MCH_ColorInt;
-import com.norwood.mcheli.wrapper.W_Entity;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderTank extends MCH_RenderAircraft<MCH_EntityTank> {

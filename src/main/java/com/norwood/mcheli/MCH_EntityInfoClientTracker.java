@@ -1,11 +1,11 @@
 package com.norwood.mcheli;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Client relies only on “full snapshot heartbeats” for incremental/overwrite updates;

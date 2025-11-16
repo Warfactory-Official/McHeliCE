@@ -5,7 +5,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-
 import org.jetbrains.annotations.NotNull;
 
 public class MCH_AircraftBoundingBox extends AxisAlignedBB {

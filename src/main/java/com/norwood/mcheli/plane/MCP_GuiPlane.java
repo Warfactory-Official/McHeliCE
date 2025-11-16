@@ -1,17 +1,15 @@
 package com.norwood.mcheli.plane;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_KeyName;
 import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class MCP_GuiPlane extends MCH_AircraftCommonGui {

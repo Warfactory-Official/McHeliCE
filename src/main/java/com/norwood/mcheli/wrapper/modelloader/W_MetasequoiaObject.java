@@ -1,13 +1,7 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-
+import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client._ModelFormatException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -17,8 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
-import com.norwood.mcheli.helper.client._ModelFormatException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 
 @SideOnly(Side.CLIENT)
 public class W_MetasequoiaObject extends W_ModelCustom {

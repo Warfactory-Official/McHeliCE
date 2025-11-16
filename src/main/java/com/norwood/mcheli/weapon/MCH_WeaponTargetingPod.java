@@ -1,12 +1,11 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.multiplay.MCH_Multiplay;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.multiplay.MCH_Multiplay;
 
 public class MCH_WeaponTargetingPod extends MCH_WeaponBase {
 

@@ -1,18 +1,16 @@
 package com.norwood.mcheli.networking.packet;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.info.ContentRegistries;
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.WorldServer;
 
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.info.ContentRegistries;
-
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
+import java.util.ArrayList;
+import java.util.UUID;
 
 @ElegantPacket
 public class PacketContentReload extends PacketBase implements ClientToServerPacket {

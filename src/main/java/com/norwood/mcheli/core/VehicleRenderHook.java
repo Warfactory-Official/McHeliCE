@@ -1,15 +1,14 @@
 package com.norwood.mcheli.core;
 
-import java.util.List;
-
+import com.google.common.base.Predicates;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 
-import com.google.common.base.Predicates;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import java.util.List;
 
 // @SideOnly(Side.CLIENT)
 @SuppressWarnings("unused")

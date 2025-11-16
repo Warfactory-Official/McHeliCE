@@ -1,15 +1,13 @@
 package com.norwood.mcheli.networking.packet.control;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
-
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 @RequiredArgsConstructor

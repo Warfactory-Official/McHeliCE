@@ -1,13 +1,12 @@
 package com.norwood.mcheli.aircraft;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.norwood.mcheli.MCH_IRecipeList;
+import com.norwood.mcheli.MCH_InfoManagerBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipe;
 
-import com.norwood.mcheli.MCH_IRecipeList;
-import com.norwood.mcheli.MCH_InfoManagerBase;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MCH_AircraftInfoManager<T extends MCH_AircraftInfo> extends MCH_InfoManagerBase<T>
                                              implements MCH_IRecipeList {

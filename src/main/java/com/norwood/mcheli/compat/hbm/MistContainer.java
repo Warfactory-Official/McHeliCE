@@ -1,9 +1,8 @@
 package com.norwood.mcheli.compat.hbm;
 
+import lombok.NoArgsConstructor;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
-
-import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class MistContainer {

@@ -1,12 +1,10 @@
 package com.norwood.mcheli.aircraft;
 
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
-
 import com.norwood.mcheli.MCH_Lib;
-
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * Rotatable bounding box class that stores orientation and local axis vectors

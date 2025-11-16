@@ -1,10 +1,9 @@
 package com.norwood.mcheli.hud.direct_drawable;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 
 public interface DirectDrawable {
 

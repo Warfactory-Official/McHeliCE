@@ -1,14 +1,12 @@
 package com.norwood.mcheli.core;
 
-import java.util.Map;
-
+import lombok.Getter;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import lombok.Getter;
+import java.util.Map;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.TransformerExclusions({ "com.norwood.mcheli.core" })

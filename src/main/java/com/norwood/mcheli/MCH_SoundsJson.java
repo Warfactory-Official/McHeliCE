@@ -1,9 +1,5 @@
 package com.norwood.mcheli;
 
-import java.io.File;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -11,6 +7,10 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.GeneratedAddonPack;
+
+import java.io.File;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MCH_SoundsJson {
 

@@ -1,13 +1,26 @@
 package com.norwood.mcheli.command;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.regex.Pattern;
-
+import com.google.gson.JsonParseException;
+import com.norwood.mcheli.MCH_BaseInfo;
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.helicopter.MCH_HeliInfo;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.info.ContentRegistries;
+import com.norwood.mcheli.helper.info.ContentRegistry;
+import com.norwood.mcheli.helper.info.emitters.IEmitter;
+import com.norwood.mcheli.helper.info.emitters.YamlEmitter;
+import com.norwood.mcheli.multiplay.MultiplayerHandler;
+import com.norwood.mcheli.networking.packet.PacketHandleCommand;
+import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
+import com.norwood.mcheli.networking.packet.PacketTitle;
+import com.norwood.mcheli.plane.MCH_PlaneInfo;
+import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.tank.MCH_TankInfo;
+import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
+import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.*;
@@ -31,31 +44,16 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.CommandEvent;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 
-import com.google.gson.JsonParseException;
-import com.norwood.mcheli.MCH_BaseInfo;
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.helicopter.MCH_HeliInfo;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.info.ContentRegistries;
-import com.norwood.mcheli.helper.info.ContentRegistry;
-import com.norwood.mcheli.helper.info.emitters.IEmitter;
-import com.norwood.mcheli.helper.info.emitters.YamlEmitter;
-import com.norwood.mcheli.multiplay.MultiplayerHandler;
-import com.norwood.mcheli.networking.packet.PacketHandleCommand;
-import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
-import com.norwood.mcheli.networking.packet.PacketTitle;
-import com.norwood.mcheli.plane.MCH_PlaneInfo;
-import com.norwood.mcheli.ship.MCH_ShipInfo;
-import com.norwood.mcheli.tank.MCH_TankInfo;
-import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
-import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
-import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 public class MCH_Command extends CommandBase {
 

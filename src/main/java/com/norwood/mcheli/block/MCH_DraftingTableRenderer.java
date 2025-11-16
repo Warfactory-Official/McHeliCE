@@ -1,5 +1,8 @@
 package com.norwood.mcheli.block;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_ModelManager;
+import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
@@ -8,13 +11,8 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
-
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_ModelManager;
-import com.norwood.mcheli.wrapper.W_McClient;
 
 public class MCH_DraftingTableRenderer extends TileEntitySpecialRenderer<MCH_DraftingTableTileEntity> {
 

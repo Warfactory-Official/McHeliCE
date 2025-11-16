@@ -1,8 +1,16 @@
 package com.norwood.mcheli;
 
-import java.util.List;
-import java.util.UUID;
-
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_ItemAircraft;
+import com.norwood.mcheli.chain.MCH_ItemChain;
+import com.norwood.mcheli.command.MCH_Command;
+import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
+import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_EntityPlayer;
+import com.norwood.mcheli.wrapper.W_EventHook;
+import com.norwood.mcheli.wrapper.W_Lib;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -15,20 +23,11 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.aircraft.MCH_ItemAircraft;
-import com.norwood.mcheli.chain.MCH_ItemChain;
-import com.norwood.mcheli.command.MCH_Command;
-import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
-import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_EntityPlayer;
-import com.norwood.mcheli.wrapper.W_EventHook;
-import com.norwood.mcheli.wrapper.W_Lib;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.UUID;
 
 public class MCH_EventHook extends W_EventHook {
 

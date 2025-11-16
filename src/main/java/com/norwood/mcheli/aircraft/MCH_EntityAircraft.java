@@ -1,9 +1,25 @@
 package com.norwood.mcheli.aircraft;
 
-import java.util.*;
-
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.*;
+import com.norwood.mcheli.chain.MCH_EntityChain;
+import com.norwood.mcheli.command.MCH_Command;
+import com.norwood.mcheli.flare.MCH_Flare;
+import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
+import com.norwood.mcheli.helper.MCH_SoundEvents;
+import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
+import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
+import com.norwood.mcheli.mob.MCH_EntityGunner;
+import com.norwood.mcheli.mob.MCH_ItemSpawnGunner;
+import com.norwood.mcheli.multiplay.MCH_Multiplay;
+import com.norwood.mcheli.networking.packet.*;
+import com.norwood.mcheli.parachute.MCH_EntityParachute;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.tool.MCH_ItemWrench;
+import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.weapon.*;
+import com.norwood.mcheli.wrapper.*;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -46,30 +62,10 @@ import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.*;
-import com.norwood.mcheli.chain.MCH_EntityChain;
-import com.norwood.mcheli.command.MCH_Command;
-import com.norwood.mcheli.flare.MCH_Flare;
-import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
-import com.norwood.mcheli.helper.MCH_SoundEvents;
-import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
-import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
-import com.norwood.mcheli.mob.MCH_EntityGunner;
-import com.norwood.mcheli.mob.MCH_ItemSpawnGunner;
-import com.norwood.mcheli.multiplay.MCH_Multiplay;
-import com.norwood.mcheli.networking.packet.*;
-import com.norwood.mcheli.parachute.MCH_EntityParachute;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.tool.MCH_ItemWrench;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
-import com.norwood.mcheli.weapon.*;
-import com.norwood.mcheli.wrapper.*;
-
-import io.netty.buffer.ByteBuf;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public abstract class MCH_EntityAircraft
                                          extends W_EntityContainer

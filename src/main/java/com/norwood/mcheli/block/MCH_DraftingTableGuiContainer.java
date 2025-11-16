@@ -1,7 +1,12 @@
 package com.norwood.mcheli.block;
 
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.MCH_IRecipeList;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.helper.MCH_Recipes;
+import com.norwood.mcheli.wrapper.W_Block;
+import com.norwood.mcheli.wrapper.W_EntityPlayer;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -10,16 +15,9 @@ import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.MCH_IRecipeList;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.helper.MCH_Recipes;
-import com.norwood.mcheli.wrapper.W_Block;
-import com.norwood.mcheli.wrapper.W_EntityPlayer;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import javax.annotation.Nullable;
 
 public class MCH_DraftingTableGuiContainer extends Container {
 

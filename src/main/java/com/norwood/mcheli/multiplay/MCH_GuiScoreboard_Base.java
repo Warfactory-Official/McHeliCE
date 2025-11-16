@@ -1,9 +1,8 @@
 package com.norwood.mcheli.multiplay;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import com.norwood.mcheli.wrapper.W_GuiContainer;
+import com.norwood.mcheli.wrapper.W_ScaledResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -18,9 +17,9 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.text.TextFormatting;
 
-import com.google.common.collect.Lists;
-import com.norwood.mcheli.wrapper.W_GuiContainer;
-import com.norwood.mcheli.wrapper.W_ScaledResolution;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
 

@@ -1,23 +1,21 @@
 package com.norwood.mcheli.networking.packet;
 
-import static com.norwood.mcheli.multiplay.MultiplayerHandler.destoryAllAircraft;
-
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.multiplay.MCH_Multiplay;
+import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
+import hohserg.elegant.networking.api.ClientToServerPacket;
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.server.CommandScoreboard;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.multiplay.MCH_Multiplay;
-import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
-
-import hohserg.elegant.networking.api.ClientToServerPacket;
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import static com.norwood.mcheli.multiplay.MultiplayerHandler.destoryAllAircraft;
 
 @ElegantPacket
 @AllArgsConstructor

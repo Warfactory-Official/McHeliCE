@@ -1,14 +1,13 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import java.util.ArrayList;
-
+import com.google.common.base.Joiner;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.google.common.base.Joiner;
+import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
 public class GroupObject {

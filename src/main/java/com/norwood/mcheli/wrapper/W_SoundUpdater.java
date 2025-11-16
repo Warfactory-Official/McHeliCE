@@ -1,10 +1,9 @@
 package com.norwood.mcheli.wrapper;
 
+import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.Entity;
-
-import com.norwood.mcheli.helper.MCH_Utils;
 
 public class W_SoundUpdater {
 

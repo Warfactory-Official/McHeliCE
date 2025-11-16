@@ -1,5 +1,10 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -7,14 +12,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.helper.client._IModelCustom;
-import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_EntityCartridge extends W_Entity {
 

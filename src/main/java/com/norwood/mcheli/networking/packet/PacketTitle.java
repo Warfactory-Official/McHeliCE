@@ -1,13 +1,11 @@
 package com.norwood.mcheli.networking.packet;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.text.ITextComponent;
-
 import com.norwood.mcheli.MCH_MOD;
-
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.ITextComponent;
 
 @ElegantPacket
 @RequiredArgsConstructor

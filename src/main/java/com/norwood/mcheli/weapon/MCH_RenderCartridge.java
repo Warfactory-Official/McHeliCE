@@ -1,15 +1,13 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.wrapper.W_Render;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.wrapper.W_Render;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderCartridge extends W_Render<MCH_EntityCartridge> {

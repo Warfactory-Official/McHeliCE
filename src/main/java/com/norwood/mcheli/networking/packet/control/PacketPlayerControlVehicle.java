@@ -1,9 +1,5 @@
 package com.norwood.mcheli.networking.packet.control;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.chain.MCH_EntityChain;
@@ -13,9 +9,11 @@ import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.data.DataPlayerControlVehicle;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
-
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 @RequiredArgsConstructor

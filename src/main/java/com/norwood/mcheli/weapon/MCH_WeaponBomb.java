@@ -1,10 +1,9 @@
 package com.norwood.mcheli.weapon;
 
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-
 import com.norwood.mcheli.MCH_Explosion;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 public class MCH_WeaponBomb extends MCH_WeaponBase {
 

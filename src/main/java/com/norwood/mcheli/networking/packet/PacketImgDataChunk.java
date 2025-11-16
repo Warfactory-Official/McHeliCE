@@ -1,11 +1,10 @@
 package com.norwood.mcheli.networking.packet;
 
-import static com.norwood.mcheli.multiplay.MultiplayerHandler.*;
-
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
+import net.minecraft.entity.player.EntityPlayerMP;
+
+import static com.norwood.mcheli.multiplay.MultiplayerHandler.*;
 
 @ElegantPacket// FIXME
 public class PacketImgDataChunk implements ClientToServerPacket {

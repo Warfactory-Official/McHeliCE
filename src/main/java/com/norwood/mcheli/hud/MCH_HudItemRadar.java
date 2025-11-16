@@ -1,11 +1,10 @@
 package com.norwood.mcheli.hud;
 
-import java.util.ArrayList;
-
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_Vector2;
-
 import lombok.Getter;
+
+import java.util.ArrayList;
 
 @Getter
 public class MCH_HudItemRadar extends MCH_HudItem {

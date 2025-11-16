@@ -1,14 +1,12 @@
 package com.norwood.mcheli.networking.packet;
 
-import java.util.Arrays;
-
+import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
-
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
+import java.util.Arrays;
 
 @ElegantPacket
 public class PacketSpotEnemy implements ServerToClientPacket {

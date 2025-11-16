@@ -1,8 +1,7 @@
 package com.norwood.mcheli.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import com.norwood.mcheli.gui.MCH_Gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,11 +12,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
-import com.norwood.mcheli.gui.MCH_Gui;
+import java.util.ArrayList;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiTitle extends MCH_Gui {

@@ -1,12 +1,14 @@
 package com.norwood.mcheli.helper.world;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_DamageFactor;
+import com.norwood.mcheli.MCH_Explosion;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.flare.MCH_EntityFlare;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
+import com.norwood.mcheli.wrapper.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -29,15 +31,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_DamageFactor;
-import com.norwood.mcheli.MCH_Explosion;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.flare.MCH_EntityFlare;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
-import com.norwood.mcheli.wrapper.*;
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public class MCH_ExplosionV2 extends Explosion {
 

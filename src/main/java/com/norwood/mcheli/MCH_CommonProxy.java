@@ -1,13 +1,5 @@
 package com.norwood.mcheli;
 
-import java.io.File;
-import java.util.List;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_SoundUpdater;
@@ -25,6 +17,13 @@ import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+
+import java.io.File;
+import java.util.List;
 
 public class MCH_CommonProxy {
 

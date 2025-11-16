@@ -1,17 +1,15 @@
 package com.norwood.mcheli.weapon;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderManager;
-
-import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11;
-
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.wrapper.W_Block;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Render;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderManager;
+import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
 
 public abstract class MCH_RenderBulletBase<T extends W_Entity> extends W_Render<T> {
 

@@ -1,10 +1,5 @@
 package com.norwood.mcheli.gui;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.IGuiHandler;
-
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftGui;
@@ -19,6 +14,10 @@ import com.norwood.mcheli.multiplay.MCH_GuiScoreboard;
 import com.norwood.mcheli.uav.MCH_ContainerUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.MCH_GuiUavStation;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class MCH_GuiCommonHandler implements IGuiHandler {
 

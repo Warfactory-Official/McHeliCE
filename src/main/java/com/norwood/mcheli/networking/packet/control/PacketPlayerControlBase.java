@@ -1,16 +1,14 @@
 package com.norwood.mcheli.networking.packet.control;
 
-import static com.norwood.mcheli.networking.data.DataPlayerControlAircraft.HatchSwitch.UNFOLD;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.PacketBase;
 import com.norwood.mcheli.weapon.MCH_WeaponParam;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+
+import static com.norwood.mcheli.networking.data.DataPlayerControlAircraft.HatchSwitch.UNFOLD;
 
 public abstract class PacketPlayerControlBase extends PacketBase implements ClientToServerPacket {
 

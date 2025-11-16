@@ -1,5 +1,23 @@
 package com.norwood.mcheli.multiplay;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_FileSearch;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_OStream;
+import com.norwood.mcheli.networking.packet.PacketImgDataChunk;
+import com.norwood.mcheli.networking.packet.PacketSendModlist;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.relauncher.CoreModManager;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.IntBuffer;
@@ -10,27 +28,6 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
-
-import javax.imageio.ImageIO;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.texture.TextureUtil;
-import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.relauncher.CoreModManager;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_FileSearch;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_OStream;
-import com.norwood.mcheli.networking.packet.PacketImgDataChunk;
-import com.norwood.mcheli.networking.packet.PacketSendModlist;
 
 public class MCH_MultiplayClient {
 

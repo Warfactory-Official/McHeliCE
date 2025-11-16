@@ -3,7 +3,6 @@ package com.norwood.mcheli.wrapper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-
 import org.jetbrains.annotations.NotNull;
 
 public abstract class W_Block extends Block {

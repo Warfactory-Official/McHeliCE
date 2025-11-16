@@ -1,13 +1,12 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.networking.packet.PacketNotifyTVMissileEntity;
+import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.networking.packet.PacketNotifyTVMissileEntity;
-import com.norwood.mcheli.wrapper.W_Entity;
 
 public class MCH_WeaponTvMissile extends MCH_WeaponBase {
 

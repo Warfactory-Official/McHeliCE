@@ -1,12 +1,10 @@
 package com.norwood.mcheli.networking.packet;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 @Deprecated // Will be replaced by modular
 @ElegantPacket

@@ -1,14 +1,14 @@
 package com.norwood.mcheli.helper.info;
 
+import com.google.common.collect.Lists;
+import com.norwood.mcheli.helper.MCH_Logger;
+
 import java.io.*;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import com.google.common.collect.Lists;
-import com.norwood.mcheli.helper.MCH_Logger;
 
 public class FileContentLoader extends ContentLoader implements Closeable {
 

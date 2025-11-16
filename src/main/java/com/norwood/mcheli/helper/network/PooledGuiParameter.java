@@ -1,9 +1,9 @@
 package com.norwood.mcheli.helper.network;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+
+import javax.annotation.Nullable;
 
 public class PooledGuiParameter {
 

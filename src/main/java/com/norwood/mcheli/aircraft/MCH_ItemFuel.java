@@ -1,7 +1,6 @@
 package com.norwood.mcheli.aircraft;
 
-import java.util.List;
-
+import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemCoal;
 import net.minecraft.item.ItemStack;
@@ -9,10 +8,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.wrapper.W_Item;
+import java.util.List;
 
 public class MCH_ItemFuel extends W_Item {
 

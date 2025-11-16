@@ -1,12 +1,11 @@
 package com.norwood.mcheli.helper.info;
 
-import java.util.Locale;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 import com.norwood.mcheli.helper.info.parsers.IParser;
+
+import javax.annotation.Nullable;
+import java.util.Locale;
+import java.util.Map;
 
 public final class ContentParsers {
 

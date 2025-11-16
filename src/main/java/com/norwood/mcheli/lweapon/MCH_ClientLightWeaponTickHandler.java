@@ -1,22 +1,5 @@
 package com.norwood.mcheli.lweapon;
 
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.Vec3d;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
-
 import com.norwood.mcheli.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
@@ -28,7 +11,24 @@ import com.norwood.mcheli.networking.packet.control.PacketPlayerLightWeaponContr
 import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponCreator;
 import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
-import com.norwood.mcheli.wrapper.*;
+import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.W_EntityPlayer;
+import com.norwood.mcheli.wrapper.W_McClient;
+import com.norwood.mcheli.wrapper.W_Reflection;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.Vec3d;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
+
+import javax.annotation.Nullable;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase {
 

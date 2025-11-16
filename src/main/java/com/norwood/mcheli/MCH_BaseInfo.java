@@ -1,9 +1,8 @@
 package com.norwood.mcheli;
 
-import net.minecraft.util.math.Vec3d;
-
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.IContentData;
+import net.minecraft.util.math.Vec3d;
 
 public abstract class MCH_BaseInfo implements IContentData {
 

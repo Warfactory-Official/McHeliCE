@@ -1,20 +1,18 @@
 package com.norwood.mcheli.parachute;
 
-import java.util.Random;
-
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_ModelManager;
+import com.norwood.mcheli.wrapper.W_Render;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_ModelManager;
-import com.norwood.mcheli.wrapper.W_Render;
+import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderParachute extends W_Render<MCH_EntityParachute> {

@@ -1,13 +1,12 @@
 package com.norwood.mcheli.wrapper;
 
+import com.norwood.mcheli.MCH_MOD;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-
-import com.norwood.mcheli.MCH_MOD;
 
 public class W_McClient {
 

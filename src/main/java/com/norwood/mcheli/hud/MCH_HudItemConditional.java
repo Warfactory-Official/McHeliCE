@@ -11,7 +11,7 @@ public class MCH_HudItemConditional extends MCH_HudItem {
     public MCH_HudItemConditional(int fileLine, boolean isEndif, String conditional) {
         super(fileLine);
         this.isEndif = isEndif;
-        this.conditional = conditional;
+        this.conditional = toFormula(conditional);
     }
 
     @Override

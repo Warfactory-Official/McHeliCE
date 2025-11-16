@@ -1,8 +1,8 @@
 package com.norwood.mcheli.helper.client;
 
-import java.net.URL;
-
 import net.minecraft.util.ResourceLocation;
+
+import java.net.URL;
 
 @Deprecated
 public interface _IModelCustomLoader {

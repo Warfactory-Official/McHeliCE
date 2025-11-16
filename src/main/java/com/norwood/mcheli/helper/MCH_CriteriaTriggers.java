@@ -1,8 +1,7 @@
 package com.norwood.mcheli.helper;
 
-import net.minecraft.advancements.CriteriaTriggers;
-
 import com.norwood.mcheli.helper.criterion.MCH_SimpleTrigger;
+import net.minecraft.advancements.CriteriaTriggers;
 
 public class MCH_CriteriaTriggers {
 

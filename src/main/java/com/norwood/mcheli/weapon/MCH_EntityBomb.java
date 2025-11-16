@@ -1,7 +1,6 @@
 package com.norwood.mcheli.weapon;
 
-import java.util.List;
-
+import com.norwood.mcheli.wrapper.W_Lib;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -9,7 +8,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import com.norwood.mcheli.wrapper.W_Lib;
+import java.util.List;
 
 public class MCH_EntityBomb extends MCH_EntityBaseBullet {
 

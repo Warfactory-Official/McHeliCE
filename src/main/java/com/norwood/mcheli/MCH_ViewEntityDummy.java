@@ -1,15 +1,13 @@
 package com.norwood.mcheli;
 
+import com.norwood.mcheli.helper.client.MCH_CameraManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.stats.RecipeBook;
 import net.minecraft.stats.StatisticsManager;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.helper.client.MCH_CameraManager;
 
 public class MCH_ViewEntityDummy extends EntityPlayerSP {
 

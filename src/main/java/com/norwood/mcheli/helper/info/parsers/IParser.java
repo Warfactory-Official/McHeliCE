@@ -1,9 +1,5 @@
 package com.norwood.mcheli.helper.info.parsers;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.hud.MCH_Hud;
@@ -14,6 +10,9 @@ import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public interface IParser {
 

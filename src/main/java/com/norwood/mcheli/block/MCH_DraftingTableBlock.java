@@ -1,7 +1,11 @@
 package com.norwood.mcheli.block;
 
-import java.util.Random;
-
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.helper.block.EnumDirection8;
+import com.norwood.mcheli.helper.block.properties.PropertyDirection8;
+import com.norwood.mcheli.wrapper.W_BlockContainer;
+import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.EnumPushReaction;
@@ -20,15 +24,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.helper.block.EnumDirection8;
-import com.norwood.mcheli.helper.block.properties.PropertyDirection8;
-import com.norwood.mcheli.wrapper.W_BlockContainer;
-import com.norwood.mcheli.wrapper.W_Item;
+import java.util.Random;
 
 public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEntityProvider {
 

@@ -1,5 +1,6 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.MCH_Lib;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -7,8 +8,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.norwood.mcheli.MCH_Lib;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderAAMissile extends MCH_RenderBulletBase<MCH_EntityAAMissile> {

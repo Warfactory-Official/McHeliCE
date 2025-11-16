@@ -1,5 +1,6 @@
 package com.norwood.mcheli.helper.client.model;
 
+import com.norwood.mcheli.Tags;
 import net.minecraft.client.renderer.block.model.ModelBlock;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.IResourceManager;
@@ -7,10 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ICustomModelLoader;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.Tags;
 
 public enum LegacyModelLoader implements ICustomModelLoader {
 

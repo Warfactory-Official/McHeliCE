@@ -1,12 +1,12 @@
 package com.norwood.mcheli.helper.client.renderer.item;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nullable;
 
 @SideOnly(Side.CLIENT)
 public interface IItemModelRenderer {

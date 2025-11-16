@@ -2,7 +2,6 @@ package com.norwood.mcheli.multiplay;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-
 import org.jetbrains.annotations.NotNull;
 
 public class MCH_ContainerScoreboard extends Container {

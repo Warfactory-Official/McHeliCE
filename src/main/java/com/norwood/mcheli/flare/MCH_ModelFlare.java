@@ -1,10 +1,9 @@
 package com.norwood.mcheli.flare;
 
+import com.norwood.mcheli.wrapper.W_ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.norwood.mcheli.wrapper.W_ModelBase;
 
 @SideOnly(Side.CLIENT)
 public class MCH_ModelFlare extends W_ModelBase {

@@ -1,12 +1,11 @@
 package com.norwood.mcheli.wrapper;
 
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.MCH_MOD;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-import com.norwood.mcheli.MCH_MOD;
+import javax.annotation.Nullable;
 
 public class W_Lib {
 

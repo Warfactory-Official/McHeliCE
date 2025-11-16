@@ -1,13 +1,5 @@
 package com.norwood.mcheli.helper.addon;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
-import net.minecraft.util.JsonUtils;
-
-import org.apache.commons.io.IOUtils;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -16,6 +8,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.io.ResourceLoader;
+import net.minecraft.util.JsonUtils;
+import org.apache.commons.io.IOUtils;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class AddonPack {
 

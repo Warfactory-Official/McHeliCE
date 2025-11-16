@@ -1,7 +1,6 @@
 package com.norwood.mcheli.lweapon;
 
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -12,10 +11,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.wrapper.W_Item;
+import javax.annotation.Nullable;
 
 public class MCH_ItemLightWeaponBase extends W_Item {
 

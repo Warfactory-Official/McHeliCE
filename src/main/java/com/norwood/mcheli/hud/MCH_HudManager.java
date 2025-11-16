@@ -1,8 +1,8 @@
 package com.norwood.mcheli.hud;
 
-import javax.annotation.Nullable;
-
 import com.norwood.mcheli.helper.info.ContentRegistries;
+
+import javax.annotation.Nullable;
 
 public class MCH_HudManager {
 

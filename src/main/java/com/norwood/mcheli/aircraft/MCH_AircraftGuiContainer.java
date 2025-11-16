@@ -1,15 +1,13 @@
 package com.norwood.mcheli.aircraft;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.parachute.MCH_ItemParachute;
+import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.parachute.MCH_ItemParachute;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
 
 public class MCH_AircraftGuiContainer extends Container {
 

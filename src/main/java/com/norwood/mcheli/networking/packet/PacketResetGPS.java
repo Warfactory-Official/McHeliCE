@@ -1,11 +1,9 @@
 package com.norwood.mcheli.networking.packet;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.norwood.mcheli.weapon.GPSPosition;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 public class PacketResetGPS implements ClientToServerPacket {

@@ -1,16 +1,14 @@
 package com.norwood.mcheli.networking.packet;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 
 @ElegantPacket
 @RequiredArgsConstructor

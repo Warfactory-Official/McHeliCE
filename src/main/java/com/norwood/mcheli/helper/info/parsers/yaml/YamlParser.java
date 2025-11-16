@@ -1,17 +1,5 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
-import static com.norwood.mcheli.aircraft.MCH_AircraftInfo.*;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-
-import org.jetbrains.annotations.Nullable;
-import org.yaml.snakeyaml.Yaml;
-
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.RWRType;
 import com.norwood.mcheli.RadarType;
@@ -34,6 +22,16 @@ import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
+import org.yaml.snakeyaml.Yaml;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.norwood.mcheli.aircraft.MCH_AircraftInfo.*;
 
 // TODO:Reforged Fields
 @SuppressWarnings({ "unchecked", "unboxing" })

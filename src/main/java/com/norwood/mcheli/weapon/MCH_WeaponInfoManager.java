@@ -1,12 +1,11 @@
 package com.norwood.mcheli.weapon;
 
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.helper.info.ContentRegistries;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import com.norwood.mcheli.helper.info.ContentRegistries;
+import javax.annotation.Nullable;
 
 public class MCH_WeaponInfoManager {
 

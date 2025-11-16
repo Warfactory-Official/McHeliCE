@@ -1,14 +1,12 @@
 package com.norwood.mcheli.aircraft;
 
+import com.norwood.mcheli.MCH_Lib;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.MCH_Lib;
 
 public class MCH_ItemAircraftDispenseBehavior extends BehaviorDefaultDispenseItem {
 

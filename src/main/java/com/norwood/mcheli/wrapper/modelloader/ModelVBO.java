@@ -1,22 +1,18 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-
-import java.nio.Buffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.norwood.mcheli.helper.client._IModelCustom;
 import net.minecraft.client.renderer.GlStateManager;
-
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
+import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 
 public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 

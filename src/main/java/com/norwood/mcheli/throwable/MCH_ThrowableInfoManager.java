@@ -1,8 +1,7 @@
 package com.norwood.mcheli.throwable;
 
-import net.minecraft.item.Item;
-
 import com.norwood.mcheli.helper.info.ContentRegistries;
+import net.minecraft.item.Item;
 
 public class MCH_ThrowableInfoManager {
 

@@ -1,9 +1,8 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import com.norwood.mcheli.helper.MCH_Utils;
 
 public class MCH_WeaponDummy extends MCH_WeaponBase {
 

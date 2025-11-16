@@ -1,11 +1,9 @@
 package com.norwood.mcheli;
 
+import com.norwood.mcheli.wrapper.W_KeyBinding;
 import net.minecraft.client.settings.KeyBinding;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-
-import com.norwood.mcheli.wrapper.W_KeyBinding;
 
 public class MCH_Key {
 

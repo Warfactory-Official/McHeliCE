@@ -1,5 +1,10 @@
 package com.norwood.mcheli.helper.io;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.collect.Lists;
+import org.jline.utils.OSUtils;
+
+import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,13 +14,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import javax.annotation.Nullable;
-
-import org.jline.utils.OSUtils;
-
-import com.google.common.base.CharMatcher;
-import com.google.common.collect.Lists;
 
 public abstract class ResourceLoader implements Closeable {
 

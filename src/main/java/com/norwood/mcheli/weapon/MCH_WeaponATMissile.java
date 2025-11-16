@@ -1,11 +1,10 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import com.norwood.mcheli.wrapper.W_Entity;
 
 public class MCH_WeaponATMissile extends MCH_WeaponEntitySeeker {
 

@@ -1,7 +1,5 @@
 package com.norwood.mcheli.wrapper;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -19,8 +17,9 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 public abstract class W_Entity extends Entity {
 

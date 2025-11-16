@@ -1,14 +1,5 @@
 package com.norwood.mcheli.block;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
-
 import com.norwood.mcheli.MCH_IRecipeList;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.MCH_ModelManager;
@@ -22,6 +13,13 @@ import com.norwood.mcheli.ship.MCH_ShipInfoManager;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MCH_CurrentRecipe {
 

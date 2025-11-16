@@ -1,19 +1,17 @@
 package com.norwood.mcheli.networking.packet;
 
-import java.util.List;
-
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.helper.world.MCH_ExplosionV2;
+import com.norwood.mcheli.networking.data.DataExplosionParameters;
+import hohserg.elegant.networking.api.ElegantPacket;
+import hohserg.elegant.networking.api.ServerToClientPacket;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.helper.world.MCH_ExplosionV2;
-import com.norwood.mcheli.networking.data.DataExplosionParameters;
-
-import hohserg.elegant.networking.api.ElegantPacket;
-import hohserg.elegant.networking.api.ServerToClientPacket;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @ElegantPacket// TODO:Will be reworked, I just want to be done with packets
 // We can use NBT to get way more flexible effect packet handling

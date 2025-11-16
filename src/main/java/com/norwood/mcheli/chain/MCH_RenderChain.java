@@ -1,5 +1,8 @@
 package com.norwood.mcheli.chain;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_ModelManager;
+import com.norwood.mcheli.wrapper.W_Render;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -8,12 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_ModelManager;
-import com.norwood.mcheli.wrapper.W_Render;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderChain extends W_Render<MCH_EntityChain> {

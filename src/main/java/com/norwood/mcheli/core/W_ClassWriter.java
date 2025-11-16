@@ -1,8 +1,8 @@
 package com.norwood.mcheli.core;
 
+import net.minecraft.launchwrapper.Launch;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
-import net.minecraft.launchwrapper.Launch;
 
 //mlbv: mch naming scheme! fancy right?
 public class W_ClassWriter extends ClassWriter {

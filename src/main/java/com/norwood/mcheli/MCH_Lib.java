@@ -1,11 +1,6 @@
 package com.norwood.mcheli;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-
+import com.norwood.mcheli.wrapper.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -20,7 +15,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import com.norwood.mcheli.wrapper.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class MCH_Lib {
 
@@ -68,14 +67,6 @@ public class MCH_Lib {
 
     public static Material getMaterialFromName(String name) {
         return mapMaterial.getOrDefault(name, null);
-    }
-
-    public static Vec3d calculateFaceNormal(Vec3d[] vertices) {
-        Vec3d v1 = new Vec3d(vertices[1].x - vertices[0].x, vertices[1].y - vertices[0].y,
-                vertices[1].z - vertices[0].z);
-        Vec3d v2 = new Vec3d(vertices[2].x - vertices[0].x, vertices[2].y - vertices[0].y,
-                vertices[2].z - vertices[0].z);
-        return v1.crossProduct(v2).normalize();
     }
 
     public static double parseDouble(String s) {
@@ -131,10 +122,6 @@ public class MCH_Lib {
         }
     }
 
-    public static int round(double d) {
-        return (int) (d + 0.5);
-    }
-
     public static Vec3d Rot2Vec3(float yaw, float pitch) {
         return new Vec3d(
                 -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI),
@@ -166,13 +153,6 @@ public class MCH_Lib {
         v = W_Vec3.rotateRoll(roll / 180.0F * (float) Math.PI, v);
         v = v.rotatePitch(pitch / 180.0F * (float) Math.PI);
         return v.rotateYaw(yaw / 180.0F * (float) Math.PI);
-    }
-
-    public static Vec3d _Rot2Vec3(float yaw, float pitch, float roll) {
-        return new Vec3d(
-                -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI),
-                -MathHelper.sin(pitch / 180.0F * (float) Math.PI),
-                MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI));
     }
 
     public static double getRotate360(double r) {
@@ -342,22 +322,6 @@ public class MCH_Lib {
         return new Vec3d(0.0, yaw, roll);
     }
 
-    public static float getAlpha(int argb) {
-        return (argb >> 24) / 255.0F;
-    }
-
-    public static float getRed(int argb) {
-        return (argb >> 16 & 0xFF) / 255.0F;
-    }
-
-    public static float getGreen(int argb) {
-        return (argb >> 8 & 0xFF) / 255.0F;
-    }
-
-    public static float getBlue(int argb) {
-        return (argb & 0xFF) / 255.0F;
-    }
-
     public static void enableFirstPersonItemRender() {
         switch (MCH_Config.DisableItemRender.prmInt) {
             case 2 -> MCH_ItemRendererDummy.disableDummyItemRenderer();
@@ -393,16 +357,6 @@ public class MCH_Lib {
     public static void setRenderViewEntity(EntityLivingBase entity) {
         if (MCH_Config.ReplaceRenderViewEntity.prmBool) {
             W_McClient.setRenderEntity(entity);
-        }
-    }
-
-    public static boolean isFlansModEntity(Entity entity) {
-        if (entity == null) {
-            return false;
-        } else {
-            String className = entity.getClass().getName();
-            return className.contains("EntityVehicle") || className.contains("EntityPlane") ||
-                    className.contains("EntityMecha") || className.contains("EntityAAGun");
         }
     }
 }

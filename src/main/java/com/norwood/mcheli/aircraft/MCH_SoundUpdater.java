@@ -1,11 +1,10 @@
 package com.norwood.mcheli.aircraft;
 
+import com.norwood.mcheli.wrapper.W_SoundUpdater;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.norwood.mcheli.wrapper.W_SoundUpdater;
 
 @SideOnly(Side.CLIENT)
 public class MCH_SoundUpdater extends W_SoundUpdater {

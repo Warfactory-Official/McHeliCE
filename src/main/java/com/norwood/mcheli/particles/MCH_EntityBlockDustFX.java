@@ -1,7 +1,5 @@
 package com.norwood.mcheli.particles;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.IParticleFactory;
@@ -9,8 +7,9 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleBlockDust;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 public class MCH_EntityBlockDustFX extends ParticleBlockDust {
 

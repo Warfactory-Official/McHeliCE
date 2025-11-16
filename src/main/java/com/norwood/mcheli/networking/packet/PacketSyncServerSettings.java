@@ -1,19 +1,17 @@
 package com.norwood.mcheli.networking.packet;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_ServerSettings;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
 import com.norwood.mcheli.wrapper.W_Reflection;
-
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayerMP;
+
+import javax.annotation.Nullable;
 
 @ElegantPacket
 public class PacketSyncServerSettings extends PacketBase implements ServerToClientPacket {

@@ -1,5 +1,7 @@
 package com.norwood.mcheli.throwable;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,11 +14,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_Item;
 
 public class MCH_ItemThrowable extends W_Item {
 

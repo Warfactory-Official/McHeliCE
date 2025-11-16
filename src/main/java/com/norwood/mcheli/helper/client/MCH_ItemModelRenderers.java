@@ -1,10 +1,13 @@
 package com.norwood.mcheli.helper.client;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Nullable;
-
+import com.google.common.collect.Maps;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.helper.client.model.MCH_BakedModel;
+import com.norwood.mcheli.helper.client.renderer.item.CustomItemStackRenderer;
+import com.norwood.mcheli.helper.client.renderer.item.IItemModelRenderer;
+import com.norwood.mcheli.helper.info.ContentRegistries;
+import com.norwood.mcheli.helper.info.IItemContent;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -15,14 +18,9 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.google.common.collect.Maps;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.helper.client.model.MCH_BakedModel;
-import com.norwood.mcheli.helper.client.renderer.item.CustomItemStackRenderer;
-import com.norwood.mcheli.helper.client.renderer.item.IItemModelRenderer;
-import com.norwood.mcheli.helper.info.ContentRegistries;
-import com.norwood.mcheli.helper.info.IItemContent;
+import javax.annotation.Nullable;
+import java.util.Map;
+import java.util.Map.Entry;
 
 @EventBusSubscriber(
                     modid = "mcheli",

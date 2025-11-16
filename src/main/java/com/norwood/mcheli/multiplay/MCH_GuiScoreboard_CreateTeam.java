@@ -1,21 +1,19 @@
 package com.norwood.mcheli.multiplay;
 
-import static com.norwood.mcheli.networking.packet.PacketHandleCommand.*;
-
-import java.io.IOException;
-
+import com.norwood.mcheli.networking.packet.PacketHandleCommand;
+import com.norwood.mcheli.wrapper.W_McClient;
+import com.norwood.mcheli.wrapper.W_ScaledResolution;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextFormatting;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.networking.packet.PacketHandleCommand;
-import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_ScaledResolution;
+import java.io.IOException;
+
+import static com.norwood.mcheli.networking.packet.PacketHandleCommand.CommandAction;
 
 public class MCH_GuiScoreboard_CreateTeam extends MCH_GuiScoreboard_Base {
 

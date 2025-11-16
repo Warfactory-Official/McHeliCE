@@ -1,5 +1,7 @@
 package com.norwood.mcheli.mob;
 
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBiped.ArmPose;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,12 +13,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
-
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderGunner extends RenderLivingBase<MCH_EntityGunner> {

@@ -1,9 +1,6 @@
 package com.norwood.mcheli.helper;
 
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
+import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -13,7 +10,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-import com.google.common.collect.Sets;
+import javax.annotation.Nullable;
+import java.util.Set;
 
 @ObjectHolder("mcheli")
 @EventBusSubscriber(

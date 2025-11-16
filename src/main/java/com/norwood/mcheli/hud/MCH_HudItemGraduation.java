@@ -1,10 +1,8 @@
 package com.norwood.mcheli.hud;
 
-import net.minecraft.client.renderer.GlStateManager;
-
 import com.norwood.mcheli.MCH_Lib;
-
 import lombok.Getter;
+import net.minecraft.client.renderer.GlStateManager;
 
 @Getter
 public class MCH_HudItemGraduation extends MCH_HudItem {

@@ -1,19 +1,18 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
-import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
-
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-import net.minecraft.util.math.Vec3d;
-
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
+import net.minecraft.util.math.Vec3d;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 
 @SuppressWarnings("unchecked")
 public class ComponentParser {

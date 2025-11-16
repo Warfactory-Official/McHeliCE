@@ -1,5 +1,10 @@
 package com.norwood.mcheli.tool.rangefinder;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.gui.MCH_Gui;
+import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,14 +14,7 @@ import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.lwjgl.opengl.GL11;
-
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_KeyName;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.gui.MCH_Gui;
-import com.norwood.mcheli.wrapper.W_McClient;
 
 @SideOnly(Side.CLIENT)
 public class MCH_GuiRangeFinder extends MCH_Gui {

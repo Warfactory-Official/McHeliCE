@@ -1,10 +1,18 @@
 package com.norwood.mcheli.mob;
 
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_SeatInfo;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
+import com.norwood.mcheli.weapon.MCH_WeaponBase;
+import com.norwood.mcheli.weapon.MCH_WeaponEntitySeeker;
+import com.norwood.mcheli.weapon.MCH_WeaponParam;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -27,22 +35,11 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ITeleporter;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.aircraft.MCH_SeatInfo;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
-import com.norwood.mcheli.weapon.MCH_WeaponBase;
-import com.norwood.mcheli.weapon.MCH_WeaponEntitySeeker;
-import com.norwood.mcheli.weapon.MCH_WeaponParam;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class MCH_EntityGunner extends EntityLivingBase {
 

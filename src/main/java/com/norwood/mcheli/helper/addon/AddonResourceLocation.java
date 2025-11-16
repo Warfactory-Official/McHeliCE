@@ -1,14 +1,12 @@
 package com.norwood.mcheli.helper.addon;
 
-import java.util.Locale;
-
-import net.minecraft.util.ResourceLocation;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.google.common.base.Strings;
 import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.helper.MCH_Utils;
+import net.minecraft.util.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
 
 public class AddonResourceLocation extends ResourceLocation {
 

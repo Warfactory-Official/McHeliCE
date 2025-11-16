@@ -1,16 +1,5 @@
 package com.norwood.mcheli.helper.info.parsers.txt;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Supplier;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
@@ -44,6 +33,15 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo.MuzzleFlash;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo.RoundItem;
 import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 // TODO: refactor the if-else chain with a massive switch or something
 public class TxtParser implements IParser {

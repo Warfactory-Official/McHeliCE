@@ -1,15 +1,5 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
-import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
 import com.norwood.mcheli.compat.hbm.MistContainer;
@@ -25,6 +15,14 @@ import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.weapon.MCH_Cartridge;
 import com.norwood.mcheli.weapon.MCH_SightType;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 
 @SuppressWarnings("unchecked")
 public class WeaponParser {

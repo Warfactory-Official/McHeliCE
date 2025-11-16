@@ -1,9 +1,9 @@
 package com.norwood.mcheli;
 
+import net.minecraft.util.math.MathHelper;
+
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-
-import net.minecraft.util.math.MathHelper;
 
 public class MCH_Math {
 

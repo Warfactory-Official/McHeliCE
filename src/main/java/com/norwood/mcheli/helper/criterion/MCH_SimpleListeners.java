@@ -1,13 +1,12 @@
 package com.norwood.mcheli.helper.criterion;
 
-import java.util.Set;
-
+import com.google.common.collect.Sets;
 import net.minecraft.advancements.ICriterionTrigger.Listener;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.critereon.AbstractCriterionInstance;
 import net.minecraft.util.ResourceLocation;
 
-import com.google.common.collect.Sets;
+import java.util.Set;
 
 public class MCH_SimpleListeners {
 

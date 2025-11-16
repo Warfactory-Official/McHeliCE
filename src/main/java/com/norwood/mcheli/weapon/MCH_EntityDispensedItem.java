@@ -1,5 +1,7 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,9 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.wrapper.W_Item;
 
 public class MCH_EntityDispensedItem extends MCH_EntityBaseBullet {
 

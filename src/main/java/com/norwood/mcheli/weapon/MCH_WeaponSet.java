@@ -1,16 +1,15 @@
 package com.norwood.mcheli.weapon;
 
-import java.util.Random;
-
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.mob.MCH_EntityGunner;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
+import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.mob.MCH_EntityGunner;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
-import com.norwood.mcheli.wrapper.W_McClient;
+import java.util.Random;
 
 public class MCH_WeaponSet {
 

@@ -1,7 +1,7 @@
 package com.norwood.mcheli.wrapper;
 
-import java.nio.FloatBuffer;
-
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_MOD;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -9,12 +9,10 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_MOD;
+import java.nio.FloatBuffer;
 
 public abstract class W_Render<T extends Entity> extends Render<T> {
 

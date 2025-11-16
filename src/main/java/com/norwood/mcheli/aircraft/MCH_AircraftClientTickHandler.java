@@ -1,12 +1,5 @@
 package com.norwood.mcheli.aircraft;
 
-import static com.norwood.mcheli.networking.packet.PacketSeatPlayerControl.PlayerControlState;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-
-import org.lwjgl.input.Keyboard;
-
 import com.norwood.mcheli.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
@@ -14,6 +7,11 @@ import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
 import com.norwood.mcheli.networking.packet.PacketSeatPlayerControl;
 import com.norwood.mcheli.networking.packet.control.PacketPlayerControlBase;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
+import org.lwjgl.input.Keyboard;
+
+import static com.norwood.mcheli.networking.packet.PacketSeatPlayerControl.PlayerControlState;
 
 public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandlerBase {
 

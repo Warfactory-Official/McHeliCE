@@ -1,10 +1,9 @@
 package com.norwood.mcheli.gui;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-
 import com.norwood.mcheli.MCH_ConfigPrm;
 import com.norwood.mcheli.MCH_KeyName;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 
 public class MCH_GuiListItemKeyBind extends MCH_GuiListItem {
 

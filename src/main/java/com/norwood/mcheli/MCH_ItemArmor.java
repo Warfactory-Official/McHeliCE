@@ -1,7 +1,6 @@
 package com.norwood.mcheli;
 
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.wrapper.W_ItemArmor;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,10 +8,9 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.wrapper.W_ItemArmor;
+import javax.annotation.Nullable;
 
 public class MCH_ItemArmor extends W_ItemArmor {
 

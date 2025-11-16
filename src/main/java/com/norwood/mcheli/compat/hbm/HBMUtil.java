@@ -1,10 +1,9 @@
 package com.norwood.mcheli.compat.hbm;
 
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
-
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 
 public class HBMUtil {
 

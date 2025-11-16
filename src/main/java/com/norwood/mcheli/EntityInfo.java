@@ -1,8 +1,7 @@
 package com.norwood.mcheli;
 
-import net.minecraft.entity.Entity;
-
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import net.minecraft.entity.Entity;
 
 public class EntityInfo {
 

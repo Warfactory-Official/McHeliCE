@@ -1,12 +1,11 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.norwood.mcheli.wrapper.W_Entity;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderNone extends MCH_RenderBulletBase<W_Entity> {

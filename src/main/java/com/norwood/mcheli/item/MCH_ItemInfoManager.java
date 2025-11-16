@@ -1,5 +1,13 @@
 package com.norwood.mcheli.item;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import com.norwood.mcheli.helper.info.ContentParseException;
+import com.norwood.mcheli.helper.info.parsers.txt.TxtParser;
+import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
+import net.minecraft.item.Item;
+
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -7,15 +15,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
-import net.minecraft.item.Item;
-
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.addon.AddonResourceLocation;
-import com.norwood.mcheli.helper.info.ContentParseException;
-import com.norwood.mcheli.helper.info.parsers.txt.TxtParser;
-import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
 
 public class MCH_ItemInfoManager {
 

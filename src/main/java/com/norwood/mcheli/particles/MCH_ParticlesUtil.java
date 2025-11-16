@@ -1,8 +1,6 @@
 package com.norwood.mcheli.particles;
 
-import java.util.Locale;
-import java.util.function.Supplier;
-
+import com.norwood.mcheli.wrapper.W_Particle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
@@ -23,7 +21,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 
-import com.norwood.mcheli.wrapper.W_Particle;
+import java.util.Locale;
+import java.util.function.Supplier;
 
 public class MCH_ParticlesUtil {
 

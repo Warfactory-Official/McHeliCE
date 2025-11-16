@@ -1,21 +1,19 @@
 package com.norwood.mcheli.networking.packet.control;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.MobEffects;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.Vec3d;
-
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.lweapon.MCH_ItemLightWeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponCreator;
 import com.norwood.mcheli.weapon.MCH_WeaponParam;
 import com.norwood.mcheli.wrapper.W_EntityPlayer;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.Vec3d;
 
 @ElegantPacket
 public class PacketPlayerLightWeaponControl implements ClientToServerPacket {

@@ -1,10 +1,10 @@
 package com.norwood.mcheli.helper.addon;
 
-import java.io.File;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.norwood.mcheli.helper.MCH_Utils;
+
+import java.io.File;
 
 public class BuiltinAddonPack extends AddonPack {
 

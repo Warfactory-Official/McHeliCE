@@ -1,10 +1,9 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 
 public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
 

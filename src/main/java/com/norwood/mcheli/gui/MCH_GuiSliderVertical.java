@@ -1,16 +1,14 @@
 package com.norwood.mcheli.gui;
 
+import com.norwood.mcheli.MCH_Key;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.wrapper.W_GuiButton;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.MCH_Key;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.wrapper.W_GuiButton;
 
 public class MCH_GuiSliderVertical extends W_GuiButton {
 

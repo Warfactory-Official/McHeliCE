@@ -1,14 +1,5 @@
 package com.norwood.mcheli.aircraft;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.math.Vec3d;
-
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.RWRType;
 import com.norwood.mcheli.RadarType;
@@ -19,9 +10,16 @@ import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.hud.MCH_HudManager;
 import com.norwood.mcheli.hud.direct_drawable.*;
 import com.norwood.mcheli.wrapper.W_Entity;
-
 import lombok.AllArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.math.Vec3d;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemContent {
 

@@ -1,8 +1,13 @@
 package com.norwood.mcheli.hud.direct_drawable;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.norwood.mcheli.EntityInfo;
+import com.norwood.mcheli.MCH_EntityInfoClientTracker;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.tank.MCH_EntityTank;
+import lombok.AllArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -16,18 +21,10 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-
 import org.lwjgl.opengl.GL11;
 
-import com.norwood.mcheli.EntityInfo;
-import com.norwood.mcheli.MCH_EntityInfoClientTracker;
-import com.norwood.mcheli.Tags;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.helicopter.MCH_EntityHeli;
-import com.norwood.mcheli.plane.MCH_EntityPlane;
-import com.norwood.mcheli.tank.MCH_EntityTank;
-
-import lombok.AllArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HudRWR implements DirectDrawable {
 

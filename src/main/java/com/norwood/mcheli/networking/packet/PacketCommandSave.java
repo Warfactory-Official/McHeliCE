@@ -1,11 +1,9 @@
 package com.norwood.mcheli.networking.packet;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 public class PacketCommandSave extends PacketBase implements ClientToServerPacket {

@@ -1,26 +1,5 @@
 package com.norwood.mcheli;
 
-import java.io.File;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-import net.minecraft.command.CommandHandler;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.world.World;
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import org.apache.logging.log4j.Logger;
-
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.block.MCH_DraftingTableBlock;
 import com.norwood.mcheli.block.MCH_DraftingTableTileEntity;
@@ -72,6 +51,25 @@ import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.W_Item;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
 import com.norwood.mcheli.wrapper.W_NetworkRegistry;
+import net.minecraft.command.CommandHandler;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 @Mod(
      modid = "mcheli",

@@ -1,11 +1,10 @@
 package com.norwood.mcheli.networking.data;
 
-import java.util.List;
-
-import net.minecraft.util.math.BlockPos;
-
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.util.math.BlockPos;
+
+import java.util.List;
 
 public class DataExplosionParameters {
 

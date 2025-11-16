@@ -1,16 +1,15 @@
 package com.norwood.mcheli.core;
 
-import static com.norwood.mcheli.core.MCHCore.coreLogger;
-import static org.objectweb.asm.Opcodes.*;
-
 import net.minecraft.launchwrapper.IClassTransformer;
-
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.norwood.mcheli.core.MCHCore.coreLogger;
+import static org.objectweb.asm.Opcodes.*;
 
 public class EntityRenderHooks implements IClassTransformer {
 

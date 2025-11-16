@@ -1,12 +1,11 @@
 package com.norwood.mcheli.core;
 
-import java.util.Arrays;
-
+import com.google.common.eventbus.EventBus;
 import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.ModMetadata;
 
-import com.google.common.eventbus.EventBus;
+import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class MCHCoreContainer extends DummyModContainer {

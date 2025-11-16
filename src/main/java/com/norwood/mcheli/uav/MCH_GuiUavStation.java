@@ -1,13 +1,5 @@
 package com.norwood.mcheli.uav;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
 import com.norwood.mcheli.helicopter.MCH_ItemHeli;
@@ -20,6 +12,12 @@ import com.norwood.mcheli.tank.MCH_ItemTank;
 import com.norwood.mcheli.tank.MCH_TankInfoManager;
 import com.norwood.mcheli.wrapper.W_GuiContainer;
 import com.norwood.mcheli.wrapper.W_McClient;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class MCH_GuiUavStation extends W_GuiContainer {
 

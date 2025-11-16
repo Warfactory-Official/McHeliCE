@@ -1,18 +1,17 @@
 package com.norwood.mcheli.helper.client;
 
-import java.io.FileNotFoundException;
-
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.client.model.loader.IVertexModelLoader;
+import com.norwood.mcheli.helper.client.model.loader.MetasequoiaModelLoader;
+import com.norwood.mcheli.helper.client.model.loader.WavefrontModelLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.client.model.loader.IVertexModelLoader;
-import com.norwood.mcheli.helper.client.model.loader.MetasequoiaModelLoader;
-import com.norwood.mcheli.helper.client.model.loader.WavefrontModelLoader;
 import org.jetbrains.annotations.Contract;
+
+import java.io.FileNotFoundException;
 
 @SideOnly(Side.CLIENT)
 public class MCH_Models {

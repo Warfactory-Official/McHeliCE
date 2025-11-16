@@ -1,13 +1,13 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
-import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
+import com.norwood.mcheli.MCH_Color;
+import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.norwood.mcheli.MCH_Color;
-import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
+import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.*;
 
 @SuppressWarnings("unchecked")
 public class ThrowableParser {

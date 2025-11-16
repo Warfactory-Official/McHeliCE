@@ -1,15 +1,13 @@
 package com.norwood.mcheli;
 
+import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.ITickableTextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.helper.MCH_Utils;
 
 public class MCH_TextureManagerDummy extends TextureManager {
 

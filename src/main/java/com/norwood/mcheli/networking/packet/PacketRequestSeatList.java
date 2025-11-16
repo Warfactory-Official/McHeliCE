@@ -1,13 +1,11 @@
 package com.norwood.mcheli.networking.packet;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.wrapper.W_Entity;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 public class PacketRequestSeatList extends PacketBase implements ClientToServerPacket {

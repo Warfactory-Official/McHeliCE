@@ -1,8 +1,7 @@
 package com.norwood.mcheli;
 
-import net.minecraft.client.settings.KeyBinding;
-
 import com.norwood.mcheli.wrapper.W_KeyBinding;
+import net.minecraft.client.settings.KeyBinding;
 
 public class MCH_KeyName {
 

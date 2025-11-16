@@ -1,5 +1,8 @@
 package com.norwood.mcheli.helper.client.renderer.item;
 
+import com.norwood.mcheli.MCH_ModelManager;
+import com.norwood.mcheli.tool.MCH_ItemWrench;
+import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms.TransformType;
 import net.minecraft.entity.EntityLivingBase;
@@ -7,10 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.norwood.mcheli.MCH_ModelManager;
-import com.norwood.mcheli.tool.MCH_ItemWrench;
-import com.norwood.mcheli.wrapper.W_McClient;
 
 @SideOnly(Side.CLIENT)
 public class BuiltInWrenchItemRenderer implements IItemModelRenderer {

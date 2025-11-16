@@ -1,13 +1,11 @@
 package com.norwood.mcheli.networking.packet.control;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
-
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
 import com.norwood.mcheli.networking.packet.PacketBase;
-
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
 public class PacketGLTDControl extends PacketBase implements ClientToServerPacket {

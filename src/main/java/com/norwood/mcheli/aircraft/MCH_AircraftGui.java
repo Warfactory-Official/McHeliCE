@@ -1,14 +1,5 @@
 package com.norwood.mcheli.aircraft;
 
-import java.io.IOException;
-
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.norwood.mcheli.networking.packet.PacketCommandSave;
 import com.norwood.mcheli.networking.packet.PacketHandleCommand;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
@@ -18,6 +9,13 @@ import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_GuiContainer;
 import com.norwood.mcheli.wrapper.W_McClient;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.EntityPlayer;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 public class MCH_AircraftGui extends W_GuiContainer {
 

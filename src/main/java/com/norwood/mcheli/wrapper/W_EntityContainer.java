@@ -1,7 +1,6 @@
 package com.norwood.mcheli.wrapper;
 
-import java.util.Arrays;
-
+import com.norwood.mcheli.MCH_Lib;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,10 +12,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ITeleporter;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.MCH_Lib;
+import java.util.Arrays;
 
 public abstract class W_EntityContainer extends W_Entity implements IInventory {
 

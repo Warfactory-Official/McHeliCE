@@ -1,11 +1,10 @@
 package com.norwood.mcheli.aircraft;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
-
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 
 public class MCH_Parts {
 

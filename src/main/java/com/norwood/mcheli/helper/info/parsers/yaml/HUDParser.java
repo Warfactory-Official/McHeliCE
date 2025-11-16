@@ -1,17 +1,16 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
-import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEntry;
-import static com.norwood.mcheli.hud.MCH_HudItem.toFormula;
+import com.norwood.mcheli.helper.MCH_Logger;
+import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.hud.*;
+import net.minecraft.util.Tuple;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.minecraft.util.Tuple;
-
-import com.norwood.mcheli.helper.MCH_Logger;
-import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.hud.*;
+import static com.norwood.mcheli.helper.info.parsers.yaml.YamlParser.logUnkownEntry;
+import static com.norwood.mcheli.hud.MCH_HudItem.toFormula;
 
 // Dude this is so fucking stupid, we should just move to groovy but muh 1.7 compat... ugh
 @SuppressWarnings("unchecked")

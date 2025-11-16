@@ -1,5 +1,9 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.particles.MCH_ParticleParam;
+import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -8,11 +12,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.particles.MCH_ParticleParam;
-import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 
 public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
 

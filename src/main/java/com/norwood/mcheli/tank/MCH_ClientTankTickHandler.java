@@ -1,8 +1,5 @@
 package com.norwood.mcheli.tank;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_Lib;
@@ -15,6 +12,8 @@ import com.norwood.mcheli.networking.data.DataPlayerControlVehicle;
 import com.norwood.mcheli.networking.packet.control.PacketPlayerControlTank;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.wrapper.W_Reflection;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
 

@@ -1,9 +1,10 @@
 package com.norwood.mcheli.helper.debug;
 
-import java.util.Map;
-
-import javax.vecmath.Color4f;
-
+import com.google.common.collect.Maps;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.weapon.MCH_WeaponBase;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.GLStateManagerExt;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,14 +14,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Maps;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.weapon.MCH_WeaponBase;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import javax.vecmath.Color4f;
+import java.util.Map;
 
 public class WeaponPointRenderer {
 

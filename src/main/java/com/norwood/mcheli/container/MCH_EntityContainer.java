@@ -1,7 +1,17 @@
 package com.norwood.mcheli.container;
 
-import java.util.List;
-
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_IEntityCanRideAircraft;
+import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
+import com.norwood.mcheli.multiplay.MCH_Multiplay;
+import com.norwood.mcheli.wrapper.W_AxisAlignedBB;
+import com.norwood.mcheli.wrapper.W_Block;
+import com.norwood.mcheli.wrapper.W_EntityContainer;
+import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
@@ -19,18 +29,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.aircraft.MCH_IEntityCanRideAircraft;
-import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
-import com.norwood.mcheli.multiplay.MCH_Multiplay;
-import com.norwood.mcheli.wrapper.*;
+import java.util.List;
 
 public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntityCanRideAircraft {
 

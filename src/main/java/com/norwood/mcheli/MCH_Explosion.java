@@ -1,14 +1,13 @@
 package com.norwood.mcheli;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.world.World;
-
 import com.norwood.mcheli.helper.world.MCH_ExplosionV2;
 import com.norwood.mcheli.networking.data.DataExplosionParameters;
 import com.norwood.mcheli.networking.packet.PacketParticleEffect;
 import com.norwood.mcheli.wrapper.W_Entity;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 @Deprecated// Piece of shit, im axing it soon
 public class MCH_Explosion {

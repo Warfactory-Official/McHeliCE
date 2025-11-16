@@ -1,5 +1,9 @@
 package com.norwood.mcheli.particles;
 
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
+import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
+import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -9,13 +13,7 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
 import org.jetbrains.annotations.NotNull;
-
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
-import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
-import com.norwood.mcheli.wrapper.W_Reflection;
 
 public class MCH_EntityParticleMarkPoint extends MCH_EntityParticleBase implements ITargetMarkerObject {
 

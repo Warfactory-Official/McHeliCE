@@ -1,15 +1,13 @@
 package com.norwood.mcheli.networking.packet;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.wrapper.W_Lib;
-
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 
 @RequiredArgsConstructor
 @ElegantPacket

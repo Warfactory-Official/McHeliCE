@@ -1,8 +1,8 @@
 package com.norwood.mcheli;
 
-import java.util.HashMap;
-
 import net.minecraft.entity.Entity;
+
+import java.util.HashMap;
 
 public class MCH_DamageFactor {
 

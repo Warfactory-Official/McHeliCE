@@ -1,13 +1,11 @@
 package com.norwood.mcheli.weapon;
 
-import java.util.Optional;
-
-import javax.annotation.Nullable;
-
+import com.norwood.mcheli.weapon.registry.WeaponTypeRegistry;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import com.norwood.mcheli.weapon.registry.WeaponTypeRegistry;
+import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class MCH_WeaponCreator {
 

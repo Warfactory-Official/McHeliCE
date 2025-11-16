@@ -1,15 +1,14 @@
 package com.norwood.mcheli.compat.hbm;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Optional.Interface(iface = "com.hbm.explosion.ExplosionNT", modid = "hbm")
 public class NTSettingContainer {

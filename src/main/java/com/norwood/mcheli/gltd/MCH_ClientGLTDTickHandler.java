@@ -1,10 +1,9 @@
 package com.norwood.mcheli.gltd;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.networking.packet.control.PacketGLTDControl;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class MCH_ClientGLTDTickHandler extends MCH_ClientTickHandlerBase {
 

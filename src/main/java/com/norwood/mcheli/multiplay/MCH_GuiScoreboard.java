@@ -1,22 +1,20 @@
 package com.norwood.mcheli.multiplay;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.norwood.mcheli.wrapper.W_GuiButton;
+import com.norwood.mcheli.wrapper.W_GuiContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
-
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import com.norwood.mcheli.wrapper.W_GuiButton;
-import com.norwood.mcheli.wrapper.W_GuiContainer;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MCH_GuiScoreboard extends W_GuiContainer implements MCH_IGuiScoreboard {
 

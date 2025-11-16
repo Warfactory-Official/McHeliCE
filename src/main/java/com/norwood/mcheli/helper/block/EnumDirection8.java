@@ -3,7 +3,6 @@ package com.norwood.mcheli.helper.block;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
-
 import org.jetbrains.annotations.NotNull;
 
 public enum EnumDirection8 implements IStringSerializable {

@@ -1,14 +1,13 @@
 package com.norwood.mcheli.wrapper;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.helper.MCH_Utils;
 
 public class W_EntityRenderer {
 

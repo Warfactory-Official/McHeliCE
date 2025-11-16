@@ -3,7 +3,6 @@ package com.norwood.mcheli.gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-
 import org.jetbrains.annotations.NotNull;
 
 public class MCH_ConfigGuiContainer extends Container {

@@ -1,17 +1,15 @@
 package com.norwood.mcheli.helper.criterion;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonObject;
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.google.common.collect.Maps;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
+import java.util.Map;
 
 public class MCH_SimpleTrigger implements ICriterionTrigger<MCH_SimpleListeners.SimpleInstance> {
 

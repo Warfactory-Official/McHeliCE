@@ -1,11 +1,10 @@
 package com.norwood.mcheli.helper.debug;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.norwood.mcheli.MCH_ClientProxy;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.helper.MCH_Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DebugBootstrap {
 

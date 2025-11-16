@@ -1,11 +1,10 @@
 package com.norwood.mcheli.tank;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.item.Item;
-
 import com.norwood.mcheli.aircraft.MCH_AircraftInfoManager;
 import com.norwood.mcheli.helper.info.ContentRegistries;
+import net.minecraft.item.Item;
+
+import javax.annotation.Nullable;
 
 public class MCH_TankInfoManager extends MCH_AircraftInfoManager<MCH_TankInfo> {
 

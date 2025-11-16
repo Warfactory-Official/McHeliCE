@@ -2,7 +2,6 @@ package com.norwood.mcheli.hud;
 
 import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.wrapper.W_TextureUtil;
-
 import lombok.Getter;
 import net.minecraft.client.renderer.GlStateManager;
 

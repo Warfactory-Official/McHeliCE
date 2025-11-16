@@ -1,12 +1,11 @@
 package com.norwood.mcheli.wrapper;
 
+import com.norwood.mcheli.helper.MCH_SoundEvents;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-
-import com.norwood.mcheli.helper.MCH_SoundEvents;
 
 public class W_Sound extends MovingSound {
 

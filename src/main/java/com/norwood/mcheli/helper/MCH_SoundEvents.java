@@ -1,8 +1,7 @@
 package com.norwood.mcheli.helper;
 
-import java.util.Objects;
-import java.util.Set;
-
+import com.google.common.collect.Sets;
+import com.norwood.mcheli.MCH_Lib;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -15,8 +14,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 
-import com.google.common.collect.Sets;
-import com.norwood.mcheli.MCH_Lib;
+import java.util.Objects;
+import java.util.Set;
 
 @EventBusSubscriber(
                     modid = "mcheli")
