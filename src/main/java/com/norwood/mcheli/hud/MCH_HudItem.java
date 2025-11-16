@@ -238,26 +238,50 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     public static void drawVarMap() {
-        if (MCH_Config.TestMode.prmBool) {
-            int i = 0;
-            int x = (int) (-300.0 + centerX);
-            int y = (int) (-100.0 + centerY);
+        if (!MCH_Config.TestMode.prmBool) {
+            return;
+        }
 
-            for (String key : varMap.keySet()) {
-                dummy.drawString(key, x, y, 52992);
-                Double d = (Double) varMap.get(key);
-                String fmt = key.equalsIgnoreCase("color") ? String.format(": 0x%08X", d.intValue()) :
-                        String.format(": %.2f", d);
-                dummy.drawString(fmt, x + 50, y, 52992);
-                i++;
-                y += 8;
-                if (i == varMap.size() / 2) {
-                    x = (int) (200.0 + centerX);
-                    y = (int) (-100.0 + centerY);
+        int i = 0;
+        int x = (int) (-350.0 + centerX);
+        int y = (int) (-110.0 + centerY);
+
+        for (String key : varMap.keySet()) {
+            dummy.drawString(key, x, y, 52992);
+
+            Object val = varMap.get(key);
+            String fmt;
+
+            if (key.equalsIgnoreCase("color")) {
+                int color = 0;
+                if (val instanceof Number) {
+                    color = ((Number) val).intValue();
                 }
+                fmt = String.format(": 0x%08X", color);
+            }
+            else if (val instanceof Boolean) {
+                boolean b = (Boolean) val;
+                fmt = String.format(": %s (%.2f)", b, b ? 1.0 : 0.0);
+            }
+            else if (val instanceof Number) {
+                double d = ((Number) val).doubleValue();
+                fmt = String.format(": %.2f", d);
+            }
+            else {
+                fmt = ": " + String.valueOf(val);
+            }
+
+            dummy.drawString(fmt, x + 50, y, 52992);
+
+            i++;
+            y += 8;
+            if (i == varMap.size() / 2) {
+                x = (int) (200.0 + centerX);
+                y = (int) (-100.0 + centerY);
             }
         }
     }
+
 
     private static double getUAV_Fs(MCH_EntityAircraft ac) {
         double uav_fs = 0.0;
