@@ -17,6 +17,7 @@ public class MCH_HudItemString extends MCH_HudItem {
     private final String format;
     private final MCH_HudItemStringArgs[] args;
     private final boolean isCenteredString;
+    private final Object[] prm;
 
     public MCH_HudItemString(int fileLine, String posx, String posy, String fmt, String[] arg, boolean centered) {
         super(fileLine);
@@ -25,6 +26,7 @@ public class MCH_HudItemString extends MCH_HudItem {
         this.format = fmt;
         int len = arg.length < 3 ? 0 : arg.length - 3;
         this.args = new MCH_HudItemStringArgs[len];
+         prm = new Object[this.args.length];
 
         for (int i = 0; i < len; i++) {
             this.args[i] = MCH_HudItemStringArgs.toArgs(arg[3 + i]);
@@ -39,7 +41,6 @@ public class MCH_HudItemString extends MCH_HudItem {
         int y = (int) (centerY + calc(this.posY));
         int worldTime = (int) ((ac.world.getWorldTime() + 6000L) % 24000L);
         Date date = new Date();
-        Object[] prm = new Object[this.args.length];
         double hp_per = ac.getMaxHP() > 0 ? (double) ac.getHP() / ac.getMaxHP() : 0.0;
 
         for (int i = 0; i < prm.length; i++) {

@@ -102,7 +102,7 @@ public abstract class MCH_HudItem extends Gui {
     static {
         LEGACY_VARS.add("reloading");
         LEGACY_VARS.add("is_heat_wpn");
-        LEGACY_VARS.add("display_mortar_dist");
+        LEGACY_VARS.add("have_radar");
         LEGACY_VARS.add("dsp_mt_dist");
         LEGACY_VARS.add("can_flare");
         LEGACY_VARS.add("have_flare");
