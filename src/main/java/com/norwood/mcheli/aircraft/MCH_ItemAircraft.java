@@ -51,11 +51,11 @@ public abstract class MCH_ItemAircraft extends W_Item {
             tooltip.add(Arrays.stream(ac.weapons).map(MCH_WeaponSet::getName).collect(Collectors.joining(", ")));
         }
 
-        if (ac != null && ac.isNewUAV()) {
-            tooltip.add(TextFormatting.RED + "DANGER!");
-            tooltip.add(TextFormatting.RED + "This drone has a new UAV mechanic!");
-            tooltip.add(TextFormatting.RED + "It may contain a lot of bugs!");
-            tooltip.add(TextFormatting.RED + "Clear your inventory before use!");
+        // handles tooltips for UAVs
+        if (ac != null && ac.isUAV()) {
+            String small = ac.isSmallUAV() ?  "Small " : "";
+            String targetDrone = ac.isTargetDrone() ?  "Targeting " : "";
+            tooltip.add(TextFormatting.BLUE +"[" + small + targetDrone + "UAV]");
         }
 
         super.addInformation(stack, worldIn, tooltip, flagIn);
