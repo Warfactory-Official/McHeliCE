@@ -65,7 +65,7 @@ public class EntityTrackerEntryTransformer implements IClassTransformer {
                 throw new IllegalStateException("Did not find Math.min call to patch in EntityTrackerEntry#isVisibleTo");
             }
 
-            ClassWriter writer = new W_ClassWriter(classReader, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+            ClassWriter writer = new W_ClassWriter(classReader,ClassWriter.COMPUTE_MAXS);
             classNode.accept(writer);
             return writer.toByteArray();
         } catch (Throwable t) {
