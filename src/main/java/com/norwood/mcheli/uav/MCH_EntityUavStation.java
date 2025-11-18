@@ -582,9 +582,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         }
     }
 
-    public void _setInventorySlotContents(int par1, ItemStack itemStack) {
-        super.setInventorySlotContents(par1, itemStack);
-    }
+
 
     public boolean processInitialInteract(@NotNull EntityPlayer player, @NotNull EnumHand hand) {
         if (hand != EnumHand.MAIN_HAND) {

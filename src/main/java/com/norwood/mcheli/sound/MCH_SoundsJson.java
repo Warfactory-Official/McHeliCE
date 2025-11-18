@@ -1,10 +1,11 @@
-package com.norwood.mcheli;
+package com.norwood.mcheli.sound;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
+import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.GeneratedAddonPack;
 
@@ -56,7 +57,7 @@ public class MCH_SoundsJson {
             lines.add("");
         }
 
-        GeneratedAddonPack.instance().updateAssetFile("sounds.json", lines);
-        MCH_Utils.logger().info("Update sounds.json, %d sounds.", cnt);
+        GeneratedAddonPack.instance().updateAssetFile("sounds.json.bk", lines);
+        MCH_Utils.logger().info("Update sounds.json.bk, %d sounds.", cnt);
     }
 }

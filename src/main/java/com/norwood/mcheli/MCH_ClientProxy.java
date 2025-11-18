@@ -40,6 +40,8 @@ import com.norwood.mcheli.plane.MCP_RenderPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_RenderShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.sound.MCH_SoundsJson;
+import com.norwood.mcheli.sound.SoundRegistry;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_RenderTank;
 import com.norwood.mcheli.tank.MCH_TankInfo;
@@ -64,6 +66,7 @@ import net.minecraftforge.fml.client.SplashProgress;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.io.File;
@@ -184,6 +187,11 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             throw new RuntimeException(t);
         }
         return splashThread.getState() != Thread.State.TERMINATED;
+    }
+
+    @Override
+    public void postInit(FMLPostInitializationEvent postEvent) {
+        SoundRegistry.commitChanges(Minecraft.getMinecraft().getSoundHandler());
     }
 
     @Override
