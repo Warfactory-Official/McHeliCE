@@ -40,7 +40,6 @@ import com.norwood.mcheli.plane.MCP_RenderPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_RenderShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
-import com.norwood.mcheli.sound.MCH_SoundsJson;
 import com.norwood.mcheli.sound.SoundRegistry;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_RenderTank;
@@ -532,25 +531,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerSounds() {
         super.registerSounds();
-        W_McClient.addSound("alert.ogg");
-        W_McClient.addSound("locked.ogg");
-        W_McClient.addSound("gltd.ogg");
-        W_McClient.addSound("zoom.ogg");
-        W_McClient.addSound("ng.ogg");
-        W_McClient.addSound("a-10_snd.ogg");
-        W_McClient.addSound("gau-8_snd.ogg");
-        W_McClient.addSound("hit.ogg");
-        W_McClient.addSound("helidmg.ogg");
-        W_McClient.addSound("heli.ogg");
-        W_McClient.addSound("plane.ogg");
-        W_McClient.addSound("plane_cc.ogg");
-        W_McClient.addSound("plane_cv.ogg");
-        W_McClient.addSound("chain.ogg");
-        W_McClient.addSound("chain_ct.ogg");
-        W_McClient.addSound("eject_seat.ogg");
-        W_McClient.addSound("fim92_snd.ogg");
-        W_McClient.addSound("fim92_reload.ogg");
-        W_McClient.addSound("lockon.ogg");
 
         for (MCH_WeaponInfo info : ContentRegistries.weapon().values()) {
             W_McClient.addSound(info.soundFileName + ".ogg");
@@ -677,7 +657,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Deprecated
     @Override
     public void updateSoundsJson() {
-//        MCH_SoundsJson.updateGenerated();
     }
 
     @Override

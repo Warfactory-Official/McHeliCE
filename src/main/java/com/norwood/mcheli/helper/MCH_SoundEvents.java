@@ -2,6 +2,7 @@ package com.norwood.mcheli.helper;
 
 import com.google.common.collect.Sets;
 import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.Tags;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -31,7 +32,7 @@ public class MCH_SoundEvents {
     }
 
     public static void registerSoundEventName(String name) {
-        registerSoundEventName(MCH_Utils.suffix(name));
+        registerSoundEventName(new ResourceLocation(Tags.MODID,name));
     }
 
     public static void registerSoundEventName(ResourceLocation name) {

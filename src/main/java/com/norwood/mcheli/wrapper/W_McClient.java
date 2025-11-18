@@ -26,8 +26,6 @@ public class W_McClient {
         DEF_playSoundFX(MCH_MOD.DOMAIN + ":" + name, volume, pitch);
     }
 
-    public static void addSound(String name) {}
-
     public static void MOD_bindTexture(String tex) {
         Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(MCH_MOD.DOMAIN, tex));
     }

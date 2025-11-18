@@ -21,6 +21,7 @@ import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.sound.SoundRegistry;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
@@ -608,7 +609,7 @@ public class TxtParser implements IParser {
                             info.flare.pos = info.toVec3(sx[0], sx[1], sx[2]);
                         }
                     } else if (item.equalsIgnoreCase("Sound")) {
-                        info.soundMove = data.toLowerCase();
+                        info.soundMove = SoundRegistry.parseSound(data);
                     } else if (item.equalsIgnoreCase("SoundRange")) {
                         info.soundRange = info.toFloat(data, 1.0F, 1000.0F);
                     } else if (item.equalsIgnoreCase("SoundVolume")) {

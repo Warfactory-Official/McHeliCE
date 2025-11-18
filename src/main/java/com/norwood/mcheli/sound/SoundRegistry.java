@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@SideOnly(Side.CLIENT)
 public class SoundRegistry {
 
     public static final String SND = "_snd";

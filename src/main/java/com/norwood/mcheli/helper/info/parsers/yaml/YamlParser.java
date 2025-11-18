@@ -17,11 +17,13 @@ import com.norwood.mcheli.hud.MCH_HudManager;
 import com.norwood.mcheli.item.MCH_ItemInfo;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.sound.SoundRegistry;
 import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -585,13 +587,23 @@ public class YamlParser implements IParser {
     private void parseSound(Map<String, Object> soundSettings, MCH_AircraftInfo info) {
         for (Map.Entry<String, Object> entry : soundSettings.entrySet()) {
             switch (entry.getKey()) {
-                case "MoveSound" -> info.soundMove = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
+                case "MoveSound" -> info.soundMove = parseSoundEffect(entry.getValue());
                 case "Volume", "Vol" -> info.soundVolume = getClamped(10F, entry.getValue());
                 case "Pitch" -> info.soundPitch = getClamped(1F, 10F, entry.getValue());
                 case "Range" -> info.soundRange = getClamped(1F, 1000.0F, entry.getValue());
             }
 
         }
+    }
+
+    public ResourceLocation parseSoundEffect(Object sound){
+        if(sound instanceof String string ){
+            return SoundRegistry.parseSound(string);
+        }
+        else if(sound instanceof Map<?,?> map){
+            return SoundRegistry.parseSound((Map<String, Object>) map);
+        } else
+            throw new IllegalArgumentException("Unsupported sound effect type: " + sound.getClass());
     }
 
     private void parseRender(Map<String, Object> renderProperties, MCH_AircraftInfo info) {
