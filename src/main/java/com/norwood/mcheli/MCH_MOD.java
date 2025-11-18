@@ -358,7 +358,7 @@ public class MCH_MOD {
         MCH_Lib.Log("Register renderer");
         proxy.registerRenderer();
         MCH_Lib.Log("Register Sounds");
-        proxy.registerSounds();
+//        proxy.registerSounds();
         proxy.updateGeneratedLanguage();
         MCH_Lib.Log("End load");
     }

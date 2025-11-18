@@ -603,11 +603,10 @@ public class WeaponParser {
     private static void parseSoundLoc(MCH_WeaponInfo info, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Hit" -> info.hitSound = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
-                case "HitMetal" -> info.hitSoundIron = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
-                case "Railgun" -> info.railgunSound = ((String) entry.getValue()).toLowerCase(Locale.ROOT).trim();
-                case "WeaponSwitch" -> info.weaponSwitchSound = ((String) entry.getValue()).toLowerCase(Locale.ROOT)
-                        .trim();
+                case "Hit" -> info.hitSound = INSTANCE.parseSoundEffect(entry.getValue());
+                case "HitMetal" -> info.hitSoundIron = INSTANCE.parseSoundEffect(entry.getValue());
+                case "Railgun" -> info.railgunSound = INSTANCE.parseSoundEffect(entry.getValue());
+                case "WeaponSwitch" -> info.weaponSwitchSound = INSTANCE.parseSoundEffect(entry.getValue());
 
             }
         }

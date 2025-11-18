@@ -97,7 +97,6 @@ public class SoundRegistry {
     public static void commitChanges(SoundHandler handler){
         for(Map.Entry<ResourceLocation,SoundList> entry : soundMap.entrySet())
             handler.loadSoundResource(entry.getKey(),entry.getValue());
-
     }
     public static void registerSoundEvents(){
 
@@ -128,8 +127,11 @@ public class SoundRegistry {
 
 
     public static ResourceLocation parseSound(Map<String, Object> ymlEntry) {
-        if (!MCH_MOD.proxy.isRemote())
-            return new ResourceLocation(Tags.MODID, (String) ymlEntry.get("Name"));
+        ResourceLocation resource = new ResourceLocation(Tags.MODID, (String) ymlEntry.get("Name"));
+        MCH_SoundEvents.registerSoundEventName(resource);
+        if (!MCH_MOD.proxy.isRemote()) {
+            return resource;
+        }
 
         String eventName = (String) ymlEntry.get("Name");
         List<SoundSpec> specs = new ArrayList<>();
@@ -160,13 +162,15 @@ public class SoundRegistry {
 
     //TXT parser
     public static ResourceLocation parseSound(String loc) {
-        if (!MCH_MOD.proxy.isRemote()) return new ResourceLocation(Tags.MODID, loc); //Serverside just returns
+        ResourceLocation resource = new ResourceLocation(Tags.MODID, loc);
+        MCH_SoundEvents.registerSoundEventName(resource);
+        if (!MCH_MOD.proxy.isRemote()) return resource; //Serverside just returns
         StringBuilder snd = new StringBuilder();
         snd.append(Tags.MODID).append(loc);
         if (!loc.endsWith(SND))
             snd.append(SND);
         put(Tags.MODID + ":" + loc, entry(snd.toString()));
-        return new ResourceLocation(Tags.MODID, loc);
+        return resource;
     }
 
     @NoArgsConstructor

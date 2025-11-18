@@ -4,7 +4,7 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_SoundUpdater;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
-import com.norwood.mcheli.helper.MCH_SoundEvents;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonManager;
 import com.norwood.mcheli.helper.addon.AddonPack;
@@ -90,33 +90,33 @@ public class MCH_CommonProxy {
         MCH_SoundEvents.registerSoundEventName("lockon");
         MCH_SoundEvents.registerSoundEventName("wrench");
 
-        for (MCH_WeaponInfo info : ContentRegistries.weapon().values()) {
-            MCH_SoundEvents.registerSoundEventName(info.soundFileName);
-        }
-
-        for (MCH_AircraftInfo info : ContentRegistries.plane().values()) {
-            if (!info.soundMove.isEmpty()) {
-                MCH_SoundEvents.registerSoundEventName(info.soundMove);
-            }
-        }
-
-        for (MCH_AircraftInfo infox : ContentRegistries.heli().values()) {
-            if (!infox.soundMove.isEmpty()) {
-                MCH_SoundEvents.registerSoundEventName(infox.soundMove);
-            }
-        }
-
-        for (MCH_AircraftInfo infoxx : ContentRegistries.tank().values()) {
-            if (!infoxx.soundMove.isEmpty()) {
-                MCH_SoundEvents.registerSoundEventName(infoxx.soundMove);
-            }
-        }
-
-        for (MCH_AircraftInfo infoxxx : ContentRegistries.vehicle().values()) {
-            if (!infoxxx.soundMove.isEmpty()) {
-                MCH_SoundEvents.registerSoundEventName(infoxxx.soundMove);
-            }
-        }
+//        for (MCH_WeaponInfo info : ContentRegistries.weapon().values()) {
+//            MCH_SoundEvents.registerSoundEventName(info.soundFileName);
+//        }
+//
+//        for (MCH_AircraftInfo info : ContentRegistries.plane().values()) {
+//            if (!info.soundMove.isEmpty()) {
+//                MCH_SoundEvents.registerSoundEventName(info.soundMove);
+//            }
+//        }
+//
+//        for (MCH_AircraftInfo infox : ContentRegistries.heli().values()) {
+//            if (!infox.soundMove.isEmpty()) {
+//                MCH_SoundEvents.registerSoundEventName(infox.soundMove);
+//            }
+//        }
+//
+//        for (MCH_AircraftInfo infoxx : ContentRegistries.tank().values()) {
+//            if (!infoxx.soundMove.isEmpty()) {
+//                MCH_SoundEvents.registerSoundEventName(infoxx.soundMove);
+//            }
+//        }
+//
+//        for (MCH_AircraftInfo infoxxx : ContentRegistries.vehicle().values()) {
+//            if (!infoxxx.soundMove.isEmpty()) {
+//                MCH_SoundEvents.registerSoundEventName(infoxxx.soundMove);
+//            }
+//        }
     }
 
     public void loadConfig(String fileName) {

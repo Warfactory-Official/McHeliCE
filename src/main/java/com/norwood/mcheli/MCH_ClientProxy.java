@@ -531,34 +531,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerSounds() {
         super.registerSounds();
-
-        for (MCH_WeaponInfo info : ContentRegistries.weapon().values()) {
-            W_McClient.addSound(info.soundFileName + ".ogg");
-        }
-
-        for (MCH_AircraftInfo info : ContentRegistries.plane().values()) {
-            if (!info.soundMove.isEmpty()) {
-                W_McClient.addSound(info.soundMove + ".ogg");
-            }
-        }
-
-        for (MCH_AircraftInfo infox : ContentRegistries.heli().values()) {
-            if (!infox.soundMove.isEmpty()) {
-                W_McClient.addSound(infox.soundMove + ".ogg");
-            }
-        }
-
-        for (MCH_AircraftInfo infoxx : ContentRegistries.tank().values()) {
-            if (!infoxx.soundMove.isEmpty()) {
-                W_McClient.addSound(infoxx.soundMove + ".ogg");
-            }
-        }
-
-        for (MCH_AircraftInfo infoxxx : ContentRegistries.vehicle().values()) {
-            if (!infoxxx.soundMove.isEmpty()) {
-                W_McClient.addSound(infoxxx.soundMove + ".ogg");
-            }
-        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.norwood.mcheli.weapon;
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
+import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.compat.hbm.*;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -87,7 +89,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public MCH_Cartridge cartridge = null;
     public MCH_Color color = new MCH_Color();
     public MCH_Color colorInWater = new MCH_Color();
-    public String soundFileName;
+//    public String soundFileName;
     public float smokeSize = 2.0F;
     public int smokeNum = 1;
     public int smokeMaxAge = 100;
@@ -127,9 +129,10 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
      * Spread of block-breaking particles. Recommended values: 0.1 (rifle bullet) ~ 0.6 (anti-tank rifle)
      */
     public float flakParticlesDiff = 0.3F;
-    public String hitSound = "";
-    public String hitSoundIron = "hit_metal";
-    public String railgunSound = "railgun";
+    @Nullable
+    public ResourceLocation hitSound = null;
+    public ResourceLocation hitSoundIron =  new ResourceLocation(Tags.MODID,"hit_metal");
+    public ResourceLocation railgunSound = new ResourceLocation(Tags.MODID,"railgun");
     public float hitSoundRange = 100;
     /**
      * Whether this is an infrared missile (affected by flares)
@@ -207,7 +210,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public int weaponSwitchCount = 0;
 
     /// Weapon switch sound effect
-    public String weaponSwitchSound = "";
+    @Nullable
+    public ResourceLocation weaponSwitchSound = null;
 
     /// Vertical weapon recoil
     public float recoilPitch = 0.0F;

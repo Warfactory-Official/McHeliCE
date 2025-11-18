@@ -1,6 +1,6 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.helper.MCH_SoundEvents;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;

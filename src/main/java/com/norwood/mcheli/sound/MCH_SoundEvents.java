@@ -1,4 +1,4 @@
-package com.norwood.mcheli.helper;
+package com.norwood.mcheli.sound;
 
 import com.google.common.collect.Sets;
 import com.norwood.mcheli.MCH_Lib;
