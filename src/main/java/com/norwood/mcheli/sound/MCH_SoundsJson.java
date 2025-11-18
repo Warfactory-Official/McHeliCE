@@ -57,7 +57,7 @@ public class MCH_SoundsJson {
             lines.add("");
         }
 
-        GeneratedAddonPack.instance().updateAssetFile("sounds.json.bk", lines);
-        MCH_Utils.logger().info("Update sounds.json.bk, %d sounds.", cnt);
+        GeneratedAddonPack.instance().updateAssetFile("lkoijw", lines);
+        MCH_Utils.logger().info("Update lkoijw, %d sounds.", cnt);
     }
 }

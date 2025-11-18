@@ -677,7 +677,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Deprecated
     @Override
     public void updateSoundsJson() {
-        MCH_SoundsJson.updateGenerated();
+//        MCH_SoundsJson.updateGenerated();
     }
 
     @Override
