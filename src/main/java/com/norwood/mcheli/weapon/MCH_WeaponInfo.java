@@ -8,7 +8,9 @@ import com.norwood.mcheli.compat.hbm.*;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
+import com.norwood.mcheli.sound.SoundRegistry;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -52,7 +54,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public int timeFuse = 0;
     public boolean flaming = false;
     public MCH_SightType sight = MCH_SightType.NONE;
-    public float[] zoom = new float[] { 1.0F };
+    public float[] zoom = new float[]{1.0F};
     public int delay = 10;
     public int reloadTime = 30;
     public int round = 0;
@@ -89,7 +91,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public MCH_Cartridge cartridge = null;
     public MCH_Color color = new MCH_Color();
     public MCH_Color colorInWater = new MCH_Color();
-//    public String soundFileName;
+    //    public String soundFileName;
     public float smokeSize = 2.0F;
     public int smokeNum = 1;
     public int smokeMaxAge = 100;
@@ -131,8 +133,11 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public float flakParticlesDiff = 0.3F;
     @Nullable
     public ResourceLocation hitSound = null;
-    public ResourceLocation hitSoundIron =  new ResourceLocation(Tags.MODID,"hit_metal");
-    public ResourceLocation railgunSound = new ResourceLocation(Tags.MODID,"railgun");
+    @NonNull
+    public  ResourceLocation fireSound;
+
+    public ResourceLocation hitSoundIron = new ResourceLocation(Tags.MODID, "hit_metal");
+    public ResourceLocation railgunSound = new ResourceLocation(Tags.MODID, "railgun");
     public float hitSoundRange = 100;
     /**
      * Whether this is an infrared missile (affected by flares)
@@ -308,7 +313,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         super(location, path);
         this.name = location.getPath();
         this.displayName = this.name;
-        this.soundFileName = this.name + "_snd";
+        this.fireSound = new ResourceLocation(Tags.MODID, this.name + "_snd");
     }
 
     @Override
@@ -374,7 +379,11 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         }
 
         this.angle = (float) (Math.atan2(this.radius, this.length) * 180.0D / 3.141592653589793D);
-        return true;
+
+        if (new ResourceLocation(Tags.MODID, this.name + "_snd").equals(fireSound))
+            SoundRegistry.parseSound(fireSound.getPath());
+
+            return true;
     }
 
     public float getDamageFactor(Entity e) {

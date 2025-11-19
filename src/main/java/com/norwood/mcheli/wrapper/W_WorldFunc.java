@@ -1,10 +1,12 @@
 package com.norwood.mcheli.wrapper;
 
 import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -14,13 +16,11 @@ import javax.annotation.Nullable;
 
 public class W_WorldFunc {
 
-    public static void MOD_playSoundEffect(World w, double x, double y, double z, String name, float volume,
-                                           float pitch) {
-        MCH_SoundEvents.playSound(w, x, y, z, MCH_MOD.DOMAIN + ":" + name, volume, pitch);
+    public static void playSoundAt(Entity e, ResourceLocation name, float volume, float pitch) {
+        e.playSound(MCH_SoundEvents.getSound(name), volume, pitch);
     }
-
-    public static void MOD_playSoundAtEntity(Entity e, String name, float volume, float pitch) {
-        e.playSound(MCH_SoundEvents.getSound(MCH_MOD.DOMAIN + ":" + name), volume, pitch);
+    public static void playSoundAt(Entity e, String name, float volume, float pitch) {
+        playSoundAt(e, new ResourceLocation(Tags.MODID,name), volume, pitch);
     }
 
     public static int getBlockId(World w, int x, int y, int z) {

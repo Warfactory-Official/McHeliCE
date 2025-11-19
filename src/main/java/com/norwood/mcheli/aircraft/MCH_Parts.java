@@ -115,7 +115,7 @@ public class MCH_Parts {
 
     public void playSound(MCH_Parts.Sound snd) {
         if (!snd.name.isEmpty() && !this.parent.world.isRemote) {
-            W_WorldFunc.MOD_playSoundAtEntity(this.parent, snd.name, snd.volume, snd.pitch);
+            W_WorldFunc.playSoundAt(this.parent, snd.name, snd.volume, snd.pitch);
         }
     }
 

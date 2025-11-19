@@ -124,7 +124,7 @@ public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntit
             } else if (ds.getTrueSource() instanceof EntityPlayer && ds.getDamageType().equalsIgnoreCase("player")) {
                 MCH_Lib.DbgLog(this.world, "MCH_EntityContainer.attackEntityFrom:damage=%.1f:%s", damage,
                         ds.getDamageType());
-                W_WorldFunc.MOD_playSoundAtEntity(this, "hit", 1.0F, 1.3F);
+                W_WorldFunc.playSoundAt(this, "hit", 1.0F, 1.3F);
                 this.setDamageTaken(this.getDamageTaken() + (int) (damage * 20.0F));
                 this.setForwardDirection(-this.getForwardDirection());
                 this.setTimeSinceHit(10);

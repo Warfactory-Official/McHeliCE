@@ -174,7 +174,7 @@ public class SoundRegistry {
     }
 
     @NoArgsConstructor
-    public static class SoundSpec {
+    private static class SoundSpec {
         public String name;
         float volume = 1f;
         float pitch = 1f;

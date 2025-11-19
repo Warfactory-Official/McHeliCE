@@ -5,6 +5,7 @@ import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.weapon.MCH_WeaponCAS;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
@@ -147,7 +148,7 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
                         this.dropItemWithOffset(MCH_MOD.itemGLTD, 1, 0.0F);
                     }
 
-                    W_WorldFunc.MOD_playSoundEffect(this.world, this.posX, this.posY, this.posZ, "hit", 1.0F, 1.0F);
+                    MCH_SoundEvents.playSound(this.world, this.posX, this.posY, this.posZ, MCH_MOD.DOMAIN + ":" + "hit", 1.0F, 1.0F);
                     this.setDead();
                 }
 
@@ -413,7 +414,7 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
             if (this.world.isRemote) {
                 this.countWait = this.countWait + (this.countWait > 0 ? 10 : -10);
             } else {
-                W_WorldFunc.MOD_playSoundEffect(this.world, this.posX, this.posY, this.posZ, "gltd", 0.5F, 1.0F);
+                MCH_SoundEvents.playSound(this.world, this.posX, this.posY, this.posZ, MCH_MOD.DOMAIN + ":" + "gltd", 0.5F, 1.0F);
             }
 
             return true;

@@ -1077,7 +1077,7 @@ public class TxtParser implements IParser {
         } else if (item.compareTo("power") == 0) {
             info.power = info.toInt(data);
         } else if (item.equalsIgnoreCase("sound")) {
-            info.soundFileName = data.toLowerCase().trim();
+            info.hitSound = SoundRegistry.parseSound(data);
         } else if (item.compareTo("acceleration") == 0) {
             info.acceleration = info.toFloat(data, 0.0F, 100.0F);
         } else if (item.compareTo("accelerationinwater") == 0) {
@@ -1321,7 +1321,7 @@ public class TxtParser implements IParser {
                 } else if (item.equalsIgnoreCase("WeaponSwitchCount")) {
                     info.weaponSwitchCount = info.toInt(data);
                 } else if (item.equalsIgnoreCase("WeaponSwitchSound")) {
-                    info.weaponSwitchSound = data.toLowerCase().trim();
+                    info.weaponSwitchSound = SoundRegistry.parseSound(data);
                 } else if (item.equalsIgnoreCase("RecoilPitch")) {
                     info.recoilPitch = info.toFloat(data);
                 } else if (item.equalsIgnoreCase("RecoilYaw")) {

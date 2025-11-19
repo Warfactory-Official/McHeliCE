@@ -126,7 +126,7 @@ public class MCH_EntityGunner extends EntityLivingBase {
 
     public void removeFromAircraft(EntityPlayer player) {
         if (!this.world.isRemote) {
-            W_WorldFunc.MOD_playSoundAtEntity(player, "wrench", 1.0F, 1.0F);
+            W_WorldFunc.playSoundAt(player, "wrench", 1.0F, 1.0F);
             this.setDead();
             MCH_EntityAircraft ac = null;
             if (this.getRidingEntity() instanceof MCH_EntityAircraft) {

@@ -14,8 +14,9 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import javax.annotation.Nullable;
 import java.util.Set;
 
 @EventBusSubscriber(
@@ -39,17 +40,15 @@ public class MCH_SoundEvents {
         registryWrapper.add(name);
     }
 
-    public static void playSound(World w, double x, double y, double z, String name, float volume, float pitch) {
+    public static void playSound(World w, double x, double y, double z, ResourceLocation name, float volume, float pitch) {
         SoundEvent sound = getSound(name);
         w.playSound(null, x, y, z, sound, SoundCategory.MASTER, volume, pitch);
     }
-
-    public static SoundEvent getSound(String name) {
-        SoundEvent sound = getSound(new ResourceLocation(name));
-        return Objects.requireNonNull(sound);
+    public static void playSound(World w, double x, double y, double z, String name, float volume, float pitch) {
+        playSound(w,x,y,z,new ResourceLocation(Tags.MODID,name), volume,pitch);
     }
 
-    // THIS IS NOT FUCKING NULLABLE
+    @NotNull
     public static SoundEvent getSound(ResourceLocation location) {
         SoundEvent sound = ForgeRegistries.SOUND_EVENTS.getValue(location);
         if (sound == null) {

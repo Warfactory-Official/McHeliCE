@@ -1,15 +1,16 @@
 package com.norwood.mcheli.chain;
 
 import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_EntityHitBox;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.parachute.MCH_EntityParachute;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Item;
 import com.norwood.mcheli.wrapper.W_Lib;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -98,11 +99,11 @@ public class MCH_ItemChain extends W_Item {
     }
 
     public static void playConnectTowingEntity(Entity e) {
-        W_WorldFunc.MOD_playSoundEffect(e.world, e.posX, e.posY, e.posZ, "chain_ct", 1.0F, 1.0F);
+        MCH_SoundEvents.playSound(e.world, e.posX, e.posY, e.posZ, MCH_MOD.DOMAIN + ":" + "chain_ct", 1.0F, 1.0F);
     }
 
     public static void playConnectTowedEntity(Entity e) {
-        W_WorldFunc.MOD_playSoundEffect(e.world, e.posX, e.posY, e.posZ, "chain", 1.0F, 1.0F);
+        MCH_SoundEvents.playSound(e.world, e.posX, e.posY, e.posZ, MCH_MOD.DOMAIN + ":" + "chain", 1.0F, 1.0F);
     }
 
     @Nullable

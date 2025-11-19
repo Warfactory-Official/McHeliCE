@@ -1,7 +1,8 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -152,8 +153,7 @@ public class MCH_EntityA10 extends W_Entity {
                 }
 
                 if (this.shotCount == 38) {
-                    W_WorldFunc.MOD_playSoundEffect(this.world, this.posX, this.posY, this.posZ, "gau-8_snd", 150.0F,
-                            1.0F);
+                    MCH_SoundEvents.playSound(this.world, this.posX, this.posY, this.posZ, MCH_MOD.DOMAIN + ":" + "gau-8_snd", 150.0F, 1.0F);
                 }
             }
         }
