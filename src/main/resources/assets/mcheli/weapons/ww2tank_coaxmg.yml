@@ -10,10 +10,8 @@ Ballistics:
 Sound:
   Delay: 3
   Volume: 2.0
-  Name: gun_h1_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:gun_h1_snd
 Explosion:
   DestructionPower: 0
 Missile:

@@ -9,10 +9,8 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Volume: 16.0
-  Name: cannon_4_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:cannon_4_snd
 Recoil:
   Power: 1.5
   BufferCount: 40

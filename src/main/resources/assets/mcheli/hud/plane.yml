@@ -1,5 +1,5 @@
 - Call: common_pilot
-- If: have_radar==1
+- If: have_radar
   Do:
   - DrawTexture:
       Name: plane_hud

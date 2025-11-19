@@ -10,10 +10,8 @@ Ballistics:
 Sound:
   Volume: 10.0
   Pitch: 0.7
-  Name: cannon_1_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:cannon_1_snd
 Explosion:
   Power: 6
   DestructionPower: 4

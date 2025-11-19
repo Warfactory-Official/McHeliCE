@@ -7,10 +7,8 @@ Ballistics:
   GravityInWater: 0.0
   VelocityInWater: 0.999
 Sound:
-  Name: lockon
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:lockon
 Explosion:
   DestructionPower: 0
 FireCooldown: 160

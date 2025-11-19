@@ -13,7 +13,7 @@ Camera:
   Pos:
   - Pos: [0.0, 0.0, 0.0]
 Sound:
-  MoveSound: rr_griffon
+  MoveSound: mcheli:rr_griffon
 PhysicalProperties:
   Speed: 1.0
   CanFloat: true

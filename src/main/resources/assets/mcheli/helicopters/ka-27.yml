@@ -13,7 +13,7 @@ Camera:
   Pos:
   - Pos: [0.0, 0.0, 3.1]
 Sound:
-  MoveSound: heli_k
+  MoveSound: mcheli:heli_k
 PhysicalProperties:
   Speed: 0.6
   Mobility:

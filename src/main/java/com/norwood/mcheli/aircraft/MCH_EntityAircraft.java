@@ -5,7 +5,7 @@ import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.command.MCH_Command;
 import com.norwood.mcheli.flare.MCH_Flare;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
-import com.norwood.mcheli.helper.MCH_SoundEvents;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
 import com.norwood.mcheli.mob.MCH_EntityGunner;
@@ -1083,7 +1083,7 @@ public abstract class MCH_EntityAircraft
             }
         }
 
-        W_WorldFunc.MOD_playSoundAtEntity(this, "hit", damage > 0.0F ? 1.0F : 0.5F, 1.0F);
+        W_WorldFunc.playSoundAt(this, "hit", damage > 0.0F ? 1.0F : 0.5F, 1.0F);
         return false;
     }
 
@@ -1139,7 +1139,7 @@ public abstract class MCH_EntityAircraft
     }
 
     private void playDamageSound() {
-        W_WorldFunc.MOD_playSoundAtEntity(this, "helidmg", 1.0F, 0.9F + this.rand.nextFloat() * 0.1F);
+        W_WorldFunc.playSoundAt(this, "helidmg", 1.0F, 0.9F + this.rand.nextFloat() * 0.1F);
     }
 
     public boolean isExploded() {
@@ -4039,7 +4039,7 @@ public abstract class MCH_EntityAircraft
             this.openCanopy_EjectSeat();
         }
 
-        W_WorldFunc.MOD_playSoundAtEntity(entity, "eject_seat", 5.0F, 1.0F);
+        W_WorldFunc.playSoundAt(entity, "eject_seat", 5.0F, 1.0F);
     }
 
     public boolean canEjectSeat(@Nullable Entity entity) {
@@ -4630,7 +4630,7 @@ public abstract class MCH_EntityAircraft
         if (this.getAcInfo() == null) {
             return "";
         } else {
-            return !this.getAcInfo().soundMove.isEmpty() ? this.getAcInfo().soundMove : this.getDefaultSoundName();
+            return this.getAcInfo().soundMove != null ? this.getAcInfo().soundMove.getPath() : this.getDefaultSoundName();
         }
     }
 

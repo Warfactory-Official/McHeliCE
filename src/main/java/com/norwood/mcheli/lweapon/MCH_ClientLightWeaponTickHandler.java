@@ -180,7 +180,7 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
                                 lockonSoundCount = 2;
                             }
 
-                            W_McClient.MOD_playSoundFX("lockon", 1.0F, 1.0F);
+                            W_McClient.playSound("lockon", 1.0F, 1.0F);
                         }
                     }
                 } else {
@@ -193,7 +193,7 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
                 lockonSoundCount = 0;
                 if (W_EntityPlayer.hasItem(player, lweapon.bullet) && player.getItemInUseCount() <= 0) {
                     if (reloadCount == 10) {
-                        W_McClient.MOD_playSoundFX("fim92_reload", 1.0F, 1.0F);
+                        W_McClient.playSound("fim92_reload", 1.0F, 1.0F);
                     }
 
                     if (reloadCount < 40) {
@@ -252,7 +252,7 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
 
         if (this.KeySwWeaponMode.isKeyDown() && weapon.numMode > 1) {
             weaponMode = (weaponMode + 1) % weapon.numMode;
-            W_McClient.MOD_playSoundFX("pi", 0.5F, 0.9F);
+            W_McClient.playSound("pi", 0.5F, 0.9F);
         }
 
         if (this.KeyAttack.isKeyPress() || autoShot) {
@@ -298,11 +298,11 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
                 player.removePotionEffect(MobEffects.NIGHT_VISION);
                 packet.camMode = 1;
                 send = true;
-                W_McClient.MOD_playSoundFX("pi", 0.5F, 0.9F);
+                W_McClient.playSound("pi", 0.5F, 0.9F);
             } else if (player.getItemInUseMaxCount() > 60) {
                 packet.camMode = 2;
                 send = true;
-                W_McClient.MOD_playSoundFX("pi", 0.5F, 0.9F);
+                W_McClient.playSound("pi", 0.5F, 0.9F);
             } else {
                 playSoundNG();
             }

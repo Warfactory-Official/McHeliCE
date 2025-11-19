@@ -9,10 +9,8 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Delay: 1
-  Name: gun_h3_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:gun_h3_snd
 Explosion:
   DestructionPower: 0
 Camera:

@@ -40,6 +40,7 @@ import com.norwood.mcheli.plane.MCP_RenderPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_RenderShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.sound.SoundRegistry;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_RenderTank;
 import com.norwood.mcheli.tank.MCH_TankInfo;
@@ -55,6 +56,7 @@ import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -64,6 +66,7 @@ import net.minecraftforge.fml.client.SplashProgress;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.io.File;
@@ -184,6 +187,17 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
             throw new RuntimeException(t);
         }
         return splashThread.getState() != Thread.State.TERMINATED;
+    }
+
+    @Override
+    public void postInit(FMLPostInitializationEvent postEvent) {
+        IReloadableResourceManager rm = (IReloadableResourceManager)
+                Minecraft.getMinecraft().getResourceManager();
+
+        rm.registerReloadListener(resourceManager -> {
+            SoundRegistry.commitChanges(Minecraft.getMinecraft().getSoundHandler());
+        });
+
     }
 
     @Override
@@ -524,53 +538,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerSounds() {
         super.registerSounds();
-        W_McClient.addSound("alert.ogg");
-        W_McClient.addSound("locked.ogg");
-        W_McClient.addSound("gltd.ogg");
-        W_McClient.addSound("zoom.ogg");
-        W_McClient.addSound("ng.ogg");
-        W_McClient.addSound("a-10_snd.ogg");
-        W_McClient.addSound("gau-8_snd.ogg");
-        W_McClient.addSound("hit.ogg");
-        W_McClient.addSound("helidmg.ogg");
-        W_McClient.addSound("heli.ogg");
-        W_McClient.addSound("plane.ogg");
-        W_McClient.addSound("plane_cc.ogg");
-        W_McClient.addSound("plane_cv.ogg");
-        W_McClient.addSound("chain.ogg");
-        W_McClient.addSound("chain_ct.ogg");
-        W_McClient.addSound("eject_seat.ogg");
-        W_McClient.addSound("fim92_snd.ogg");
-        W_McClient.addSound("fim92_reload.ogg");
-        W_McClient.addSound("lockon.ogg");
-
-        for (MCH_WeaponInfo info : ContentRegistries.weapon().values()) {
-            W_McClient.addSound(info.soundFileName + ".ogg");
-        }
-
-        for (MCH_AircraftInfo info : ContentRegistries.plane().values()) {
-            if (!info.soundMove.isEmpty()) {
-                W_McClient.addSound(info.soundMove + ".ogg");
-            }
-        }
-
-        for (MCH_AircraftInfo infox : ContentRegistries.heli().values()) {
-            if (!infox.soundMove.isEmpty()) {
-                W_McClient.addSound(infox.soundMove + ".ogg");
-            }
-        }
-
-        for (MCH_AircraftInfo infoxx : ContentRegistries.tank().values()) {
-            if (!infoxx.soundMove.isEmpty()) {
-                W_McClient.addSound(infoxx.soundMove + ".ogg");
-            }
-        }
-
-        for (MCH_AircraftInfo infoxxx : ContentRegistries.vehicle().values()) {
-            if (!infoxxx.soundMove.isEmpty()) {
-                W_McClient.addSound(infoxxx.soundMove + ".ogg");
-            }
-        }
     }
 
     @Override
@@ -669,7 +636,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Deprecated
     @Override
     public void updateSoundsJson() {
-        MCH_SoundsJson.updateGenerated();
     }
 
     @Override

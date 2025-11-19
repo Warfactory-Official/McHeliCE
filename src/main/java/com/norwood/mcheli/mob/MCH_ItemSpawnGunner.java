@@ -131,7 +131,7 @@ public class MCH_ItemSpawnGunner extends W_Item {
 
                     world.spawnEntity(gunner);
                     gunner.startRiding(target);
-                    W_WorldFunc.MOD_playSoundAtEntity(gunner, "wrench", 1.0F, 3.0F);
+                    W_WorldFunc.playSoundAt(gunner, "wrench", 1.0F, 3.0F);
                     MCH_EntityAircraft ac = target instanceof MCH_EntityAircraft ? (MCH_EntityAircraft) target :
                             ((MCH_EntitySeat) target).getParent();
                     player.sendMessage(

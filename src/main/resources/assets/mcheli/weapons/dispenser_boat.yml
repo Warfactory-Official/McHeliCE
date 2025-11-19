@@ -8,10 +8,8 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Delay: 4
-  Name: chain_ct
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:chain_ct
 Explosion:
   DestructionPower: 0
   FuseTime: 20

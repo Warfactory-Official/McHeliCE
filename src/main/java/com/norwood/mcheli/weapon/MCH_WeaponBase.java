@@ -2,9 +2,10 @@ package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
@@ -178,21 +179,20 @@ public abstract class MCH_WeaponBase {
     }
 
     public void playSound(Entity e) {
-        this.playSound(e, this.getInfo().soundFileName);
+        this.playSound(e, this.getInfo().fireSound);
     }
 
-    public void playSound(Entity e, String snd) {
+    public void playSound(Entity e, ResourceLocation snd) {
         if (!e.world.isRemote && this.canPlaySound && this.getInfo() != null) {
             float prnd = this.getInfo().soundPitchRandom;
-            W_WorldFunc.MOD_playSoundEffect(
-                    this.worldObj, e.posX, e.posY, e.posZ, snd, this.getInfo().soundVolume,
-                    this.getInfo().soundPitch * (1.0F - prnd) + rand.nextFloat() * prnd);
+            float pitch = this.getInfo().soundPitch * (1.0F - prnd) + rand.nextFloat() * prnd;
+            MCH_SoundEvents.playSound(this.worldObj, e.posX, e.posY, e.posZ, snd, this.getInfo().soundVolume, pitch);
         }
     }
 
     public void playSoundClient(Entity e, float volume, float pitch) {
         if (e.world.isRemote && this.getInfo() != null) {
-            W_McClient.MOD_playSoundFX(this.getInfo().soundFileName, volume, pitch);
+            W_McClient.playSound(this.getInfo().fireSound, volume, pitch);
         }
     }
 

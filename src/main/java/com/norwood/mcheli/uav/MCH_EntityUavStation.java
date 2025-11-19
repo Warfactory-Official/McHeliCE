@@ -236,9 +236,9 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
                         isDamegeSourcePlayer = true;
                     }
 
-                    W_WorldFunc.MOD_playSoundAtEntity(this, "hit", 1.0F, 1.0F);
+                    W_WorldFunc.playSoundAt(this, "hit", 1.0F, 1.0F);
                 } else {
-                    W_WorldFunc.MOD_playSoundAtEntity(this, "helidmg", 1.0F, 0.9F + this.rand.nextFloat() * 0.1F);
+                    W_WorldFunc.playSoundAt(this, "helidmg", 1.0F, 0.9F + this.rand.nextFloat() * 0.1F);
                 }
 
                 this.markVelocityChanged();
@@ -582,9 +582,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         }
     }
 
-    public void _setInventorySlotContents(int par1, ItemStack itemStack) {
-        super.setInventorySlotContents(par1, itemStack);
-    }
+
 
     public boolean processInitialInteract(@NotNull EntityPlayer player, @NotNull EnumHand hand) {
         if (hand != EnumHand.MAIN_HAND) {

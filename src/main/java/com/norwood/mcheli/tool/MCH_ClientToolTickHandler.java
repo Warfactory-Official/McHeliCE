@@ -67,7 +67,7 @@ public class MCH_ClientToolTickHandler extends MCH_ClientTickHandlerBase {
                             MCH_ItemRangeFinder.zoom = 10.0F;
                         }
 
-                        W_McClient.MOD_playSoundFX("zoom", 0.05F, 1.0F);
+                        W_McClient.playSound("zoom", 0.05F, 1.0F);
                         W_Reflection.setCameraZoom(MCH_ItemRangeFinder.zoom);
                     }
 
@@ -77,12 +77,12 @@ public class MCH_ClientToolTickHandler extends MCH_ClientTickHandlerBase {
                             MCH_ItemRangeFinder.zoom = 1.2F;
                         }
 
-                        W_McClient.MOD_playSoundFX("zoom", 0.05F, 0.9F);
+                        W_McClient.playSound("zoom", 0.05F, 0.9F);
                         W_Reflection.setCameraZoom(MCH_ItemRangeFinder.zoom);
                     }
 
                     if (this.KeySwitchMode.isKeyDown()) {
-                        W_McClient.MOD_playSoundFX("lockon", 1.0F, 0.9F);
+                        W_McClient.playSound("lockon", 1.0F, 0.9F);
                         MCH_ItemRangeFinder.mode = (MCH_ItemRangeFinder.mode + 1) % 3;
                         if (this.mc.isSingleplayer() && MCH_ItemRangeFinder.mode == 0) {
                             MCH_ItemRangeFinder.mode = 1;

@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * careful with classes' clinit
  */
 class YamlParserTest {
-
+//
 //    static YamlEmitter emitter = new YamlEmitter();
 //    static class DummyProxy extends MCH_CommonProxy {
 //        @Override public boolean isRemote() { return true; }
@@ -117,12 +117,12 @@ class YamlParserTest {
 //
 //        Comparator<String> caseInsensitiveString = (a, b) -> a.equalsIgnoreCase(b) ? 0 : a.compareToIgnoreCase(b);
 //
-//        assertThat(tankInfoTXT)
+//        assertThat( tankInfoYML)
 //                .usingRecursiveComparison()
 //                .withComparatorForType(floatComparator, Float.class)
 //                .withComparatorForType(caseInsensitiveString, String.class)
 //                .withComparatorForType(doubleComparator, Double.class)
-//                .isEqualTo(tankInfoYML);
+//                .isEqualTo(tankInfoTXT);
 //
 //    }
 //    @Test
@@ -164,12 +164,13 @@ class YamlParserTest {
 //
 //        Comparator<String> caseInsensitiveString = (a, b) -> a.equalsIgnoreCase(b) ? 0 : a.compareToIgnoreCase(b);
 //
-//        assertThat(heliInfoTXT)
+//        assertThat(heliInfoYML)
 //                .usingRecursiveComparison()
 //                .withComparatorForType(floatComparator, Float.class)
 //                .withComparatorForType(caseInsensitiveString, String.class)
 //                .withComparatorForType(doubleComparator, Double.class)
-//                .isEqualTo(heliInfoYML);
+//                .isEqualTo(heliInfoTXT
+//                        );
 //
 //    }
 //

@@ -63,13 +63,13 @@ public class MCH_MissileDetector {
                     } else if (!this.ac.isUAV() && !this.world.isRemote) {
                         if (this.alertCount == 0 && (isLocked || this.isLockedByMissile())) {
                             this.alertCount = 20;
-                            W_WorldFunc.MOD_playSoundAtEntity(this.ac, "alert", 1.0F, 1.0F);
+                            W_WorldFunc.playSoundAt(this.ac, "alert", 1.0F, 1.0F);
                         }
                     } else if (this.ac.isUAV() && this.world.isRemote && this.alertCount == 0 &&
                             (isLocked || this.isLockedByMissile())) {
                                 this.alertCount = 20;
                                 if (W_Lib.isClientPlayer(rider)) {
-                                    W_McClient.MOD_playSoundFX("alert", 1.0F, 1.0F);
+                                    W_McClient.playSound("alert", 1.0F, 1.0F);
                                 }
                             }
                 }

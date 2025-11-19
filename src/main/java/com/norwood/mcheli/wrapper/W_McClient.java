@@ -1,6 +1,7 @@
 package com.norwood.mcheli.wrapper;
 
 import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.Tags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,15 +19,13 @@ public class W_McClient {
         Minecraft.getMinecraft().getSoundHandler().playSound(new W_Sound(sound, volume, pitch));
     }
 
-    public static void DEF_playSoundFX(String name, float volume, float pitch) {
-        Minecraft.getMinecraft().getSoundHandler().playSound(new W_Sound(new ResourceLocation(name), volume, pitch));
+    public static void playSound(ResourceLocation name, float volume, float pitch) {
+        Minecraft.getMinecraft().getSoundHandler().playSound(new W_Sound(name, volume, pitch));
     }
 
-    public static void MOD_playSoundFX(String name, float volume, float pitch) {
-        DEF_playSoundFX(MCH_MOD.DOMAIN + ":" + name, volume, pitch);
+    public static void playSound(String name, float volume, float pitch) {
+        playSound(new ResourceLocation(Tags.MODID,name),volume,pitch);
     }
-
-    public static void addSound(String name) {}
 
     public static void MOD_bindTexture(String tex) {
         Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(MCH_MOD.DOMAIN, tex));

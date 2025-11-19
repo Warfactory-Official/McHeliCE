@@ -1,6 +1,6 @@
 - Color: '0xff28d448'
 - Call: uav_fs
-- If: inventory > 0
+- If: inventory>0
   Do:
   - Color: '0xcf1fff1f'
   - DrawString:
@@ -89,7 +89,7 @@
     UVPos: ['128', '64']
     UVSize: ['128', '20']
     Rotation: '0'
-- Color: reloading==0?0xffffffff:0xffdf0408
+- Color: '!reloading?0xffffffff:0xffdf0408'
 - DrawString:
     Text:
       Fmt: '%s'
@@ -114,7 +114,7 @@
       Vars: [WPN_NAME]
     Position: ['-207', '69']
     Center: false
-- If: is_heat_wpn==1
+- If: is_heat_wpn
   Do:
   - Color: '0xff000000'
   - DrawRectangle:
@@ -160,7 +160,7 @@
       UVPos: ['128', '0']
       UVSize: ['32', '96']
       Rotation: throttle*234-117
-- If: time> 13000
+- If: time>13000
   Do:
   - DrawTexture:
       Name: ww2tank_hud
@@ -192,7 +192,7 @@
       UVPos: ['192', '0']
       UVSize: ['32', '64']
       Rotation: fuel*70-35
-- If: time> 13000
+- If: time>13000
   Do:
   - DrawTexture:
       Name: ww2tank_hud
@@ -249,16 +249,16 @@
         Vars: []
       Position: ['145', '-30']
       Center: false
-- If: have_flare==1
+- If: have_flare
   Do:
-  - Color: can_flare==1?0xffffe400:0xffdf0408
+  - Color: can_flare?0xffffe400:0xffdf0408
   - DrawString:
       Text:
         Fmt: '[ FLARE ]'
         Vars: []
       Position: ['60', '45']
       Center: true
-- If: have_radar==1
+- If: have_radar
   Do:
   - DrawTexture:
       Name: plane_hud

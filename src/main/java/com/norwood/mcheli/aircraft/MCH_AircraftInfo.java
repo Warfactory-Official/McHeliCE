@@ -14,8 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -142,10 +144,10 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float particlesScale = 1.0F;
     public boolean hideEntity = false;
     public boolean smoothShading = true;
-    public String soundMove = "";
-    public float soundRange = this.getDefaultSoundRange();
+    @Nullable public ResourceLocation soundMove = null;
     public float soundVolume = 1.0F;
     public float soundPitch = 1.0F;
+    public float soundRange = this.getDefaultSoundRange();
     public _IModelCustom model = null;
     /**
      * Radar type

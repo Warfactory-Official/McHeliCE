@@ -13,7 +13,7 @@ Camera:
   Pos:
   - Pos: [0.0, 0.0, 0.0]
 Sound:
-  MoveSound: prop
+  MoveSound: mcheli:prop
 PhysicalProperties:
   Speed: 0.78
   OnGroundPitch: -10.5

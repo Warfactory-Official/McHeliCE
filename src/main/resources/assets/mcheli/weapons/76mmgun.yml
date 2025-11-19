@@ -9,10 +9,8 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Volume: 0.6
-  Name: cannon_1_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:cannon_1_snd
 Explosion:
   Power: 2
   DestructionPower: 1

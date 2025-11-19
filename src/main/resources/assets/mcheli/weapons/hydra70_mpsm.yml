@@ -9,10 +9,8 @@ Ballistics:
   VelocityInWater: 0.999
   Piercing: 2
 Sound:
-  Name: rocket_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:rocket_snd
 Explosion:
   Power: 1
   DestructionPower: 1

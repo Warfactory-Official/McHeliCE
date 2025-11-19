@@ -99,15 +99,15 @@ public abstract class MCH_ClientTickHandlerBase {
     }
 
     public static void playSoundNG() {
-        W_McClient.MOD_playSoundFX("ng", 1.0F, 1.0F);
+        W_McClient.playSound("ng", 1.0F, 1.0F);
     }
 
     public static void playSound(String name) {
-        W_McClient.MOD_playSoundFX(name, 1.0F, 1.0F);
+        W_McClient.playSound(name, 1.0F, 1.0F);
     }
 
     public static void playSound(String name, float vol, float pitch) {
-        W_McClient.MOD_playSoundFX(name, vol, pitch);
+        W_McClient.playSound(name, vol, pitch);
     }
 
     public static int getMouseWheel() {

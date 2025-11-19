@@ -10,10 +10,8 @@ Ballistics:
 Sound:
   Volume: 4.0
   Pitch: 0.6
-  Name: hawk_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:hawk_snd
 Explosion:
   Power: 5
   DestructionPower: 5

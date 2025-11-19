@@ -17,6 +17,7 @@ import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.wrapper.W_Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.DumperOptions;
@@ -61,6 +62,10 @@ public class YamlEmitter implements IEmitter {
 
     private static boolean notBlank(String s) {
         return s != null && !s.trim().isEmpty();
+    }
+
+    private static boolean notBlank(ResourceLocation s) {
+        return s != null;
     }
 
     private static <T> InlineSeq<T> inlineSeq(Collection<T> vals) {
@@ -329,18 +334,21 @@ public class YamlEmitter implements IEmitter {
             snd.put("PitchRandom", info.soundPitchRandom);
         if (info.hitSoundRange != dummy.hitSoundRange)
             snd.put("HitSoundRange", info.hitSoundRange);
-        if (notBlank(info.soundFileName))
-            snd.put("Name", info.soundFileName.toLowerCase(Locale.ROOT));
-
+//        if (notBlank(info.soundFileName))
+//            snd.put("Name", info.soundFileName.toLowerCase(Locale.ROOT));
+//
         Map<String, Object> sndLoc = new LinkedHashMap<>();
+        if (notBlank(info.fireSound)) {
+            sndLoc.put("Fire", info.fireSound.toString());
+        }
         if (notBlank(info.hitSound))
-            sndLoc.put("Hit", info.hitSound.toLowerCase(Locale.ROOT));
-        if (notBlank(info.hitSoundIron))
-            sndLoc.put("HitMetal", info.hitSoundIron.toLowerCase(Locale.ROOT));
-        if (notBlank(info.railgunSound))
-            sndLoc.put("Railgun", info.railgunSound.toLowerCase(Locale.ROOT));
+            sndLoc.put("Hit", info.hitSound.toString());
+        if (notBlank(info.hitSoundIron) && !info.hitSoundIron.equals(dummy.hitSoundIron))
+            sndLoc.put("HitMetal", info.hitSoundIron.toString());
+        if (notBlank(info.railgunSound) && !info.railgunSound.equals(dummy.railgunSound))
+            sndLoc.put("Railgun", info.railgunSound.toString());
         if (notBlank(info.weaponSwitchSound))
-            sndLoc.put("WeaponSwitch", info.weaponSwitchSound.toLowerCase(Locale.ROOT));
+            sndLoc.put("WeaponSwitch", info.weaponSwitchSound.toString());
 
         if (!sndLoc.isEmpty())
             snd.put("Locations", sndLoc);
@@ -988,8 +996,8 @@ public class YamlEmitter implements IEmitter {
         // Sound
         Map<String, Object> sound = new LinkedHashMap<>();
 
-        if (notBlank(info.soundMove) && !info.soundMove.equalsIgnoreCase(dummyInfo.soundMove))
-            sound.put("MoveSound", info.soundMove.toLowerCase(Locale.ROOT));
+        if (notBlank(info.soundMove))
+            sound.put("MoveSound", info.soundMove.toString());
 
         if (info.soundVolume != dummyInfo.soundVolume) sound.put("Vol", info.soundVolume);
 

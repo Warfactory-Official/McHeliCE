@@ -8,10 +8,8 @@ Ballistics:
   GravityInWater: 0.0
   VelocityInWater: 0.999
 Sound:
-  Name: rocket_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:rocket_snd
 Explosion:
   Power: 3
   DestructionPower: 3

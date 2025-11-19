@@ -1,8 +1,9 @@
 package com.norwood.mcheli.chain;
 
+import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -257,7 +258,7 @@ public class MCH_EntityChain extends W_Entity {
     }
 
     public void playDisconnectTowingEntity() {
-        W_WorldFunc.MOD_playSoundEffect(this.world, this.posX, this.posY, this.posZ, "chain_ct", 1.0F, 1.0F);
+        MCH_SoundEvents.playSound(this.world, this.posX, this.posY, this.posZ, MCH_MOD.DOMAIN + ":" + "chain_ct", 1.0F, 1.0F);
     }
 
     protected void writeEntityToNBT(@NotNull NBTTagCompound nbt) {

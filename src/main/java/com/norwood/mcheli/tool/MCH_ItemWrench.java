@@ -4,8 +4,8 @@ import com.google.common.collect.Multimap;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLogic;
 import net.minecraft.block.state.IBlockState;
@@ -158,8 +158,8 @@ public class MCH_ItemWrench extends W_Item {
             MCH_EntityAircraft ac = this.getMouseOverAircraft(player);
             if (ac != null && ac.getHP() > 0 && ac.repair(10)) {
                 stack.damageItem(1, player);
-                W_WorldFunc.MOD_playSoundEffect(player.world, (int) ac.posX, (int) ac.posY, (int) ac.posZ, "wrench",
-                        1.0F, 0.9F + rand.nextFloat() * 0.2F);
+                float pitch = 0.9F + rand.nextFloat() * 0.2F;
+                MCH_SoundEvents.playSound(player.world, (int) ac.posX, (int) ac.posY, (int) ac.posZ, MCH_MOD.DOMAIN + ":" + "wrench", 1.0F, pitch);
             }
         }
     }

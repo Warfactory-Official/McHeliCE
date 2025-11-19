@@ -13,7 +13,7 @@ Camera:
   Pos:
   - Pos: [0.0, 0.0, 0.0]
 Sound:
-  MoveSound: r44_heli
+  MoveSound: mcheli:r44_heli
 PhysicalProperties:
   Speed: 0.6
   CanFloat: true

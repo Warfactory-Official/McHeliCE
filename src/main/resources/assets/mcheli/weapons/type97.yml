@@ -9,10 +9,8 @@ Ballistics:
   VelocityInWater: 0.999
   Piercing: 2
 Sound:
-  Name: bomb_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:bomb_snd
 Explosion:
   Power: 4
   DestructionPower: 4

@@ -1,13 +1,16 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class MCH_WeaponTargetingPod extends MCH_WeaponBase {
+    private final static ResourceLocation NG = new ResourceLocation(Tags.MODID, "ng");
 
     public MCH_WeaponTargetingPod(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         super(w, v, yaw, pitch, nm, wi);
@@ -25,14 +28,14 @@ public class MCH_WeaponTargetingPod extends MCH_WeaponBase {
                 if (MCH_Multiplay.markPoint((EntityPlayer) prm.user, prm.posX, prm.posY, prm.posZ)) {
                     this.playSound(prm.user);
                 } else {
-                    this.playSound(prm.user, "ng");
+                    this.playSound(prm.user, NG);
                 }
             } else if (MCH_Multiplay.spotEntity(
                     (EntityLivingBase) prm.user, (MCH_EntityAircraft) prm.entity, prm.posX, prm.posY, prm.posZ,
                     info.target, info.length, info.markTime, info.angle)) {
                         this.playSound(prm.entity);
                     } else {
-                        this.playSound(prm.entity, "ng");
+                        this.playSound(prm.entity, NG);
                     }
         }
 

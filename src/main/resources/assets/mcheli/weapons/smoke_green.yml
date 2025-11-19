@@ -7,10 +7,8 @@ Ballistics:
   GravityInWater: 0.0
   VelocityInWater: 0.999
 Sound:
-  Name: smoke_green_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:smoke_green_snd
 Explosion:
   DestructionPower: 0
 Render:

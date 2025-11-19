@@ -1,6 +1,6 @@
 - Color: '0xff28d448'
 - Call: uav_fs
-- If: inventory > 0
+- If: inventory>0
   Do:
   - Color: '0xcf1fff1f'
   - DrawString:
@@ -190,8 +190,8 @@
     - ['70', '67']
     - ['-70', '67']
     Striped: false
-- Color: reloading==0?0xffffe400:0xffdf0408
-- If: reloading==1
+- Color: '!reloading?0xffffe400:0xffdf0408'
+- If: reloading
   Do:
   - DrawString:
       Text:
@@ -207,7 +207,7 @@
 - DrawRectangle:
     Position: ['-90', '40']
     Size: ['2', -80*reload_time]
-- If: reloading==0
+- If: '!reloading'
   Do:
   - Color: '0xffffe400'
   - DrawRectangle:
@@ -237,7 +237,7 @@
       Vars: [WPN_NAME]
     Position: ['0', '57']
     Center: true
-- If: is_heat_wpn==1
+- If: is_heat_wpn
   Do:
   - Color: '0xcfa99d38'
   - DrawRectangle:
@@ -373,16 +373,16 @@
         Vars: []
       Position: ['145', '-30']
       Center: false
-- If: have_flare==1
+- If: have_flare
   Do:
-  - Color: can_flare==1?0xffffe400:0xffdf0408
+  - Color: can_flare?0xffffe400:0xffdf0408
   - DrawString:
       Text:
         Fmt: '[ FLARE ]'
         Vars: []
       Position: ['60', '45']
       Center: true
-- If: have_radar==1
+- If: have_radar
   Do:
   - DrawTexture:
       Name: plane_hud

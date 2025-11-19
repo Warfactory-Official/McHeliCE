@@ -10,10 +10,8 @@ Ballistics:
 Sound:
   Volume: 3.0
   Pitch: 0.1
-  Name: bomb_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:bomb_snd
 Explosion:
   Power: 5
   DestructionPower: 3

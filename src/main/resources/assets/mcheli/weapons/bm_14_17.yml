@@ -8,10 +8,8 @@ Ballistics:
   GravityInWater: 0.0
   VelocityInWater: 0.999
 Sound:
-  Name: missile_4_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:missile_4_snd
 Explosion:
   Power: 2
   DestructionPower: 2

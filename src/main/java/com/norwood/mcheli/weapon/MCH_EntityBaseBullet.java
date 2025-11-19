@@ -215,7 +215,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                 if (this.targetEntity.getRidingEntity() != null &&
                         !(this.targetEntity.getRidingEntity() instanceof MCH_EntityAircraft) &&
                         !(this.targetEntity.getRidingEntity() instanceof MCH_EntitySeat)) {
-                    W_WorldFunc.MOD_playSoundAtEntity(this.targetEntity, "alert", 2.0F, 1.0F);
+                    W_WorldFunc.playSoundAt(this.targetEntity, "alert", 2.0F, 1.0F);
                 }
             }
 
@@ -407,7 +407,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             if (this.targetEntity.getRidingEntity() != null &&
                     !(this.targetEntity.getRidingEntity() instanceof MCH_EntityAircraft) &&
                     !(this.targetEntity.getRidingEntity() instanceof MCH_EntitySeat)) {
-                W_WorldFunc.MOD_playSoundAtEntity(this.targetEntity, "alert", 2.0F, 1.0F);
+                W_WorldFunc.playSoundAt(this.targetEntity, "alert", 2.0F, 1.0F);
             }
         }
 

@@ -47,6 +47,6 @@ public class PacketRequestSpotEnemy extends PacketBase implements ClientToServer
                     20.0F);
         }
 
-        W_WorldFunc.MOD_playSoundAtEntity(player, success ? "pi" : "ng", 1.0F, 1.0F);
+        W_WorldFunc.playSoundAt(player, success ? "pi" : "ng", 1.0F, 1.0F);
     }
 }

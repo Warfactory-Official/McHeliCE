@@ -8,10 +8,8 @@ Ballistics:
   GravityInWater: 0.01
   VelocityInWater: 0.5
 Sound:
-  Name: bomb_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:bomb_snd
 Explosion:
   Power: 3
   DestructionPower: 3

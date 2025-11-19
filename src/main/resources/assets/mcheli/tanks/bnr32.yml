@@ -24,7 +24,7 @@ Camera:
     FixedRot: true
     Yaw: 15.0
 Sound:
-  MoveSound: prop
+  MoveSound: mcheli:prop
 PhysicalProperties:
   Speed: 0.8
   Gravity: -0.15

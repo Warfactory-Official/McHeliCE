@@ -21,7 +21,7 @@
 - DrawRectangle:
     Position: ['146', '107']
     Size: [hp_rto*60, '6']
-- Color: reloading==0?0xffffc90e:0xffdf0408
+- Color: '!reloading?0xffffc90e:0xffdf0408'
 - DrawString:
     Text:
       Fmt: '%s'
@@ -46,7 +46,7 @@
       Vars: [WPN_NAME]
     Position: ['-207', '69']
     Center: false
-- If: is_heat_wpn==1
+- If: is_heat_wpn
   Do:
   - Color: '0xffffc90e'
   - DrawRectangle:

@@ -18,7 +18,7 @@ Camera:
   Pos:
   - Pos: [0.0, 3.4, 0.0]
 Sound:
-  MoveSound: vehicle_run
+  MoveSound: mcheli:vehicle_run
 PhysicalProperties:
   Speed: 0.8
   MotionFactor: 0.9

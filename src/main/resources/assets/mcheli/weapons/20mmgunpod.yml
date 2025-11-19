@@ -11,10 +11,8 @@ Sound:
   Delay: 1
   Volume: 2.0
   Pitch: 0.8
-  Name: gun_h4_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Fire: mcheli:gun_h4_snd
 Explosion:
   Power: 1
   DestructionPower: 1

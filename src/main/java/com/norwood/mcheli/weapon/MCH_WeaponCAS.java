@@ -1,6 +1,8 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
@@ -115,7 +117,7 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
         a10.power = this.power;
         a10.acceleration = this.acceleration;
         this.worldObj.spawnEntity(a10);
-        W_WorldFunc.MOD_playSoundEffect(this.worldObj, x, y, z, "a-10_snd", 150.0F, 1.0F);
+        MCH_SoundEvents.playSound(this.worldObj, x, y, z, MCH_MOD.DOMAIN + ":" + "a-10_snd", 150.0F, 1.0F);
     }
 
     @Override

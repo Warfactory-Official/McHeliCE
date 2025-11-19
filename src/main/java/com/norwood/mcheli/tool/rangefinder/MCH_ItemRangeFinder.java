@@ -79,7 +79,7 @@ public class MCH_ItemRangeFinder extends W_Item {
                 rangeFinderUseCooldown = 60;
                 new PacketRequestSpotEnemy(mode == 0 ? 60 : 3).sendToServer();
             } else {
-                W_McClient.MOD_playSoundFX("ng", 1.0F, 1.0F);
+                W_McClient.playSound("ng", 1.0F, 1.0F);
             }
         }
     }

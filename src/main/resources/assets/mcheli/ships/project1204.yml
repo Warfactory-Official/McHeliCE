@@ -14,7 +14,7 @@ Camera:
   Pos:
   - Pos: [0.0, 2.54, 0.05]
 Sound:
-  MoveSound: boat
+  MoveSound: mcheli:boat
 PhysicalProperties:
   Speed: 0.6
   CanFloat: true
