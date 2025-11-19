@@ -17,7 +17,7 @@ Camera:
   Pos:
   - Pos: [0.0, 4.2, 0.0]
 Sound:
-  MoveSound: mbt_run
+  MoveSound: mcheli:mbt_run
 PhysicalProperties:
   Speed: 0.45
   MotionFactor: 0.9

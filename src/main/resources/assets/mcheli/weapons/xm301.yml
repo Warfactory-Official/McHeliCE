@@ -9,10 +9,9 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Delay: 3
-  Name: xm301_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   Power: 1
   DestructionPower: 0

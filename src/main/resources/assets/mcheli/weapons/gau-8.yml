@@ -9,10 +9,10 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Delay: 3
-  Name: gun_h5_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Hit: mcheli:gun_h5_snd
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   Power: 3
   DestructionPower: 1

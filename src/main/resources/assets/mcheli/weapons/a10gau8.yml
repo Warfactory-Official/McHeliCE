@@ -8,10 +8,9 @@ Ballistics:
   GravityInWater: 0.0
   VelocityInWater: 0.999
 Sound:
-  Name: a10gau8_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   Power: 2
   DestructionPower: 1

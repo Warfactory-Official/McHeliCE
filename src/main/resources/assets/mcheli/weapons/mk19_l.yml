@@ -11,10 +11,9 @@ Sound:
   Delay: 1
   Volume: 2.0
   Pitch: 0.3
-  Name: mk19_l_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   Power: 2
   DestructionPower: 0

@@ -37,7 +37,7 @@
     UVPos: ['128', '64']
     UVSize: ['128', '20']
     Rotation: '0'
-- Color: reloading==0?0xff28d448:0xffdf0408
+- Color: '!reloading?0xff28d448:0xffdf0408'
 - DrawString:
     Text:
       Fmt: '%s'
@@ -62,7 +62,7 @@
       Vars: [WPN_NAME]
     Position: ['-207', '69']
     Center: false
-- If: is_heat_wpn==1
+- If: is_heat_wpn
   Do:
   - Color: '0xff28d448'
   - DrawRectangle:

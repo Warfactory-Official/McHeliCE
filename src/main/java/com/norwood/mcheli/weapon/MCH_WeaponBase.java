@@ -180,20 +180,20 @@ public abstract class MCH_WeaponBase {
     }
 
     public void playSound(Entity e) {
-        this.playSound(e, this.getInfo().fireSound);
+        this.playSound(e, this.getInfo().hitSound);
     }
 
     public void playSound(Entity e, ResourceLocation snd) {
         if (!e.world.isRemote && this.canPlaySound && this.getInfo() != null) {
             float prnd = this.getInfo().soundPitchRandom;
             float pitch = this.getInfo().soundPitch * (1.0F - prnd) + rand.nextFloat() * prnd;
-            MCH_SoundEvents.playSound(this.worldObj, e.posX, e.posY, e.posZ, MCH_MOD.DOMAIN + ":" + snd, this.getInfo().soundVolume, pitch);
+            MCH_SoundEvents.playSound(this.worldObj, e.posX, e.posY, e.posZ, snd, this.getInfo().soundVolume, pitch);
         }
     }
 
     public void playSoundClient(Entity e, float volume, float pitch) {
         if (e.world.isRemote && this.getInfo() != null) {
-            W_McClient.playSound(this.getInfo().fireSound, volume, pitch);
+            W_McClient.playSound(this.getInfo().hitSound, volume, pitch);
         }
     }
 

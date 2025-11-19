@@ -19,7 +19,7 @@ Camera:
   Pos:
   - Pos: [0.52, 3.7, -0.1]
 Sound:
-  MoveSound: tank
+  MoveSound: mcheli:tank
 PhysicalProperties:
   Speed: 0.6
   MotionFactor: 0.9

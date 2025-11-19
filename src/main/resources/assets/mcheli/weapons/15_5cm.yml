@@ -10,10 +10,10 @@ Ballistics:
 Sound:
   Delay: 4
   Pitch: 0.3
-  Name: cannon_1_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Hit: mcheli:cannon_1_snd
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   Power: 5
   DestructionPower: 3

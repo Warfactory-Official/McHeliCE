@@ -7,10 +7,10 @@ Ballistics:
   GravityInWater: -0.03
   VelocityInWater: 0.999
 Sound:
-  Name: smoke_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Hit: mcheli:smoke_snd
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   DestructionPower: 0
 Ammo:

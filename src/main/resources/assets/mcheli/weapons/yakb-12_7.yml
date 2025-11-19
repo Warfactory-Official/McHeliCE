@@ -10,10 +10,10 @@ Ballistics:
 Sound:
   Delay: 2
   Volume: 3.0
-  Name: gun_l3_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Hit: mcheli:gun_l3_snd
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   DestructionPower: 0
 Camera:

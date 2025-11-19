@@ -66,7 +66,7 @@
 - DrawRectangle:
     Position: ['146', '107']
     Size: [hp_rto*60, '6']
-- Color: reloading==0?0xcfffffff:0xcfdf0408
+- Color: '!reloading?0xcfffffff:0xcfdf0408'
 - DrawString:
     Text:
       Fmt: '%s'
@@ -91,7 +91,7 @@
       Vars: [WPN_NAME]
     Position: ['-207', '69']
     Center: false
-- If: is_heat_wpn==1
+- If: is_heat_wpn
   Do:
   - Color: '0xcfffffff'
   - DrawRectangle:
@@ -101,7 +101,7 @@
   - DrawRectangle:
       Position: ['-144', '58']
       Size: [41*wpn_heat, '8']
-- If: have_radar==1
+- If: have_radar
   Do:
   - Color: '0x80ffffff'
   - DrawLine:
@@ -177,7 +177,7 @@
     Text:
       Fmt: '%.0f'
       Vars: [PLYR_PITCH]
-    Position: ['+140', '-4']
+    Position: ['140', '-4']
     Center: true
 - DrawLine:
     Position:
@@ -222,9 +222,9 @@
 - Color: '0xcfffffff'
 - CameraRotation:
     Position: ['0', '60']
-- If: have_flare==1
+- If: have_flare
   Do:
-  - Color: can_flare==1?0xcfffffff:0xcf6f6f6f
+  - Color: can_flare?0xcfffffff:0xcf6f6f6f
   - DrawString:
       Text:
         Fmt: '[ FLARE ]'

@@ -11,10 +11,10 @@ Ballistics:
 Sound:
   Delay: 3
   Pitch: 0.7
-  Name: gun_l2_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Hit: mcheli:gun_l2_snd
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   DestructionPower: 0
 Camera:

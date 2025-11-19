@@ -14,7 +14,7 @@ Camera:
   Pos:
   - Pos: [0.0, 0.3, 0.7]
 Sound:
-  MoveSound: turboprop
+  MoveSound: mcheli:turboprop
 PhysicalProperties:
   Speed: 0.8
 Weapons:

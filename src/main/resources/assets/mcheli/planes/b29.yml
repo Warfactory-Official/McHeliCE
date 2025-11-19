@@ -15,7 +15,7 @@ Camera:
   Pos:
   - Pos: [2.0, 1.4, -4.0]
 Sound:
-  MoveSound: prop
+  MoveSound: mcheli:prop
 PhysicalProperties:
   Speed: 0.68
   RotationSnapValue: 0.0

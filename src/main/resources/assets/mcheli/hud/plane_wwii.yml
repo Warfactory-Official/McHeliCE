@@ -21,7 +21,7 @@
       UVPos: ['256', '0']
       UVSize: ['128', '128']
       Rotation: '0'
-- If: time> 13000
+- If: time>13000
   Do:
   - DrawTexture:
       Name: plane_hud_wwii
@@ -60,7 +60,7 @@
         Vars: [KEY_GUI]
       Position: ['56', '-80']
       Center: false
-- If: inventory > 0
+- If: inventory>0
   Do:
   - Color: '0xcfffffff'
   - DrawString:
@@ -148,7 +148,7 @@
     UVPos: ['128', '192']
     UVSize: ['128', '20']
     Rotation: '0'
-- Color: reloading==0?0xcfffffff:0xffdf0408
+- Color: '!reloading?0xcfffffff:0xffdf0408'
 - DrawString:
     Text:
       Fmt: '%s'
@@ -173,7 +173,7 @@
       Vars: [WPN_NAME]
     Position: ['-207', '69']
     Center: false
-- If: is_heat_wpn==1
+- If: is_heat_wpn
   Do:
   - Color: '0xcfffffff'
   - DrawRectangle:

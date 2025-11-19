@@ -14,7 +14,7 @@
       UVPos: ['384', '0']
       UVSize: ['32', '128']
       Rotation: throttle*170-150
-- If: time> 13000
+- If: time>13000
   Do:
   - DrawTexture:
       Name: bnr32_hud
@@ -46,7 +46,7 @@
       UVPos: ['64', '160']
       UVSize: ['32', '96']
       Rotation: fuel*65-83
-- If: time> 13000
+- If: time>13000
   Do:
   - DrawTexture:
       Name: bnr32_hud
@@ -78,7 +78,7 @@
         Vars: [KEY_GUI]
       Position: ['56', '-80']
       Center: false
-- If: inventory > 0
+- If: inventory>0
   Do:
   - Color: '0xcf1fff1f'
   - DrawString:

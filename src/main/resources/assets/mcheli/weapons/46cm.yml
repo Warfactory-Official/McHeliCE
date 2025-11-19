@@ -10,10 +10,10 @@ Ballistics:
 Sound:
   Delay: 3
   Pitch: 0.3
-  Name: cannon_1_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Hit: mcheli:cannon_1_snd
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Recoil:
   BufferCount: 40
   BufferSpeed: 4

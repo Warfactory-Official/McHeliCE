@@ -21,7 +21,7 @@
     Rotation: '0'
 - Color: '0xff28d448'
 - Call: uav_fs
-- If: is_uav || gunner_mode
+- If: is_uav||gunner_mode
   Do:
   - Color: '0xcfffffff'
   - DrawString:
@@ -46,7 +46,7 @@
         Vars: [KEY_GUI]
       Position: ['56', '-80']
       Center: false
-- If: inventory > 0
+- If: inventory>0
   Do:
   - Color: '0xcf1fff1f'
   - DrawString:

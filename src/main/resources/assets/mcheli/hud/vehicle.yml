@@ -5,7 +5,7 @@
       Vars: [CAM_ZOOM]
     Position: ['-70', '10']
     Center: false
-- If: inventory > 0
+- If: inventory>0
   Do:
   - Color: '0xcf1fff1f'
   - DrawString:
@@ -90,7 +90,7 @@
     UVPos: ['128', '64']
     UVSize: ['128', '20']
     Rotation: '0'
-- Color: reloading==0?0xffffc90e:0xffdf0408
+- Color: '!reloading?0xffffc90e:0xffdf0408'
 - DrawString:
     Text:
       Fmt: '%s'
@@ -115,7 +115,7 @@
       Vars: [WPN_NAME]
     Position: ['-207', '69']
     Center: false
-- If: is_heat_wpn==1
+- If: is_heat_wpn
   Do:
   - Color: '0xffffc90e'
   - DrawRectangle:
@@ -147,16 +147,16 @@
         Vars: []
       Position: ['30', '50']
       Center: false
-- If: have_flare==1
+- If: have_flare
   Do:
-  - Color: can_flare==1?0xffffc90e:0xffdf0408
+  - Color: can_flare?0xffffc90e:0xffdf0408
   - DrawString:
       Text:
         Fmt: '[ FLARE ]'
         Vars: []
       Position: ['-60', '50']
       Center: true
-- If: have_radar==1
+- If: have_radar
   Do:
   - DrawTexture:
       Name: vehicle_hud

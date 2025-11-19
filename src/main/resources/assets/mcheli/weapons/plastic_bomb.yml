@@ -8,10 +8,9 @@ Ballistics:
   GravityInWater: -0.03
   VelocityInWater: 0.999
 Sound:
-  Name: plastic_bomb_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   Power: 4
   DestructionPower: 4

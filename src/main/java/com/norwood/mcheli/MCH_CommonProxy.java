@@ -69,26 +69,26 @@ public class MCH_CommonProxy {
     }
 
     public void registerSounds() {
-        MCH_SoundEvents.registerSoundEventName("alert");
-        MCH_SoundEvents.registerSoundEventName("locked");
-        MCH_SoundEvents.registerSoundEventName("gltd");
-        MCH_SoundEvents.registerSoundEventName("zoom");
-        MCH_SoundEvents.registerSoundEventName("ng");
-        MCH_SoundEvents.registerSoundEventName("a-10_snd");
-        MCH_SoundEvents.registerSoundEventName("gau-8_snd");
-        MCH_SoundEvents.registerSoundEventName("hit");
-        MCH_SoundEvents.registerSoundEventName("helidmg");
-        MCH_SoundEvents.registerSoundEventName("heli");
-        MCH_SoundEvents.registerSoundEventName("plane");
-        MCH_SoundEvents.registerSoundEventName("plane_cc");
-        MCH_SoundEvents.registerSoundEventName("plane_cv");
-        MCH_SoundEvents.registerSoundEventName("chain");
-        MCH_SoundEvents.registerSoundEventName("chain_ct");
-        MCH_SoundEvents.registerSoundEventName("eject_seat");
-        MCH_SoundEvents.registerSoundEventName("fim92_snd");
-        MCH_SoundEvents.registerSoundEventName("fim92_reload");
-        MCH_SoundEvents.registerSoundEventName("lockon");
-        MCH_SoundEvents.registerSoundEventName("wrench");
+//        MCH_SoundEvents.registerSoundEventName("alert");
+//        MCH_SoundEvents.registerSoundEventName("locked");
+//        MCH_SoundEvents.registerSoundEventName("gltd");
+//        MCH_SoundEvents.registerSoundEventName("zoom");
+//        MCH_SoundEvents.registerSoundEventName("ng");
+//        MCH_SoundEvents.registerSoundEventName("a-10_snd");
+//        MCH_SoundEvents.registerSoundEventName("gau-8_snd");
+//        MCH_SoundEvents.registerSoundEventName("hit");
+//        MCH_SoundEvents.registerSoundEventName("helidmg");
+//        MCH_SoundEvents.registerSoundEventName("heli");
+//        MCH_SoundEvents.registerSoundEventName("plane");
+//        MCH_SoundEvents.registerSoundEventName("plane_cc");
+//        MCH_SoundEvents.registerSoundEventName("plane_cv");
+//        MCH_SoundEvents.registerSoundEventName("chain");
+//        MCH_SoundEvents.registerSoundEventName("chain_ct");
+//        MCH_SoundEvents.registerSoundEventName("eject_seat");
+//        MCH_SoundEvents.registerSoundEventName("fim92_snd");
+//        MCH_SoundEvents.registerSoundEventName("fim92_reload");
+//        MCH_SoundEvents.registerSoundEventName("lockon");
+//        MCH_SoundEvents.registerSoundEventName("wrench");
 
 //        for (MCH_WeaponInfo info : ContentRegistries.weapon().values()) {
 //            MCH_SoundEvents.registerSoundEventName(info.soundFileName);

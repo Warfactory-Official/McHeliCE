@@ -11,10 +11,10 @@ Ballistics:
 Sound:
   Volume: 10.0
   Pitch: 0.5
-  Name: cannon_4_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Hit: mcheli:cannon_4_snd
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Recoil:
   Power: 2.5
   BufferCount: 40

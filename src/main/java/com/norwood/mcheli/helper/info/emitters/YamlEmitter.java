@@ -338,6 +338,10 @@ public class YamlEmitter implements IEmitter {
 //            snd.put("Name", info.soundFileName.toLowerCase(Locale.ROOT));
 //
         Map<String, Object> sndLoc = new LinkedHashMap<>();
+        if (!info.fireSound.equals(dummy.fireSound)) {
+            assert info.hitSound != null;
+            sndLoc.put("Fire", info.fireSound.toString());
+        }
         if (notBlank(info.hitSound))
             sndLoc.put("Hit", info.hitSound.toString());
         if (notBlank(info.hitSoundIron))
@@ -993,7 +997,7 @@ public class YamlEmitter implements IEmitter {
         // Sound
         Map<String, Object> sound = new LinkedHashMap<>();
 
-        if (notBlank(info.soundMove) && !info.soundMove.toString().equalsIgnoreCase(dummyInfo.soundMove.toString()))
+        if (notBlank(info.soundMove))
             sound.put("MoveSound", info.soundMove.toString());
 
         if (info.soundVolume != dummyInfo.soundVolume) sound.put("Vol", info.soundVolume);

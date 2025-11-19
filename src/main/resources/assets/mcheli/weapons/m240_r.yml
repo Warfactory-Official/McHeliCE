@@ -9,10 +9,10 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Volume: 0.6
-  Name: gun_l1_snd
   Locations:
-    HitMetal: hit_metal
-    Railgun: railgun
+    Hit: mcheli:gun_l1_snd
+    HitMetal: mcheli:hit_metal
+    Railgun: mcheli:railgun
 Explosion:
   DestructionPower: 0
 Camera:

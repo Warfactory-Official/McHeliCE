@@ -23,21 +23,12 @@ import java.util.Set;
                     modid = "mcheli")
 public class MCH_SoundEvents {
 
-    private static final Set<ResourceLocation> registryWrapper = Sets.newLinkedHashSet();
 
     @SubscribeEvent
     static void onSoundEventRegisterEvent(Register<SoundEvent> event) {
-        for (ResourceLocation soundLocation : registryWrapper) {
+        for (ResourceLocation soundLocation : SoundRegistry.soundMap.keySet()) {
             event.getRegistry().register(new SoundEvent(soundLocation).setRegistryName(soundLocation));
         }
-    }
-
-    public static void registerSoundEventName(String name) {
-        registerSoundEventName(new ResourceLocation(Tags.MODID,name));
-    }
-
-    public static void registerSoundEventName(ResourceLocation name) {
-        registryWrapper.add(name);
     }
 
     public static void playSound(World w, double x, double y, double z, ResourceLocation name, float volume, float pitch) {
