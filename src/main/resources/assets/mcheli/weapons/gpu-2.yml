@@ -11,9 +11,7 @@ Sound:
   Delay: 3
   Pitch: 0.9
   Locations:
-    Hit: mcheli:gun_l2_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:gun_l2_snd
 Explosion:
   DestructionPower: 0
 Camera:

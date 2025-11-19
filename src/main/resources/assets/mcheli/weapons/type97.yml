@@ -10,9 +10,7 @@ Ballistics:
   Piercing: 2
 Sound:
   Locations:
-    Hit: mcheli:bomb_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:bomb_snd
 Explosion:
   Power: 4
   DestructionPower: 4

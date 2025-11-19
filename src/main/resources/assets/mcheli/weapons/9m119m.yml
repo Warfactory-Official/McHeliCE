@@ -10,9 +10,7 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Locations:
-    Hit: mcheli:missile_2_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:missile_2_snd
 Explosion:
   Power: 3
   DestructionPower: 3

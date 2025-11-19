@@ -9,9 +9,7 @@ Ballistics:
 Sound:
   Delay: 4
   Locations:
-    Hit: mcheli:chain_ct
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:chain_ct
 Explosion:
   DestructionPower: 0
   FuseTime: 20

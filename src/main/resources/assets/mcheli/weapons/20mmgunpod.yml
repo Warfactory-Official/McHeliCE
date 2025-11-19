@@ -12,9 +12,7 @@ Sound:
   Volume: 2.0
   Pitch: 0.8
   Locations:
-    Hit: mcheli:gun_h4_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:gun_h4_snd
 Explosion:
   Power: 1
   DestructionPower: 1

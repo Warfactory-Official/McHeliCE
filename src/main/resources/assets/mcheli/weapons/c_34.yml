@@ -11,9 +11,7 @@ Sound:
   Volume: 15.0
   Pitch: 0.8
   Locations:
-    Hit: mcheli:cannon_1_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:cannon_1_snd
 Recoil:
   BufferCount: 40
   BufferSpeed: 4

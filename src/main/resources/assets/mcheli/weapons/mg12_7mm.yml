@@ -10,9 +10,7 @@ Ballistics:
 Sound:
   Pitch: 0.8
   Locations:
-    Hit: mcheli:gun_l1_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:gun_l1_snd
 Explosion:
   DestructionPower: 0
 Camera:

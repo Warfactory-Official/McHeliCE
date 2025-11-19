@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -131,10 +132,10 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
      * Spread of block-breaking particles. Recommended values: 0.1 (rifle bullet) ~ 0.6 (anti-tank rifle)
      */
     public float flakParticlesDiff = 0.3F;
+    @NotNull
+    public ResourceLocation fireSound;
     @Nullable
-    public ResourceLocation hitSound = null;
-    @NonNull
-    public  ResourceLocation fireSound;
+    public  ResourceLocation hitSound;
 
     public ResourceLocation hitSoundIron = new ResourceLocation(Tags.MODID, "hit_metal");
     public ResourceLocation railgunSound = new ResourceLocation(Tags.MODID, "railgun");
@@ -380,8 +381,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
 
         this.angle = (float) (Math.atan2(this.radius, this.length) * 180.0D / 3.141592653589793D);
 
-        if (new ResourceLocation(Tags.MODID, this.name + "_snd").equals(fireSound))
-            SoundRegistry.parseSound(fireSound.getPath());
+        if (new ResourceLocation(Tags.MODID, this.name + "_snd").equals(hitSound))
+            SoundRegistry.parseSound(hitSound.getPath());
 
             return true;
     }

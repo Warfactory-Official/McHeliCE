@@ -9,8 +9,7 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Locations:
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:plastic_bomb_snd
 Explosion:
   Power: 4
   DestructionPower: 4

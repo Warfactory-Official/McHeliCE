@@ -11,9 +11,7 @@ Ballistics:
 Sound:
   Volume: 10.0
   Locations:
-    Hit: mcheli:cannon_1_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:cannon_1_snd
 Recoil:
   Power: 1.8
   BufferCount: 40

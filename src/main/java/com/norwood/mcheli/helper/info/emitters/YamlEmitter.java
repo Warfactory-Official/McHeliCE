@@ -338,15 +338,14 @@ public class YamlEmitter implements IEmitter {
 //            snd.put("Name", info.soundFileName.toLowerCase(Locale.ROOT));
 //
         Map<String, Object> sndLoc = new LinkedHashMap<>();
-        if (!info.fireSound.equals(dummy.fireSound)) {
-            assert info.hitSound != null;
+        if (notBlank(info.fireSound)) {
             sndLoc.put("Fire", info.fireSound.toString());
         }
         if (notBlank(info.hitSound))
             sndLoc.put("Hit", info.hitSound.toString());
-        if (notBlank(info.hitSoundIron))
+        if (notBlank(info.hitSoundIron) && !info.hitSoundIron.equals(dummy.hitSoundIron))
             sndLoc.put("HitMetal", info.hitSoundIron.toString());
-        if (notBlank(info.railgunSound))
+        if (notBlank(info.railgunSound) && !info.railgunSound.equals(dummy.railgunSound))
             sndLoc.put("Railgun", info.railgunSound.toString());
         if (notBlank(info.weaponSwitchSound))
             sndLoc.put("WeaponSwitch", info.weaponSwitchSound.toString());

@@ -12,9 +12,7 @@ Sound:
   Delay: 2
   Volume: 3.0
   Locations:
-    Hit: mcheli:gun_h6_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:gun_h6_snd
 Explosion:
   Power: 1
   DestructionPower: 1

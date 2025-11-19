@@ -12,9 +12,7 @@ Sound:
   Volume: 10.0
   Pitch: 0.5
   Locations:
-    Hit: mcheli:cannon_4_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:cannon_4_snd
 Recoil:
   Power: 2.5
   BufferCount: 40

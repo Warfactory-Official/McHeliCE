@@ -1,7 +1,6 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.wrapper.W_McClient;
@@ -180,7 +179,7 @@ public abstract class MCH_WeaponBase {
     }
 
     public void playSound(Entity e) {
-        this.playSound(e, this.getInfo().hitSound);
+        this.playSound(e, this.getInfo().fireSound);
     }
 
     public void playSound(Entity e, ResourceLocation snd) {
@@ -193,7 +192,7 @@ public abstract class MCH_WeaponBase {
 
     public void playSoundClient(Entity e, float volume, float pitch) {
         if (e.world.isRemote && this.getInfo() != null) {
-            W_McClient.playSound(this.getInfo().hitSound, volume, pitch);
+            W_McClient.playSound(this.getInfo().fireSound, volume, pitch);
         }
     }
 

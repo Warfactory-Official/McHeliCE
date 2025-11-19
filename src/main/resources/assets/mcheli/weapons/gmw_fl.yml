@@ -11,9 +11,7 @@ Ballistics:
 Sound:
   Volume: 2.0
   Locations:
-    Hit: mcheli:mk19_l_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:mk19_l_snd
 Explosion:
   DestructionPower: 0
 Camera:

@@ -10,8 +10,7 @@ Ballistics:
 Sound:
   Delay: 3
   Locations:
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:xm301_snd
 Explosion:
   Power: 1
   DestructionPower: 0

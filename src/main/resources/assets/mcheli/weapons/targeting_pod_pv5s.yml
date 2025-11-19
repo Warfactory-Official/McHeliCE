@@ -8,9 +8,7 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Locations:
-    Hit: mcheli:lockon
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:lockon
 Explosion:
   DestructionPower: 0
 FireCooldown: 200

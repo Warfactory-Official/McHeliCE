@@ -10,9 +10,7 @@ Ballistics:
 Sound:
   Volume: 1.6
   Locations:
-    Hit: mcheli:cannon_1_snd
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:cannon_1_snd
 Explosion:
   Power: 3
   DestructionPower: 2

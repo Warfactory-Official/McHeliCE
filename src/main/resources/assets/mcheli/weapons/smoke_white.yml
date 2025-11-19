@@ -8,8 +8,7 @@ Ballistics:
   VelocityInWater: 0.999
 Sound:
   Locations:
-    HitMetal: mcheli:hit_metal
-    Railgun: mcheli:railgun
+    Fire: mcheli:smoke_white_snd
 Explosion:
   DestructionPower: 0
 Render:
