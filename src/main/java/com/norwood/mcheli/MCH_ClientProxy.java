@@ -56,6 +56,7 @@ import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -190,7 +191,13 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void postInit(FMLPostInitializationEvent postEvent) {
-        SoundRegistry.commitChanges(Minecraft.getMinecraft().getSoundHandler());
+        IReloadableResourceManager rm = (IReloadableResourceManager)
+                Minecraft.getMinecraft().getResourceManager();
+
+        rm.registerReloadListener(resourceManager -> {
+            SoundRegistry.commitChanges(Minecraft.getMinecraft().getSoundHandler());
+        });
+
     }
 
     @Override
