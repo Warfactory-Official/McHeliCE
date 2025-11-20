@@ -7,15 +7,22 @@ import hohserg.elegant.networking.api.ServerToClientPacket;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @ElegantPacket
-@RequiredArgsConstructor
-public class PacketNotifyTVMissileEntity extends PacketBase implements ServerToClientPacket {
+public class PacketNotifyTVMissileEntity implements ServerToClientPacket {
 
     final public int entityID_Ac;
     final public int entityID_TVMissile;
 
+    public PacketNotifyTVMissileEntity(int entityID_Ac, int entityID_TVMissile) {
+        this.entityID_Ac = entityID_Ac;
+        this.entityID_TVMissile = entityID_TVMissile;
+    }
+
     @Override
+    @SideOnly(Side.CLIENT)
     public void onReceive(Minecraft mc) {
         if (this.entityID_Ac <= 0 || this.entityID_TVMissile <= 0) {
             return;
