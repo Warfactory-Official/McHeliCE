@@ -85,7 +85,7 @@ public class ClientSoundRegistry {
         put("mcheli:vehicle_run", entry("mcheli:vehicle_run"));
         put("mcheli:xm301_snd", entry("mcheli:xm301_snd"));
         put("mcheli:zoom", entry("mcheli:zoom"));
-        put("wrench", entry("mcheli:wrench1", "mcheli:wrench2", "mcheli:wrench3"));
+        put("mcheli:wrench", entry("mcheli:wrench1", "mcheli:wrench2", "mcheli:wrench3"));
     }
 
     private ClientSoundRegistry() {

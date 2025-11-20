@@ -159,7 +159,7 @@ public class MCH_ItemWrench extends W_Item {
             if (ac != null && ac.getHP() > 0 && ac.repair(10)) {
                 stack.damageItem(1, player);
                 float pitch = 0.9F + rand.nextFloat() * 0.2F;
-                MCH_SoundEvents.playSound(player.world, (int) ac.posX, (int) ac.posY, (int) ac.posZ, MCH_MOD.DOMAIN + ":" + "wrench", 1.0F, pitch);
+                MCH_SoundEvents.playSound(player.world, (int) ac.posX, (int) ac.posY, (int) ac.posZ, "wrench", 1.0F, pitch);
             }
         }
     }
