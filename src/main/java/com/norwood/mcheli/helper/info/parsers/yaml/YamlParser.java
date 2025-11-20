@@ -598,10 +598,10 @@ public class YamlParser implements IParser {
 
     public ResourceLocation parseSoundEffect(Object sound){
         if(sound instanceof String string ){
-            return SoundRegistry.parseSound(string);
+            return SoundRegistry.INSTANCE.parseSound(string);
         }
         else if(sound instanceof Map<?,?> map){
-            return SoundRegistry.parseSound((Map<String, Object>) map);
+            return SoundRegistry.INSTANCE.parseSound((Map<String, Object>) map);
         } else
             throw new IllegalArgumentException("Unsupported sound effect type: " + sound.getClass());
     }

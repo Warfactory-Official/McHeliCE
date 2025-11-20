@@ -40,6 +40,7 @@ import com.norwood.mcheli.plane.MCP_RenderPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_RenderShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.sound.ClientSoundRegistry;
 import com.norwood.mcheli.sound.SoundRegistry;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_RenderTank;
@@ -195,7 +196,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
                 Minecraft.getMinecraft().getResourceManager();
 
         rm.registerReloadListener(resourceManager -> {
-            SoundRegistry.commitChanges(Minecraft.getMinecraft().getSoundHandler());
+            ClientSoundRegistry.INSTANCE.commitChanges(Minecraft.getMinecraft().getSoundHandler());
         });
 
     }
@@ -569,6 +570,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void init() {
         MinecraftForge.EVENT_BUS.register(new MCH_CameraManager());
         MinecraftForge.EVENT_BUS.register(new MCH_ClientEventHook());
+        super.init();
     }
 
     @Override

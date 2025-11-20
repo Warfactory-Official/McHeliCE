@@ -26,7 +26,7 @@ public class MCH_SoundEvents {
 
     @SubscribeEvent
     static void onSoundEventRegisterEvent(Register<SoundEvent> event) {
-        for (ResourceLocation soundLocation : SoundRegistry.soundMap.keySet()) {
+        for (ResourceLocation soundLocation : SoundRegistry.INSTANCE.soundSet) {
             event.getRegistry().register(new SoundEvent(soundLocation).setRegistryName(soundLocation));
         }
     }

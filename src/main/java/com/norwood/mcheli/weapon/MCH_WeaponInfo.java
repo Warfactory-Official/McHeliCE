@@ -382,7 +382,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         this.angle = (float) (Math.atan2(this.radius, this.length) * 180.0D / 3.141592653589793D);
 
         if (new ResourceLocation(Tags.MODID, this.name + "_snd").equals(hitSound))
-            SoundRegistry.parseSound(hitSound.getPath());
+            SoundRegistry.INSTANCE.parseSound(hitSound.getPath());
 
             return true;
     }

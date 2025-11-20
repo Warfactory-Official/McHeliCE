@@ -13,6 +13,7 @@ import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.helper.info.ContentType;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.sound.SoundRegistry;
 import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
@@ -144,7 +145,8 @@ public class MCH_CommonProxy {
 
     public void setCreativeDigDelay(int n) {}
 
-    public void init() {}
+    public void init() {
+    }
 
     public boolean isFirstPerson() {
         return false;
