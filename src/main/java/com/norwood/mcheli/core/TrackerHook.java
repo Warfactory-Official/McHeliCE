@@ -10,4 +10,8 @@ public class TrackerHook {
         if (entity instanceof MCH_EntityAircraft) return range;
         return Math.min(range, maxRange);
     }
+
+    public static boolean shouldForceWatch(Entity entity) {
+        return entity instanceof MCH_EntityAircraft;
+    }
 }
