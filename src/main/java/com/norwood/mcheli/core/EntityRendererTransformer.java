@@ -8,8 +8,9 @@ import org.objectweb.asm.tree.*;
 import static org.objectweb.asm.Opcodes.*;
 
 public class EntityRendererTransformer implements IClassTransformer {
+
     private static final ObfSafeName RENDER_WORLD_PASS = new ObfSafeName("renderWorldPass", "func_175068_a");
-    private static final ObfSafeName SHADE_MODEL = new ObfSafeName("shadeModel", "func_179103_j");
+    private static final ObfSafeName RENDER_ENTITIES = new ObfSafeName("renderEntities", "func_180446_a");
 
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
@@ -39,19 +40,15 @@ public class EntityRendererTransformer implements IClassTransformer {
 
     private static void patchRenderWorldPass(MethodNode method) {
         for (AbstractInsnNode insn = method.instructions.getFirst(); insn != null; insn = insn.getNext()) {
-            if (insn.getOpcode() == INVOKESTATIC && insn instanceof MethodInsnNode minsn) {
-                if (minsn.owner.contains("GlStateManager") && SHADE_MODEL.matches(minsn.name)) {
-                    AbstractInsnNode prev = insn.getPrevious();
-                    if (prev != null && prev.getOpcode() == SIPUSH && ((IntInsnNode) prev).operand == 7425) {
-
-                        InsnList inject = new InsnList();
-                        inject.add(new VarInsnNode(ALOAD, 0));
-                        inject.add(new VarInsnNode(FLOAD, 2));
-                        inject.add(new MethodInsnNode(INVOKESTATIC, "com/norwood/mcheli/core/EntityRendererHook", "renderFarPass", "(Lnet/minecraft/client/renderer/EntityRenderer;F)V", false));
-                        method.instructions.insert(insn, inject);
-                        MCHCore.coreLogger.info("patched renderWorldPass");
-                        return;
-                    }
+            if (insn.getOpcode() == INVOKEVIRTUAL && insn instanceof MethodInsnNode minsn) {
+                if (RENDER_ENTITIES.matches(minsn.name)) {
+                    InsnList inject = new InsnList();
+                    inject.add(new VarInsnNode(ALOAD, 0));
+                    inject.add(new VarInsnNode(FLOAD, 2));
+                    inject.add(new MethodInsnNode(INVOKESTATIC, "com/norwood/mcheli/core/EntityRendererHook", "renderFarPass", "(Lnet/minecraft/client/renderer/EntityRenderer;F)V", false));
+                    method.instructions.insert(insn, inject);
+                    MCHCore.coreLogger.info("patched renderWorldPass");
+                    return;
                 }
             }
         }

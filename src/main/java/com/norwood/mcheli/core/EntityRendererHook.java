@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.entity.Entity;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
@@ -75,6 +76,5 @@ public class EntityRendererHook {
         GlStateManager.popMatrix();
         GlStateManager.matrixMode(GL11.GL_MODELVIEW);
         GlStateManager.popMatrix();
-        GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
     }
 }
