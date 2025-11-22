@@ -5937,4 +5937,10 @@ public abstract class MCH_EntityAircraft
 
         public WeaponBay(MCH_EntityAircraft paramMCH_EntityAircraft) {}
     }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return this.getEntityBoundingBox().grow(32);
+    }
+
 }

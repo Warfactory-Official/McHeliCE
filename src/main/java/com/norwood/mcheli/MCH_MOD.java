@@ -352,7 +352,6 @@ public class MCH_MOD {
         MCH_Lib.Log("Register system");
         MinecraftForge.EVENT_BUS.register(new MCH_EventHook());
         proxy.registerClientTick();
-        if (proxy.isRemote())
             NetworkRegistry.INSTANCE.registerGuiHandler(this, new MCH_GuiCommonHandler());
         MCH_Lib.Log("Register entity");
         this.registerEntity();

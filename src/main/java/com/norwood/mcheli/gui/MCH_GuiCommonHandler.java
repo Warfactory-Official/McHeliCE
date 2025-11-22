@@ -18,6 +18,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MCH_GuiCommonHandler implements IGuiHandler {
 
@@ -68,6 +70,7 @@ public class MCH_GuiCommonHandler implements IGuiHandler {
         };
     }
 
+    @SideOnly(Side.CLIENT)
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         MCH_Lib.DbgLog(world, "MCH_GuiCommonHandler.getClientGuiElement ID=%d (%d, %d, %d)", id, x, y, z);
 
