@@ -57,6 +57,8 @@ dependencies {
 //    runtimeOnly rfg.deobf("curse.maven:universal-tweaks-705000:7156691")
 //    runtimeOnly rfg.deobf("curse.maven:mixin-booter-419286:7049694")
 //    runtimeOnly rfg.deobf("curse.maven:configanytime-870276:5212709")
+    runtimeOnly rfg.deobf("curse.maven:nofog-296468:2604160")
+    runtimeOnly rfg.deobf("curse.maven:xaeros-minimap-263420:6777996")
 
 
 

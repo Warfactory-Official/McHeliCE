@@ -50,7 +50,6 @@ import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.W_Item;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
-import com.norwood.mcheli.wrapper.W_NetworkRegistry;
 import net.minecraft.command.CommandHandler;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.world.World;
@@ -64,6 +63,7 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 
@@ -72,9 +72,9 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 @Mod(
-     modid = "mcheli",
-     name = "MC Helicopter MOD",
-     dependencies = "required-after:elegant_networking;after:hbm")
+        modid = "mcheli",
+        name = "MC Helicopter MOD",
+        dependencies = "required-after:elegant_networking;after:hbm")
 public class MCH_MOD {
 
     public static final String MOD_ID = Tags.MODID;
@@ -85,8 +85,8 @@ public class MCH_MOD {
     @Instance("mcheli")
     public static MCH_MOD instance;
     @SidedProxy(
-                clientSide = "com.norwood.mcheli.MCH_ClientProxy",
-                serverSide = "com.norwood.mcheli.MCH_CommonProxy")
+            clientSide = "com.norwood.mcheli.MCH_ClientProxy",
+            serverSide = "com.norwood.mcheli.MCH_CommonProxy")
     public static MCH_CommonProxy proxy;
     public static MCH_Config config;
     public static String sourcePath;
@@ -352,7 +352,8 @@ public class MCH_MOD {
         MCH_Lib.Log("Register system");
         MinecraftForge.EVENT_BUS.register(new MCH_EventHook());
         proxy.registerClientTick();
-        W_NetworkRegistry.registerGuiHandler(this, new MCH_GuiCommonHandler());
+        if (proxy.isRemote())
+            NetworkRegistry.INSTANCE.registerGuiHandler(this, new MCH_GuiCommonHandler());
         MCH_Lib.Log("Register entity");
         this.registerEntity();
         MCH_Lib.Log("Register renderer");
@@ -398,11 +399,12 @@ public class MCH_MOD {
     }
 
     public void registerEntity() {
-        MCH_Entities.register(MCH_EntitySeat.class, "MCH.E.Seat", 100, this, 600, 10, true);
-        MCH_Entities.register(MCH_EntityHeli.class, "MCH.E.Heli", 101, this, 600, 10, true);
-        MCH_Entities.register(MCH_EntityGLTD.class, "MCH.E.GLTD", 102, this, 600, 10, true);
-        MCH_Entities.register(MCH_EntityPlane.class, "MCH.E.Plane", 103, this, 600, 10, true);
-        MCH_Entities.register(MCH_EntityShip.class, "MCH.E.Ship", 403, this, 600, 10, true);
+        MCH_Entities.register(MCH_EntitySeat.class, "MCH.E.Seat", 100, this, 1200, 10, true);
+        MCH_Entities.register(MCH_EntityHeli.class, "MCH.E.Heli", 101, this, 1200, 10, true);
+        MCH_Entities.register(MCH_EntityGLTD.class, "MCH.E.GLTD", 102, this, 1200, 10, true);
+        MCH_Entities.register(MCH_EntityPlane.class, "MCH.E.Plane", 103, this, 1200, 10, true);
+        MCH_Entities.register(MCH_EntityShip.class, "MCH.E.Ship", 403, this, 1200, 10, true);
+        MCH_Entities.register(MCH_EntityTank.class, "MCH.E.Tank", 112, this, 1200, 10, true);
 
         MCH_Entities.register(MCH_EntityChain.class, "MCH.E.Chain", 104, this, 600, 10, true);
         MCH_Entities.register(MCH_EntityHitBox.class, "MCH.E.PSeat", 105, this, 200, 10, true);
@@ -412,7 +414,6 @@ public class MCH_MOD {
         MCH_Entities.register(MCH_EntityUavStation.class, "MCH.E.UavStation", 109, this, 400, 10, true);
         MCH_Entities.register(MCH_EntityHitBox.class, "MCH.E.HitBox", 110, this, 200, 10, true);
         MCH_Entities.register(MCH_EntityHide.class, "MCH.E.Hide", 111, this, 200, 10, true);
-        MCH_Entities.register(MCH_EntityTank.class, "MCH.E.Tank", 112, this, 400, 10, true);
         MCH_Entities.register(MCH_EntityRocket.class, "MCH.E.Rocket", 200, this, 530, 5, true);
         MCH_Entities.register(MCH_EntityTvMissile.class, "MCH.E.TvMissle", 201, this, 530, 5, true);
         MCH_Entities.register(MCH_EntityBullet.class, "MCH.E.Bullet", 202, this, 530, 5, true);
@@ -483,8 +484,8 @@ public class MCH_MOD {
     }
 
     public void registerItemUavStation() {
-        String[] dispName = new String[] { "UAV Station", "Portable UAV Controller" };
-        String[] localName = new String[] { "UAVステーション", "携帯UAV制御端末" };
+        String[] dispName = new String[]{"UAV Station", "Portable UAV Controller"};
+        String[] localName = new String[]{"UAVステーション", "携帯UAV制御端末"};
         itemUavStation = new MCH_ItemUavStation[MCH_ItemUavStation.UAV_STATION_KIND_NUM];
         String name = "uav_station";
 
