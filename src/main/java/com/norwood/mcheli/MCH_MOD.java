@@ -48,13 +48,19 @@ import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.vehicle.MCH_ItemVehicle;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.*;
+import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Item;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
 import net.minecraft.command.CommandHandler;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -69,6 +75,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 @Mod(
@@ -568,6 +575,8 @@ public class MCH_MOD {
         W_LanguageRegistry.addName(item, "GLTD:Target Designator");
         W_LanguageRegistry.addNameForObject(item, "ja_jp", "GLTD:レーザー目標指示装置");
     }
+
+
 
     @SubscribeEvent
     public void onTextureStitch(TextureStitchEvent.Pre event) {
