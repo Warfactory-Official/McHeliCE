@@ -81,7 +81,7 @@ public class MCH_ClientSeatTickHandler extends MCH_ClientTickHandlerBase {
         }
 
         if (this.KeyParachuting.isKeyDown()) {
-            if (ac.canParachuting(player)) {
+            if (ac.canParachute(player)) {
                 playerControl.parachuting = true;
                 send = true;
             } else if (ac.canRepelling(player)) {
