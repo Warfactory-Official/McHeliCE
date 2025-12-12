@@ -311,6 +311,7 @@ public abstract class MCH_EntityAircraft
         this.isParachuting = false;
         this.prevPosition = new MCH_Queue<>(10, Vec3d.ZERO);
         this.lastSearchLightYaw = this.lastSearchLightPitch = 0.0F;
+        this.forceSpawn = true;
     }
 
     @Nullable
