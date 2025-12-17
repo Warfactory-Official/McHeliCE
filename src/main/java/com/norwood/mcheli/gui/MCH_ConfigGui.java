@@ -1,7 +1,7 @@
 package com.norwood.mcheli.gui;
 
 import com.google.common.collect.Sets;
-import com.norwood.mcheli.MCH_ClientCommonTickHandler;
+import com.norwood.mcheli.event.MCH_ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;

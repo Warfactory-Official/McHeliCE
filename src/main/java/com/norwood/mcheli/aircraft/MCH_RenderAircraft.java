@@ -1,6 +1,6 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_ClientCommonTickHandler;
+import com.norwood.mcheli.event.MCH_ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_ClientEventHook;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;

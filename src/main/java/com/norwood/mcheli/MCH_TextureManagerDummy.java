@@ -1,5 +1,6 @@
 package com.norwood.mcheli;
 
+import com.norwood.mcheli.event.MCH_ClientCommonTickHandler;
 import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;

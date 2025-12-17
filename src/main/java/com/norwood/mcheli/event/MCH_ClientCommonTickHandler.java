@@ -1,5 +1,6 @@
-package com.norwood.mcheli;
+package com.norwood.mcheli.event;
 
+import com.norwood.mcheli.*;
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.command.MCH_GuiTitle;
 import com.norwood.mcheli.gltd.MCH_ClientGLTDTickHandler;
@@ -54,6 +55,14 @@ import java.util.ArrayList;
 @SideOnly(Side.CLIENT)
 public class MCH_ClientCommonTickHandler extends W_TickHandler {
 
+    private static final int CAM_DIST_STEP = 4;
+    private static final int CAM_DIST_MIN = 4;
+    private static final int CAM_DIST_MAX = 72;
+
+    private static final int LOCKED_SOUND_COOLDOWN = 20;
+    private static final int IMAGE_SEND_INTERVAL = 10;
+
+
     public static MCH_ClientCommonTickHandler instance;
     public static int cameraMode = 0;
     public static MCH_EntityAircraft ridingAircraft = null;
@@ -90,7 +99,6 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
     public MCH_Key KeyCamDistDown;
     public MCH_Key KeyScoreboard;
     public MCH_Key KeyMultiplayManager;
-    int debugcnt;
 
     public MCH_ClientCommonTickHandler(Minecraft minecraft, MCH_Config config) {
         super(minecraft);
@@ -107,9 +115,9 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
         this.gui_RngFndr = new MCH_GuiRangeFinder(minecraft);
         this.gui_EMarker = new MCH_GuiTargetMarker(minecraft);
         this.gui_Title = new MCH_GuiTitle(minecraft);
-        this.guis = new MCH_Gui[] { this.gui_RngFndr, this.gui_LWeapon, this.gui_Heli, this.gui_Plane, this.gui_Ship,
-                this.gui_Tank, this.gui_GLTD, this.gui_Vehicle };
-        this.guiTicks = new MCH_Gui[] {
+        this.guis = new MCH_Gui[]{this.gui_RngFndr, this.gui_LWeapon, this.gui_Heli, this.gui_Plane, this.gui_Ship,
+                this.gui_Tank, this.gui_GLTD, this.gui_Vehicle};
+        this.guiTicks = new MCH_Gui[]{
                 this.gui_Common,
                 this.gui_Heli,
                 this.gui_Plane,
@@ -124,7 +132,7 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
                 this.gui_EMarker,
                 this.gui_Title
         };
-        this.ticks = new MCH_ClientTickHandlerBase[] {
+        this.ticks = new MCH_ClientTickHandlerBase[]{
                 new MCH_ClientHeliTickHandler(minecraft, config),
                 new MCP_ClientPlaneTickHandler(minecraft, config),
                 new MCH_ClientShipTickHandler(minecraft, config),
@@ -164,96 +172,116 @@ public class MCH_ClientCommonTickHandler extends W_TickHandler {
         this.KeyCamDistDown = new MCH_Key(MCH_Config.KeyCameraDistDown.prmInt);
         this.KeyScoreboard = new MCH_Key(MCH_Config.KeyScoreboard.prmInt);
         this.KeyMultiplayManager = new MCH_Key(MCH_Config.KeyMultiplayManager.prmInt);
-        this.Keys = new MCH_Key[] { this.KeyCamDistUp, this.KeyCamDistDown, this.KeyScoreboard,
-                this.KeyMultiplayManager };
+        this.Keys = new MCH_Key[]{this.KeyCamDistUp, this.KeyCamDistDown, this.KeyScoreboard,
+                this.KeyMultiplayManager};
 
         for (MCH_ClientTickHandlerBase t : this.ticks) {
             t.updateKeybind(config);
         }
     }
 
-    public String getLabel() {
-        return null;
-    }
-
     public void onTick() {
         MCH_ClientTickHandlerBase.initRotLimit();
 
-        for (MCH_Key k : this.Keys) {
-            k.update();
+        updateKeys();
+
+        EntityPlayer player = mc.player;
+        boolean inGui = mc.currentScreen != null;
+
+        if (player != null && !inGui) {
+            handleCameraDistance();
+            handleScoreboardAndMultiplayer();
         }
 
-        EntityPlayer player = this.mc.player;
-        if (player != null && this.mc.currentScreen == null) {
-            if (MCH_ServerSettings.enableCamDistChange &&
-                    (this.KeyCamDistUp.isKeyDown() || this.KeyCamDistDown.isKeyDown())) {
-                int camdist = (int) W_Reflection.getThirdPersonDistance();
-                if (this.KeyCamDistUp.isKeyDown() && camdist < 72) {
-                    camdist += 4;
-                    if (camdist > 72) {
-                        camdist = 72;
-                    }
+        handleImageDataSending();
+        handleTickHandlers(inGui);
+        handleAircraftCamera(player);
+        handleGps(player);
+    }
 
-                    W_Reflection.setThirdPersonDistance(camdist);
-                } else if (this.KeyCamDistDown.isKeyDown()) {
-                    camdist -= 4;
-                    if (camdist < 4) {
-                        camdist = 4;
-                    }
-
-                    W_Reflection.setThirdPersonDistance(camdist);
-                }
-            }
-
-            if (this.mc.currentScreen == null && (!this.mc.isSingleplayer() || MCH_Config.DebugLog)) {
-                isDrawScoreboard = this.KeyScoreboard.isKeyPress();
-                if (!isDrawScoreboard && this.KeyMultiplayManager.isKeyDown()) {
-                    PacketOpenScreen.send(5);
-                }
-            }
+    private void updateKeys() {
+        for (MCH_Key key : Keys) {
+            key.update();
         }
+    }
 
-        if (sendLDCount < 10) {
-            sendLDCount++;
+    private void handleGps(EntityPlayer player) {
+        if (player != null && player.getRidingEntity() == null) {
+            GPSPosition.currentClientGPSPosition.isActive = false;
+        }
+    }
+
+
+    private void handleCameraDistance() {
+        if (!MCH_ServerSettings.enableCamDistChange) return;
+
+        boolean up = KeyCamDistUp.isKeyDown();
+        boolean down = KeyCamDistDown.isKeyDown();
+        if (!up && !down) return;
+
+        int camDist = (int) W_Reflection.getThirdPersonDistance();
+
+        if (up) {
+            camDist = Math.min(camDist + CAM_DIST_STEP, CAM_DIST_MAX);
         } else {
-            MCH_MultiplayClient.sendImageData();
-            sendLDCount = 0;
+            camDist = Math.max(camDist - CAM_DIST_STEP, CAM_DIST_MIN);
         }
 
-        boolean inOtherGui = this.mc.currentScreen != null;
+        W_Reflection.setThirdPersonDistance(camDist);
+    }
 
-        for (MCH_ClientTickHandlerBase t : this.ticks) {
-            t.onTick(inOtherGui);
+    private void handleScoreboardAndMultiplayer() {
+        if (mc.isSingleplayer() && !MCH_Config.DebugLog) return;
+
+        isDrawScoreboard = KeyScoreboard.isKeyPress();
+
+        if (!isDrawScoreboard && KeyMultiplayManager.isKeyDown()) {
+            PacketOpenScreen.send(5);
+        }
+    }
+
+    private void handleImageDataSending() {
+        if (++sendLDCount < IMAGE_SEND_INTERVAL) return;
+
+        MCH_MultiplayClient.sendImageData();
+        sendLDCount = 0;
+    }
+
+    private void handleTickHandlers(boolean inOtherGui) {
+        for (MCH_ClientTickHandlerBase tick : ticks) {
+            tick.onTick(inOtherGui);
         }
 
-        for (MCH_Gui g : this.guiTicks) {
-            g.onTick();
+        for (MCH_Gui gui : guiTicks) {
+            gui.onTick();
         }
+    }
 
-        MCH_EntityAircraft ac = MCH_EntityAircraft.getAircraft_RiddenOrControl(player);
-        if (player != null && ac != null && !ac.isDestroyed()) {
+    private void handleAircraftCamera(EntityPlayer player) {
+        MCH_EntityAircraft ac =
+                MCH_EntityAircraft.getAircraft_RiddenOrControl(player);
+
+        boolean ridingValidAircraft =
+                player != null && ac != null && !ac.isDestroyed();
+
+        if (ridingValidAircraft) {
             if (isLocked && lockedSoundCount == 0) {
                 isLocked = false;
-                lockedSoundCount = 20;
+                lockedSoundCount = LOCKED_SOUND_COOLDOWN;
                 MCH_ClientTickHandlerBase.playSound("locked");
             }
-
-            MCH_CameraManager.setRidingAircraft(ac);
         } else {
-            lockedSoundCount = 0;
             isLocked = false;
-            MCH_CameraManager.setRidingAircraft(ac);
+            lockedSoundCount = 0;
         }
+
+        MCH_CameraManager.setRidingAircraft(ac);
 
         if (lockedSoundCount > 0) {
             lockedSoundCount--;
         }
-
-        // GPS
-        if (mc.player.getRidingEntity() == null) {
-            GPSPosition.currentClientGPSPosition.isActive = false;
-        }
     }
+
 
     @Override
     public void onTickPre() {

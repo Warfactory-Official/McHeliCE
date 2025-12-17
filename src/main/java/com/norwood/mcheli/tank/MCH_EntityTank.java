@@ -418,66 +418,6 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
     }
 
-    /**
-     * public void onUpdateAngles(float partialTicks) {
-     * if(!this.isDestroyed()) {
-     * if(super.isGunnerMode) {
-     * this.setRotPitch(this.getRotPitch() * 0.95F);
-     * this.setRotYaw(this.getRotYaw() + this.getAcInfo().autoPilotRot * 0.2F);
-     * if(MathHelper.abs(this.getRotRoll()) > 20.0F) {
-     * this.setRotRoll(this.getRotRoll() * 0.95F);
-     * }
-     * }
-     * <p>
-     * this.updateRecoil(partialTicks);
-     * this.setRotPitch(this.getRotPitch() + (this.WheelMng.targetPitch - this.getRotPitch()) * partialTicks);
-     * this.setRotRoll(this.getRotRoll() + (this.WheelMng.targetRoll - this.getRotRoll()) * partialTicks);
-     * boolean isFly = MCH_Lib.getBlockIdY(this, 3, -3) == 0;
-     * //System.out.println("isfly" + isFly);
-     * <p>
-     * //logic for like rotation
-     * if(!isFly || this.getAcInfo().isFloat && this.getWaterDepth() > 0.0D) {
-     * float rotonground = 1.0F;
-     * if(!isFly) {
-     * rotonground = this.getAcInfo().mobilityYawOnGround;
-     * if(!this.getAcInfo().canRotOnGround) {
-     * Block pivotTurnThrottle = MCH_Lib.getBlockY(this, 3, -2, false);
-     * if(!W_Block.isEqual(pivotTurnThrottle, W_Block.getWater()) && !W_Block.isEqual(pivotTurnThrottle, Blocks.air)) {
-     * rotonground = 0.0F;
-     * }
-     * }
-     * }
-     * <p>
-     * float pivotTurnThrottle1 = this.getAcInfo().pivotTurnThrottle;
-     * double dx = super.posX - super.prevPosX;
-     * double dz = super.posZ - super.prevPosZ;
-     * double dist = dx * dx + dz * dz;
-     * <p>
-     * if(pivotTurnThrottle1 <= 0.0F || this.getCurrentThrottle() >= (double)pivotTurnThrottle1 || super.throttleBack >=
-     * pivotTurnThrottle1 / 10.0F || dist > (double)super.throttleBack * 0.01D) {
-     * float sf = (float)Math.sqrt(dist <= 1.0D?dist:1.0D);
-     * if(pivotTurnThrottle1 <= 0.0F) {
-     * sf = 1.0F;
-     * }
-     * <p>
-     * float flag = !super.throttleUp && super.throttleDown && this.getCurrentThrottle() < (double)pivotTurnThrottle1 +
-     * 0.05D?-1.0F:1.0F;
-     * if(super.moveLeft && !super.moveRight) {
-     * this.setRotYaw(this.getRotYaw() - 0.6F * rotonground * partialTicks * flag * sf);
-     * }
-     * <p>
-     * if(super.moveRight && !super.moveLeft) {
-     * this.setRotYaw(this.getRotYaw() + 0.6F * rotonground * partialTicks * flag * sf);
-     * }
-     * <p>
-     * }
-     * }
-     * <p>
-     * this.addkeyRotValue = (float)((double)this.addkeyRotValue * (1.0D - (double)(0.1F * partialTicks)));
-     * }
-     * }
-     * 1.7.10 bullshit
-     */
 
     @Override
     public void onUpdateAngles(float partialTicks) {
@@ -1408,10 +1348,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         float ac_pitch = this.getRotPitch();
         float ac_yaw = this.getRotYaw();
         float ac_roll = this.getRotRoll();
-        if (this.isFreeLookMode()) {
-            y = 0.0F;
-            x = 0.0F;
-        }
+
 
         float yaw = 0.0F;
         float pitch = 0.0F;

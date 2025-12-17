@@ -183,8 +183,7 @@ public abstract class MCH_EntityAircraft
     public int recoilCount = 0;
     public float recoilYaw = 0.0F;
     public float recoilValue = 0.0F;
-    public int brightnessHigh = 240;
-    public int brightnessLow = 240;
+    public int brightness = 240;
     public float thirdPersonDist = 4.0F;
     public Entity lastAttackedEntity = null;
     protected double velocityX;
@@ -337,8 +336,8 @@ public abstract class MCH_EntityAircraft
         return rider != null && rider.getRidingEntity() instanceof MCH_EntitySeat;
     }
 
-    private static boolean getCollisionBoxes(@Nullable Entity entity, AxisAlignedBB box,
-                                             List<AxisAlignedBB> result) {
+    private static void getCollisionBoxes(@Nullable Entity entity, AxisAlignedBB box,
+                                          List<AxisAlignedBB> result) {
         final int minX = MathHelper.floor(box.minX) - 1;
         final int maxX = MathHelper.ceil(box.maxX) + 1;
         final int minY = MathHelper.floor(box.minY) - 1;
@@ -395,7 +394,6 @@ public abstract class MCH_EntityAircraft
             pos.release();
         }
 
-        return !result.isEmpty();
     }
 
 
@@ -592,10 +590,6 @@ public abstract class MCH_EntityAircraft
 
     public boolean isNewUAV() {
         return (getAcInfo() != null && (getAcInfo()).isNewUAV);
-    }
-
-    public boolean isSmallUAV() {
-        return this.getAcInfo() != null && this.getAcInfo().isSmallUAV;
     }
 
     public boolean isAlwaysCameraView() {
@@ -810,18 +804,18 @@ public abstract class MCH_EntityAircraft
                 int val = this.world.getCombinedLight(new BlockPos(i, k, j), 0);
                 int low = val & 65535;
                 int high = val >> 16 & 65535;
-                if (high < this.brightnessHigh) {
+                if (high < this.brightness) {
                     if (this.getCountOnUpdate() % 2 == 0) {
-                        this.brightnessHigh--;
+                        this.brightness--;
                     }
-                } else if (high > this.brightnessHigh) {
-                    this.brightnessHigh += 4;
-                    if (this.brightnessHigh > 240) {
-                        this.brightnessHigh = 240;
+                } else if (high > this.brightness) {
+                    this.brightness += 4;
+                    if (this.brightness > 240) {
+                        this.brightness = 240;
                     }
                 }
 
-                return this.brightnessHigh << 16 | low;
+                return this.brightness << 16 | low;
             } else {
                 return 0;
             }
