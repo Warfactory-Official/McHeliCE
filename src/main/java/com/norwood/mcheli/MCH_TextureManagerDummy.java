@@ -1,6 +1,6 @@
 package com.norwood.mcheli;
 
-import com.norwood.mcheli.event.MCH_ClientCommonTickHandler;
+import com.norwood.mcheli.event.CameraHandler;
 import com.norwood.mcheli.helper.MCH_Utils;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -21,7 +21,7 @@ public class MCH_TextureManagerDummy extends TextureManager {
     }
 
     public void bindTexture(@NotNull ResourceLocation resouce) {
-        if (MCH_ClientCommonTickHandler.cameraMode == 2) {
+        if (CameraHandler.cameraMode == 2) {
             this.tm.bindTexture(R);
         } else {
             this.tm.bindTexture(resouce);

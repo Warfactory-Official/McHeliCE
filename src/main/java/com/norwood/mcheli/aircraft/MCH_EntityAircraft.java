@@ -5911,6 +5911,10 @@ public abstract class MCH_EntityAircraft
         return "?";
     }
 
+    public boolean isSmallUAV() {
+        return this.getAcInfo() != null && this.getAcInfo().isSmallUAV;
+    }
+
     public static class UnmountReserve {
 
         final Entity entity;

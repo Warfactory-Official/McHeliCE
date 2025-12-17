@@ -3,7 +3,7 @@ package com.norwood.mcheli;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
-import com.norwood.mcheli.event.MCH_ClientCommonTickHandler;
+import com.norwood.mcheli.event.CameraHandler;
 import com.norwood.mcheli.event.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
 import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
@@ -55,7 +55,7 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
     }
 
     private void renderIRStrobe(EntityLivingBase entity, Post<EntityLivingBase> event) {
-        int cm = MCH_ClientCommonTickHandler.cameraMode;
+        int cm = CameraHandler.cameraMode;
         if (cm != 0) {
             int ticks = entity.ticksExisted % 20;
             if (ticks < 4) {

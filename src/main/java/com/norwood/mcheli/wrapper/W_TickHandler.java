@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 public abstract class W_TickHandler implements ITickHandler {
 
-    protected final Minecraft mc;
+    public final Minecraft mc;
 
     public W_TickHandler(Minecraft m) {
         this.mc = m;
