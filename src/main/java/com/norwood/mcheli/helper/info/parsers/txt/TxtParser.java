@@ -311,10 +311,11 @@ public class TxtParser implements IParser {
                     float yaw = s.length >= 10 ? info.toFloat(s[9]) : 0.0F;
                     float pitch = s.length >= 11 ? info.toFloat(s[10]) : 0.0F;
                     boolean rs = s.length >= 12 && info.toBool(s[11]);
+                    Vec3d up = s.length >= 15 ? info.toVec3(s[12], s[13], s[14]) : null;
                     info.entityRackList.add(
                             new MCH_SeatRackInfo(names, info.toDouble(s[1]), info.toDouble(s[2]), info.toDouble(s[3]),
-                                    new CameraPosition(info, info.toVec3(s[4], s[5], s[6]).add(0.0, 1.5, 0.0)), range,
-                                    para, yaw, pitch, rs));
+                                    up, new CameraPosition(info, info.toVec3(s[4], s[5], s[6]).add(0.0, 1.5, 0.0)),
+                                    range, para, yaw, pitch, rs));
                 }
             } else if (item.equalsIgnoreCase("RideRack")) {
                 String[] s = info.splitParam(data);
@@ -337,7 +338,9 @@ public class TxtParser implements IParser {
                         Vec3d p = info.toVec3(s[0], s[1], s[2]);
                         if (item.equalsIgnoreCase("AddSeat")) {
                             boolean rs = s.length >= 4 && info.toBool(s[3]);
-                            MCH_SeatInfo seat = new MCH_SeatInfo(p, rs);
+                            Vec3d up = s.length >= 7 ? info.toVec3(s[4], s[5], s[6]) : null;
+                            MCH_SeatInfo seat = new MCH_SeatInfo(p, up, false, null, false, false, false, 0.0F, 0.0F,
+                                    -30.0F, 70.0F, rs);
                             info.seatList.add(seat);
                         } else {
                             MCH_SeatInfo seat;
@@ -356,7 +359,8 @@ public class TxtParser implements IParser {
                                         }
 
                                         boolean rs = s.length >= 10 && info.toBool(s[9]);
-                                        seat = new MCH_SeatInfo(p, true, c, true, sg, false, 0.0F, 0.0F, minPitch,
+                                        Vec3d up = s.length >= 13 ? info.toVec3(s[10], s[11], s[12]) : null;
+                                        seat = new MCH_SeatInfo(p, up, true, c, true, sg, false, 0.0F, 0.0F, minPitch,
                                                 maxPitch, rs);
                                     } else {
                                         seat = new MCH_SeatInfo(p, true, c, true, sg, false, 0.0F, 0.0F, false);
@@ -366,7 +370,9 @@ public class TxtParser implements IParser {
                                     float fixYaw = fixRot ? info.toFloat(s[7]) : 0.0F;
                                     float fixPitch = fixRot ? info.toFloat(s[8]) : 0.0F;
                                     boolean rs = s.length >= 10 && info.toBool(s[9]);
-                                    seat = new MCH_SeatInfo(p, true, c, true, sg, fixRot, fixYaw, fixPitch, rs);
+                                    Vec3d up = s.length >= 13 ? info.toVec3(s[10], s[11], s[12]) : null;
+                                    seat = new MCH_SeatInfo(p, up, true, c, true, sg, fixRot, fixYaw, fixPitch, -30.0F,
+                                            70.0F, rs);
                                 }
                             } else {
                                 seat = new MCH_SeatInfo(p, true, new CameraPosition(info), false, false, false, 0.0F,

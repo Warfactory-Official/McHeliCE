@@ -2122,7 +2122,11 @@ public abstract class MCH_EntityAircraft
             MCH_EntityAircraft ac = ((MCH_EntitySeat) this.getRidingEntity()).getParent();
             MCH_SeatInfo seatInfo = ac.getSeatInfo(this);
             if (seatInfo instanceof MCH_SeatRackInfo) {
-                v = ((MCH_SeatRackInfo) seatInfo).getEntryPos();
+                if (seatInfo.unmountPos != null) {
+                    v = seatInfo.unmountPos;
+                } else {
+                    v = ((MCH_SeatRackInfo) seatInfo).getEntryPos();
+                }
                 v = ac.getTransformedPosition(v);
             }
         } else if (this.getRidingEntity() instanceof EntityMinecartEmpty) {
@@ -2173,7 +2177,12 @@ public abstract class MCH_EntityAircraft
                     .add(0.0, -2.0, 0.0);
 
         } else {
-            hookPos = info.mobDropOption.pos;
+            MCH_SeatInfo seatInfo = getSeatInfo(seat.seatID + 1);
+            if (seatInfo != null && seatInfo.unmountPos != null) {
+                hookPos = seatInfo.unmountPos;
+            } else {
+                hookPos = info.mobDropOption.pos;
+            }
             dropPos = getTransformedPosition(hookPos, prevPosition.oldest());
         }
 
@@ -3713,7 +3722,7 @@ public abstract class MCH_EntityAircraft
         this.camera.initCamera(sid, entity);
         MCH_SeatInfo seatInfo = this.getSeatInfo(seat.seatID + 1);
         if (seatInfo != null) {
-            this.setUnmountPosition(entity, new Vec3d(seatInfo.pos.x, 0.0, seatInfo.pos.z));
+            this.setUnmountPosition(entity, seatInfo);
         }
 
         if (!this.isRidePlayer()) {
@@ -3840,7 +3849,7 @@ public abstract class MCH_EntityAircraft
 
         this.setCommonStatus(1, false);
         if (!this.isUAV()) {
-            this.setUnmountPosition(rByEntity, this.getSeatsInfo()[0].pos);
+            this.setUnmountPosition(rByEntity, this.getSeatInfo(0));
         } else if (rByEntity != null && rByEntity.getRidingEntity() instanceof MCH_EntityUavStation) {
             rByEntity.dismountRidingEntity();
         }
@@ -3939,8 +3948,12 @@ public abstract class MCH_EntityAircraft
                     if (unmountParachute) {
                         if (this.getSeatIdByEntity(entity) > 1) {
                             ret = true;
-                            Vec3d dropPos = this.getTransformedPosition(this.getAcInfo().mobDropOption.pos,
-                                    this.prevPosition.oldest());
+                            MCH_SeatInfo seatInfo = pos[i + 1];
+                            Vec3d localPos = (seatInfo != null && seatInfo.unmountPos != null)
+                                    ? seatInfo.unmountPos
+                                    : this.getAcInfo().mobDropOption.pos;
+
+                            Vec3d dropPos = this.getTransformedPosition(localPos, this.prevPosition.oldest());
                             this.seats[i].posX = dropPos.x;
                             this.seats[i].posY = dropPos.y;
                             this.seats[i].posZ = dropPos.z;
@@ -3953,9 +3966,9 @@ public abstract class MCH_EntityAircraft
                         }
                     } else {
                         ret = true;
-                        this.setUnmountPosition(this.seats[i], pos[i + 1].pos);
+                        this.setUnmountPosition(this.seats[i], pos[i + 1]);
                         entity.dismountRidingEntity();
-                        this.setUnmountPosition(entity, pos[i + 1].pos);
+                        this.setUnmountPosition(entity, pos[i + 1]);
                     }
                 }
             }
@@ -3964,17 +3977,27 @@ public abstract class MCH_EntityAircraft
         return ret;
     }
 
-    public void setUnmountPosition(@Nullable Entity rByEntity, Vec3d pos) {
-        if (rByEntity != null) {
-            MCH_AircraftInfo info = this.getAcInfo();
-            Vec3d v;
-            if (info != null && info.unmountPosition != null) {
-                v = this.getTransformedPosition(info.unmountPosition);
-            } else {
-                double x = pos.x;
-                x = x >= 0.0 ? x + 3.0 : x - 3.0;
-                v = this.getTransformedPosition(x, 2.0, pos.z);
-            }
+    // returns local position in seat(rack) configs
+    protected Vec3d getUnmountPos(MCH_SeatInfo seatInfo) {
+        if (this.getAcInfo() == null || seatInfo == null) return Vec3d.ZERO;
+
+        if (seatInfo.unmountPos != null) {
+            return seatInfo.unmountPos;
+        }
+
+        if (this.getAcInfo().unmountPosition != null) {
+            return this.getAcInfo().unmountPosition;
+        }
+
+        double x = seatInfo.pos.x;
+        x = x >= 0.0 ? x + 3.0 : x - 3.0;
+        return new Vec3d(x, 2.0, seatInfo.pos.z);
+    }
+
+    public void setUnmountPosition(@Nullable Entity rByEntity, @Nullable MCH_SeatInfo seatInfo) {
+        if (rByEntity != null && seatInfo != null) {
+            Vec3d localPos = this.getUnmountPos(seatInfo);
+            Vec3d v = this.getTransformedPosition(localPos);
 
             rByEntity.setPosition(v.x, v.y, v.z);
             this.listUnmountReserve.add(new UnmountReserve(this, rByEntity, v.x, v.y, v.z));
@@ -4156,12 +4179,15 @@ public abstract class MCH_EntityAircraft
             if (this.getSeatInfo(sid + 1) instanceof MCH_SeatRackInfo info && seat != null &&
                     seat.getRiddenByEntity() != null) {
                 Entity entity = seat.getRiddenByEntity();
-                Vec3d pos = info.getEntryPos();
-                if (entity instanceof MCH_EntityAircraft) {
-                    if (pos.z >= this.getAcInfo().bbZ) {
-                        pos = pos.add(0.0, 0.0, 12.0);
-                    } else {
-                        pos = pos.add(0.0, 0.0, -12.0);
+                Vec3d pos = info.unmountPos;
+                if (pos == null) {
+                    pos = info.getEntryPos();
+                    if (entity instanceof MCH_EntityAircraft) {
+                        if (pos.z >= this.getAcInfo().bbZ) {
+                            pos = pos.add(0.0, 0.0, 12.0);
+                        } else {
+                            pos = pos.add(0.0, 0.0, -12.0);
+                        }
                     }
                 }
 

@@ -1182,6 +1182,7 @@ public class YamlEmitter implements IEmitter {
                 if (seatInfo instanceof MCH_SeatRackInfo) continue;
                 Map<String, Object> sm = new LinkedHashMap<>();
                 sm.put("Position", vec(seatInfo.pos));
+                if (seatInfo.unmountPos != null) sm.put("UnmountPos", vec(seatInfo.unmountPos));
                 if (seatInfo.gunner) sm.put("Gunner", true);
                 if (seatInfo.switchgunner) sm.put("SwitchGunner", true);
                 if (seatInfo.fixRot) sm.put("FixRot", true);
@@ -1232,6 +1233,7 @@ public class YamlEmitter implements IEmitter {
             for (MCH_SeatRackInfo r : rackInfos) {
                 Map<String, Object> rm = new LinkedHashMap<>();
                 rm.put("Position", vec(r.pos));
+                if (r.unmountPos != null) rm.put("UnmountPos", vec(r.unmountPos));
                 if (r.getCamPos() != null) {
                     Map<String, Object> cm = new LinkedHashMap<>();
                     cm.put("Pos", vecMinusYOffset(r.getCamPos().pos));

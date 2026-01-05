@@ -860,6 +860,7 @@ public class YamlParser implements IParser {
 
     private void parseSeatRackInfo(Map<String, Object> map, MCH_AircraftInfo info, int seatCount, int rackCount) {
         Vec3d position = null;
+        Vec3d unmountPos = null;
         CameraPosition cameraPos = null;
         String[] entityNames = new String[0];
         float range = 0f;
@@ -872,6 +873,7 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "Pos", "Position" -> position = parseVector(entry.getValue());
+                case "UnmountPos" -> unmountPos = parseVector(entry.getValue());
                 case "Camera", "Cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
                 case "Names", "Name" -> {
                     Object values = entry.getValue();
@@ -917,8 +919,8 @@ public class YamlParser implements IParser {
             throw new IllegalArgumentException("Seat rack must have a camera position!");
         }
 
-        info.entityRackList.add(new MCH_SeatRackInfo(entityNames, position.x, position.y, position.z, cameraPos, range,
-                openParaAlt, yaw, pitch, rotSeat));
+        info.entityRackList.add(new MCH_SeatRackInfo(entityNames, position.x, position.y, position.z, unmountPos,
+                cameraPos, range, openParaAlt, yaw, pitch, rotSeat));
         final int rackIndex0 = info.entityRackList.size() - 1;
 
         if (exclusionList != null) {
@@ -1032,6 +1034,7 @@ public class YamlParser implements IParser {
     @SuppressWarnings("unboxing")
     private void parseSeatInfo(Map<String, Object> map, MCH_AircraftInfo info, int seatCount) {
         Vec3d position = null;
+        Vec3d unmountPos = null;
         boolean isGunner = false;
         boolean canSwitchGunner = false;
         boolean hasFixedRotation = false;
@@ -1048,6 +1051,7 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "Pos", "Position" -> position = parseVector(entry.getValue());
+                case "UnmountPos" -> unmountPos = parseVector(entry.getValue());
                 case "Gunner" -> isGunner = ((Boolean) entry.getValue()).booleanValue();
                 case "SwitchGunner" -> canSwitchGunner = ((Boolean) entry.getValue()).booleanValue();
                 case "FixRot" -> hasFixedRotation = ((Boolean) entry.getValue()).booleanValue();
@@ -1089,7 +1093,7 @@ public class YamlParser implements IParser {
             throw new IllegalArgumentException("Seat must have a position!");
         }
 
-        info.seatList.add(new MCH_SeatInfo(position, isGunner, cameraPos, invertCameraPos, canSwitchGunner,
+        info.seatList.add(new MCH_SeatInfo(position, unmountPos, isGunner, cameraPos, invertCameraPos, canSwitchGunner,
                 hasFixedRotation, fixedYaw, fixedPitch, minPitch, maxPitch, rotatableSeat));
 
         if (MCH_MOD.proxy.isRemote()) {
