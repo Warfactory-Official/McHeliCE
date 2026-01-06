@@ -3993,7 +3993,7 @@ public abstract class MCH_EntityAircraft
             Vec3d desired = this.getTransformedPosition(localPos);
             RayTraceResult trace = world.rayTraceBlocks(rByEntity.getPositionVector(), desired, false, true, true );
             Vec3d dir = desired.subtract(rByEntity.getPositionVector()).normalize();
-            var finPos = trace == null ? desired : trace.hitVec.subtract(dir.scale(0.5));
+            var finPos = trace == null ? desired : trace.hitVec.subtract(dir);
 
 
             rByEntity.setPosition(finPos.x, finPos.y, finPos.z);
