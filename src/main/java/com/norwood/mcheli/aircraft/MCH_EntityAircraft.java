@@ -1,5 +1,6 @@
 package com.norwood.mcheli.aircraft;
 
+import com.hbm.render.amlfrom1710.Vec3;
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.command.MCH_Command;
@@ -49,11 +50,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ReportedException;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.*;
 import net.minecraft.util.math.BlockPos.PooledMutableBlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -2191,6 +2189,14 @@ public abstract class MCH_EntityAircraft
         }
     }
 
+    public Vec3d findUnobstructedPos(@NotNull Entity entity, Vec3d desiredPos){
+        RayTraceResult result = world.rayTraceBlocks(entity.getPositionVector(), desiredPos);
+
+
+
+
+        return desiredPos;
+    }
 
     public boolean canParachute(Entity entity) {
         if (this.getAcInfo() == null || !this.getAcInfo().isEnableParachuting || this.getSeatIdByEntity(entity) <= 1 ||
@@ -3984,10 +3990,14 @@ public abstract class MCH_EntityAircraft
     public void setUnmountPosition(@Nullable Entity rByEntity, @Nullable MCH_SeatInfo seatInfo) {
         if (rByEntity != null && seatInfo != null) {
             Vec3d localPos = this.getUnmountPos(seatInfo);
-            Vec3d v = this.getTransformedPosition(localPos);
+            Vec3d desired = this.getTransformedPosition(localPos);
+            RayTraceResult trace = world.rayTraceBlocks(rByEntity.getPositionVector(), desired, false, true, true );
+            Vec3d dir = desired.subtract(rByEntity.getPositionVector()).normalize();
+            var finPos = trace == null ? desired : trace.hitVec.subtract(dir.scale(0.5));
 
-            rByEntity.setPosition(v.x, v.y, v.z);
-            this.listUnmountReserve.add(new UnmountReserve(this, rByEntity, v.x, v.y, v.z));
+
+            rByEntity.setPosition(finPos.x, finPos.y, finPos.z);
+            this.listUnmountReserve.add(new UnmountReserve(this, rByEntity, finPos.x, finPos.y, finPos.z));
         }
     }
 
