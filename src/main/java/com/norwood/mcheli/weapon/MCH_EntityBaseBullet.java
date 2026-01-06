@@ -1,5 +1,6 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.IExcludeLongDistanceRenderer;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Explosion;
 import com.norwood.mcheli.MCH_Lib;
@@ -42,7 +43,7 @@ import java.util.List;
 import static com.norwood.mcheli.compat.ModCompatManager.MODID_HBM;
 import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
 
-public abstract class MCH_EntityBaseBullet extends W_Entity {
+public abstract class MCH_EntityBaseBullet extends W_Entity implements IExcludeLongDistanceRenderer {
 
     private static final DataParameter<Integer> TARGET_ID = EntityDataManager.createKey(MCH_EntityBaseBullet.class,
             DataSerializers.VARINT);

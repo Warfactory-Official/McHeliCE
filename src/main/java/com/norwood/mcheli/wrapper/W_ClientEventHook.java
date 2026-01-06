@@ -1,6 +1,11 @@
 package com.norwood.mcheli.wrapper;
 
+import com.norwood.mcheli.IExcludeLongDistanceRenderer;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.aircraft.MCH_SeatInfo;
+import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
+import com.norwood.mcheli.weapon.MCH_EntityBullet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -118,6 +123,7 @@ public class W_ClientEventHook {
     }
 
     private void reinsertEntityIntoChunk(Chunk chunk, Entity entity) {
+        if(entity instanceof IExcludeLongDistanceRenderer) return;
         entity.chunkCoordX = chunk.x;
         entity.chunkCoordZ = chunk.z;
 

@@ -1,5 +1,6 @@
 package com.norwood.mcheli.aircraft;
 
+import com.norwood.mcheli.IExcludeLongDistanceRenderer;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.mob.MCH_ItemSpawnGunner;
@@ -20,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
+public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger, IExcludeLongDistanceRenderer {
 
     public static final float BB_SIZE = 1.0F;
     public String parentUniqueID;
@@ -118,8 +119,6 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
 
     private void onUpdate_Server() {
         this.checkDetachmentAndDelete();
-        Entity riddenByEntity = this.getRiddenByEntity();
-        if (riddenByEntity != null && riddenByEntity.isDead) {}
     }
 
     public void updatePassenger(@NotNull Entity passenger) {

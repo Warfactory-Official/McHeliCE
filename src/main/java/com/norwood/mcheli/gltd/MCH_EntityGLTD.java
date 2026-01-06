@@ -1,5 +1,6 @@
 package com.norwood.mcheli.gltd;
 
+import com.norwood.mcheli.IExcludeLongDistanceRenderer;
 import com.norwood.mcheli.MCH_Camera;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_MOD;
@@ -33,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
+public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger, IExcludeLongDistanceRenderer {
 
     public static final float Y_OFFSET = 0.25F;
     private static final DataParameter<Integer> TIME_SINCE_HIT = EntityDataManager.createKey(MCH_EntityGLTD.class,
@@ -164,31 +165,6 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
 
     public boolean canBeCollidedWith() {
         return !this.isDead;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9) {
-        if (this.isBoatEmpty) {
-            this.gltdPosRotInc = par9 + 5;
-        } else {
-            double x = par1 - this.posX;
-            double y = par3 - this.posY;
-            double z = par5 - this.posZ;
-            if (x * x + y * y + z * z <= 1.0) {
-                return;
-            }
-
-            this.gltdPosRotInc = 3;
-        }
-
-        this.gltdX = par1;
-        this.gltdY = par3;
-        this.gltdZ = par5;
-        this.gltdYaw = par7;
-        this.gltdPitch = par8;
-        this.motionX = this.velocityX;
-        this.motionY = this.velocityY;
-        this.motionZ = this.velocityZ;
     }
 
     @SideOnly(Side.CLIENT)
