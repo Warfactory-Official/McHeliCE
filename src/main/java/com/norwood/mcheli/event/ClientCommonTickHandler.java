@@ -199,6 +199,8 @@ public class ClientCommonTickHandler extends W_TickHandler {
         handleGps(player);
     }
 
+    long prevNanoTime;
+
     @Override
     public void onRenderTickPre(float partialTicks) {
         clearMarkersAndDebug();
@@ -214,10 +216,15 @@ public class ClientCommonTickHandler extends W_TickHandler {
         boolean stickMode = isStickMode(ac);
         prevTickCorrection(partialTicks);
 
+        long now = System.nanoTime();
+        float deltaSeconds = (now - prevNanoTime) / 1_000_000_000.0F;
+        prevNanoTime = now;
+
+
         if (ac != null && ac.canMouseRot()) {
-            handleAircraftMouseControl(ac, player, stickMode, partialTicks);
+            handleAircraftMouseControl(ac, player, stickMode, partialTicks, deltaSeconds);
         } else {
-            handleSeatOrIdle(player, stickMode, partialTicks);
+            handleSeatOrIdle(player, stickMode, partialTicks, deltaSeconds);
         }
 
         if (ac != null) updateRiderLastPositions(ac, player);
@@ -278,7 +285,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
         }
     }
 
-    private void handleAircraftMouseControl(MCH_EntityAircraft ac, EntityPlayer player, boolean stickMode, float partialTicks) {
+    private void handleAircraftMouseControl(MCH_EntityAircraft ac, EntityPlayer player, boolean stickMode, float partialTicks, float delta) {
         if (!isRideAircraft) ac.onInteractFirst(player);
         isRideAircraft = true;
 
@@ -302,12 +309,12 @@ public class ClientCommonTickHandler extends W_TickHandler {
             }
         }
 
-        applyMouseOrAircraftRotation(ac, player, fixRot, fixYaw, fixPitch, partialTicks);
+        applyMouseOrAircraftRotation(ac, player, fixRot, fixYaw, fixPitch, partialTicks,delta);
         dampMouseRollIfNeeded(ac, stickMode);
         updateCameraRoll(ac, player);
     }
 
-    private void handleSeatOrIdle(EntityPlayer player, boolean stickMode, float partialTicks) {
+    private void handleSeatOrIdle(EntityPlayer player, boolean stickMode, float partialTicks, float delta) {
         MCH_EntitySeat seat = player.getRidingEntity() instanceof MCH_EntitySeat ? (MCH_EntitySeat) player.getRidingEntity() : null;
         if (seat != null && seat.getParent() != null) {
             handleSeatMouseControl(seat, player, stickMode, partialTicks);
@@ -361,7 +368,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
         mouseDeltaY = 0.0;
     }
 
-    private void applyMouseOrAircraftRotation(MCH_EntityAircraft ac, EntityPlayer player, boolean fixRot, float fixYaw, float fixPitch, float partialTicks) {
+    private void applyMouseOrAircraftRotation(MCH_EntityAircraft ac, EntityPlayer player, boolean fixRot, float fixYaw, float fixPitch, float partialTicks, float delta) {
         if (ac.getAcInfo() == null) {
             player.turn((float) mouseDeltaX, (float) mouseDeltaY);
         } else {
@@ -370,7 +377,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
                     (float) (mouseDeltaY + prevMouseDeltaY) / 2.0F,
                     (float) mouseRollDeltaX,
                     (float) mouseRollDeltaY,
-                    partialTicks - prevTick);
+                    delta);
         }
         ac.setupAllRiderRenderPosition(partialTicks, player);
     }
