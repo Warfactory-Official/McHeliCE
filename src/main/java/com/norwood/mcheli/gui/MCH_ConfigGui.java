@@ -1,7 +1,7 @@
 package com.norwood.mcheli.gui;
 
 import com.google.common.collect.Sets;
-import com.norwood.mcheli.MCH_ClientCommonTickHandler;
+import com.norwood.mcheli.event.ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
@@ -292,7 +292,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
             ((MCH_GuiListItemKeyBind) this.keyBindingList.getItem(i)).applyKeycode();
         }
 
-        MCH_ClientCommonTickHandler.instance.updatekeybind(MCH_MOD.config);
+        ClientCommonTickHandler.instance.kbInput.updateKeybind(MCH_MOD.config);
         MCH_Config.TestMode.setPrm(this.buttonTestMode.getOnOff());
         if (this.__sliderTextureAlpha != null) {
             MCH_Config.__TextureAlpha.setPrm(this.__sliderTextureAlpha.getSliderValue() / 255.0);

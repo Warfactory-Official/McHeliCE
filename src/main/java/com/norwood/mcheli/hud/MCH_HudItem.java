@@ -5,6 +5,7 @@ import com.googlecode.aviator.AviatorEvaluatorInstance;
 import com.googlecode.aviator.Expression;
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.event.ClientCommonTickHandler;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.weapon.MCH_SightType;
@@ -23,7 +24,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.text.MessageFormat;
@@ -408,10 +408,10 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     private static void updateStick() {
-        StickX_LPF.put((float) (MCH_ClientCommonTickHandler.getCurrentStickX() /
-                MCH_ClientCommonTickHandler.getMaxStickLength()));
-        StickY_LPF.put((float) (-MCH_ClientCommonTickHandler.getCurrentStickY() /
-                MCH_ClientCommonTickHandler.getMaxStickLength()));
+        StickX_LPF.put((float) (ClientCommonTickHandler.getCurrentStickX() /
+                ClientCommonTickHandler.getMaxStickLength()));
+        StickY_LPF.put((float) (-ClientCommonTickHandler.getCurrentStickY() /
+                ClientCommonTickHandler.getMaxStickLength()));
         StickX = StickX_LPF.getAvg();
         StickY = StickY_LPF.getAvg();
     }

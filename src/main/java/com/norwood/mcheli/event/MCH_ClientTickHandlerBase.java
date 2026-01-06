@@ -1,5 +1,7 @@
-package com.norwood.mcheli;
+package com.norwood.mcheli.event;
 
+import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.Minecraft;

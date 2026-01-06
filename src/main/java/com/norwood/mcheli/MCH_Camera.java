@@ -167,7 +167,4 @@ public class MCH_Camera {
         this.lastZoomDir = Float.compare(this.zoom, prevZoom);
     }
 
-    public int getLastZoomDir() {
-        return this.lastZoomDir;
-    }
 }

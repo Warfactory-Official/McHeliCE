@@ -1,6 +1,7 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_ClientCommonTickHandler;
+import com.norwood.mcheli.event.CameraHandler;
+import com.norwood.mcheli.event.ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_ClientEventHook;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
@@ -925,11 +926,11 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     }
 
     protected void bindTexture(String path, MCH_EntityAircraft ac) {
-        if (ac == MCH_ClientCommonTickHandler.ridingAircraft) {
-            int bk = MCH_ClientCommonTickHandler.cameraMode;
-            MCH_ClientCommonTickHandler.cameraMode = 0;
+        if (ac == ClientCommonTickHandler.ridingAircraft) {
+            int bk = CameraHandler.cameraMode;
+            CameraHandler.cameraMode = 0;
             super.bindTexture(MCH_Utils.suffix(path));
-            MCH_ClientCommonTickHandler.cameraMode = bk;
+            CameraHandler.cameraMode = bk;
         } else {
             super.bindTexture(MCH_Utils.suffix(path));
         }

@@ -1,6 +1,6 @@
 package com.norwood.mcheli.lweapon;
 
-import com.norwood.mcheli.MCH_ClientTickHandlerBase;
+import com.norwood.mcheli.event.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_Lib;

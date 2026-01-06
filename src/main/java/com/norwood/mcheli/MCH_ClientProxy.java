@@ -8,6 +8,8 @@ import com.norwood.mcheli.chain.MCH_RenderChain;
 import com.norwood.mcheli.command.MCH_GuiTitle;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_RenderContainer;
+import com.norwood.mcheli.event.CameraHandler;
+import com.norwood.mcheli.event.ClientCommonTickHandler;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.flare.MCH_RenderFlare;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
@@ -41,7 +43,6 @@ import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_RenderShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.sound.ClientSoundRegistry;
-import com.norwood.mcheli.sound.SoundRegistry;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_RenderTank;
 import com.norwood.mcheli.tank.MCH_TankInfo;
@@ -517,8 +518,8 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     @Override
     public void registerClientTick() {
         Minecraft mc = Minecraft.getMinecraft();
-        MCH_ClientCommonTickHandler.instance = new MCH_ClientCommonTickHandler(mc, MCH_MOD.config);
-        W_TickRegistry.registerTickHandler(MCH_ClientCommonTickHandler.instance, Side.CLIENT);
+        ClientCommonTickHandler.instance = new ClientCommonTickHandler(mc, MCH_MOD.config);
+        W_TickRegistry.registerTickHandler(ClientCommonTickHandler.instance, Side.CLIENT);
     }
 
     @Override
@@ -553,7 +554,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void reconfig() {
         MCH_Lib.DbgLog(false, "MCH_ClientProxy.reconfig()");
         this.loadConfig(this.lastConfigFileName);
-        MCH_ClientCommonTickHandler.instance.updatekeybind(this.config);
+        ClientCommonTickHandler.instance.kbInput.updateKeybind(this.config);
     }
 
     @Override
@@ -600,17 +601,17 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void printChatMessage(ITextComponent chat, int showTime, int pos) {
-        ((MCH_GuiTitle) MCH_ClientCommonTickHandler.instance.gui_Title).setupTitle(chat, showTime, pos);
+        ((MCH_GuiTitle) ClientCommonTickHandler.instance.guiTickHandler.gui_Title).setupTitle(chat, showTime, pos);
     }
 
     @Override
     public void hitBullet() {
-        MCH_ClientCommonTickHandler.instance.gui_Common.hitBullet();
+        ClientCommonTickHandler.instance.guiTickHandler.gui_Common.hitBullet();
     }
 
     @Override
     public void clientLocked() {
-        MCH_ClientCommonTickHandler.isLocked = true;
+        CameraHandler.isLocked = true;
     }
 
     @Override
