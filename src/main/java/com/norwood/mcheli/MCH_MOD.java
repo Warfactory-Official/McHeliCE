@@ -83,6 +83,7 @@ import java.util.Map.Entry;
         name = "MC Helicopter MOD",
         dependencies = "required-after:elegant_networking;after:hbm")
 public class MCH_MOD {
+    public static final boolean DEBUG_LD = false;
 
     public static final String MOD_ID = Tags.MODID;
     @Deprecated

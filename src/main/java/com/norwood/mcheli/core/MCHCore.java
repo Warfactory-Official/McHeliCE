@@ -1,12 +1,15 @@
 package com.norwood.mcheli.core;
 
+import com.norwood.mcheli.MCH_MOD;
 import lombok.Getter;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.TransformerExclusions({ "com.norwood.mcheli.core" })
@@ -49,7 +52,10 @@ public class MCHCore implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] {RenderGlobalTransformer.class.getName(), EntityRenderHooks.class.getName(), EntityTrackerEntryTransformer.class.getName(), AviatorCodeGeneratorTransformer.class.getName(), EntityUnloadTransformer.class.getName(), EntityRendererTransformer.class.getName()  };
+        String[] defaultAsm = {RenderGlobalTransformer.class.getName(), EntityRenderHooks.class.getName(),AviatorCodeGeneratorTransformer.class.getName(), EntityRendererTransformer.class.getName()};
+        String[] longDistance = {EntityTrackerEntryTransformer.class.getName(),  EntityUnloadTransformer.class.getName()};
+        return MCH_MOD.DEBUG_LD? Stream.concat(Arrays.stream(defaultAsm), Arrays.stream(longDistance))
+                .toArray(String[]::new) : defaultAsm;
     }
 
     @Override

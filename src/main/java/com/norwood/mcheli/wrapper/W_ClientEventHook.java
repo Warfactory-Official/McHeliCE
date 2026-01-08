@@ -1,5 +1,6 @@
 package com.norwood.mcheli.wrapper;
 
+import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -94,6 +95,7 @@ public class W_ClientEventHook {
 
     @SubscribeEvent
     public void onChunkLoad(ChunkEvent.Load event) {
+        if(!MCH_MOD.DEBUG_LD) return;
         World world = event.getWorld();
         if (!world.isRemote) return;
         //Fix entities on clientside not being interactable if player enters previously unloaded chunk on which a far-rendered vehicle resides
@@ -107,7 +109,6 @@ public class W_ClientEventHook {
         int maxX = minX + 15;
         int maxZ = minZ + 15;
 
-//        AxisAlignedBB aabb = new AxisAlignedBB(minX, 0, minZ, maxX + 1, 256, maxZ + 1);
 
         List<W_Entity> entities = world.getEntities(W_Entity.class,  e -> (e != null) && (e.chunkCoordX != chunkX || e.chunkCoordZ != chunkZ));
 
