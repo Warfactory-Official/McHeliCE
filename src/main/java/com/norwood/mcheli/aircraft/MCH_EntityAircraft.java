@@ -2810,7 +2810,7 @@ public abstract class MCH_EntityAircraft
     }
 
     public void move(@NotNull MoverType type, double moveX, double moveY, double moveZ) {
-        if (this.getAcInfo() != null) {
+        if (null != this.getAcInfo()) return;
             this.world.profiler.startSection("move");
 
             double originalX = moveX;
@@ -2979,8 +2979,9 @@ public abstract class MCH_EntityAircraft
             }
 
             this.world.profiler.endSection();
-        }
+
     }
+
 
     protected void onUpdate_updateBlock() {
         if (!MCH_Config.Collision_DestroyBlock.prmBool) {
@@ -3131,10 +3132,10 @@ public abstract class MCH_EntityAircraft
         return par1Entity.getEntityBoundingBox();
     }
 
-    public AxisAlignedBB getCollisionBoundingBox() {
-        return this.getEntityBoundingBox();
-    }
-
+//    public AxisAlignedBB getCollisionBoundingBox() {
+//        return this.getEntityBoundingBox();
+//    }
+//
     public double getMountedYOffset() {
         return 0.0;
     }
