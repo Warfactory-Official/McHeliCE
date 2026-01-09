@@ -109,7 +109,7 @@ public class MCH_GuiHeli extends MCH_AircraftCommonGui {
                 if ((heli.getIsGunnerMode(player) || heli.isUAV()) && info.cameraZoom > 1) {
                     String msg = "Zoom : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
                     this.drawString(msg, LX, this.centerY - 80, colorActive);
-                } else if (seatID == 0 && (heli.canFoldHatch() || heli.canUnfoldHatch())) {
+                } else if (seatID == 0 && (heli.canUnfoldHatch() || heli.canFoldHatch())) {
                     String msg = "OpenHatch : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
                     this.drawString(msg, LX, this.centerY - 80, colorActive);
                 }

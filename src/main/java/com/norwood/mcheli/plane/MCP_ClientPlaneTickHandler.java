@@ -199,10 +199,10 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
                 playSound("zoom", 0.5F, 1.0F);
             } else if (isPilot) {
                 if (plane.getAcInfo().haveHatch()) {
-                    if (plane.canFoldHatch()) {
+                    if (plane.canUnfoldHatch()) {
                         pc.switchHatch = DataPlayerControlAircraft.HatchSwitch.UNFOLD;
                         send = true;
-                    } else if (plane.canUnfoldHatch()) {
+                    } else if (plane.canFoldHatch()) {
                         pc.switchHatch = DataPlayerControlAircraft.HatchSwitch.FOLD;
                         send = true;
                     }

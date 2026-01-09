@@ -141,10 +141,10 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
                 vehicle.zoomCamera();
                 playSound("zoom", 0.5F, 1.0F);
             } else if (vehicle.getAcInfo().haveHatch()) {
-                if (vehicle.canFoldHatch()) {
+                if (vehicle.canUnfoldHatch()) {
                     pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.FOLD);
                     send = true;
-                } else if (vehicle.canUnfoldHatch()) {
+                } else if (vehicle.canFoldHatch()) {
                     pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                     send = true;
                 } else {

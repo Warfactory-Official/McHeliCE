@@ -78,7 +78,7 @@ public class MCH_GuiTank extends MCH_AircraftCommonGui {
                 if (tank.getIsGunnerMode(player) && info.cameraZoom > 1) {
                     String msg = "Zoom : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
                     this.drawString(msg, LX, this.centerY - 80, colorActive);
-                } else if (seatID == 0 && (tank.canFoldHatch() || tank.canUnfoldHatch())) {
+                } else if (seatID == 0 && (tank.canUnfoldHatch() || tank.canFoldHatch())) {
                     String msg = "OpenHatch : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
                     this.drawString(msg, LX, this.centerY - 80, colorActive);
                 }

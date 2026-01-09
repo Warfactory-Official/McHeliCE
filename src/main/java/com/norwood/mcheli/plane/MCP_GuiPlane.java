@@ -97,7 +97,7 @@ public class MCP_GuiPlane extends MCH_AircraftCommonGui {
                     if (plane.canFoldWing() || plane.canUnfoldWing()) {
                         String msg = "FoldWing : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
                         this.drawString(msg, LX, this.centerY - 80, colorActive);
-                    } else if (plane.canFoldHatch() || plane.canUnfoldHatch()) {
+                    } else if (plane.canUnfoldHatch() || plane.canFoldHatch()) {
                         String msg = "OpenHatch : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
                         this.drawString(msg, LX, this.centerY - 80, colorActive);
                     }

@@ -40,7 +40,7 @@ public class PacketPlayerControlShip extends PacketPlayerControlBase {
                 if (aircraft.getAcInfo().haveHatch()) {
                     aircraft.foldHatch(controlBaseData.switchHatch == DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                 } else {
-                    ((MCH_EntityPlane) aircraft)
+                    ((MCH_EntityShip) aircraft)
                             .foldWing(data.switchHatch == DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                 }
             }
@@ -49,7 +49,7 @@ public class PacketPlayerControlShip extends PacketPlayerControlBase {
 
     @Override
     protected void handleVtolSwitch(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
-        MCH_EntityPlane plane = (MCH_EntityPlane) aircraft;
+        MCH_EntityShip plane = (MCH_EntityShip) aircraft;
         switch (data.switchVtol) {
             case VTOL_OFF -> plane.swithVtolMode(false);
             case VTOL_ON -> plane.swithVtolMode(true);

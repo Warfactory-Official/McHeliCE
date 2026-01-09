@@ -77,40 +77,40 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
 
         this.isBeforeRiding = this.isRiding;
         EntityPlayer player = this.mc.player;
-        MCH_EntityShip plane = null;
+       MCH_EntityShip ship = null;
         boolean isPilot = true;
         if (player != null) {
             if (player.getRidingEntity() instanceof MCH_EntityShip) {
-                plane = (MCH_EntityShip) player.getRidingEntity();
+                ship = (MCH_EntityShip) player.getRidingEntity();
             } else if (player.getRidingEntity() instanceof MCH_EntitySeat seat) {
                 if (seat.getParent() instanceof MCH_EntityShip) {
                     isPilot = false;
-                    plane = (MCH_EntityShip) seat.getParent();
+                    ship = (MCH_EntityShip) seat.getParent();
                 }
             } else if (player.getRidingEntity() instanceof MCH_EntityUavStation uavStation) {
                 if (uavStation.getControlAircract() instanceof MCH_EntityShip) {
-                    plane = (MCH_EntityShip) uavStation.getControlAircract();
+                    ship = (MCH_EntityShip) uavStation.getControlAircract();
                 }
             }
         }
 
-        if (plane != null && plane.getAcInfo() != null) {
-            this.update(player, plane);
+        if (ship != null && ship.getAcInfo() != null) {
+            this.update(player, ship);
             MCH_ViewEntityDummy viewEntityDummy = MCH_ViewEntityDummy.getInstance(this.mc.world);
-            viewEntityDummy.update(plane.camera);
+            viewEntityDummy.update(ship.camera);
             if (!inGUI) {
-                if (!plane.isDestroyed()) {
-                    this.playerControl(player, plane, isPilot);
+                if (!ship.isDestroyed()) {
+                    this.playerControl(player, ship, isPilot);
                 }
             } else {
-                this.playerControlInGUI(player, plane, isPilot);
+                this.playerControlInGUI(player, ship, isPilot);
             }
 
             boolean hideHand = true;
-            if ((!isPilot || !plane.isAlwaysCameraView()) && !plane.getIsGunnerMode(player) &&
-                    plane.getCameraId() <= 0) {
+            if ((!isPilot || !ship.isAlwaysCameraView()) && !ship.getIsGunnerMode(player) &&
+                    ship.getCameraId() <= 0) {
                 MCH_Lib.setRenderViewEntity(player);
-                if (!isPilot && plane.getCurrentWeaponID(player) < 0) {
+                if (!isPilot && ship.getCurrentWeaponID(player) < 0) {
                     hideHand = false;
                 }
             } else {
@@ -127,8 +127,8 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
         }
 
         if (!this.isBeforeRiding && this.isRiding) {
-            W_Reflection.setThirdPersonDistance(plane.thirdPersonDist);
-            MCH_ViewEntityDummy.getInstance(this.mc.world).setPosition(plane.posX, plane.posY + 0.5, plane.posZ);
+            W_Reflection.setThirdPersonDistance(ship.thirdPersonDist);
+            MCH_ViewEntityDummy.getInstance(this.mc.world).setPosition(ship.posX, ship.posY + 0.5, ship.posZ);
         } else if (this.isBeforeRiding && !this.isRiding) {
             W_Reflection.restoreDefaultThirdPersonDistance();
             MCH_Lib.enableFirstPersonItemRender();
@@ -144,15 +144,15 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
 
     protected void playerControl(EntityPlayer player, MCH_EntityShip plane, boolean isPilot) {
         DataPlayerControlAircraft pc = new DataPlayerControlAircraft();
-        boolean send;
-        send = this.commonPlayerControl(player, plane, isPilot, pc);
+        boolean send = this.commonPlayerControl(player, plane, isPilot, pc);
+
         if (isPilot) {
             if (this.KeySwitchMode.isKeyDown()) {
                 if (plane.getIsGunnerMode(player) && plane.canSwitchCameraPos()) {
                     pc.switchMode = DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF;
                     plane.switchGunnerMode(false);
-                    send = true;
                     plane.setCameraId(1);
+                    send = true;
                 } else if (plane.getCameraId() > 0) {
                     plane.setCameraId(plane.getCameraId() + 1);
                     if (plane.getCameraId() >= plane.getCameraPosNum()) {
@@ -162,8 +162,8 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
                     pc.switchMode = plane.getIsGunnerMode(player) ? DataPlayerControlAircraft.ModeSwitch.GUNNER_OFF :
                             DataPlayerControlAircraft.ModeSwitch.GUNNER_ON;
                     plane.switchGunnerMode(!plane.getIsGunnerMode(player));
-                    send = true;
                     plane.setCameraId(0);
+                    send = true;
                 } else if (plane.canSwitchCameraPos()) {
                     plane.setCameraId(1);
                 } else {
@@ -176,7 +176,6 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
                     boolean currentMode = plane.getNozzleStat();
                     pc.switchVtol = currentMode ? DataPlayerControlAircraft.VtolSwitch.VTOL_OFF :
                             DataPlayerControlAircraft.VtolSwitch.VTOL_ON;
-
                     plane.swithVtolMode(!currentMode);
                     send = true;
                 } else {
@@ -200,10 +199,10 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
                 playSound("zoom", 0.5F, 1.0F);
             } else if (isPilot) {
                 if (plane.getAcInfo().haveHatch()) {
-                    if (plane.canFoldHatch()) {
+                    if (plane.canUnfoldHatch()) {
                         pc.switchHatch = DataPlayerControlAircraft.HatchSwitch.UNFOLD;
                         send = true;
-                    } else if (plane.canUnfoldHatch()) {
+                    } else if (plane.canFoldHatch()) {
                         pc.switchHatch = DataPlayerControlAircraft.HatchSwitch.FOLD;
                         send = true;
                     }

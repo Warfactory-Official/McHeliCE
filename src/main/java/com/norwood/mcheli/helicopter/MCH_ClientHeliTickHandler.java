@@ -202,10 +202,10 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
                 heli.zoomCamera();
                 playSound("zoom", 0.5F, 1.0F);
             } else if (isPilot && heli.getAcInfo().haveHatch()) {
-                if (heli.canFoldHatch()) {
+                if (heli.canUnfoldHatch()) {
                     pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.FOLD);
                     send = true;
-                } else if (heli.canUnfoldHatch()) {
+                } else if (heli.canFoldHatch()) {
 
                     pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                     send = true;

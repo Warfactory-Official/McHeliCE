@@ -1,6 +1,5 @@
 package com.norwood.mcheli.aircraft;
 
-import com.hbm.render.amlfrom1710.Vec3;
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.command.MCH_Command;
@@ -5687,11 +5686,11 @@ public abstract class MCH_EntityAircraft
         return this.partHatch != null;
     }
 
-    public boolean canFoldHatch() {
+    public boolean canUnfoldHatch() {
         return this.partHatch != null && this.modeSwitchCooldown <= 0 && this.partHatch.isOFF();
     }
 
-    public boolean canUnfoldHatch() {
+    public boolean canFoldHatch() {
         return this.partHatch != null && this.modeSwitchCooldown <= 0 && this.partHatch.isON();
     }
 
