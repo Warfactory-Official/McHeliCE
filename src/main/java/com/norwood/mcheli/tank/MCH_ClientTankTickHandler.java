@@ -188,10 +188,10 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
                 playSound("zoom", 0.5F, 1.0F);
             } else if (isPilot && tank.getAcInfo().haveHatch()) {
                 if (tank.canFoldHatch()) {
-                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.FOLD);
+                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.UNFOLD);
                     send = true;
                 } else if (tank.canUnfoldHatch()) {
-                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.UNFOLD);
+                    pc.setSwitchHatch(DataPlayerControlAircraft.HatchSwitch.FOLD);
                     send = true;
                 }
             }
