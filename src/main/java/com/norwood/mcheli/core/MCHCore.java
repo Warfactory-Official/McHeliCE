@@ -52,8 +52,8 @@ public class MCHCore implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        String[] defaultAsm = {RenderGlobalTransformer.class.getName(), EntityRenderHooks.class.getName(),AviatorCodeGeneratorTransformer.class.getName(), EntityRendererTransformer.class.getName()};
-        String[] longDistance = {EntityTrackerEntryTransformer.class.getName(),  EntityUnloadTransformer.class.getName()};
+        String[] defaultAsm = {RenderGlobalTransformer.class.getName(), EntityRenderHooks.class.getName(),AviatorCodeGeneratorTransformer.class.getName()};
+        String[] longDistance = {EntityTrackerEntryTransformer.class.getName(),  EntityUnloadTransformer.class.getName(), EntityRendererTransformer.class.getName()};
         return MCH_MOD.DEBUG_LD? Stream.concat(Arrays.stream(defaultAsm), Arrays.stream(longDistance))
                 .toArray(String[]::new) : defaultAsm;
     }
