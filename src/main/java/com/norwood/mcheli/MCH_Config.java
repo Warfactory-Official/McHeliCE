@@ -1,6 +1,7 @@
 package com.norwood.mcheli;
 
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
@@ -715,9 +716,9 @@ public class MCH_Config {
             }
 
             file.close();
-            MCH_Lib.Log("loaded " + file.file.getAbsolutePath());
+            MCH_Logger.log("loaded " + file.file.getAbsolutePath());
         } else {
-            MCH_Lib.Log(new File(configFilePath).getAbsolutePath() + " not found.");
+            MCH_Logger.log(new File(configFilePath).getAbsolutePath() + " not found.");
         }
 
         this.correctionParameter();
@@ -767,9 +768,9 @@ public class MCH_Config {
         if (file.open(configFilePath)) {
             this.writeConfigData(file.pw);
             file.close();
-            MCH_Lib.Log("update " + file.file.getAbsolutePath());
+            MCH_Logger.log("update " + file.file.getAbsolutePath());
         } else {
-            MCH_Lib.Log(new File(configFilePath).getAbsolutePath() + " cannot open.");
+            MCH_Logger.log(new File(configFilePath).getAbsolutePath() + " cannot open.");
         }
     }
 

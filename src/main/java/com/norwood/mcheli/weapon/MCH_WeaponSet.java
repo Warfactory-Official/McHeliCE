@@ -1,6 +1,6 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.mob.MCH_EntityGunner;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.wrapper.W_McClient;
@@ -97,8 +97,8 @@ public class MCH_WeaponSet {
         int debugBefore = this.numRestAllAmmo;
         int m = this.getInfo().maxAmmo - this.getAmmoNum();
         this.numRestAllAmmo = Math.min(n, m);
-        MCH_Lib.DbgLog(this.getFirstWeapon().worldObj, "MCH_WeaponSet.setRestAllAmmoNum:%s %d->%d (%d)", this.getName(),
-                debugBefore, this.numRestAllAmmo, n);
+        Object[] data = new Object[]{this.getName(), debugBefore, this.numRestAllAmmo, n};
+        MCH_Logger.debugLog(this.getFirstWeapon().worldObj, "MCH_WeaponSet.setRestAllAmmoNum:%s %d->%d (%d)", data);
     }
 
     public int getAllAmmoNum() {

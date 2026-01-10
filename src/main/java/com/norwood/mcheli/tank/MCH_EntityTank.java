@@ -6,6 +6,7 @@ import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.MCH_Math;
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.chain.MCH_EntityChain;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketStatusRequest;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
@@ -89,14 +90,13 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     @Override
     public void changeType(String type) {
-        MCH_Lib.DbgLog(this.world, "MCH_EntityTank.changeType " + type + " : " + this);
+        MCH_Logger.debugLog(this.world, "MCH_EntityTank.changeType " + type + " : " + this);
         if (!type.isEmpty()) {
             this.tankInfo = MCH_TankInfoManager.get(type);
         }
 
         if (this.tankInfo == null) {
-            MCH_Lib.Log(this, "##### MCH_EntityTank changeTankType() Tank info null %d, %s, %s",
-                    W_Entity.getEntityId(this), type, this.getEntityName());
+            MCH_Logger.log(this, "##### MCH_EntityTank changeTankType() Tank info null %d, %s, %s", W_Entity.getEntityId(this), type, this.getEntityName());
             this.setDead();
         } else {
             this.setAcInfo(this.tankInfo);
@@ -141,8 +141,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         if (this.tankInfo == null) {
             this.tankInfo = MCH_TankInfoManager.get(this.getTypeName());
             if (this.tankInfo == null) {
-                MCH_Lib.Log(this, "##### MCH_EntityTank readEntityFromNBT() Tank info null %d, %s",
-                        W_Entity.getEntityId(this), this.getEntityName());
+                MCH_Logger.log(this, "##### MCH_EntityTank readEntityFromNBT() Tank info null %d, %s", W_Entity.getEntityId(this), this.getEntityName());
                 this.setDead();
             } else {
                 this.setAcInfo(this.tankInfo);
@@ -757,10 +756,10 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                 }
 
                 for (MCH_AircraftInfo.ParticleSplash p : this.getAcInfo().particleSplashs) {
-                    for (int i = 0; i < p.num; i++) {
+                    for (int i = 0; i < p.num(); i++) {
                         if (dist > 0.03 + this.rand.nextFloat() * 0.1) {
-                            this.setParticleSplash(p.pos, -mx * p.acceleration, p.motionY, -mz * p.acceleration,
-                                    p.gravity, p.size * (0.5 + dist * 0.5), p.age);
+                            this.setParticleSplash(p.pos(), -mx * p.acceleration(), p.motionY(), -mz * p.acceleration(),
+                                    p.gravity(), p.size() * (0.5 + dist * 0.5), p.age());
                         }
                     }
                 }
@@ -1159,8 +1158,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                             this.attackEntityFrom(ds, damage / 3.0F);
                         }
 
-                        MCH_Lib.DbgLog(this.world, "MCH_EntityTank.collisionEntity damage=%.1f %s", damage,
-                                e.toString());
+                        Object[] data = new Object[]{damage, e.toString()};
+                        MCH_Logger.debugLog(this.world, "MCH_EntityTank.collisionEntity damage=%.1f %s", data);
                     }
                 }
             }
@@ -1331,7 +1330,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         //CHECK
         if (MathHelper.abs(this.getRotPitch()) > 90.0F) {
-            MCH_Lib.DbgLog(true, "MCH_EntityAircraft.setAngles Error:Pitch=%.1f", this.getRotPitch());
+            MCH_Logger.debugLog(true, "MCH_EntityAircraft.setAngles Error:Pitch=%.1f", this.getRotPitch());
             this.setRotPitch(0.0F);
         }
 

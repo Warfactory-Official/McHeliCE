@@ -1,6 +1,6 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
 import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
@@ -47,7 +47,7 @@ public class PacketHandleCommand implements ServerToClientPacket, ClientToServer
     @Override
     public void onReceive(EntityPlayerMP player) {
         MinecraftServer minecraftServer = MCH_Utils.getServer();
-        MCH_Lib.DbgLog(false, "MCH_MultiplayPacketHandler.onPacket_Command cmd:%d:%s", id, commandArgs);
+        MCH_Logger.debugLog(false, "MCH_MultiplayPacketHandler.onPacket_Command cmd:%d:%s", id, commandArgs);
         switch (id) {
             case SHUFFLE_TEAM -> MCH_Multiplay.shuffleTeam(player);
             case JUMP_SPAWNPOINT -> MCH_Multiplay.jumpSpawnPoint(player);
@@ -62,8 +62,7 @@ public class PacketHandleCommand implements ServerToClientPacket, ClientToServer
                 }
             }
             case DESTROY_AIRCRAFT -> destoryAllAircraft(player);
-            default -> MCH_Lib.DbgLog(false, "MCH_MultiplayPacketHandler.onPacket_Command unknown cmd:%d:%s", id,
-                    commandArgs);
+            default -> MCH_Logger.debugLog(false, "MCH_MultiplayPacketHandler.onPacket_Command unknown cmd:%d:%s", id, commandArgs);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_Entity;
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
@@ -29,7 +29,7 @@ public class PacketRequestReload extends PacketBase implements ClientToServerPac
             if (this.entityID_Ac > 0) {
                 Entity e = player.world.getEntityByID(this.entityID_Ac);
                 if (e instanceof MCH_EntityAircraft ac) {
-                    MCH_Lib.DbgLog(e.world, "onPacketIndReload :%s", ac.getAcInfo().displayName);
+                    MCH_Logger.debugLog(e.world, "onPacketIndReload :%s", ac.getAcInfo().displayName);
                     ac.supplyAmmo(this.weaponID);
                 }
             }

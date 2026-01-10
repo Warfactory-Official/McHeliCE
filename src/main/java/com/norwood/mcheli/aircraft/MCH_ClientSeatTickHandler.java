@@ -84,7 +84,7 @@ public class MCH_ClientSeatTickHandler extends MCH_ClientTickHandlerBase {
             if (ac.canParachute(player)) {
                 playerControl.parachuting = true;
                 send = true;
-            } else if (ac.canRepelling(player)) {
+            } else if (ac.canRepell()) {
                 playerControl.parachuting = true;
                 send = true;
             } else {

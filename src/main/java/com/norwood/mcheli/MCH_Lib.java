@@ -6,7 +6,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemMapBase;
 import net.minecraft.item.ItemStack;
@@ -160,42 +159,6 @@ public class MCH_Lib {
         return r >= 0.0 ? r : r + 360.0;
     }
 
-    public static void Log(String format, Object... data) {
-        String side = MCH_MOD.proxy.isRemote() ? "[Client]" : "[Server]";
-        System.out.printf("[" + getTime() + "][mcheli]" + side + " " + format + "\n", data);
-    }
-
-    public static void Log(World world, String format, Object... data) {
-        if (world != null) {
-            Log((world.isRemote ? "[ClientWorld]" : "[ServerWorld]") + " " + format, data);
-        } else {
-            Log("[UnknownWorld]" + format, data);
-        }
-    }
-
-    public static void Log(Entity entity, String format, Object... data) {
-        if (entity != null) {
-            Log(entity.world, format, data);
-        } else {
-            Log((World) null, format, data);
-        }
-    }
-
-    public static void DbgLog(boolean isRemote, String format, Object... data) {
-        if (MCH_Config.DebugLog) {
-            if (isRemote) {
-                if (getClientPlayer() instanceof EntityPlayer) {}
-
-                System.out.printf((format) + "%n", data);
-            } else {
-                System.out.printf((format) + "%n", data);
-            }
-        }
-    }
-
-    public static void DbgLog(World w, String format, Object... data) {
-        DbgLog(w.isRemote, format, data);
-    }
 
     public static String getTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");

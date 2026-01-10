@@ -49,7 +49,7 @@ public class MCH_WheelManager {
         for (int i = 0; i < this.wheels.length; i++) {
             MCH_EntityWheel wheel = new MCH_EntityWheel(w);
             wheel.setParents(this.parent);
-            Vec3d wp = list.get(i / 2).pos;
+            Vec3d wp = list.get(i / 2).pos();
             wheel.setWheelPos(new Vec3d(i % 2 == 0 ? wp.x : -wp.x, wp.y, wp.z), this.weightedCenter);
             Vec3d v = this.parent.getTransformedPosition(wheel.pos.x, wheel.pos.y, wheel.pos.z);
             wheel.setLocationAndAngles(v.x, v.y + 1.0, v.z, 0.0F, 0.0F);

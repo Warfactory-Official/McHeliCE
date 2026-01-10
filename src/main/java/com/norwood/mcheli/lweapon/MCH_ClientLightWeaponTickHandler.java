@@ -3,10 +3,10 @@ package com.norwood.mcheli.lweapon;
 import com.norwood.mcheli.event.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Key;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.control.PacketPlayerLightWeaponControl;
 import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponCreator;
@@ -221,7 +221,7 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
         }
 
         if (this.isBeforeHeldItem != this.isHeldItem) {
-            MCH_Lib.DbgLog(true, "LWeapon cancel");
+            MCH_Logger.debugLog(true, "LWeapon cancel");
             if (!this.isHeldItem) {
                 if (getPotionNightVisionDuration(player) < 250) {
                     PacketPlayerLightWeaponControl packet = new PacketPlayerLightWeaponControl();
@@ -293,7 +293,7 @@ public class MCH_ClientLightWeaponTickHandler extends MCH_ClientTickHandlerBase 
 
         if (this.KeyCameraMode.isKeyDown()) {
             PotionEffect pe = player.getActivePotionEffect(MobEffects.NIGHT_VISION);
-            MCH_Lib.DbgLog(true, "LWeapon NV %s", pe != null ? "ON->OFF" : "OFF->ON");
+            MCH_Logger.debugLog(true, "LWeapon NV %s", pe != null ? "ON->OFF" : "OFF->ON");
             if (pe != null) {
                 player.removePotionEffect(MobEffects.NIGHT_VISION);
                 packet.camMode = 1;

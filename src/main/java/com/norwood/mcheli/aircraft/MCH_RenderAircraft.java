@@ -818,10 +818,10 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
 
             for (int i = 0; i < info.repellingHooks.size(); i++) {
                 builder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-                builder.pos(info.repellingHooks.get(i).pos.x, info.repellingHooks.get(i).pos.y,
-                        info.repellingHooks.get(i).pos.z).color(0, 0, 0, 255).endVertex();
-                builder.pos(info.repellingHooks.get(i).pos.x, info.repellingHooks.get(i).pos.y + ac.ropesLength,
-                        info.repellingHooks.get(i).pos.z).color(0, 0, 0, 255).endVertex();
+                builder.pos(info.repellingHooks.get(i).pos().x, info.repellingHooks.get(i).pos().y,
+                        info.repellingHooks.get(i).pos().z).color(0, 0, 0, 255).endVertex();
+                builder.pos(info.repellingHooks.get(i).pos().x, info.repellingHooks.get(i).pos().y + ac.ropesLength,
+                        info.repellingHooks.get(i).pos().z).color(0, 0, 0, 255).endVertex();
                 tessellator.draw();
             }
 

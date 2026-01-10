@@ -1,9 +1,9 @@
 package com.norwood.mcheli.vehicle;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketStatusRequest;
 import com.norwood.mcheli.weapon.MCH_WeaponParam;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
@@ -63,14 +63,13 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
     @Override
     public void changeType(String type) {
-        MCH_Lib.DbgLog(this.world, "MCH_EntityVehicle.changeType " + type + " : " + this);
+        MCH_Logger.debugLog(this.world, "MCH_EntityVehicle.changeType " + type + " : " + this);
         if (!type.isEmpty()) {
             this.vehicleInfo = MCH_VehicleInfoManager.get(type);
         }
 
         if (this.vehicleInfo == null) {
-            MCH_Lib.Log(this, "##### MCH_EntityVehicle changeVehicleType() Vehicle info null %d, %s, %s",
-                    W_Entity.getEntityId(this), type, this.getEntityName());
+            MCH_Logger.log(this, "##### MCH_EntityVehicle changeVehicleType() Vehicle info null %d, %s, %s", W_Entity.getEntityId(this), type, this.getEntityName());
             this.setDead();
         } else {
             this.setAcInfo(this.vehicleInfo);
@@ -101,8 +100,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         if (this.vehicleInfo == null) {
             this.vehicleInfo = MCH_VehicleInfoManager.get(this.getTypeName());
             if (this.vehicleInfo == null) {
-                MCH_Lib.Log(this, "##### MCH_EntityVehicle readEntityFromNBT() Vehicle info null %d, %s",
-                        W_Entity.getEntityId(this), this.getEntityName());
+                MCH_Logger.log(this, "##### MCH_EntityVehicle readEntityFromNBT() Vehicle info null %d, %s", W_Entity.getEntityId(this), this.getEntityName());
                 this.setDead();
             } else {
                 this.setAcInfo(this.vehicleInfo);

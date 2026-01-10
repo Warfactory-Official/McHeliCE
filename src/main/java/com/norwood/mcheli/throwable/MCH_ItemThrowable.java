@@ -1,6 +1,6 @@
 package com.norwood.mcheli.throwable;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.entity.EntityLivingBase;
@@ -67,7 +67,7 @@ public class MCH_ItemThrowable extends W_Item {
                             acceleration = par4 / 25.0F;
                         }
 
-                        MCH_Lib.DbgLog(world, "MCH_ItemThrowable.onPlayerStoppedUsing(%d)", par4);
+                        MCH_Logger.debugLog(world, "MCH_ItemThrowable.onPlayerStoppedUsing(%d)", par4);
                         MCH_EntityThrowable entity = new MCH_EntityThrowable(world, player, acceleration);
                         entity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, acceleration, 1.0F);
                         entity.setInfo(info);

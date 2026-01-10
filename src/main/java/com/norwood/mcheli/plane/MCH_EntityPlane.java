@@ -5,6 +5,7 @@ import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_Parts;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketStatusRequest;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
@@ -12,6 +13,7 @@ import com.norwood.mcheli.wrapper.W_Block;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Lib;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
+import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
@@ -33,6 +35,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     public float rotationRotor;
     public float prevRotationRotor;
     public float addkeyRotValue;
+    @Getter
     private MCH_PlaneInfo planeInfo = null;
     private boolean addKeyFlag;
 
@@ -63,20 +66,15 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         return "Plane";
     }
 
-    public MCH_PlaneInfo getPlaneInfo() {
-        return this.planeInfo;
-    }
-
     @Override
     public void changeType(String type) {
-        MCH_Lib.DbgLog(this.world, "MCP_EntityPlane.changeType " + type + " : " + this);
+        MCH_Logger.debugLog(this.world, "MCP_EntityPlane.changeType " + type + " : " + this);
         if (!type.isEmpty()) {
             this.planeInfo = MCP_PlaneInfoManager.get(type);
         }
 
         if (this.planeInfo == null) {
-            MCH_Lib.Log(this, "##### MCP_EntityPlane changePlaneType() Plane info null %d, %s, %s",
-                    W_Entity.getEntityId(this), type, this.getEntityName());
+            MCH_Logger.log(this, "##### MCP_EntityPlane changePlaneType() Plane info null %d, %s, %s", W_Entity.getEntityId(this), type, this.getEntityName());
             this.setDead();
         } else {
             this.setAcInfo(this.planeInfo);
@@ -115,8 +113,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         if (this.planeInfo == null) {
             this.planeInfo = MCP_PlaneInfoManager.get(this.getTypeName());
             if (this.planeInfo == null) {
-                MCH_Lib.Log(this, "##### MCP_EntityPlane readEntityFromNBT() Plane info null %d, %s",
-                        W_Entity.getEntityId(this), this.getEntityName());
+                MCH_Logger.log(this, "##### MCP_EntityPlane readEntityFromNBT() Plane info null %d, %s", W_Entity.getEntityId(this), this.getEntityName());
                 this.setDead();
             } else {
                 this.setAcInfo(this.planeInfo);
@@ -203,7 +200,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
             if (!this.isDestroyed() && this.isHovering() && MathHelper.abs(this.getRotPitch()) < 70.0F) {
-                this.setRotPitch(this.getRotPitch() * 0.95F, "isHovering()");
+                float f = this.getRotPitch() * 0.95F;
+                this.setRotPitch(f);
             }
 
             if (this.isDestroyed() && this.getCurrentThrottle() > 0.0) {
@@ -570,10 +568,10 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                 }
 
                 for (MCH_AircraftInfo.ParticleSplash p : this.getAcInfo().particleSplashs) {
-                    for (int i = 0; i < p.num; i++) {
+                    for (int i = 0; i < p.num(); i++) {
                         if (dist > 0.03 + this.rand.nextFloat() * 0.1) {
-                            this.setParticleSplash(p.pos, -mx * p.acceleration, p.motionY, -mz * p.acceleration,
-                                    p.gravity, p.size * (0.5 + dist * 0.5), p.age);
+                            this.setParticleSplash(p.pos(), -mx * p.acceleration(), p.motionY(), -mz * p.acceleration(),
+                                    p.gravity(), p.size() * (0.5 + dist * 0.5), p.age());
                         }
                     }
                 }
@@ -737,7 +735,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                 this.motionY *= 0.8;
             }
         } else {
-            this.setRotPitch(this.getRotPitch() * 0.8F, "getWaterDepth != 0");
+            float f = this.getRotPitch() * 0.8F;
+            this.setRotPitch(f);
             if (MathHelper.abs(this.getRotRoll()) < 40.0F) {
                 this.setRotRoll(this.getRotRoll() * 0.9F);
             }

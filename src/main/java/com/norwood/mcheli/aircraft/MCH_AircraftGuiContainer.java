@@ -1,6 +1,6 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.parachute.MCH_ItemParachute;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -71,7 +71,7 @@ public class MCH_AircraftGuiContainer extends Container {
             return null;
         } else {
             ItemStack itemStack = slot.getStack();
-            MCH_Lib.DbgLog(player.world, "transferStackInSlot : %d :" + itemStack, slotIndex);
+            MCH_Logger.debugLog(player.world, "transferStackInSlot : %d :" + itemStack, slotIndex);
             if (itemStack.isEmpty()) {
                 return ItemStack.EMPTY;
             } else {

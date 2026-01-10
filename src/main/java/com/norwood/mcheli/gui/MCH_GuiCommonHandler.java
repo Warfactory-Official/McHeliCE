@@ -1,12 +1,12 @@
 package com.norwood.mcheli.gui;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftGui;
 import com.norwood.mcheli.aircraft.MCH_AircraftGuiContainer;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.block.MCH_DraftingTableGui;
 import com.norwood.mcheli.block.MCH_DraftingTableGuiContainer;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.network.PooledGuiParameter;
 import com.norwood.mcheli.multiplay.MCH_ContainerScoreboard;
@@ -31,7 +31,7 @@ public class MCH_GuiCommonHandler implements IGuiHandler {
     public static final int GUIID_MULTI_MNG = 5;
 
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-        MCH_Lib.DbgLog(world, "MCH_GuiCommonHandler.getServerGuiElement ID=%d (%d, %d, %d)", id, x, y, z);
+        MCH_Logger.debugLog(world, "MCH_GuiCommonHandler.getServerGuiElement ID=%d (%d, %d, %d)", id, x, y, z);
 
         return switch (id) {
             case GUIID_UAV_STATION -> {
@@ -72,7 +72,7 @@ public class MCH_GuiCommonHandler implements IGuiHandler {
 
     @SideOnly(Side.CLIENT)
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-        MCH_Lib.DbgLog(world, "MCH_GuiCommonHandler.getClientGuiElement ID=%d (%d, %d, %d)", id, x, y, z);
+        MCH_Logger.debugLog(world, "MCH_GuiCommonHandler.getClientGuiElement ID=%d (%d, %d, %d)", id, x, y, z);
 
         return switch (id) {
             case GUIID_UAV_STATION -> {

@@ -1,8 +1,8 @@
 package com.norwood.mcheli.networking.packet;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_ServerSettings;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
 import com.norwood.mcheli.wrapper.W_Reflection;
@@ -51,7 +51,7 @@ public class PacketSyncServerSettings extends PacketBase implements ServerToClie
     @Override
     public void onReceive(Minecraft mc) {
         if (!mc.player.world.isRemote) return;
-        MCH_Lib.DbgLog(false, "onPacketNotifyServerSettings:" + mc.player);
+        MCH_Logger.debugLog(false, "onPacketNotifyServerSettings:" + mc.player);
         if (!this.enableCamDistChange) {
             W_Reflection.setThirdPersonDistance(4.0F);
         }

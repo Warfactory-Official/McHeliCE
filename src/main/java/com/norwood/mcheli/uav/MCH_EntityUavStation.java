@@ -8,6 +8,7 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
 import com.norwood.mcheli.helicopter.MCH_ItemHeli;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.helper.network.PooledGuiParameter;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
@@ -119,7 +120,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
 
     public void setStatus(int n) {
         if (!this.world.isRemote) {
-            MCH_Lib.DbgLog(this.world, "MCH_EntityUavStation.setStatus(%d)", n);
+            MCH_Logger.debugLog(this.world, "MCH_EntityUavStation.setStatus(%d)", n);
             this.dataManager.set(STATUS, (byte) n);
         }
     }
@@ -371,7 +372,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
     }
 
     public void setLastControlAircraft(MCH_EntityAircraft ac) {
-        MCH_Lib.DbgLog(this.world, "MCH_EntityUavStation.setLastControlAircraft:" + ac);
+        MCH_Logger.debugLog(this.world, "MCH_EntityUavStation.setLastControlAircraft:" + ac);
         this.lastControlAircraft = ac;
     }
 
@@ -408,7 +409,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
             for (MCH_EntityAircraft ac : list) {
                 if (ac.getCommonUniqueId().equals(this.loadedLastControlAircraftGuid)) {
                     String n = "no info : " + ac;
-                    MCH_Lib.DbgLog(this.world, "MCH_EntityUavStation.searchLastControlAircraft:found" + n);
+                    MCH_Logger.debugLog(this.world, "MCH_EntityUavStation.searchLastControlAircraft:found" + n);
                     this.setLastControlAircraft(ac);
                     this.setLastControlAircraftEntityId(W_Entity.getEntityId(ac));
                     this.loadedLastControlAircraftGuid = "";
@@ -560,7 +561,8 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
                     user.rotationYaw = this.rotationYaw - 180.0F;
                     if (this.world.getCollisionBoxes(ac, ac.getEntityBoundingBox().grow(-0.1, -0.1, -0.1)).isEmpty()) {
                         itemStack.shrink(1);
-                        MCH_Lib.DbgLog(this.world, "Create UAV: %s : %s", item.getTranslationKey(), item);
+                        Object[] data = new Object[]{item.getTranslationKey(), item};
+                        MCH_Logger.debugLog(this.world, "Create UAV: %s : %s", data);
                         user.rotationYaw = this.rotationYaw - 180.0F;
                         if (!ac.isTargetDrone()) {
                             ac.setUavStation(this);

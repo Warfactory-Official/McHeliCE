@@ -1,6 +1,6 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.mob.MCH_ItemSpawnGunner;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
@@ -94,12 +94,13 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
 
         if (this.lastRiddenByEntity == null && riddenByEntity != null) {
             if (this.getParent() != null) {
-                MCH_Lib.DbgLog(this.world, "MCH_EntitySeat.onUpdate:SeatID=%d", this.seatID, riddenByEntity.toString());
+                Object[] data = new Object[]{this.seatID, riddenByEntity.toString()};
+                MCH_Logger.debugLog(this.world, "MCH_EntitySeat.onUpdate:SeatID=%d", data);
                 this.getParent().onMountPlayerSeat(this, riddenByEntity);
             }
         } else if (this.lastRiddenByEntity != null && riddenByEntity == null && this.getParent() != null) {
-            MCH_Lib.DbgLog(this.world, "MCH_EntitySeat.onUpdate:SeatID=%d", this.seatID,
-                    this.lastRiddenByEntity.toString());
+            Object[] data = new Object[]{this.seatID, this.lastRiddenByEntity.toString()};
+            MCH_Logger.debugLog(this.world, "MCH_EntitySeat.onUpdate:SeatID=%d", data);
             this.getParent().onUnmountPlayerSeat(this, this.lastRiddenByEntity);
         }
 
@@ -156,8 +157,7 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
                 }
 
                 this.setParent(null);
-                MCH_Lib.DbgLog(this.world, "[Error]座席エンティティは本体が見つからないため削除 seat=%d, parentUniqueID=%s", this.seatID,
-                        this.parentUniqueID);
+                MCH_Logger.debugLog(this.world, "[Error]座席エンティティは本体が見つからないため削除 seat=%d, parentUniqueID=%s", this.seatID, this.parentUniqueID);
             } else {
                 this.parentSearchCount++;
             }
@@ -193,7 +193,7 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
 
     public boolean processInitialInteract(@NotNull EntityPlayer player, @NotNull EnumHand hand) {
         if (this.getParent() != null && !this.getParent().isDestroyed()) {
-            if (!this.getParent().checkTeam(player)) {
+            if (this.getParent().notOnSameTeam(player)) {
                 return false;
             } else {
                 ItemStack itemStack = player.getHeldItem(hand);
@@ -229,8 +229,9 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
         this.parent = parent;
         Entity riddenByEntity = this.getRiddenByEntity();
         if (riddenByEntity != null) {
-            MCH_Lib.DbgLog(this.world, "MCH_EntitySeat.setParent:SeatID=%d %s : " + this.getParent(), this.seatID,
-                    riddenByEntity.toString());
+            String format = "MCH_EntitySeat.setParent:SeatID=%d %s : " + this.getParent();
+            Object[] data = new Object[]{this.seatID, riddenByEntity.toString()};
+            MCH_Logger.debugLog(this.world, format, data);
             if (this.getParent() != null) {
                 this.getParent().onMountPlayerSeat(this, riddenByEntity);
             }

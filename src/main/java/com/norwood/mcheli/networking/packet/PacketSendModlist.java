@@ -1,6 +1,6 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;
@@ -73,13 +73,14 @@ public class PacketSendModlist implements ServerToClientPacket, ClientToServerPa
 
     @Override
     public void onReceive(Minecraft mc) {
-        MCH_Lib.DbgLog(mc.player.world, "MCH_MultiplayPacketHandler.onPacket_ModList : ID=%d, Num=%d", id, num);
+        MCH_Logger.debugLog(mc.player.world, "MCH_MultiplayPacketHandler.onPacket_ModList : ID=%d, Num=%d", id, num);
         if (firstData) {
-            MCH_Lib.Log(TextFormatting.RED + "###### " + mc.player.getDisplayName() + " ######");
+            String format = TextFormatting.RED + "###### " + mc.player.getDisplayName() + " ######";
+            MCH_Logger.log(format);
         }
 
         for (String s : list) {
-            MCH_Lib.Log(s);
+            MCH_Logger.log(s);
             mc.player.sendMessage(new TextComponentString(s));
         }
     }

@@ -390,10 +390,10 @@ public class TxtParser implements IParser {
                         info.wheels.clear();
 
                         for (int i = 2; i < sx.length; i++) {
-                            info.wheels.add(new Wheel(info, new Vec3d(x, y, info.toFloat(sx[i]))));
+                            info.wheels.add(new Wheel(new Vec3d(x, y, info.toFloat(sx[i]))));
                         }
 
-                        info.wheels.sort((arg0, arg1) -> arg0.pos.z > arg1.pos.z ? -1 : 1);
+                        info.wheels.sort((arg0, arg1) -> arg0.pos().z > arg1.pos().z ? -1 : 1);
                     }
                 } else if (item.equalsIgnoreCase("ExclusionSeat")) {
                     String[] sx = info.splitParam(data);

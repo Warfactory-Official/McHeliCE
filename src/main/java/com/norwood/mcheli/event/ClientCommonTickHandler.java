@@ -304,8 +304,8 @@ public class ClientCommonTickHandler extends W_TickHandler {
         } else if (ac.isPilot(player)) {
             MCH_AircraftInfo.CameraPosition cp = ac.getCameraPosInfo();
             if (cp != null) {
-                fixYaw = cp.yaw;
-                fixPitch = cp.pitch;
+                fixYaw = cp.yaw();
+                fixPitch = cp.pitch();
             }
         }
 

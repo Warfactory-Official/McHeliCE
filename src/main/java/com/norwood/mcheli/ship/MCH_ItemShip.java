@@ -1,8 +1,8 @@
 package com.norwood.mcheli.ship;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_ItemAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -24,7 +24,7 @@ public class MCH_ItemShip extends MCH_ItemAircraft {
     public MCH_EntityShip createAircraft(World world, double x, double y, double z, ItemStack itemStack) {
         MCH_ShipInfo info = MCH_ShipInfoManager.getFromItem(this);
         if (info == null) {
-            MCH_Lib.Log(world, "##### MCH_EntityShip Plane info null %s", this.getTranslationKey());
+            MCH_Logger.log(world, "##### MCH_EntityShip Plane info null %s", this.getTranslationKey());
             return null;
         } else {
             MCH_EntityShip plane = new MCH_EntityShip(world);

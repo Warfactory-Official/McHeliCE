@@ -2,8 +2,8 @@ package com.norwood.mcheli.multiplay;
 
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_FileSearch;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_OStream;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketImgDataChunk;
 import com.norwood.mcheli.networking.packet.PacketSendModlist;
 import net.minecraft.client.Minecraft;
@@ -128,7 +128,7 @@ public class MCH_MultiplayClient {
         String[] classFileNameList = System.getProperty("java.class.path").split(File.pathSeparator);
 
         for (String classFileName : classFileNameList) {
-            MCH_Lib.DbgLog(true, "java.class.path=" + classFileName);
+            MCH_Logger.debugLog(true, "java.class.path=" + classFileName);
             if (classFileName.length() > 1) {
                 File javaClassFile = new File(classFileName);
                 if (javaClassFile.getAbsolutePath().toLowerCase().contains("versions")) {

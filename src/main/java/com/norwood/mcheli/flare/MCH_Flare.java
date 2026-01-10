@@ -1,7 +1,7 @@
 package com.norwood.mcheli.flare;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.wrapper.W_McClient;
@@ -84,7 +84,7 @@ public class MCH_Flare {
 
     public boolean use(int type) {
         boolean result = false;
-        MCH_Lib.DbgLog(this.aircraft.world, "MCH_Flare.use type = %d", type);
+        MCH_Logger.debugLog(this.aircraft.world, "MCH_Flare.use type = %d", type);
         this.flareType = type;
         if (type <= 0 && type >= FLARE_DATA.length) {
             return false;

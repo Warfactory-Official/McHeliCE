@@ -1,12 +1,12 @@
 package com.norwood.mcheli.mob;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponEntitySeeker;
@@ -437,7 +437,7 @@ public class MCH_EntityGunner extends EntityLivingBase {
         }
 
         super.setDead();
-        MCH_Lib.DbgLog(this.world, "MCH_EntityGunner.setDead type=%d :" + this, this.targetType);
+        MCH_Logger.debugLog(this.world, "MCH_EntityGunner.setDead type=%d :" + this, this.targetType);
     }
 
     public boolean attackEntityFrom(@NotNull DamageSource ds, float amount) {

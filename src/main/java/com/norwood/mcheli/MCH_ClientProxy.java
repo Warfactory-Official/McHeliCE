@@ -17,6 +17,7 @@ import com.norwood.mcheli.gltd.MCH_RenderGLTD;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_RenderHeli;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonManager;
 import com.norwood.mcheli.helper.addon.AddonPack;
@@ -552,7 +553,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void reconfig() {
-        MCH_Lib.DbgLog(false, "MCH_ClientProxy.reconfig()");
+        MCH_Logger.debugLog(false, "MCH_ClientProxy.reconfig()");
         this.loadConfig(this.lastConfigFileName);
         ClientCommonTickHandler.instance.kbInput.updateKeybind(this.config);
     }

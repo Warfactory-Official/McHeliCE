@@ -3,6 +3,7 @@ package com.norwood.mcheli.multiplay;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.networking.packet.PacketMarkPos;
@@ -151,7 +152,7 @@ public class MCH_Multiplay {
     }
 
     public static void jumpSpawnPoint(EntityPlayer player) {
-        MCH_Lib.DbgLog(false, "JumpSpawnPoint");
+        MCH_Logger.debugLog(false, "JumpSpawnPoint");
         CommandTeleport cmd = new CommandTeleport();
         if (cmd.checkPermission(MCH_Utils.getServer(), player)) {
             MinecraftServer minecraftServer = MCH_Utils.getServer();
@@ -188,7 +189,7 @@ public class MCH_Multiplay {
     public static void shuffleTeam(EntityPlayer player) {
         Collection<ScorePlayerTeam> teams = player.world.getScoreboard().getTeams();
         int teamNum = teams.size();
-        MCH_Lib.DbgLog(false, "ShuffleTeam:%d teams ----------", teamNum);
+        MCH_Logger.debugLog(false, "ShuffleTeam:%d teams ----------", teamNum);
         if (teamNum > 0) {
             CommandScoreboard cmd = new CommandScoreboard();
             if (cmd.checkPermission(MCH_Utils.getServer(), player)) {
@@ -214,7 +215,7 @@ public class MCH_Multiplay {
                     String exe_cmd = "teams join " + s;
                     String[] process_cmd = exe_cmd.split(" ");
                     if (process_cmd.length > 3) {
-                        MCH_Lib.DbgLog(false, "ShuffleTeam:" + exe_cmd);
+                        MCH_Logger.debugLog(false, "ShuffleTeam:" + exe_cmd);
 
                         try {
                             cmd.execute(MCH_Utils.getServer(), player, process_cmd);

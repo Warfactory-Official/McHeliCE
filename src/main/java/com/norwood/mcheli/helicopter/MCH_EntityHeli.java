@@ -6,6 +6,7 @@ import com.norwood.mcheli.MCH_ServerSettings;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_Rotor;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketStatusRequest;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
@@ -70,14 +71,13 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
 
     @Override
     public void changeType(String type) {
-        MCH_Lib.DbgLog(this.world, "MCH_EntityHeli.changeType " + type + " : " + this);
+        MCH_Logger.debugLog(this.world, "MCH_EntityHeli.changeType " + type + " : " + this);
         if (!type.isEmpty()) {
             this.heliInfo = MCH_HeliInfoManager.get(type);
         }
 
         if (this.heliInfo == null) {
-            MCH_Lib.Log(this, "##### MCH_EntityHeli changeHeliType() Heli info null %d, %s, %s",
-                    W_Entity.getEntityId(this), type, this.getEntityName());
+            MCH_Logger.log(this, "##### MCH_EntityHeli changeHeliType() Heli info null %d, %s, %s", W_Entity.getEntityId(this), type, this.getEntityName());
             this.setDead(true);
         } else {
             this.setAcInfo(this.heliInfo);
@@ -119,18 +119,16 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         boolean beforeFoldBlade = this.getFoldBladeStat() == 0;
         if (this.getCommonUniqueId().isEmpty()) {
             this.setCommonUniqueId(par1NBTTagCompound.getString("HeliUniqueId"));
-            MCH_Lib.Log(
-                    this,
-                    "# MCH_EntityHeli readEntityFromNBT() " + W_Entity.getEntityId(this) + ", " + this.getEntityName() +
-                            ", AircraftUniqueId=null, HeliUniqueId=" + this.getCommonUniqueId());
+            String format = "# MCH_EntityHeli readEntityFromNBT() " + W_Entity.getEntityId(this) + ", " + this.getEntityName() +
+                    ", AircraftUniqueId=null, HeliUniqueId=" + this.getCommonUniqueId();
+            MCH_Logger.log(this, format);
         }
 
         if (this.getTypeName().isEmpty()) {
             this.setTypeName(par1NBTTagCompound.getString("HeliType"));
-            MCH_Lib.Log(
-                    this,
-                    "# MCH_EntityHeli readEntityFromNBT() " + W_Entity.getEntityId(this) + ", " + this.getEntityName() +
-                            ", TypeName=null, HeliType=" + this.getTypeName());
+            String format = "# MCH_EntityHeli readEntityFromNBT() " + W_Entity.getEntityId(this) + ", " + this.getEntityName() +
+                    ", TypeName=null, HeliType=" + this.getTypeName();
+            MCH_Logger.log(this, format);
         }
 
         this.setCurrentThrottle(par1NBTTagCompound.getDouble("RotorSpeed"));
@@ -139,8 +137,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         if (this.heliInfo == null) {
             this.heliInfo = MCH_HeliInfoManager.get(this.getTypeName());
             if (this.heliInfo == null) {
-                MCH_Lib.Log(this, "##### MCH_EntityHeli readEntityFromNBT() Heli info null %d, %s",
-                        W_Entity.getEntityId(this), this.getEntityName());
+                MCH_Logger.log(this, "##### MCH_EntityHeli readEntityFromNBT() Heli info null %d, %s", W_Entity.getEntityId(this), this.getEntityName());
                 this.setDead(true);
             } else {
                 this.setAcInfo(this.heliInfo);

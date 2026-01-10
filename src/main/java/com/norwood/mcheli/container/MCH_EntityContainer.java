@@ -1,12 +1,12 @@
 package com.norwood.mcheli.container;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_IEntityCanRideAircraft;
 import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
 import com.norwood.mcheli.wrapper.W_AxisAlignedBB;
 import com.norwood.mcheli.wrapper.W_Block;
@@ -122,8 +122,8 @@ public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntit
             if (!MCH_Multiplay.canAttackEntity(ds, this)) {
                 return false;
             } else if (ds.getTrueSource() instanceof EntityPlayer && ds.getDamageType().equalsIgnoreCase("player")) {
-                MCH_Lib.DbgLog(this.world, "MCH_EntityContainer.attackEntityFrom:damage=%.1f:%s", damage,
-                        ds.getDamageType());
+                Object[] data = new Object[]{damage, ds.getDamageType()};
+                MCH_Logger.debugLog(this.world, "MCH_EntityContainer.attackEntityFrom:damage=%.1f:%s", data);
                 W_WorldFunc.playSoundAt(this, "hit", 1.0F, 1.3F);
                 this.setDamageTaken(this.getDamageTaken() + (int) (damage * 20.0F));
                 this.setForwardDirection(-this.getForwardDirection());

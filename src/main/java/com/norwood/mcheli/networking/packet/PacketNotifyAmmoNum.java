@@ -1,7 +1,7 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_Entity;
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;
@@ -97,6 +97,6 @@ public class PacketNotifyAmmoNum extends PacketBase implements ServerToClientPac
             msg.append("Error: WeaponID out of bounds: ").append(this.weaponID);
         }
 
-        MCH_Lib.DbgLog(entity.world, msg.toString());
+        MCH_Logger.debugLog(entity.world, msg.toString());
     }
 }

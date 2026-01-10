@@ -1,6 +1,6 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -195,7 +195,8 @@ public abstract class W_EntityContainer extends W_Entity implements IInventory {
         NBTTagList nbttaglist = W_NBTTag.getTagList(par1NBTTagCompound, "Items", 10);
         this.containerItems = new ItemStack[this.getSizeInventory()];
         Arrays.fill(this.containerItems, ItemStack.EMPTY);
-        MCH_Lib.DbgLog(this.world, "W_EntityContainer.readEntityFromNBT.InventorySize = %d", this.getSizeInventory());
+        Object[] data = new Object[]{this.getSizeInventory()};
+        MCH_Logger.debugLog(this.world, "W_EntityContainer.readEntityFromNBT.InventorySize = %d", data);
 
         for (int i = 0; i < nbttaglist.tagCount(); i++) {
             NBTTagCompound nbttagcompound1 = W_NBTTag.tagAt(nbttaglist, i);

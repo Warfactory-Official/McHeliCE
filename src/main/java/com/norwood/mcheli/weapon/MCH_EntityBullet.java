@@ -1,7 +1,7 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
@@ -36,7 +36,7 @@ public class MCH_EntityBullet extends MCH_EntityBaseBullet {
 
                 for (Entity entity1 : list) {
                     if (this.canBeCollidedEntity(entity1) && entity1.getDistanceSq(this) < pDist * pDist) {
-                        MCH_Lib.DbgLog(this.world, "MCH_EntityBullet.onUpdate:proximityFuse:" + entity1);
+                        MCH_Logger.debugLog(this.world, "MCH_EntityBullet.onUpdate:proximityFuse:" + entity1);
                         this.posX = (entity1.posX + this.posX) / 2.0;
                         this.posY = (entity1.posY + this.posY) / 2.0;
                         this.posZ = (entity1.posZ + this.posZ) / 2.0;

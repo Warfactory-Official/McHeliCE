@@ -1,7 +1,7 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_Entity;
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
@@ -43,9 +43,7 @@ public class PacketIndRotation extends PacketBase implements ClientToServerPacke
         ac.setRotRoll(this.roll);
 
         if (this.rollRev) {
-            MCH_Lib.DbgLog(ac.world,
-                    "onPacketIndRotation Error:this.rollRev y=%.2f, p=%.2f, r=%.2f",
-                    this.yaw, this.pitch, this.roll);
+            MCH_Logger.debugLog(ac.world, "onPacketIndRotation Error:this.rollRev y=%.2f, p=%.2f, r=%.2f", this.yaw, this.pitch, this.roll);
 
             Entity rider = ac.getRiddenByEntity();
             if (rider != null) {
