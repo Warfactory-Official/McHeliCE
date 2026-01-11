@@ -931,10 +931,6 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         }
     }
 
-    public float getFuleConsumptionFactor() {
-        return super.getFuelConsumptionFactor() * (1);
-    }
-
     public float getNozzleRotation() {
         return this.partNozzle != null ? this.partNozzle.rotation : 0.0F;
     }

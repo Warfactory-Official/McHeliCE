@@ -43,6 +43,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -268,7 +269,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     }
 
     @Override
-    public void move(MoverType type, double x, double y, double z) {
+    public void move(@NotNull MoverType type, double x, double y, double z) {
         this.world.profiler.startSection("move");
         double d2 = x;
         double d3 = y;

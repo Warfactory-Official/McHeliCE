@@ -270,7 +270,6 @@ public class YamlParser implements IParser {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     private void parsePlaneFeatures(Map<String, Object> map, MCH_PlaneInfo info) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
@@ -298,7 +297,6 @@ public class YamlParser implements IParser {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void parseShipFeatures(Map<String, Object> map, MCH_ShipInfo info) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {

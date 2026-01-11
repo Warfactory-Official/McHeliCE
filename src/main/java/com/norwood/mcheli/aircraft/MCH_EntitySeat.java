@@ -242,6 +242,6 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
     @Override
     public Entity getRiddenByEntity() {
         List<Entity> passengers = this.getPassengers();
-        return passengers.isEmpty() ? null : passengers.get(0);
+        return passengers.isEmpty() ? null : passengers.getFirst();
     }
 }

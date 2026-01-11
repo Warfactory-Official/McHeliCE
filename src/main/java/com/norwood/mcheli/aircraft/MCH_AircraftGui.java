@@ -208,13 +208,13 @@ public class MCH_AircraftGui extends W_GuiContainer {
             this.drawTexturedModalRect(x + 10 + 18 * i - 1, y + 105 - 1, 215, 55, 18, 18);
         }
 
-        int ff = (int) (this.aircraft.getFuelP() * 50.0F);
+        int ff = (int) (this.aircraft.getFuelPercentage() * 50.0F);
         if (ff >= 99) {
             ff = 100;
         }
 
         this.drawTexturedModalRect(x + 57, y + 30 + 50 - ff, 215, 0, 12, ff);
-        ff = (int) (this.aircraft.getFuelP() * 100.0F + 0.5);
+        ff = (int) (this.aircraft.getFuelPercentage() * 100.0F + 0.5);
         int color = ff > 20 ? -14101432 : 16711680;
         this.drawString(String.format("%3d", ff) + "%", x + 30, y + 65, color);
         this.editCommand.drawTextBox();

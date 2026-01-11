@@ -51,7 +51,7 @@ public class PacketHandleCommand implements ServerToClientPacket, ClientToServer
         switch (id) {
             case SHUFFLE_TEAM -> MCH_Multiplay.shuffleTeam(player);
             case JUMP_SPAWNPOINT -> MCH_Multiplay.jumpSpawnPoint(player);
-            case RAW_COMMAND -> { // Seeminly just passes command stright to the server, doesnt look right
+            case RAW_COMMAND -> { // Seeminly just passes command stright to the server, doesn't look right
                 ICommandManager icommandmanager = minecraftServer.getCommandManager();
                 icommandmanager.executeCommand(player, commandArgs);
             }
@@ -66,7 +66,7 @@ public class PacketHandleCommand implements ServerToClientPacket, ClientToServer
         }
     }
 
-    public static enum CommandAction {
+    public enum CommandAction {
         NONE,
         REQUEST_SCREENSHOT,
         REQUEST_MOD_INFO,

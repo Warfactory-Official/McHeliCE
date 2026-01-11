@@ -229,7 +229,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         return 0;
     }
 
-    class VBOBufferData {
+    static class VBOBufferData {
 
         String name;
         int vertices = 0;

@@ -214,7 +214,7 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("motion_z", ac.motionZ);
         updateVarMapItem("speed",
                 Math.sqrt(ac.motionX * ac.motionX + ac.motionY * ac.motionY + ac.motionZ * ac.motionZ));
-        updateVarMapItem("fuel", ac.getFuelP());
+        updateVarMapItem("fuel", ac.getFuelPercentage());
         updateVarMapItem("low_fuel", isLowFuel(ac));
         updateVarMapItem("stick_x", StickX);
         updateVarMapItem("stick_y", StickY);
@@ -366,7 +366,7 @@ public abstract class MCH_HudItem extends Gui {
         }
 
         countFuelWarn--;
-        if (countFuelWarn < 160 && ac.getMaxFuel() > 0 && ac.getFuelP() < 0.1F && !ac.isInfinityFuel(player, false)) {
+        if (countFuelWarn < 160 && ac.getMaxFuel() > 0 && ac.getFuelPercentage() < 0.1F && !ac.isInfinityFuel(player, false)) {
             is_low_fuel = 1;
         }
 

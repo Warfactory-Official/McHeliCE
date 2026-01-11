@@ -267,7 +267,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         return fluidType.containsKey(fluidName);
     }
 
-    public float getEfficecy(String fluidName) {
+    public float getFuelConsumption(String fluidName) {
         return fluidType.getOrDefault(fluidName, 0f);
     }
 
