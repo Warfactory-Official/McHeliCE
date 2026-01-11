@@ -877,7 +877,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         this.setPartStatus(nbt.getInteger("PartStatus"));
         this.setTypeName(nbt.getString("TypeName"));
         super.readEntityFromNBT(nbt);
-        this.getGuiInventory().readEntityFromNBT(nbt);
+        this.getGuiInventory().readFromNBT(nbt);
         this.setCommandForce(nbt.getString("AcCommand"));
         this.setGunnerStatus(nbt.getBoolean("AcGunnerStatus"));
         this.setFuel(nbt.getInteger("AcFuel"));
@@ -922,7 +922,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
         nbt.setBoolean("AcGunnerStatus", this.getGunnerStatus());
         super.writeEntityToNBT(nbt);
-        this.getGuiInventory().writeEntityToNBT(nbt);
+        this.getGuiInventory().writeToNBT(nbt);
         int[] wa_list = new int[this.getWeaponNum()];
 
         for (int i = 0; i < wa_list.length; i++) {
@@ -2351,7 +2351,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     public void setFuel(int fuel) {
-        if (!this.world.isRemote) return;
+        if (this.world.isRemote) return;
         if (fuel < 0) fuel = 0;
         if (fuel > this.getMaxFuel()) fuel = this.getMaxFuel();
         if (fuel != this.getFuel()) this.dataManager.set(FUEL, fuel);
@@ -2370,9 +2370,11 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     public Fluid getFuelFluid() {
         String fluidName = getFuelType();
-        var fluid = FluidRegistry.getFluid(fluidName);
+
+        var fluid = fluidName.isBlank() ? null : FluidRegistry.getFluid(fluidName);
         if (fluid == null) {
-            MCH_Logger.warn("Fluid: {} does not exist, make sure required fluids do exist. Fluid will be set to default");
+            MCH_Logger.warn("Retrived fluid: {} does not exist, make sure required fluids do exist. Fluid will be set to default", fluidName);
+            setFuelType("mch_fuel");
         }
         return fluid;
     }
@@ -2382,8 +2384,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     public void setFuelType(String name) {
-        if (FluidRegistry.getFluid(name) == null) {
-            MCH_Logger.warn("Fluid: {} does not exist, make sure required fluids do exist. Fluid will be set to default");
+        if (!name.isBlank() && FluidRegistry.getFluid(name) == null) {
+            MCH_Logger.warn("Set fluid: {} does not exist, make sure required fluids do exist. Fluid will be set to default", name);
             this.dataManager.set(FUEL_FF, "mch_fuel");
         } else
             this.dataManager.set(FUEL_FF, name);
@@ -2460,22 +2462,38 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 ItemStack fuelStack = getGuiInventory().getFuelSlotItemStack(slotIndex);
                 if (fuelNeeded <= 0 || fuelStack.isEmpty()) continue;
                 var capability = fuelStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-                if (capability == null || capability.getTankProperties() == null || capability.getTankProperties().length > 0)
+                if (capability == null || capability.getTankProperties() == null)
                     continue;
-                if (Arrays.stream(capability.getTankProperties()).anyMatch(p -> p.canDrain() && p.getContents() != null && isEqualToFluid(p.getContents()))) {
-                    var fluid = getFuelFluid();
-                    if (fluid == null) break;
-                    FluidStack requested = new FluidStack(fluid, fuelNeeded);
-                    var drainAttempt = capability.drain(requested, false);
-                    int drained = drainAttempt != null ? drainAttempt.amount : 0;
+                IFluidTankProperties prop = Arrays.stream(capability.getTankProperties())
+                        .filter(p -> p.canDrain()
+                                && p.getContents() != null
+                                && acInfo.isFuelValid(p.getContents()))
+                        .findFirst()
+                        .orElse(null);
 
-                    if (drained > 0) {
-                        FluidStack actuallyDrained = capability.drain(new FluidStack(fluid, drained), true);
-                        assert actuallyDrained != null; // Very likely safe since I just tried draining it
-                        currentFuel += actuallyDrained.amount;
-                    }
+                if (prop == null) continue;
+
+                var fluid = getFuelFluid();
+                if (fluid == null)
+                    fluid = Objects.requireNonNull(prop.getContents()).getFluid();
+
+
+                FluidStack requested = new FluidStack(fluid, fuelNeeded);
+                var drainAttempt = capability.drain(requested, false);
+                int drained = drainAttempt != null ? drainAttempt.amount : 0;
+
+                if (drained > 0) {
+                    FluidStack actuallyDrained = capability.drain(new FluidStack(fluid, drained), true);
+                    getGuiInventory().getItemHandler().setStackInSlot(
+                            slotIndex,
+                            capability.getContainer()
+                    );
+                    assert actuallyDrained != null; // Very likely safe since I just tried draining it
+                    currentFuel += actuallyDrained.amount;
+
                 }
             }
+            setFuel(currentFuel);
         }
 
 
@@ -2483,12 +2501,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             MCH_CriteriaTriggers.SUPPLY_FUEL.trigger(playerMP);
         }
 
-        setFuel(currentFuel);
 
-    }
-
-    protected boolean isEqualToFluid(FluidStack stack) {
-        return stack.getFluid().getName().equalsIgnoreCase(getFuelType());
     }
 
     public float getFuelConsumptionFactor() {
@@ -3640,7 +3653,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             this.getRiddenByEntity().dismountRidingEntity();
         }
 
-        this.getGuiInventory().setDead();
+        this.getGuiInventory().dropContents();
 
         for (MCH_EntitySeat s : this.seats) {
             if (s != null) {

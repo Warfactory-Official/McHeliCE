@@ -20,6 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -263,8 +265,10 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         };
     }
 
-    public boolean isFuelValid(String fluidName) {
-        return fluidType.containsKey(fluidName);
+
+    public boolean isFuelValid(@Nullable FluidStack fluid) {
+        if(fluid == null) return false;
+        return fluidType.containsKey(fluid.getFluid().getName());
     }
 
     public float getFuelConsumption(String fluidName) {
