@@ -28,9 +28,9 @@ import java.util.List;
 public class HudMortarRadar implements DirectDrawable {
 
     public static final HudMortarRadar INSTANCE = new HudMortarRadar();
-    public static final ResourceLocation RADAR = new ResourceLocation(Tags.MODID, "textures/mortar_radar.png");
-    public static final ResourceLocation CROSS = new ResourceLocation(Tags.MODID, "textures/mortar_cross.png");
-    public static final ResourceLocation TARGET = new ResourceLocation(Tags.MODID, "textures/mortar_target.png");
+    public static final ResourceLocation RADAR = new ResourceLocation(Tags.MODID, "textures/mortar_radar");
+    public static final ResourceLocation CROSS = new ResourceLocation(Tags.MODID, "textures/mortar_cross");
+    public static final ResourceLocation TARGET = new ResourceLocation(Tags.MODID, "textures/mortar_target");
     private static final int RWR_SIZE = 250;
     private static final int RWR_CENTER_X = 150;
     private static final int RWR_CENTER_Y = 280;
