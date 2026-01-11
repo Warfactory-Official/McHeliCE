@@ -5128,6 +5128,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             this.extraBoundingBox = this.createExtraBoundingBox();
             this.partEntities = this.createParts();
             this.stepHeight = info.stepHeight;
+            this.setInventorySize((short) info.inventorySize);
         }
     }
 
@@ -5612,9 +5613,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     @Override
-    public String getInvName() {
+    public String getName() {
         if (this.getAcInfo() == null) {
-            return super.getInvName();
+            return super.getName();
         } else {
             String s = this.getAcInfo().displayName;
             return s.length() <= 32 ? s : s.substring(0, 31);
@@ -5622,7 +5623,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     @Override
-    public boolean isInvNameLocalized() {
+    public boolean hasCustomName() {
         return this.getAcInfo() != null;
     }
 

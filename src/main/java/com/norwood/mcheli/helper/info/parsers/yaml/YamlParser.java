@@ -734,9 +734,7 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "GunnerMode" -> info.isEnableGunnerMode = ((Boolean) entry.getValue()).booleanValue();
-                case "InventorySize" -> info.inventorySize = getClamped(54, entry.getValue()); // FIXME: Capped due to
-                // inventory code being
-                // fucking ass
+                case "InventorySize" -> info.inventorySize = getClamped(0,Short.MAX_VALUE, entry.getValue());
                 case "NightVision" -> info.isEnableNightVision = ((Boolean) entry.getValue()).booleanValue();
                 case "EntityRadar" -> info.isEnableEntityRadar = ((Boolean) entry.getValue()).booleanValue();
                 case "CanReverse" -> info.enableBack = ((Boolean) entry.getValue()).booleanValue();

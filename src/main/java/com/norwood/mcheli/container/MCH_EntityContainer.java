@@ -105,8 +105,8 @@ public class MCH_EntityContainer extends W_EntityContainer implements MCH_IEntit
     }
 
     @Override
-    public String getInvName() {
-        return "Container " + super.getInvName();
+    public String getName() {
+        return "Container " + super.getName();
     }
 
     public double getMountedYOffset() {
