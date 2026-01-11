@@ -42,6 +42,8 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:1.18.42", "io.gitlab.hohserg.elegant.networking:annotation-processor:3.14"
 
     implementation "io.gitlab.hohserg.elegant.networking:elegant-networking-1.12:3.14"
+    implementation ("com.cleanroommc:modularui:3.0.8") transitive false
+
     testImplementation("org.assertj:assertj-core:3.25.3")
 
     shadowImplementation("org.yaml:snakeyaml:2.5")
@@ -55,6 +57,7 @@ dependencies {
 
     runtimeOnly rfg.deobf("curse.maven:nofog-296468:2604160")
     runtimeOnly rfg.deobf("curse.maven:xaeros-minimap-263420:6777996")
+    runtimeOnly rfg.deobf("curse.maven:mixin-booter-419286:7049694")
 
     runtimeOnly 'codechicken:codechickenlib:3.2.3.358' transitive false
     runtimeOnly 'gregtech:gregtech:2.8.10-beta' transitive false

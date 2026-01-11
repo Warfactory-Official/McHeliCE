@@ -11,8 +11,11 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.lwjgl.opengl.ARBCopyBuffer.GL_COPY_READ_BUFFER;
+import static org.lwjgl.opengl.ARBCopyBuffer.glCopyBufferSubData;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL31.GL_COPY_WRITE_BUFFER;
 
 public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
@@ -20,6 +23,9 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     private static final int STRIDE = 9 * FLOAT_SIZE;
     static int VERTEX_SIZE = 3;
     List<ModelVBO.VBOBufferData> groups = new ArrayList<>();
+    private int staticVAO = -1;
+    private int staticVBO = -1;
+    private int staticVerts = -1;
 
     public ModelVBO(W_WavefrontObject obj) {
         uploadVBO(obj.groupObjects);
@@ -61,53 +67,9 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             VBOBufferData data = new VBOBufferData();
             data.name = g.name;
 
-            List<Float> vertexData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
-            List<Float> uvwData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
-            List<Float> normalData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
-
-            for (W_Face face : g.faces) {
-                for (int i = 0; i < face.vertices.length; i++) {
-                    W_Vertex vert = face.vertices[i];
-                    W_TextureCoordinate tex = new W_TextureCoordinate(0, 0);
-                    W_Vertex normal = face.vertexNormals != null ?  face.vertexNormals[i] : new W_Vertex(0,0,0);//Oh yeah, sometimes models just miss those... What the fuck
-
-                    if (face.textureCoordinates != null && face.textureCoordinates.length > 0) {
-                        tex = face.textureCoordinates[i];
-                    }
-
-                    data.vertices++;
-                    vertexData.add(vert.x);
-                    vertexData.add(vert.y);
-                    vertexData.add(vert.z);
-
-                    uvwData.add(tex.u);
-                    uvwData.add(tex.v);
-                    uvwData.add(tex.w);
-
-                    normalData.add(normal.x);
-                    normalData.add(normal.y);
-                    normalData.add(normal.z);
-                }
-            }
-            float[] combinedData = new float[data.vertices * 9];
-            int dst = 0;
-            for (int i = 0; i < data.vertices; i++) {
-                combinedData[dst++] = vertexData.get(i * 3);
-                combinedData[dst++] = vertexData.get(i * 3 + 1);
-                combinedData[dst++] = vertexData.get(i * 3 + 2);
-
-                combinedData[dst++] = uvwData.get(i * 3);
-                combinedData[dst++] = uvwData.get(i * 3 + 1);
-                combinedData[dst++] = uvwData.get(i * 3 + 2);
-
-                combinedData[dst++] = normalData.get(i * 3);
-                combinedData[dst++] = normalData.get(i * 3 + 1);
-                combinedData[dst++] = normalData.get(i * 3 + 2);
-            }
-
+            float[] combinedData = prepareGroupData(g, data); // helper method to flatten vertices/uv/normals
             FloatBuffer buffer = BufferUtils.createFloatBuffer(combinedData.length);
-            buffer.put(combinedData);
-            buffer.flip();
+            buffer.put(combinedData).flip();
 
             data.vaoHandle = GL30.glGenVertexArrays();
             data.vboHandle = glGenBuffers();
@@ -117,23 +79,104 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
             GL11.glVertexPointer(3, GL11.GL_FLOAT, STRIDE, 0L);
             glEnableClientState(GL_VERTEX_ARRAY);
-
             GL11.glTexCoordPointer(3, GL11.GL_FLOAT, STRIDE, 3L * Float.BYTES);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
             GL11.glNormalPointer(GL11.GL_FLOAT, STRIDE, 6L * Float.BYTES);
             glEnableClientState(GL_NORMAL_ARRAY);
 
             GL30.glBindVertexArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
+
             groups.add(data);
         }
+
+
     }
 
-    public void delete(){
+    public void uploadStatic() {
+        staticVerts = groups.stream().mapToInt(g -> g.vertices).sum();
+
+
+
+        staticVAO = GL30.glGenVertexArrays();
+        staticVBO = glGenBuffers();
+        GL30.glBindVertexArray(staticVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, staticVBO);
+        glBufferData(GL_ARRAY_BUFFER, (long) staticVerts * 9 * FLOAT_SIZE, GL_STATIC_DRAW);
+
+        GL11.glVertexPointer(3, GL11.GL_FLOAT, STRIDE, 0L);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        GL11.glTexCoordPointer(3, GL11.GL_FLOAT, STRIDE, 3L * Float.BYTES);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        GL11.glNormalPointer(GL11.GL_FLOAT, STRIDE, 6L * Float.BYTES);
+        glEnableClientState(GL_NORMAL_ARRAY);
+
+        long offset = 0;
+
+        for (VBOBufferData g : groups) {
+            glBindBuffer(GL_COPY_READ_BUFFER, g.vboHandle);  // Source
+            glBindBuffer(GL_COPY_WRITE_BUFFER, staticVBO);   // Destination
+
+            long size = g.vertices * 9L * Float.BYTES;
+            glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, offset, size);
+
+            offset += size;
+        }
+
+        GL30.glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_COPY_READ_BUFFER, 0);
+        glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
+
+
+    }
+
+    private float[] prepareGroupData(GroupObject g, VBOBufferData data) {
+        List<Float> vertexData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
+        List<Float> uvwData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
+        List<Float> normalData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
+
+        for (W_Face face : g.faces) {
+            for (int i = 0; i < face.vertices.length; i++) {
+                W_Vertex vert = face.vertices[i];
+                W_TextureCoordinate tex = (face.textureCoordinates != null && face.textureCoordinates.length > 0)
+                        ? face.textureCoordinates[i]
+                        : new W_TextureCoordinate(0, 0);
+                W_Vertex normal = (face.vertexNormals != null) ? face.vertexNormals[i] : new W_Vertex(0, 0, 0);
+
+                data.vertices++;
+                vertexData.add(vert.x);
+                vertexData.add(vert.y);
+                vertexData.add(vert.z);
+                uvwData.add(tex.u);
+                uvwData.add(tex.v);
+                uvwData.add(tex.w);
+                normalData.add(normal.x);
+                normalData.add(normal.y);
+                normalData.add(normal.z);
+            }
+        }
+
+        float[] combinedData = new float[data.vertices * 9];
+        int dst = 0;
+        for (int i = 0; i < data.vertices; i++) {
+            combinedData[dst++] = vertexData.get(i * 3);
+            combinedData[dst++] = vertexData.get(i * 3 + 1);
+            combinedData[dst++] = vertexData.get(i * 3 + 2);
+            combinedData[dst++] = uvwData.get(i * 3);
+            combinedData[dst++] = uvwData.get(i * 3 + 1);
+            combinedData[dst++] = uvwData.get(i * 3 + 2);
+            combinedData[dst++] = normalData.get(i * 3);
+            combinedData[dst++] = normalData.get(i * 3 + 1);
+            combinedData[dst++] = normalData.get(i * 3 + 2);
+        }
+        return combinedData;
+    }
+
+    public void delete() {
         var vaoIDBuffer = BufferUtils.createIntBuffer(groups.size());
         var vboIDBuffer = BufferUtils.createIntBuffer(groups.size());
-        for(VBOBufferData data : groups){
+        for (VBOBufferData data : groups) {
             vaoIDBuffer.put(data.vaoHandle);
             vboIDBuffer.put(data.vboHandle);
         }
@@ -171,6 +214,14 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
                 }
             }
         }
+    }
+
+    public void renderStatic() {
+        if (staticVAO == -1)
+            uploadStatic();
+        GL30.glBindVertexArray(this.staticVAO);
+        GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, staticVerts);
+        GL30.glBindVertexArray(0);
     }
 
     @Override
@@ -214,10 +265,12 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     }
 
     @Override
-    public void renderAll(int var1, int var2) {}
+    public void renderAll(int var1, int var2) {
+    }
 
     @Override
-    public void renderAllLine(int var1, int var2) {}
+    public void renderAllLine(int var1, int var2) {
+    }
 
     @Override
     public int getVertexNum() {

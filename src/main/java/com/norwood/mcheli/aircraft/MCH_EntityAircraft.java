@@ -1,8 +1,14 @@
 package com.norwood.mcheli.aircraft;
 
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.command.MCH_Command;
+import com.norwood.mcheli.factories.AircraftGuiData;
+import com.norwood.mcheli.factories.MCHGuiFactories;
 import com.norwood.mcheli.flare.MCH_Flare;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.helper.MCH_Logger;
@@ -74,7 +80,14 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public abstract class MCH_EntityAircraft extends W_EntityContainer implements MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler {
+public abstract class MCH_EntityAircraft extends W_EntityContainer implements
+        MCH_IEntityLockChecker,
+        MCH_IEntityCanRideAircraft,
+        IEntityAdditionalSpawnData,
+        IEntitySinglePassenger,
+        ITargetMarkerObject,
+        IFluidHandler,
+        IGuiHolder<AircraftGuiData> {
 
 
     protected static final DataParameter<Integer> PART_STAT = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
@@ -590,8 +603,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     public void openGui(EntityPlayer player) {
-        if (!this.world.isRemote) {
-            player.openGui(MCH_MOD.instance, 1, this.world, (int) this.posX, (int) this.posY, (int) this.posZ);
+        if (!this.world.isRemote && getAcInfo() != null) {
+            MCHGuiFactories.aircraft().open(player, this);
         }
     }
 
@@ -5733,6 +5746,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
         return new FluidStack(resource.getFluid(), drained);
     }
+
+    public ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings){
+       return AircraftGui.buildUI(data, syncManager, settings);
+    };
 
     @Nullable
     public FluidStack drain(int maxDrain, boolean doDrain) {

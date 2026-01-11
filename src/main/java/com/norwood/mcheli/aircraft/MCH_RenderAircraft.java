@@ -16,6 +16,7 @@ import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.*;
+import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -858,6 +859,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 this.restoreCommonRenderParam();
             }
 
+            GlStateManager.translate(0, 10, 0);
             GlStateManager.popMatrix();
             MCH_GuiTargetMarker.addMarkEntityPos(1, entity, posX, posY + info.markerHeight, posZ);
             MCH_ClientLightWeaponTickHandler.markEntity(entity, posX, posY, posZ);

@@ -10,6 +10,7 @@ import com.norwood.mcheli.compat.ModCompatManager;
 import com.norwood.mcheli.compat.oneprobe.AircraftInfoProvider;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_ItemContainer;
+import com.norwood.mcheli.factories.MCHGuiFactories;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
 import com.norwood.mcheli.gltd.MCH_ItemGLTD;
@@ -327,6 +328,7 @@ public class MCH_MOD {
         proxy.loadConfig("config/mcheli.cfg");
         config = proxy.config;
         MCH_Fluids.register();
+        MCHGuiFactories.init();
         ContentRegistries.loadContents(addonDir);
         MCH_Logger.log("Register item");
         this.registerItemSpawnGunner();
