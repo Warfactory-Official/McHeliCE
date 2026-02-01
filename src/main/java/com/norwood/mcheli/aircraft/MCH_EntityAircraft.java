@@ -68,10 +68,7 @@ import net.minecraft.world.border.WorldBorder;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.FluidTankProperties;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.capability.*;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -80,14 +77,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public abstract class MCH_EntityAircraft extends W_EntityContainer implements
-        MCH_IEntityLockChecker,
-        MCH_IEntityCanRideAircraft,
-        IEntityAdditionalSpawnData,
-        IEntitySinglePassenger,
-        ITargetMarkerObject,
-        IFluidHandler,
-        IGuiHolder<AircraftGuiData> {
+public abstract class MCH_EntityAircraft extends W_EntityContainer implements MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler, IGuiHolder<AircraftGuiData> {
 
 
     protected static final DataParameter<Integer> PART_STAT = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
@@ -2400,8 +2390,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements
         if (!name.isBlank() && FluidRegistry.getFluid(name) == null) {
             MCH_Logger.warn("Set fluid: {} does not exist, make sure required fluids do exist. Fluid will be set to default", name);
             this.dataManager.set(FUEL_FF, "mch_fuel");
-        } else
-            this.dataManager.set(FUEL_FF, name);
+        } else this.dataManager.set(FUEL_FF, name);
     }
 
     public float getFuelPercentage() {
@@ -2466,46 +2455,61 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements
             }
         }
 
-        // Auto-supply fuel from inventory every 10 ticks
         int currentFuel = getFuel();
-        if (canSupply() && getCountOnUpdate() % 10 == 0 && currentFuel < getMaxFuel()) {
+        int maxFuel = getMaxFuel();
 
-            for (int slotIndex = 0; slotIndex < 3 && currentFuel < getMaxFuel(); slotIndex++) {
-                int fuelNeeded = getMaxFuel() - currentFuel;
-                ItemStack fuelStack = getGuiInventory().getFuelSlotItemStack(slotIndex);
-                if (fuelNeeded <= 0 || fuelStack.isEmpty()) continue;
-                var capability = fuelStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-                if (capability == null || capability.getTankProperties() == null)
-                    continue;
-                IFluidTankProperties prop = Arrays.stream(capability.getTankProperties())
-                        .filter(p -> p.canDrain()
-                                && p.getContents() != null
-                                && acInfo.isFuelValid(p.getContents()))
-                        .findFirst()
-                        .orElse(null);
+        if (canSupply() && getCountOnUpdate() % 10 == 0 && currentFuel < maxFuel) {
 
-                if (prop == null) continue;
+            MCH_AircraftInventory inventory = getGuiInventory();
+            var acInfo = getAcInfo();
+            if (acInfo == null) return;
 
-                var fluid = getFuelFluid();
-                if (fluid == null)
-                    fluid = Objects.requireNonNull(prop.getContents()).getFluid();
+            ItemStack inputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_IN);
+            if (inputStack.isEmpty()) return;
 
+            IFluidHandlerItem handler = inputStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+            if (handler == null) return;
 
-                FluidStack requested = new FluidStack(fluid, fuelNeeded);
-                var drainAttempt = capability.drain(requested, false);
-                int drained = drainAttempt != null ? drainAttempt.amount : 0;
+            IFluidTankProperties tank = Arrays.stream(handler.getTankProperties()).filter(p -> p.canDrain()
+                    && p.getContents() != null
+                    && acInfo.isFuelValid(p.getContents())).findFirst().orElse(null);
 
-                if (drained > 0) {
-                    FluidStack actuallyDrained = capability.drain(new FluidStack(fluid, drained), true);
-                    getGuiInventory().getItemHandler().setStackInSlot(
-                            slotIndex,
-                            capability.getContainer()
-                    );
-                    assert actuallyDrained != null; // Very likely safe since I just tried draining it
-                    currentFuel += actuallyDrained.amount;
+            if (tank == null) return;
 
-                }
+            int fuelNeeded = maxFuel - currentFuel;
+            if (fuelNeeded <= 0) return;
+
+            Fluid fluid = getFuelFluid();
+            if (fluid == null) {
+                fluid = tank.getContents().getFluid();
             }
+
+            FluidStack simulated = handler.drain(new FluidStack(fluid, fuelNeeded), false);
+            if (simulated == null || simulated.amount <= 0) return;
+
+            FluidStack drained = handler.drain(simulated, true);
+            if (drained == null || drained.amount <= 0) return;
+
+            ItemStack emptyContainer = handler.getContainer();
+            ItemStack outputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_OUT);
+
+            if (outputStack.isEmpty()) {
+                inventory.getItemHandler().setStackInSlot(MCH_AircraftInventory.SLOT_FUEL_OUT, emptyContainer.copy());
+            } else if (ItemStack.areItemsEqual(outputStack, emptyContainer)
+                    && ItemStack.areItemStackTagsEqual(outputStack, emptyContainer)
+                    && outputStack.getCount() < outputStack.getMaxStackSize()) {
+
+                outputStack.grow(emptyContainer.getCount());
+            } else {
+                return;
+            }
+
+            inputStack.shrink(1);
+            if (inputStack.getCount() <= 0) {
+                inventory.getItemHandler().setStackInSlot(MCH_AircraftInventory.SLOT_FUEL_IN, ItemStack.EMPTY);
+            }
+
+            currentFuel += drained.amount;
             setFuel(currentFuel);
         }
 
@@ -5747,9 +5751,11 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements
         return new FluidStack(resource.getFluid(), drained);
     }
 
-    public ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings){
-       return AircraftGui.buildUI(data, syncManager, settings);
-    };
+    public ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings) {
+        return AircraftGui.buildUI(data, syncManager, settings, this);
+    }
+
+    ;
 
     @Nullable
     public FluidStack drain(int maxDrain, boolean doDrain) {

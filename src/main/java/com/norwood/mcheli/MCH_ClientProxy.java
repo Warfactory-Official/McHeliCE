@@ -666,6 +666,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         m.registerSprite(HudMortarRadar.CROSS);
         m.registerSprite(HudMortarRadar.RADAR);
         m.registerSprite(HudMortarRadar.TARGET);
+        m.registerSprite(WidgetGauge.GAUGE);
         GLStateManagerExt.pollSize(); //Should be fine...?
     }
 

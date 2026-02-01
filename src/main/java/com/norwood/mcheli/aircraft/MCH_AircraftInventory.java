@@ -10,9 +10,9 @@ import java.util.Random;
 
 public class MCH_AircraftInventory {
 
-    public static final int SLOT_FUEL0 = 0;
-    public static final int SLOT_FUEL1 = 1;
-    public static final int SLOT_FUEL2 = 2;
+    public static final int SLOT_FUEL_IN = 0;
+    public static final int SLOT_FUEL_OUT = 1;
+
     public static final int SLOT_PARACHUTE0 = 3;
     public static final int SLOT_PARACHUTE1 = 4;
 
@@ -41,7 +41,7 @@ public class MCH_AircraftInventory {
     }
 
     public ItemStack getParachuteSlotItemStack(int index) {
-        return items.getStackInSlot(3 + index);
+        return items.getStackInSlot(2 + index);
     }
 
     public void setParachuteSlotItemStack(int index, ItemStack stack) {
