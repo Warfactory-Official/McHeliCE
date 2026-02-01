@@ -1,26 +1,21 @@
 package com.norwood.mcheli.aircraft;
 
-import com.cleanroommc.modularui.api.drawable.IDrawable;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
-import com.cleanroommc.modularui.drawable.UITexture;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.value.IntValue;
+import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.value.sync.FloatSyncValue;
-import com.cleanroommc.modularui.value.sync.IntSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
-import com.cleanroommc.modularui.widget.Widget;
 import com.cleanroommc.modularui.widgets.SlotGroupWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
-import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -32,8 +27,6 @@ public class AircraftGui {
     public static final int C_WIDTH = 410;
     public static final int C_HEIGHT = 300;
     public static final int SLOT_SIZE = 18;
-
-
 
 
     public static Predicate<ItemStack> fuelPredicate(MCH_AircraftInfo info) {
@@ -65,11 +58,44 @@ public class AircraftGui {
         var aircraftGuiInv = aircraft.getGuiInventory().getItemHandler();
 
 
-        var fuelSlots = new Row()
-                .size(C_WIDTH - 10, 200)
-                .child(WidgetGauge.make().value(new FloatSyncValue(aircraft::getFuelPercentage)).size(101, 55))
-                .child(new ItemSlot().right(0).slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_FUEL_IN).filter(fuelPredicate(aircraft.getAcInfo()))))
-                .child(new ItemSlot().right(SLOT_SIZE).slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_FUEL_OUT).filter(_ -> false)));
+        var slotRow = new Row()
+                .size(SLOT_SIZE * 2 + 20, SLOT_SIZE)
+                .margin(5)
+                .child(new ItemSlot()
+                        .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_FUEL_IN)
+                                .filter(fuelPredicate(aircraft.getAcInfo()))))
+                .child(new ItemSlot()
+                        .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_FUEL_OUT)
+                                .filter(_ -> false)
+
+                        ).alignX(Alignment.CenterRight));
+
+        var gauge = WidgetGauge.make()
+                .value(new FloatSyncValue(aircraft::getFuelPercentage))
+                .size(101, 55);
+
+        var fuelMb = IKey.dynamic(() -> Integer.toString(aircraft.getFuel()))
+                .asWidget()
+                .padding(6, 2)
+                .width(SLOT_SIZE*2+20)
+                .alignX(Alignment.Center)
+                .color(() -> {
+                    var fuelPercent = aircraft.getFuelPercentage();
+                    if(fuelPercent >= 1.0f) return 0xFFB2FF59;
+                    if(fuelPercent <= 0.0f) return 0xFFFF5252;
+                    return 0xFFFFFFFF;
+                })
+                .background(GuiTextures.MENU_BACKGROUND.withColorOverride(0xFF000000));
+
+
+        var fuelSlots = new Column()
+                .padding(5)
+                .margin(5)
+                .align(Alignment.Center)
+                .child(gauge)
+                .child(fuelMb)
+                .child(slotRow)
+                .coverChildren();
 
         var inventory = new ParentWidget<>().name("inventory_wrapper")
                 .child(
@@ -83,9 +109,6 @@ public class AircraftGui {
                 .child(
                         new Column()
                                 .size(C_WIDTH - 10, 200)
-                                .child(
-                                        IKey.dynamic(() -> Integer.toString(aircraft.getFuel())).asWidget()
-                                )
                                 .child(fuelSlots)
                 )
                 .coverChildren()

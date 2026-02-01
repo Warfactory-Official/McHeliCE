@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class WidgetGauge extends Widget<WidgetGauge> {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public final static ResourceLocation GAUGE = new ResourceLocation(Tags.MODID, "gui/uigauge");
     private static float[] PUV = uvFromPx(220, 9, 252, 114, 256, 256);
     public static final UITexture POINTER = new UITexture(new ResourceLocation(Tags.MODID, "gui/uigauge.png"), PUV[0], PUV[1], PUV[2], PUV[3], null);
