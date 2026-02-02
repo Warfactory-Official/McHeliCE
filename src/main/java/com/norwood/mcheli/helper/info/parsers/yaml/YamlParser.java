@@ -1,6 +1,5 @@
 package com.norwood.mcheli.helper.info.parsers.yaml;
 
-import com.google.common.collect.ImmutableMap;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.RWRType;
 import com.norwood.mcheli.RadarType;
@@ -381,10 +380,16 @@ public class YamlParser implements IParser {
                 case "Invulnerable" -> info.invulnerable = (Boolean) entry.getValue();
                 case "MaxFuel" -> info.maxFuel = getClamped(100_000_000, entry.getValue());
                 case "FuelType" -> {
-                    if (entry.getValue() instanceof String fluid) info.setFluidType(ImmutableMap.of(fluid, 1f));
-                    else if (entry.getValue() instanceof Map<?, ?> fluidMap) info.setFluidType(ImmutableMap.copyOf(
-                            (Map<String, Float>) fluidMap
-                    ));
+                    if (entry.getValue() instanceof String fluid) info.setFluidType(Map.of(fluid, 1f));
+                    else if (entry.getValue() instanceof Map<?, ?> fluidMap) {
+                        TreeMap<String,Float> map = new TreeMap<>();
+                        for( var ent : fluidMap.entrySet()){
+                            var entrCast = (Map.Entry<String,Number>) ent;
+                            map.put(entrCast.getKey(), entrCast.getValue().floatValue());
+
+                        }
+                        info.setFluidType(map);
+                    }
                     else
                         throw new IllegalArgumentException("FluidType  must be either a String or Map, got: " + entry.getValue().getClass());
                 }
@@ -734,7 +739,7 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "GunnerMode" -> info.isEnableGunnerMode = ((Boolean) entry.getValue()).booleanValue();
-                case "InventorySize" -> info.inventorySize = getClamped(0,Short.MAX_VALUE, entry.getValue());
+                case "InventorySize" -> info.inventorySize = getClamped(0, Short.MAX_VALUE, entry.getValue());
                 case "NightVision" -> info.isEnableNightVision = ((Boolean) entry.getValue()).booleanValue();
                 case "EntityRadar" -> info.isEnableEntityRadar = ((Boolean) entry.getValue()).booleanValue();
                 case "CanReverse" -> info.enableBack = ((Boolean) entry.getValue()).booleanValue();

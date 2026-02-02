@@ -1,6 +1,5 @@
 package com.norwood.mcheli.aircraft;
 
-import com.google.common.collect.ImmutableMap;
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.RWRType;
 import com.norwood.mcheli.RadarType;
@@ -20,14 +19,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemContent {
 
@@ -246,11 +243,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float oneProbeScale = 1F;
     @Setter
     @Getter
-    protected ImmutableMap<String, Float> fluidType = ImmutableMap.of("mch_fuel", 1F); //TODO:Replace with unboxed variant
+    protected Map<String, Float> fluidType = Map.of("mch_fuel",1f);
     private String lastWeaponType = "";
     private int lastWeaponIndex = -1;
     private MCH_AircraftInfo.PartWeapon lastWeaponPart = null;
     private List<DirectDrawable> hudCache = null;
+
     public MCH_AircraftInfo(AddonResourceLocation location, String path) {
         super(location, path);
         this.name = location == null ? "IAMTEST" : location.getPath();
@@ -267,12 +265,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
 
     public boolean isFuelValid(@Nullable FluidStack fluid) {
-        if(fluid == null) return false;
+        if (fluid == null) return false;
         return fluidType.containsKey(fluid.getFluid().getName());
     }
 
     public float getFuelConsumption(String fluidName) {
-        return fluidType.getOrDefault(fluidName, 0f);
+        return fluidType.getOrDefault(fluidName, 1f);
     }
 
     public List<DirectDrawable> getHudCache() {
@@ -809,39 +807,39 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     public record CameraPosition(Vec3d pos, boolean fixRot, float yaw, float pitch) {
 
-            public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d vec3, boolean fixRot, float yaw,
-                                  float pitch) {
-                // offset when it comes to mcheli rendering, this is
-                // temporary so for when I figure out where it belongs
-                // FIXME Seems like basically everthing needs a 0.35
-                this(vec3.add(0, W_Entity.GLOBAL_Y_OFFSET, 0), fixRot, yaw, pitch);
-            }
-
-            public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d vec3) {
-                this(paramMCH_AircraftInfo, vec3, false, 0.0F, 0.0F);
-            }
-
-            public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo) {
-                this(paramMCH_AircraftInfo, new Vec3d(0.0, 0.0, 0.0));
-            }
-
-            public CameraPosition(Vec3d pos, boolean fixRot, float yaw, float pitch) {
-                this.pos = pos.add(0, W_Entity.GLOBAL_Y_OFFSET, 0);
-                this.fixRot = fixRot;
-                this.yaw = yaw;
-                this.pitch = pitch;
-            }
-
-            @Override
-            public String toString() {
-                return "CameraPosition{" +
-                        "pos=" + pos +
-                        ", fixRot=" + fixRot +
-                        ", yaw=" + yaw +
-                        ", pitch=" + pitch +
-                        '}';
-            }
+        public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d vec3, boolean fixRot, float yaw,
+                              float pitch) {
+            // offset when it comes to mcheli rendering, this is
+            // temporary so for when I figure out where it belongs
+            // FIXME Seems like basically everthing needs a 0.35
+            this(vec3.add(0, W_Entity.GLOBAL_Y_OFFSET, 0), fixRot, yaw, pitch);
         }
+
+        public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d vec3) {
+            this(paramMCH_AircraftInfo, vec3, false, 0.0F, 0.0F);
+        }
+
+        public CameraPosition(MCH_AircraftInfo paramMCH_AircraftInfo) {
+            this(paramMCH_AircraftInfo, new Vec3d(0.0, 0.0, 0.0));
+        }
+
+        public CameraPosition(Vec3d pos, boolean fixRot, float yaw, float pitch) {
+            this.pos = pos.add(0, W_Entity.GLOBAL_Y_OFFSET, 0);
+            this.fixRot = fixRot;
+            this.yaw = yaw;
+            this.pitch = pitch;
+        }
+
+        @Override
+        public String toString() {
+            return "CameraPosition{" +
+                    "pos=" + pos +
+                    ", fixRot=" + fixRot +
+                    ", yaw=" + yaw +
+                    ", pitch=" + pitch +
+                    '}';
+        }
+    }
 
     public static class Canopy extends MCH_AircraftInfo.DrawnPart {
 
@@ -984,7 +982,6 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
         public Vec3d pos = new Vec3d(0.0, 0.0, 0.0);
         public int[] types = new int[0];
-
 
 
         @Override
@@ -1267,57 +1264,57 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
     }
 
-        public record ParticleSplash(int num, float acceleration, float size, Vec3d pos, int age, float motionY,
-                                     float gravity) {
+    public record ParticleSplash(int num, float acceleration, float size, Vec3d pos, int age, float motionY,
+                                 float gravity) {
 
-            public ParticleSplash(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d v, int nm, float siz, float acc, int ag,
-                                  float my, float gr) {
-                this(nm, acc, siz, v, ag, my, gr);
-            }
-
-            @Override
-            public String toString() {
-                return "ParticleSplash{" +
-                        "num=" + num +
-                        ", acceleration=" + acceleration +
-                        ", size=" + size +
-                        ", pos=" + pos +
-                        ", age=" + age +
-                        ", motionY=" + motionY +
-                        ", gravity=" + gravity +
-                        '}';
-            }
+        public ParticleSplash(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d v, int nm, float siz, float acc, int ag,
+                              float my, float gr) {
+            this(nm, acc, siz, v, ag, my, gr);
         }
 
-        public record RepellingHook(Vec3d pos, int interval) {
+        @Override
+        public String toString() {
+            return "ParticleSplash{" +
+                    "num=" + num +
+                    ", acceleration=" + acceleration +
+                    ", size=" + size +
+                    ", pos=" + pos +
+                    ", age=" + age +
+                    ", motionY=" + motionY +
+                    ", gravity=" + gravity +
+                    '}';
+        }
+    }
 
-            public RepellingHook(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d pos, int inv) {
-                this(pos, inv);
-            }
+    public record RepellingHook(Vec3d pos, int interval) {
 
-            @Override
-            public String toString() {
-                return "RepellingHook{" +
-                        "pos=" + pos +
-                        ", interval=" + interval +
-                        '}';
-            }
+        public RepellingHook(MCH_AircraftInfo paramMCH_AircraftInfo, Vec3d pos, int inv) {
+            this(pos, inv);
         }
 
-        public record RideRack(String name, int rackID) {
-
-            public RideRack(MCH_AircraftInfo paramMCH_AircraftInfo, String n, int id) {
-                this(n, id);
-            }
-
-            @Override
-            public String toString() {
-                return "RideRack{" +
-                        "name='" + name + '\'' +
-                        ", rackID=" + rackID +
-                        '}';
-            }
+        @Override
+        public String toString() {
+            return "RepellingHook{" +
+                    "pos=" + pos +
+                    ", interval=" + interval +
+                    '}';
         }
+    }
+
+    public record RideRack(String name, int rackID) {
+
+        public RideRack(MCH_AircraftInfo paramMCH_AircraftInfo, String n, int id) {
+            this(n, id);
+        }
+
+        @Override
+        public String toString() {
+            return "RideRack{" +
+                    "name='" + name + '\'' +
+                    ", rackID=" + rackID +
+                    '}';
+        }
+    }
 
     public static class RotPart extends MCH_AircraftInfo.DrawnPart {
 
@@ -1639,15 +1636,15 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public record Wheel(Vec3d pos, float size) {
 
         public Wheel(Vec3d v) {
-                this(v, 1.0F);
-            }
-
-            @Override
-            public String toString() {
-                return "Wheel{" +
-                        "pos=" + pos +
-                        ", size=" + size +
-                        '}';
-            }
+            this(v, 1.0F);
         }
+
+        @Override
+        public String toString() {
+            return "Wheel{" +
+                    "pos=" + pos +
+                    ", size=" + size +
+                    '}';
+        }
+    }
 }

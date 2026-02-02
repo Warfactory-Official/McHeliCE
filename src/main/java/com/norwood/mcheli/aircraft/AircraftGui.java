@@ -3,8 +3,10 @@ package com.norwood.mcheli.aircraft;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.RichTooltip;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
+import com.cleanroommc.modularui.utils.Color;
 import com.cleanroommc.modularui.value.sync.FloatSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
@@ -18,11 +20,15 @@ import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
+import mezz.jei.plugins.vanilla.furnace.FuelRecipe;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class AircraftGui {
@@ -73,8 +79,36 @@ public class AircraftGui {
 
                         ).alignX(Alignment.CenterRight));
 
+        Consumer<RichTooltip> tooltipConsumer = tooltip -> {
+            tooltip
+                    .addLine(IKey.str("Fuel").color(Color.GREEN_ACCENT.main))
+                    .addLine(IKey.dynamic(() -> String.format("Current fuel: %s", aircraft.getFuel() > 0 && aircraft.getFuelFluid() != null && FluidRegistry.isFluidRegistered(aircraft.getFuelType()) ? new FluidStack(aircraft.getFuelFluid(), 1).getLocalizedName() : "Empty")))
+                    .addLine(IKey.dynamic(() -> String.format("%d / %d", aircraft.getFuel(), aircraft.getMaxFuel())))
+                    .addLine("Accepted Fuels and consumption factor:");
+
+            data.getInfo().getFluidType().forEach((String fuel, Object effObj) ->
+                    {
+                        float eff = ((Number) effObj).floatValue(); //Some guava bullshit
+                        if (!FluidRegistry.isFluidRegistered(fuel)) return;
+                        tooltip.addLine(IKey.str("– %s : %.2f", new FluidStack(FluidRegistry.getFluid(fuel), 1).getLocalizedName(), eff)
+                                .color(() -> {
+                                    if (eff < 0.5)
+                                        return Color.CYAN.main;
+                                    if (eff < 1)
+                                        return Color.LIGHT_GREEN.main;
+                                    if (eff > 1)
+                                        return Color.YELLOW.main;
+                                    if (eff > 1.5)
+                                        return Color.RED.main;
+                                    return Color.WHITE.main;
+                                }));
+                    }
+            );
+
+        };
+
         var gauge = WidgetGauge.make(0.4f)
-                .value(new FloatSyncValue(aircraft::getFuelPercentage)).marginBottom(2);
+                .value(new FloatSyncValue(aircraft::getFuelPercentage)).marginBottom(2).tooltip(tooltipConsumer);
 
         var fuelMb = IKey.dynamic(() ->
                         String.format("%d mB", aircraft.getFuel())
@@ -83,6 +117,7 @@ public class AircraftGui {
                 .padding(6, 2)
                 .width(SLOT_SIZE * 2 + 20)
                 .alignX(Alignment.Center)
+                .tooltip(tooltipConsumer)
                 .color(() -> {
                     var fuelPercent = aircraft.getFuelPercentage();
                     if (fuelPercent >= 1.0f) return 0xFFB2FF59;
