@@ -8,14 +8,17 @@ import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.value.sync.FloatSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
+import com.cleanroommc.modularui.widget.scroll.VerticalScrollData;
+import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.SlotGroupWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
+import com.cleanroommc.modularui.widgets.layout.Grid;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.norwood.mcheli.factories.AircraftGuiData;
+import com.norwood.mcheli.networking.packet.PacketOpenScreen;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -70,51 +73,77 @@ public class AircraftGui {
 
                         ).alignX(Alignment.CenterRight));
 
-        var gauge = WidgetGauge.make()
-                .value(new FloatSyncValue(aircraft::getFuelPercentage))
-                .size(101, 55);
+        var gauge = WidgetGauge.make(0.4f)
+                .value(new FloatSyncValue(aircraft::getFuelPercentage)).marginBottom(2);
 
-        var fuelMb = IKey.dynamic(() -> Integer.toString(aircraft.getFuel()))
+        var fuelMb = IKey.dynamic(() ->
+                        String.format("%d mB", aircraft.getFuel())
+                )
                 .asWidget()
                 .padding(6, 2)
-                .width(SLOT_SIZE*2+20)
+                .width(SLOT_SIZE * 2 + 20)
                 .alignX(Alignment.Center)
                 .color(() -> {
                     var fuelPercent = aircraft.getFuelPercentage();
-                    if(fuelPercent >= 1.0f) return 0xFFB2FF59;
-                    if(fuelPercent <= 0.0f) return 0xFFFF5252;
+                    if (fuelPercent >= 1.0f) return 0xFFB2FF59;
+                    if (fuelPercent <= 0.0f) return 0xFFFF5252;
                     return 0xFFFFFFFF;
                 })
                 .background(GuiTextures.MENU_BACKGROUND.withColorOverride(0xFF000000));
 
+        var grid = new Column().name("trunk")
+                .margin(2)
+                .padding(2)
+                .child(IKey.str("Storage (%d)", aircraftInvHander.getSlots()).asWidget().alignX(Alignment.BottomLeft))
+                .child(new Grid()
+                        .margin(2)
+                        .mapTo(8, aircraftInvHander.getSlots(), (slot) ->
+                                new ItemSlot()
+                                        .slot(new ModularSlot(aircraftInvHander, slot))
+                                        .size(SLOT_SIZE)
+                        )
+                        .size(18 * 8 + 5, 18 * 5)
+                        .scrollable(new VerticalScrollData())
+                ).coverChildren().margin(2);
+
 
         var fuelSlots = new Column()
-                .padding(5)
-                .margin(5)
-                .align(Alignment.Center)
+                .align(Alignment.TopRight)
                 .child(gauge)
                 .child(fuelMb)
                 .child(slotRow)
                 .coverChildren();
 
-        var inventory = new ParentWidget<>().name("inventory_wrapper")
-                .child(
-                        SlotGroupWidget.playerInventory(false)
-                )
-                .coverChildren()
-                .padding(5)
-                .background(GuiTextures.MC_BACKGROUND);
+        var settingsButton = new ButtonWidget<>().onMouseTapped(
+                        _ -> {
+                            PacketOpenScreen.send(2);
+                            return false;
+                        }
+                ).background(GuiTextures.MC_BUTTON)
+                .overlay(GuiTextures.GEAR)
+                .size(18);
+
+        var inventory = new Row().invisible().child(
+                        new ParentWidget<>().name("inventory_wrapper")
+                                .child(
+                                        SlotGroupWidget.playerInventory(false)
+                                )
+                                .coverChildren()
+                                .padding(5)
+                                .background(GuiTextures.MC_BACKGROUND)
+                ).child(settingsButton.top(0))
+                .coverChildren();
 
         var vehicleGui = new ParentWidget<>().name("vehicle_gui")
                 .child(
-                        new Column()
+                        new ParentWidget<>()
                                 .size(C_WIDTH - 10, 200)
-                                .child(fuelSlots)
+                                .child(fuelSlots.relativeToParent().align(Alignment.TopRight))
+                                .child(grid.relativeToParent().align(Alignment.BottomRight))
                 )
                 .coverChildren()
                 .padding(5)
                 .background(GuiTextures.MC_BACKGROUND);
-
 
         return new ModularPanel("container")
                 .size(C_WIDTH, C_HEIGHT)

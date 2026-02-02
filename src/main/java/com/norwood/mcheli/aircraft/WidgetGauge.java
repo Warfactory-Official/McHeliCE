@@ -15,11 +15,20 @@ import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class WidgetGauge extends Widget<WidgetGauge> {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public final static ResourceLocation GAUGE = new ResourceLocation(Tags.MODID, "gui/uigauge");
     private static float[] PUV = uvFromPx(220, 9, 252, 114, 256, 256);
+    private static float[] BG = uvFromPx(0, 8, 211, 118, 256, 256);
     public static final UITexture POINTER = new UITexture(new ResourceLocation(Tags.MODID, "gui/uigauge.png"), PUV[0], PUV[1], PUV[2], PUV[3], null);
+
     private final float ABS_ANGLE = 65f;
+    private float scale = 1.0f;
+
+    // Original proportions from your UVs
+    private static final int BASE_BG_W = 211;
+    private static final int BASE_BG_H = 110;
+    private static final int BASE_PTR_W = 32;
+    private static final int BASE_PTR_H = 105; // Calculated from PUV (114-9)
 
     public WidgetGauge() {
     }
@@ -28,8 +37,16 @@ public class WidgetGauge extends Widget<WidgetGauge> {
         return new float[]{x0 / (float) width, y0 / (float) height, x1 / (float) width, y1 / (float) height};
     }
 
-    public static WidgetGauge make() {
-        return new WidgetGauge().background(new UITexture(GAUGE, 0.03125f, 0.03125f, 0.82422f, 0.46094f, null));
+    public static WidgetGauge make(float scale) {
+        return new WidgetGauge()
+                .setScale(scale)
+                .background(new UITexture(GAUGE, BG[0], BG[1], BG[2], BG[3], null))
+                .size((int)(BASE_BG_W * scale), (int)(BASE_BG_H * scale));
+    }
+
+    public WidgetGauge setScale(float scale) {
+        this.scale = scale;
+        return this;
     }
 
     public boolean isValidSyncOrValue(@NotNull ISyncOrValue syncOrValue) {
@@ -51,30 +68,29 @@ public class WidgetGauge extends Widget<WidgetGauge> {
         float mapped = (val * 2.0f) - 1.0f;
         float angle = mapped * ABS_ANGLE;
 
-        int w = 17;
-        int h = 51;
-        int pivotFromBottom = 9;
-        int localPivotY = h - pivotFromBottom;
+        float w = BASE_PTR_W * scale + 2;
+        float h = BASE_PTR_H * scale + 1;
+        float pivotFromBottom = (9 * scale) + 2;
+        float localPivotY = h - pivotFromBottom;
 
-        float screenPivotX = 40 + (w / 2f);
-        float screenPivotY = 6 + localPivotY;
+        float screenPivotX = (BASE_BG_W * scale) / 2f;
+        float screenPivotY = (BASE_BG_H * scale) - pivotFromBottom;
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(screenPivotX, screenPivotY, 0);
         GlStateManager.rotate(angle, 0, 0, 1);
 
-        POINTER.draw(-w / 2f, -localPivotY, w, h);
+        POINTER.draw(-w / 2f, -localPivotY + 2, (int)w, (int)h);
 
         if (DEBUG) {
-            // Debug Point
             GlStateManager.disableTexture2D();
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
-            bufferbuilder.pos(-0.5, -0.5, 0).color(255, 0, 0, 255).endVertex();
-            bufferbuilder.pos(-0.5, 0.5, 0).color(255, 0, 0, 255).endVertex();
-            bufferbuilder.pos(0.5, 0.5, 0).color(255, 0, 0, 255).endVertex();
-            bufferbuilder.pos(0.5, -0.5, 0).color(255, 0, 0, 255).endVertex();
+            bufferbuilder.pos(-1, -1, 0).color(255, 0, 0, 255).endVertex();
+            bufferbuilder.pos(-1, 1, 0).color(255, 0, 0, 255).endVertex();
+            bufferbuilder.pos(1, 1, 0).color(255, 0, 0, 255).endVertex();
+            bufferbuilder.pos(1, -1, 0).color(255, 0, 0, 255).endVertex();
             tessellator.draw();
             GlStateManager.enableTexture2D();
         }
