@@ -179,6 +179,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     protected double aircraftZ;
     protected double aircraftYaw;
     protected double aircraftPitch;
+    @Getter
     protected MCH_WeaponSet[] weapons;
     protected int[] currentWeaponID;
     protected int useWeaponStat;
@@ -2371,14 +2372,17 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         return new FluidStack(FluidRegistry.getFluid(getFuelType()), getFuel());
     }
 
+    @Nullable
     public Fluid getFuelFluid() {
+        if (getFuel() < 0)
+            return null;
         String fluidName = getFuelType();
 
         var fluid = fluidName.isBlank() ? null : FluidRegistry.getFluid(fluidName);
         if (fluid == null) {
-            MCH_Logger.warn("Retrived fluid: {} does not exist, make sure required fluids do exist. Fluid will be set to default", fluidName);
-            setFuelType("mch_fuel");
+            MCH_Logger.warn("Retrieved fluid: {} does not exist, make sure required fluids do exist.", fluidName);
         }
+
         return fluid;
     }
 
@@ -2391,6 +2395,11 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             MCH_Logger.warn("Set fluid: {} does not exist, make sure required fluids do exist. Fluid will be set to default", name);
             this.dataManager.set(FUEL_FF, "mch_fuel");
         } else this.dataManager.set(FUEL_FF, name);
+    }
+
+    public void setFuelType(Fluid fluid) {
+        if (fluid == null) return;
+        this.dataManager.set(FUEL_FF, fluid.getName());
     }
 
     public float getFuelPercentage() {
@@ -2490,6 +2499,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             FluidStack drained = handler.drain(simulated, true);
             if (drained == null || drained.amount <= 0) return;
 
+            setFuelType(fluid);
             ItemStack emptyContainer = handler.getContainer();
             ItemStack outputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_OUT);
 
@@ -2519,6 +2529,12 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         }
 
 
+    }
+
+    public void dumpFuel() {
+        if(world.isRemote) return;
+        this.dataManager.set(FUEL, 0);
+        this.dataManager.set(FUEL_FF, "");
     }
 
     public float getFuelConsumptionFactor() {

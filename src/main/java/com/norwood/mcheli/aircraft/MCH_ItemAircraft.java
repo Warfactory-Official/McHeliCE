@@ -1,5 +1,6 @@
 package com.norwood.mcheli.aircraft;
 
+import com.cleanroommc.modularui.api.drawable.IKey;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
@@ -24,6 +25,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +40,6 @@ public abstract class MCH_ItemAircraft extends W_Item {
 
     private static final boolean isRegistedDispenseBehavior = false;
 
-    boolean BLOCK = true;
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -49,7 +51,30 @@ public abstract class MCH_ItemAircraft extends W_Item {
         if (info != null && ac != null) {
             tooltip.add(TextFormatting.YELLOW + "Category: " + info.category);
             tooltip.add(Arrays.stream(ac.weapons).map(MCH_WeaponSet::getName).collect(Collectors.joining(", ")));
+
+            tooltip.add(TextFormatting.GRAY + "Health: " + TextFormatting.GREEN + info.maxHp);
+            tooltip.add(TextFormatting.GRAY + "Trunk size: " + TextFormatting.WHITE + info.inventorySize);
+            tooltip.add(TextFormatting.GRAY + "Fuel tank storage: " + TextFormatting.WHITE + info.maxFuel);
+            tooltip.add(TextFormatting.GREEN + "Fuel consumption");
+            info.getFluidType().forEach((fuel, eff) ->
+                    {
+                        TextFormatting color = switch (eff) {
+                            case Float d when d == 1f -> TextFormatting.WHITE;
+                            case Float d when d < 0.5f -> TextFormatting.BLUE;
+                            case Float d when d < 1.0f -> TextFormatting.GREEN;
+                            case Float d when d <= 1.5f -> TextFormatting.YELLOW;
+                            default -> TextFormatting.RED;
+                        };
+
+                        if (!FluidRegistry.isFluidRegistered(fuel)) return;
+                        tooltip.add(String.format("– %s%s : %.2f", color, new FluidStack(FluidRegistry.getFluid(fuel), 1).getLocalizedName(), eff)
+                                );
+
+                    }
+            );
         }
+
+
 
         // handles tooltips for UAVs
         if (ac != null && ac.isUAV()) {

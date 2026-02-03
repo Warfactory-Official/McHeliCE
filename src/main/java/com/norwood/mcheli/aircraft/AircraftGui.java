@@ -1,17 +1,19 @@
 package com.norwood.mcheli.aircraft;
 
+import com.cleanroommc.modularui.api.GuiAxis;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.RichTooltip;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.utils.Alignment;
-import com.cleanroommc.modularui.utils.Color;
 import com.cleanroommc.modularui.value.sync.FloatSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widget.scroll.VerticalScrollData;
 import com.cleanroommc.modularui.widgets.ButtonWidget;
+import com.cleanroommc.modularui.widgets.ListWidget;
+import com.cleanroommc.modularui.widgets.ScrollingTextWidget;
 import com.cleanroommc.modularui.widgets.SlotGroupWidget;
 import com.cleanroommc.modularui.widgets.layout.Column;
 import com.cleanroommc.modularui.widgets.layout.Grid;
@@ -20,14 +22,15 @@ import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
-import mezz.jei.plugins.vanilla.furnace.FuelRecipe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -55,6 +58,7 @@ public class AircraftGui {
                     return true;
                 }
             }
+
             return false;
         };
     }
@@ -65,6 +69,7 @@ public class AircraftGui {
         syncManager.bindPlayerInventory(data.getPlayer());
         var aircraftInvHander = aircraft.getInventory();
         var aircraftGuiInv = aircraft.getGuiInventory().getItemHandler();
+        syncManager.registerServerSyncedAction("dumpFuel", (_) -> aircraft.dumpFuel());
 
 
         var slotRow = new Row()
@@ -73,6 +78,18 @@ public class AircraftGui {
                 .child(new ItemSlot()
                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_FUEL_IN)
                                 .filter(fuelPredicate(aircraft.getAcInfo()))))
+                .child(new ButtonWidget<>().onMouseTapped(_ -> {
+                                    syncManager.callSyncedAction("dumpFuel");
+                                    return true;
+                                }).size(18)
+                                .overlay(GuiTextures.CROSS)
+                                .tooltip(tooltip -> tooltip.addLine("Empty the tank")
+                                        .add(IKey.str("Warning!").style(TextFormatting.RED, TextFormatting.BOLD))
+                                        .add(IKey.str(" The contents of the tank will be lost!").style(TextFormatting.RED)))
+
+
+                                .relativeToParent().center()
+                )
                 .child(new ItemSlot()
                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_FUEL_OUT)
                                 .filter(_ -> false)
@@ -81,27 +98,32 @@ public class AircraftGui {
 
         Consumer<RichTooltip> tooltipConsumer = tooltip -> {
             tooltip
-                    .addLine(IKey.str("Fuel").color(Color.GREEN_ACCENT.main))
-                    .addLine(IKey.dynamic(() -> String.format("Current fuel: %s", aircraft.getFuel() > 0 && aircraft.getFuelFluid() != null && FluidRegistry.isFluidRegistered(aircraft.getFuelType()) ? new FluidStack(aircraft.getFuelFluid(), 1).getLocalizedName() : "Empty")))
-                    .addLine(IKey.dynamic(() -> String.format("%d / %d", aircraft.getFuel(), aircraft.getMaxFuel())))
+                    .addLine(IKey.str("Fuel").style(TextFormatting.GREEN))
+                    .addLine(IKey.dynamic(() -> String.format("Current fuel: %s (%.2f)",
+                            aircraft.getFuel() > 0
+                                    && aircraft.getFuelFluid() != null
+                                    && FluidRegistry.isFluidRegistered(aircraft.getFuelType()) ?
+                                    new FluidStack(aircraft.getFuelFluid(), 1).getLocalizedName()
+                                    : "Empty",
+                            data.getInfo().getFuelConsumption(aircraft.getFuelType())
+                    )))
+                    .addLine(IKey.dynamic(() -> String.format("%d / %dmB", aircraft.getFuel(), aircraft.getMaxFuel())))
                     .addLine("Accepted Fuels and consumption factor:");
 
-            data.getInfo().getFluidType().forEach((String fuel, Object effObj) ->
+            data.getInfo().getFluidType().forEach((fuel, eff) ->
                     {
-                        float eff = ((Number) effObj).floatValue(); //Some guava bullshit
+                        TextFormatting color = switch (eff) {
+                            case Float d when d == 1f -> TextFormatting.WHITE;
+                            case Float d when d < 0.5f -> TextFormatting.BLUE;
+                            case Float d when d < 1.0f -> TextFormatting.GREEN;
+                            case Float d when d <= 1.5f -> TextFormatting.YELLOW;
+                            default -> TextFormatting.RED;
+                        };
+
                         if (!FluidRegistry.isFluidRegistered(fuel)) return;
                         tooltip.addLine(IKey.str("– %s : %.2f", new FluidStack(FluidRegistry.getFluid(fuel), 1).getLocalizedName(), eff)
-                                .color(() -> {
-                                    if (eff < 0.5)
-                                        return Color.CYAN.main;
-                                    if (eff < 1)
-                                        return Color.LIGHT_GREEN.main;
-                                    if (eff > 1)
-                                        return Color.YELLOW.main;
-                                    if (eff > 1.5)
-                                        return Color.RED.main;
-                                    return Color.WHITE.main;
-                                }));
+                                .style(color));
+
                     }
             );
 
@@ -169,12 +191,28 @@ public class AircraftGui {
                 ).child(settingsButton.top(0))
                 .coverChildren();
 
+
+        var weaponList = new ListWidget<>().children(
+                Arrays.asList(aircraft.getWeapons()), weaponRow -> new Row()
+                        .child(
+                               new ScrollingTextWidget(IKey.str(weaponRow.getName()))
+                                       .tooltip(t -> t.addLine(weaponRow.getName()))
+                                       .width(100)
+                        )
+                        .child(IKey.str("%s/%s", weaponRow.getAmmoNum(), weaponRow.getAmmoNumMax() ).asWidget())
+                        .height(20).background(GuiTextures.MENU_BACKGROUND)
+
+
+        ).scrollDirection(GuiAxis.Y).size(200);
+
+
         var vehicleGui = new ParentWidget<>().name("vehicle_gui")
                 .child(
                         new ParentWidget<>()
                                 .size(C_WIDTH - 10, 200)
                                 .child(fuelSlots.relativeToParent().align(Alignment.TopRight))
                                 .child(grid.relativeToParent().align(Alignment.BottomRight))
+                                .child(weaponList.relativeToParent().align(Alignment.BottomLeft))
                 )
                 .coverChildren()
                 .padding(5)
