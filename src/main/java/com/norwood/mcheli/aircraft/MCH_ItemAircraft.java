@@ -1,6 +1,5 @@
 package com.norwood.mcheli.aircraft;
 
-import com.cleanroommc.modularui.api.drawable.IKey;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
@@ -50,7 +49,7 @@ public abstract class MCH_ItemAircraft extends W_Item {
 
         if (info != null && ac != null) {
             tooltip.add(TextFormatting.YELLOW + "Category: " + info.category);
-            tooltip.add(Arrays.stream(ac.weapons).map(MCH_WeaponSet::getName).collect(Collectors.joining(", ")));
+            tooltip.add(Arrays.stream(ac.weapons).map(MCH_WeaponSet::getDisplayName).collect(Collectors.joining(", ")));
 
             tooltip.add(TextFormatting.GRAY + "Health: " + TextFormatting.GREEN + info.maxHp);
             tooltip.add(TextFormatting.GRAY + "Trunk size: " + TextFormatting.WHITE + info.inventorySize);

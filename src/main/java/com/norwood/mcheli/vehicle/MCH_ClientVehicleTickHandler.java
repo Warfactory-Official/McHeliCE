@@ -42,6 +42,7 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
                 this.KeySwitchMode,
                 this.KeySwitchHovering,
                 this.KeyUseWeapon,
+                this.KeyReloadWeapon,
                 this.KeySwWeaponMode,
                 this.KeySwitchWeapon1,
                 this.KeySwitchWeapon2,

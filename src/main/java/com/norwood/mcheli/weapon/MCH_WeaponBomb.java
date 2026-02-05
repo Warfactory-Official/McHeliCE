@@ -23,9 +23,9 @@ public class MCH_WeaponBomb extends MCH_WeaponBase {
         if (this.getInfo() != null && this.getInfo().destruct) {
             if (prm.entity instanceof MCH_EntityHeli ac) {
                 if (ac.isUAV() && ac.getSeatNum() == 0) {
-                    if (!this.worldObj.isRemote) {
+                    if (!this.world.isRemote) {
                         MCH_Explosion.newExplosion(
-                                this.worldObj,
+                                this.world,
                                 null,
                                 prm.user,
                                 ac.posX,
@@ -44,10 +44,10 @@ public class MCH_WeaponBomb extends MCH_WeaponBase {
                     ac.destruct();
                 }
             }
-        } else if (!this.worldObj.isRemote) {
+        } else if (!this.world.isRemote) {
             this.playSound(prm.entity);
             MCH_EntityBomb e = new MCH_EntityBomb(
-                    this.worldObj,
+                    this.world,
                     prm.posX,
                     prm.posY,
                     prm.posZ,
@@ -62,7 +62,7 @@ public class MCH_WeaponBomb extends MCH_WeaponBase {
             e.motionX = prm.entity.motionX;
             e.motionY = prm.entity.motionY;
             e.motionZ = prm.entity.motionZ;
-            this.worldObj.spawnEntity(e);
+            this.world.spawnEntity(e);
         }
 
         return true;

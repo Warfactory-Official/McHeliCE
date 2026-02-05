@@ -25,8 +25,8 @@ public class PacketSyncWeapon extends PacketBase implements ServerToClientPacket
             Entity entity = mc.player.world.getEntityByID(this.entityID_Ac);
             if (entity instanceof MCH_EntityAircraft ac) {
                 if (ac.isValidSeatID(this.seatID)) {
-                    ac.getWeapon(this.weaponID).setAmmoNum(this.ammo);
-                    ac.getWeapon(this.weaponID).setRestAllAmmoNum(this.reserveAmmo);
+                    ac.getWeapon(this.weaponID).setAmmo(this.ammo);
+                    ac.getWeapon(this.weaponID).setReserveAmmo(this.reserveAmmo);
                     MCH_Logger.debugLog(true, "onPacketNotifyWeaponID:WeaponID=%d (%d / %d)", this.weaponID, this.ammo, this.reserveAmmo);
                     if (W_Lib.isClientPlayer(ac.getEntityBySeatId(this.seatID))) {
                         MCH_Logger.debugLog(true, "onPacketNotifyWeaponID:#discard:SeatID=%d, WeaponID=%d", this.seatID, this.weaponID);

@@ -76,6 +76,10 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
     }
 
     protected void handleUseWeapon(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
+        if(data.isReload()){
+            aircraft.manualReloadForPlayer(player);
+        }
+
         if (!data.getSwitches().isUseWeapon()) return;
 
         MCH_WeaponParam prm = new MCH_WeaponParam();

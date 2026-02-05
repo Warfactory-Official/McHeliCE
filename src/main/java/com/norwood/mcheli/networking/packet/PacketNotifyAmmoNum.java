@@ -29,7 +29,7 @@ public class PacketNotifyAmmoNum extends PacketBase implements ServerToClientPac
         packet.restAmmo = new short[packet.num];
 
         for (int i = 0; i < packet.num; i++) {
-            packet.ammo[i] = (short) ac.getWeapon(i).getAmmoNum();
+            packet.ammo[i] = (short) ac.getWeapon(i).getAmmo();
             packet.restAmmo[i] = (short) ac.getWeapon(i).getRestAllAmmoNum();
         }
 
@@ -37,7 +37,7 @@ public class PacketNotifyAmmoNum extends PacketBase implements ServerToClientPac
     }
 
     public static void sendAmmoNum(MCH_EntityAircraft ac, EntityPlayer target, int wid) {
-        sendAmmoNum(ac, target, wid, ac.getWeapon(wid).getAmmoNum(), ac.getWeapon(wid).getRestAllAmmoNum());
+        sendAmmoNum(ac, target, wid, ac.getWeapon(wid).getAmmo(), ac.getWeapon(wid).getRestAllAmmoNum());
     }
 
     public static void sendAmmoNum(MCH_EntityAircraft ac, EntityPlayer target, int wid, int ammo, int rest_ammo) {
@@ -80,8 +80,8 @@ public class PacketNotifyAmmoNum extends PacketBase implements ServerToClientPac
             msg.append("All=true, Num=").append(this.num);
 
             for (int i = 0; i < ac.getWeaponNum() && i < this.num; i++) {
-                ac.getWeapon(i).setAmmoNum(this.ammo[i]);
-                ac.getWeapon(i).setRestAllAmmoNum(this.restAmmo[i]);
+                ac.getWeapon(i).setAmmo(this.ammo[i]);
+                ac.getWeapon(i).setReserveAmmo(this.restAmmo[i]);
                 msg.append(", [").append(this.ammo[i]).append("/").append(this.restAmmo[i]).append("]");
             }
 
@@ -90,8 +90,8 @@ public class PacketNotifyAmmoNum extends PacketBase implements ServerToClientPac
                     .append(", ").append(this.ammo[0])
                     .append("/").append(this.restAmmo[0]);
 
-            ac.getWeapon(this.weaponID).setAmmoNum(this.ammo[0]);
-            ac.getWeapon(this.weaponID).setRestAllAmmoNum(this.restAmmo[0]);
+            ac.getWeapon(this.weaponID).setAmmo(this.ammo[0]);
+            ac.getWeapon(this.weaponID).setReserveAmmo(this.restAmmo[0]);
 
         } else {
             msg.append("Error: WeaponID out of bounds: ").append(this.weaponID);

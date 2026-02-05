@@ -317,11 +317,11 @@ public abstract class MCH_HudItem extends Gui {
             }
 
             is_heat_wpn = wi.maxHeatCount > 0;
-            reloading = ws.isInPreparation();
+            reloading = ws.isBusy();
             display_mortar_dist = wi.displayMortarDistance;
 
             if (wi.delay > wi.reloadTime) {
-                rel_time = (float) ws.countWait / (wi.delay > 0 ? wi.delay : 1);
+                rel_time = (float) ws.cooldown / (wi.delay > 0 ? wi.delay : 1);
                 if (rel_time < 0.0F) {
                     rel_time = -rel_time;
                 }
@@ -329,11 +329,11 @@ public abstract class MCH_HudItem extends Gui {
                     rel_time = 1.0F;
                 }
             } else {
-                rel_time = (float) ws.countReloadWait / (wi.reloadTime > 0 ? wi.reloadTime : 1);
+                rel_time = (float) ws.reloadCooldown / (wi.reloadTime > 0 ? wi.reloadTime : 1);
             }
 
             if (wi.maxHeatCount > 0) {
-                double hpp = (double) ws.currentHeat / wi.maxHeatCount;
+                double hpp = (double) ws.getCurrentHeat() / wi.maxHeatCount;
                 wpn_heat = Math.min(hpp, 1.0);
             }
 
@@ -449,9 +449,9 @@ public abstract class MCH_HudItem extends Gui {
         if (ac.getWeaponNum() > 0) {
             if (ws != null) {
                 CurrentWeapon = ws;
-                WeaponName = ac.isPilotReloading() ? "-- Reloading --" : ws.getName();
-                if (ws.getAmmoNumMax() > 0) {
-                    WeaponAmmo = ac.isPilotReloading() ? "----" : String.format("%4d", ws.getAmmoNum());
+                WeaponName = ac.isPilotReloading() ? "-- Reloading --" : ws.getDisplayName();
+                if (ws.getMagSize() > 0) {
+                    WeaponAmmo = ac.isPilotReloading() ? "----" : String.format("%4d", ws.getAmmo());
                     WeaponAllAmmo = ac.isPilotReloading() ? "----" : String.format("%4d", ws.getRestAllAmmoNum());
                 } else {
                     WeaponAmmo = "";
@@ -466,8 +466,8 @@ public abstract class MCH_HudItem extends Gui {
                 }
 
                 if (wi.delay > wi.reloadTime) {
-                    ReloadSec = ws.countWait >= 0 ? ws.countWait : -ws.countWait;
-                    ReloadPer = (float) ws.countWait / (wi.delay > 0 ? wi.delay : 1);
+                    ReloadSec = ws.cooldown >= 0 ? ws.cooldown : -ws.cooldown;
+                    ReloadPer = (float) ws.cooldown / (wi.delay > 0 ? wi.delay : 1);
                     if (ReloadPer < 0.0F) {
                         ReloadPer = -ReloadPer;
                     }
@@ -476,8 +476,8 @@ public abstract class MCH_HudItem extends Gui {
                         ReloadPer = 1.0F;
                     }
                 } else {
-                    ReloadSec = ws.countReloadWait;
-                    ReloadPer = (float) ws.countReloadWait / (wi.reloadTime > 0 ? wi.reloadTime : 1);
+                    ReloadSec = ws.reloadCooldown;
+                    ReloadPer = (float) ws.reloadCooldown / (wi.reloadTime > 0 ? wi.reloadTime : 1);
                 }
 
                 ReloadSec /= 20.0F;

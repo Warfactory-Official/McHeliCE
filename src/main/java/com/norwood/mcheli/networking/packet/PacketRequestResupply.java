@@ -9,14 +9,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
-public class PacketRequestReload extends PacketBase implements ClientToServerPacket {
+public class PacketRequestResupply extends PacketBase implements ClientToServerPacket {
 
     public int entityID_Ac = -1;
     public int weaponID = -1;
 
     public static void send(MCH_EntityAircraft ac, int weaponId) {
         if (ac != null) {
-            var packet = new PacketRequestReload();
+            var packet = new PacketRequestResupply();
             packet.entityID_Ac = W_Entity.getEntityId(ac);
             packet.weaponID = weaponId;
             packet.sendToServer();

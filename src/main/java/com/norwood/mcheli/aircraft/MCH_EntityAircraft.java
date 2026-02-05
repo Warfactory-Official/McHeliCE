@@ -889,7 +889,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         int[] wa_list = nbt.getIntArray("AcWeaponsAmmo");
 
         for (int i = 0; i < wa_list.length; i++) {
-            this.getWeapon(i).setRestAllAmmoNum(wa_list[i]);
+            this.getWeapon(i).setReserveAmmo(wa_list[i]);
             this.getWeapon(i).reloadMag();
         }
 
@@ -930,7 +930,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         int[] wa_list = new int[this.getWeaponNum()];
 
         for (int i = 0; i < wa_list.length; i++) {
-            wa_list[i] = this.getWeapon(i).getRestAllAmmoNum() + this.getWeapon(i).getAmmoNum();
+            wa_list[i] = this.getWeapon(i).getRestAllAmmoNum() + this.getWeapon(i).getAmmo();
         }
 
         nbt.setTag("AcWeaponsAmmo", W_NBTTag.newTagIntArray("AcWeaponsAmmo", wa_list));
@@ -2532,7 +2532,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     public void dumpFuel() {
-        if(world.isRemote) return;
+        if (world.isRemote) return;
         this.dataManager.set(FUEL, 0);
         this.dataManager.set(FUEL_FF, "");
     }
@@ -2566,8 +2566,11 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     public void supplyAmmo(int weaponID) {
+        supplyAmmo( this.getWeapon(weaponID))
+         ;
+    }
+    public void supplyAmmo(MCH_WeaponSet ws) {
         if (this.world.isRemote) {
-            MCH_WeaponSet ws = this.getWeapon(weaponID);
             ws.supplyRestAllAmmo();
         } else {
             if (this.getRiddenByEntity() instanceof EntityPlayerMP) {
@@ -2575,8 +2578,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             }
 
             if (this.getRiddenByEntity() instanceof EntityPlayer player) {
-                if (this.canPlayerSupplyAmmo(player, weaponID)) {
-                    MCH_WeaponSet ws = this.getWeapon(weaponID);
+                if (this.canPlayerSupplyAmmo(player, ws)) {
 
                     for (MCH_WeaponInfo.RoundItem ri : ws.getInfo().roundItems) {
                         int num = ri.num;
@@ -2621,17 +2623,17 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                     if (!W_Entity.isEqual(this, ac) && ac.canSupply()) {
                         for (int wid = 0; wid < ac.getWeaponNum(); wid++) {
                             MCH_WeaponSet ws = ac.getWeapon(wid);
-                            int num = ws.getRestAllAmmoNum() + ws.getAmmoNum();
-                            if (num < ws.getAllAmmoNum()) {
-                                int ammo = ws.getAllAmmoNum() / 10;
+                            int num = ws.getRestAllAmmoNum() + ws.getAmmo();
+                            if (num < ws.getMaxAmmo()) {
+                                int ammo = ws.getMaxAmmo() / 10;
                                 if (ammo < 1) {
                                     ammo = 1;
                                 }
 
-                                ws.setRestAllAmmoNum(num + ammo);
+                                ws.setReserveAmmo(num + ammo);
                                 EntityPlayer player = ac.getEntityByWeaponId(wid);
-                                if (num != ws.getRestAllAmmoNum() + ws.getAmmoNum()) {
-                                    if (ws.getAmmoNum() <= 0) {
+                                if (num != ws.getRestAllAmmoNum() + ws.getAmmo()) {
+                                    if (ws.getAmmo() <= 0) {
                                         ws.reloadMag();
                                     }
 
@@ -2646,37 +2648,33 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     public boolean canPlayerSupplyAmmo(EntityPlayer player, int weaponId) {
-        if (MCH_Lib.getBlockIdY(this, 1, -3) == 0) {
+        return canPlayerSupplyAmmo(player, this.getWeapon(weaponId));
+    }
+
+    public boolean canPlayerSupplyAmmo(EntityPlayer player, MCH_WeaponSet ws) {
+        if (!canSupply() || ws.getRestAllAmmoNum() + ws.getAmmo() >= ws.getMaxAmmo())
             return false;
-        } else if (!this.canSupply()) {
-            return false;
-        } else {
-            MCH_WeaponSet ws = this.getWeapon(weaponId);
-            if (ws.getRestAllAmmoNum() + ws.getAmmoNum() >= ws.getAllAmmoNum()) {
-                return false;
-            } else {
-                for (MCH_WeaponInfo.RoundItem ri : ws.getInfo().roundItems) {
-                    int num = ri.num;
+        for (MCH_WeaponInfo.RoundItem ri : ws.getInfo().roundItems) {
+            int num = ri.num;
 
-                    for (ItemStack itemStack : player.inventory.mainInventory) {
-                        if (!itemStack.isEmpty() && itemStack.isItemEqual(ri.itemStack)) {
-                            num -= itemStack.getCount();
-                        }
-
-                        if (num <= 0) {
-                            break;
-                        }
-                    }
-
-                    if (num > 0) {
-                        return false;
-                    }
+            for (ItemStack itemStack : player.inventory.mainInventory) {
+                if (!itemStack.isEmpty() && itemStack.isItemEqual(ri.itemStack)) {
+                    num -= itemStack.getCount();
                 }
 
-                return true;
+                if (num <= 0) {
+                    break;
+                }
+            }
+
+            if (num > 0) {
+                return false;
             }
         }
+
+        return true;
     }
+
 
     public String getTextureName() {
         return this.dataManager.get(TEXTURE_NAME);
@@ -4583,9 +4581,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 if (wb.length > 0 && wb[0] != null) {
                     float defYaw = ws.weapons.getFirst().defaultYaw;
                     weaponSetArray[i] = new MCH_WeaponSet(wb);
-                    weaponSetArray[i].prevRotationYaw = defYaw;
-                    weaponSetArray[i].rotationYaw = defYaw;
-                    weaponSetArray[i].defaultRotationYaw = defYaw;
+                    weaponSetArray[i].setPrevYaw(defYaw);
+                    weaponSetArray[i].setYaw(defYaw);
+                    weaponSetArray[i].setDefYaw(defYaw);
                 }
             }
 
@@ -4614,7 +4612,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 MCH_WeaponSet ws = this.getCurrentWeapon(entity);
                 ws.onSwitchWeapon(this.world.isRemote, this.isInfinityAmmo(entity));
                 if (!this.world.isRemote) {
-                    new PacketSyncWeapon(getEntityId(this), sid, id, (short) ws.getAmmoNum(), (short) ws.getRestAllAmmoNum()).sendPacketToAllAround(world, posX, posY, posZ, 150);
+                    new PacketSyncWeapon(getEntityId(this), sid, id, (short) ws.getAmmo(), (short) ws.getRestAllAmmoNum()).sendPacketToAllAround(world, posX, posY, posZ, 150);
                 }
             }
         }
@@ -4640,7 +4638,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     @Nullable
     public MCH_WeaponSet getWeaponByName(String name) {
         for (MCH_WeaponSet ws : this.weapons) {
-            if (ws.isEqual(name)) {
+            if (ws.isName(name)) {
                 return ws;
             }
         }
@@ -4707,7 +4705,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                         prm.isTurret = this.getAcInfo().getWeaponSetById(sid).weapons.getFirst().turret;
                     }
 
-                    this.lastLandInDistance = currentWs.getLandInDistance(prm);
+                    this.lastLandInDistance = currentWs.getImpactDistance(prm);
                 }
             }
         }
@@ -4727,7 +4725,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         prm.isInfinity = this.isInfinityAmmo(prm.user);
         if (prm.user != null) {
             MCH_WeaponSet currentWs = this.getCurrentWeapon(prm.user);
-            if (currentWs != null && currentWs.canUse()) {
+            if (currentWs != null && currentWs.canFire()) {
                 int sid = this.getSeatIdByEntity(prm.user);
                 assert this.getAcInfo() != null;
                 if (this.getAcInfo().getWeaponSetById(sid) != null) {
@@ -4898,7 +4896,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                     MCH_WeaponSet w = this.weapons[wid];
                     boolean isLongDelay = false;
                     if (w.getFirstWeapon() != null) {
-                        isLongDelay = w.isLongDelayWeapon();
+                        isLongDelay = w.hasLongDelay();
                     }
 
                     boolean isSelected = false;
@@ -4925,12 +4923,12 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                             if (recoil > 0.0F) {
                                 this.recoilCount = 30;
                                 this.recoilValue = recoil;
-                                this.recoilYaw = w.rotationYaw;
+                                this.recoilYaw = w.getYaw();
                             }
                         }
 
                         if (this.world.isRemote && isUsed) {
-                            Vec3d wrv = MCH_Lib.RotVec3(0.0, 0.0, -1.0, -w.rotationYaw - yaw, -w.rotationPitch);
+                            Vec3d wrv = MCH_Lib.RotVec3(0.0, 0.0, -1.0, -w.getYaw() - yaw, -w.getPitch());
                             Vec3d spv = w.getCurrentWeapon().getShotPos(this);
                             this.spawnParticleMuzzleFlash(this.world, w.getInfo(), this.posX + spv.x, this.posY + spv.y, this.posZ + spv.z, wrv);
                         }
@@ -4948,9 +4946,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                         }
 
                         if (!(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
-                            w.rotationTurretYaw = this.getLastRiderYaw() - this.getRotYaw();
+                            w.setTurretYaw(this.getLastRiderYaw() - this.getRotYaw());
                             if (this.getTowedChainEntity() != null || this.getRidingEntity() != null) {
-                                w.rotationYaw = 0.0F;
+                                w.setYaw(0.0F);
                             }
                         } else {
                             if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
@@ -4958,7 +4956,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                                 float ey = MathHelper.wrapDegrees(entity.rotationYaw - yaw - wi.defaultYaw - ty);
                                 if (Math.abs((int) wi.minYaw) < 360 && Math.abs((int) wi.maxYaw) < 360) {
                                     float targetYaw = MCH_Lib.RNG(ey, wi.minYaw, wi.maxYaw);
-                                    float wy = w.rotationYaw - wi.defaultYaw - ty;
+                                    float wy = w.getYaw() - wi.defaultYaw - ty;
                                     if (targetYaw < wy) {
                                         if (wy - targetYaw > 15.0F) {
                                             wy -= 15.0F;
@@ -4973,15 +4971,15 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                                         }
                                     }
 
-                                    w.rotationYaw = wy + wi.defaultYaw + ty;
+                                    w.setYaw(wy + wi.defaultYaw + ty);
                                 } else {
-                                    w.rotationYaw = ey + ty;
+                                    w.setYaw(ey + ty);
                                 }
                             }
 
                             float ep = MathHelper.wrapDegrees(entity.rotationPitch - pitch);
-                            w.rotationPitch = MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch);
-                            w.rotationTurretYaw = 0.0F;
+                            w.setPitch(MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch));
+                            w.setTurretYaw(0.0F);
                         }
                     }
                 }
@@ -5011,14 +5009,14 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                             }
 
                             if (!(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
-                                w.rotationTurretYaw = this.getLastRiderYaw() - this.getRotYaw();
+                                w.setTurretYaw(this.getLastRiderYaw() - this.getRotYaw());
                             } else {
                                 if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
                                     float ty = wi.turret ? MathHelper.wrapDegrees(this.getLastRiderYaw()) - yaw : 0.0F;
                                     float ey = MathHelper.wrapDegrees(entity.rotationYaw - yaw - wi.defaultYaw - ty);
                                     if (Math.abs((int) wi.minYaw) < 360 && Math.abs((int) wi.maxYaw) < 360) {
                                         float targetYaw = MCH_Lib.RNG(ey, wi.minYaw, wi.maxYaw);
-                                        float wy = w.rotationYaw - wi.defaultYaw - ty;
+                                        float wy = w.getYaw() - wi.defaultYaw - ty;
                                         if (targetYaw < wy) {
                                             if (wy - targetYaw > 15.0F) {
                                                 wy -= 15.0F;
@@ -5033,19 +5031,19 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                                             }
                                         }
 
-                                        w.rotationYaw = wy + wi.defaultYaw + ty;
+                                        w.setYaw(wy + wi.defaultYaw + ty);
                                     } else {
-                                        w.rotationYaw = ey + ty;
+                                        w.setYaw(ey + ty);
                                     }
                                 }
 
                                 float ep = MathHelper.wrapDegrees(entity.rotationPitch - pitch);
-                                w.rotationPitch = MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch);
-                                w.rotationTurretYaw = 0.0F;
+                                w.setPitch(MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch));
+                                w.setTurretYaw(0.0F);
                             }
                         }
 
-                        w.prevRotationYaw = w.rotationYaw;
+                        w.setPrevYaw(w.getYaw());
                     }
                 }
             }
@@ -5139,8 +5137,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         this.lastSearchLightYaw = yaw;
 
         for (MCH_WeaponSet w : this.weapons) {
-            w.rotationYaw = w.defaultRotationYaw;
-            w.rotationPitch = 0.0F;
+            w.setYaw(w.getDefYaw());
+            w.setPitch(0.0F);
         }
     }
 
@@ -5790,6 +5788,11 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         if (fluid == null) return null;
 
         return new FluidStack(fluid, drained);
+    }
+
+    public void manualReloadForPlayer(EntityPlayer player) {
+        boolean didReload = getCurrentWeapon(player).manualReload();
+        if(didReload && !world.isRemote  && player instanceof EntityPlayerMP playerMP) new PacketSyncReload(this.getEntityId()).sendToPlayer(playerMP);
     }
 
 

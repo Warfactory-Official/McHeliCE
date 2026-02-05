@@ -73,7 +73,7 @@ public class MCH_HudItemString extends MCH_HudItem {
                         return;
                     }
 
-                    if (CurrentWeapon.getAmmoNumMax() <= 0) {
+                    if (CurrentWeapon.getMagSize() <= 0) {
                         return;
                     }
                 }
@@ -83,7 +83,7 @@ public class MCH_HudItemString extends MCH_HudItem {
                         return;
                     }
 
-                    if (CurrentWeapon.getAmmoNumMax() <= 0) {
+                    if (CurrentWeapon.getMagSize() <= 0) {
                         return;
                     }
                 }

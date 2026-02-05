@@ -39,7 +39,7 @@ public class MCH_WeaponASMissile extends MCH_WeaponBase {
         double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
         double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
         double dist = MathHelper.sqrt(tX * tX + tY * tY + tZ * tZ);
-        if (this.worldObj.isRemote) {
+        if (this.world.isRemote) {
             tX = tX * 200.0 / dist;
             tY = tY * 200.0 / dist;
             tZ = tZ * 200.0 / dist;
@@ -51,18 +51,18 @@ public class MCH_WeaponASMissile extends MCH_WeaponBase {
 
         Vec3d src = new Vec3d(prm.entity.posX, prm.entity.posY + 1.62, prm.entity.posZ);
         Vec3d dst = new Vec3d(prm.entity.posX + tX, prm.entity.posY + 1.62 + tY, prm.entity.posZ + tZ);
-        RayTraceResult m = W_WorldFunc.clip(this.worldObj, src, dst);
-        if (W_MovingObjectPosition.isHitTypeTile(m) && !MCH_Lib.isBlockInWater(this.worldObj, m.getBlockPos().getX(),
+        RayTraceResult m = W_WorldFunc.clip(this.world, src, dst);
+        if (W_MovingObjectPosition.isHitTypeTile(m) && !MCH_Lib.isBlockInWater(this.world, m.getBlockPos().getX(),
                 m.getBlockPos().getY(), m.getBlockPos().getZ())) {
-            if (!this.worldObj.isRemote) {
-                MCH_EntityASMissile e = new MCH_EntityASMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
+            if (!this.world.isRemote) {
+                MCH_EntityASMissile e = new MCH_EntityASMissile(this.world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
                         yaw, pitch, this.acceleration);
                 e.setName(this.name);
                 e.setParameterFromWeapon(this, prm.entity, prm.user);
                 e.targetPosX = m.hitVec.x;
                 e.targetPosY = m.hitVec.y;
                 e.targetPosZ = m.hitVec.z;
-                this.worldObj.spawnEntity(e);
+                this.world.spawnEntity(e);
                 this.playSound(prm.entity);
             }
 

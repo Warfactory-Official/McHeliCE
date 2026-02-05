@@ -16,7 +16,6 @@ import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.*;
-import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -237,17 +236,14 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                     return;
                 }
 
-                w = (MCH_AircraftInfo.PartWeapon) var6.next();
+                w = var6.next();
                 ws = ac.getWeaponByName(w.name[0]);
                 if (ws != beforeWs) {
                     weaponIndex = 0;
                     beforeWs = ws;
                 }
 
-                float rotYaw = 0.0F;
-                float prevYaw = 0.0F;
-                float rotPitch = 0.0F;
-                float prevPitch = 0.0F;
+
                 if (!w.hideGM || !W_Lib.isFirstPerson()) {
                     break;
                 }
@@ -287,8 +283,8 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 float var20;
                 float var21;
                 if (ws != null) {
-                    var20 = ws.rotationYaw - ws.defaultRotationYaw;
-                    var21 = ws.prevRotationYaw - ws.defaultRotationYaw;
+                    var20 = ws.getYaw() - ws.getDefYaw();
+                    var21 = ws.getPrevYaw() - ws.getDefYaw();
                 } else if (e != null) {
                     var20 = e.rotationYaw - ac.getRotYaw();
                     var21 = e.prevRotationYaw - ac.prevRotationYaw;
@@ -309,23 +305,23 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             if (w.turret) {
                 float ty = MCH_Lib.smooth(ac.getLastRiderYaw() - ac.getRotYaw(),
                         ac.prevLastRiderYaw - ac.prevRotationYaw, tickTime);
-                ty -= ws.rotationTurretYaw;
+                ty -= ws.getTurretYaw();
                 GlStateManager.rotate(-ty, 0.0F, -1.0F, 0.0F);
             }
 
             boolean rev_sign = false;
-            if (ws != null && (int) ws.defaultRotationYaw != 0) {
-                float t = MathHelper.wrapDegrees(ws.defaultRotationYaw);
+            if (ws != null && (int) ws.getDefYaw() != 0) {
+                float t = MathHelper.wrapDegrees(ws.getDefYaw());
                 rev_sign = t >= 45.0F && t <= 135.0F || t <= -45.0F && t >= -135.0F;
-                GlStateManager.rotate(-ws.defaultRotationYaw, 0.0F, -1.0F, 0.0F);
+                GlStateManager.rotate(-ws.getDefYaw(), 0.0F, -1.0F, 0.0F);
             }
 
             if (w.pitch) {
                 float var22;
                 float var23;
                 if (ws != null) {
-                    var22 = ws.rotationPitch;
-                    var23 = ws.prevRotationPitch;
+                    var22 = ws.getPitch();
+                    var23 = ws.getPrevPitch();
                 } else if (e != null) {
                     var22 = e.rotationPitch;
                     var23 = e.prevRotationPitch;
@@ -343,12 +339,12 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             }
 
             if (ws != null && w.recoilBuf != 0.0F) {
-                MCH_WeaponSet.Recoil r = ws.recoilBuf[0];
+                MCH_WeaponSet.Recoil r = ws.recoilBuffer[0];
                 if (w.name.length > 1) {
                     for (String wnm : w.name) {
                         MCH_WeaponSet tws = ac.getWeaponByName(wnm);
-                        if (tws != null && tws.recoilBuf[0].recoilBuf > r.recoilBuf) {
-                            r = tws.recoilBuf[0];
+                        if (tws != null && tws.recoilBuffer[0].recoilBuf > r.recoilBuf) {
+                            r = tws.recoilBuffer[0];
                         }
                     }
                 }
@@ -358,7 +354,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             }
 
             if (ws != null) {
-                GlStateManager.rotate(ws.defaultRotationYaw, 0.0F, -1.0F, 0.0F);
+                GlStateManager.rotate(ws.getDefYaw(), 0.0F, -1.0F, 0.0F);
                 if (w.rotBarrel) {
                     float rotBrl = ws.prevRotBarrel + (ws.rotBarrel - ws.prevRotBarrel) * tickTime;
                     GlStateManager.rotate(rotBrl, (float) w.rot.x, (float) w.rot.y, (float) w.rot.z);
@@ -391,8 +387,8 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         GlStateManager.translate(w.pos.x, w.pos.y, w.pos.z);
         if (w.yaw) {
             if (ws != null) {
-                rotYaw = ws.rotationYaw - ws.defaultRotationYaw;
-                prevYaw = ws.prevRotationYaw - ws.defaultRotationYaw;
+                rotYaw = ws.getYaw() - ws.getDefYaw();
+                prevYaw = ws.getPrevYaw() - ws.getDefYaw();
             } else if (e != null) {
                 rotYaw = e.rotationYaw - ac.getRotYaw();
                 prevYaw = e.prevRotationYaw - ac.prevRotationYaw;
@@ -411,16 +407,16 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
 
         boolean rev_sign = false;
-        if (ws != null && (int) ws.defaultRotationYaw != 0) {
-            float t = MathHelper.wrapDegrees(ws.defaultRotationYaw);
+        if (ws != null && (int) ws.getDefYaw() != 0) {
+            float t = MathHelper.wrapDegrees(ws.getDefYaw());
             rev_sign = t >= 45.0F && t <= 135.0F || t <= -45.0F && t >= -135.0F;
-            GlStateManager.rotate(-ws.defaultRotationYaw, 0.0F, -1.0F, 0.0F);
+            GlStateManager.rotate(-ws.getDefYaw(), 0.0F, -1.0F, 0.0F);
         }
 
         if (w.pitch) {
             if (ws != null) {
-                rotPitch = ws.rotationPitch;
-                prevPitch = ws.prevRotationPitch;
+                rotPitch = ws.getPitch();
+                prevPitch = ws.getPrevPitch();
             } else if (e != null) {
                 rotPitch = e.rotationPitch;
                 prevPitch = e.prevRotationPitch;
@@ -438,12 +434,12 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
 
         if (ws != null && w.recoilBuf != 0.0F) {
-            MCH_WeaponSet.Recoil r = ws.recoilBuf[0];
+            MCH_WeaponSet.Recoil r = ws.recoilBuffer[0];
             if (w.name.length > 1) {
                 for (String wnm : w.name) {
                     MCH_WeaponSet tws = ac.getWeaponByName(wnm);
-                    if (tws != null && tws.recoilBuf[0].recoilBuf > r.recoilBuf) {
-                        r = tws.recoilBuf[0];
+                    if (tws != null && tws.recoilBuffer[0].recoilBuf > r.recoilBuf) {
+                        r = tws.recoilBuffer[0];
                     }
                 }
             }
@@ -453,7 +449,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
 
         if (ws != null) {
-            GlStateManager.rotate(ws.defaultRotationYaw, 0.0F, -1.0F, 0.0F);
+            GlStateManager.rotate(ws.getDefYaw(), 0.0F, -1.0F, 0.0F);
         }
 
         GlStateManager.translate(-w.pos.x, -w.pos.y, -w.pos.z);

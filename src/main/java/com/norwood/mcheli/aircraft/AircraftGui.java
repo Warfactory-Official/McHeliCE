@@ -3,6 +3,7 @@ package com.norwood.mcheli.aircraft;
 import com.cleanroommc.modularui.api.GuiAxis;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
+import com.cleanroommc.modularui.drawable.IngredientDrawable;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.RichTooltip;
 import com.cleanroommc.modularui.screen.UISettings;
@@ -22,6 +23,9 @@ import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
+import com.norwood.mcheli.networking.packet.PacketRequestResupply;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -30,9 +34,9 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 
 public class AircraftGui {
 
@@ -63,6 +67,9 @@ public class AircraftGui {
         };
     }
 
+    public static boolean canResupply(MCH_WeaponSet ws, MCH_EntityAircraft aircraft, EntityPlayer player) {
+        return aircraft.canPlayerSupplyAmmo(player, ws) && ws.getAmmo() < ws.getMagSize();
+    }
 
     public static ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings, MCH_EntityAircraft aircraft) {
 
@@ -159,7 +166,7 @@ public class AircraftGui {
                                         .slot(new ModularSlot(aircraftInvHander, slot))
                                         .size(SLOT_SIZE)
                         )
-                        .size(18 * 8 + 5, 18 * 5)
+                        .size(18 * 8 + 5, 18 * 4)
                         .scrollable(new VerticalScrollData())
                 ).coverChildren().margin(2);
 
@@ -192,18 +199,44 @@ public class AircraftGui {
                 .coverChildren();
 
 
+        record WeaponEntry(int id, MCH_WeaponSet set) {
+        }
+
         var weaponList = new ListWidget<>().children(
-                Arrays.asList(aircraft.getWeapons()), weaponRow -> new Row()
-                        .child(
-                               new ScrollingTextWidget(IKey.str(weaponRow.getName()))
-                                       .tooltip(t -> t.addLine(weaponRow.getName()))
-                                       .width(100)
-                        )
-                        .child(IKey.str("%s/%s", weaponRow.getAmmoNum(), weaponRow.getAmmoNumMax() ).asWidget())
-                        .height(20).background(GuiTextures.MENU_BACKGROUND)
+                IntStream.range(0, aircraft.getWeapons().length)
+                        .mapToObj(i -> new WeaponEntry(i, aircraft.getWeapon(i)))
+                        .filter(entry -> entry.set().getMagSize() > 0)
+                        .toList(),
+                entry -> {
+                    MCH_WeaponSet ws = entry.set();
+                    int weaponId = entry.id();
+                    return new Row()
+                            .child(new ScrollingTextWidget(IKey.str(ws.getDisplayName()))
+                                    .tooltip(t -> t.addLine(ws.getDisplayName()))
+                                    .padding(4)
+                                    .widthRel(0.30f))
+                            .child(IKey.dynamic(() -> String.format("%d/%d", ws.getAmmo(), ws.getMagSize())).asWidget().padding(4))
+                            .child(new ListWidget<>().children(
+                                    ws.getInfo().roundItems, round -> new Row()
+                                            .child(IKey.str("%dx", round.num).asWidget())
+                                            .child(new IngredientDrawable(round.itemStack).asWidget().size(12))
+                                            .coverChildrenWidth().padding(4)
+                            ).scrollDirection(GuiAxis.X).maxSizeRel(0.35f))
+                            .child(IKey.dynamic(() -> String.format("(%d)", ws.getAmmoReserve())).asWidget().padding(4))
+                            .child(new ButtonWidget<>().onMouseTapped(_ -> {
+                                        if (canResupply(ws, aircraft, data.getPlayer())) {
+                                            PacketRequestResupply.send(aircraft, weaponId);
+                                            aircraft.supplyAmmo(ws);
+                                            return true;
+                                        } else return false;
+                                    })
+                                    .background(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON : GuiTextures.MC_BUTTON_DISABLED)
+                                    .hoverBackground(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON_HOVERED : GuiTextures.MC_BUTTON_DISABLED)
+                                    .size(18).right(2).top(1))
 
-
-        ).scrollDirection(GuiAxis.Y).size(200);
+                            .height(20).marginTop(4).padding(4).background(GuiTextures.MENU_BACKGROUND);
+                }
+        ).scrollDirection(GuiAxis.Y).size(300, 110);
 
 
         var vehicleGui = new ParentWidget<>().name("vehicle_gui")
@@ -211,8 +244,8 @@ public class AircraftGui {
                         new ParentWidget<>()
                                 .size(C_WIDTH - 10, 200)
                                 .child(fuelSlots.relativeToParent().align(Alignment.TopRight))
-                                .child(grid.relativeToParent().align(Alignment.BottomRight))
-                                .child(weaponList.relativeToParent().align(Alignment.BottomLeft))
+                                .child(grid.relativeToParent().align(Alignment.BottomLeft))
+                                .child(weaponList.relativeToParent().align(Alignment.TopLeft))
                 )
                 .coverChildren()
                 .padding(5)

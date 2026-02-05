@@ -145,6 +145,7 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         public boolean moveLeft = false;
         public boolean moveRight = false;
         public boolean openGui = false;
+        public boolean reload = false;
 
         @SuppressWarnings("unused")
         public PlayerControlSwitches(ByteBuf buf) {
@@ -159,6 +160,7 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
             moveLeft = (mask & (1 << 7)) != 0;
             moveRight = (mask & (1 << 8)) != 0;
             openGui = (mask & (1 << 9)) != 0;
+            reload = (mask & (1 << 10)) != 0;
         }
 
         public void serialize(ByteBuf acc) {
@@ -173,6 +175,7 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
             mask |= (moveLeft ? 1 << 7 : 0);
             mask |= (moveRight ? 1 << 8 : 0);
             mask |= (openGui ? 1 << 9 : 0);
+            mask |= (reload ? 10 << 9 : 0);
             acc.writeShort(mask);
         }
     }

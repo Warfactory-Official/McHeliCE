@@ -45,7 +45,7 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
             root.text(String.format("Speed: %.0f m/s", aircraft.currentSpeed));
             root.text(String.format("Weapon: %s",
                     aircraft.getCurrentWeapon(entityPlayer) != null ?
-                            aircraft.getCurrentWeapon(entityPlayer).getName() : "None"));
+                            aircraft.getCurrentWeapon(entityPlayer).getDisplayName() : "None"));
 
             if (aircraft.getRiddenByEntity() != null) {
                 root.text("Pilot: " + aircraft.getRiddenByEntity().getName());

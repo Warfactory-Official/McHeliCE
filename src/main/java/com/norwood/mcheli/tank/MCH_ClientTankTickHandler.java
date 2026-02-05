@@ -38,6 +38,7 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
                 this.KeyLeft,
                 this.KeySwitchMode,
                 this.KeyUseWeapon,
+                this.KeyReloadWeapon,
                 this.KeySwWeaponMode,
                 this.KeySwitchWeapon1,
                 this.KeySwitchWeapon2,
