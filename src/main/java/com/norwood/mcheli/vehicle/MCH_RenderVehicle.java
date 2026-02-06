@@ -56,7 +56,7 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
 
     public void drawPart(MCH_EntityVehicle vehicle, MCH_VehicleInfo info, float yaw, float pitch, MCH_WeaponSet ws,
                          float tickTime) {
-        float rotBrl = ws.prevRotBarrel + (ws.rotBarrel - ws.prevRotBarrel) * tickTime;
+        float rotBrl = ws.getPrevRotBarrel() + (ws.getRotBarrel() - ws.getPrevRotBarrel()) * tickTime;
         int index = 0;
 
         for (MCH_VehicleInfo.VPart vp : info.partList) {

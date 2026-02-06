@@ -25,9 +25,8 @@ public class MCH_WeaponSet {
     public int cooldown;
     public int reloadCooldown;
     public int soundWait;
-    public float rotBarrelSpd;
-    public float rotBarrel;
-    public float prevRotBarrel;
+    @Setter
+    private float rotBarrelSpd, rotBarrel, prevRotBarrel;
     @Setter
     protected int ammo;
     protected int ammoReserve;

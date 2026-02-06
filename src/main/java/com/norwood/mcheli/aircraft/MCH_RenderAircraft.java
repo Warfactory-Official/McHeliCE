@@ -356,7 +356,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             if (ws != null) {
                 GlStateManager.rotate(ws.getDefYaw(), 0.0F, -1.0F, 0.0F);
                 if (w.rotBarrel) {
-                    float rotBrl = ws.prevRotBarrel + (ws.rotBarrel - ws.prevRotBarrel) * tickTime;
+                    float rotBrl = ws.getPrevRotBarrel() + (ws.getRotBarrel() - ws.getPrevRotBarrel()) * tickTime;
                     GlStateManager.rotate(rotBrl, (float) w.rot.x, (float) w.rot.y, (float) w.rot.z);
                 }
             }
