@@ -4,6 +4,7 @@ import com.cleanroommc.modularui.api.GuiAxis;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.drawable.IngredientDrawable;
+import com.cleanroommc.modularui.drawable.UITexture;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.RichTooltip;
 import com.cleanroommc.modularui.screen.UISettings;
@@ -41,17 +42,98 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class AircraftGui {
-
     public static final int C_WIDTH = 410;
     public static final int C_HEIGHT = 300;
     public static final int SLOT_SIZE = 18;
+    public static final ResourceLocation WEAPON_ICONS = new ResourceLocation(Tags.MODID, "gui/wepon_icons");
 
+    public static final UITexture APFSDS_SHELL = createWeaponIcon("apfsds", 0, 0);
+    public static final UITexture HE_SHELL = createWeaponIcon("he_shell", 18, 0);
+    public static final UITexture HEAT_SHELL = createWeaponIcon("heat_shell", 36, 0);
+    public static final UITexture CANISTER_SHELL = createWeaponIcon("canister", 54, 0);
+
+    public static final UITexture LARGE_CALIBER_MG = createWeaponIcon("large_mg", 0, 18);
+    public static final UITexture MORTAR_SHOT = createWeaponIcon("mortar", 18, 18);
+
+    public static final UITexture BOMB = createWeaponIcon("bomb", 0, 36);
+    public static final UITexture CLUSTER_BOMB = createWeaponIcon("cluster_bomb", 18, 36);
+    public static final UITexture GATLING_BULLET = createWeaponIcon("gatling_bullet", 36, 36);
+    public static final UITexture AAM_ROCKET = createWeaponIcon("aam_rocket", 54, 36);
+    public static final UITexture TV_ROCKET = createWeaponIcon("tv_rocket", 72, 36);
+    public static final UITexture SAM_ROCKET = createWeaponIcon("sam_rocket", 90, 36);
+    public static final UITexture NUC_WARHEAD = createWeaponIcon("nuc_warhead", 108, 36);
+    public static final UITexture MG_7_62MM = createWeaponIcon("mg_7_62", 126, 36);
+    public static final UITexture MG_12_7MM = createWeaponIcon("mg_12_7", 144, 36);
+
+    private static UITexture createWeaponIcon(String name, int x, int y) {
+        return UITexture.builder()
+                .location(WEAPON_ICONS)
+                .imageSize(160, 53)
+                .subAreaXYWH(x, y, 16, 16)
+                .name(name)
+                .build();
+    }
+
+
+    public static Map<String, UITexture> name2WSIcon = new HashMap<>();
+    static UITexture RELOAD_LIGHT = UITexture.builder()
+            .location(Tags.MODID, "gui/reload_light")
+            .imageSize(18, 18)
+            .name("rel_light")
+            .defaultColorType()
+            .build();
+    static UITexture RELOAD_DARK = UITexture.builder()
+            .location(Tags.MODID, "gui/reload_dark")
+            .imageSize(18, 18)
+            .name("rel_light")
+            .defaultColorType()
+            .build();
+
+
+
+   @Nullable private static UITexture determineIcon( @NotNull String name) {
+       String lowerCase = name.toLowerCase(Locale.ROOT);
+       // Shells
+       if (lowerCase.contains("apfsds")) return APFSDS_SHELL;
+       if (lowerCase.contains("heat")) return HEAT_SHELL;
+       if ((name.contains("HE") && lowerCase.contains("cannon") )|| lowerCase.contains("high explosive") || lowerCase.contains("hesh")) return HE_SHELL;
+       if (lowerCase.contains("canister")) return CANISTER_SHELL;
+
+       // Machine Guns
+       if (lowerCase.contains("machine gun") || lowerCase.contains("browning")|| lowerCase.contains("mg")) {
+           if (lowerCase.contains("12.7mm")) return MG_12_7MM;
+           if (lowerCase.contains("7.62mm")) return MG_7_62MM;
+           if (lowerCase.contains("gatling")) return GATLING_BULLET;
+           return LARGE_CALIBER_MG;
+       }
+
+       // Rockets / Missiles
+       if (lowerCase.contains("aam")) return AAM_ROCKET;
+       if (lowerCase.contains("sam")) return SAM_ROCKET;
+       if (lowerCase.contains("tv rocket")) return TV_ROCKET;
+
+       // Bombs & Heavy Ordnance
+       if (lowerCase.contains("nuc") || lowerCase.contains("nuclear")) return NUC_WARHEAD;
+       if (lowerCase.contains("cluster")) return CLUSTER_BOMB;
+       if (lowerCase.contains("bomb")) return BOMB;
+
+       // Other
+       if (lowerCase.contains("mortar")) return MORTAR_SHOT;
+
+       return null;
+   }
 
     public static Predicate<ItemStack> fuelPredicate(MCH_AircraftInfo info) {
         return stack -> {
@@ -218,17 +300,21 @@ public class AircraftGui {
                 entry -> {
                     MCH_WeaponSet ws = entry.set();
                     int weaponId = entry.id();
-                    return new Row()
-                            .child(new ScrollingTextWidget(IKey.str(ws.getDisplayName()))
+                    var row = new Row();
+                    if(name2WSIcon.computeIfAbsent(ws.getDisplayName(), AircraftGui::determineIcon) !=null)
+                        row.child(name2WSIcon.get(ws.getDisplayName()).asWidget());
+
+                            row.child(new ScrollingTextWidget(IKey.str(ws.getDisplayName()))
                                     .tooltip(t -> t.addLine(ws.getDisplayName()))
                                     .padding(4)
+                                    .height(8)
                                     .widthRel(0.30f))
                             .child(IKey.dynamic(() -> String.format("%d/%d", ws.getAmmo(), ws.getMagSize())).asWidget().padding(4))
                             .child(new ListWidget<>().children(
                                     ws.getInfo().roundItems, round -> new Row()
                                             .child(IKey.str("%dx", round.num).asWidget())
-                                            .child(new IngredientDrawable(round.itemStack).asWidget().size(12))
-                                            .coverChildrenWidth().padding(4)
+                                            .child(new IngredientDrawable(round.itemStack).asWidget().size(12).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName())))
+                                            .coverChildrenWidth().padding(4).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName()))
                             ).scrollDirection(GuiAxis.X).maxSizeRel(0.35f))
                             .child(IKey.dynamic(() -> String.format("(%d)", ws.getAmmoReserve())).asWidget().padding(4))
                             .child(new ButtonWidget<>().onMouseTapped(_ -> {
@@ -239,10 +325,22 @@ public class AircraftGui {
                                         } else return false;
                                     })
                                     .background(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON : GuiTextures.MC_BUTTON_DISABLED)
+                                    .overlay(canResupply(ws, aircraft, data.getPlayer()) ? RELOAD_LIGHT : RELOAD_DARK)
                                     .hoverBackground(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON_HOVERED : GuiTextures.MC_BUTTON_DISABLED)
+                                    .tooltip(tooltip -> {
+                                        tooltip.addLine("Reload");
+                                        List<ItemStack> missing = aircraft.getMissingAmmo(data.getPlayer(), ws);
+                                        if (!missing.isEmpty()) {
+                                            tooltip.addLine(TextFormatting.RED + "Missing Ammo:");
+                                            for (ItemStack itemStack : missing) {
+                                                tooltip.addLine(TextFormatting.GRAY + " - " + itemStack.getCount() + "x " + itemStack.getDisplayName());
+                                            }
+                                        }
+                                    })
                                     .size(18).right(2).top(1))
 
                             .height(20).marginTop(4).padding(4).background(GuiTextures.MENU_BACKGROUND);
+                    return row;
                 }
         ).scrollDirection(GuiAxis.Y).size(300, 110);
 
@@ -254,7 +352,10 @@ public class AircraftGui {
                                 .child(fuelSlots.relativeToParent().align(Alignment.TopRight))
                                 .child(grid.relativeToParent().align(Alignment.BottomLeft))
                                 .child(weaponList.relativeToParent().align(Alignment.TopLeft))
-                                .child(new WidgetAircraftViewport((ModelVBO) data.getInfo().model, getTexturePath(aircraft), aircraft.getAcInfo()).size(100).align(Alignment.BottomRight))
+                                .child(new WidgetAircraftViewport((ModelVBO) data.getInfo().model, getTexturePath(aircraft), aircraft.getAcInfo())
+                                        .size(100, 50)
+                                        .background(GuiTextures.SLOT_ITEM.withColorOverride(0xFF000000))
+                                        .align(Alignment.BottomRight))
                 )
                 .coverChildren()
                 .padding(5)
@@ -266,22 +367,23 @@ public class AircraftGui {
                 .child(
                         new Column()
                                 .bottom(0)
+                                .child(IKey.str(aircraft.getName()).asWidget().padding(4,2).background(GuiTextures.MC_BACKGROUND))
                                 .child(vehicleGui)
                                 .child(inventory)
                 );
     }
 
-    public static ResourceLocation getTexturePath(MCH_EntityAircraft ac){
+    public static ResourceLocation getTexturePath(MCH_EntityAircraft ac) {
 
-       String path = switch (ac) {
-           case MCH_EntityHeli heli -> "helicopters/" + heli.getTextureName();
-           case MCH_EntityPlane plane -> "planes/" + plane.getTextureName();
-           case MCH_EntityVehicle vehicle -> "vehicles/" + vehicle.getTextureName();
-           case MCH_EntityShip ship -> "ships/" + ship.getTextureName();
-           case MCH_EntityTank tank -> "tanks/" + tank.getTextureName();
-           default -> throw new IllegalStateException("Unexpected value: " + ac);
-       };
-       return new ResourceLocation(Tags.MODID, "textures/"+path+".png");
+        String path = switch (ac) {
+            case MCH_EntityHeli heli -> "helicopters/" + heli.getTextureName();
+            case MCH_EntityPlane plane -> "planes/" + plane.getTextureName();
+            case MCH_EntityVehicle vehicle -> "vehicles/" + vehicle.getTextureName();
+            case MCH_EntityShip ship -> "ships/" + ship.getTextureName();
+            case MCH_EntityTank tank -> "tanks/" + tank.getTextureName();
+            default -> throw new IllegalStateException("Unexpected value: " + ac);
+        };
+        return new ResourceLocation(Tags.MODID, "textures/" + path + ".png");
 
 
     }

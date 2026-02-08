@@ -36,6 +36,7 @@ import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -2681,6 +2682,29 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         return true;
     }
 
+    public List<ItemStack> getMissingAmmo(EntityPlayer player, MCH_WeaponSet ws) {
+        List<ItemStack> missingStacks = new ArrayList<>();
+
+
+        for (MCH_WeaponInfo.RoundItem ri : ws.getInfo().roundItems) {
+            int needed = ri.num;
+
+            for (ItemStack itemStack : player.inventory.mainInventory) {
+                if (!itemStack.isEmpty() && itemStack.isItemEqual(ri.itemStack)) {
+                    needed -= itemStack.getCount();
+                }
+                if (needed <= 0) break;
+            }
+
+            if (needed > 0) {
+                ItemStack missing = ri.itemStack.copy();
+                missing.setCount(needed);
+                missingStacks.add(missing);
+            }
+        }
+
+        return missingStacks;
+    }
 
     public String getTextureName() {
         return this.dataManager.get(TEXTURE_NAME);
@@ -5649,15 +5673,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         return this.getAcInfo() != null ? this.getAcInfo().inventorySize : 0;
     }
 
-    @Override
-    public String getName() {
-        if (this.getAcInfo() == null) {
-            return super.getName();
-        } else {
-            String s = this.getAcInfo().displayName;
-            return s.length() <= 32 ? s : s.substring(0, 31);
-        }
-    }
+
 
     @Override
     public boolean hasCustomName() {
@@ -5827,4 +5843,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         }
     }
 
+    public String getName() {
+        if(this.getAcInfo() == null) return super.getName();
+        return I18n.hasKey("item.mcheli:"+acInfo.name+".name") ?
+                I18n.format("item.mcheli:"+acInfo.name+".name") : acInfo.displayName;
+
+    }
 }
