@@ -33,7 +33,6 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
-import java.util.Iterator;
 
 public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W_Render<T> {
 
@@ -90,8 +89,8 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(sl.pos.x, sl.pos.y, sl.pos.z);
                     if (!sl.fixDir) {
-                        GlStateManager.rotate(yaw - ac.getRotYaw() + sl.yaw, 0.0F, -1.0F, 0.0F);
-                        GlStateManager.rotate(pitch + 90.0F - ac.getRotPitch() + sl.pitch, 1.0F, 0.0F, 0.0F);
+                        GlStateManager.rotate(yaw - ac.getYaw() + sl.yaw, 0.0F, -1.0F, 0.0F);
+                        GlStateManager.rotate(pitch + 90.0F - ac.getPitch() + sl.pitch, 1.0F, 0.0F, 0.0F);
                     } else {
                         float stRot = 0.0F;
                         if (sl.steering) {
@@ -254,7 +253,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
 
             if (part.turret) {
                 GlStateManager.translate(info.turretPosition.x, info.turretPosition.y, info.turretPosition.z);
-                float turretYaw = MCH_Lib.smooth(aircraft.getLastRiderYaw() - aircraft.getRotYaw(),
+                float turretYaw = MCH_Lib.smooth(aircraft.getLastRiderYaw() - aircraft.getYaw(),
                         aircraft.prevLastRiderYaw - aircraft.prevRotationYaw, tickTime);
                 GlStateManager.rotate(turretYaw, 0.0F, -1.0F, 0.0F);
                 GlStateManager.translate(-info.turretPosition.x, -info.turretPosition.y, -info.turretPosition.z);
@@ -268,7 +267,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                     currentYaw = weaponSet.getYaw() - weaponSet.getDefYaw();
                     prevYaw = weaponSet.getPrevYaw() - weaponSet.getDefYaw();
                 } else if (rider != null) {
-                    currentYaw = rider.rotationYaw - aircraft.getRotYaw();
+                    currentYaw = rider.rotationYaw - aircraft.getYaw();
                     prevYaw = rider.prevRotationYaw - aircraft.prevRotationYaw;
                 } else {
                     currentYaw = aircraft.getLastRiderYaw() - aircraft.rotationYaw;
@@ -282,7 +281,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             }
 
             if (part.turret) {
-                float turretSmoothYaw = MCH_Lib.smooth(aircraft.getLastRiderYaw() - aircraft.getRotYaw(),
+                float turretSmoothYaw = MCH_Lib.smooth(aircraft.getLastRiderYaw() - aircraft.getYaw(),
                         aircraft.prevLastRiderYaw - aircraft.prevRotationYaw, tickTime);
                 turretSmoothYaw -= weaponSet.getTurretYaw();
                 GlStateManager.rotate(-turretSmoothYaw, 0.0F, -1.0F, 0.0F);
@@ -368,7 +367,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 rotYaw = ws.getYaw() - ws.getDefYaw();
                 prevYaw = ws.getPrevYaw() - ws.getDefYaw();
             } else if (e != null) {
-                rotYaw = e.rotationYaw - ac.getRotYaw();
+                rotYaw = e.rotationYaw - ac.getYaw();
                 prevYaw = e.prevRotationYaw - ac.prevRotationYaw;
             } else {
                 rotYaw = ac.getLastRiderYaw() - ac.rotationYaw;
@@ -449,56 +448,67 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             }
         }
     }
+    public static boolean isNotMoving(MCH_EntityAircraft aircraft){
+        return !(aircraft.motionX > 0.01 || aircraft.motionX < -0.01) &&
+                !(aircraft.motionZ > 0.01 || aircraft.motionZ < -0.01);
 
-    public static void renderCrawlerTrack(MCH_EntityAircraft aircraft, MCH_AircraftInfo info, float tickTime) {
+
+    }
+
+
+    public static void renderCrawlerTrack(MCH_EntityAircraft aircraft, MCH_AircraftInfo info,  float tickTime) {
         if (info.partCrawlerTrack.isEmpty()) return;
 
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.getBuffer();
+        if(isNotMoving(aircraft)) {
+         return;
+        }
+        else {
+            for (MCH_AircraftInfo.CrawlerTrack track : info.partCrawlerTrack) {
+                GL11.glPointSize(track.len * 20.0F);
 
-        for (MCH_AircraftInfo.CrawlerTrack track : info.partCrawlerTrack) {
-            GL11.glPointSize(track.len * 20.0F);
+                if (MCH_Config.TestMode.prmBool) {
+                    GlStateManager.disableTexture2D();
+                    GlStateManager.disableBlend();
+                    builder.begin(GL11.GL_POINTS, DefaultVertexFormats.POSITION_COLOR);
 
-            if (MCH_Config.TestMode.prmBool) {
-                GlStateManager.disableTexture2D();
-                GlStateManager.disableBlend();
-                builder.begin(GL11.GL_POINTS, DefaultVertexFormats.POSITION_COLOR);
-
-                for (int i = 0; i < track.cx.length; i++) {
-                    int colorRatio = (int) (255.0F / track.cx.length * i);
-                    builder.pos(track.z, track.cx[i], track.cy[i])
-                            .color(colorRatio, 80, 255 - colorRatio, 255)
-                            .endVertex();
+                    for (int i = 0; i < track.cx.length; i++) {
+                        int colorRatio = (int) (255.0F / track.cx.length * i);
+                        builder.pos(track.z, track.cx[i], track.cy[i])
+                                .color(colorRatio, 80, 255 - colorRatio, 255)
+                                .endVertex();
+                    }
+                    tessellator.draw();
                 }
-                tessellator.draw();
-            }
 
-            GlStateManager.enableTexture2D();
-            GlStateManager.enableBlend();
+                GlStateManager.enableTexture2D();
+                GlStateManager.enableBlend();
 
-            int pointCount = track.lp.size() - 1;
-            double currentProgress = aircraft != null ? aircraft.rotCrawlerTrack[track.side] : 0.0;
-            double prevProgress = aircraft != null ? aircraft.prevRotCrawlerTrack[track.side] : 0.0;
+                int pointCount = track.lp.size() - 1;
+                double currentProgress = aircraft != null ? aircraft.rotCrawlerTrack[track.side] : 0.0;
+                double prevProgress = aircraft != null ? aircraft.prevRotCrawlerTrack[track.side] : 0.0;
 
-            double interpolatedProgress = prevProgress + (currentProgress - prevProgress) * tickTime;
+                double interpolatedProgress = prevProgress + (currentProgress - prevProgress) * tickTime;
 
-            for (int i = 0; i < pointCount; i++) {
-                MCH_AircraftInfo.CrawlerTrackPrm currentPrm = track.lp.get(i);
-                MCH_AircraftInfo.CrawlerTrackPrm nextPrm = track.lp.get((i + 1) % pointCount);
+                for (int i = 0; i < pointCount; i++) {
+                    MCH_AircraftInfo.CrawlerTrackPrm currentPrm = track.lp.get(i);
+                    MCH_AircraftInfo.CrawlerTrackPrm nextPrm = track.lp.get((i + 1) % pointCount);
 
-                double nextRotation = nextPrm.r;
-                if (nextRotation - currentPrm.r < -180.0) nextRotation += 360.0;
-                if (nextRotation - currentPrm.r > 180.0) nextRotation -= 360.0;
+                    double nextRotation = nextPrm.r;
+                    if (nextRotation - currentPrm.r < -180.0) nextRotation += 360.0;
+                    if (nextRotation - currentPrm.r > 180.0) nextRotation -= 360.0;
 
-                double posX = currentPrm.x + (nextPrm.x - currentPrm.x) * interpolatedProgress;
-                double posY = currentPrm.y + (nextPrm.y - currentPrm.y) * interpolatedProgress;
-                double rotation = currentPrm.r + (nextRotation - currentPrm.r) * interpolatedProgress;
+                    double posX = currentPrm.x + (nextPrm.x - currentPrm.x) * interpolatedProgress;
+                    double posY = currentPrm.y + (nextPrm.y - currentPrm.y) * interpolatedProgress;
+                    double rotation = currentPrm.r + (nextRotation - currentPrm.r) * interpolatedProgress;
 
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(0.0, posX, posY);
-                GlStateManager.rotate((float) rotation, -1.0F, 0.0F, 0.0F);
-                renderPart(track.model, info.model, track.modelName);
-                GlStateManager.popMatrix();
+                    GlStateManager.pushMatrix();
+                    GlStateManager.translate(0.0, posX, posY);
+                    GlStateManager.rotate((float) rotation, -1.0F, 0.0F, 0.0F);
+                    renderPart(track.model, info.model, track.modelName);
+                    GlStateManager.popMatrix();
+                }
             }
         }
         GlStateManager.enableBlend();
@@ -574,8 +584,8 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             float prevRotYaw = ac.camera.prevPartRotationYaw;
             float rotPitch = ac.camera.partRotationPitch;
             float prevRotPitch = ac.camera.prevPartRotationPitch;
-            float yaw = prevRotYaw + (rotYaw - prevRotYaw) * tickTime - ac.getRotYaw();
-            float pitch = prevRotPitch + (rotPitch - prevRotPitch) * tickTime - ac.getRotPitch();
+            float yaw = prevRotYaw + (rotYaw - prevRotYaw) * tickTime - ac.getYaw();
+            float pitch = prevRotPitch + (rotPitch - prevRotPitch) * tickTime - ac.getPitch();
 
             for (MCH_AircraftInfo.Camera c : info.cameraList) {
                 GlStateManager.pushMatrix();
@@ -800,9 +810,9 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         MCH_AircraftInfo info = entity.getAcInfo();
         if (info != null) {
             GlStateManager.pushMatrix();
-            float yaw = this.calcRot(entity.getRotYaw(), entity.prevRotationYaw, tickTime);
+            float yaw = this.calcRot(entity.getYaw(), entity.prevRotationYaw, tickTime);
             float pitch = entity.calcRotPitch(tickTime);
-            float roll = this.calcRot(entity.getRotRoll(), entity.prevRotationRoll, tickTime);
+            float roll = this.calcRot(entity.getRoll(), entity.prevRotationRoll, tickTime);
             if (MCH_Config.EnableModEntityRender.prmBool) {
                 this.renderRiddenEntity(entity, tickTime, yaw, pitch + info.entityPitch, roll + info.entityRoll,
                         info.entityWidth, info.entityHeight);
@@ -964,15 +974,15 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             float bkPitch = 0.0F;
             float bkPrevPitch = 0.0F;
             if (isPilot && entityLiving != null) {
-                entityLiving.renderYawOffset = ac.getRotYaw();
-                entityLiving.prevRenderYawOffset = ac.getRotYaw();
+                entityLiving.renderYawOffset = ac.getYaw();
+                entityLiving.prevRenderYawOffset = ac.getYaw();
                 if (ac.getCameraId() > 0) {
-                    entityLiving.rotationYawHead = ac.getRotYaw();
-                    entityLiving.prevRotationYawHead = ac.getRotYaw();
+                    entityLiving.rotationYawHead = ac.getYaw();
+                    entityLiving.prevRotationYawHead = ac.getYaw();
                     bkPitch = entityLiving.rotationPitch;
                     bkPrevPitch = entityLiving.prevRotationPitch;
-                    entityLiving.rotationPitch = ac.getRotPitch();
-                    entityLiving.prevRotationPitch = ac.getRotPitch();
+                    entityLiving.rotationPitch = ac.getPitch();
+                    entityLiving.prevRotationPitch = ac.getPitch();
                 }
             }
 
@@ -992,7 +1002,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     public abstract void renderAircraft(MCH_EntityAircraft var1, double var2, double var4, double var6, float var8,
                                         float var9, float var10, float var11);
 
-    public float calcRot(float rot, float prevRot, float tickTime) {
+    public static float calcRot(float rot, float prevRot, float tickTime) {
         rot = MathHelper.wrapDegrees(rot);
         prevRot = MathHelper.wrapDegrees(prevRot);
         if (rot - prevRot < -180.0F) {

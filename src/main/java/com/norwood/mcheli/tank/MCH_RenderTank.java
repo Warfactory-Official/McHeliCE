@@ -5,6 +5,7 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
 import com.norwood.mcheli.helper.MCH_ColorInt;
 import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -43,6 +44,9 @@ public class MCH_RenderTank extends MCH_RenderAircraft<MCH_EntityTank> {
                 GlStateManager.rotate(roll, 0.0F, 0.0F, 1.0F);
                 this.bindTexture("textures/tanks/" + tank.getTextureName() + ".png", tank);
                 renderBody(tankInfo.model);
+                if (!tankInfo.partCrawlerTrack.isEmpty() &&  isNotMoving(tank) )
+                    ((ModelVBO) tankInfo.model).renderTracksBuffer(tankInfo);
+
             }
         }
     }

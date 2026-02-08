@@ -84,7 +84,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             this.newSeats(this.getAcInfo().getNumSeatAndRack());
             this.createRotors();
             this.weapons = this.createWeapon(1 + this.getSeatNum());
-            this.initPartRotation(this.getRotYaw(), this.getRotPitch());
+            this.initPartRotation(this.getYaw(), this.getPitch());
         }
     }
 
@@ -282,8 +282,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
     @Override
     public boolean canSwitchGunnerMode() {
         if (super.canSwitchGunnerMode() && this.canUseBlades()) {
-            float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRotRoll()));
-            float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getRotPitch()));
+            float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRoll()));
+            float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getPitch()));
             return roll < 40.0F && pitch < 40.0F;
         }
 
@@ -293,8 +293,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
     @Override
     public boolean canSwitchHoveringMode() {
         if (super.canSwitchHoveringMode() && this.canUseBlades()) {
-            float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRotRoll()));
-            float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getRotPitch()));
+            float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRoll()));
+            float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getPitch()));
             return roll < 40.0F && pitch < 40.0F;
         }
 
@@ -332,8 +332,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             this.prevPosX = this.posX;
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
-            if (!this.isDestroyed() && this.isHovering() && MathHelper.abs(this.getRotPitch()) < 70.0F) {
-                this.setRotPitch(this.getRotPitch() * 0.95F);
+            if (!this.isDestroyed() && this.isHovering() && MathHelper.abs(this.getPitch()) < 70.0F) {
+                this.setRotPitch(this.getPitch() * 0.95F);
             }
 
             if (this.isDestroyed() && this.getCurrentThrottle() > 0.0) {
@@ -412,56 +412,56 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             float rotRoll = !this.isHovering() ? 0.04F : 0.07F;
             rotRoll = 1.0F - rotRoll * partialTicks;
             if (MCH_ServerSettings.enableRotationLimit) {
-                if (this.getRotPitch() > MCH_ServerSettings.pitchLimitMax) {
-                    this.setRotPitch(this.getRotPitch() -
-                            Math.abs((this.getRotPitch() - MCH_ServerSettings.pitchLimitMax) * 0.1F * partialTicks));
+                if (this.getPitch() > MCH_ServerSettings.pitchLimitMax) {
+                    this.setRotPitch(this.getPitch() -
+                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMax) * 0.1F * partialTicks));
                 }
 
-                if (this.getRotPitch() < MCH_ServerSettings.pitchLimitMin) {
-                    this.setRotPitch(this.getRotPitch() +
-                            Math.abs((this.getRotPitch() - MCH_ServerSettings.pitchLimitMin) * 0.2F * partialTicks));
+                if (this.getPitch() < MCH_ServerSettings.pitchLimitMin) {
+                    this.setRotPitch(this.getPitch() +
+                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMin) * 0.2F * partialTicks));
                 }
 
-                if (this.getRotRoll() > MCH_ServerSettings.rollLimit) {
-                    this.setRotRoll(this.getRotRoll() -
-                            Math.abs((this.getRotRoll() - MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
+                if (this.getRoll() > MCH_ServerSettings.rollLimit) {
+                    this.setRotRoll(this.getRoll() -
+                            Math.abs((this.getRoll() - MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
                 }
 
-                if (this.getRotRoll() < -MCH_ServerSettings.rollLimit) {
-                    this.setRotRoll(this.getRotRoll() +
-                            Math.abs((this.getRotRoll() + MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
+                if (this.getRoll() < -MCH_ServerSettings.rollLimit) {
+                    this.setRotRoll(this.getRoll() +
+                            Math.abs((this.getRoll() + MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
                 }
             }
 
-            if (this.getRotRoll() > 0.1 && this.getRotRoll() < 65.0F) {
-                this.setRotRoll(this.getRotRoll() * rotRoll);
+            if (this.getRoll() > 0.1 && this.getRoll() < 65.0F) {
+                this.setRotRoll(this.getRoll() * rotRoll);
             }
 
-            if (this.getRotRoll() < -0.1 && this.getRotRoll() > -65.0F) {
-                this.setRotRoll(this.getRotRoll() * rotRoll);
+            if (this.getRoll() < -0.1 && this.getRoll() > -65.0F) {
+                this.setRotRoll(this.getRoll() * rotRoll);
             }
 
             if (MCH_Lib.getBlockIdY(this, 3, -3) == 0) {
                 if (this.moveLeft && !this.moveRight) {
-                    this.setRotRoll(this.getRotRoll() - 1.2F * partialTicks);
+                    this.setRotRoll(this.getRoll() - 1.2F * partialTicks);
                 }
 
                 if (this.moveRight && !this.moveLeft) {
-                    this.setRotRoll(this.getRotRoll() + 1.2F * partialTicks);
+                    this.setRotRoll(this.getRoll() + 1.2F * partialTicks);
                 }
             } else {
-                if (MathHelper.abs(this.getRotPitch()) < 40.0F) {
+                if (MathHelper.abs(this.getPitch()) < 40.0F) {
                     this.applyOnGroundPitch(0.97F);
                 }
 
                 if (this.heliInfo.isEnableFoldBlade && this.rotors.length > 0 && this.getFoldBladeStat() == 0 &&
                         !this.isDestroyed()) {
                     if (this.moveLeft && !this.moveRight) {
-                        this.setRotYaw(this.getRotYaw() - 0.5F * partialTicks);
+                        this.setRotYaw(this.getYaw() - 0.5F * partialTicks);
                     }
 
                     if (this.moveRight && !this.moveLeft) {
-                        this.setRotYaw(this.getRotYaw() + 0.5F * partialTicks);
+                        this.setRotYaw(this.getYaw() + 0.5F * partialTicks);
                     }
                 }
             }
@@ -584,14 +584,14 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             double x = 0.0;
             double z = 0.0;
             if (this.moveLeft && !this.moveRight) {
-                yaw = this.getRotYaw() - 90.0F;
+                yaw = this.getYaw() - 90.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
             if (this.moveRight && !this.moveLeft) {
-                yaw = this.getRotYaw() + 90.0F;
+                yaw = this.getYaw() + 90.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
@@ -619,28 +619,28 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             double x = 0.0;
             double z = 0.0;
             if (this.throttleUp) {
-                yaw = this.getRotYaw();
+                yaw = this.getYaw();
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
             if (this.throttleDown) {
-                yaw = this.getRotYaw() - 180.0F;
+                yaw = this.getYaw() - 180.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
             if (this.moveLeft && !this.moveRight) {
-                yaw = this.getRotYaw() - 90.0F;
+                yaw = this.getYaw() - 90.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
             if (this.moveRight && !this.moveLeft) {
-                yaw = this.getRotYaw() + 90.0F;
+                yaw = this.getYaw() + 90.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
@@ -661,14 +661,14 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             double x = 0.0;
             double z = 0.0;
             if (this.throttleUp) {
-                yaw = this.getRotYaw();
+                yaw = this.getYaw();
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
             if (this.throttleDown) {
-                yaw = this.getRotYaw() - 180.0F;
+                yaw = this.getYaw() - 180.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
@@ -694,9 +694,9 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
 
                         for (int ri = 0; ri < rotorNum; ri++) {
                             Vec3d rotor_pos = this.getHeliInfo().rotorList.get(ri).pos;
-                            float yaw = this.getRotYaw();
-                            float pitch = this.getRotPitch();
-                            Vec3d pos = MCH_Lib.RotVec3(rotor_pos, -yaw, -pitch, -this.getRotRoll());
+                            float yaw = this.getYaw();
+                            float pitch = this.getPitch();
+                            Vec3d pos = MCH_Lib.RotVec3(rotor_pos, -yaw, -pitch, -this.getRoll());
                             double x = this.posX + pos.x;
                             double y = this.posY + pos.y;
                             double z = this.posZ + pos.z;
@@ -773,13 +773,13 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
                 this.rotDestroyedYaw += 0.3F;
             }
 
-            this.setRotYaw(this.getRotYaw() + this.rotDestroyedYaw * (float) this.getCurrentThrottle());
+            this.setRotYaw(this.getYaw() + this.rotDestroyedYaw * (float) this.getCurrentThrottle());
             if (MCH_Lib.getBlockIdY(this, 3, -3) == 0) {
-                if (MathHelper.abs(this.getRotPitch()) < 10.0F) {
-                    this.setRotPitch(this.getRotPitch() + this.rotDestroyedPitch);
+                if (MathHelper.abs(this.getPitch()) < 10.0F) {
+                    this.setRotPitch(this.getPitch() + this.rotDestroyedPitch);
                 }
 
-                this.setRotRoll(this.getRotRoll() + this.rotDestroyedRoll);
+                this.setRotRoll(this.getRoll() + this.rotDestroyedRoll);
             }
         }
 
@@ -802,8 +802,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             if (dp == 0.0) {
                 this.motionY = this.motionY +
                         (!this.isInWater() ? this.getAcInfo().gravity : this.getAcInfo().gravityInWater);
-                float yaw = this.getRotYaw() / 180.0F * (float) Math.PI;
-                float pitch = this.getRotPitch();
+                float yaw = this.getYaw() / 180.0F * (float) Math.PI;
+                float pitch = this.getPitch();
                 if (MCH_Lib.getBlockIdY(this, 3, -3) > 0) {
                     pitch -= ogp;
                 }
@@ -813,7 +813,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
                 this.motionZ = this.motionZ + 0.1 * MathHelper.cos(yaw) * this.currentSpeed *
                         (pitch * pitch * pitch / 20000.0F) * this.getCurrentThrottle();
                 double y = 0.0;
-                if (MathHelper.abs(this.getRotPitch()) + MathHelper.abs(this.getRotRoll() * 0.9F) <= 40.0F) {
+                if (MathHelper.abs(this.getPitch()) + MathHelper.abs(this.getRoll() * 0.9F) <= 40.0F) {
                     y = 1.0 - y / 40.0;
                 }
 
@@ -824,16 +824,16 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
 
                 this.motionY += (y * 0.025 + 0.03) * throttle;
             } else {
-                if (MathHelper.abs(this.getRotPitch()) < 40.0F) {
-                    float pitchx = this.getRotPitch();
+                if (MathHelper.abs(this.getPitch()) < 40.0F) {
+                    float pitchx = this.getPitch();
                     pitchx -= ogp;
                     pitchx *= 0.9F;
                     pitchx += ogp;
                     this.setRotPitch(pitchx);
                 }
 
-                if (MathHelper.abs(this.getRotRoll()) < 40.0F) {
-                    this.setRotRoll(this.getRotRoll() * 0.9F);
+                if (MathHelper.abs(this.getRoll()) < 40.0F) {
+                    this.setRotRoll(this.getRoll() * 0.9F);
                 }
 
                 if (dp < 1.0) {
@@ -890,16 +890,16 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         if (this.onGround) {
             this.motionX *= 0.5;
             this.motionZ *= 0.5;
-            if (MathHelper.abs(this.getRotPitch()) < 40.0F) {
-                float pitchx = this.getRotPitch();
+            if (MathHelper.abs(this.getPitch()) < 40.0F) {
+                float pitchx = this.getPitch();
                 pitchx -= ogp;
                 pitchx *= 0.9F;
                 pitchx += ogp;
                 this.setRotPitch(pitchx);
             }
 
-            if (MathHelper.abs(this.getRotRoll()) < 40.0F) {
-                this.setRotRoll(this.getRotRoll() * 0.9F);
+            if (MathHelper.abs(this.getRoll()) < 40.0F) {
+                this.setRotRoll(this.getRoll() * 0.9F);
             }
         }
 
@@ -907,7 +907,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         this.motionY *= 0.95;
         this.motionX *= 0.99;
         this.motionZ *= 0.99;
-        this.setRotation(this.getRotYaw(), this.getRotPitch());
+        this.setRotation(this.getYaw(), this.getPitch());
         this.onUpdate_updateBlock();
         if (this.getRiddenByEntity() != null && this.getRiddenByEntity().isDead) {
             this.unmountEntity();

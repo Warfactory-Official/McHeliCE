@@ -7,6 +7,7 @@ import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Lib;
+import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -48,6 +49,8 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
                 GlStateManager.rotate(pitch, 1.0F, 0.0F, 0.0F);
                 this.bindTexture("textures/vehicles/" + vehicle.getTextureName() + ".png", vehicle);
                 renderBody(vehicleInfo.model);
+                if (!vehicleInfo.partCrawlerTrack.isEmpty() && isNotMoving(vehicle) )
+                    ((ModelVBO) vehicleInfo.model).renderTracksBuffer(vehicleInfo);
                 MCH_WeaponSet ws = vehicle.getFirstSeatWeapon();
                 this.drawPart(vehicle, vehicleInfo, yaw, pitch, ws, tickTime);
             }

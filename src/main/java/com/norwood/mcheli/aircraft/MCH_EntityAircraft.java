@@ -2,6 +2,7 @@ package com.norwood.mcheli.aircraft;
 
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.ModularScreen;
 import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.norwood.mcheli.*;
@@ -389,6 +390,11 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     }
 
+    @SideOnly(Side.CLIENT)
+    public ModularScreen createScreen(AircraftGuiData data, ModularPanel mainPanel) {
+        return new ModularScreen(Tags.MODID, mainPanel);
+    }
+
 
     public static List<AxisAlignedBB> getCollisionBoxes(@Nullable Entity entityIn, AxisAlignedBB aabb) {
         List<AxisAlignedBB> list = new ArrayList<>();
@@ -456,7 +462,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         return this.dataManager.get(ROT_ROLL).shortValue();
     }
 
-    public float getRotYaw() {
+    public float getYaw() {
         return this.rotationYaw;
     }
 
@@ -464,7 +470,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         this.rotationYaw = f;
     }
 
-    public float getRotPitch() {
+    public float getPitch() {
         return this.rotationPitch;
     }
 
@@ -472,7 +478,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         this.rotationPitch = f;
     }
 
-    public float getRotRoll() {
+    public float getRoll() {
         return this.rotationRoll;
     }
 
@@ -483,26 +489,26 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     public void applyOnGroundPitch(float factor) {
         if (this.getAcInfo() != null) {
             float ogp = this.getAcInfo().onGroundPitch;
-            float pitch = this.getRotPitch();
+            float pitch = this.getPitch();
             pitch -= ogp;
             pitch *= factor;
             pitch += ogp;
             this.setRotPitch(pitch);
         }
 
-        this.setRotRoll(this.getRotRoll() * factor);
+        this.setRotRoll(this.getRoll() * factor);
     }
 
     public float calcRotYaw(float partialTicks) {
-        return this.prevRotationYaw + (this.getRotYaw() - this.prevRotationYaw) * partialTicks;
+        return this.prevRotationYaw + (this.getYaw() - this.prevRotationYaw) * partialTicks;
     }
 
     public float calcRotPitch(float partialTicks) {
-        return this.prevRotationPitch + (this.getRotPitch() - this.prevRotationPitch) * partialTicks;
+        return this.prevRotationPitch + (this.getPitch() - this.prevRotationPitch) * partialTicks;
     }
 
     public float calcRotRoll(float partialTicks) {
-        return this.prevRotationRoll + (this.getRotRoll() - this.prevRotationRoll) * partialTicks;
+        return this.prevRotationRoll + (this.getRoll() - this.prevRotationRoll) * partialTicks;
     }
 
     protected void setRotation(float y, float p) {
@@ -563,7 +569,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         if (s != null && !s.isEmpty() && s.compareTo(beforeType) != 0) {
             this.dataManager.set(ID_TYPE, s);
             this.changeType(s);
-            this.initRotationYaw(this.getRotYaw());
+            this.initRotationYaw(this.getYaw());
         }
     }
 
@@ -875,7 +881,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         this.setTextureName(nbt.getString("TextureName"));
         this.setCommonUniqueId(nbt.getString("AircraftUniqueId"));
         this.setRotRoll(nbt.getFloat("AcRoll"));
-        this.prevRotationRoll = this.getRotRoll();
+        this.prevRotationRoll = this.getRoll();
         this.prevLastRiderYaw = this.lastRiderYaw = nbt.getFloat("AcLastRYaw");
         this.prevLastRiderPitch = this.lastRiderPitch = nbt.getFloat("AcLastRPitch");
         this.setPartStatus(nbt.getInteger("PartStatus"));
@@ -915,7 +921,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         nbt.setInteger("AcFuel", this.getFuel());
         nbt.setString("AcFuelType", this.getFuelType());
         nbt.setInteger("AcDespawnCount", this.getDespawnCount());
-        nbt.setFloat("AcRoll", this.getRotRoll());
+        nbt.setFloat("AcRoll", this.getRoll());
         nbt.setBoolean("SearchLight", this.isSearchLightON());
         nbt.setFloat("AcLastRYaw", this.getLastRiderYaw());
         nbt.setFloat("AcLastRPitch", this.getLastRiderPitch());
@@ -1297,9 +1303,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     public void setAngles(Entity player, boolean fixRot, float fixYaw, float fixPitch, float deltaX, float deltaY, float inputX, float inputY, float deltaSeconds) {
 
-        float prevPitch = this.getRotPitch();
-        float prevYaw = this.getRotYaw();
-        float prevRoll = this.getRotRoll();
+        float prevPitch = this.getPitch();
+        float prevYaw = this.getYaw();
+        float prevRoll = this.getRoll();
 
         if (this.isFreeLookMode()) {
             inputX = 0.0F;
@@ -1341,9 +1347,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         MCH_Math.MatTurnX(m, pitch * ((float) Math.PI / 180.0F));
         MCH_Math.MatTurnY(m, yaw * ((float) Math.PI / 180.0F));
 
-        MCH_Math.MatTurnZ(m, this.getRotRoll() * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnX(m, this.getRotPitch() * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnY(m, this.getRotYaw() * ((float) Math.PI / 180.0F));
+        MCH_Math.MatTurnZ(m, this.getRoll() * ((float) Math.PI / 180.0F));
+        MCH_Math.MatTurnX(m, this.getPitch() * ((float) Math.PI / 180.0F));
+        MCH_Math.MatTurnY(m, this.getYaw() * ((float) Math.PI / 180.0F));
 
         MCH_Math.FVector3D v = MCH_Math.MatrixToEuler(m);
 
@@ -1366,23 +1372,23 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         //POST LIM CLAMP
         assert this.getAcInfo() != null;
         if (this.getAcInfo().limitRotation) {
-            this.setRotPitch(MCH_Lib.RNG(this.getRotPitch(), this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch));
+            this.setRotPitch(MCH_Lib.RNG(this.getPitch(), this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch));
 
-            this.setRotRoll(MCH_Lib.RNG(this.getRotRoll(), this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll));
+            this.setRotRoll(MCH_Lib.RNG(this.getRoll(), this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll));
         }
 
         //CHECKS
-        if (MathHelper.abs(this.getRotPitch()) > 90.0F) {
-            MCH_Logger.debugLog(true, "MCH_EntityAircraft.setAngles Error:Pitch=%.1f", this.getRotPitch());
+        if (MathHelper.abs(this.getPitch()) > 90.0F) {
+            MCH_Logger.debugLog(true, "MCH_EntityAircraft.setAngles Error:Pitch=%.1f", this.getPitch());
         }
 
-        if (this.getRotRoll() > 180.0F) this.setRotRoll(this.getRotRoll() - 360.0F);
-        if (this.getRotRoll() < -180.0F) this.setRotRoll(this.getRotRoll() + 360.0F);
+        if (this.getRoll() > 180.0F) this.setRotRoll(this.getRoll() - 360.0F);
+        if (this.getRoll() < -180.0F) this.setRotRoll(this.getRoll() + 360.0F);
 
-        this.prevRotationRoll = this.getRotRoll();
-        this.prevRotationPitch = this.getRotPitch();
+        this.prevRotationRoll = this.getRoll();
+        this.prevRotationPitch = this.getPitch();
         if (this.getRidingEntity() == null) {
-            this.prevRotationYaw = this.getRotYaw();
+            this.prevRotationYaw = this.getYaw();
         }
 
         //SYNC
@@ -1390,23 +1396,23 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             player.turn(deltaX, 0.0F);
         } else {
             if (this.getRidingEntity() == null) {
-                player.prevRotationYaw = this.getRotYaw() + (fixRot ? fixYaw : 0.0F);
+                player.prevRotationYaw = this.getYaw() + (fixRot ? fixYaw : 0.0F);
             } else {
-                if (this.getRotYaw() - player.rotationYaw > 180.0F) player.prevRotationYaw += 360.0F;
-                if (this.getRotYaw() - player.rotationYaw < -180.0F) player.prevRotationYaw -= 360.0F;
+                if (this.getYaw() - player.rotationYaw > 180.0F) player.prevRotationYaw += 360.0F;
+                if (this.getYaw() - player.rotationYaw < -180.0F) player.prevRotationYaw -= 360.0F;
             }
-            player.rotationYaw = this.getRotYaw() + (fixRot ? fixYaw : 0.0F);
+            player.rotationYaw = this.getYaw() + (fixRot ? fixYaw : 0.0F);
         }
 
         if (!this.isOverridePlayerPitch() && !fixRot) {
             player.turn(0.0F, deltaY);
         } else {
-            player.prevRotationPitch = this.getRotPitch() + (fixRot ? fixPitch : 0.0F);
-            player.rotationPitch = this.getRotPitch() + (fixRot ? fixPitch : 0.0F);
+            player.prevRotationPitch = this.getPitch() + (fixRot ? fixPitch : 0.0F);
+            player.rotationPitch = this.getPitch() + (fixRot ? fixPitch : 0.0F);
         }
 
         //CHANGE FLAG
-        if ((this.getRidingEntity() == null && prevYaw != this.getRotYaw()) || prevPitch != this.getRotPitch() || prevRoll != this.getRotRoll()) {
+        if ((this.getRidingEntity() == null && prevYaw != this.getYaw()) || prevPitch != this.getPitch() || prevRoll != this.getRoll()) {
             this.aircraftRotChanged = true;
         }
     }
@@ -1453,17 +1459,17 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
             double angrad = Math.atan2(deltaY, Math.sqrt(deltaX * deltaX + deltaZ * deltaZ));
             if (!searchLight.fixDir) {
-                Vec3d lightDirection = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -lastSearchLightYaw + searchLight.yaw, -lastSearchLightPitch + searchLight.pitch, -getRotRoll());
+                Vec3d lightDirection = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -lastSearchLightYaw + searchLight.yaw, -lastSearchLightPitch + searchLight.pitch, -getRoll());
 
                 horizontalAngle = MCH_Lib.getPosAngle(lightDirection.x, lightDirection.z, deltaX, deltaZ);
                 verticalAngle = Math.abs(Math.toDegrees(angrad) + lastSearchLightPitch + searchLight.pitch);
             } else {
                 float steeringRotation = searchLight.steering ? rotYawWheel * searchLight.stRot : 0.0F;
 
-                Vec3d lightDirection = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -getRotYaw() + searchLight.yaw + steeringRotation, -getRotPitch() + searchLight.pitch, -getRotRoll());
+                Vec3d lightDirection = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -getYaw() + searchLight.yaw + steeringRotation, -getPitch() + searchLight.pitch, -getRoll());
 
                 horizontalAngle = MCH_Lib.getPosAngle(lightDirection.x, lightDirection.z, deltaX, deltaZ);
-                verticalAngle = Math.abs(Math.toDegrees(angrad) + getRotPitch() + searchLight.pitch);
+                verticalAngle = Math.abs(Math.toDegrees(angrad) + getPitch() + searchLight.pitch);
             }
 
             float effectiveAngleLimit = searchLight.angle * 3.0F;
@@ -1532,11 +1538,11 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         }
 
         //Apply roll
-        if (!this.world.isRemote && (int) this.prevRotationRoll != (int) this.getRotRoll()) {
-            float roll = MathHelper.wrapDegrees(this.getRotRoll());
+        if (!this.world.isRemote && (int) this.prevRotationRoll != (int) this.getRoll()) {
+            float roll = MathHelper.wrapDegrees(this.getRoll());
             this.dataManager.set(ROT_ROLL, (int) roll);
         }
-        this.prevRotationRoll = this.getRotRoll();
+        this.prevRotationRoll = this.getRoll();
 
         //Target drone specific
         if (!this.world.isRemote && this.isTargetDrone() && !this.isDestroyed() && this.getCountOnUpdate() > 20 && !this.canUseFuel()) {
@@ -1733,11 +1739,11 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     public void updateRecoil(float partialTicks) {
         if (this.recoilCount > 0 && this.recoilCount >= 12) {
-            float pitch = MathHelper.cos((float) ((this.recoilYaw - this.getRotRoll()) * Math.PI / 180.0));
-            float roll = MathHelper.sin((float) ((this.recoilYaw - this.getRotRoll()) * Math.PI / 180.0));
+            float pitch = MathHelper.cos((float) ((this.recoilYaw - this.getRoll()) * Math.PI / 180.0));
+            float roll = MathHelper.sin((float) ((this.recoilYaw - this.getRoll()) * Math.PI / 180.0));
             float recoil = MathHelper.cos((float) (this.recoilCount * 6 * Math.PI / 180.0)) * this.recoilValue;
-            this.setRotPitch(this.getRotPitch() + recoil * pitch * partialTicks);
-            this.setRotRoll(this.getRotRoll() + recoil * roll * partialTicks);
+            this.setRotPitch(this.getPitch() + recoil * pitch * partialTicks);
+            this.setRotRoll(this.getRoll() + recoil * roll * partialTicks);
         }
     }
 
@@ -1760,7 +1766,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     public void updateExtraBoundingBox() {
         for (MCH_BoundingBox bb : this.extraBoundingBox) {
-            bb.updatePosition(this.posX, this.posY, this.posZ, this.getRotYaw(), this.getRotPitch(), this.getRotRoll());
+            bb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(), this.getRoll());
         }
     }
 
@@ -2046,9 +2052,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             this.dismountedUserCtrl = true;
         }
 
-        this.setLocationAndAngles(v.x, v.y, v.z, this.getRotYaw(), this.getRotPitch());
+        this.setLocationAndAngles(v.x, v.y, v.z, this.getYaw(), this.getPitch());
         this.dismountRidingEntity();
-        this.setLocationAndAngles(v.x, v.y, v.z, this.getRotYaw(), this.getRotPitch());
+        this.setLocationAndAngles(v.x, v.y, v.z, this.getYaw(), this.getPitch());
     }
 
     public boolean canUnmount(Entity entity) {
@@ -2135,8 +2141,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         }
 
         if (!this.world.isRemote && this.getRidingEntity() != null) {
-            this.setRotRoll(this.getRotRoll() * 0.9F);
-            this.setRotPitch(this.getRotPitch() * 0.95F);
+            this.setRotRoll(this.getRoll() * 0.9F);
+            this.setRotPitch(this.getPitch() * 0.95F);
             Entity re = this.getRidingEntity();
             float target = MathHelper.wrapDegrees(re.rotationYaw + 90.0F);
             if (target - this.rotationYaw > 180.0F) {
@@ -2192,8 +2198,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     public void onUpdate_CollisionGroundDamage() {
         if (!this.isDestroyed()) {
             if (MCH_Lib.getBlockIdY(this, 3, -3) > 0 && !this.world.isRemote) {
-                float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRotRoll()));
-                float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getRotPitch()));
+                float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRoll()));
+                float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getPitch()));
                 if (roll > this.getGiveDamageRot() || pitch > this.getGiveDamageRot()) {
                     float dmg = MathHelper.abs(roll) + MathHelper.abs(pitch);
                     if (dmg < 90.0F) {
@@ -2225,16 +2231,16 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     public void applyServerPositionAndRotation() {
         double rpinc = this.aircraftPosRotInc;
-        double yaw = MathHelper.wrapDegrees(this.aircraftYaw - this.getRotYaw());
-        double roll = MathHelper.wrapDegrees(this.getServerRoll() - this.getRotRoll());
+        double yaw = MathHelper.wrapDegrees(this.aircraftYaw - this.getYaw());
+        double roll = MathHelper.wrapDegrees(this.getServerRoll() - this.getRoll());
         if (!this.isDestroyed() && (!W_Lib.isClientPlayer(this.getRiddenByEntity()) || this.getRidingEntity() != null)) {
-            this.setRotYaw((float) (this.getRotYaw() + yaw / rpinc));
-            this.setRotPitch((float) (this.getRotPitch() + (this.aircraftPitch - this.getRotPitch()) / rpinc));
-            this.setRotRoll((float) (this.getRotRoll() + roll / rpinc));
+            this.setRotYaw((float) (this.getYaw() + yaw / rpinc));
+            this.setRotPitch((float) (this.getPitch() + (this.aircraftPitch - this.getPitch()) / rpinc));
+            this.setRotRoll((float) (this.getRoll() + roll / rpinc));
         }
 
         this.setPosition(this.posX + (this.aircraftX - this.posX) / rpinc, this.posY + (this.aircraftY - this.posY) / rpinc, this.posZ + (this.aircraftZ - this.posZ) / rpinc);
-        this.setRotation(this.getRotYaw(), this.getRotPitch());
+        this.setRotation(this.getYaw(), this.getPitch());
         this.aircraftPosRotInc--;
     }
 
@@ -2973,9 +2979,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     public void onUpdate_ParticleSmoke() {
         if (this.world.isRemote) {
             if (!(this.getCurrentThrottle() <= 0.1F)) {
-                float yaw = this.getRotYaw();
-                float pitch = this.getRotPitch();
-                float roll = this.getRotRoll();
+                float yaw = this.getYaw();
+                float pitch = this.getPitch();
+                float roll = this.getRoll();
                 MCH_WeaponSet ws = this.getCurrentWeapon(this.getRiddenByEntity());
                 if (ws.getFirstWeapon() instanceof MCH_WeaponSmoke) {
                     for (int i = 0; i < ws.getWeaponsCount(); i++) {
@@ -3274,8 +3280,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 this.pilotSeat.setPosition(v.x, v.y, v.z);
             }
 
-            this.pilotSeat.rotationPitch = this.getRotPitch();
-            this.pilotSeat.rotationYaw = this.getRotYaw();
+            this.pilotSeat.rotationPitch = this.getPitch();
+            this.pilotSeat.rotationYaw = this.getYaw();
             if (setPrevPos) {
                 this.pilotSeat.prevPosX = this.pilotSeat.posX;
                 this.pilotSeat.prevPosY = this.pilotSeat.posY;
@@ -3297,8 +3303,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 MCH_SeatInfo si = i < info.length ? info[i] : info[0];
                 Vec3d v = this.getTransformedPosition(si.pos.x, si.pos.y + offsetY, si.pos.z, px, py, pz, si.rotSeat);
                 seat.setPosition(v.x, v.y, v.z);
-                seat.rotationPitch = this.getRotPitch();
-                seat.rotationYaw = this.getRotYaw();
+                seat.rotationPitch = this.getPitch();
+                seat.rotationYaw = this.getYaw();
                 if (setPrevPos) {
                     seat.prevPosX = seat.posX;
                     seat.prevPosY = seat.posY;
@@ -3306,7 +3312,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 }
 
                 if (si instanceof MCH_SeatRackInfo) {
-                    seat.updateRotation(seat.getRiddenByEntity(), si.fixYaw + this.getRotYaw(), si.fixPitch);
+                    seat.updateRotation(seat.getRiddenByEntity(), si.fixYaw + this.getYaw(), si.fixPitch);
                 }
 
                 seat.updatePosition(seat.getRiddenByEntity());
@@ -3361,7 +3367,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         Vec3d tpos = this.getAcInfo().turretPosition.add(0.0, pos.y, 0.0);
         Vec3d v = pos.add(-tpos.x, -tpos.y, -tpos.z);
         v = MCH_Lib.RotVec3(v, -ry, 0.0F, 0.0F);
-        Vec3d vv = MCH_Lib.RotVec3(tpos, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+        Vec3d vv = MCH_Lib.RotVec3(tpos, -this.getYaw(), -this.getPitch(), -this.getRoll());
         return v.add(vv);
     }
 
@@ -3397,7 +3403,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 if (seatInfo != null && seatInfo.rotSeat) {
                     v = this.calcOnTurretPos(cpi.pos());
                 } else {
-                    v = MCH_Lib.RotVec3(cpi.pos(), -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+                    v = MCH_Lib.RotVec3(cpi.pos(), -this.getYaw(), -this.getPitch(), -this.getRoll());
                 }
 
                 MCH_ViewEntityDummy.setCameraPosition(x + v.x, y + v.y, z + v.z);
@@ -3420,20 +3426,20 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
 
     public Vec3d getTransformedPosition(double x, double y, double z, double px, double py, double pz) {
-        Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+        Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getYaw(), -this.getPitch(), -this.getRoll());
         return v.add(px, py, pz);
     }
 
     public Vec3d getTransformedPosition(double x, double y, double z, double px, double py, double pz, boolean rotSeat) {
         if (rotSeat && this.getAcInfo() != null) {
             MCH_AircraftInfo info = this.getAcInfo();
-            Vec3d tv = MCH_Lib.RotVec3(x - info.turretPosition.x, y - info.turretPosition.y, z - info.turretPosition.z, -this.getLastRiderYaw() + this.getRotYaw(), 0.0F, 0.0F);
+            Vec3d tv = MCH_Lib.RotVec3(x - info.turretPosition.x, y - info.turretPosition.y, z - info.turretPosition.z, -this.getLastRiderYaw() + this.getYaw(), 0.0F, 0.0F);
             x = tv.x + info.turretPosition.x;
             y = tv.y + info.turretPosition.x;
             z = tv.z + info.turretPosition.x;
         }
 
-        Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+        Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getYaw(), -this.getPitch(), -this.getRoll());
         return v.add(px, py, pz);
     }
 
@@ -3815,7 +3821,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     public boolean canStartRepelling() {
         assert this.getAcInfo() != null;
-        if (this.getAcInfo().haveRepellingHook() && this.isHovering() && abs(this.getRotPitch()) < 3.0F && abs(this.getRotRoll()) < 3.0F) {
+        if (this.getAcInfo().haveRepellingHook() && this.isHovering() && abs(this.getPitch()) < 3.0F && abs(this.getRoll()) < 3.0F) {
             Vec3d v = this.prevPosition.oldest().add(-this.posX, -this.posY, -this.posZ);
             return v.length() < 0.3;
         }
@@ -3938,7 +3944,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
             entity.setPosition(v.x, v.y, v.z);
         }
 
-        Vec3d v = MCH_Lib.RotVec3(0.0, 2.0, 0.0, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+        Vec3d v = MCH_Lib.RotVec3(0.0, 2.0, 0.0, -this.getYaw(), -this.getPitch(), -this.getRoll());
         entity.motionX = this.motionX + v.x + (this.rand.nextFloat() - 0.5) * 0.1;
         entity.motionY = this.motionY + v.y;
         entity.motionZ = this.motionZ + v.z + (this.rand.nextFloat() - 0.5) * 0.1;
@@ -4007,7 +4013,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         for (int sid = 0; sid < this.getSeatNum(); sid++) {
             MCH_EntitySeat seat = this.getSeat(sid);
             if (this.getSeatInfo(1 + sid) instanceof MCH_SeatRackInfo info && seat != null && seat.getRiddenByEntity() == null) {
-                Vec3d v = MCH_Lib.RotVec3(info.getEntryPos().x, info.getEntryPos().y, info.getEntryPos().z, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+                Vec3d v = MCH_Lib.RotVec3(info.getEntryPos().x, info.getEntryPos().y, info.getEntryPos().z, -this.getYaw(), -this.getPitch(), -this.getRoll());
                 v = v.add(this.posX, this.posY, this.posZ);
                 AxisAlignedBB bb = new AxisAlignedBB(v.x, v.y, v.z, v.x, v.y, v.z);
                 float range = info.range;
@@ -4059,7 +4065,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                     }
                 }
 
-                Vec3d v = MCH_Lib.RotVec3(pos.x, pos.y, pos.z, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+                Vec3d v = MCH_Lib.RotVec3(pos.x, pos.y, pos.z, -this.getYaw(), -this.getPitch(), -this.getRoll());
                 seat.posX = entity.posX = this.posX + v.x;
                 seat.posY = entity.posY = this.posY + v.y;
                 seat.posZ = entity.posZ = this.posZ + v.z;
@@ -4521,7 +4527,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 this.setTVMissile(null);
                 MCH_AircraftInfo.CameraPosition cpi = this.getCameraPosInfo();
                 Vec3d cp = cpi != null ? cpi.pos() : Vec3d.ZERO;
-                Vec3d v = MCH_Lib.RotVec3(cp, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+                Vec3d v = MCH_Lib.RotVec3(cp, -this.getYaw(), -this.getPitch(), -this.getRoll());
                 this.camera.setPosition(x + v.x, y + v.y, z + v.z);
             }
         }
@@ -4888,8 +4894,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                     this.useWeaponStat = this.dataManager.get(USE_WEAPON);
                 }
 
-                float yaw = MathHelper.wrapDegrees(this.getRotYaw());
-                float pitch = MathHelper.wrapDegrees(this.getRotPitch());
+                float yaw = MathHelper.wrapDegrees(this.getYaw());
+                float pitch = MathHelper.wrapDegrees(this.getPitch());
                 int id = 0;
 
                 for (int wid = 0; wid < this.weapons.length; wid++) {
@@ -4946,7 +4952,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                         }
 
                         if (!(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
-                            w.setTurretYaw(this.getLastRiderYaw() - this.getRotYaw());
+                            w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
                             if (this.getTowedChainEntity() != null || this.getRidingEntity() != null) {
                                 w.setYaw(0.0F);
                             }
@@ -4996,8 +5002,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         if (this.getAcInfo() != null) {
             if (this.getAcInfo().getWeaponCount() > 0) {
                 if (!this.isDestroyed()) {
-                    float yaw = MathHelper.wrapDegrees(this.getRotYaw());
-                    float pitch = MathHelper.wrapDegrees(this.getRotPitch());
+                    float yaw = MathHelper.wrapDegrees(this.getYaw());
+                    float pitch = MathHelper.wrapDegrees(this.getPitch());
 
                     for (int wid = 0; wid < this.weapons.length; wid++) {
                         MCH_WeaponSet w = this.weapons[wid];
@@ -5009,7 +5015,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                             }
 
                             if (!(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
-                                w.setTurretYaw(this.getLastRiderYaw() - this.getRotYaw());
+                                w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
                             } else {
                                 if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
                                     float ty = wi.turret ? MathHelper.wrapDegrees(this.getLastRiderYaw()) - yaw : 0.0F;

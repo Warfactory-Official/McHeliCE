@@ -173,7 +173,7 @@ public abstract class MCH_WeaponBase {
             return ((MCH_EntityAircraft) entity).calcOnTurretPos(this.position);
         } else {
             Vec3d v = new Vec3d(this.position.x, this.position.y, this.position.z);
-            float roll = entity instanceof MCH_EntityAircraft ? ((MCH_EntityAircraft) entity).getRotRoll() : 0.0F;
+            float roll = entity instanceof MCH_EntityAircraft ? ((MCH_EntityAircraft) entity).getRoll() : 0.0F;
             return MCH_Lib.RotVec3(v, -entity.rotationYaw, -entity.rotationPitch, -roll);
         }
     }

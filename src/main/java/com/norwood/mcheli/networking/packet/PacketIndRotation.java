@@ -21,9 +21,9 @@ public class PacketIndRotation extends PacketBase implements ClientToServerPacke
         if (ac != null) {
             var packet = new PacketIndRotation();
             packet.entityID_Ac = W_Entity.getEntityId(ac);
-            packet.yaw = ac.getRotYaw();
-            packet.pitch = ac.getRotPitch();
-            packet.roll = ac.getRotRoll();
+            packet.yaw = ac.getYaw();
+            packet.pitch = ac.getPitch();
+            packet.roll = ac.getRoll();
             packet.rollRev = ac.aircraftRollRev;
             packet.sendToServer();
         }

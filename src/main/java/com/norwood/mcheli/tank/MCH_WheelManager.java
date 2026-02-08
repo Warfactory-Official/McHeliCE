@@ -180,7 +180,7 @@ public class MCH_WheelManager {
             }
 
             // rotate into world space relative to vehicle yaw
-            rv = rv.rotateYaw((float) (ac.getRotYaw() * Math.PI / 180.0));
+            rv = rv.rotateYaw((float) (ac.getYaw() * Math.PI / 180.0));
 
             // compute pitch/roll from rv (same formula as original)
             float pitch = (float) (90.0 - Math.atan2(rv.y, rv.z) * 180.0 / Math.PI);
@@ -188,12 +188,12 @@ public class MCH_WheelManager {
 
             // Limit change per ac's configured on-ground factors (same as original)
             float ogpf = ac.getAcInfo().onGroundPitchFactor;
-            if (pitch - ac.getRotPitch() > ogpf) pitch = ac.getRotPitch() + ogpf;
-            if (pitch - ac.getRotPitch() < -ogpf) pitch = ac.getRotPitch() - ogpf;
+            if (pitch - ac.getPitch() > ogpf) pitch = ac.getPitch() + ogpf;
+            if (pitch - ac.getPitch() < -ogpf) pitch = ac.getPitch() - ogpf;
 
             float ogrf = ac.getAcInfo().onGroundRollFactor;
-            if (roll - ac.getRotRoll() > ogrf) roll = ac.getRotRoll() + ogrf;
-            if (roll - ac.getRotRoll() < -ogrf) roll = ac.getRotRoll() - ogrf;
+            if (roll - ac.getRoll() > ogrf) roll = ac.getRoll() + ogrf;
+            if (roll - ac.getRoll() < -ogrf) roll = ac.getRoll() - ogrf;
 
             this.targetPitch = pitch;
             this.targetRoll = roll;
@@ -202,11 +202,11 @@ public class MCH_WheelManager {
             boolean groundLike = ac.onGround || MCH_Lib.getBlockIdY(ac, 1, -2) > 0;
             double horizSpeed = Math.sqrt(ac.motionX * ac.motionX + ac.motionZ * ac.motionZ);
             if (groundLike && horizSpeed < GROUND_HORZ_SPEED_EPS) {
-                if (pitch - ac.getRotPitch() < -MAX_DOWN_PITCH_STATIONARY) {
-                    pitch = ac.getRotPitch() - MAX_DOWN_PITCH_STATIONARY;
+                if (pitch - ac.getPitch() < -MAX_DOWN_PITCH_STATIONARY) {
+                    pitch = ac.getPitch() - MAX_DOWN_PITCH_STATIONARY;
                 }
                 // damp the correction somewhat so it doesn't instantly change
-                pitch = ac.getRotPitch() + (pitch - ac.getRotPitch()) * 0.45F;
+                pitch = ac.getPitch() + (pitch - ac.getPitch()) * 0.45F;
             }
 
             // Blended application: stronger in air, much weaker on ground when throttling/moving
@@ -222,26 +222,26 @@ public class MCH_WheelManager {
                 }
             }
 
-            float newPitch = ac.getRotPitch() + (pitch - ac.getRotPitch()) * blend;
-            float newRoll = ac.getRotRoll() + (roll - ac.getRotRoll()) * blend;
+            float newPitch = ac.getPitch() + (pitch - ac.getPitch()) * blend;
+            float newRoll = ac.getRoll() + (roll - ac.getRoll()) * blend;
 
             // clamp per-tick delta
-            float dpitch = newPitch - ac.getRotPitch();
-            float droll = newRoll - ac.getRotRoll();
+            float dpitch = newPitch - ac.getPitch();
+            float droll = newRoll - ac.getRoll();
             if (dpitch > MAX_DELTA_PER_TICK) dpitch = MAX_DELTA_PER_TICK;
             if (dpitch < -MAX_DELTA_PER_TICK) dpitch = -MAX_DELTA_PER_TICK;
             if (droll > MAX_DELTA_PER_TICK) droll = MAX_DELTA_PER_TICK;
             if (droll < -MAX_DELTA_PER_TICK) droll = -MAX_DELTA_PER_TICK;
 
             if (!W_Lib.isClientPlayer(ac.getRiddenByEntity())) {
-                ac.setRotPitch(ac.getRotPitch() + dpitch);
-                ac.setRotRoll(ac.getRotRoll() + droll);
+                ac.setRotPitch(ac.getPitch() + dpitch);
+                ac.setRotRoll(ac.getRoll() + droll);
             }
         }
 
         // 6) Reposition wheels to follow targetPitch/targetRoll (respecting movement limits)
         for (MCH_EntityWheel wheel : this.wheels) {
-            Vec3d vx = this.getTransformedPosition(wheel.pos.x, wheel.pos.y, wheel.pos.z, ac, ac.getRotYaw(),
+            Vec3d vx = this.getTransformedPosition(wheel.pos.x, wheel.pos.y, wheel.pos.z, ac, ac.getYaw(),
                     this.targetPitch, this.targetRoll);
             double rangeH = 2.0;
             double poy = wheel.stepHeight / 2.0F;
@@ -297,8 +297,8 @@ public class MCH_WheelManager {
     public void particleLandingGear() {
         if (this.wheels.length > 0) {
             MCH_EntityAircraft ac = this.parent;
-            double d = ac.motionX * ac.motionX + ac.motionZ * ac.motionZ + Math.abs(this.prevYaw - ac.getRotYaw());
-            this.prevYaw = ac.getRotYaw();
+            double d = ac.motionX * ac.motionX + ac.motionZ * ac.motionZ + Math.abs(this.prevYaw - ac.getYaw());
+            this.prevYaw = ac.getYaw();
             if (d > 0.001) {
                 for (int i = 0; i < 2; i++) {
                     MCH_EntityWheel w = this.wheels[rand.nextInt(this.wheels.length)];

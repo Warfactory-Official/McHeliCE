@@ -381,7 +381,7 @@ public class MCH_EntityGunner extends EntityLivingBase {
                 } else {
                     MCH_AircraftInfo.Weapon wi = ac.getAcInfo().getWeaponById(ac.getCurrentWeaponID(this));
                     Vec3d v1 = new Vec3d(0.0, 0.0, 1.0);
-                    float yaw = -ac.getRotYaw() + (wi.maxYaw + wi.minYaw) / 2.0F - wi.defaultYaw;
+                    float yaw = -ac.getYaw() + (wi.maxYaw + wi.minYaw) / 2.0F - wi.defaultYaw;
                     v1 = v1.rotateYaw(yaw * (float) Math.PI / 180.0F);
                     Vec3d v2 = new Vec3d(entity.posX - pos.x, 0.0, entity.posZ - pos.z).normalize();
                     double dot = v1.dotProduct(v2);

@@ -21,12 +21,20 @@ import com.cleanroommc.modularui.widgets.layout.Grid;
 import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
+import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.factories.AircraftGuiData;
+import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
 import com.norwood.mcheli.networking.packet.PacketRequestResupply;
+import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.ship.MCH_EntityShip;
+import com.norwood.mcheli.tank.MCH_EntityTank;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -246,6 +254,7 @@ public class AircraftGui {
                                 .child(fuelSlots.relativeToParent().align(Alignment.TopRight))
                                 .child(grid.relativeToParent().align(Alignment.BottomLeft))
                                 .child(weaponList.relativeToParent().align(Alignment.TopLeft))
+                                .child(new WidgetAircraftViewport((ModelVBO) data.getInfo().model, getTexturePath(aircraft), aircraft.getAcInfo()).size(100).align(Alignment.BottomRight))
                 )
                 .coverChildren()
                 .padding(5)
@@ -262,4 +271,18 @@ public class AircraftGui {
                 );
     }
 
+    public static ResourceLocation getTexturePath(MCH_EntityAircraft ac){
+
+       String path = switch (ac) {
+           case MCH_EntityHeli heli -> "helicopters/" + heli.getTextureName();
+           case MCH_EntityPlane plane -> "planes/" + plane.getTextureName();
+           case MCH_EntityVehicle vehicle -> "vehicles/" + vehicle.getTextureName();
+           case MCH_EntityShip ship -> "ships/" + ship.getTextureName();
+           case MCH_EntityTank tank -> "tanks/" + tank.getTextureName();
+           default -> throw new IllegalStateException("Unexpected value: " + ac);
+       };
+       return new ResourceLocation(Tags.MODID, "textures/"+path+".png");
+
+
+    }
 }

@@ -242,7 +242,7 @@ public class MCH_Multiplay {
         if (!player.world.isRemote) {
             float acRoll = 0.0F;
             if (ac != null) {
-                acRoll = ac.getRotRoll();
+                acRoll = ac.getRoll();
             }
 
             Vec3d vv = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -player.rotationYaw, -player.rotationPitch, -acRoll);

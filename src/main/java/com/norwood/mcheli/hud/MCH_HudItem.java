@@ -195,9 +195,9 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("test_mode", MCH_Config.TestMode.prmBool);
         updateVarMapItem("plyr_yaw", MathHelper.wrapDegrees(player.rotationYaw));
         updateVarMapItem("plyr_pitch", player.rotationPitch);
-        updateVarMapItem("yaw", MathHelper.wrapDegrees(ac.getRotYaw()));
-        updateVarMapItem("pitch", ac.getRotPitch());
-        updateVarMapItem("roll", MathHelper.wrapDegrees(ac.getRotRoll()));
+        updateVarMapItem("yaw", MathHelper.wrapDegrees(ac.getYaw()));
+        updateVarMapItem("pitch", ac.getPitch());
+        updateVarMapItem("roll", MathHelper.wrapDegrees(ac.getRoll()));
         updateVarMapItem("altitude", Altitude);
         updateVarMapItem("sea_alt", getSeaAltitude(ac));
         updateVarMapItem("have_radar", ac.isEntityRadarMounted());

@@ -3,6 +3,9 @@ package com.norwood.mcheli.factories;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.factory.AbstractUIFactory;
 import com.cleanroommc.modularui.factory.GuiManager;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.ModularScreen;
+import com.norwood.mcheli.aircraft.AircraftGui;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,6 +56,14 @@ public class AircraftGuiFactory extends AbstractUIFactory<AircraftGuiData> {
                 aircraft.getAcInfo()
         );
     }
+
+    @Override
+    public ModularScreen createScreen(AircraftGuiData guiData, ModularPanel mainPanel) {
+        IGuiHolder<AircraftGuiData> guiHolder = Objects.requireNonNull(getGuiHolder(guiData), "Gui holder must not be null!");
+        return guiHolder.createScreen(guiData, mainPanel);
+    }
+
+
 
     @Override
     public boolean canInteractWith(EntityPlayer player, AircraftGuiData guiData) {

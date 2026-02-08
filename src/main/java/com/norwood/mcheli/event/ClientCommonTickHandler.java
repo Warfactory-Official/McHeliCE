@@ -340,9 +340,9 @@ public class ClientCommonTickHandler extends W_TickHandler {
         MCH_WeaponSet ws = ac.getCurrentWeapon(player);
         mouseDeltaY *= ws != null && ws.getInfo() != null ? ws.getInfo().cameraRotationSpeedPitch : 1.0;
 
-        float y = ac.getRotYaw();
-        float p = ac.getRotPitch();
-        float r = ac.getRotRoll();
+        float y = ac.getYaw();
+        float p = ac.getPitch();
+        float r = ac.getRoll();
 
         player.turn((float) mouseDeltaX, (float) mouseDeltaY);
         ac.setRotYaw(ac.calcRotYaw(partialTicks));
@@ -391,8 +391,8 @@ public class ClientCommonTickHandler extends W_TickHandler {
     }
 
     private void updateCameraRoll(MCH_EntityAircraft ac, EntityPlayer player) {
-        float roll = MathHelper.wrapDegrees(ac.getRotRoll());
-        float yaw = MathHelper.wrapDegrees(ac.getRotYaw() - player.rotationYaw);
+        float roll = MathHelper.wrapDegrees(ac.getRoll());
+        float yaw = MathHelper.wrapDegrees(ac.getYaw() - player.rotationYaw);
         roll *= MathHelper.cos((float) (yaw * Math.PI / 180.0));
 
         if (ac.getTVMissile() != null && W_Lib.isClientPlayer(ac.getTVMissile().shootingEntity) && ac.getIsGunnerMode(player)) {
@@ -404,8 +404,8 @@ public class ClientCommonTickHandler extends W_TickHandler {
     }
 
     private void fixPlayerRotation(MCH_EntityAircraft ac, MCH_SeatInfo seatInfo, EntityPlayer player) {
-        player.rotationYaw = ac.getRotYaw() + seatInfo.fixYaw;
-        player.rotationPitch = ac.getRotPitch() + seatInfo.fixPitch;
+        player.rotationYaw = ac.getYaw() + seatInfo.fixYaw;
+        player.rotationPitch = ac.getPitch() + seatInfo.fixPitch;
 
         if (player.rotationPitch > 90.0F) {
             player.prevRotationPitch -= (player.rotationPitch - 90.0F) * 2.0F;

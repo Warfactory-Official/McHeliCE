@@ -104,7 +104,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.newSeats(this.getAcInfo().getNumSeatAndRack());
             this.switchFreeLookModeClient(this.getAcInfo().defaultFreelook);
             this.weapons = this.createWeapon(1 + this.getSeatNum());
-            this.initPartRotation(this.getRotYaw(), this.getRotPitch());
+            this.initPartRotation(this.getYaw(), this.getPitch());
             this.WheelMng.createWheels(this.world, this.getAcInfo().wheels,
                     new Vec3d(0.0, -GLOBAL_Y_OFFSET, this.getTankInfo().weightedCenterZ));
         }
@@ -285,8 +285,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         boolean flag = this.onGround || d3 != y && d3 < 0.0;
 
         for (MCH_BoundingBox ebb : this.extraBoundingBox) {
-            ebb.updatePosition(this.posX, this.posY, this.posZ, this.getRotYaw(), this.getRotPitch(),
-                    this.getRotRoll());
+            ebb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(),
+                    this.getRoll());
         }
 
         if (x != 0.0) {
@@ -425,16 +425,16 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         if (this.isDestroyed()) return;
 
         if (this.isGunnerMode) {
-            this.setRotPitch(this.getRotPitch() * (float) Math.pow(0.95, deltaSeconds * 20)); // scale to per-second
-            if (MathHelper.abs(this.getRotRoll()) > 20.0F) {
-                this.setRotRoll(this.getRotRoll() * (float) Math.pow(0.95, deltaSeconds * 20));
+            this.setRotPitch(this.getPitch() * (float) Math.pow(0.95, deltaSeconds * 20)); // scale to per-second
+            if (MathHelper.abs(this.getRoll()) > 20.0F) {
+                this.setRotRoll(this.getRoll() * (float) Math.pow(0.95, deltaSeconds * 20));
             }
-            this.setRotYaw(this.getRotYaw() + this.getAcInfo().autoPilotRot * 0.2F * deltaSeconds * 20);
+            this.setRotYaw(this.getYaw() + this.getAcInfo().autoPilotRot * 0.2F * deltaSeconds * 20);
         }
 
         this.updateRecoil(deltaSeconds);
 
-        float currentPitch = this.getRotPitch();
+        float currentPitch = this.getPitch();
         float targetPitch = this.WheelMng.targetPitch;
         float interp = deltaSeconds;
 
@@ -467,7 +467,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                 MAX_PITCH_DELTA_PER_SECOND * deltaSeconds);
         this.setRotPitch(currentPitch + pitchDelta);
 
-        float currentRoll = this.getRotRoll();
+        float currentRoll = this.getRoll();
         float targetRoll = this.WheelMng.targetRoll;
         float rollInterp = deltaSeconds;
         if (!isFly || nearWaterFloat) rollInterp *= 0.5F;
@@ -499,10 +499,10 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
             float yawSpeed = 12.0F; // 0.6 deg/tick * 20 ticks/sec
             if (this.moveLeft && !this.moveRight) {
-                this.setRotYaw(this.getRotYaw() - yawSpeed * gmy * deltaSeconds * flag * sf);
+                this.setRotYaw(this.getYaw() - yawSpeed * gmy * deltaSeconds * flag * sf);
             }
             if (this.moveRight && !this.moveLeft) {
-                this.setRotYaw(this.getRotYaw() + yawSpeed * gmy * deltaSeconds * flag * sf);
+                this.setRotYaw(this.getYaw() + yawSpeed * gmy * deltaSeconds * flag * sf);
             }
         }
 
@@ -621,11 +621,11 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                                 float flag = !super.throttleUp && super.throttleDown &&
                                         this.getCurrentThrottle() < (double) pivotTurnThrottle1 + 0.05D ? -1.0F : 1.0F;
                                 if (super.moveLeft && !super.moveRight) {
-                                    this.setRotYaw(this.getRotYaw() + 0.6F * rotonground * flag * sf);
+                                    this.setRotYaw(this.getYaw() + 0.6F * rotonground * flag * sf);
                                 }
 
                                 if (super.moveRight && !super.moveLeft) {
-                                    this.setRotYaw(this.getRotYaw() - 0.6F * rotonground * flag * sf);
+                                    this.setRotYaw(this.getYaw() - 0.6F * rotonground * flag * sf);
                                 }
                             }
                         }
@@ -650,9 +650,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                         this.prevDamageSmokePos = new Vec3d[bbNum + 1];
                     }
 
-                    float yaw = this.getRotYaw();
-                    float pitch = this.getRotPitch();
-                    float roll = this.getRotRoll();
+                    float yaw = this.getYaw();
+                    float pitch = this.getPitch();
+                    float roll = this.getRoll();
 
                     for (int ri = 0; ri < bbNum; ri++) {
                         if (this.getHP() >= this.getMaxHP() * 0.2 && this.getMaxHP() > 0) {
@@ -969,7 +969,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             } else {
                 this.motionY *= 0.8;
             }
-        } else if (!(MathHelper.abs(this.getRotRoll()) >= 40.0F) && !(dp < 1.0)) {
+        } else if (!(MathHelper.abs(this.getRoll()) >= 40.0F) && !(dp < 1.0)) {
             if (this.motionY < 0.0) {
                 this.motionY /= 2.0;
             }
@@ -981,7 +981,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         // compute throttle & direction vector
         float throttle = (float) (this.getCurrentThrottle() / 10.0);
-        Vec3d v = MCH_Lib.Rot2Vec3(this.getRotYaw(), this.getRotPitch() - 10.0F);
+        Vec3d v = MCH_Lib.Rot2Vec3(this.getYaw(), this.getPitch() - 10.0F);
 
         // normalize vector (ensure consistent magnitude like 1.7 behaviour)
         double vx = v.x;
@@ -1061,9 +1061,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             }
 
             // call applyOnGroundPitch but clamp any sudden rotation delta it creates
-            float prevPitch = this.getRotPitch();
+            float prevPitch = this.getPitch();
             this.applyOnGroundPitch(0.8F);
-            float afterPitch = this.getRotPitch();
+            float afterPitch = this.getPitch();
             float delta = afterPitch - prevPitch;
             if (delta > MAX_PITCH_DELTA) {
                 delta = MAX_PITCH_DELTA;
@@ -1072,7 +1072,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             }
             // only update rotation to a clamped pitch
             if (delta != (afterPitch - prevPitch)) {
-                this.setRotation(this.getRotYaw(), prevPitch + delta);
+                this.setRotation(this.getYaw(), prevPitch + delta);
             }
         }
 
@@ -1081,7 +1081,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         this.motionY *= 0.95;
         this.motionX = this.motionX * this.getAcInfo().motionFactor;
         this.motionZ = this.motionZ * this.getAcInfo().motionFactor;
-        this.setRotation(this.getRotYaw(), this.getRotPitch());
+        this.setRotation(this.getYaw(), this.getPitch());
         this.onUpdate_updateBlock();
         this.updateCollisionBox();
         if (this.getRiddenByEntity() != null && this.getRiddenByEntity().isDead) {
@@ -1292,9 +1292,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         this.lowPassPartialTicks.put(deltaSeconds);
         deltaSeconds = this.lowPassPartialTicks.getAvg();
 
-        float ac_pitch = this.getRotPitch();
-        float ac_yaw = this.getRotYaw();
-        float ac_roll = this.getRotRoll();
+        float ac_pitch = this.getPitch();
+        float ac_yaw = this.getYaw();
+        float ac_roll = this.getRoll();
 
         float yaw = 0.0F;
         float pitch = 0.0F;
@@ -1304,9 +1304,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         MCH_Math.MatTurnZ(m_add, roll / 180.0F * (float) Math.PI);
         MCH_Math.MatTurnX(m_add, pitch / 180.0F * (float) Math.PI);
         MCH_Math.MatTurnY(m_add, yaw / 180.0F * (float) Math.PI);
-        MCH_Math.MatTurnZ(m_add, this.getRotRoll() / 180.0F * (float) Math.PI);
-        MCH_Math.MatTurnX(m_add, this.getRotPitch() / 180.0F * (float) Math.PI);
-        MCH_Math.MatTurnY(m_add, this.getRotYaw() / 180.0F * (float) Math.PI);
+        MCH_Math.MatTurnZ(m_add, this.getRoll() / 180.0F * (float) Math.PI);
+        MCH_Math.MatTurnX(m_add, this.getPitch() / 180.0F * (float) Math.PI);
+        MCH_Math.MatTurnY(m_add, this.getYaw() / 180.0F * (float) Math.PI);
 
         MCH_Math.FVector3D v = MCH_Math.MatrixToEuler(m_add);
 
@@ -1325,23 +1325,23 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         //POST LIMIT CLAMP
         if (this.getAcInfo().limitRotation) {
-            this.setRotPitch(MCH_Lib.RNG(this.getRotPitch(), -90.0F, 90.0F));
-            this.setRotRoll(MCH_Lib.RNG(this.getRotRoll(), -90.0F, 90.0F));
+            this.setRotPitch(MCH_Lib.RNG(this.getPitch(), -90.0F, 90.0F));
+            this.setRotRoll(MCH_Lib.RNG(this.getRoll(), -90.0F, 90.0F));
         }
 
         //CHECK
-        if (MathHelper.abs(this.getRotPitch()) > 90.0F) {
-            MCH_Logger.debugLog(true, "MCH_EntityAircraft.setAngles Error:Pitch=%.1f", this.getRotPitch());
+        if (MathHelper.abs(this.getPitch()) > 90.0F) {
+            MCH_Logger.debugLog(true, "MCH_EntityAircraft.setAngles Error:Pitch=%.1f", this.getPitch());
             this.setRotPitch(0.0F);
         }
 
-        if (this.getRotRoll() > 180.0F) this.setRotRoll(this.getRotRoll() - 360.0F);
-        if (this.getRotRoll() < -180.0F) this.setRotRoll(this.getRotRoll() + 360.0F);
+        if (this.getRoll() > 180.0F) this.setRotRoll(this.getRoll() - 360.0F);
+        if (this.getRoll() < -180.0F) this.setRotRoll(this.getRoll() + 360.0F);
 
-        this.prevRotationRoll = this.getRotRoll();
-        this.prevRotationPitch = this.getRotPitch();
+        this.prevRotationRoll = this.getRoll();
+        this.prevRotationPitch = this.getPitch();
         if (this.getRidingEntity() == null) {
-            this.prevRotationYaw = this.getRotYaw();
+            this.prevRotationYaw = this.getYaw();
         }
 
         //DELTA LIMITED TURN
@@ -1358,25 +1358,25 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             player.turn(deltaX, 0.0F);
         } else {
             if (this.getRidingEntity() == null) {
-                player.prevRotationYaw = this.getRotYaw() + fixYaw;
+                player.prevRotationYaw = this.getYaw() + fixYaw;
             } else {
-                if (this.getRotYaw() - player.rotationYaw > 180.0F) player.prevRotationYaw += 360.0F;
-                if (this.getRotYaw() - player.rotationYaw < -180.0F) player.prevRotationYaw -= 360.0F;
+                if (this.getYaw() - player.rotationYaw > 180.0F) player.prevRotationYaw += 360.0F;
+                if (this.getYaw() - player.rotationYaw < -180.0F) player.prevRotationYaw -= 360.0F;
             }
-            player.rotationYaw = this.getRotYaw() + fixYaw;
+            player.rotationYaw = this.getYaw() + fixYaw;
         }
 
         if (!this.isOverridePlayerPitch() && !fixRot) {
             player.turn(0.0F, deltaY);
         } else {
-            player.prevRotationPitch = this.getRotPitch() + fixPitch;
-            player.rotationPitch = this.getRotPitch() + fixPitch;
+            player.prevRotationPitch = this.getPitch() + fixPitch;
+            player.rotationPitch = this.getPitch() + fixPitch;
         }
 
         //PITCH ADJUSTMENT
-        float playerYaw = MathHelper.wrapDegrees(this.getRotYaw() - player.rotationYaw);
-        float playerPitch = this.getRotPitch() * MathHelper.cos((float) (playerYaw * Math.PI / 180.0)) -
-                this.getRotRoll() * MathHelper.sin((float) (playerYaw * Math.PI / 180.0));
+        float playerYaw = MathHelper.wrapDegrees(this.getYaw() - player.rotationYaw);
+        float playerPitch = this.getPitch() * MathHelper.cos((float) (playerYaw * Math.PI / 180.0)) -
+                this.getRoll() * MathHelper.sin((float) (playerYaw * Math.PI / 180.0));
 
         if (MCH_MOD.proxy.isFirstPerson()) {
             player.rotationPitch = MCH_Lib.RNG(
@@ -1389,9 +1389,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         player.prevRotationPitch = player.rotationPitch;
 
         //CHANGE FLAG
-        if ((this.getRidingEntity() == null && ac_yaw != this.getRotYaw()) ||
-                ac_pitch != this.getRotPitch() ||
-                ac_roll != this.getRotRoll()) {
+        if ((this.getRidingEntity() == null && ac_yaw != this.getYaw()) ||
+                ac_pitch != this.getPitch() ||
+                ac_roll != this.getRoll()) {
             this.aircraftRotChanged = true;
         }
     }

@@ -4,6 +4,7 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
 import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -50,6 +51,9 @@ public class MCH_RenderShip extends MCH_RenderAircraft<MCH_EntityShip> {
                 }
 
                 renderBody(planeInfo.model);
+                if (!planeInfo.partCrawlerTrack.isEmpty() &&  entity.getCurrentThrottle() == 0 )
+                    ((ModelVBO) planeInfo.model).renderTracksBuffer(planeInfo);
+
             }
         }
     }
