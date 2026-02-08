@@ -50,7 +50,7 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
 
             root.text(String.format("§e%s§r", aircraft.getName()));
             root.text(String.format("HP: %d / %d", aircraft.getHP(), aircraft.getMaxHP()));
-            root.text(String.format("Speed: %.0f m/s", aircraft.currentSpeed));
+            root.text(String.format("Speed: %.0f m/s", aircraft.getCurrentSpeed()));
 
             if (aircraft.getRiddenByEntity() != null) {
                 root.text("Pilot: " + aircraft.getRiddenByEntity().getName());
@@ -71,6 +71,7 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
         private final NBTTagCompound entityNBT;
         private final IEntityStyle style;
 
+        @SuppressWarnings("unused")
         public AircraftElement(String entityName, IEntityStyle style) {
             this.entityName = entityName;
             this.entityNBT = null;

@@ -40,7 +40,7 @@ public class WidgetAircraftViewport extends Widget<WidgetAircraftViewport> {
 
             double localCenterX = getArea().getWidth() / 2.0;
             double localCenterY = getArea().getHeight() / 2.0;
-            GlStateManager.translate(localCenterX, localCenterY, 100.0);
+            GlStateManager.translate(localCenterX, localCenterY, 300.0);
 
             GlStateManager.scale(scl, -scl, scl);
 

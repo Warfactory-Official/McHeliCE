@@ -5849,4 +5849,14 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
                 I18n.format("item.mcheli:"+acInfo.name+".name") : acInfo.displayName;
 
     }
+
+    public double getCurrentSpeed() {
+        double motionX = this.motionX;
+        double motionY = this.motionY;
+        double motionZ = this.motionZ;
+
+        double tickDistance = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
+
+        return tickDistance * 20.0D;
+    }
 }

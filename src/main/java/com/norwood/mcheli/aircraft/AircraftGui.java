@@ -27,6 +27,7 @@ import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
 import com.norwood.mcheli.networking.packet.PacketRequestResupply;
+import com.norwood.mcheli.parachute.MCH_ItemParachute;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.tank.MCH_EntityTank;
@@ -57,7 +58,20 @@ public class AircraftGui {
     public static final int C_WIDTH = 410;
     public static final int C_HEIGHT = 300;
     public static final int SLOT_SIZE = 18;
+
     public static final ResourceLocation WEAPON_ICONS = new ResourceLocation(Tags.MODID, "gui/wepon_icons");
+    public static final UITexture PARACHUTE_SLOT =
+            UITexture.builder()
+                    .location(new ResourceLocation(Tags.MODID, "gui/parachute_slot"))
+                    .imageSize(18, 18)
+                    .name("parachute_slot")
+                    .build();
+    public static final UITexture FUEL =
+            UITexture.builder()
+                    .location(new ResourceLocation(Tags.MODID, "gui/fuel_"))
+                    .imageSize(32, 32)
+                    .name("fuel")
+                    .build();
 
     public static final UITexture APFSDS_SHELL = createWeaponIcon("apfsds", 0, 0);
     public static final UITexture HE_SHELL = createWeaponIcon("he_shell", 18, 0);
@@ -76,17 +90,6 @@ public class AircraftGui {
     public static final UITexture NUC_WARHEAD = createWeaponIcon("nuc_warhead", 108, 36);
     public static final UITexture MG_7_62MM = createWeaponIcon("mg_7_62", 126, 36);
     public static final UITexture MG_12_7MM = createWeaponIcon("mg_12_7", 144, 36);
-
-    private static UITexture createWeaponIcon(String name, int x, int y) {
-        return UITexture.builder()
-                .location(WEAPON_ICONS)
-                .imageSize(160, 53)
-                .subAreaXYWH(x, y, 16, 16)
-                .name(name)
-                .build();
-    }
-
-
     public static Map<String, UITexture> name2WSIcon = new HashMap<>();
     static UITexture RELOAD_LIGHT = UITexture.builder()
             .location(Tags.MODID, "gui/reload_light")
@@ -101,39 +104,48 @@ public class AircraftGui {
             .defaultColorType()
             .build();
 
+    private static UITexture createWeaponIcon(String name, int x, int y) {
+        return UITexture.builder()
+                .location(WEAPON_ICONS)
+                .imageSize(160, 53)
+                .subAreaXYWH(x, y, 16, 16)
+                .name(name)
+                .build();
+    }
 
+    @Nullable
+    private static UITexture determineIcon(@NotNull String name) {
+        String lowerCase = name.toLowerCase(Locale.ROOT);
+        // Shells
+        if (lowerCase.contains("apfsds")) return APFSDS_SHELL;
+        if (lowerCase.contains("heat")) return HEAT_SHELL;
+        if ((name.contains("HE") && lowerCase.contains("cannon")) || lowerCase.contains("high explosive") || lowerCase.contains("hesh"))
+            return HE_SHELL;
+        if (lowerCase.contains("canister")) return CANISTER_SHELL;
 
-   @Nullable private static UITexture determineIcon( @NotNull String name) {
-       String lowerCase = name.toLowerCase(Locale.ROOT);
-       // Shells
-       if (lowerCase.contains("apfsds")) return APFSDS_SHELL;
-       if (lowerCase.contains("heat")) return HEAT_SHELL;
-       if ((name.contains("HE") && lowerCase.contains("cannon") )|| lowerCase.contains("high explosive") || lowerCase.contains("hesh")) return HE_SHELL;
-       if (lowerCase.contains("canister")) return CANISTER_SHELL;
+        // Machine Guns
+        if (lowerCase.contains("machine gun") || lowerCase.contains("browning") || lowerCase.contains("mg")) {
+            if (lowerCase.contains("12.7mm")) return MG_12_7MM;
+            if (lowerCase.contains("7.62mm")) return MG_7_62MM;
+            if (lowerCase.contains("gatling")) return GATLING_BULLET;
+            return LARGE_CALIBER_MG;
+        }
 
-       // Machine Guns
-       if (lowerCase.contains("machine gun") || lowerCase.contains("browning")|| lowerCase.contains("mg")) {
-           if (lowerCase.contains("12.7mm")) return MG_12_7MM;
-           if (lowerCase.contains("7.62mm")) return MG_7_62MM;
-           if (lowerCase.contains("gatling")) return GATLING_BULLET;
-           return LARGE_CALIBER_MG;
-       }
+        // Rockets / Missiles
+        if (lowerCase.contains("aam")) return AAM_ROCKET;
+        if (lowerCase.contains("sam")) return SAM_ROCKET;
+        if (lowerCase.contains("tv rocket")) return TV_ROCKET;
 
-       // Rockets / Missiles
-       if (lowerCase.contains("aam")) return AAM_ROCKET;
-       if (lowerCase.contains("sam")) return SAM_ROCKET;
-       if (lowerCase.contains("tv rocket")) return TV_ROCKET;
+        // Bombs & Heavy Ordnance
+        if (lowerCase.contains("nuc") || lowerCase.contains("nuclear")) return NUC_WARHEAD;
+        if (lowerCase.contains("cluster")) return CLUSTER_BOMB;
+        if (lowerCase.contains("bomb")) return BOMB;
 
-       // Bombs & Heavy Ordnance
-       if (lowerCase.contains("nuc") || lowerCase.contains("nuclear")) return NUC_WARHEAD;
-       if (lowerCase.contains("cluster")) return CLUSTER_BOMB;
-       if (lowerCase.contains("bomb")) return BOMB;
+        // Other
+        if (lowerCase.contains("mortar")) return MORTAR_SHOT;
 
-       // Other
-       if (lowerCase.contains("mortar")) return MORTAR_SHOT;
-
-       return null;
-   }
+        return null;
+    }
 
     public static Predicate<ItemStack> fuelPredicate(MCH_AircraftInfo info) {
         return stack -> {
@@ -179,7 +191,7 @@ public class AircraftGui {
                                     syncManager.callSyncedAction("dumpFuel");
                                     return true;
                                 }).size(18)
-                                .overlay(GuiTextures.CROSS)
+                                .overlay(FUEL.asIcon().size(16))
                                 .tooltip(tooltip -> tooltip.addLine("Empty the tank")
                                         .add(IKey.str("Warning!").style(TextFormatting.RED, TextFormatting.BOLD))
                                         .add(IKey.str(" The contents of the tank will be lost!").style(TextFormatting.RED)))
@@ -301,10 +313,10 @@ public class AircraftGui {
                     MCH_WeaponSet ws = entry.set();
                     int weaponId = entry.id();
                     var row = new Row();
-                    if(name2WSIcon.computeIfAbsent(ws.getDisplayName(), AircraftGui::determineIcon) !=null)
+                    if (name2WSIcon.computeIfAbsent(ws.getDisplayName(), AircraftGui::determineIcon) != null)
                         row.child(name2WSIcon.get(ws.getDisplayName()).asWidget());
 
-                            row.child(new ScrollingTextWidget(IKey.str(ws.getDisplayName()))
+                    row.child(new ScrollingTextWidget(IKey.str(ws.getDisplayName()))
                                     .tooltip(t -> t.addLine(ws.getDisplayName()))
                                     .padding(4)
                                     .height(8)
@@ -325,7 +337,7 @@ public class AircraftGui {
                                         } else return false;
                                     })
                                     .background(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON : GuiTextures.MC_BUTTON_DISABLED)
-                                    .overlay(canResupply(ws, aircraft, data.getPlayer()) ? RELOAD_LIGHT : RELOAD_DARK)
+                                    .overlay(canResupply(ws, aircraft, data.getPlayer()) ? RELOAD_LIGHT.asIcon().size(16) : RELOAD_DARK.asIcon().size(16))
                                     .hoverBackground(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON_HOVERED : GuiTextures.MC_BUTTON_DISABLED)
                                     .tooltip(tooltip -> {
                                         tooltip.addLine("Reload");
@@ -345,17 +357,53 @@ public class AircraftGui {
         ).scrollDirection(GuiAxis.Y).size(300, 110);
 
 
+        var viewport = new Column().name("viewport")
+                .size(110, 85)
+                .child(new WidgetAircraftViewport((ModelVBO) data.getInfo().model, getTexturePath(aircraft), aircraft.getAcInfo())
+                        .size(110, 50)
+                        .background(GuiTextures.SLOT_ITEM.withColorOverride(0xFF000000))
+                )
+                .child(new Row()
+                        .child(IKey.dynamic(() -> String.format("%.0f m/s", aircraft.getCurrentSpeed()))
+                                .style(TextFormatting.WHITE).asWidget()
+                                .margin(2)
+                        )
+                        .child(IKey.dynamic(() -> String.format("HP: %d/%d", aircraft.getHP(), aircraft.getMaxHP()))
+                                .style(TextFormatting.GREEN).asWidget()
+                                .margin(2)
+                        )
+                        .padding(2)
+                        .height(10)
+                        .background(GuiTextures.SLOT_ITEM.withColorOverride(0xFF000000))
+                )
+                .child(
+                        new Row()
+                                .child(new ItemSlot()
+                                        .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_PARACHUTE0)
+                                                .filter(stack -> stack.getItem() instanceof MCH_ItemParachute))
+                                        .setEnabledIf(_ -> data.getInfo().isEnableParachuting || data.getInfo().isEnableEjectionSeat)
+                                        .overlay(PARACHUTE_SLOT)
+                                )
+                                .child(new ItemSlot()
+                                        .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_PARACHUTE1)
+                                                .filter(stack -> stack.getItem() instanceof MCH_ItemParachute))
+                                        .setEnabledIf(_ -> data.getInfo().isEnableParachuting || data.getInfo().isEnableEjectionSeat)
+                                        .overlay(PARACHUTE_SLOT)
+                                )
+                                .size(SLOT_SIZE * 2, SLOT_SIZE)
+                )
+                .background(GuiTextures.MENU_BACKGROUND);
+        var gui = new ParentWidget<>()
+                .size(C_WIDTH - 10, 200)
+                .child(fuelSlots.relativeToParent().align(Alignment.TopRight))
+                .child(grid.relativeToParent().align(Alignment.BottomLeft))
+                .child(weaponList.relativeToParent().align(Alignment.TopLeft))
+                .child(viewport.relativeToParent().align(Alignment.BottomRight));
+
+
         var vehicleGui = new ParentWidget<>().name("vehicle_gui")
                 .child(
-                        new ParentWidget<>()
-                                .size(C_WIDTH - 10, 200)
-                                .child(fuelSlots.relativeToParent().align(Alignment.TopRight))
-                                .child(grid.relativeToParent().align(Alignment.BottomLeft))
-                                .child(weaponList.relativeToParent().align(Alignment.TopLeft))
-                                .child(new WidgetAircraftViewport((ModelVBO) data.getInfo().model, getTexturePath(aircraft), aircraft.getAcInfo())
-                                        .size(100, 50)
-                                        .background(GuiTextures.SLOT_ITEM.withColorOverride(0xFF000000))
-                                        .align(Alignment.BottomRight))
+                        gui
                 )
                 .coverChildren()
                 .padding(5)
@@ -367,7 +415,7 @@ public class AircraftGui {
                 .child(
                         new Column()
                                 .bottom(0)
-                                .child(IKey.str(aircraft.getName()).asWidget().padding(4,2).background(GuiTextures.MC_BACKGROUND))
+                                .child(IKey.str(aircraft.getName()).asWidget().padding(4, 2).background(GuiTextures.MC_BACKGROUND))
                                 .child(vehicleGui)
                                 .child(inventory)
                 );

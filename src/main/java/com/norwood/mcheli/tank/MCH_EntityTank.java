@@ -1465,6 +1465,11 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             }
         }
     }
+    @Override
+    public double getCurrentSpeed() {
+        double tickDistance = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        return tickDistance * 20.0D;
+    }
 
     @Override
     public float getUnfoldLandingGearThrottle() {
