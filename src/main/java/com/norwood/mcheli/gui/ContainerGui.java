@@ -51,7 +51,7 @@ public class ContainerGui {
                         )
                         .size(gridWidth + 4, gridHeight)
                         .scrollable(new VerticalScrollData())
-                ).coverChildren().background(GuiTextures.MENU_BACKGROUND).margin(1);
+                ).coverChildren().background(GuiTextures.MC_BACKGROUND).margin(1);
 
         var inventory = new Row().invisible().child(
                         new ParentWidget<>().name("inventory_wrapper")
