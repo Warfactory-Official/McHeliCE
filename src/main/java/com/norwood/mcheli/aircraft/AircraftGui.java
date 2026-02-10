@@ -66,6 +66,13 @@ public class AircraftGui {
                     .imageSize(18, 18)
                     .name("parachute_slot")
                     .build();
+
+    public static final UITexture FUEL_SLOT =
+            UITexture.builder()
+                    .location(new ResourceLocation(Tags.MODID, "gui/fuel_slot"))
+                    .imageSize(18, 18)
+                    .name("fuel_slot")
+                    .build();
     public static final UITexture FUEL =
             UITexture.builder()
                     .location(new ResourceLocation(Tags.MODID, "gui/fuel_"))
@@ -134,7 +141,7 @@ public class AircraftGui {
         // Rockets / Missiles
         if (lowerCase.contains("aam")) return AAM_ROCKET;
         if (lowerCase.contains("sam")) return SAM_ROCKET;
-        if (lowerCase.contains("tv rocket")) return TV_ROCKET;
+        if (name.contains("TV")) return TV_ROCKET;
 
         // Bombs & Heavy Ordnance
         if (lowerCase.contains("nuc") || lowerCase.contains("nuclear")) return NUC_WARHEAD;
@@ -179,6 +186,7 @@ public class AircraftGui {
         var aircraftInvHander = aircraft.getInventory();
         var aircraftGuiInv = aircraft.getGuiInventory().getItemHandler();
         syncManager.registerServerSyncedAction("dumpFuel", (_) -> aircraft.dumpFuel());
+        boolean showParachuteSlot = data.getInfo().isEnableParachuting || data.getInfo().isEnableEjectionSeat;
 
 
         var slotRow = new Row()
@@ -186,7 +194,7 @@ public class AircraftGui {
                 .margin(5)
                 .child(new ItemSlot()
                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_FUEL_IN)
-                                .filter(fuelPredicate(aircraft.getAcInfo()))))
+                                .filter(fuelPredicate(aircraft.getAcInfo()))).background(FUEL_SLOT))
                 .child(new ButtonWidget<>().onMouseTapped(_ -> {
                                     syncManager.callSyncedAction("dumpFuel");
                                     return true;
@@ -270,11 +278,10 @@ public class AircraftGui {
                         )
                         .size(18 * 8 + 5, 18 * 4)
                         .scrollable(new VerticalScrollData())
-                ).coverChildren().margin(2);
+                ).coverChildren().margin(2).setEnabledIf(_ -> data.getInfo().inventorySize > 0);
 
 
         var fuelSlots = new Column()
-                .align(Alignment.TopRight)
                 .child(gauge)
                 .child(fuelMb)
                 .child(slotRow)
@@ -304,61 +311,64 @@ public class AircraftGui {
         record WeaponEntry(int id, MCH_WeaponSet set) {
         }
 
+        List<WeaponEntry> weaponEntries = IntStream.range(0, aircraft.getWeapons().length)
+                .mapToObj(i -> new WeaponEntry(i, aircraft.getWeapon(i)))
+                .filter(entry -> entry.set().getMagSize() > 0)
+                .toList();
         var weaponList = new ListWidget<>().children(
-                IntStream.range(0, aircraft.getWeapons().length)
-                        .mapToObj(i -> new WeaponEntry(i, aircraft.getWeapon(i)))
-                        .filter(entry -> entry.set().getMagSize() > 0)
-                        .toList(),
-                entry -> {
-                    MCH_WeaponSet ws = entry.set();
-                    int weaponId = entry.id();
-                    var row = new Row();
-                    if (name2WSIcon.computeIfAbsent(ws.getDisplayName(), AircraftGui::determineIcon) != null)
-                        row.child(name2WSIcon.get(ws.getDisplayName()).asWidget());
+                        weaponEntries,
+                        entry -> {
+                            MCH_WeaponSet ws = entry.set();
+                            int weaponId = entry.id();
+                            var row = new Row();
+                            if (name2WSIcon.computeIfAbsent(ws.getDisplayName(), AircraftGui::determineIcon) != null)
+                                row.child(name2WSIcon.get(ws.getDisplayName()).asWidget());
 
-                    row.child(new ScrollingTextWidget(IKey.str(ws.getDisplayName()))
-                                    .tooltip(t -> t.addLine(ws.getDisplayName()))
-                                    .padding(4)
-                                    .height(8)
-                                    .widthRel(0.30f))
-                            .child(IKey.dynamic(() -> String.format("%d/%d", ws.getAmmo(), ws.getMagSize())).asWidget().padding(4))
-                            .child(new ListWidget<>().children(
-                                    ws.getInfo().roundItems, round -> new Row()
-                                            .child(IKey.str("%dx", round.num).asWidget())
-                                            .child(new IngredientDrawable(round.itemStack).asWidget().size(12).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName())))
-                                            .coverChildrenWidth().padding(4).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName()))
-                            ).scrollDirection(GuiAxis.X).maxSizeRel(0.35f))
-                            .child(IKey.dynamic(() -> String.format("(%d)", ws.getAmmoReserve())).asWidget().padding(4))
-                            .child(new ButtonWidget<>().onMouseTapped(_ -> {
-                                        if (canResupply(ws, aircraft, data.getPlayer())) {
-                                            PacketRequestResupply.send(aircraft, weaponId);
-                                            aircraft.supplyAmmo(ws);
-                                            return true;
-                                        } else return false;
-                                    })
-                                    .background(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON : GuiTextures.MC_BUTTON_DISABLED)
-                                    .overlay(canResupply(ws, aircraft, data.getPlayer()) ? RELOAD_LIGHT.asIcon().size(16) : RELOAD_DARK.asIcon().size(16))
-                                    .hoverBackground(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON_HOVERED : GuiTextures.MC_BUTTON_DISABLED)
-                                    .tooltip(tooltip -> {
-                                        tooltip.addLine("Reload");
-                                        List<ItemStack> missing = aircraft.getMissingAmmo(data.getPlayer(), ws);
-                                        if (!missing.isEmpty()) {
-                                            tooltip.addLine(TextFormatting.RED + "Missing Ammo:");
-                                            for (ItemStack itemStack : missing) {
-                                                tooltip.addLine(TextFormatting.GRAY + " - " + itemStack.getCount() + "x " + itemStack.getDisplayName());
-                                            }
-                                        }
-                                    })
-                                    .size(18).right(2).top(1))
+                            row.child(new ScrollingTextWidget(IKey.str(ws.getDisplayName()))
+                                            .tooltip(t -> t.addLine(ws.getDisplayName()))
+                                            .padding(4)
+                                            .height(8)
+                                            .widthRel(0.30f))
+                                    .child(IKey.dynamic(() -> String.format("%d/%d", ws.getAmmo(), ws.getMagSize())).asWidget().padding(4))
+                                    .child(new ListWidget<>().children(
+                                            ws.getInfo().roundItems, round -> new Row()
+                                                    .child(IKey.str("%dx", round.num).asWidget())
+                                                    .child(new IngredientDrawable(round.itemStack).asWidget().size(12).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName())))
+                                                    .coverChildrenWidth().padding(4).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName()))
+                                    ).scrollDirection(GuiAxis.X).maxSizeRel(0.35f))
+                                    .child(IKey.dynamic(() -> String.format("(%d)", ws.getAmmoReserve())).asWidget().padding(4))
+                                    .child(new ButtonWidget<>().onMouseTapped(_ -> {
+                                                if (canResupply(ws, aircraft, data.getPlayer())) {
+                                                    PacketRequestResupply.send(aircraft, weaponId);
+                                                    aircraft.supplyAmmo(ws);
+                                                    return true;
+                                                } else return false;
+                                            })
+                                            .background(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON : GuiTextures.MC_BUTTON_DISABLED)
+                                            .overlay(canResupply(ws, aircraft, data.getPlayer()) ? RELOAD_LIGHT.asIcon().size(16) : RELOAD_DARK.asIcon().size(16))
+                                            .hoverBackground(canResupply(ws, aircraft, data.getPlayer()) ? GuiTextures.MC_BUTTON_HOVERED : GuiTextures.MC_BUTTON_DISABLED)
+                                            .tooltip(tooltip -> {
+                                                tooltip.addLine("Reload");
+                                                List<ItemStack> missing = aircraft.getMissingAmmo(data.getPlayer(), ws);
+                                                if (!missing.isEmpty()) {
+                                                    tooltip.addLine(TextFormatting.RED + "Missing Ammo:");
+                                                    for (ItemStack itemStack : missing) {
+                                                        tooltip.addLine(TextFormatting.GRAY + " - " + itemStack.getCount() + "x " + itemStack.getDisplayName());
+                                                    }
+                                                }
+                                            })
+                                            .size(18).right(2).top(1))
 
-                            .height(20).marginTop(4).padding(4).background(GuiTextures.MENU_BACKGROUND);
-                    return row;
-                }
-        ).scrollDirection(GuiAxis.Y).size(300, 110);
+                                    .height(20).marginTop(4).padding(4).background(GuiTextures.MENU_BACKGROUND);
+                            return row;
+                        }
+                ).scrollDirection(GuiAxis.Y)
+                .size(300, 110)
+                .setEnabledIf(_ -> !weaponEntries.isEmpty());
 
 
         var viewport = new Column().name("viewport")
-                .size(110, 85)
+                .size(110, showParachuteSlot ? 80 : 62)
                 .child(new WidgetAircraftViewport((ModelVBO) data.getInfo().model, getTexturePath(aircraft), aircraft.getAcInfo())
                         .size(110, 50)
                         .background(GuiTextures.SLOT_ITEM.withColorOverride(0xFF000000))
@@ -381,24 +391,27 @@ public class AircraftGui {
                                 .child(new ItemSlot()
                                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_PARACHUTE0)
                                                 .filter(stack -> stack.getItem() instanceof MCH_ItemParachute))
-                                        .setEnabledIf(_ -> data.getInfo().isEnableParachuting || data.getInfo().isEnableEjectionSeat)
-                                        .overlay(PARACHUTE_SLOT)
+                                        .background(PARACHUTE_SLOT)
                                 )
                                 .child(new ItemSlot()
                                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_PARACHUTE1)
                                                 .filter(stack -> stack.getItem() instanceof MCH_ItemParachute))
-                                        .setEnabledIf(_ -> data.getInfo().isEnableParachuting || data.getInfo().isEnableEjectionSeat)
-                                        .overlay(PARACHUTE_SLOT)
+                                        .background(PARACHUTE_SLOT)
                                 )
+                                .setEnabledIf(_ -> showParachuteSlot)
                                 .size(SLOT_SIZE * 2, SLOT_SIZE)
                 )
                 .background(GuiTextures.MENU_BACKGROUND);
-        var gui = new ParentWidget<>()
+
+        var gui = new Column()
                 .size(C_WIDTH - 10, 200)
-                .child(fuelSlots.relativeToParent().align(Alignment.TopRight))
-                .child(grid.relativeToParent().align(Alignment.BottomLeft))
-                .child(weaponList.relativeToParent().align(Alignment.TopLeft))
-                .child(viewport.relativeToParent().align(Alignment.BottomRight));
+                .child(new Row()
+                        .child(fuelSlots)
+                        .child(viewport)
+                        .child(grid)
+                        .coverChildren()
+                )
+                .child(weaponList);
 
 
         var vehicleGui = new ParentWidget<>().name("vehicle_gui")
