@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import static com.norwood.mcheli.aircraft.AircraftGui.getTexturePath;
+import static com.norwood.mcheli.gui.AircraftGui.getTexturePath;
 import static mcjty.theoneprobe.apiimpl.client.ElementEntityRender.fixEntityId;
 
 @Optional.Interface(iface = "mcjty.theoneprobe.api.IProbeInfoProvider", modid = "theoneprobe")

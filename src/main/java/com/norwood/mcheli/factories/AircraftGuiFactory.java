@@ -5,7 +5,6 @@ import com.cleanroommc.modularui.factory.AbstractUIFactory;
 import com.cleanroommc.modularui.factory.GuiManager;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.ModularScreen;
-import com.norwood.mcheli.aircraft.AircraftGui;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,19 +22,29 @@ public class AircraftGuiFactory extends AbstractUIFactory<AircraftGuiData> {
         super("mcheli:aircraft");
     }
 
-    private static <E extends MCH_EntityAircraft & IGuiHolder<AircraftGuiData>> void verifyEntity(EntityPlayer player, E entity) {
+    private static <E extends MCH_EntityAircraft & IGuiHolder<AircraftGuiData>> void verifyEntity(EntityPlayer player, E entity, boolean pilotGui) {
         Objects.requireNonNull(entity);
         if (!entity.isEntityAlive()) {
             throw new IllegalArgumentException("Can't open dead Entity GUI!");
         } else if (player.world != entity.world) {
             throw new IllegalArgumentException("Entity must be in same dimension as the player!");
         }
+        if(pilotGui){
+            if(!entity.isPilot(player)) throw  new IllegalArgumentException("Player opening aircraft GUI most be a pilot!");
+        }
     }
 
-    public <E extends MCH_EntityAircraft & IGuiHolder<AircraftGuiData>> void open(EntityPlayer player, E entity) {
+
+    public <E extends MCH_EntityAircraft & IGuiHolder<AircraftGuiData>> void openGui(EntityPlayer player, E entity) {
         Objects.requireNonNull(player);
-        verifyEntity(player, entity);
-        GuiManager.open(this, new AircraftGuiData(player, entity, entity.getAcInfo()), (EntityPlayerMP) player);
+        verifyEntity(player, entity, true);
+        GuiManager.open(this, new AircraftGuiData(player, entity, entity.getAcInfo(),false), (EntityPlayerMP) player);
+    }
+
+    public <E extends MCH_EntityAircraft & IGuiHolder<AircraftGuiData>> void openContainer(EntityPlayer player, E entity) {
+        Objects.requireNonNull(player);
+        verifyEntity(player, entity, false);
+        GuiManager.open(this, new AircraftGuiData(player, entity, entity.getAcInfo(), true), (EntityPlayerMP) player);
     }
 
     @Override
@@ -46,14 +55,17 @@ public class AircraftGuiFactory extends AbstractUIFactory<AircraftGuiData> {
     @Override
     public void writeGuiData(AircraftGuiData guiData, PacketBuffer packetBuffer) {
         packetBuffer.writeInt(guiData.getGuiHolder().getEntityId());
+        packetBuffer.writeBoolean(guiData.containerOnly);
     }
 
     @Override
     public @NotNull AircraftGuiData readGuiData(EntityPlayer entityPlayer, PacketBuffer packetBuffer) {
         var aircraft = (MCH_EntityAircraft) entityPlayer.world.getEntityByID(packetBuffer.readInt());
+        boolean conainerOnly = packetBuffer.readBoolean();
         return new AircraftGuiData(entityPlayer,
                 aircraft,
-                aircraft.getAcInfo()
+                aircraft.getAcInfo(),
+                conainerOnly
         );
     }
 

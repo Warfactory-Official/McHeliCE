@@ -48,6 +48,7 @@ dependencies {
 
     shadowImplementation("org.yaml:snakeyaml:2.5")
     shadowImplementation("org.joml:joml:1.10.8")
+
     shadowImplementation("com.googlecode.aviator:aviator:5.4.3")
 
     compileOnly rfg.deobf("curse.maven:hbm-nuclear-tech-mod-community-edition-1312314:7165124")

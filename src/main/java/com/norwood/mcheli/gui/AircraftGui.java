@@ -1,4 +1,4 @@
-package com.norwood.mcheli.aircraft;
+package com.norwood.mcheli.gui;
 
 import com.cleanroommc.modularui.api.GuiAxis;
 import com.cleanroommc.modularui.api.drawable.IKey;
@@ -23,6 +23,7 @@ import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
@@ -179,7 +180,7 @@ public class AircraftGui {
     public static ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings, MCH_EntityAircraft aircraft) {
 
         syncManager.bindPlayerInventory(data.getPlayer());
-        var aircraftInvHander = aircraft.getInventory();
+        var containerGuiHandler = aircraft.getInventory();
         var aircraftGuiInv = aircraft.getGuiInventory().getItemHandler();
         syncManager.registerServerSyncedAction("dumpFuel", (_) -> aircraft.dumpFuel());
         boolean showParachuteSlot = data.getInfo().isEnableParachuting || data.getInfo().isEnableEjectionSeat;
@@ -268,12 +269,12 @@ public class AircraftGui {
         var grid = new Column().name("trunk")
                 .margin(1)
                 .padding(1)
-                .child(IKey.str("Storage (%d)", aircraftInvHander.getSlots()).asWidget().alignX(Alignment.BottomLeft))
+                .child(IKey.str("Storage (%d)", containerGuiHandler.getSlots()).asWidget().alignX(Alignment.BottomLeft))
                 .child(new Grid()
                         .margin(1)
-                        .mapTo(7, aircraftInvHander.getSlots(), (slot) ->
+                        .mapTo(7, containerGuiHandler.getSlots(), (slot) ->
                                 new ItemSlot()
-                                        .slot(new ModularSlot(aircraftInvHander, slot))
+                                        .slot(new ModularSlot(containerGuiHandler, slot))
                                         .size(SLOT_SIZE)
                         )
                         .size(18 * 7 + 5, 18 * 5)
@@ -322,17 +323,18 @@ public class AircraftGui {
 
                             row.child(new ScrollingTextWidget(IKey.str(ws.getDisplayName()))
                                             .tooltip(t -> t.addLine(ws.getDisplayName()))
-                                            .padding(4)
+                                            .padding(4,0)
                                             .height(8)
-                                            .widthRel(0.30f))
-                                    .child(IKey.dynamic(() -> String.format("%d/%d", ws.getAmmo(), ws.getMagSize())).asWidget().padding(4))
+                                            .widthRel(0.30f)
+                                    )
+                                    .child(IKey.dynamic(() -> String.format("%d/%d", ws.getAmmo(), ws.getMagSize())).asWidget().padding(4).tooltip(t->t.addLine("Current Magazine")))
+                                    .child(IKey.dynamic(() -> String.format("(%d)", ws.getAmmoReserve())).asWidget().padding(4).tooltip(t->t.addLine("Reserve ammo")))
                                     .child(new ListWidget<>().children(
                                             ws.getInfo().roundItems, round -> new Row()
                                                     .child(IKey.str("%dx", round.num).asWidget())
                                                     .child(new IngredientDrawable(round.itemStack).asWidget().size(12).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName())))
                                                     .coverChildrenWidth().padding(4).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName()))
                                     ).scrollDirection(GuiAxis.X).maxSizeRel(0.35f))
-                                    .child(IKey.dynamic(() -> String.format("(%d)", ws.getAmmoReserve())).asWidget().padding(4))
                                     .child(new ButtonWidget<>().onMouseTapped(_ -> {
                                                 if (canResupply(ws, aircraft, data.getPlayer())) {
                                                     PacketRequestResupply.send(aircraft, weaponId);

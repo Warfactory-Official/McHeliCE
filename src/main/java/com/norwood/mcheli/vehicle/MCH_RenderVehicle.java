@@ -1,5 +1,8 @@
 package com.norwood.mcheli.vehicle;
 
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_ModelManager;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
@@ -56,6 +59,7 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
             }
         }
     }
+
 
     public void drawPart(MCH_EntityVehicle vehicle, MCH_VehicleInfo info, float yaw, float pitch, MCH_WeaponSet ws,
                          float tickTime) {

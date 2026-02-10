@@ -1,5 +1,6 @@
 package com.norwood.mcheli.wrapper;
 
+import com.cleanroommc.modularui.api.IGuiHolder;
 import lombok.Getter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class W_EntityContainer extends W_Entity
-        implements IInventory, ICapabilitySerializable<NBTTagCompound> {
+        implements IInventory, ICapabilitySerializable<NBTTagCompound>
+        {
 
     public boolean dropContentsWhenDead = true;
     protected short inventorySize = 54;
@@ -101,6 +103,10 @@ public abstract class W_EntityContainer extends W_Entity
     public String getName() {
         return "Inventory";
     }
+
+
+
+
 
     @Override
     public boolean hasCustomName() {
@@ -187,7 +193,7 @@ public abstract class W_EntityContainer extends W_Entity
 
     public void displayInventory(EntityPlayer player) {
         if (!world.isRemote && getSizeInventory() > 0) {
-            player.displayGUIChest(this);
+
         }
     }
 

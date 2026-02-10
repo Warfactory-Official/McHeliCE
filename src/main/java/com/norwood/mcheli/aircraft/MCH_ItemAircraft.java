@@ -49,8 +49,25 @@ public abstract class MCH_ItemAircraft extends W_Item {
 
         if (info != null && ac != null) {
             tooltip.add(TextFormatting.YELLOW + "Category: " + info.category);
-            tooltip.add(Arrays.stream(ac.weapons).map(MCH_WeaponSet::getDisplayName).collect(Collectors.joining(", ")));
+            StringBuilder weaponNames = new StringBuilder();
+            int count = 0;
+            for (MCH_WeaponSet ws : ac.weapons) {
+                weaponNames.append(ws.getDisplayName());
+                if (++count < ac.weapons.length) {
+                    weaponNames.append(", ");
+                }
+                if (count % 4 == 0) {
+                    tooltip.add(weaponNames.toString());
+                    weaponNames.setLength(0);
+                }
+            }
 
+            if (weaponNames.length() > 0) {
+                tooltip.add(weaponNames.toString());
+            }
+
+            if(info.isEnableEjectionSeat)
+                tooltip.add(TextFormatting.RED+"[EjectionSeat]");
             tooltip.add(TextFormatting.GRAY + "Health: " + TextFormatting.GREEN + info.maxHp);
             tooltip.add(TextFormatting.GRAY + "Trunk size: " + TextFormatting.WHITE + info.inventorySize);
             tooltip.add(TextFormatting.GRAY + "Fuel tank storage: " + TextFormatting.WHITE + info.maxFuel);

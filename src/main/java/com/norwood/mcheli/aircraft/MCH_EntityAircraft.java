@@ -11,6 +11,8 @@ import com.norwood.mcheli.command.MCH_Command;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.factories.MCHGuiFactories;
 import com.norwood.mcheli.flare.MCH_Flare;
+import com.norwood.mcheli.gui.AircraftGui;
+import com.norwood.mcheli.gui.ContainerGui;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
@@ -79,7 +81,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public abstract class MCH_EntityAircraft extends W_EntityContainer implements MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler, IGuiHolder<AircraftGuiData> {
+public abstract class MCH_EntityAircraft extends W_EntityContainer implements IGuiHolder<AircraftGuiData>, MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler {
 
 
     protected static final DataParameter<Integer> PART_STAT = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
@@ -391,11 +393,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     }
 
-    @SideOnly(Side.CLIENT)
-    public ModularScreen createScreen(AircraftGuiData data, ModularPanel mainPanel) {
-        return new ModularScreen(Tags.MODID, mainPanel);
-    }
-
 
     public static List<AxisAlignedBB> getCollisionBoxes(@Nullable Entity entityIn, AxisAlignedBB aabb) {
         List<AxisAlignedBB> list = new ArrayList<>();
@@ -602,7 +599,12 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     public void openGui(EntityPlayer player) {
         if (!this.world.isRemote && getAcInfo() != null) {
-            MCHGuiFactories.aircraft().open(player, this);
+            MCHGuiFactories.aircraft().openGui(player, this);
+        }
+    }
+    public void openContainer(EntityPlayer player) {
+        if (!this.world.isRemote && getAcInfo() != null && getInventory().getSlots() > 0) {
+            MCHGuiFactories.aircraft().openContainer(player, this);
         }
     }
 
@@ -2393,7 +2395,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
         return fluid;
     }
 
-    protected String getFuelType() {
+    public String getFuelType() {
         return this.dataManager.get(FUEL_FF);
     }
 
@@ -2573,9 +2575,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     public void supplyAmmo(int weaponID) {
-        supplyAmmo( this.getWeapon(weaponID))
-         ;
+        supplyAmmo(this.getWeapon(weaponID))
+        ;
     }
+
     public void supplyAmmo(MCH_WeaponSet ws) {
         if (this.world.isRemote) {
             ws.supplyRestAllAmmo();
@@ -4354,7 +4357,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
         // Sneak interactions
         if (player.isSneaking()) {
-            super.displayInventory(player);
+           openContainer(player);
             return false;
         }
 
@@ -5674,7 +5677,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
 
-
     @Override
     public boolean hasCustomName() {
         return this.getAcInfo() != null;
@@ -5788,10 +5790,14 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
     }
 
     public ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings) {
-        return AircraftGui.buildUI(data, syncManager, settings, this);
+        return data.isContainerOnly() ?
+                ContainerGui.buildUI(data, syncManager, settings, this) : AircraftGui.buildUI(data, syncManager, settings, this);
     }
 
-    ;
+    @SideOnly(Side.CLIENT)
+    public ModularScreen createScreen(AircraftGuiData data, ModularPanel mainPanel) {
+        return new ModularScreen(Tags.MODID, mainPanel);
+    }
 
     @Nullable
     public FluidStack drain(int maxDrain, boolean doDrain) {
@@ -5814,9 +5820,26 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
     public void manualReloadForPlayer(EntityPlayer player) {
         boolean didReload = getCurrentWeapon(player).manualReload();
-        if(didReload && !world.isRemote  && player instanceof EntityPlayerMP playerMP) new PacketSyncReload(this.getEntityId()).sendToPlayer(playerMP);
+        if (didReload && !world.isRemote && player instanceof EntityPlayerMP playerMP)
+            new PacketSyncReload(this.getEntityId()).sendToPlayer(playerMP);
     }
 
+    public String getName() {
+        if (this.getAcInfo() == null) return super.getName();
+        return I18n.hasKey("item.mcheli:" + acInfo.name + ".name") ?
+                I18n.format("item.mcheli:" + acInfo.name + ".name") : acInfo.displayName;
+
+    }
+
+    public double getCurrentSpeed() {
+        double motionX = this.motionX;
+        double motionY = this.motionY;
+        double motionZ = this.motionZ;
+
+        double tickDistance = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
+
+        return tickDistance * 20.0D;
+    }
 
     public static class UnmountReserve {
 
@@ -5841,22 +5864,5 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements MC
 
         public WeaponBay() {
         }
-    }
-
-    public String getName() {
-        if(this.getAcInfo() == null) return super.getName();
-        return I18n.hasKey("item.mcheli:"+acInfo.name+".name") ?
-                I18n.format("item.mcheli:"+acInfo.name+".name") : acInfo.displayName;
-
-    }
-
-    public double getCurrentSpeed() {
-        double motionX = this.motionX;
-        double motionY = this.motionY;
-        double motionZ = this.motionZ;
-
-        double tickDistance = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
-
-        return tickDistance * 20.0D;
     }
 }

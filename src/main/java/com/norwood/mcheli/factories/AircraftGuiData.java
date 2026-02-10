@@ -13,9 +13,12 @@ public class AircraftGuiData extends GuiData {
     final MCH_AircraftInfo info;
     @Getter
     final MCH_EntityAircraft guiHolder;
-    public AircraftGuiData(EntityPlayer player, MCH_EntityAircraft guiHolder, MCH_AircraftInfo info) {
+    @Getter
+    final boolean containerOnly;
+    public AircraftGuiData(EntityPlayer player, MCH_EntityAircraft guiHolder, MCH_AircraftInfo info, boolean containerOnly) {
         super(player);
         this.info = info;
         this.guiHolder = guiHolder;
+        this.containerOnly = containerOnly;
     }
 }
