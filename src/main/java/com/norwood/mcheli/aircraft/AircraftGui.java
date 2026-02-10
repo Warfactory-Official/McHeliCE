@@ -55,10 +55,8 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class AircraftGui {
-    public static final int C_WIDTH = 410;
-    public static final int C_HEIGHT = 300;
+    public static final int C_WIDTH = 365;
     public static final int SLOT_SIZE = 18;
-
     public static final ResourceLocation WEAPON_ICONS = new ResourceLocation(Tags.MODID, "gui/wepon_icons");
     public static final UITexture PARACHUTE_SLOT =
             UITexture.builder()
@@ -66,7 +64,6 @@ public class AircraftGui {
                     .imageSize(18, 18)
                     .name("parachute_slot")
                     .build();
-
     public static final UITexture FUEL_SLOT =
             UITexture.builder()
                     .location(new ResourceLocation(Tags.MODID, "gui/fuel_slot"))
@@ -79,15 +76,12 @@ public class AircraftGui {
                     .imageSize(32, 32)
                     .name("fuel")
                     .build();
-
     public static final UITexture APFSDS_SHELL = createWeaponIcon("apfsds", 0, 0);
     public static final UITexture HE_SHELL = createWeaponIcon("he_shell", 18, 0);
     public static final UITexture HEAT_SHELL = createWeaponIcon("heat_shell", 36, 0);
     public static final UITexture CANISTER_SHELL = createWeaponIcon("canister", 54, 0);
-
     public static final UITexture LARGE_CALIBER_MG = createWeaponIcon("large_mg", 0, 18);
     public static final UITexture MORTAR_SHOT = createWeaponIcon("mortar", 18, 18);
-
     public static final UITexture BOMB = createWeaponIcon("bomb", 0, 36);
     public static final UITexture CLUSTER_BOMB = createWeaponIcon("cluster_bomb", 18, 36);
     public static final UITexture GATLING_BULLET = createWeaponIcon("gatling_bullet", 36, 36);
@@ -97,6 +91,7 @@ public class AircraftGui {
     public static final UITexture NUC_WARHEAD = createWeaponIcon("nuc_warhead", 108, 36);
     public static final UITexture MG_7_62MM = createWeaponIcon("mg_7_62", 126, 36);
     public static final UITexture MG_12_7MM = createWeaponIcon("mg_12_7", 144, 36);
+    static final int C_HEIGHT = 300;
     public static Map<String, UITexture> name2WSIcon = new HashMap<>();
     static UITexture RELOAD_LIGHT = UITexture.builder()
             .location(Tags.MODID, "gui/reload_light")
@@ -110,6 +105,7 @@ public class AircraftGui {
             .name("rel_light")
             .defaultColorType()
             .build();
+    static Predicate<ItemStack> parachutePredicate = stack -> stack.getItem() instanceof MCH_ItemParachute;
 
     private static UITexture createWeaponIcon(String name, int x, int y) {
         return UITexture.builder()
@@ -187,7 +183,11 @@ public class AircraftGui {
         var aircraftGuiInv = aircraft.getGuiInventory().getItemHandler();
         syncManager.registerServerSyncedAction("dumpFuel", (_) -> aircraft.dumpFuel());
         boolean showParachuteSlot = data.getInfo().isEnableParachuting || data.getInfo().isEnableEjectionSeat;
-
+        boolean hasTrunk = data.getInfo().inventorySize > 0;
+        List<WeaponEntry> weaponEntries = IntStream.range(0, aircraft.getWeapons().length)
+                .mapToObj(i -> new WeaponEntry(i, aircraft.getWeapon(i)))
+                .filter(entry -> entry.set().getMagSize() > 0)
+                .toList();
 
         var slotRow = new Row()
                 .size(SLOT_SIZE * 2 + 20, SLOT_SIZE)
@@ -213,8 +213,8 @@ public class AircraftGui {
 
                         ).alignX(Alignment.CenterRight));
 
-        Consumer<RichTooltip> tooltipConsumer = tooltip -> {
-            tooltip
+        Consumer<RichTooltip> fuelTooltip = tooltop -> {
+            tooltop
                     .addLine(IKey.str("Fuel").style(TextFormatting.GREEN))
                     .addLine(IKey.dynamic(() -> String.format("Current fuel: %s (%.2f)",
                             aircraft.getFuel() > 0
@@ -238,7 +238,7 @@ public class AircraftGui {
                         };
 
                         if (!FluidRegistry.isFluidRegistered(fuel)) return;
-                        tooltip.addLine(IKey.str("– %s : %.2f", new FluidStack(FluidRegistry.getFluid(fuel), 1).getLocalizedName(), eff)
+                        tooltop.addLine(IKey.str("– %s : %.2f", new FluidStack(FluidRegistry.getFluid(fuel), 1).getLocalizedName(), eff)
                                 .style(color));
 
                     }
@@ -247,7 +247,7 @@ public class AircraftGui {
         };
 
         var gauge = WidgetGauge.make(0.4f)
-                .value(new FloatSyncValue(aircraft::getFuelPercentage)).marginBottom(2).tooltip(tooltipConsumer);
+                .value(new FloatSyncValue(aircraft::getFuelPercentage)).marginBottom(2).tooltip(fuelTooltip);
 
         var fuelMb = IKey.dynamic(() ->
                         String.format("%d mB", aircraft.getFuel())
@@ -256,7 +256,7 @@ public class AircraftGui {
                 .padding(6, 2)
                 .width(SLOT_SIZE * 2 + 20)
                 .alignX(Alignment.Center)
-                .tooltip(tooltipConsumer)
+                .tooltip(fuelTooltip)
                 .color(() -> {
                     var fuelPercent = aircraft.getFuelPercentage();
                     if (fuelPercent >= 1.0f) return 0xFFB2FF59;
@@ -266,26 +266,28 @@ public class AircraftGui {
                 .background(GuiTextures.MENU_BACKGROUND.withColorOverride(0xFF000000));
 
         var grid = new Column().name("trunk")
-                .margin(2)
-                .padding(2)
+                .margin(1)
+                .padding(1)
                 .child(IKey.str("Storage (%d)", aircraftInvHander.getSlots()).asWidget().alignX(Alignment.BottomLeft))
                 .child(new Grid()
-                        .margin(2)
-                        .mapTo(8, aircraftInvHander.getSlots(), (slot) ->
+                        .margin(1)
+                        .mapTo(7, aircraftInvHander.getSlots(), (slot) ->
                                 new ItemSlot()
                                         .slot(new ModularSlot(aircraftInvHander, slot))
                                         .size(SLOT_SIZE)
                         )
-                        .size(18 * 8 + 5, 18 * 4)
+                        .size(18 * 7 + 5, 18 * 5)
                         .scrollable(new VerticalScrollData())
-                ).coverChildren().margin(2).setEnabledIf(_ -> data.getInfo().inventorySize > 0);
+                ).coverChildren().margin(1).setEnabledIf(_ -> data.getInfo().inventorySize > 0);
 
 
         var fuelSlots = new Column()
                 .child(gauge)
                 .child(fuelMb)
                 .child(slotRow)
-                .coverChildren();
+                .coverChildren()
+                .height(100);
+
 
         var settingsButton = new ButtonWidget<>().onMouseTapped(
                         _ -> {
@@ -305,16 +307,10 @@ public class AircraftGui {
                                 .padding(5)
                                 .background(GuiTextures.MC_BACKGROUND)
                 ).child(settingsButton.top(0))
-                .coverChildren();
+                .coverChildren()
+                ;
 
 
-        record WeaponEntry(int id, MCH_WeaponSet set) {
-        }
-
-        List<WeaponEntry> weaponEntries = IntStream.range(0, aircraft.getWeapons().length)
-                .mapToObj(i -> new WeaponEntry(i, aircraft.getWeapon(i)))
-                .filter(entry -> entry.set().getMagSize() > 0)
-                .toList();
         var weaponList = new ListWidget<>().children(
                         weaponEntries,
                         entry -> {
@@ -363,15 +359,15 @@ public class AircraftGui {
                             return row;
                         }
                 ).scrollDirection(GuiAxis.Y)
-                .size(300, 110)
+                .size(300, 4 * 24)
                 .setEnabledIf(_ -> !weaponEntries.isEmpty());
 
 
         var viewport = new Column().name("viewport")
-                .size(110, showParachuteSlot ? 80 : 62)
+                .size(110, 100)
                 .child(new WidgetAircraftViewport((ModelVBO) data.getInfo().model, getTexturePath(aircraft), aircraft.getAcInfo())
-                        .size(110, 50)
-                        .background(GuiTextures.SLOT_ITEM.withColorOverride(0xFF000000))
+                        .size(110, showParachuteSlot ? 70 : 90)
+                        .background(GuiTextures.SLOT_ITEM)
                 )
                 .child(new Row()
                         .child(IKey.dynamic(() -> String.format("%.0f m/s", aircraft.getCurrentSpeed()))
@@ -390,12 +386,12 @@ public class AircraftGui {
                         new Row()
                                 .child(new ItemSlot()
                                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_PARACHUTE0)
-                                                .filter(stack -> stack.getItem() instanceof MCH_ItemParachute))
+                                                .filter(parachutePredicate))
                                         .background(PARACHUTE_SLOT)
                                 )
                                 .child(new ItemSlot()
                                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_PARACHUTE1)
-                                                .filter(stack -> stack.getItem() instanceof MCH_ItemParachute))
+                                                .filter(parachutePredicate))
                                         .background(PARACHUTE_SLOT)
                                 )
                                 .setEnabledIf(_ -> showParachuteSlot)
@@ -403,15 +399,16 @@ public class AircraftGui {
                 )
                 .background(GuiTextures.MENU_BACKGROUND);
 
-        var gui = new Column()
-                .size(C_WIDTH - 10, 200)
-                .child(new Row()
+        var gui = new Column().name("gui_column")
+                .height(getHeightGui(weaponEntries))
+                .child(new Row().name("first_row")
                         .child(fuelSlots)
                         .child(viewport)
                         .child(grid)
-                        .coverChildren()
+                        .size(getWidthGui(hasTrunk), 110)
                 )
-                .child(weaponList);
+                .child(weaponList)
+                .coverChildrenWidth();
 
 
         var vehicleGui = new ParentWidget<>().name("vehicle_gui")
@@ -421,6 +418,7 @@ public class AircraftGui {
                 .coverChildren()
                 .padding(5)
                 .background(GuiTextures.MC_BACKGROUND);
+
 
         return new ModularPanel("container")
                 .size(C_WIDTH, C_HEIGHT)
@@ -432,6 +430,22 @@ public class AircraftGui {
                                 .child(vehicleGui)
                                 .child(inventory)
                 );
+    }
+
+    private static int getWidthGui(boolean hasTrunk) {
+        int base = 84 + 110;
+
+        return hasTrunk ? base + 135 : base;
+    }
+
+    private static int getHeightGui(List<WeaponEntry> list) {
+        final int listEntrySize = 24;
+        final int MAX = 110 + 24 * 4;
+        int height = 110;
+        for (int i = 0; i < list.size(); i++) {
+            height += listEntrySize;
+        }
+        return Math.min(height, MAX);
     }
 
     public static ResourceLocation getTexturePath(MCH_EntityAircraft ac) {
@@ -447,5 +461,8 @@ public class AircraftGui {
         return new ResourceLocation(Tags.MODID, "textures/" + path + ".png");
 
 
+    }
+
+    record WeaponEntry(int id, MCH_WeaponSet set) {
     }
 }
