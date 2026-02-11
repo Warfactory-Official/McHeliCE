@@ -2429,115 +2429,162 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public void supplyFuel() {
-        float range = this.getAcInfo() != null ? this.getAcInfo().fuelSupplyRange : 0.0F;
-        if (!(range <= 0.0F)) {
-            if (!this.world.isRemote && this.getCountOnUpdate() % 10 == 0) {
-                List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(MCH_EntityAircraft.class, this.getCollisionBoundingBox().grow(range, range, range));
+        MCH_AircraftInfo info = this.getAcInfo();
+        if (info == null || info.fuelSupplyRange <= 0.0F) return;
+        if (this.world.isRemote || this.getCountOnUpdate() % 10 != 0) return;
 
-                for (MCH_EntityAircraft ac : list) {
-                    if (!W_Entity.isEqual(this, ac)) {
-                        if ((!this.onGround || ac.canSupply()) && ac.getFuel() < ac.getMaxFuel()) {
-                            int fc = ac.getMaxFuel() - ac.getFuel();
-                            if (fc > 30) {
-                                fc = 30;
-                            }
+        Fluid fluid;
+        if (info.fuelSupplyInfinite) {
+            fluid = FluidRegistry.getFluid(info.fuelSupplyType);
+        } else {
+            fluid = this.getFuelFluid();
+        }
 
-                            ac.setFuel(ac.getFuel() + fc);
-                        }
+        if (fluid == null) return;
+        if (!info.fuelSupplyInfinite && this.getFuel() <= 0) return;
 
-                        ac.fuelSuppliedCount = 40;
+        float range = info.fuelSupplyRange;
+        List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(
+                MCH_EntityAircraft.class,
+                this.getCollisionBoundingBox().grow(range, range, range)
+        );
+
+        for (MCH_EntityAircraft ac : list) {
+            if (W_Entity.isEqual(this, ac)) continue;
+
+            if (ac.canAcceptFuel(fluid)) {
+                if ((!this.onGround || ac.canSupply()) && ac.getFuel() < ac.getMaxFuel()) {
+                    int amount = Math.min(ac.getMaxFuel() - ac.getFuel(), 30);
+
+                    if (ac.getFuel() <= 0) {
+                        ac.setFuelType(fluid);
+                    }
+
+                    ac.setFuel(ac.getFuel() + amount);
+
+                    if (!info.fuelSupplyInfinite) {
+                        this.setFuel(Math.max(0, this.getFuel() - amount));
                     }
                 }
+                ac.fuelSuppliedCount = 40;
             }
         }
+    }
+
+    public boolean canAcceptFuel(Fluid fluid) {
+        var info = getAcInfo();
+        if (info == null || fluid == null) return false;
+
+        if (!info.isFuelValid(new FluidStack(fluid, 1))) return false;
+
+        Fluid currentType = getFuelFluid();
+        return getFuel() <= 0 || currentType == null || currentType == fluid;
     }
 
     public void updateFuel() {
         if (getMaxFuel() == 0 || isDestroyed() || world.isRemote) return;
 
-        // Decrease fuel supplied counter
         if (fuelSuppliedCount > 0) fuelSuppliedCount--;
 
-        // Consume fuel based on throttle every 20 ticks
+        //Consumption Logic
         if (getCountOnUpdate() % 20 == 0 && getFuel() > 1 && getThrottle() > 0.0 && fuelSuppliedCount <= 0) {
-            double throttleFactor = Math.min(getThrottle() * 1.4, 1.0);
             var acInfo = getAcInfo();
-            assert acInfo != null;
+            if (acInfo != null) {
+                double throttleFactor = Math.min(getThrottle() * 1.4, 1.0);
+                fuelConsumption += throttleFactor * acInfo.fuelConsumption * getFuelConsumptionFactor();
 
-            fuelConsumption += throttleFactor * acInfo.fuelConsumption * getFuelConsumptionFactor();
-
-            if (fuelConsumption > 1.0) {
-                int fuelToConsume = (int) fuelConsumption;
-                fuelConsumption -= fuelToConsume;
-                setFuel(getFuel() - fuelToConsume);
+                if (fuelConsumption > 1.0) {
+                    int toConsume = (int) fuelConsumption;
+                    fuelConsumption -= toConsume;
+                    setFuel(getFuel() - toConsume);
+                }
             }
         }
 
+        //Refueling Logic
         int currentFuel = getFuel();
         int maxFuel = getMaxFuel();
 
         if (canSupply() && getCountOnUpdate() % 10 == 0 && currentFuel < maxFuel) {
-
             MCH_AircraftInventory inventory = getGuiInventory();
-            var acInfo = getAcInfo();
-            if (acInfo == null) return;
-
             ItemStack inputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_IN);
             if (inputStack.isEmpty()) return;
+
+            if (inputStack.getItem() instanceof MCH_ItemFuel) {
+                handleItemFuelRefuel(inventory, inputStack, currentFuel, maxFuel);
+                return;
+            }
 
             IFluidHandlerItem handler = inputStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
             if (handler == null) return;
 
-            IFluidTankProperties tank = Arrays.stream(handler.getTankProperties()).filter(p -> p.canDrain()
-                    && p.getContents() != null
-                    && acInfo.isFuelValid(p.getContents())).findFirst().orElse(null);
+            IFluidTankProperties tank = Arrays.stream(handler.getTankProperties())
+                    .filter(p -> p.canDrain() && p.getContents() != null && canAcceptFuel(p.getContents().getFluid()))
+                    .findFirst().orElse(null);
 
             if (tank == null) return;
 
             int fuelNeeded = maxFuel - currentFuel;
-            if (fuelNeeded <= 0) return;
+            Fluid fluid = tank.getContents().getFluid();
 
-            Fluid fluid = getFuelFluid();
-            if (fluid == null) {
-                fluid = tank.getContents().getFluid();
-            }
-
-            FluidStack simulated = handler.drain(new FluidStack(fluid, fuelNeeded), false);
-            if (simulated == null || simulated.amount <= 0) return;
-
-            FluidStack drained = handler.drain(simulated, true);
+            FluidStack drained = handler.drain(new FluidStack(fluid, fuelNeeded), true);
             if (drained == null || drained.amount <= 0) return;
 
-            setFuelType(fluid);
             ItemStack emptyContainer = handler.getContainer();
             ItemStack outputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_OUT);
 
-            if (outputStack.isEmpty()) {
-                inventory.getItemHandler().setStackInSlot(MCH_AircraftInventory.SLOT_FUEL_OUT, emptyContainer.copy());
-            } else if (ItemStack.areItemsEqual(outputStack, emptyContainer)
-                    && ItemStack.areItemStackTagsEqual(outputStack, emptyContainer)
-                    && outputStack.getCount() < outputStack.getMaxStackSize()) {
-
-                outputStack.grow(emptyContainer.getCount());
-            } else {
-                return;
+            if (manageOutputSlot(inventory, outputStack, emptyContainer)) {
+                inputStack.shrink(1);
+                setFuelType(fluid);
+                setFuel(currentFuel + drained.amount);
+                triggerRefuelCriteria();
             }
+        }
+    }
 
-            inputStack.shrink(1);
-            if (inputStack.getCount() <= 0) {
-                inventory.getItemHandler().setStackInSlot(MCH_AircraftInventory.SLOT_FUEL_IN, ItemStack.EMPTY);
+    private void handleItemFuelRefuel(MCH_AircraftInventory inventory, ItemStack stack, int current, int max) {
+        Fluid fuelType = FluidRegistry.getFluid("mch_fuel");
+        if (!canAcceptFuel(fuelType)) return;
+
+        int fuelInItem = stack.getMaxDamage() - stack.getItemDamage();
+        if (fuelInItem <= 0) return;
+
+        int needed = max - current;
+        int toTransfer = Math.min(needed, fuelInItem);
+
+        stack.setItemDamage(stack.getItemDamage() + toTransfer);
+        setFuelType(fuelType);
+        setFuel(current + toTransfer);
+
+        if (stack.getItemDamage() >= stack.getMaxDamage()) {
+            ItemStack empty = new ItemStack(stack.getItem());
+            empty.setItemDamage(stack.getMaxDamage());
+
+            ItemStack outputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_OUT);
+            if (manageOutputSlot(inventory, outputStack, empty)) {
+                stack.shrink(1);
             }
-
-            currentFuel += drained.amount;
-            setFuel(currentFuel);
         }
+        triggerRefuelCriteria();
+    }
 
-
-        if (currentFuel != getFuel() && getRiddenByEntity() instanceof EntityPlayerMP playerMP) {
-            MCH_CriteriaTriggers.SUPPLY_FUEL.trigger(playerMP);
+    private void triggerRefuelCriteria() {
+        if (getRiddenByEntity() instanceof EntityPlayerMP player) {
+            MCH_CriteriaTriggers.SUPPLY_FUEL.trigger(player);
         }
+    }
 
-
+    private boolean manageOutputSlot(MCH_AircraftInventory inv, ItemStack out, ItemStack container) {
+        if (out.isEmpty()) {
+            inv.getItemHandler().setStackInSlot(MCH_AircraftInventory.SLOT_FUEL_OUT, container.copy());
+            return true;
+        }
+        if (ItemStack.areItemsEqual(out, container) && ItemStack.areItemStackTagsEqual(out, container)
+                && out.getCount() < out.getMaxStackSize()) {
+            out.grow(container.getCount());
+            return true;
+        }
+        return false;
     }
 
     public void dumpFuel() {

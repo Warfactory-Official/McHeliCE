@@ -77,7 +77,13 @@ public abstract class MCH_ItemAircraft extends W_Item {
             if (info.isEnableEjectionSeat)
                 tooltip.add(TextFormatting.RED + "[EjectionSeat]");
             if (info.regeneration)
-                tooltip.add(TextFormatting.RED + "[Regenerating]");
+                tooltip.add(TextFormatting.GREEN + "[Regenerating]");
+            if (info.ammoSupplyRange > 0)
+                tooltip.add(TextFormatting.AQUA + "[Ammo Supplier]");
+            if (info.fuelSupplyRange > 0)
+                tooltip.add(TextFormatting.AQUA + "[Fuel Supplier]");
+            if (info.repairOtherVehiclesRange > 0)
+                tooltip.add(TextFormatting.AQUA + "[Repair]");
             if (info.invulnerable)
                 tooltip.add(TextFormatting.WHITE + "[Invulnerable]");
             tooltip.add(TextFormatting.GRAY + "Health: " + TextFormatting.GREEN + info.maxHp);

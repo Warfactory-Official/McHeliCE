@@ -155,6 +155,8 @@ public class AircraftGui {
         return stack -> {
             if (stack.isEmpty() || info == null) return false;
 
+            if(stack.getItem() instanceof MCH_ItemFuel) return true;
+
             if (!stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null))
                 return false;
 

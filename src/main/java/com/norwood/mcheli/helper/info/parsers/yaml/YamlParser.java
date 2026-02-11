@@ -389,7 +389,21 @@ public class YamlParser implements IParser {
                 case "MaxHP" -> info.maxHp = getClamped(1, 1000_000_000, value);
                 case "Stealth" -> info.stealth = getClamped(1F, value);
                 case "FuelConsumption" -> info.fuelConsumption = getClamped(10_000.0F, value);
-                case "FuelSupplyRange" -> info.fuelSupplyRange = getClamped(1_000.0F, value);
+                case "FuelSupplyRange","FuelSupply" -> {
+                   if(value instanceof Number){
+                       info.fuelSupplyRange = getClamped(1_000.0F, value);
+                   } else if (value instanceof Map<?,?>) {
+                       Map<String, Object> map = (Map<String, Object>) value;
+                       for (Map.Entry<String, Object> fSupplyRange : map.entrySet()) {
+                           switch (fSupplyRange.getKey()) {
+                               case "Infinite" -> info.fuelSupplyInfinite = (Boolean) fSupplyRange.getValue();
+                               case "Range" -> info.fuelSupplyRange = getClamped(1_000.0F, fSupplyRange.getValue());
+                               case "Type" -> info.fuelSupplyType = (String) fSupplyRange.getValue();
+                           }
+                       }
+                   }
+
+                }
                 case "AmmoSupplyRange" -> info.ammoSupplyRange = getClamped(1000, value);
                 case "RepairOtherVehicles" -> {
                     Map<String, Number> repairMap = (HashMap<String, Number>) value;

@@ -242,6 +242,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      * Scale of preview in TheOneProbe
      */
     public float oneProbeScale = 1F;
+    public boolean fuelSupplyInfinite = false;
     @Setter
     @Getter
     protected Map<String, Float> fluidType = Map.of("mch_fuel",1f);
