@@ -4,6 +4,7 @@ DisplayName:
 Category: ZZZ
 CanRide: false
 MaxHP: 1000
+Author: EMB4
 FuelSupplyRange: 35.0
 RepairOtherVehicles:
   Range: 0.0

@@ -31,20 +31,28 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class MCH_ItemAircraft extends W_Item {
 
     private static final boolean isRegistedDispenseBehavior = false;
 
 
+    public MCH_ItemAircraft(int i) {
+        super(i);
+    }
+
+    public static void registerDispenseBehavior(Item item) {
+        if (!isRegistedDispenseBehavior) {
+            BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, new MCH_ItemAircraftDispenseBehavior());
+        }
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (worldIn == null) return;
-        MCH_AircraftInfo info = this.getAircraftInfo().category.equals("zzz") ? null : this.getAircraftInfo();
+        MCH_AircraftInfo info = this.getAircraftInfo();
         MCH_EntityAircraft ac = createAircraft(worldIn, -1.0D, -1.0D, -1.0D, stack);
 
         if (info != null && ac != null) {
@@ -62,12 +70,16 @@ public abstract class MCH_ItemAircraft extends W_Item {
                 }
             }
 
-            if (weaponNames.length() > 0) {
+            if (!weaponNames.isEmpty()) {
                 tooltip.add(weaponNames.toString());
             }
 
-            if(info.isEnableEjectionSeat)
-                tooltip.add(TextFormatting.RED+"[EjectionSeat]");
+            if (info.isEnableEjectionSeat)
+                tooltip.add(TextFormatting.RED + "[EjectionSeat]");
+            if (info.regeneration)
+                tooltip.add(TextFormatting.RED + "[Regenerating]");
+            if (info.invulnerable)
+                tooltip.add(TextFormatting.WHITE + "[Invulnerable]");
             tooltip.add(TextFormatting.GRAY + "Health: " + TextFormatting.GREEN + info.maxHp);
             tooltip.add(TextFormatting.GRAY + "Trunk size: " + TextFormatting.WHITE + info.inventorySize);
             tooltip.add(TextFormatting.GRAY + "Fuel tank storage: " + TextFormatting.WHITE + info.maxFuel);
@@ -84,32 +96,24 @@ public abstract class MCH_ItemAircraft extends W_Item {
 
                         if (!FluidRegistry.isFluidRegistered(fuel)) return;
                         tooltip.add(String.format("– %s%s : %.2f", color, new FluidStack(FluidRegistry.getFluid(fuel), 1).getLocalizedName(), eff)
-                                );
+                        );
 
                     }
             );
-        }
+            if ( ac.isUAV()) {
+                String small = ac.isSmallUAV() ? "Small " : "";
+                String targetDrone = ac.isTargetDrone() ? "Targeting " : "";
+                tooltip.add(TextFormatting.BLUE + "[" + small + targetDrone + "UAV]");
+            }
 
+            if (!info.author.isBlank())
+                tooltip.add(TextFormatting.BLUE + "By " + info.author);
+        }
 
 
         // handles tooltips for UAVs
-        if (ac != null && ac.isUAV()) {
-            String small = ac.isSmallUAV() ?  "Small " : "";
-            String targetDrone = ac.isTargetDrone() ?  "Targeting " : "";
-            tooltip.add(TextFormatting.BLUE +"[" + small + targetDrone + "UAV]");
-        }
 
         super.addInformation(stack, worldIn, tooltip, flagIn);
-    }
-
-    public MCH_ItemAircraft(int i) {
-        super(i);
-    }
-
-    public static void registerDispenseBehavior(Item item) {
-        if (!isRegistedDispenseBehavior) {
-            BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, new MCH_ItemAircraftDispenseBehavior());
-        }
     }
 
     @Nullable

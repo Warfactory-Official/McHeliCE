@@ -40,7 +40,7 @@ public class ContainerGui {
 
         var grid = new Column().name("trunk")
                 .margin(1)
-                .padding(1)
+                .padding(5)
                 .child(IKey.str("Storage (%d)", totalSlots).asWidget().alignX(Alignment.BottomLeft))
                 .child(new Grid()
                         .margin(1)

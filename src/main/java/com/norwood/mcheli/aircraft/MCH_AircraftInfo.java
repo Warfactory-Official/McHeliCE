@@ -100,6 +100,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public int maxFuel = 0;
     public float fuelConsumption = 1.0F;
     public float fuelSupplyRange = 0.0F;
+    public String fuelSupplyType = "mch_fuel";
     public float ammoSupplyRange = 0.0F;
     public float repairOtherVehiclesRange = 0.0F;
     public int repairOtherVehiclesValue = 10;
