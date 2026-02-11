@@ -17,6 +17,7 @@ import com.norwood.mcheli.gltd.MCH_RenderGLTD;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_RenderHeli;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonManager;
 import com.norwood.mcheli.helper.addon.AddonPack;
@@ -145,8 +146,20 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         info.model = MCH_ModelManager.load(path, info.name);
         CompletableFuture<Void> done = new CompletableFuture<>();
         Minecraft.getMinecraft().addScheduledTask(() -> {
-            info.model = info.model.toVBO();
-            done.complete(null);
+            try {
+                info.model = info.model.toVBO();
+                done.complete(null);
+            }catch (NullPointerException e) {
+                // Expected: model has no split parts, fallback to single model
+                // Suppresses the spam
+                if (MCH_Config.DebugLog) {
+                    MCH_Logger.debug(
+                            "Model upload skipped (no separate model present): {}", e.getMessage()
+                    );
+                }
+            } catch (Exception e) {
+                MCH_Logger.error("Unexpected error during model upload", e);
+            }
         });
     }
 
@@ -552,7 +565,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void reconfig() {
-        MCH_Lib.DbgLog(false, "MCH_ClientProxy.reconfig()");
+        MCH_Logger.debugLog(false, "MCH_ClientProxy.reconfig()");
         this.loadConfig(this.lastConfigFileName);
         ClientCommonTickHandler.instance.kbInput.updateKeybind(this.config);
     }
@@ -653,6 +666,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         m.registerSprite(HudMortarRadar.CROSS);
         m.registerSprite(HudMortarRadar.RADAR);
         m.registerSprite(HudMortarRadar.TARGET);
+        m.registerSprite(WidgetGauge.GAUGE);
         GLStateManagerExt.pollSize(); //Should be fine...?
     }
 

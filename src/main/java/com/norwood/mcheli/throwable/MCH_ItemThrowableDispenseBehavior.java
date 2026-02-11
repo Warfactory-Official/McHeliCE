@@ -1,6 +1,6 @@
 package com.norwood.mcheli.throwable;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
@@ -8,6 +8,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 public class MCH_ItemThrowableDispenseBehavior extends BehaviorDefaultDispenseItem {
@@ -24,7 +25,8 @@ public class MCH_ItemThrowableDispenseBehavior extends BehaviorDefaultDispenseIt
                         .playSound(x, y, z, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.BLOCKS, 0.5F,
                                 0.4F / (bs.getWorld().rand.nextFloat() * 0.4F + 0.8F), false);
                 if (!bs.getWorld().isRemote) {
-                    MCH_Lib.DbgLog(bs.getWorld(), "MCH_ItemThrowableDispenseBehavior.dispenseStack(%s)", info.name);
+                    World w = bs.getWorld();
+                    MCH_Logger.debugLog(w, "MCH_ItemThrowableDispenseBehavior.dispenseStack(%s)", info.name);
                     MCH_EntityThrowable entity = new MCH_EntityThrowable(bs.getWorld(), x, y, z);
                     entity.motionX = enumfacing.getXOffset() * info.dispenseAcceleration;
                     entity.motionY = enumfacing.getYOffset() * info.dispenseAcceleration;

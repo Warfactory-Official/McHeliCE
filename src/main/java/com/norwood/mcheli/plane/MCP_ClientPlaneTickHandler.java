@@ -40,6 +40,7 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
                 this.KeySwitchMode,
                 this.KeyEjectSeat,
                 this.KeyUseWeapon,
+                this.KeyReloadWeapon,
                 this.KeySwWeaponMode,
                 this.KeySwitchWeapon1,
                 this.KeySwitchWeapon2,

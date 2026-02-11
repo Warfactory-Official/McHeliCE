@@ -1,5 +1,8 @@
 package com.norwood.mcheli.vehicle;
 
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_ModelManager;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
@@ -7,6 +10,7 @@ import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Lib;
+import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -48,15 +52,18 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
                 GlStateManager.rotate(pitch, 1.0F, 0.0F, 0.0F);
                 this.bindTexture("textures/vehicles/" + vehicle.getTextureName() + ".png", vehicle);
                 renderBody(vehicleInfo.model);
+                if (!vehicleInfo.partCrawlerTrack.isEmpty() && isNotMoving(vehicle) )
+                    ((ModelVBO) vehicleInfo.model).renderTracksBuffer(vehicleInfo);
                 MCH_WeaponSet ws = vehicle.getFirstSeatWeapon();
                 this.drawPart(vehicle, vehicleInfo, yaw, pitch, ws, tickTime);
             }
         }
     }
 
+
     public void drawPart(MCH_EntityVehicle vehicle, MCH_VehicleInfo info, float yaw, float pitch, MCH_WeaponSet ws,
                          float tickTime) {
-        float rotBrl = ws.prevRotBarrel + (ws.rotBarrel - ws.prevRotBarrel) * tickTime;
+        float rotBrl = ws.getPrevRotBarrel() + (ws.getRotBarrel() - ws.getPrevRotBarrel()) * tickTime;
         int index = 0;
 
         for (MCH_VehicleInfo.VPart vp : info.partList) {
@@ -77,7 +84,7 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
         GlStateManager.pushMatrix();
         float recoilBuf = 0.0F;
         if (index < ws.getWeaponsCount()) {
-            MCH_WeaponSet.Recoil r = ws.recoilBuf[index];
+            MCH_WeaponSet.Recoil r = ws.recoilBuffer[index];
             recoilBuf = r.prevRecoilBuf + (r.recoilBuf - r.prevRecoilBuf) * tickTime;
         }
 

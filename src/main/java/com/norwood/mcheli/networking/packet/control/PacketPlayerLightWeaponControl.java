@@ -1,6 +1,6 @@
 package com.norwood.mcheli.networking.packet.control;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.lweapon.MCH_ItemLightWeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponCreator;
@@ -61,7 +61,7 @@ public class PacketPlayerLightWeaponControl implements ClientToServerPacket {
         }
 
         if (camMode > 0) {
-            MCH_Lib.DbgLog(false, "MCH_LightWeaponPacketHandler NV=%s", camMode == 2 ? "ON" : "OFF");
+            MCH_Logger.debugLog(false, "MCH_LightWeaponPacketHandler NV=%s", camMode == 2 ? "ON" : "OFF");
         }
 
         if (held.isEmpty() || !(held.getItem() instanceof MCH_ItemLightWeaponBase lweapon)) {

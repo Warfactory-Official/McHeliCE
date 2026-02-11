@@ -45,7 +45,7 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
     @Override
     public void update(int countWait) {
         super.update(countWait);
-        if (!this.worldObj.isRemote && this.cntAtk < 3 && countWait != 0 && this.tick == this.startTick) {
+        if (!this.world.isRemote && this.cntAtk < 3 && countWait != 0 && this.tick == this.startTick) {
             double x = 0.0;
             double z = 0.0;
             if (this.cntAtk >= 1) {
@@ -104,7 +104,7 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
             x -= 90.0;
         }
 
-        MCH_EntityA10 a10 = new MCH_EntityA10(this.worldObj, x, y, z);
+        MCH_EntityA10 a10 = new MCH_EntityA10(this.world, x, y, z);
         a10.setWeaponName(this.name);
         a10.prevRotationYaw = a10.rotationYaw = 90 * this.direction;
         a10.motionX = mX;
@@ -116,8 +116,8 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
         a10.explosionPower = this.explosionPower;
         a10.power = this.power;
         a10.acceleration = this.acceleration;
-        this.worldObj.spawnEntity(a10);
-        MCH_SoundEvents.playSound(this.worldObj, x, y, z, MCH_MOD.DOMAIN + ":" + "a-10_snd", 150.0F, 1.0F);
+        this.world.spawnEntity(a10);
+        MCH_SoundEvents.playSound(this.world, x, y, z, MCH_MOD.DOMAIN + ":" + "a-10_snd", 150.0F, 1.0F);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
         double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
         double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
         double dist = MathHelper.sqrt(tX * tX + tY * tY + tZ * tZ);
-        if (this.worldObj.isRemote) {
+        if (this.world.isRemote) {
             tX = tX * 80.0 / dist;
             tY = tY * 80.0 / dist;
             tZ = tZ * 80.0 / dist;
@@ -140,7 +140,7 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
 
         Vec3d src = new Vec3d(prm.entity.posX, prm.entity.posY + 2.0, prm.entity.posZ);
         Vec3d dst = new Vec3d(prm.entity.posX + tX, prm.entity.posY + tY + 2.0, prm.entity.posZ + tZ);
-        RayTraceResult m = W_WorldFunc.clip(this.worldObj, src, dst);
+        RayTraceResult m = W_WorldFunc.clip(this.world, src, dst);
         if (W_MovingObjectPosition.isHitTypeTile(m)) {
             this.targetPosX = m.hitVec.x;
             this.targetPosY = m.hitVec.y;
@@ -173,7 +173,7 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
         double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
         double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
         double dist = MathHelper.sqrt(tX * tX + tY * tY + tZ * tZ);
-        if (this.worldObj.isRemote) {
+        if (this.world.isRemote) {
             tX = tX * 80.0 / dist;
             tY = tY * 80.0 / dist;
             tZ = tZ * 80.0 / dist;
@@ -185,9 +185,9 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
 
         Vec3d src = new Vec3d(px, py, pz);
         Vec3d dst = new Vec3d(px + tX, py + tY, pz + tZ);
-        RayTraceResult m = W_WorldFunc.clip(this.worldObj, src, dst);
+        RayTraceResult m = W_WorldFunc.clip(this.world, src, dst);
         if (W_MovingObjectPosition.isHitTypeTile(m)) {
-            if (this.worldObj.isRemote) {
+            if (this.world.isRemote) {
                 double dx = m.hitVec.x - px;
                 double dz = m.hitVec.z - pz;
                 if (Math.sqrt(dx * dx + dz * dz) < 20.0) {

@@ -73,7 +73,7 @@ public class MCH_HudItemString extends MCH_HudItem {
                         return;
                     }
 
-                    if (CurrentWeapon.getAmmoNumMax() <= 0) {
+                    if (CurrentWeapon.getMagSize() <= 0) {
                         return;
                     }
                 }
@@ -83,7 +83,7 @@ public class MCH_HudItemString extends MCH_HudItem {
                         return;
                     }
 
-                    if (CurrentWeapon.getAmmoNumMax() <= 0) {
+                    if (CurrentWeapon.getMagSize() <= 0) {
                         return;
                     }
                 }
@@ -108,9 +108,9 @@ public class MCH_HudItemString extends MCH_HudItem {
                 case MC_VER -> prm[i] = "1.12.2";
                 case MOD_VER -> prm[i] = MCH_MOD.VER;
                 case MOD_NAME -> prm[i] = "MC Helicopter MOD";
-                case YAW -> prm[i] = MCH_Lib.getRotate360(ac.getRotYaw() + 180.0F);
-                case PITCH -> prm[i] = -ac.getRotPitch();
-                case ROLL -> prm[i] = MathHelper.wrapDegrees(ac.getRotRoll());
+                case YAW -> prm[i] = MCH_Lib.getRotate360(ac.getYaw() + 180.0F);
+                case PITCH -> prm[i] = -ac.getPitch();
+                case ROLL -> prm[i] = MathHelper.wrapDegrees(ac.getRoll());
                 case PLYR_YAW -> prm[i] = MCH_Lib.getRotate360(player.rotationYaw + 180.0F);
                 case PLYR_PITCH -> prm[i] = -player.rotationPitch;
                 case TVM_POS_X -> prm[i] = TVM_PosX;

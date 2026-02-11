@@ -47,7 +47,7 @@ public class MCH_WeaponTvMissile extends MCH_WeaponBase {
     @Override
     public void update(int countWait) {
         super.update(countWait);
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             if (this.isTVGuided && this.tick <= 9) {
                 if (this.tick % 3 == 0 && this.lastShotTvMissile != null && !this.lastShotTvMissile.isDead &&
                         this.lastShotEntity != null && !this.lastShotEntity.isDead) {
@@ -71,7 +71,7 @@ public class MCH_WeaponTvMissile extends MCH_WeaponBase {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        return this.worldObj.isRemote ? this.shotClient(prm.entity, prm.user) : this.shotServer(prm);
+        return this.world.isRemote ? this.shotClient(prm.entity, prm.user) : this.shotServer(prm);
     }
 
     protected boolean shotClient(Entity entity, Entity user) {
@@ -92,13 +92,13 @@ public class MCH_WeaponTvMissile extends MCH_WeaponBase {
             acr = (float) (acr * 1.5);
         }
 
-        MCH_EntityTvMissile e = new MCH_EntityTvMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ, yaw,
+        MCH_EntityTvMissile e = new MCH_EntityTvMissile(this.world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ, yaw,
                 pitch, acr);
         e.setName(this.name);
         e.setParameterFromWeapon(this, prm.entity, prm.user);
         this.lastShotEntity = prm.entity;
         this.lastShotTvMissile = e;
-        this.worldObj.spawnEntity(e);
+        this.world.spawnEntity(e);
         this.playSound(prm.entity);
         return true;
     }

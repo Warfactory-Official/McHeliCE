@@ -1,7 +1,7 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_Entity;
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
@@ -21,9 +21,9 @@ public class PacketIndRotation extends PacketBase implements ClientToServerPacke
         if (ac != null) {
             var packet = new PacketIndRotation();
             packet.entityID_Ac = W_Entity.getEntityId(ac);
-            packet.yaw = ac.getRotYaw();
-            packet.pitch = ac.getRotPitch();
-            packet.roll = ac.getRotRoll();
+            packet.yaw = ac.getYaw();
+            packet.pitch = ac.getPitch();
+            packet.roll = ac.getRoll();
             packet.rollRev = ac.aircraftRollRev;
             packet.sendToServer();
         }
@@ -43,9 +43,7 @@ public class PacketIndRotation extends PacketBase implements ClientToServerPacke
         ac.setRotRoll(this.roll);
 
         if (this.rollRev) {
-            MCH_Lib.DbgLog(ac.world,
-                    "onPacketIndRotation Error:this.rollRev y=%.2f, p=%.2f, r=%.2f",
-                    this.yaw, this.pitch, this.roll);
+            MCH_Logger.debugLog(ac.world, "onPacketIndRotation Error:this.rollRev y=%.2f, p=%.2f, r=%.2f", this.yaw, this.pitch, this.roll);
 
             Entity rider = ac.getRiddenByEntity();
             if (rider != null) {

@@ -1,7 +1,7 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_Entity;
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;
@@ -33,13 +33,13 @@ public class PacketStatusResponse extends PacketBase implements ServerToClientPa
 
         if (!(entity instanceof MCH_EntityAircraft ac)) {
             msg.append("Not an aircraft");
-            MCH_Lib.DbgLog(true, msg.toString());
+            MCH_Logger.debugLog(true, msg.toString());
             return;
         }
 
         if (this.seatNum <= 0 || this.weaponIDs == null || this.weaponIDs.length != this.seatNum) {
             msg.append("Error seatNum=").append(this.seatNum);
-            MCH_Lib.DbgLog(true, msg.toString());
+            MCH_Logger.debugLog(true, msg.toString());
             return;
         }
 
@@ -49,7 +49,7 @@ public class PacketStatusResponse extends PacketBase implements ServerToClientPa
             msg.append("[").append(i).append(",").append(this.weaponIDs[i]).append("]");
         }
 
-        MCH_Lib.DbgLog(true, msg.toString());
+        MCH_Logger.debugLog(true, msg.toString());
     }
 
     protected void setParameter(MCH_EntityAircraft ac) {

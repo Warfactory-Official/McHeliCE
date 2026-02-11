@@ -5,6 +5,7 @@ import com.norwood.mcheli.MCH_DamageFactor;
 import com.norwood.mcheli.MCH_Explosion;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
@@ -236,17 +237,14 @@ public class MCH_ExplosionV2 extends Explosion {
                             !(entity instanceof EntityXPOrb) && !W_Entity.isEntityFallingBlock(entity)) {
                         if (!(entity instanceof MCH_EntityBaseBullet) ||
                                 !(this.explodedPlayer instanceof EntityPlayer)) {
-                            MCH_Lib.DbgLog(this.world,
-                                    "MCH_Explosion.doExplosionA:Damage=%.1f:HitEntity=" + entity.getClass(), damage);
+                            MCH_Logger.debugLog(this.world, "MCH_Explosion.doExplosionA:Damage=%.1f:HitEntity=" + entity.getClass(), damage);
                             this.result.hitEntity = true;
                         } else if (!W_Entity.isEqual(((MCH_EntityBaseBullet) entity).shootingEntity,
                                 this.explodedPlayer)) {
                                     this.result.hitEntity = true;
-                                    MCH_Lib.DbgLog(this.world,
-                                            "MCH_Explosion.doExplosionA:Damage=%.1f:HitEntityBullet=" +
-                                                    entity.getClass(),
-                                            damage);
-                                }
+                            MCH_Logger.debugLog(this.world, "MCH_Explosion.doExplosionA:Damage=%.1f:HitEntityBullet=" +
+                                                                    entity.getClass(), damage);
+                        }
                     }
 
                     MCH_Lib.applyEntityHurtResistantTimeConfig(entity);

@@ -983,10 +983,10 @@ public class YamlEmitter implements IEmitter {
             List<Map<String, Object>> camList = new ArrayList<>();
             for (MCH_AircraftInfo.CameraPosition cp : info.cameraPosition) {
                 Map<String, Object> cm = new LinkedHashMap<>();
-                cm.put("Pos", vecMinusYOffset(cp.pos));
-                if (cp.fixRot) cm.put("FixedRot", true);
-                if (cp.yaw != 0) cm.put("Yaw", cp.yaw);
-                if (cp.pitch != 0) cm.put("Pitch", cp.pitch);
+                cm.put("Pos", vecMinusYOffset(cp.pos()));
+                if (cp.fixRot()) cm.put("FixedRot", true);
+                if (cp.yaw() != 0) cm.put("Yaw", cp.yaw());
+                if (cp.pitch() != 0) cm.put("Pitch", cp.pitch());
                 camList.add(cm);
             }
             camera.put("Pos", camList);
@@ -1106,13 +1106,13 @@ public class YamlEmitter implements IEmitter {
                 MCH_AircraftInfo.ParticleSplash dummyPs = dummyInfo.particleSplashs.size() > splash.size() ?
                         dummyInfo.particleSplashs.get(splash.size()) : null;
 
-                if (dummyPs == null || !ps.pos.equals(dummyPs.pos)) pm.put("Position", vec(ps.pos));
-                if (dummyPs == null || ps.num != dummyPs.num) pm.put("Count", ps.num);
-                if (dummyPs == null || ps.size != dummyPs.size) pm.put("Size", ps.size);
-                if (dummyPs == null || ps.acceleration != dummyPs.acceleration) pm.put("Acceleration", ps.acceleration);
-                if (dummyPs == null || ps.age != dummyPs.age) pm.put("Age", ps.age);
-                if (dummyPs == null || ps.motionY != dummyPs.motionY) pm.put("Motion", ps.motionY);
-                if (dummyPs == null || ps.gravity != dummyPs.gravity) pm.put("Gravity", ps.gravity);
+                if (dummyPs == null || !ps.pos().equals(dummyPs.pos())) pm.put("Position", vec(ps.pos()));
+                if (dummyPs == null || ps.num() != dummyPs.num()) pm.put("Count", ps.num());
+                if (dummyPs == null || ps.size() != dummyPs.size()) pm.put("Size", ps.size());
+                if (dummyPs == null || ps.acceleration() != dummyPs.acceleration()) pm.put("Acceleration", ps.acceleration());
+                if (dummyPs == null || ps.age() != dummyPs.age()) pm.put("Age", ps.age());
+                if (dummyPs == null || ps.motionY() != dummyPs.motionY()) pm.put("Motion", ps.motionY());
+                if (dummyPs == null || ps.gravity() != dummyPs.gravity()) pm.put("Gravity", ps.gravity());
 
                 if (!pm.isEmpty()) splash.add(pm);
             }
@@ -1194,10 +1194,10 @@ public class YamlEmitter implements IEmitter {
                 if (seatInfo.invCamPos) sm.put("InvCamPos", true);
                 if (seatInfo.getCamPos() != null) {
                     Map<String, Object> cm = new LinkedHashMap<>();
-                    cm.put("Pos", vecMinusYOffset(seatInfo.getCamPos().pos));
-                    if (seatInfo.getCamPos().fixRot) cm.put("FixedRot", true);
-                    if (seatInfo.getCamPos().yaw != 0.0f) cm.put("Yaw", seatInfo.getCamPos().yaw);
-                    if (seatInfo.getCamPos().pitch != 0.0f) cm.put("Pitch", seatInfo.getCamPos().pitch);
+                    cm.put("Pos", vecMinusYOffset(seatInfo.getCamPos().pos()));
+                    if (seatInfo.getCamPos().fixRot()) cm.put("FixedRot", true);
+                    if (seatInfo.getCamPos().yaw() != 0.0f) cm.put("Yaw", seatInfo.getCamPos().yaw());
+                    if (seatInfo.getCamPos().pitch() != 0.0f) cm.put("Pitch", seatInfo.getCamPos().pitch());
                     sm.put("Camera", cm);
                 }
                 seats.add(sm);
@@ -1236,8 +1236,8 @@ public class YamlEmitter implements IEmitter {
                 if (r.unmountPos != null) rm.put("UnmountPos", vec(r.unmountPos));
                 if (r.getCamPos() != null) {
                     Map<String, Object> cm = new LinkedHashMap<>();
-                    cm.put("Pos", vecMinusYOffset(r.getCamPos().pos));
-                    if (r.getCamPos().fixRot) cm.put("FixedRot", true);
+                    cm.put("Pos", vecMinusYOffset(r.getCamPos().pos()));
+                    if (r.getCamPos().fixRot()) cm.put("FixedRot", true);
                     racks.add(rm);
                     rm.put("Camera", cm);
                 } else {
@@ -1260,7 +1260,7 @@ public class YamlEmitter implements IEmitter {
         if (!info.rideRacks.isEmpty()) {
             Map<String, Object> ride = new LinkedHashMap<>();
             for (MCH_AircraftInfo.RideRack rr : info.rideRacks) {
-                ride.put(rr.name, rr.rackID);
+                ride.put(rr.name(), rr.rackID());
             }
             root.put("RideRack", ride);
         }
@@ -1286,8 +1286,8 @@ public class YamlEmitter implements IEmitter {
             List<Map<String, Object>> hitboxes = new ArrayList<>();
             for (MCH_AircraftInfo.Wheel w : info.wheels) {
                 Map<String, Object> wm = new LinkedHashMap<>();
-                wm.put("Position", vec(w.pos));
-                if (w.size != 1.0f) wm.put("Scale", w.size);
+                wm.put("Position", vec(w.pos()));
+                if (w.size() != 1.0f) wm.put("Scale", w.size());
                 hitboxes.add(wm);
             }
             wheels.put("Hitboxes", hitboxes);
@@ -1624,8 +1624,8 @@ public class YamlEmitter implements IEmitter {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.RepellingHook hook : info.repellingHooks) {
                 Map<String, Object> m = new LinkedHashMap<>();
-                m.put("Position", vec(hook.pos));
-                if (hook.interval != 0) m.put("Interval", hook.interval);
+                m.put("Position", vec(hook.pos()));
+                if (hook.interval() != 0) m.put("Interval", hook.interval());
                 list.add(m);
             }
             components.put("RepelHook", list);

@@ -1,6 +1,6 @@
 package com.norwood.mcheli.parachute;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
@@ -136,7 +136,7 @@ public class MCH_EntityParachute extends W_Entity implements IEntitySinglePassen
     public void onUpdate() {
         super.onUpdate();
         if (!this.world.isRemote && this.ticksExisted % 10 == 0) {
-            MCH_Lib.DbgLog(this.world, "MCH_EntityParachute.onUpdate %d, %.3f", this.ticksExisted, this.motionY);
+            MCH_Logger.debugLog(this.world, "MCH_EntityParachute.onUpdate %d, %.3f", this.ticksExisted, this.motionY);
         }
 
         if (this.isOpenParachute() && this.motionY > -0.3 && this.ticksExisted > 20) {

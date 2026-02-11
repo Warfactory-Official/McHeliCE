@@ -1,8 +1,8 @@
 package com.norwood.mcheli.helicopter;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_ItemAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -25,7 +25,7 @@ public class MCH_ItemHeli extends MCH_ItemAircraft {
     public MCH_EntityHeli createAircraft(World world, double x, double y, double z, ItemStack itemStack) {
         MCH_HeliInfo info = MCH_HeliInfoManager.getFromItem(this);
         if (info == null) {
-            MCH_Lib.Log(world, "##### MCH_ItemHeli Heli info null %s", this.getTranslationKey());
+            MCH_Logger.log(world, "##### MCH_ItemHeli Heli info null %s", this.getTranslationKey());
             return null;
         } else {
             MCH_EntityHeli heli = new MCH_EntityHeli(world);

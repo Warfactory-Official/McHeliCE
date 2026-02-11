@@ -20,6 +20,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
     public MCH_Key KeyRight;
     public MCH_Key KeyLeft;
     public MCH_Key KeyUseWeapon;
+    public MCH_Key KeyReloadWeapon;
     public MCH_Key KeySwitchWeapon1;
     public MCH_Key KeySwitchWeapon2;
     public MCH_Key KeySwWeaponMode;
@@ -63,6 +64,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         this.KeyPutToRack = new MCH_Key(MCH_Config.KeyPutToRack.prmInt);
         this.KeyDownFromRack = new MCH_Key(MCH_Config.KeyDownFromRack.prmInt);
         this.KeyBrake = new MCH_Key(MCH_Config.KeySwitchHovering.prmInt);
+        this.KeyReloadWeapon = new MCH_Key(MCH_Config.KeyReloadWeapon.prmInt);
     }
 
     protected void commonPlayerControlInGUI(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot,
@@ -223,13 +225,17 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         }
 
         if (!ac.isDestroyed() && !ac.isPilotReloading()) {
+            if(this.KeyReloadWeapon.isKeyDown()){
+                pc.setReload(true);
+                send = true;
+            }
             if (!this.KeySwitchWeapon1.isKeyDown() && !this.KeySwitchWeapon2.isKeyDown() && getMouseWheel() == 0) {
                 if (this.KeySwWeaponMode.isKeyDown()) {
                     ac.switchCurrentWeaponMode(player);
                 } else if (this.KeyUseWeapon.isKeyPress() && ac.useCurrentWeapon(player)) {
                     pc.setUseWeapon(true);
-                    pc.useWeaponOption1 = ac.getCurrentWeapon(player).getLastUsedOptionParameter1();
-                    pc.useWeaponOption2 = ac.getCurrentWeapon(player).getLastUsedOptionParameter2();
+                    pc.useWeaponOption1 = ac.getCurrentWeapon(player).getOptionParm1();
+                    pc.useWeaponOption2 = ac.getCurrentWeapon(player).getOptionParm2();
                     pc.useWeaponPosX = ac.prevPosX;
                     pc.useWeaponPosY = ac.prevPosY;
                     pc.useWeaponPosZ = ac.prevPosZ;
@@ -247,6 +253,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
                 send = true;
             }
         }
+
 
         return send || player.ticksExisted % 100 == 0;
     }

@@ -19,16 +19,16 @@ public class MCH_WeaponMarkerRocket extends MCH_WeaponBase {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             this.playSound(prm.entity);
             Vec3d v = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -prm.rotYaw, -prm.rotPitch, -prm.rotRoll);
             MCH_EntityMarkerRocket e = new MCH_EntityMarkerRocket(
-                    this.worldObj, prm.posX, prm.posY, prm.posZ, v.x, v.y, v.z, prm.rotYaw, prm.rotPitch,
+                    this.world, prm.posX, prm.posY, prm.posZ, v.x, v.y, v.z, prm.rotYaw, prm.rotPitch,
                     this.acceleration);
             e.setName(this.name);
             e.setParameterFromWeapon(this, prm.entity, prm.user);
             e.setMarkerStatus(1);
-            this.worldObj.spawnEntity(e);
+            this.world.spawnEntity(e);
         } else {
             this.optionParameter1 = this.getCurrentMode();
         }

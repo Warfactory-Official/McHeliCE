@@ -1,11 +1,12 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 public class MCH_ItemAircraftDispenseBehavior extends BehaviorDefaultDispenseItem {
@@ -25,9 +26,9 @@ public class MCH_ItemAircraftDispenseBehavior extends BehaviorDefaultDispenseIte
                 }
 
                 itemStack.splitStack(1);
-                MCH_Lib.DbgLog(bs.getWorld(),
-                        "dispenseStack:x=%.1f,y=%.1f,z=%.1f;dir=%s:item=" + itemStack.getDisplayName(), x, y, z,
-                        enumfacing.toString());
+                World w = bs.getWorld();
+                String format = "dispenseStack:x=%.1f,y=%.1f,z=%.1f;dir=%s:item=" + itemStack.getDisplayName();
+                MCH_Logger.debugLog(w, format, x, y, z, enumfacing.toString());
             }
         }
 

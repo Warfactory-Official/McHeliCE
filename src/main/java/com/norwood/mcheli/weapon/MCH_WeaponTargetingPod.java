@@ -22,7 +22,7 @@ public class MCH_WeaponTargetingPod extends MCH_WeaponBase {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             MCH_WeaponInfo info = this.getInfo();
             if ((info.target & 64) != 0) {
                 if (MCH_Multiplay.markPoint((EntityPlayer) prm.user, prm.posX, prm.posY, prm.posZ)) {

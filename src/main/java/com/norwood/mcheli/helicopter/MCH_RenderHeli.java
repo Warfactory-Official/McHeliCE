@@ -5,6 +5,7 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
 import com.norwood.mcheli.aircraft.MCH_Rotor;
 import com.norwood.mcheli.wrapper.W_Entity;
+import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -38,6 +39,8 @@ public class MCH_RenderHeli extends MCH_RenderAircraft<MCH_EntityHeli> {
                 GlStateManager.rotate(roll, 0.0F, 0.0F, 1.0F);
                 this.bindTexture("textures/helicopters/" + heli.getTextureName() + ".png", heli);
                 renderBody(heliInfo.model);
+                if (!heliInfo.partCrawlerTrack.isEmpty() &&  entity.getCurrentThrottle() == 0 )
+                    ((ModelVBO) heliInfo.model).renderTracksBuffer(heliInfo);
                 this.drawModelBlade(heli, heliInfo, tickTime);
             }
         }

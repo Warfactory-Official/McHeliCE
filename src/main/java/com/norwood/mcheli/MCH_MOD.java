@@ -10,6 +10,7 @@ import com.norwood.mcheli.compat.ModCompatManager;
 import com.norwood.mcheli.compat.oneprobe.AircraftInfoProvider;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_ItemContainer;
+import com.norwood.mcheli.factories.MCHGuiFactories;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
 import com.norwood.mcheli.gltd.MCH_ItemGLTD;
@@ -48,19 +49,14 @@ import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.vehicle.MCH_ItemVehicle;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.*;
-import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Item;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
 import net.minecraft.command.CommandHandler;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -75,7 +71,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 
 @Mod(
@@ -124,6 +119,10 @@ public class MCH_MOD {
     public static MCH_DraftingTableBlock blockDraftingTableLit;
     private static File sourceFile;
     private static File addonDir;
+
+    static {
+        FluidRegistry.enableUniversalBucket();
+    }
 
     public static void registerItem(W_Item item, String name, MCH_CreativeTabs ct) {
         item.setTranslationKey("mcheli:" + name);
@@ -294,7 +293,6 @@ public class MCH_MOD {
         }
     }
 
-    @Deprecated
     public static Logger getLogger() {
         return MCH_Logger.get();
     }
@@ -312,13 +310,13 @@ public class MCH_MOD {
         MCH_Logger.setLogger(evt.getModLog());
         VER = Loader.instance().activeModContainer().getVersion();
         MCH_Lib.init();
-        MCH_Lib.Log("MC Ver:1.12.2 MOD Ver:" + VER);
-        MCH_Lib.Log("Start load...");
+        MCH_Logger.log("MC Ver:1.12.2 MOD Ver:" + VER);
+        MCH_Logger.log("Start load...");
         sourcePath = evt.getSourceFile().getPath();
         sourceFile = evt.getSourceFile();
         addonDir = new File(evt.getModConfigurationDirectory().getParentFile(), ADDON_FOLDER_NAME);
-        MCH_Lib.Log("SourcePath: " + sourcePath);
-        MCH_Lib.Log("CurrentDirectory:" + new File(".").getAbsolutePath());
+        MCH_Logger.log("SourcePath: " + sourcePath);
+        MCH_Logger.log("CurrentDirectory:" + new File(".").getAbsolutePath());
         proxy.init();
         creativeTabs = new MCH_CreativeTabs("MCHeli CE Items");
         creativeTabsHeli = new MCH_CreativeTabs("MCHeli CE Helicopters");
@@ -329,8 +327,10 @@ public class MCH_MOD {
         creativeTabsItem = new MCH_CreativeTabs("MCHeli CE Recipe Items");
         proxy.loadConfig("config/mcheli.cfg");
         config = proxy.config;
+        MCH_Fluids.register();
+        MCHGuiFactories.init();
         ContentRegistries.loadContents(addonDir);
-        MCH_Lib.Log("Register item");
+        MCH_Logger.log("Register item");
         this.registerItemSpawnGunner();
         this.registerItemRangeFinder();
         this.registerItemWrench();
@@ -357,18 +357,18 @@ public class MCH_MOD {
         W_LanguageRegistry.addName(blockDraftingTable, "Drafting Table");
         W_LanguageRegistry.addNameForObject(blockDraftingTable, "ja_jp", "製図台");
         MCH_CriteriaTriggers.registerTriggers();
-        MCH_Lib.Log("Register system");
+        MCH_Logger.log("Register system");
         MinecraftForge.EVENT_BUS.register(new MCH_EventHook());
         proxy.registerClientTick();
-            NetworkRegistry.INSTANCE.registerGuiHandler(this, new MCH_GuiCommonHandler());
-        MCH_Lib.Log("Register entity");
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new MCH_GuiCommonHandler());
+        MCH_Logger.log("Register entity");
         this.registerEntity();
-        MCH_Lib.Log("Register renderer");
+        MCH_Logger.log("Register renderer");
         proxy.registerRenderer();
-        MCH_Lib.Log("Register Sounds");
-//        proxy.registerSounds();
+        MCH_Logger.log("Register Sounds");
+        //        proxy.registerSounds();
         proxy.updateGeneratedLanguage();
-        MCH_Lib.Log("End load");
+        MCH_Logger.log("End load");
     }
 
     @EventHandler
@@ -576,7 +576,6 @@ public class MCH_MOD {
         W_LanguageRegistry.addName(item, "GLTD:Target Designator");
         W_LanguageRegistry.addNameForObject(item, "ja_jp", "GLTD:レーザー目標指示装置");
     }
-
 
 
     @SubscribeEvent

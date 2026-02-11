@@ -16,7 +16,7 @@ import java.util.Random;
 public abstract class MCH_WeaponBase {
 
     protected static final Random rand = new Random();
-    public final World worldObj;
+    public final World world;
     public final Vec3d position;
     public final float fixRotationYaw;
     public final float fixRotationPitch;
@@ -44,7 +44,7 @@ public abstract class MCH_WeaponBase {
     public int nukeYield;
 
     public MCH_WeaponBase(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
-        this.worldObj = w;
+        this.world = w;
         this.position = v;
         this.fixRotationYaw = yaw;
         this.fixRotationPitch = pitch;
@@ -173,7 +173,7 @@ public abstract class MCH_WeaponBase {
             return ((MCH_EntityAircraft) entity).calcOnTurretPos(this.position);
         } else {
             Vec3d v = new Vec3d(this.position.x, this.position.y, this.position.z);
-            float roll = entity instanceof MCH_EntityAircraft ? ((MCH_EntityAircraft) entity).getRotRoll() : 0.0F;
+            float roll = entity instanceof MCH_EntityAircraft ? ((MCH_EntityAircraft) entity).getRoll() : 0.0F;
             return MCH_Lib.RotVec3(v, -entity.rotationYaw, -entity.rotationPitch, -roll);
         }
     }
@@ -186,7 +186,7 @@ public abstract class MCH_WeaponBase {
         if (!e.world.isRemote && this.canPlaySound && this.getInfo() != null) {
             float prnd = this.getInfo().soundPitchRandom;
             float pitch = this.getInfo().soundPitch * (1.0F - prnd) + rand.nextFloat() * prnd;
-            MCH_SoundEvents.playSound(this.worldObj, e.posX, e.posY, e.posZ, snd, this.getInfo().soundVolume, pitch);
+            MCH_SoundEvents.playSound(this.world, e.posX, e.posY, e.posZ, snd, this.getInfo().soundVolume, pitch);
         }
     }
 
@@ -227,7 +227,7 @@ public abstract class MCH_WeaponBase {
                 for (int i = 0; i < 50; i++) {
                     Vec3d vs = new Vec3d(spx, spy, spz);
                     Vec3d ve = new Vec3d(spx + mx, spy + my, spz + mz);
-                    RayTraceResult mop = this.worldObj.rayTraceBlocks(vs, ve);
+                    RayTraceResult mop = this.world.rayTraceBlocks(vs, ve);
                     if (mop != null && mop.typeOfHit == Type.BLOCK) {
                         double dx = mop.getBlockPos().getX() - prm.posX;
                         double dz = mop.getBlockPos().getZ() - prm.posZ;

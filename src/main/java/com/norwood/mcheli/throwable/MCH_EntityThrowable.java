@@ -1,7 +1,7 @@
 package com.norwood.mcheli.throwable;
 
 import com.norwood.mcheli.MCH_Explosion;
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
@@ -72,7 +72,7 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
 
     public void setDead() {
         String s = this.getInfo() != null ? this.getInfo().name : "null";
-        MCH_Lib.DbgLog(this.world, "MCH_EntityThrowable.setDead(%s)", s);
+        MCH_Logger.debugLog(this.world, "MCH_EntityThrowable.setDead(%s)", s);
         super.setDead();
     }
 

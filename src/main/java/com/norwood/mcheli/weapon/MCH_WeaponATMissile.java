@@ -45,7 +45,7 @@ public class MCH_WeaponATMissile extends MCH_WeaponEntitySeeker {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        return this.worldObj.isRemote ? this.shotClient(prm.entity, prm.user) : this.shotServer(prm);
+        return this.world.isRemote ? this.shotClient(prm.entity, prm.user) : this.shotServer(prm);
     }
 
     protected boolean shotClient(Entity entity, Entity user) {
@@ -70,13 +70,13 @@ public class MCH_WeaponATMissile extends MCH_WeaponEntitySeeker {
             double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) *
                     MathHelper.cos(pitch / 180.0F * (float) Math.PI);
             double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
-            MCH_EntityATMissile e = new MCH_EntityATMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
+            MCH_EntityATMissile e = new MCH_EntityATMissile(this.world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
                     yaw, pitch, this.acceleration);
             e.setName(this.name);
             e.setParameterFromWeapon(this, prm.entity, prm.user);
             e.setTargetEntity(tgtEnt);
             e.guidanceType = prm.option2;
-            this.worldObj.spawnEntity(e);
+            this.world.spawnEntity(e);
             this.playSound(prm.entity);
             return true;
         } else {

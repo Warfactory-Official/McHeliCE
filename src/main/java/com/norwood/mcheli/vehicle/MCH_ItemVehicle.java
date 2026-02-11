@@ -1,8 +1,8 @@
 package com.norwood.mcheli.vehicle;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_ItemAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -25,7 +25,7 @@ public class MCH_ItemVehicle extends MCH_ItemAircraft {
     public MCH_EntityVehicle createAircraft(World world, double x, double y, double z, ItemStack item) {
         MCH_VehicleInfo info = MCH_VehicleInfoManager.getFromItem(this);
         if (info == null) {
-            MCH_Lib.Log(world, "##### MCH_ItemVehicle Vehicle info null %s", this.getTranslationKey());
+            MCH_Logger.log(world, "##### MCH_ItemVehicle Vehicle info null %s", this.getTranslationKey());
             return null;
         } else {
             MCH_EntityVehicle vehicle = new MCH_EntityVehicle(world);

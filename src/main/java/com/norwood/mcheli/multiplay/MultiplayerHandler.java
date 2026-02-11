@@ -1,7 +1,7 @@
 package com.norwood.mcheli.multiplay;
 
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import lombok.Getter;
 import net.minecraft.command.server.CommandSummon;
@@ -59,11 +59,11 @@ public class MultiplayerHandler {
     }
 
     public static void LogInfo(String format, Object... args) {
-        MCH_Lib.Log(String.format(format, args));
+        MCH_Logger.log(String.format(format, args));
     }
 
     public static void LogError(String format, Object... args) {
-        MCH_Lib.Log(String.format(format, args));
+        MCH_Logger.log(String.format(format, args));
     }
 
     public static int getPlayerInfoId(EntityPlayer player) {

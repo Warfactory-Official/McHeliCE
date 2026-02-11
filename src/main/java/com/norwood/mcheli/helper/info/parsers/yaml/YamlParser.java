@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 import static com.norwood.mcheli.aircraft.MCH_AircraftInfo.*;
 
 // TODO:Reforged Fields
-@SuppressWarnings({ "unchecked", "unboxing" })
+@SuppressWarnings({"unchecked", "unboxing"})
 public class YamlParser implements IParser {
 
     public static final Yaml YAML_INSTANCE = new Yaml();
@@ -44,7 +44,8 @@ public class YamlParser implements IParser {
     public static final Set<String> DRAWN_PART_ARGS = new HashSet<>(
             Arrays.asList("Type", "Position", "Rotation", "PartName", "Rot", "Pos"));
 
-    private YamlParser() {}
+    private YamlParser() {
+    }
 
     public static void register() {
         ContentParsers.register("yml", INSTANCE);
@@ -72,7 +73,7 @@ public class YamlParser implements IParser {
     }
 
     public static double getClamped(double min, double max, Number value) {
-        return Math.max(min, Math.min(max, ((Number) value).doubleValue()));
+        return Math.max(min, Math.min(max, value.doubleValue()));
     }
 
     public static float getClamped(float max, Object value) {
@@ -89,7 +90,7 @@ public class YamlParser implements IParser {
 
     public static Vec3d parseVector(Object vector) {
         if (vector == null) throw new IllegalArgumentException("Vector value is null");
-        if (vector instanceof List<?>list) {
+        if (vector instanceof List<?> list) {
             if (list.size() != 3) {
                 throw new IllegalArgumentException("Vector list must have exactly 3 elements, got " + list.size());
             }
@@ -136,7 +137,7 @@ public class YamlParser implements IParser {
     @Override
     public @Nullable MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines,
                                               boolean reload) throws Exception {
-        Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
+        Map<String, Object> root = YAML_INSTANCE.load(String.join("\n", lines));
         var info = new MCH_PlaneInfo(location, filepath);
         mapToAircraft(info, root);
         for (Map.Entry<String, Object> entry : root.entrySet()) {
@@ -155,7 +156,7 @@ public class YamlParser implements IParser {
     @Override
     public @Nullable MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines,
                                             boolean reload) throws Exception {
-        Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
+        Map<String, Object> root = YAML_INSTANCE.load(String.join("\n", lines));
         var info = new MCH_ShipInfo(location, filepath);
         mapToAircraft(info, root);
         for (Map.Entry<String, Object> entry : root.entrySet()) {
@@ -206,7 +207,7 @@ public class YamlParser implements IParser {
     @Override
     public @Nullable MCH_VehicleInfo parseVehicle(AddonResourceLocation location, String filepath, List<String> lines,
                                                   boolean reload) throws Exception {
-        Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
+        Map<String, Object> root = YAML_INSTANCE.load(String.join("\n", lines));
         var info = new MCH_VehicleInfo(location, filepath);
         mapToAircraft(info, root);
         for (Map.Entry<String, Object> entry : root.entrySet()) {
@@ -268,7 +269,6 @@ public class YamlParser implements IParser {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     private void parsePlaneFeatures(Map<String, Object> map, MCH_PlaneInfo info) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
@@ -296,7 +296,6 @@ public class YamlParser implements IParser {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void parseShipFeatures(Map<String, Object> map, MCH_ShipInfo info) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
@@ -326,12 +325,19 @@ public class YamlParser implements IParser {
 
     @SuppressWarnings("unboxing")
     private void mapToAircraft(MCH_AircraftInfo info, Map<String, Object> root) {
+        //I HAVE NO IDEA what the compiler is doing, but enhanced iterator starts skipping entries. Fucking piece of shit
         for (Map.Entry<String, Object> entry : root.entrySet()) {
+            final Object value = entry.getValue();
             switch (entry.getKey()) {
+                case "ItemID" -> info.itemID = (int) value;
+                case "Author" -> info.author = (String) value;
+                case "Regeneration" -> info.regeneration = (Boolean) value;
+                case "CanRide" -> info.canRide = (Boolean) value;
+                case "CreativeOnly" -> info.creativeOnly = (Boolean) value;
+                case "Invulnerable" -> info.invulnerable = (Boolean) value;
                 case "DisplayName" -> {
-                    Object nameObject = entry.getValue();
-                    if (nameObject instanceof String name) info.displayName = name.trim();
-                    else if (nameObject instanceof Map<?, ?>translationNames) {
+                    if (value instanceof String name) info.displayName = name.trim();
+                    else if (value instanceof Map<?, ?> translationNames) {
                         var userNameMap = (Map<String, String>) translationNames;
                         if (userNameMap.containsKey("DEFAULT")) {
                             info.displayName = userNameMap.get("DEFAULT");
@@ -340,25 +346,18 @@ public class YamlParser implements IParser {
                         info.displayNameLang = (HashMap<String, String>) userNameMap;
                     } else throw new ClassCastException();
                 }
-                case "Author" -> {
-                    // Proposal: would allow content creators to put their signature
-                }
-                // Depricated on 1,12, around for 1.7 compat
-                case "ItemID" -> {
-                    info.itemID = (int) entry.getValue();
-                }
+
                 case "Category" -> {
-                    if (entry.getValue() instanceof String category)
+                    if (value instanceof String category)
                         info.category = category.toUpperCase(Locale.ROOT).trim();
-                    else if (entry.getValue() instanceof List<?>categories) {
+                    else if (value instanceof List<?> categories) {
                         List<String> list = (List<String>) categories;
                         info.category = list.stream().map(String::trim).map(String::toUpperCase)
                                 .collect(Collectors.joining(","));
                     } else throw new RuntimeException();
-
                 }
                 case "Recepie" -> {
-                    Map<String, Object> map = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> map = (Map<String, Object>) value;
                     for (Map.Entry<String, Object> recMapEntry : map.entrySet()) {
                         switch (recMapEntry.getKey()) {
                             case "isShaped" -> info.isShapedRecipe = (Boolean) recMapEntry.getValue();
@@ -366,35 +365,55 @@ public class YamlParser implements IParser {
                                     .map(String::toUpperCase).map(String::trim).collect(Collectors.toList());
                         }
                     }
-
                 }
-                case "CanRide" -> info.canRide = (Boolean) entry.getValue();
                 case "RotorSpeed" -> {
-                    info.rotorSpeed = getClamped(-10000.0F, 10000.0F, entry.getValue());
+                    info.rotorSpeed = getClamped(-10000.0F, 10000.0F, value);
                     if (info.rotorSpeed > 0.01F) info.rotorSpeed -= 0.01F;
                     if (info.rotorSpeed < -0.01F) info.rotorSpeed += 0.01F; // Interesting
                 }
+                case "TurretPosition" -> info.turretPosition = parseVector(value);
+                case "MaxFuel" -> info.maxFuel = getClamped(100_000_000, value);
+                case "FuelType" -> {
+                    if (value instanceof String fluid) info.setFluidType(Map.of(fluid, 1f));
+                    else if (value instanceof Map<?, ?> fluidMap) {
+                        TreeMap<String, Float> map = new TreeMap<>();
+                        for (var ent : fluidMap.entrySet()) {
+                            var entrCast = (Map.Entry<String, Number>) ent;
+                            map.put(entrCast.getKey(), entrCast.getValue().floatValue());
 
-                case "TurretPosition" -> info.turretPosition = parseVector(entry.getValue());
-                case "CreativeOnly" -> info.creativeOnly = (Boolean) entry.getValue();
-                case "Regeneration" -> info.regeneration = (Boolean) entry.getValue();
-                case "Invulnerable" -> info.invulnerable = (Boolean) entry.getValue();
-                case "MaxFuel" -> info.maxFuel = getClamped(100_000_000, entry.getValue());
-                case "MaxHP" -> info.maxHp = getClamped(1, 1000_000_000, entry.getValue());
-                case "Stealth" -> info.stealth = getClamped(1F, entry.getValue());
-                case "FuelConsumption" -> info.fuelConsumption = getClamped(10_000.0F, entry.getValue());
-                case "FuelSupplyRange" -> info.fuelSupplyRange = getClamped(1_000.0F, entry.getValue());
-                case "AmmoSupplyRange" -> info.ammoSupplyRange = getClamped(1000, entry.getValue());
+                        }
+                        info.setFluidType(map);
+                    } else
+                        throw new IllegalArgumentException("FluidType  must be either a String or Map, got: " + value.getClass());
+                }
+                case "MaxHP" -> info.maxHp = getClamped(1, 1000_000_000, value);
+                case "Stealth" -> info.stealth = getClamped(1F, value);
+                case "FuelConsumption" -> info.fuelConsumption = getClamped(10_000.0F, value);
+                case "FuelSupplyRange","FuelSupply" -> {
+                   if(value instanceof Number){
+                       info.fuelSupplyRange = getClamped(1_000.0F, value);
+                   } else if (value instanceof Map<?,?>) {
+                       Map<String, Object> map = (Map<String, Object>) value;
+                       for (Map.Entry<String, Object> fSupplyRange : map.entrySet()) {
+                           switch (fSupplyRange.getKey()) {
+                               case "Infinite" -> info.fuelSupplyInfinite = (Boolean) fSupplyRange.getValue();
+                               case "Range" -> info.fuelSupplyRange = getClamped(1_000.0F, fSupplyRange.getValue());
+                               case "Type" -> info.fuelSupplyType = (String) fSupplyRange.getValue();
+                           }
+                       }
+                   }
+
+                }
+                case "AmmoSupplyRange" -> info.ammoSupplyRange = getClamped(1000, value);
                 case "RepairOtherVehicles" -> {
-                    Map<String, Number> repairMap = (HashMap<String, Number>) entry.getValue();
+                    Map<String, Number> repairMap = (HashMap<String, Number>) value;
                     if (repairMap.containsKey("Range"))
                         info.repairOtherVehiclesRange = getClamped(1_000.0F, (Object) repairMap.get("Range"));
                     if (repairMap.containsKey("Value"))
                         info.repairOtherVehiclesValue = getClamped(10_000_000, (Object) repairMap.get("Value"));
                 }
-
                 case "RadarType" -> {
-                    if (entry.getValue() instanceof String data) {
+                    if (value instanceof String data) {
                         try {
                             info.radarType = RadarType.valueOf(data);
                         } catch (IllegalArgumentException e) {
@@ -403,7 +422,7 @@ public class YamlParser implements IParser {
                     }
                 }
                 case "RWRType" -> {
-                    if (entry.getValue() instanceof String data) {
+                    if (value instanceof String data) {
                         try {
                             info.rwrType = RWRType.valueOf(data);
                         } catch (IllegalArgumentException e) {
@@ -411,42 +430,36 @@ public class YamlParser implements IParser {
                         }
                     }
                 }
-                case "NameOnModernAARadar" -> info.nameOnModernAARadar = ((String) entry.getValue()).trim();
-                case "NameOnEarlyAARadar" -> info.nameOnEarlyAARadar = ((String) entry.getValue()).trim();
-                case "NameOnModernASRadar" -> info.nameOnModernASRadar = ((String) entry.getValue()).trim();
-                case "NameOnEarlyASRadar" -> info.nameOnEarlyASRadar = ((String) entry.getValue()).trim();
-                case "ExplosionSizeByCrash" -> info.explosionSizeByCrash = getClamped(100, entry.getValue());
-                case "ThrottleDownFactor" -> info.throttleDownFactor = getClamped(10F, entry.getValue());
-                case "HUDType", "WeaponGroupType" -> {
-                    // Unimplemented
-                }
+                case "NameOnModernAARadar" -> info.nameOnModernAARadar = ((String) value).trim();
+                case "NameOnEarlyAARadar" -> info.nameOnEarlyAARadar = ((String) value).trim();
+                case "NameOnModernASRadar" -> info.nameOnModernASRadar = ((String) value).trim();
+                case "NameOnEarlyASRadar" -> info.nameOnEarlyASRadar = ((String) value).trim();
+                case "ExplosionSizeByCrash" -> info.explosionSizeByCrash = getClamped(100, value);
+                case "ThrottleDownFactor" -> info.throttleDownFactor = getClamped(10F, value);
 
                 case "Weapons" -> {
-                    List<Map<String, Object>> weapons = (List<Map<String, Object>>) entry.getValue();
+                    List<Map<String, Object>> weapons = (List<Map<String, Object>>) value;
                     weapons.forEach(map -> parseWeapon(map, info));
                 }
-
-                case "GlobalUnmountPos" -> info.unmountPosition = parseVector(entry.getValue());
+                case "GlobalUnmountPos" -> info.unmountPosition = parseVector(value);
                 case "PhysicalProperties" -> {
-                    Map<String, Object> physicalProperties = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> physicalProperties = (Map<String, Object>) value;
                     physicalProperties.entrySet().forEach((physEntry) -> parsePhisProperties(physEntry, info));
                 }
                 case "Render" -> {
-                    Map<String, Object> renderProperties = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> renderProperties = (Map<String, Object>) value;
                     parseRender(renderProperties, info);
                 }
                 case "Armor" -> {
-                    Map<String, Object> armorSettings = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> armorSettings = (Map<String, Object>) value;
                     armorSettings.entrySet().forEach((armorEntry) -> parseArmor(armorEntry, info));
                 }
-
                 case "Camera" -> {
-                    Map<String, Object> cameraSettings = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> cameraSettings = (Map<String, Object>) value;
                     cameraSettings.entrySet().forEach(((camEntry) -> parseGlobalCamera(info, camEntry)));
-
                 }
                 case "AircraftFeatures" -> {
-                    Map<String, Object> feats = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> feats = (Map<String, Object>) value;
                     parseAircraftFeatures(feats, info);
                 }
                 case "Racks" -> {
@@ -454,42 +467,34 @@ public class YamlParser implements IParser {
                     if (root.containsKey("Seats")) {
                         seatCount = ((List<?>) root.get("Seats")).size();
                     }
-                    List<Map<String, Object>> racks = (List<Map<String, Object>>) entry.getValue();
+                    List<Map<String, Object>> racks = (List<Map<String, Object>>) value;
                     for (Map<String, Object> rack : racks) {
                         parseSeatRackInfo(rack, info, seatCount, racks.size());
                     }
                 }
-
-                case "RideRack" -> {
-                    parseRideRacks((Map<String, Integer>) entry.getValue(), info);
-                }
-
+                case "RideRack" -> parseRideRacks((Map<String, Integer>) value, info);
                 case "Wheels" -> {
-                    Map<String, Object> wheel = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> wheel = (Map<String, Object>) value;
                     parseWheels(wheel, info);
                 }
                 case "Components" -> {
-                    var components = (Map<String, List<Map<String, Object>>>) entry.getValue();
+                    var components = (Map<String, List<Map<String, Object>>>) value;
                     ComponentParser.parseComponents(components, info);
                 }
                 case "Sound" -> {
-                    Map<String, Object> soundSettings = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> soundSettings = (Map<String, Object>) value;
                     parseSound(soundSettings, info);
                 }
-
                 case "Seats" -> {
-                    List<Map<String, Object>> seatList = (List<Map<String, Object>>) entry.getValue();
+                    List<Map<String, Object>> seatList = (List<Map<String, Object>>) value;
                     seatList.stream().forEachOrdered(seat -> parseSeatInfo(seat, info, seatList.size()));
-
                 }
-
                 case "Uav" -> {
-                    Map<String, Object> uav = (Map<String, Object>) entry.getValue();
+                    Map<String, Object> uav = (Map<String, Object>) value;
                     parseUAV(uav, info);
                 }
-
                 case "BoundingBoxes" -> {
-                    List<Map<String, Object>> boxList = (List<Map<String, Object>>) entry.getValue();
+                    List<Map<String, Object>> boxList = (List<Map<String, Object>>) value;
                     boxList.stream().forEachOrdered(box -> parseBoxes(box, info));
                     float maxY = Float.NEGATIVE_INFINITY;
                     float maxAbsXZ = 0.0F;
@@ -511,8 +516,9 @@ public class YamlParser implements IParser {
                     info.bbZmin = zMin;
                     info.bbZmax = zMax;
                 }
-
-                case "PlaneFeatures", "TankFeatures", "HeliFeatures", "VehicleFeatures" -> {}
+                case "HUDType", "WeaponGroupType", "PlaneFeatures", "TankFeatures", "HeliFeatures",
+                     "VehicleFeatures" -> {
+                }
                 default -> logUnkownEntry(entry, "AircraftInfo");
             }
         }
@@ -525,7 +531,7 @@ public class YamlParser implements IParser {
                     List<Map<String, Object>> wheels = (List<Map<String, Object>>) entry.getValue();
                     info.wheels.clear();
                     info.wheels.addAll(wheels.stream().map(this::parseWheel)
-                            .sorted((o1, o2) -> o1.pos.z > o2.pos.z ? -1 : 1).collect(Collectors.toList()));
+                            .sorted((o1, o2) -> o1.pos().z > o2.pos().z ? -1 : 1).collect(Collectors.toList()));
                 }
                 case "WheelRotation" -> info.partWheelRot = getClamped(-10000.0F, 10000.0F, entry.getValue());
                 case "TrackRotation" -> info.trackRollerRot = getClamped(-10000.0F, 10000.0F, entry.getValue());
@@ -567,7 +573,7 @@ public class YamlParser implements IParser {
                     } catch (RuntimeException r) {
                         throw new IllegalArgumentException("Invalid bounding box type: " + entry.getValue() +
                                 ". Allowed values: " + Arrays.stream(MCH_BoundingBox.EnumBoundingBoxType.values())
-                                        .map(Enum::name).collect(Collectors.joining(", ")));
+                                .map(Enum::name).collect(Collectors.joining(", ")));
                     }
                 }
 
@@ -596,11 +602,10 @@ public class YamlParser implements IParser {
         }
     }
 
-    public ResourceLocation parseSoundEffect(Object sound){
-        if(sound instanceof String string ){
+    public ResourceLocation parseSoundEffect(Object sound) {
+        if (sound instanceof String string) {
             return SoundRegistry.INSTANCE.parseSound(string);
-        }
-        else if(sound instanceof Map<?,?> map){
+        } else if (sound instanceof Map<?, ?> map) {
             return SoundRegistry.INSTANCE.parseSound((Map<String, Object>) map);
         } else
             throw new IllegalArgumentException("Unsupported sound effect type: " + sound.getClass());
@@ -726,9 +731,7 @@ public class YamlParser implements IParser {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "GunnerMode" -> info.isEnableGunnerMode = ((Boolean) entry.getValue()).booleanValue();
-                case "InventorySize" -> info.inventorySize = getClamped(54, entry.getValue()); // FIXME: Capped due to
-                                                                                               // inventory code being
-                                                                                               // fucking ass
+                case "InventorySize" -> info.inventorySize = getClamped(0, Short.MAX_VALUE, entry.getValue());
                 case "NightVision" -> info.isEnableNightVision = ((Boolean) entry.getValue()).booleanValue();
                 case "EntityRadar" -> info.isEnableEntityRadar = ((Boolean) entry.getValue()).booleanValue();
                 case "CanReverse" -> info.enableBack = ((Boolean) entry.getValue()).booleanValue();
@@ -753,7 +756,7 @@ public class YamlParser implements IParser {
             info.isEnableParachuting = bool;
             return;
         }
-        if (value instanceof Map<?, ?>parachuteMapRaw) {
+        if (value instanceof Map<?, ?> parachuteMapRaw) {
             info.isEnableParachuting = true;
             for (Map.Entry<String, Object> mobEntry : ((Map<String, Object>) parachuteMapRaw).entrySet()) {
                 switch (mobEntry.getKey()) {
@@ -778,9 +781,9 @@ public class YamlParser implements IParser {
                     List<String> typeStrings = new ArrayList<>();
                     if (entry.getValue() instanceof String singleType) {
                         typeStrings.add(singleType);
-                    } else if (entry.getValue() instanceof String[]typeArray) {
+                    } else if (entry.getValue() instanceof String[] typeArray) {
                         typeStrings.addAll(Arrays.asList(typeArray));
-                    } else if (entry.getValue() instanceof List<?>typeList) {
+                    } else if (entry.getValue() instanceof List<?> typeList) {
                         for (Object obj : typeList) {
                             if (obj instanceof String s) typeStrings.add(s);
                             else
@@ -877,9 +880,9 @@ public class YamlParser implements IParser {
                 case "Camera", "Cam" -> cameraPos = parseCameraPosition((Map<String, Object>) entry.getValue());
                 case "Names", "Name" -> {
                     Object values = entry.getValue();
-                    if (values instanceof List<?>list) entityNames = list.toArray(new String[0]);
-                    else if (values instanceof String[]array) entityNames = array;
-                    else if (values instanceof String name) entityNames = new String[] { name };
+                    if (values instanceof List<?> list) entityNames = list.toArray(new String[0]);
+                    else if (values instanceof String[] array) entityNames = array;
+                    else if (values instanceof String name) entityNames = new String[]{name};
                     else throw new IllegalArgumentException("Rack name must be a string, array or list!");
                 }
                 case "Range" -> range = ((Number) entry.getValue()).floatValue();
@@ -926,7 +929,7 @@ public class YamlParser implements IParser {
         if (exclusionList != null) {
             for (Integer t : exclusionList) {
                 if (t == null) continue;
-                info.exclusionSeatList.add(new Integer[] { seatCount + rackIndex0, t });
+                info.exclusionSeatList.add(new Integer[]{seatCount + rackIndex0, t});
             }
         }
     }
@@ -1104,18 +1107,18 @@ public class YamlParser implements IParser {
         if (exclusionList != null) {
             for (Integer t : exclusionList) {
                 if (t == null) continue;
-                info.exclusionSeatList.add(new Integer[] { seatIndex0, t });
+                info.exclusionSeatList.add(new Integer[]{seatIndex0, t});
             }
         }
     }
 
-    public static enum TankWeight {
+    public enum TankWeight {
         UNKNOWN,
         CAR,
         TANK
     }
 
-    public static enum FlareType {
+    public enum FlareType {
 
         NONE(0),
         NORMAL(1),

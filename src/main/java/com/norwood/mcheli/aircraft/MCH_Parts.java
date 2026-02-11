@@ -1,6 +1,6 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.datasync.DataParameter;
@@ -43,8 +43,7 @@ public class MCH_Parts {
 
     public void setStatusServer(boolean stat, boolean playSound) {
         if (!this.parent.world.isRemote && this.getStatus() != stat) {
-            MCH_Lib.DbgLog(false, "setStatusServer(ID=%d %s :%s -> %s)", this.shift, this.partName,
-                    this.getStatus() ? "ON" : "OFF", stat ? "ON" : "OFF");
+            MCH_Logger.debugLog(false, "setStatusServer(ID=%d %s :%s -> %s)", this.shift, this.partName, this.getStatus() ? "ON" : "OFF", stat ? "ON" : "OFF");
             this.updateDataWatcher(stat);
             this.playSound(this.soundSwitching);
             if (!stat) {

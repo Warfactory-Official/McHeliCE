@@ -9,6 +9,7 @@ import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.compat.hbm.HBMUtil;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.world.MCH_ExplosionV2;
 import com.norwood.mcheli.networking.packet.PacketNotifyHit;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
@@ -210,8 +211,9 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         this.targetEntity = entity;
         if (!this.world.isRemote) {
             if (this.targetEntity instanceof EntityPlayerMP) {
-                MCH_Lib.DbgLog(this.world, "MCH_EntityBaseBullet.setTargetEntity alert" + this.targetEntity + " / " +
-                        this.targetEntity.getRidingEntity());
+                String format = "MCH_EntityBaseBullet.setTargetEntity alert" + this.targetEntity + " / " +
+                        this.targetEntity.getRidingEntity();
+                MCH_Logger.debugLog(this.world, format);
                 if (this.targetEntity.getRidingEntity() != null &&
                         !(this.targetEntity.getRidingEntity() instanceof MCH_EntityAircraft) &&
                         !(this.targetEntity.getRidingEntity() instanceof MCH_EntitySeat)) {
@@ -402,8 +404,9 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
 
         if (!this.world.isRemote && this.getCountOnUpdate() % 20 == 19 && this.targetEntity instanceof EntityPlayerMP) {
-            MCH_Lib.DbgLog(this.world, "MCH_EntityBaseBullet.onUpdate alert" + this.targetEntity + " / " +
-                    this.targetEntity.getRidingEntity());
+            String format = "MCH_EntityBaseBullet.onUpdate alert" + this.targetEntity + " / " +
+                    this.targetEntity.getRidingEntity();
+            MCH_Logger.debugLog(this.world, format);
             if (this.targetEntity.getRidingEntity() != null &&
                     !(this.targetEntity.getRidingEntity() instanceof MCH_EntityAircraft) &&
                     !(this.targetEntity.getRidingEntity() instanceof MCH_EntitySeat)) {
@@ -434,9 +437,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
         if (this.getInfo() == null) {
             if (this.countOnUpdate >= 2) {
-                MCH_Lib.Log(
-                        this, "##### MCH_EntityBaseBullet onUpdate() Weapon info null %d, %s, Name=%s",
-                        W_Entity.getEntityId(this), this.getEntityName(), this.getName());
+                MCH_Logger.log(this, "##### MCH_EntityBaseBullet onUpdate() Weapon info null %d, %s, Name=%s", W_Entity.getEntityId(this), this.getEntityName(), this.getName());
                 this.setDead();
                 return;
             }
@@ -825,7 +826,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                 setDead();
 
             } catch (Exception e) {
-                MCH_Lib.Log(this, "Error in onImpact: %s", e.getMessage());
+                MCH_Logger.log(this, "Error in onImpact: %s", e.getMessage());
                 e.printStackTrace();
             }
 
@@ -850,8 +851,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
     public void onImpactEntity(Entity entity, float damageFactor) {
         if (!entity.isDead) {
-            MCH_Lib.DbgLog(this.world, "MCH_EntityBaseBullet.onImpactEntity:Damage=%d:" + entity.getClass(),
-                    this.getPower());
+            MCH_Logger.debugLog(this.world, "MCH_EntityBaseBullet.onImpactEntity:Damage=%d:" + entity.getClass(), this.getPower());
             MCH_Lib.applyEntityHurtResistantTimeConfig(entity);
             DamageSource ds = DamageSource.causeThrownDamage(this, this.shootingEntity);
             float damage = MCH_Config.applyDamageVsEntity(entity, ds, this.getPower() * damageFactor);

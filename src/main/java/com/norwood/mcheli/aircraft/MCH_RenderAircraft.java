@@ -33,7 +33,6 @@ import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
-import java.util.Iterator;
 
 public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W_Render<T> {
 
@@ -90,8 +89,8 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(sl.pos.x, sl.pos.y, sl.pos.z);
                     if (!sl.fixDir) {
-                        GlStateManager.rotate(yaw - ac.getRotYaw() + sl.yaw, 0.0F, -1.0F, 0.0F);
-                        GlStateManager.rotate(pitch + 90.0F - ac.getRotPitch() + sl.pitch, 1.0F, 0.0F, 0.0F);
+                        GlStateManager.rotate(yaw - ac.getYaw() + sl.yaw, 0.0F, -1.0F, 0.0F);
+                        GlStateManager.rotate(pitch + 90.0F - ac.getPitch() + sl.pitch, 1.0F, 0.0F, 0.0F);
                     } else {
                         float stRot = 0.0F;
                         if (sl.steering) {
@@ -222,155 +221,130 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
     }
 
-    public static void renderWeapon(MCH_EntityAircraft ac, MCH_AircraftInfo info, float tickTime) {
-        MCH_WeaponSet beforeWs = null;
-        Entity e = ac.getRiddenByEntity();
+    public static void renderWeapon(MCH_EntityAircraft aircraft, MCH_AircraftInfo info, float tickTime) {
+        MCH_WeaponSet lastWeaponSet = null;
+        Entity rider = aircraft.getRiddenByEntity();
         int weaponIndex = 0;
-        Iterator<MCH_AircraftInfo.PartWeapon> var6 = info.partWeapon.iterator();
 
-        while (true) {
-            MCH_AircraftInfo.PartWeapon w;
-            MCH_WeaponSet ws;
-            while (true) {
-                if (!var6.hasNext()) {
-                    return;
-                }
+        for (MCH_AircraftInfo.PartWeapon part : info.partWeapon) {
+            MCH_WeaponSet weaponSet = aircraft.getWeaponByName(part.name[0]);
 
-                w = (MCH_AircraftInfo.PartWeapon) var6.next();
-                ws = ac.getWeaponByName(w.name[0]);
-                if (ws != beforeWs) {
-                    weaponIndex = 0;
-                    beforeWs = ws;
-                }
+            if (weaponSet != lastWeaponSet) {
+                weaponIndex = 0;
+                lastWeaponSet = weaponSet;
+            }
 
-                float rotYaw = 0.0F;
-                float prevYaw = 0.0F;
-                float rotPitch = 0.0F;
-                float prevPitch = 0.0F;
-                if (!w.hideGM || !W_Lib.isFirstPerson()) {
-                    break;
-                }
-
-                if (ws == null) {
-                    if (ac.isMountedEntity(MCH_Lib.getClientPlayer())) {
-                        continue;
-                    }
-                    break;
+            if (part.hideGM && W_Lib.isFirstPerson()) {
+                if (weaponSet == null) {
+                    if (aircraft.isMountedEntity(MCH_Lib.getClientPlayer())) continue;
                 } else {
-                    boolean hide = false;
-
-                    for (String s : w.name) {
-                        if (W_Lib.isClientPlayer(ac.getWeaponUserByWeaponName(s))) {
-                            hide = true;
+                    boolean isPlayerUsingWeapon = false;
+                    for (String weaponName : part.name) {
+                        if (W_Lib.isClientPlayer(aircraft.getWeaponUserByWeaponName(weaponName))) {
+                            isPlayerUsingWeapon = true;
                             break;
                         }
                     }
-
-                    if (!hide) {
-                        break;
-                    }
+                    if (isPlayerUsingWeapon) continue;
                 }
             }
 
             GlStateManager.pushMatrix();
-            if (w.turret) {
+
+            if (part.turret) {
                 GlStateManager.translate(info.turretPosition.x, info.turretPosition.y, info.turretPosition.z);
-                float ty = MCH_Lib.smooth(ac.getLastRiderYaw() - ac.getRotYaw(),
-                        ac.prevLastRiderYaw - ac.prevRotationYaw, tickTime);
-                GlStateManager.rotate(ty, 0.0F, -1.0F, 0.0F);
+                float turretYaw = MCH_Lib.smooth(aircraft.getLastRiderYaw() - aircraft.getYaw(),
+                        aircraft.prevLastRiderYaw - aircraft.prevRotationYaw, tickTime);
+                GlStateManager.rotate(turretYaw, 0.0F, -1.0F, 0.0F);
                 GlStateManager.translate(-info.turretPosition.x, -info.turretPosition.y, -info.turretPosition.z);
             }
 
-            GlStateManager.translate(w.pos.x, w.pos.y, w.pos.z);
-            if (w.yaw) {
-                float var20;
-                float var21;
-                if (ws != null) {
-                    var20 = ws.rotationYaw - ws.defaultRotationYaw;
-                    var21 = ws.prevRotationYaw - ws.defaultRotationYaw;
-                } else if (e != null) {
-                    var20 = e.rotationYaw - ac.getRotYaw();
-                    var21 = e.prevRotationYaw - ac.prevRotationYaw;
+            GlStateManager.translate(part.pos.x, part.pos.y, part.pos.z);
+
+            if (part.yaw) {
+                float currentYaw, prevYaw;
+                if (weaponSet != null) {
+                    currentYaw = weaponSet.getYaw() - weaponSet.getDefYaw();
+                    prevYaw = weaponSet.getPrevYaw() - weaponSet.getDefYaw();
+                } else if (rider != null) {
+                    currentYaw = rider.rotationYaw - aircraft.getYaw();
+                    prevYaw = rider.prevRotationYaw - aircraft.prevRotationYaw;
                 } else {
-                    var20 = ac.getLastRiderYaw() - ac.rotationYaw;
-                    var21 = ac.prevLastRiderYaw - ac.prevRotationYaw;
+                    currentYaw = aircraft.getLastRiderYaw() - aircraft.rotationYaw;
+                    prevYaw = aircraft.prevLastRiderYaw - aircraft.prevRotationYaw;
                 }
 
-                if (var20 - var21 > 180.0F) {
-                    var21 += 360.0F;
-                } else if (var20 - var21 < -180.0F) {
-                    var21 -= 360.0F;
-                }
+                if (currentYaw - prevYaw > 180.0F) prevYaw += 360.0F;
+                else if (currentYaw - prevYaw < -180.0F) prevYaw -= 360.0F;
 
-                GlStateManager.rotate(var21 + (var20 - var21) * tickTime, 0.0F, -1.0F, 0.0F);
+                GlStateManager.rotate(prevYaw + (currentYaw - prevYaw) * tickTime, 0.0F, -1.0F, 0.0F);
             }
 
-            if (w.turret) {
-                float ty = MCH_Lib.smooth(ac.getLastRiderYaw() - ac.getRotYaw(),
-                        ac.prevLastRiderYaw - ac.prevRotationYaw, tickTime);
-                ty -= ws.rotationTurretYaw;
-                GlStateManager.rotate(-ty, 0.0F, -1.0F, 0.0F);
+            if (part.turret) {
+                float turretSmoothYaw = MCH_Lib.smooth(aircraft.getLastRiderYaw() - aircraft.getYaw(),
+                        aircraft.prevLastRiderYaw - aircraft.prevRotationYaw, tickTime);
+                turretSmoothYaw -= weaponSet.getTurretYaw();
+                GlStateManager.rotate(-turretSmoothYaw, 0.0F, -1.0F, 0.0F);
             }
 
-            boolean rev_sign = false;
-            if (ws != null && (int) ws.defaultRotationYaw != 0) {
-                float t = MathHelper.wrapDegrees(ws.defaultRotationYaw);
-                rev_sign = t >= 45.0F && t <= 135.0F || t <= -45.0F && t >= -135.0F;
-                GlStateManager.rotate(-ws.defaultRotationYaw, 0.0F, -1.0F, 0.0F);
+            boolean shouldInvertPitch = false;
+            if (weaponSet != null && (int) weaponSet.getDefYaw() != 0) {
+                float wrappedDefYaw = MathHelper.wrapDegrees(weaponSet.getDefYaw());
+                shouldInvertPitch = Math.abs(wrappedDefYaw) >= 45.0F && Math.abs(wrappedDefYaw) <= 135.0F;
+                GlStateManager.rotate(-weaponSet.getDefYaw(), 0.0F, -1.0F, 0.0F);
             }
 
-            if (w.pitch) {
-                float var22;
-                float var23;
-                if (ws != null) {
-                    var22 = ws.rotationPitch;
-                    var23 = ws.prevRotationPitch;
-                } else if (e != null) {
-                    var22 = e.rotationPitch;
-                    var23 = e.prevRotationPitch;
+            if (part.pitch) {
+                float currentPitch, prevPitch;
+                if (weaponSet != null) {
+                    currentPitch = weaponSet.getPitch();
+                    prevPitch = weaponSet.getPrevPitch();
+                } else if (rider != null) {
+                    currentPitch = rider.rotationPitch;
+                    prevPitch = rider.prevRotationPitch;
                 } else {
-                    var22 = ac.getLastRiderPitch();
-                    var23 = ac.prevLastRiderPitch;
+                    currentPitch = aircraft.getLastRiderPitch();
+                    prevPitch = aircraft.prevLastRiderPitch;
                 }
 
-                if (rev_sign) {
-                    var22 = -var22;
-                    var23 = -var23;
+                if (shouldInvertPitch) {
+                    currentPitch = -currentPitch;
+                    prevPitch = -prevPitch;
                 }
 
-                GlStateManager.rotate(var23 + (var22 - var23) * tickTime, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotate(prevPitch + (currentPitch - prevPitch) * tickTime, 1.0F, 0.0F, 0.0F);
             }
 
-            if (ws != null && w.recoilBuf != 0.0F) {
-                MCH_WeaponSet.Recoil r = ws.recoilBuf[0];
-                if (w.name.length > 1) {
-                    for (String wnm : w.name) {
-                        MCH_WeaponSet tws = ac.getWeaponByName(wnm);
-                        if (tws != null && tws.recoilBuf[0].recoilBuf > r.recoilBuf) {
-                            r = tws.recoilBuf[0];
+            if (weaponSet != null && part.recoilBuf != 0.0F) {
+                MCH_WeaponSet.Recoil maxRecoil = weaponSet.recoilBuffer[0];
+                if (part.name.length > 1) {
+                    for (String weaponName : part.name) {
+                        MCH_WeaponSet linkedWs = aircraft.getWeaponByName(weaponName);
+                        if (linkedWs != null && linkedWs.recoilBuffer[0].recoilBuf > maxRecoil.recoilBuf) {
+                            maxRecoil = linkedWs.recoilBuffer[0];
                         }
                     }
                 }
-
-                float recoilBuf = r.prevRecoilBuf + (r.recoilBuf - r.prevRecoilBuf) * tickTime;
-                GlStateManager.translate(0.0, 0.0, w.recoilBuf * recoilBuf);
+                float recoilAmount = maxRecoil.prevRecoilBuf + (maxRecoil.recoilBuf - maxRecoil.prevRecoilBuf) * tickTime;
+                GlStateManager.translate(0.0, 0.0, part.recoilBuf * recoilAmount);
             }
 
-            if (ws != null) {
-                GlStateManager.rotate(ws.defaultRotationYaw, 0.0F, -1.0F, 0.0F);
-                if (w.rotBarrel) {
-                    float rotBrl = ws.prevRotBarrel + (ws.rotBarrel - ws.prevRotBarrel) * tickTime;
-                    GlStateManager.rotate(rotBrl, (float) w.rot.x, (float) w.rot.y, (float) w.rot.z);
+            if (weaponSet != null) {
+                GlStateManager.rotate(weaponSet.getDefYaw(), 0.0F, -1.0F, 0.0F);
+                if (part.rotBarrel) {
+                    float barrelRot = weaponSet.getPrevRotBarrel() + (weaponSet.getRotBarrel() - weaponSet.getPrevRotBarrel()) * tickTime;
+                    GlStateManager.rotate(barrelRot, (float) part.rot.x, (float) part.rot.y, (float) part.rot.z);
                 }
             }
 
-            GlStateManager.translate(-w.pos.x, -w.pos.y, -w.pos.z);
-            if (!w.isMissile || !ac.isWeaponNotCooldown(ws, weaponIndex)) {
-                renderPart(w.model, info.model, w.modelName);
+            GlStateManager.translate(-part.pos.x, -part.pos.y, -part.pos.z);
 
-                for (MCH_AircraftInfo.PartWeaponChild wc : w.child) {
+            if (!part.isMissile || !aircraft.isWeaponNotCooldown(weaponSet, weaponIndex)) {
+                renderPart(part.model, info.model, part.modelName);
+
+                for (MCH_AircraftInfo.PartWeaponChild child : part.child) {
                     GlStateManager.pushMatrix();
-                    renderWeaponChild(ac, info, wc, ws, e, tickTime);
+                    renderWeaponChild(aircraft, info, child, weaponSet, rider, tickTime);
                     GlStateManager.popMatrix();
                 }
             }
@@ -390,10 +364,10 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         GlStateManager.translate(w.pos.x, w.pos.y, w.pos.z);
         if (w.yaw) {
             if (ws != null) {
-                rotYaw = ws.rotationYaw - ws.defaultRotationYaw;
-                prevYaw = ws.prevRotationYaw - ws.defaultRotationYaw;
+                rotYaw = ws.getYaw() - ws.getDefYaw();
+                prevYaw = ws.getPrevYaw() - ws.getDefYaw();
             } else if (e != null) {
-                rotYaw = e.rotationYaw - ac.getRotYaw();
+                rotYaw = e.rotationYaw - ac.getYaw();
                 prevYaw = e.prevRotationYaw - ac.prevRotationYaw;
             } else {
                 rotYaw = ac.getLastRiderYaw() - ac.rotationYaw;
@@ -410,16 +384,16 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
 
         boolean rev_sign = false;
-        if (ws != null && (int) ws.defaultRotationYaw != 0) {
-            float t = MathHelper.wrapDegrees(ws.defaultRotationYaw);
+        if (ws != null && (int) ws.getDefYaw() != 0) {
+            float t = MathHelper.wrapDegrees(ws.getDefYaw());
             rev_sign = t >= 45.0F && t <= 135.0F || t <= -45.0F && t >= -135.0F;
-            GlStateManager.rotate(-ws.defaultRotationYaw, 0.0F, -1.0F, 0.0F);
+            GlStateManager.rotate(-ws.getDefYaw(), 0.0F, -1.0F, 0.0F);
         }
 
         if (w.pitch) {
             if (ws != null) {
-                rotPitch = ws.rotationPitch;
-                prevPitch = ws.prevRotationPitch;
+                rotPitch = ws.getPitch();
+                prevPitch = ws.getPrevPitch();
             } else if (e != null) {
                 rotPitch = e.rotationPitch;
                 prevPitch = e.prevRotationPitch;
@@ -437,12 +411,12 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
 
         if (ws != null && w.recoilBuf != 0.0F) {
-            MCH_WeaponSet.Recoil r = ws.recoilBuf[0];
+            MCH_WeaponSet.Recoil r = ws.recoilBuffer[0];
             if (w.name.length > 1) {
                 for (String wnm : w.name) {
                     MCH_WeaponSet tws = ac.getWeaponByName(wnm);
-                    if (tws != null && tws.recoilBuf[0].recoilBuf > r.recoilBuf) {
-                        r = tws.recoilBuf[0];
+                    if (tws != null && tws.recoilBuffer[0].recoilBuf > r.recoilBuf) {
+                        r = tws.recoilBuffer[0];
                     }
                 }
             }
@@ -452,7 +426,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
 
         if (ws != null) {
-            GlStateManager.rotate(ws.defaultRotationYaw, 0.0F, -1.0F, 0.0F);
+            GlStateManager.rotate(ws.getDefYaw(), 0.0F, -1.0F, 0.0F);
         }
 
         GlStateManager.translate(-w.pos.x, -w.pos.y, -w.pos.z);
@@ -474,70 +448,70 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             }
         }
     }
+    public static boolean isNotMoving(MCH_EntityAircraft aircraft){
+        return !(aircraft.motionX > 0.01 || aircraft.motionX < -0.01) &&
+                !(aircraft.motionZ > 0.01 || aircraft.motionZ < -0.01);
 
-    public static void renderCrawlerTrack(MCH_EntityAircraft ac, MCH_AircraftInfo info, float tickTime) {
-        if (!info.partCrawlerTrack.isEmpty()) {
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder builder = tessellator.getBuffer();
 
-            for (MCH_AircraftInfo.CrawlerTrack c : info.partCrawlerTrack) {
-                GL11.glPointSize(c.len * 20.0F);
+    }
+
+
+    public static void renderCrawlerTrack(MCH_EntityAircraft aircraft, MCH_AircraftInfo info,  float tickTime) {
+        if (info.partCrawlerTrack.isEmpty()) return;
+
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder builder = tessellator.getBuffer();
+        if(isNotMoving(aircraft)) {
+         return;
+        }
+        else {
+            for (MCH_AircraftInfo.CrawlerTrack track : info.partCrawlerTrack) {
+                GL11.glPointSize(track.len * 20.0F);
+
                 if (MCH_Config.TestMode.prmBool) {
                     GlStateManager.disableTexture2D();
                     GlStateManager.disableBlend();
-                    builder.begin(0, DefaultVertexFormats.POSITION_COLOR);
+                    builder.begin(GL11.GL_POINTS, DefaultVertexFormats.POSITION_COLOR);
 
-                    for (int i = 0; i < c.cx.length; i++) {
-                        builder.pos(c.z, c.cx[i], c.cy[i]).color((int) (255.0F / c.cx.length * i), 80,
-                                255 - (int) (255.0F / c.cx.length * i), 255).endVertex();
+                    for (int i = 0; i < track.cx.length; i++) {
+                        int colorRatio = (int) (255.0F / track.cx.length * i);
+                        builder.pos(track.z, track.cx[i], track.cy[i])
+                                .color(colorRatio, 80, 255 - colorRatio, 255)
+                                .endVertex();
                     }
-
                     tessellator.draw();
                 }
 
                 GlStateManager.enableTexture2D();
                 GlStateManager.enableBlend();
-                int L = c.lp.size() - 1;
-                double rc = ac != null ? ac.rotCrawlerTrack[c.side] : 0.0;
-                double pc = ac != null ? ac.prevRotCrawlerTrack[c.side] : 0.0;
 
-                for (int i = 0; i < L; i++) {
-                    MCH_AircraftInfo.CrawlerTrackPrm cp = c.lp.get(i);
-                    MCH_AircraftInfo.CrawlerTrackPrm np = c.lp.get((i + 1) % L);
-                    double x1 = cp.x;
-                    double x2 = np.x;
-                    double r1 = cp.r;
-                    double y1 = cp.y;
-                    double y2 = np.y;
-                    double r2 = np.r;
-                    if (r2 - r1 < -180.0) {
-                        r2 += 360.0;
-                    }
+                int pointCount = track.lp.size() - 1;
+                double currentProgress = aircraft != null ? aircraft.rotCrawlerTrack[track.side] : 0.0;
+                double prevProgress = aircraft != null ? aircraft.prevRotCrawlerTrack[track.side] : 0.0;
 
-                    if (r2 - r1 > 180.0) {
-                        r2 -= 360.0;
-                    }
+                double interpolatedProgress = prevProgress + (currentProgress - prevProgress) * tickTime;
 
-                    double sx = x1 + (x2 - x1) * rc;
-                    double sy = y1 + (y2 - y1) * rc;
-                    double sr = r1 + (r2 - r1) * rc;
-                    double ex = x1 + (x2 - x1) * pc;
-                    double ey = y1 + (y2 - y1) * pc;
-                    double er = r1 + (r2 - r1) * pc;
-                    double x = sx + (ex - sx) * pc;
-                    double y = sy + (ey - sy) * pc;
-                    double r = sr + (er - sr) * pc;
+                for (int i = 0; i < pointCount; i++) {
+                    MCH_AircraftInfo.CrawlerTrackPrm currentPrm = track.lp.get(i);
+                    MCH_AircraftInfo.CrawlerTrackPrm nextPrm = track.lp.get((i + 1) % pointCount);
+
+                    double nextRotation = nextPrm.r;
+                    if (nextRotation - currentPrm.r < -180.0) nextRotation += 360.0;
+                    if (nextRotation - currentPrm.r > 180.0) nextRotation -= 360.0;
+
+                    double posX = currentPrm.x + (nextPrm.x - currentPrm.x) * interpolatedProgress;
+                    double posY = currentPrm.y + (nextPrm.y - currentPrm.y) * interpolatedProgress;
+                    double rotation = currentPrm.r + (nextRotation - currentPrm.r) * interpolatedProgress;
+
                     GlStateManager.pushMatrix();
-                    GlStateManager.translate(0.0, x, y);
-                    GlStateManager.rotate((float) r, -1.0F, 0.0F, 0.0F);
-                    renderPart(c.model, info.model, c.modelName);
+                    GlStateManager.translate(0.0, posX, posY);
+                    GlStateManager.rotate((float) rotation, -1.0F, 0.0F, 0.0F);
+                    renderPart(track.model, info.model, track.modelName);
                     GlStateManager.popMatrix();
                 }
             }
-
-            GlStateManager.enableBlend();
-            // GL11.glPointSize(prevWidth);
         }
+        GlStateManager.enableBlend();
     }
 
     public static void renderHatch(MCH_EntityAircraft ac, MCH_AircraftInfo info, float tickTime) {
@@ -610,8 +584,8 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             float prevRotYaw = ac.camera.prevPartRotationYaw;
             float rotPitch = ac.camera.partRotationPitch;
             float prevRotPitch = ac.camera.prevPartRotationPitch;
-            float yaw = prevRotYaw + (rotYaw - prevRotYaw) * tickTime - ac.getRotYaw();
-            float pitch = prevRotPitch + (rotPitch - prevRotPitch) * tickTime - ac.getRotPitch();
+            float yaw = prevRotYaw + (rotYaw - prevRotYaw) * tickTime - ac.getYaw();
+            float pitch = prevRotPitch + (rotPitch - prevRotPitch) * tickTime - ac.getPitch();
 
             for (MCH_AircraftInfo.Camera c : info.cameraList) {
                 GlStateManager.pushMatrix();
@@ -818,10 +792,10 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
 
             for (int i = 0; i < info.repellingHooks.size(); i++) {
                 builder.begin(3, DefaultVertexFormats.POSITION_COLOR);
-                builder.pos(info.repellingHooks.get(i).pos.x, info.repellingHooks.get(i).pos.y,
-                        info.repellingHooks.get(i).pos.z).color(0, 0, 0, 255).endVertex();
-                builder.pos(info.repellingHooks.get(i).pos.x, info.repellingHooks.get(i).pos.y + ac.ropesLength,
-                        info.repellingHooks.get(i).pos.z).color(0, 0, 0, 255).endVertex();
+                builder.pos(info.repellingHooks.get(i).pos().x, info.repellingHooks.get(i).pos().y,
+                        info.repellingHooks.get(i).pos().z).color(0, 0, 0, 255).endVertex();
+                builder.pos(info.repellingHooks.get(i).pos().x, info.repellingHooks.get(i).pos().y + ac.ropesLength,
+                        info.repellingHooks.get(i).pos().z).color(0, 0, 0, 255).endVertex();
                 tessellator.draw();
             }
 
@@ -836,9 +810,9 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         MCH_AircraftInfo info = entity.getAcInfo();
         if (info != null) {
             GlStateManager.pushMatrix();
-            float yaw = this.calcRot(entity.getRotYaw(), entity.prevRotationYaw, tickTime);
+            float yaw = this.calcRot(entity.getYaw(), entity.prevRotationYaw, tickTime);
             float pitch = entity.calcRotPitch(tickTime);
-            float roll = this.calcRot(entity.getRotRoll(), entity.prevRotationRoll, tickTime);
+            float roll = this.calcRot(entity.getRoll(), entity.prevRotationRoll, tickTime);
             if (MCH_Config.EnableModEntityRender.prmBool) {
                 this.renderRiddenEntity(entity, tickTime, yaw, pitch + info.entityPitch, roll + info.entityRoll,
                         info.entityWidth, info.entityHeight);
@@ -858,6 +832,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 this.restoreCommonRenderParam();
             }
 
+            GlStateManager.translate(0, 10, 0);
             GlStateManager.popMatrix();
             MCH_GuiTargetMarker.addMarkEntityPos(1, entity, posX, posY + info.markerHeight, posZ);
             MCH_ClientLightWeaponTickHandler.markEntity(entity, posX, posY, posZ);
@@ -999,15 +974,15 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
             float bkPitch = 0.0F;
             float bkPrevPitch = 0.0F;
             if (isPilot && entityLiving != null) {
-                entityLiving.renderYawOffset = ac.getRotYaw();
-                entityLiving.prevRenderYawOffset = ac.getRotYaw();
+                entityLiving.renderYawOffset = ac.getYaw();
+                entityLiving.prevRenderYawOffset = ac.getYaw();
                 if (ac.getCameraId() > 0) {
-                    entityLiving.rotationYawHead = ac.getRotYaw();
-                    entityLiving.prevRotationYawHead = ac.getRotYaw();
+                    entityLiving.rotationYawHead = ac.getYaw();
+                    entityLiving.prevRotationYawHead = ac.getYaw();
                     bkPitch = entityLiving.rotationPitch;
                     bkPrevPitch = entityLiving.prevRotationPitch;
-                    entityLiving.rotationPitch = ac.getRotPitch();
-                    entityLiving.prevRotationPitch = ac.getRotPitch();
+                    entityLiving.rotationPitch = ac.getPitch();
+                    entityLiving.prevRotationPitch = ac.getPitch();
                 }
             }
 
@@ -1027,7 +1002,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     public abstract void renderAircraft(MCH_EntityAircraft var1, double var2, double var4, double var6, float var8,
                                         float var9, float var10, float var11);
 
-    public float calcRot(float rot, float prevRot, float tickTime) {
+    public static float calcRot(float rot, float prevRot, float tickTime) {
         rot = MathHelper.wrapDegrees(rot);
         prevRot = MathHelper.wrapDegrees(prevRot);
         if (rot - prevRot < -180.0F) {

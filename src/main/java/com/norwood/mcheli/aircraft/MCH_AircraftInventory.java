@@ -1,251 +1,132 @@
 package com.norwood.mcheli.aircraft;
 
 import com.norwood.mcheli.parachute.MCH_ItemParachute;
-import com.norwood.mcheli.wrapper.W_NBTTag;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import org.jetbrains.annotations.NotNull;
+import net.minecraftforge.items.ItemStackHandler;
 
-import java.util.Arrays;
 import java.util.Random;
 
-public class MCH_AircraftInventory implements IInventory {
+public class MCH_AircraftInventory {
 
-    public final int SLOT_FUEL0 = 0;
-    public final int SLOT_FUEL1 = 1;
-    public final int SLOT_FUEL2 = 2;
-    public final int SLOT_PARACHUTE0 = 3;
-    public final int SLOT_PARACHUTE1 = 4;
-    final MCH_EntityAircraft aircraft;
-    private ItemStack[] containerItems = new ItemStack[this.getSizeInventory()];
+    public static final int SLOT_FUEL_IN = 0;
+    public static final int SLOT_FUEL_OUT = 1;
 
-    public MCH_AircraftInventory(MCH_EntityAircraft ac) {
-        Arrays.fill(this.containerItems, ItemStack.EMPTY);
-        this.aircraft = ac;
+    public static final int SLOT_PARACHUTE0 = 3;
+    public static final int SLOT_PARACHUTE1 = 4;
+
+    public static final int SIZE = 10;
+
+    private final MCH_EntityAircraft aircraft;
+    private final ItemStackHandler items;
+
+    public MCH_AircraftInventory(MCH_EntityAircraft aircraft) {
+        this.aircraft = aircraft;
+        this.items = new ItemStackHandler(SIZE) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                aircraft.markDirty();
+            }
+        };
     }
 
-    public ItemStack getFuelSlotItemStack(int i) {
-        return this.getStackInSlot(i);
+
+    public ItemStack getFuelSlotItemStack(int index) {
+        return items.getStackInSlot(index);
     }
 
-    public ItemStack getParachuteSlotItemStack(int i) {
-        return this.getStackInSlot(3 + i);
+    public void setFuelSlotItemStack(int index, ItemStack stack) {
+        items.setStackInSlot(index, stack);
     }
+
+    public ItemStack getParachuteSlotItemStack(int index) {
+        return items.getStackInSlot(2 + index);
+    }
+
+    public void setParachuteSlotItemStack(int index, ItemStack stack) {
+        items.setStackInSlot(3 + index, stack);
+    }
+
+    /* ----------------
+     * Parachutes
+     * ---------------- */
 
     public boolean haveParachute() {
         for (int i = 0; i < 2; i++) {
-            ItemStack item = this.getParachuteSlotItemStack(i);
-            if (!item.isEmpty() && item.getItem() instanceof MCH_ItemParachute) {
+            ItemStack stack = getParachuteSlotItemStack(i);
+            if (!stack.isEmpty() && stack.getItem() instanceof MCH_ItemParachute) {
                 return true;
             }
         }
-
         return false;
     }
 
     public void consumeParachute() {
         for (int i = 0; i < 2; i++) {
-            ItemStack item = this.getParachuteSlotItemStack(i);
-            if (!item.isEmpty() && item.getItem() instanceof MCH_ItemParachute) {
-                this.setInventorySlotContents(3 + i, ItemStack.EMPTY);
-                break;
+            ItemStack stack = getParachuteSlotItemStack(i);
+            if (!stack.isEmpty() && stack.getItem() instanceof MCH_ItemParachute) {
+                setParachuteSlotItemStack(i, ItemStack.EMPTY);
+                return;
             }
         }
     }
 
-    public int getSizeInventory() {
-        return 10;
-    }
 
-    public boolean isEmpty() {
-        for (ItemStack itemstack : this.containerItems) {
-            if (!itemstack.isEmpty()) {
-                return false;
-            }
-        }
+    public void dropContents() {
+        if (!aircraft.dropContentsWhenDead || aircraft.world.isRemote) return;
 
-        return true;
-    }
-
-    public @NotNull ItemStack getStackInSlot(int var1) {
-        return this.containerItems[var1];
-    }
-
-    public void setDead() {
         Random rand = new Random();
-        if (this.aircraft.dropContentsWhenDead && !this.aircraft.world.isRemote) {
-            for (int i = 0; i < this.getSizeInventory(); i++) {
-                ItemStack itemstack = this.getStackInSlot(i);
-                if (!itemstack.isEmpty()) {
-                    float x = rand.nextFloat() * 0.8F + 0.1F;
-                    float y = rand.nextFloat() * 0.8F + 0.1F;
-                    float z = rand.nextFloat() * 0.8F + 0.1F;
 
-                    while (itemstack.getCount() > 0) {
-                        int j = rand.nextInt(21) + 10;
-                        if (j > itemstack.getCount()) {
-                            j = itemstack.getCount();
-                        }
+        for (int i = 0; i < items.getSlots(); i++) {
+            ItemStack stack = items.getStackInSlot(i);
+            if (stack.isEmpty()) continue;
 
-                        itemstack.shrink(j);
-                        EntityItem entityitem = new EntityItem(
-                                this.aircraft.world,
-                                this.aircraft.posX + x,
-                                this.aircraft.posY + y,
-                                this.aircraft.posZ + z,
-                                new ItemStack(itemstack.getItem(), j, itemstack.getMetadata()));
-                        if (itemstack.hasTagCompound()) {
-                            entityitem.getItem().setTagCompound(itemstack.getTagCompound().copy());
-                        }
+            float x = rand.nextFloat() * 0.8F + 0.1F;
+            float y = rand.nextFloat() * 0.8F + 0.1F;
+            float z = rand.nextFloat() * 0.8F + 0.1F;
 
-                        float f3 = 0.05F;
-                        entityitem.motionX = (float) rand.nextGaussian() * f3;
-                        entityitem.motionY = (float) rand.nextGaussian() * f3 + 0.2F;
-                        entityitem.motionZ = (float) rand.nextGaussian() * f3;
-                        this.aircraft.world.spawnEntity(entityitem);
-                    }
-                }
+            while (!stack.isEmpty()) {
+                int count = Math.min(rand.nextInt(21) + 10, stack.getCount());
+                ItemStack drop = stack.splitStack(count);
+
+                EntityItem entity = new EntityItem(
+                        aircraft.world,
+                        aircraft.posX + x,
+                        aircraft.posY + y,
+                        aircraft.posZ + z,
+                        drop
+                );
+
+                float f = 0.05F;
+                entity.motionX = rand.nextGaussian() * f;
+                entity.motionY = rand.nextGaussian() * f + 0.2F;
+                entity.motionZ = rand.nextGaussian() * f;
+
+                aircraft.world.spawnEntity(entity);
             }
+
+            items.setStackInSlot(i, ItemStack.EMPTY);
         }
     }
 
-    public @NotNull ItemStack decrStackSize(int par1, int par2) {
-        if (!this.containerItems[par1].isEmpty()) {
-            ItemStack itemstack;
-            if (this.containerItems[par1].getCount() <= par2) {
-                itemstack = this.containerItems[par1];
-                this.containerItems[par1] = ItemStack.EMPTY;
-            } else {
-                itemstack = this.containerItems[par1].splitStack(par2);
-                if (this.containerItems[par1].getCount() == 0) {
-                    this.containerItems[par1] = ItemStack.EMPTY;
-                }
 
-            }
-            return itemstack;
-        } else {
-            return ItemStack.EMPTY;
-        }
+    public void writeToNBT(NBTTagCompound tag) {
+        tag.setTag("ItemsAC", items.serializeNBT());
     }
 
-    public @NotNull ItemStack removeStackFromSlot(int par1) {
-        if (!this.containerItems[par1].isEmpty()) {
-            ItemStack itemstack = this.containerItems[par1];
-            this.containerItems[par1] = ItemStack.EMPTY;
-            return itemstack;
-        } else {
-            return ItemStack.EMPTY;
-        }
+    public void readFromNBT(NBTTagCompound tag) {
+        items.deserializeNBT(tag.getCompoundTag("ItemsAC"));
     }
 
-    public void setInventorySlotContents(int par1, ItemStack par2ItemStack) {
-        this.containerItems[par1] = par2ItemStack;
-        if (!par2ItemStack.isEmpty() && par2ItemStack.getCount() > this.getInventoryStackLimit()) {
-            par2ItemStack.setCount(this.getInventoryStackLimit());
-        }
+
+    public ItemStackHandler getItemHandler() {
+        return items;
     }
 
     public String getInventoryName() {
-        return this.getInvName();
-    }
-
-    public @NotNull String getName() {
-        return this.getInvName();
-    }
-
-    public String getInvName() {
-        if (this.aircraft.getAcInfo() == null) {
-            return "";
-        } else {
-            String s = this.aircraft.getAcInfo().displayName;
-            return s.length() <= 32 ? s : s.substring(0, 31);
-        }
-    }
-
-    public boolean isInvNameLocalized() {
-        return this.aircraft.getAcInfo() != null;
-    }
-
-    public @NotNull ITextComponent getDisplayName() {
-        return new TextComponentString(this.getInvName());
-    }
-
-    public boolean hasCustomName() {
-        return this.isInvNameLocalized();
-    }
-
-    public int getInventoryStackLimit() {
-        return 64;
-    }
-
-    public void markDirty() {}
-
-    public boolean isUsableByPlayer(EntityPlayer player) {
-        return player.getDistanceSq(this.aircraft) <= 144.0;
-    }
-
-    public boolean isItemValidForSlot(int par1, @NotNull ItemStack par2ItemStack) {
-        return true;
-    }
-
-    public boolean isStackValidForSlot(int par1, ItemStack par2ItemStack) {
-        return true;
-    }
-
-    public void openInventory(@NotNull EntityPlayer player) {}
-
-    public void closeInventory(@NotNull EntityPlayer player) {}
-
-    protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
-        NBTTagList nbttaglist = new NBTTagList();
-
-        for (int i = 0; i < this.containerItems.length; i++) {
-            if (!this.containerItems[i].isEmpty()) {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setByte("SlotAC", (byte) i);
-                this.containerItems[i].writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
-            }
-        }
-
-        par1NBTTagCompound.setTag("ItemsAC", nbttaglist);
-    }
-
-    protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
-        NBTTagList nbttaglist = W_NBTTag.getTagList(par1NBTTagCompound, "ItemsAC", 10);
-        this.containerItems = new ItemStack[this.getSizeInventory()];
-        Arrays.fill(this.containerItems, ItemStack.EMPTY);
-
-        for (int i = 0; i < nbttaglist.tagCount(); i++) {
-            NBTTagCompound nbttagcompound1 = W_NBTTag.tagAt(nbttaglist, i);
-            int j = nbttagcompound1.getByte("SlotAC") & 255;
-            if (j < this.containerItems.length) {
-                this.containerItems[j] = new ItemStack(nbttagcompound1);
-            }
-        }
-    }
-
-    public void onInventoryChanged() {}
-
-    public int getField(int id) {
-        return 0;
-    }
-
-    public void setField(int id, int value) {}
-
-    public int getFieldCount() {
-        return 0;
-    }
-
-    public void clear() {
-        for (int i = 0; i < this.getSizeInventory(); i++) {
-            this.containerItems[i] = ItemStack.EMPTY;
-        }
+        assert aircraft.getAcInfo() != null;
+        return aircraft.getAcInfo().name;
     }
 }
+

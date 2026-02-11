@@ -1,6 +1,7 @@
 DisplayName:
   DEFAULT: B-29 Superfortress
   ja_jp: B-29 スーパーフォートレス
+Author: "EMB4"
 Category: W.A
 GlobalUnmountPos: [3.0, 2.0, -4.0]
 MaxFuel: 4800

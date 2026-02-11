@@ -35,7 +35,7 @@ public class MCH_WeaponAAMissile extends MCH_WeaponEntitySeeker {
     @Override
     public boolean shot(MCH_WeaponParam prm) {
         boolean result = false;
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             Entity tgtEnt = prm.user.world.getEntityByID(prm.option1);
             if (tgtEnt != null && !tgtEnt.isDead) {
                 this.playSound(prm.entity);
@@ -46,12 +46,12 @@ public class MCH_WeaponAAMissile extends MCH_WeaponEntitySeeker {
                 double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) *
                         MathHelper.cos(pitch / 180.0F * (float) Math.PI);
                 double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
-                MCH_EntityAAMissile e = new MCH_EntityAAMissile(this.worldObj, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
+                MCH_EntityAAMissile e = new MCH_EntityAAMissile(this.world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
                         yaw, pitch, this.acceleration);
                 e.setName(this.name);
                 e.setParameterFromWeapon(this, prm.entity, prm.user);
                 e.setTargetEntity(tgtEnt);
-                this.worldObj.spawnEntity(e);
+                this.world.spawnEntity(e);
                 result = true;
             }
         } else if (this.guidanceSystem.lock(prm.user) && this.guidanceSystem.lastLockEntity != null) {

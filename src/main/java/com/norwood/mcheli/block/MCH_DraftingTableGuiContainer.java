@@ -1,8 +1,8 @@
 package com.norwood.mcheli.block;
 
 import com.norwood.mcheli.MCH_IRecipeList;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Recipes;
 import com.norwood.mcheli.wrapper.W_Block;
 import com.norwood.mcheli.wrapper.W_EntityPlayer;
@@ -52,7 +52,7 @@ public class MCH_DraftingTableGuiContainer extends Container {
             }
         };
         this.addSlotToContainer(a);
-        MCH_Lib.DbgLog(player.world, "MCH_DraftingTableGuiContainer.MCH_DraftingTableGuiContainer");
+        MCH_Logger.debugLog(player.world, "MCH_DraftingTableGuiContainer.MCH_DraftingTableGuiContainer");
     }
 
     public void detectAndSendChanges() {
@@ -106,15 +106,15 @@ public class MCH_DraftingTableGuiContainer extends Container {
             }
         }
 
-        MCH_Lib.DbgLog(player.world, "MCH_DraftingTableGuiContainer.onContainerClosed");
+        MCH_Logger.debugLog(player.world, "MCH_DraftingTableGuiContainer.onContainerClosed");
     }
 
     public void createRecipeItem(@Nullable IRecipe recipe) {
         boolean isCreativeMode = this.player.capabilities.isCreativeMode;
         if (this.getSlot(this.outputSlotIndex).getHasStack() && !isCreativeMode) {
-            MCH_Lib.DbgLog(this.player.world, "MCH_DraftingTableGuiContainer.createRecipeItem:OutputSlot is not empty");
+            MCH_Logger.debugLog(this.player.world, "MCH_DraftingTableGuiContainer.createRecipeItem:OutputSlot is not empty");
         } else if (recipe == null) {
-            MCH_Lib.DbgLog(this.player.world, "Error:MCH_DraftingTableGuiContainer.createRecipeItem:recipe is null : ");
+            MCH_Logger.debugLog(this.player.world, "Error:MCH_DraftingTableGuiContainer.createRecipeItem:recipe is null : ");
         } else {
             boolean result = false;
             if (isCreativeMode || MCH_Recipes.canCraft(this.player, recipe)) {
@@ -126,8 +126,8 @@ public class MCH_DraftingTableGuiContainer extends Container {
                 result = true;
             }
 
-            MCH_Lib.DbgLog(this.player.world,
-                    "MCH_DraftingTableGuiContainer:Result=" + result + ":Recipe=" + recipe.getRegistryName());
+            String format = "MCH_DraftingTableGuiContainer:Result=" + result + ":Recipe=" + recipe.getRegistryName();
+            MCH_Logger.debugLog(this.player.world, format);
         }
     }
 

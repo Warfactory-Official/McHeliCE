@@ -5,6 +5,7 @@ import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_ItemAircraft;
 import com.norwood.mcheli.chain.MCH_ItemChain;
 import com.norwood.mcheli.command.MCH_Command;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
 import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
 import com.norwood.mcheli.wrapper.W_Entity;
@@ -71,7 +72,7 @@ public class MCH_EventHook extends W_EventHook {
             correctInvalidRotation(entity);
 
             if (!entity.world.isRemote && entity instanceof EntityPlayerMP) {
-                MCH_Lib.DbgLog(false, "EntityJoinWorldEvent: " + entity);
+                MCH_Logger.debugLog(false, "EntityJoinWorldEvent: " + entity);
                 PacketSyncServerSettings.send((EntityPlayerMP) entity);
             }
         }
@@ -82,7 +83,7 @@ public class MCH_EventHook extends W_EventHook {
                 Float.isInfinite(e.rotationPitch) || Float.isInfinite(e.prevRotationPitch);
 
         if (invalidPitch) {
-            MCH_Lib.Log(e, "### EntityJoinWorldEvent Error: Player invalid rotation pitch (" + e.rotationPitch + ")");
+            MCH_Logger.log(e, "### EntityJoinWorldEvent Error: Player invalid rotation pitch (" + e.rotationPitch + ")");
             e.rotationPitch = 0.0F;
             e.prevRotationPitch = 0.0F;
         }
@@ -91,7 +92,7 @@ public class MCH_EventHook extends W_EventHook {
                 Float.isInfinite(e.rotationYaw) || Float.isInfinite(e.prevRotationYaw);
 
         if (invalidYaw) {
-            MCH_Lib.Log(e, "### EntityJoinWorldEvent Error: Player invalid rotation yaw (" + e.rotationYaw + ")");
+            MCH_Logger.log(e, "### EntityJoinWorldEvent Error: Player invalid rotation yaw (" + e.rotationYaw + ")");
             e.rotationYaw = 0.0F;
             e.prevRotationYaw = 0.0F;
         }

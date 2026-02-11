@@ -472,7 +472,6 @@ public class WeaponParser {
         info.mistContainer = container;
     }
 
-    @SuppressWarnings("unchecked")
     private static void parseMukeContainer(MCH_WeaponInfo info, Map<String, Object> map) {
         MukeContainer container = new MukeContainer();
 

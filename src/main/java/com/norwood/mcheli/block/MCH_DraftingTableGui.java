@@ -2,10 +2,10 @@ package com.norwood.mcheli.block;
 
 import com.norwood.mcheli.MCH_IRecipeList;
 import com.norwood.mcheli.MCH_ItemRecipe;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_RenderAircraft;
 import com.norwood.mcheli.gui.MCH_GuiSliderVertical;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Recipes;
 import com.norwood.mcheli.networking.packet.PacketDrafttingTableCreate;
 import com.norwood.mcheli.plane.MCP_PlaneInfoManager;
@@ -92,7 +92,7 @@ public class MCH_DraftingTableGui extends W_GuiContainer {
         this.screenButtonList = new ArrayList<>();
         this.drawFace = 0;
         this.buttonClickWait = 0;
-        MCH_Lib.DbgLog(player.world, "MCH_DraftingTableGui.MCH_DraftingTableGui");
+        MCH_Logger.debugLog(player.world, "MCH_DraftingTableGui.MCH_DraftingTableGui");
     }
 
     public static void initModelTransform() {
@@ -283,7 +283,7 @@ public class MCH_DraftingTableGui extends W_GuiContainer {
 
     public void onGuiClosed() {
         super.onGuiClosed();
-        MCH_Lib.DbgLog(this.thePlayer.world, "MCH_DraftingTableGui.onGuiClosed");
+        MCH_Logger.debugLog(this.thePlayer.world, "MCH_DraftingTableGui.onGuiClosed");
     }
 
     protected void actionPerformed(@NotNull GuiButton button) throws IOException {

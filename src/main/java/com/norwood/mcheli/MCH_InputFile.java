@@ -1,5 +1,7 @@
 package com.norwood.mcheli;
 
+import com.norwood.mcheli.helper.MCH_Logger;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -18,7 +20,7 @@ public class MCH_InputFile {
             this.br = new BufferedReader(new FileReader(this.file));
             return true;
         } catch (FileNotFoundException var4) {
-            MCH_Lib.DbgLog(true, "FILE open failed MCH_InputFile.open:" + filePath);
+            MCH_Logger.debugLog(true, "FILE open failed MCH_InputFile.open:" + filePath);
             var4.printStackTrace();
             return false;
         }

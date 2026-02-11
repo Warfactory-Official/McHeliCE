@@ -1,6 +1,6 @@
 package com.norwood.mcheli.networking.packet;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
 import com.norwood.mcheli.multiplay.MCH_MultiplayClient;
@@ -47,11 +47,11 @@ public class PacketHandleCommand implements ServerToClientPacket, ClientToServer
     @Override
     public void onReceive(EntityPlayerMP player) {
         MinecraftServer minecraftServer = MCH_Utils.getServer();
-        MCH_Lib.DbgLog(false, "MCH_MultiplayPacketHandler.onPacket_Command cmd:%d:%s", id, commandArgs);
+        MCH_Logger.debugLog(false, "MCH_MultiplayPacketHandler.onPacket_Command cmd:%d:%s", id, commandArgs);
         switch (id) {
             case SHUFFLE_TEAM -> MCH_Multiplay.shuffleTeam(player);
             case JUMP_SPAWNPOINT -> MCH_Multiplay.jumpSpawnPoint(player);
-            case RAW_COMMAND -> { // Seeminly just passes command stright to the server, doesnt look right
+            case RAW_COMMAND -> { // Seeminly just passes command stright to the server, doesn't look right
                 ICommandManager icommandmanager = minecraftServer.getCommandManager();
                 icommandmanager.executeCommand(player, commandArgs);
             }
@@ -62,12 +62,11 @@ public class PacketHandleCommand implements ServerToClientPacket, ClientToServer
                 }
             }
             case DESTROY_AIRCRAFT -> destoryAllAircraft(player);
-            default -> MCH_Lib.DbgLog(false, "MCH_MultiplayPacketHandler.onPacket_Command unknown cmd:%d:%s", id,
-                    commandArgs);
+            default -> MCH_Logger.debugLog(false, "MCH_MultiplayPacketHandler.onPacket_Command unknown cmd:%d:%s", id, commandArgs);
         }
     }
 
-    public static enum CommandAction {
+    public enum CommandAction {
         NONE,
         REQUEST_SCREENSHOT,
         REQUEST_MOD_INFO,

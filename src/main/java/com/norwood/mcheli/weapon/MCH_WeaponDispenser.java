@@ -19,11 +19,11 @@ public class MCH_WeaponDispenser extends MCH_WeaponBase {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        if (!this.worldObj.isRemote) {
+        if (!this.world.isRemote) {
             this.playSound(prm.entity);
             Vec3d v = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -prm.rotYaw, -prm.rotPitch, -prm.rotRoll);
             MCH_EntityDispensedItem e = new MCH_EntityDispensedItem(
-                    this.worldObj, prm.posX, prm.posY, prm.posZ, v.x, v.y, v.z, prm.rotYaw, prm.rotPitch,
+                    this.world, prm.posX, prm.posY, prm.posZ, v.x, v.y, v.z, prm.rotYaw, prm.rotPitch,
                     this.acceleration);
             e.setName(this.name);
             e.setParameterFromWeapon(this, prm.entity, prm.user);
@@ -33,7 +33,7 @@ public class MCH_WeaponDispenser extends MCH_WeaponBase {
             e.posX = e.posX + e.motionX * 0.5;
             e.posY = e.posY + e.motionY * 0.5;
             e.posZ = e.posZ + e.motionZ * 0.5;
-            this.worldObj.spawnEntity(e);
+            this.world.spawnEntity(e);
         }
 
         return true;

@@ -3,7 +3,7 @@ package com.norwood.mcheli.aircraft;
 import com.norwood.mcheli.networking.packet.PacketCommandSave;
 import com.norwood.mcheli.networking.packet.PacketHandleCommand;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
-import com.norwood.mcheli.networking.packet.PacketRequestReload;
+import com.norwood.mcheli.networking.packet.PacketRequestResupply;
 import com.norwood.mcheli.weapon.MCH_WeaponDummy;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
@@ -112,7 +112,7 @@ public class MCH_AircraftGui extends W_GuiContainer {
                 case BUTTON_RELOAD:
                     this.buttonReload.enabled = this.canReload(this.thePlayer);
                     if (this.buttonReload.enabled) {
-                        PacketRequestReload.send(this.aircraft, this.currentWeaponId);
+                        PacketRequestResupply.send(this.aircraft, this.currentWeaponId);
                         this.aircraft.supplyAmmo(this.currentWeaponId);
                         this.reloadWait = 3;
                         this.buttonReload.enabled = false;
@@ -156,10 +156,10 @@ public class MCH_AircraftGui extends W_GuiContainer {
         if (this.aircraft.getWeaponNum() > 0) {
             MCH_WeaponSet ws = this.aircraft.getWeapon(this.currentWeaponId);
             if (ws != null && !(ws.getFirstWeapon() instanceof MCH_WeaponDummy)) {
-                this.drawString(ws.getName(), 79, 30, 16777215);
-                int rest = ws.getRestAllAmmoNum() + ws.getAmmoNum();
-                int color = rest == ws.getAllAmmoNum() ? 2675784 : (rest == 0 ? 16711680 : 16777215);
-                String s = String.format("%4d/%4d", rest, ws.getAllAmmoNum());
+                this.drawString(ws.getDisplayName(), 79, 30, 16777215);
+                int rest = ws.getRestAllAmmoNum() + ws.getAmmo();
+                int color = rest == ws.getMaxAmmo() ? 2675784 : (rest == 0 ? 16711680 : 16777215);
+                String s = String.format("%4d/%4d", rest, ws.getMaxAmmo());
                 this.drawString(s, 145, 70, color);
                 int itemPosX = 90;
 
@@ -208,13 +208,13 @@ public class MCH_AircraftGui extends W_GuiContainer {
             this.drawTexturedModalRect(x + 10 + 18 * i - 1, y + 105 - 1, 215, 55, 18, 18);
         }
 
-        int ff = (int) (this.aircraft.getFuelP() * 50.0F);
+        int ff = (int) (this.aircraft.getFuelPercentage() * 50.0F);
         if (ff >= 99) {
             ff = 100;
         }
 
         this.drawTexturedModalRect(x + 57, y + 30 + 50 - ff, 215, 0, 12, ff);
-        ff = (int) (this.aircraft.getFuelP() * 100.0F + 0.5);
+        ff = (int) (this.aircraft.getFuelPercentage() * 100.0F + 0.5);
         int color = ff > 20 ? -14101432 : 16711680;
         this.drawString(String.format("%3d", ff) + "%", x + 30, y + 65, color);
         this.editCommand.drawTextBox();

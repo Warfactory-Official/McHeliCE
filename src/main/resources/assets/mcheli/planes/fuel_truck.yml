@@ -4,7 +4,11 @@ DisplayName:
 Category: ZZZ
 CanRide: false
 MaxHP: 1000
-FuelSupplyRange: 35.0
+Author: EMB4
+FuelSupply:
+  Infinite: true
+  Range: 35.0
+  Type: mch_fuel
 RepairOtherVehicles:
   Range: 0.0
   Value: 10

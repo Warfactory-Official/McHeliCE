@@ -1,6 +1,6 @@
 package com.norwood.mcheli.item;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.ContentParseException;
@@ -52,15 +52,15 @@ public class MCH_ItemInfoManager {
                     MAP.put(name, info);
                 }
             } catch (ContentParseException ex) {
-                MCH_Lib.Log("### Load failed %s : line=%d", file.getName(), ex.getLineNo());
+                MCH_Logger.log("### Load failed %s : line=%d", file.getName(), ex.getLineNo());
                 ex.printStackTrace();
             } catch (Exception ex) {
-                MCH_Lib.Log("### Load failed %s", file.getName());
+                MCH_Logger.log("### Load failed %s", file.getName());
                 ex.printStackTrace();
             }
         }
 
-        MCH_Lib.Log("Read %d item", MAP.size());
+        MCH_Logger.log("Read %d item", MAP.size());
         return !MAP.isEmpty();
     }
 

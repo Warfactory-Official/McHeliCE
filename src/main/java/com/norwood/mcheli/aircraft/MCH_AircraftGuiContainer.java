@@ -1,141 +1,176 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.parachute.MCH_ItemParachute;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class MCH_AircraftGuiContainer extends Container {
 
+    private static final int FUEL_SLOTS = 3;
+    private static final int PLAYER_INV_START_Y = 135;
+    private static final int HOTBAR_Y = 195;
+    private static final int PARACHUTE_SLOT_START = 3;
+
     public final EntityPlayer player;
     public final MCH_EntityAircraft aircraft;
+    private final ItemStackHandler inventory;
 
-    public MCH_AircraftGuiContainer(EntityPlayer player, MCH_EntityAircraft ac) {
+    public MCH_AircraftGuiContainer(EntityPlayer player, MCH_EntityAircraft aircraft) {
         this.player = player;
-        this.aircraft = ac;
-        MCH_AircraftInventory iv = this.aircraft.getGuiInventory();
-        this.addSlotToContainer(new Slot(iv, 0, 10, 30));
-        this.addSlotToContainer(new Slot(iv, 1, 10, 48));
-        this.addSlotToContainer(new Slot(iv, 2, 10, 66));
-        int num = this.aircraft.getNumEjectionSeat();
+        this.aircraft = aircraft;
+        this.inventory = aircraft.getGuiInventory().getItemHandler();
 
-        for (int i = 0; i < num; i++) {
-            this.addSlotToContainer(new Slot(iv, 3 + i, 10 + 18 * i, 105));
+        addAircraftSlots();
+        addPlayerInventory(player.inventory);
+    }
+
+
+    private void addAircraftSlots() {
+        // Fuel slots
+        for (int i = 0; i < FUEL_SLOTS; i++) {
+            addSlotToContainer(new SlotItemHandler(inventory, i, 10, 30 + i * 18));
         }
 
+        // Parachute / ejection seats
+        int seats = aircraft.getNumEjectionSeat();
+        for (int i = 0; i < seats; i++) {
+            addSlotToContainer(new SlotItemHandler(
+                    inventory,
+                    PARACHUTE_SLOT_START + i,
+                    10 + i * 18,
+                    105
+            ));
+        }
+    }
+
+
+    private void addPlayerInventory(InventoryPlayer inv) {
+        // Main inventory
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                this.addSlotToContainer(new Slot(player.inventory, 9 + x + y * 9, 25 + x * 18, 135 + y * 18));
+                addSlotToContainer(new Slot(
+                        inv,
+                        9 + x + y * 9,
+                        25 + x * 18,
+                        PLAYER_INV_START_Y + y * 18
+                ));
             }
         }
 
+        // Hotbar
         for (int x = 0; x < 9; x++) {
-            this.addSlotToContainer(new Slot(player.inventory, x, 25 + x * 18, 195));
+            addSlotToContainer(new Slot(
+                    inv,
+                    x,
+                    25 + x * 18,
+                    HOTBAR_Y
+            ));
         }
     }
 
-    public int getInventoryStartIndex() {
-        return this.aircraft == null ? 3 : 3 + this.aircraft.getNumEjectionSeat();
-    }
 
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-    }
-
+    @Override
     public boolean canInteractWith(@NotNull EntityPlayer player) {
-        if (this.aircraft.getGuiInventory().isUsableByPlayer(player)) {
+        if (aircraft.isUsableByPlayer(player)) {
             return true;
-        } else {
-            if (this.aircraft.isUAV()) {
-                MCH_EntityUavStation us = this.aircraft.getUavStation();
-                if (us != null) {
-                    double x = us.posX + us.posUavX;
-                    double z = us.posZ + us.posUavZ;
-                    return this.aircraft.posX < x + 10.0 && this.aircraft.posX > x - 10.0 &&
-                            this.aircraft.posZ < z + 10.0 && this.aircraft.posZ > z - 10.0;
-                }
-            }
-
-            return false;
         }
+
+        if (aircraft.isUAV()) {
+            MCH_EntityUavStation station = aircraft.getUavStation();
+            if (station != null) {
+                double x = station.posX + station.posUavX;
+                double z = station.posZ + station.posUavZ;
+                return aircraft.posX > x - 10 && aircraft.posX < x + 10
+                        && aircraft.posZ > z - 10 && aircraft.posZ < z + 10;
+            }
+        }
+
+        return false;
     }
 
-    public @NotNull ItemStack transferStackInSlot(@NotNull EntityPlayer player, int slotIndex) {
-        MCH_AircraftInventory iv = this.aircraft.getGuiInventory();
-        Slot slot = this.inventorySlots.get(slotIndex);
-        if (slot == null) {
-            return null;
-        } else {
-            ItemStack itemStack = slot.getStack();
-            MCH_Lib.DbgLog(player.world, "transferStackInSlot : %d :" + itemStack, slotIndex);
-            if (itemStack.isEmpty()) {
+
+    @Override
+    @NotNull
+    public ItemStack transferStackInSlot(@NotNull EntityPlayer player, int index) {
+        Slot slot = inventorySlots.get(index);
+        if (slot == null || !slot.getHasStack()) return ItemStack.EMPTY;
+
+        ItemStack stack = slot.getStack();
+        ItemStack original = stack.copy();
+
+        int aircraftSlots = PARACHUTE_SLOT_START + aircraft.getNumEjectionSeat();
+
+        if (index < aircraftSlots) {
+            // Aircraft → player
+            if (!mergeItemStack(stack, aircraftSlots, inventorySlots.size(), true))
                 return ItemStack.EMPTY;
+        } else {
+            // Player → aircraft
+            if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY,null)) {
+                if (!mergeItemStack(stack, 0, FUEL_SLOTS, false))
+                    return ItemStack.EMPTY;
+            } else if (stack.getItem() instanceof MCH_ItemParachute) {
+                if (!mergeItemStack(
+                        stack,
+                        PARACHUTE_SLOT_START,
+                        aircraftSlots,
+                        false))
+                    return ItemStack.EMPTY;
             } else {
-                if (slotIndex < this.getInventoryStartIndex()) {
-                    for (int i = this.getInventoryStartIndex(); i < this.inventorySlots.size(); i++) {
-                        Slot playerSlot = this.inventorySlots.get(i);
-                        if (playerSlot.getStack().isEmpty()) {
-                            playerSlot.putStack(itemStack);
-                            slot.putStack(ItemStack.EMPTY);
-                            return itemStack;
-                        }
-                    }
-                } else if (itemStack.getItem() instanceof MCH_ItemFuel) {
-                    for (int ix = 0; ix < 3; ix++) {
-                        if (iv.getFuelSlotItemStack(ix).isEmpty()) {
-                            iv.setInventorySlotContents(ix, itemStack);
-                            slot.putStack(ItemStack.EMPTY);
-                            return itemStack;
-                        }
-                    }
-                } else if (itemStack.getItem() instanceof MCH_ItemParachute) {
-                    int num = this.aircraft.getNumEjectionSeat();
-
-                    for (int ixx = 0; ixx < num; ixx++) {
-                        if (iv.getParachuteSlotItemStack(ixx).isEmpty()) {
-                            iv.setInventorySlotContents(3 + ixx, itemStack);
-                            slot.putStack(ItemStack.EMPTY);
-                            return itemStack;
-                        }
-                    }
-                }
-
                 return ItemStack.EMPTY;
             }
         }
+
+        if (stack.isEmpty()) {
+            slot.putStack(ItemStack.EMPTY);
+        } else {
+            slot.onSlotChanged();
+        }
+
+        return original;
     }
 
+
+    @Override
     public void onContainerClosed(@NotNull EntityPlayer player) {
         super.onContainerClosed(player);
-        if (!player.world.isRemote) {
-            MCH_AircraftInventory iv = this.aircraft.getGuiInventory();
+        if (player.world.isRemote) return;
 
-            for (int i = 0; i < 3; i++) {
-                ItemStack is = iv.getFuelSlotItemStack(i);
-                if (!is.isEmpty() && !(is.getItem() instanceof MCH_ItemFuel)) {
-                    this.dropPlayerItem(player, i);
-                }
-            }
+        // Reject invalid fuel
+        for (int i = 0; i < FUEL_SLOTS; i++) {
+            ejectIfInvalid(player, i, CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+        }
 
-            for (int ix = 0; ix < 2; ix++) {
-                ItemStack is = iv.getParachuteSlotItemStack(ix);
-                if (!is.isEmpty() && !(is.getItem() instanceof MCH_ItemParachute)) {
-                    this.dropPlayerItem(player, 3 + ix);
-                }
-            }
+        // Reject invalid parachutes
+        int seats = aircraft.getNumEjectionSeat();
+        for (int i = 0; i < seats; i++) {
+            ejectIfInvalid(player, PARACHUTE_SLOT_START + i, MCH_ItemParachute.class);
         }
     }
 
-    public void dropPlayerItem(EntityPlayer player, int slotID) {
-        if (!player.world.isRemote) {
-            ItemStack itemstack = this.aircraft.getGuiInventory().removeStackFromSlot(slotID);
-            if (!itemstack.isEmpty()) {
-                player.dropItem(itemstack, false);
-            }
+    private void ejectIfInvalid(EntityPlayer player, int slot, Class<?> allowed) {
+        ItemStack stack = inventory.getStackInSlot(slot);
+        if (!stack.isEmpty() && !allowed.isInstance(stack.getItem())) {
+            inventory.setStackInSlot(slot, ItemStack.EMPTY);
+            player.dropItem(stack, false);
+        }
+    }
+    private void ejectIfInvalid(EntityPlayer player, int slot, Capability<?> capability) {
+        ItemStack stack = inventory.getStackInSlot(slot);
+        if (!stack.isEmpty() && stack.hasCapability(capability,null)) {
+            inventory.setStackInSlot(slot, ItemStack.EMPTY);
+            player.dropItem(stack, false);
         }
     }
 }
+

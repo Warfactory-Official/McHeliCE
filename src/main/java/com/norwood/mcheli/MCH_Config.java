@@ -1,6 +1,7 @@
 package com.norwood.mcheli;
 
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
@@ -11,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import org.lwjgl.input.Keyboard;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -41,6 +43,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm KeyLeft;
     public static MCH_ConfigPrm KeySwitchMode;
     public static MCH_ConfigPrm KeySwitchHovering;
+    public static MCH_ConfigPrm KeyReloadWeapon;
     public static MCH_ConfigPrm KeyAttack;
     public static MCH_ConfigPrm KeyUseWeapon;
     public static MCH_ConfigPrm KeySwitchWeapon1;
@@ -196,31 +199,32 @@ public class MCH_Config {
         tankBreakableBlocks = new ArrayList<>();
         tankNoBreakableBlocks = new ArrayList<>();
         tankBreakableMaterials = new ArrayList<>();
-        KeyUp = new MCH_ConfigPrm("KeyUp", 17);
-        KeyDown = new MCH_ConfigPrm("KeyDown", 31);
-        KeyRight = new MCH_ConfigPrm("KeyRight", 32);
-        KeyLeft = new MCH_ConfigPrm("KeyLeft", 30);
-        KeySwitchMode = new MCH_ConfigPrm("KeySwitchGunner", 35);
-        KeySwitchHovering = new MCH_ConfigPrm("KeySwitchHovering", 57);
+        KeyUp = new MCH_ConfigPrm("KeyUp", Keyboard.KEY_W);
+        KeyDown = new MCH_ConfigPrm("KeyDown", Keyboard.KEY_S);
+        KeyRight = new MCH_ConfigPrm("KeyRight", Keyboard.KEY_D);
+        KeyLeft = new MCH_ConfigPrm("KeyLeft", Keyboard.KEY_A);
+        KeySwitchMode = new MCH_ConfigPrm("KeySwitchGunner", Keyboard.KEY_H);
+        KeySwitchHovering = new MCH_ConfigPrm("KeySwitchHovering", Keyboard.KEY_SPACE);
         KeyAttack = new MCH_ConfigPrm("KeyAttack", -100);
+        KeyReloadWeapon = new MCH_ConfigPrm("KeyReloadWeapon", Keyboard.KEY_R);
         KeyUseWeapon = new MCH_ConfigPrm("KeyUseWeapon", -99);
         KeySwitchWeapon1 = new MCH_ConfigPrm("KeySwitchWeapon1", -98);
-        KeySwitchWeapon2 = new MCH_ConfigPrm("KeySwitchWeapon2", 34);
-        KeySwWeaponMode = new MCH_ConfigPrm("KeySwitchWeaponMode", 45);
-        KeyZoom = new MCH_ConfigPrm("KeyZoom", 44);
-        KeyCameraMode = new MCH_ConfigPrm("KeyCameraMode", 46);
-        KeyUnmount = new MCH_ConfigPrm("KeyUnmountMob", 21);
-        KeyFlare = new MCH_ConfigPrm("KeyFlare", 47);
-        KeyExtra = new MCH_ConfigPrm("KeyExtra", 33);
-        KeyCameraDistUp = new MCH_ConfigPrm("KeyCameraDistanceUp", 201);
-        KeyCameraDistDown = new MCH_ConfigPrm("KeyCameraDistanceDown", 209);
-        KeyFreeLook = new MCH_ConfigPrm("KeyFreeLook", 29);
-        KeyGUI = new MCH_ConfigPrm("KeyGUI", 19);
-        KeyGearUpDown = new MCH_ConfigPrm("KeyGearUpDown", 48);
-        KeyPutToRack = new MCH_ConfigPrm("KeyPutToRack", 36);
-        KeyDownFromRack = new MCH_ConfigPrm("KeyDownFromRack", 22);
-        KeyScoreboard = new MCH_ConfigPrm("KeyScoreboard", 38);
-        KeyMultiplayManager = new MCH_ConfigPrm("KeyMultiplayManager", 50);
+        KeySwitchWeapon2 = new MCH_ConfigPrm("KeySwitchWeapon2", Keyboard.KEY_G);
+        KeySwWeaponMode = new MCH_ConfigPrm("KeySwitchWeaponMode", Keyboard.KEY_X);
+        KeyZoom = new MCH_ConfigPrm("KeyZoom", Keyboard.KEY_Z);
+        KeyCameraMode = new MCH_ConfigPrm("KeyCameraMode", Keyboard.KEY_C);
+        KeyUnmount = new MCH_ConfigPrm("KeyUnmountMob", Keyboard.KEY_Y);
+        KeyFlare = new MCH_ConfigPrm("KeyFlare", Keyboard.KEY_V);
+        KeyExtra = new MCH_ConfigPrm("KeyExtra", Keyboard.KEY_F);
+        KeyCameraDistUp = new MCH_ConfigPrm("KeyCameraDistanceUp", Keyboard.KEY_PRIOR);
+        KeyCameraDistDown = new MCH_ConfigPrm("KeyCameraDistanceDown", Keyboard.KEY_NEXT);
+        KeyFreeLook = new MCH_ConfigPrm("KeyFreeLook", Keyboard.KEY_LCONTROL);
+        KeyGUI = new MCH_ConfigPrm("KeyGUI", Keyboard.KEY_I);
+        KeyGearUpDown = new MCH_ConfigPrm("KeyGearUpDown", Keyboard.KEY_B);
+        KeyPutToRack = new MCH_ConfigPrm("KeyPutToRack", Keyboard.KEY_J);
+        KeyDownFromRack = new MCH_ConfigPrm("KeyDownFromRack", Keyboard.KEY_U);
+        KeyScoreboard = new MCH_ConfigPrm("KeyScoreboard", Keyboard.KEY_L);
+        KeyMultiplayManager = new MCH_ConfigPrm("KeyMultiplayManager", Keyboard.KEY_M);
         KeyConfig = new MCH_ConfigPrm[] {
                 KeyUp,
                 KeyDown,
@@ -231,6 +235,7 @@ public class MCH_Config {
                 KeySwitchWeapon1,
                 KeySwitchWeapon2,
                 KeySwWeaponMode,
+                KeyReloadWeapon,
                 KeyZoom,
                 KeyCameraMode,
                 KeyUnmount,
@@ -715,9 +720,9 @@ public class MCH_Config {
             }
 
             file.close();
-            MCH_Lib.Log("loaded " + file.file.getAbsolutePath());
+            MCH_Logger.log("loaded " + file.file.getAbsolutePath());
         } else {
-            MCH_Lib.Log(new File(configFilePath).getAbsolutePath() + " not found.");
+            MCH_Logger.log(new File(configFilePath).getAbsolutePath() + " not found.");
         }
 
         this.correctionParameter();
@@ -767,9 +772,9 @@ public class MCH_Config {
         if (file.open(configFilePath)) {
             this.writeConfigData(file.pw);
             file.close();
-            MCH_Lib.Log("update " + file.file.getAbsolutePath());
+            MCH_Logger.log("update " + file.file.getAbsolutePath());
         } else {
-            MCH_Lib.Log(new File(configFilePath).getAbsolutePath() + " cannot open.");
+            MCH_Logger.log(new File(configFilePath).getAbsolutePath() + " cannot open.");
         }
     }
 

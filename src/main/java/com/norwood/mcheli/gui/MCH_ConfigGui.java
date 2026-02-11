@@ -3,10 +3,10 @@ package com.norwood.mcheli.gui;
 import com.google.common.collect.Sets;
 import com.norwood.mcheli.event.ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.networking.packet.PacketContentReload;
@@ -470,7 +470,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
                 }
                 case BUTTON_CANCEL -> this.mc.player.closeScreen();
                 case BUTTON_DEV_RELOAD_WEAPON -> {
-                    MCH_Lib.DbgLog(true, "MCH_BaseInfo.reload all weapon info.");
+                    MCH_Logger.debugLog(true, "MCH_BaseInfo.reload all weapon info.");
                     ContentRegistries.get(MCH_WeaponInfo.class).reloadAll();
                     new PacketContentReload(PacketContentReload.ReloadType.WEAPON).sendToServer();
                     List<Entity> list = new ArrayList<>(this.mc.world.loadedEntityList);
@@ -494,7 +494,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
                     MCH_EntityAircraft ac = MCH_EntityAircraft.getAircraft_RiddenOrControl(this.thePlayer);
                     if (ac != null && ac.getAcInfo() != null) {
                         String name = ac.getAcInfo().name;
-                        MCH_Lib.DbgLog(true, "MCH_BaseInfo.reload : " + name);
+                        MCH_Logger.debugLog(true, "MCH_BaseInfo.reload : " + name);
                         ContentRegistries.get(ac.getAcInfo().getClass()).reload(name);
                         List<Entity> entityList = new ArrayList<>(this.mc.world.loadedEntityList);
 

@@ -24,42 +24,19 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class MCH_ItemAircraft extends W_Item {
 
     private static final boolean isRegistedDispenseBehavior = false;
 
-    boolean BLOCK = true;
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if (worldIn == null) return;
-        MCH_AircraftInfo info = this.getAircraftInfo().category.equals("zzz") ? null : this.getAircraftInfo();
-        MCH_EntityAircraft ac = createAircraft(worldIn, -1.0D, -1.0D, -1.0D, stack);
-
-        if (info != null && ac != null) {
-            tooltip.add(TextFormatting.YELLOW + "Category: " + info.category);
-            tooltip.add(Arrays.stream(ac.weapons).map(MCH_WeaponSet::getName).collect(Collectors.joining(", ")));
-        }
-
-        // handles tooltips for UAVs
-        if (ac != null && ac.isUAV()) {
-            String small = ac.isSmallUAV() ?  "Small " : "";
-            String targetDrone = ac.isTargetDrone() ?  "Targeting " : "";
-            tooltip.add(TextFormatting.BLUE +"[" + small + targetDrone + "UAV]");
-        }
-
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-    }
 
     public MCH_ItemAircraft(int i) {
         super(i);
@@ -69,6 +46,80 @@ public abstract class MCH_ItemAircraft extends W_Item {
         if (!isRegistedDispenseBehavior) {
             BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, new MCH_ItemAircraftDispenseBehavior());
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        if (worldIn == null) return;
+        MCH_AircraftInfo info = this.getAircraftInfo();
+        MCH_EntityAircraft ac = createAircraft(worldIn, -1.0D, -1.0D, -1.0D, stack);
+
+        if (info != null && ac != null) {
+            tooltip.add(TextFormatting.YELLOW + "Category: " + info.category);
+            StringBuilder weaponNames = new StringBuilder();
+            int count = 0;
+            for (MCH_WeaponSet ws : ac.weapons) {
+                weaponNames.append(ws.getDisplayName());
+                if (++count < ac.weapons.length) {
+                    weaponNames.append(", ");
+                }
+                if (count % 4 == 0) {
+                    tooltip.add(weaponNames.toString());
+                    weaponNames.setLength(0);
+                }
+            }
+
+            if (!weaponNames.isEmpty()) {
+                tooltip.add(weaponNames.toString());
+            }
+
+            if (info.isEnableEjectionSeat)
+                tooltip.add(TextFormatting.RED + "[EjectionSeat]");
+            if (info.regeneration)
+                tooltip.add(TextFormatting.GREEN + "[Regenerating]");
+            if (info.ammoSupplyRange > 0)
+                tooltip.add(TextFormatting.AQUA + "[Ammo Supplier]");
+            if (info.fuelSupplyRange > 0)
+                tooltip.add(TextFormatting.AQUA + "[Fuel Supplier]");
+            if (info.repairOtherVehiclesRange > 0)
+                tooltip.add(TextFormatting.AQUA + "[Repair]");
+            if (info.invulnerable)
+                tooltip.add(TextFormatting.WHITE + "[Invulnerable]");
+            tooltip.add(TextFormatting.GRAY + "Health: " + TextFormatting.GREEN + info.maxHp);
+            tooltip.add(TextFormatting.GRAY + "Trunk size: " + TextFormatting.WHITE + info.inventorySize);
+            tooltip.add(TextFormatting.GRAY + "Fuel tank storage: " + TextFormatting.WHITE + info.maxFuel);
+            tooltip.add(TextFormatting.GREEN + "Fuel consumption");
+            info.getFluidType().forEach((fuel, eff) ->
+                    {
+                        TextFormatting color = switch (eff) {
+                            case Float d when d == 1f -> TextFormatting.WHITE;
+                            case Float d when d < 0.5f -> TextFormatting.BLUE;
+                            case Float d when d < 1.0f -> TextFormatting.GREEN;
+                            case Float d when d <= 1.5f -> TextFormatting.YELLOW;
+                            default -> TextFormatting.RED;
+                        };
+
+                        if (!FluidRegistry.isFluidRegistered(fuel)) return;
+                        tooltip.add(String.format("– %s%s : %.2f", color, new FluidStack(FluidRegistry.getFluid(fuel), 1).getLocalizedName(), eff)
+                        );
+
+                    }
+            );
+            if ( ac.isUAV()) {
+                String small = ac.isSmallUAV() ? "Small " : "";
+                String targetDrone = ac.isTargetDrone() ? "Targeting " : "";
+                tooltip.add(TextFormatting.BLUE + "[" + small + targetDrone + "UAV]");
+            }
+
+            if (!info.author.isBlank())
+                tooltip.add(TextFormatting.BLUE + "By " + info.author);
+        }
+
+
+        // handles tooltips for UAVs
+
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
     @Nullable

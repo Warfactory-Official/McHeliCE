@@ -1,5 +1,6 @@
 package com.norwood.mcheli.helper.client;
 
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.client.model.loader.IVertexModelLoader;
 import com.norwood.mcheli.helper.client.model.loader.MetasequoiaModelLoader;
@@ -36,6 +37,10 @@ public class MCH_Models {
                 MCH_Utils.logger().error("load model error '{}' at .{}", resource, loader.getExtension());
                 message = throwable;
             }
+        }
+        if (fnfeCounter == 0 && resource.toString().contains("bullets")) {
+            MCH_Logger.warn("Model for {} was not found. Will default to the normal bullet model", resource.toString()); // FIXME: Unsure this is correct
+            return null;
         }
         if (fnfeCounter == 0) throw new ModelLoadException(resource + " not found");
         throw new ModelLoadException("model load error for " + resource, message);

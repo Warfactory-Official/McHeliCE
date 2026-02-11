@@ -1,8 +1,8 @@
 package com.norwood.mcheli.hud;
 
 import com.norwood.mcheli.MCH_BaseInfo;
-import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.wrapper.W_ScaledResolution;
@@ -95,7 +95,7 @@ public class MCH_Hud extends MCH_BaseInfo {
                         }
                     }
                 } catch (Exception var5) {
-                    MCH_Lib.Log("#### Draw HUD Error!!!: line=%d, file=%s", line, this.fileName);
+                    MCH_Logger.log("#### Draw HUD Error!!!: line=%d, file=%s", line, this.fileName);
                     var5.printStackTrace();
                     throw new RuntimeException(var5);
                 }

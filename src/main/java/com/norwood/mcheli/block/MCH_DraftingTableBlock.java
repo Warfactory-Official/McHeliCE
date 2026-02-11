@@ -2,6 +2,7 @@ package com.norwood.mcheli.block;
 
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.block.EnumDirection8;
 import com.norwood.mcheli.helper.block.properties.PropertyDirection8;
 import com.norwood.mcheli.wrapper.W_BlockContainer;
@@ -50,17 +51,12 @@ public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEnt
                                     float par7, float par8, float par9) {
         if (!world.isRemote) {
             if (!player.isSneaking()) {
-                MCH_Lib.DbgLog(
-                        player.world,
-                        "MCH_DraftingTableGui.MCH_DraftingTableGui OPEN GUI (%d, %d, %d)",
-                        pos.getX(),
-                        pos.getY(),
-                        pos.getZ());
+                Object[] data = new Object[]{pos.getX(), pos.getY(), pos.getZ()};
+                MCH_Logger.debugLog(player.world, "MCH_DraftingTableGui.MCH_DraftingTableGui OPEN GUI (%d, %d, %d)", data);
                 player.openGui(MCH_MOD.instance, 4, world, pos.getX(), pos.getY(), pos.getZ());
             } else {
                 EnumDirection8 dir = state.getValue(DIRECTION8);
-                MCH_Lib.DbgLog(world, "MCH_DraftingTableBlock.onBlockActivated:yaw=%d Light %s", (int) dir.getAngle(),
-                        this.isLighting ? "OFF->ON" : "ON->OFF");
+                MCH_Logger.debugLog(world, "MCH_DraftingTableBlock.onBlockActivated:yaw=%d Light %s", (int) dir.getAngle(), this.isLighting ? "OFF->ON" : "ON->OFF");
                 if (this.isLighting) {
                     world.setBlockState(pos, MCH_MOD.blockDraftingTable.getDefaultState().withProperty(DIRECTION8, dir),
                             2);
@@ -122,7 +118,7 @@ public class MCH_DraftingTableBlock extends W_BlockContainer implements ITileEnt
 
         world.setBlockState(pos,
                 state.withProperty(DIRECTION8, EnumDirection8.fromAngle(MCH_Lib.getRotate360(entity.rotationYaw))), 2);
-        MCH_Lib.DbgLog(world, "MCH_DraftingTableBlock.onBlockPlacedBy:yaw=%d", yaw);
+        MCH_Logger.debugLog(world, "MCH_DraftingTableBlock.onBlockPlacedBy:yaw=%d", yaw);
     }
 
     public boolean func_149710_n(IBlockState state) {

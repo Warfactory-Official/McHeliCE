@@ -25,6 +25,6 @@ public class MCH_SeatRackInfo extends MCH_SeatInfo {
     }
 
     public Vec3d getEntryPos() {
-        return this.getCamPos().pos;
+        return this.getCamPos().pos();
     }
 }

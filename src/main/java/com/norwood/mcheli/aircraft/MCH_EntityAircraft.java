@@ -1,11 +1,20 @@
 package com.norwood.mcheli.aircraft;
 
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.ModularScreen;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.command.MCH_Command;
+import com.norwood.mcheli.factories.AircraftGuiData;
+import com.norwood.mcheli.factories.MCHGuiFactories;
 import com.norwood.mcheli.flare.MCH_Flare;
+import com.norwood.mcheli.gui.AircraftGui;
+import com.norwood.mcheli.gui.ContainerGui;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
-import com.norwood.mcheli.sound.MCH_SoundEvents;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.helper.entity.ITargetMarkerObject;
 import com.norwood.mcheli.mob.MCH_EntityGunner;
@@ -15,17 +24,21 @@ import com.norwood.mcheli.networking.packet.*;
 import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import io.netty.buffer.ByteBuf;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -56,6 +69,10 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.border.WorldBorder;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.*;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -64,49 +81,24 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public abstract class MCH_EntityAircraft
-        extends W_EntityContainer
-        implements MCH_IEntityLockChecker,
-        MCH_IEntityCanRideAircraft,
-        IEntityAdditionalSpawnData,
-        IEntitySinglePassenger,
-        ITargetMarkerObject {
+public abstract class MCH_EntityAircraft extends W_EntityContainer implements IGuiHolder<AircraftGuiData>, MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler {
 
-    public static final byte LIMIT_GROUND_PITCH = 40;
-    public static final byte LIMIT_GROUND_ROLL = 40;
-    public static final int CAMERA_PITCH_MIN = -30;
-    public static final int CAMERA_PITCH_MAX = 70;
-    protected static final DataParameter<Integer> PART_STAT = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.VARINT);
-    protected static final int PART_ID_CANOPY = 0;
-    protected static final int PART_ID_NOZZLE = 1;
-    protected static final int PART_ID_LANDINGGEAR = 2;
-    protected static final int PART_ID_WING = 3;
-    protected static final int PART_ID_HATCH = 4;
-    private static final DataParameter<Integer> DAMAGE = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.VARINT);
-    private static final DataParameter<String> ID_TYPE = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.STRING);
-    private static final DataParameter<String> TEXTURE_NAME = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.STRING);
-    private static final DataParameter<Integer> UAV_STATION = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.VARINT);
-    private static final DataParameter<Integer> STATUS = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.VARINT);
-    private static final DataParameter<Integer> USE_WEAPON = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.VARINT);
-    private static final DataParameter<Integer> FUEL = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.VARINT);
-    private static final DataParameter<Integer> ROT_ROLL = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.VARINT);
-    private static final DataParameter<String> COMMAND = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.STRING);
-    private static final DataParameter<Integer> THROTTLE = EntityDataManager.createKey(MCH_EntityAircraft.class,
-            DataSerializers.VARINT);
+
+    protected static final DataParameter<Integer> PART_STAT = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> DAMAGE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
+    private static final DataParameter<String> ID_TYPE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+    private static final DataParameter<String> TEXTURE_NAME = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+    private static final DataParameter<Integer> UAV_STATION = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> STATUS = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> USE_WEAPON = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> FUEL = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
+    private static final DataParameter<String> FUEL_FF = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+    private static final DataParameter<Integer> ROT_ROLL = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
+    private static final DataParameter<String> COMMAND = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+    private static final DataParameter<Integer> THROTTLE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
     private static final MCH_EntitySeat[] seatsDummy = new MCH_EntitySeat[0];
     public final MCH_MissileDetector missileDetector;
     public final HashMap<Entity, Integer> noCollisionEntities = new HashMap<>();
-    public final int currentFuel;
     public final MCH_LowPassFilterFloat lowPassPartialTicks;
     public final List<MCH_EntityAircraft.UnmountReserve> listUnmountReserve = new ArrayList<>();
     public final MCH_Camera camera;
@@ -136,8 +128,10 @@ public abstract class MCH_EntityAircraft
     public boolean throttleDown = false;
     public boolean moveLeft = false;
     public boolean moveRight = false;
+    @Getter
     public float lastRiderYaw;
     public float prevLastRiderYaw;
+    @Getter
     public float lastRiderPitch;
     public float prevLastRiderPitch;
     public int serverNoMoveCount = 0;
@@ -157,9 +151,6 @@ public abstract class MCH_EntityAircraft
     public MCH_Parts partHatch;
     public MCH_Parts partCanopy;
     public MCH_Parts partLandingGear;
-    public double prevRidingEntityPosX;
-    public double prevRidingEntityPosY;
-    public double prevRidingEntityPosZ;
     public boolean canRideRackStatus;
     public MCH_BoundingBox[] extraBoundingBox;
     @Nullable
@@ -192,9 +183,11 @@ public abstract class MCH_EntityAircraft
     protected double aircraftZ;
     protected double aircraftYaw;
     protected double aircraftPitch;
+    @Getter
     protected MCH_WeaponSet[] weapons;
     protected int[] currentWeaponID;
     protected int useWeaponStat;
+    @Getter
     protected int hitStatus;
     protected Entity lastRiddenByEntity;
     protected Entity lastRidingEntity;
@@ -206,20 +199,35 @@ public abstract class MCH_EntityAircraft
     private Entity[] partEntities;
     private MCH_EntitySeat[] seats;
     private MCH_SeatInfo[] seatsInfo;
+    @Setter
+    @Getter
     private String commonUniqueId;
     private int seatSearchCount;
+    @Setter
+    @Getter
     private double currentThrottle;
+    @Getter
     private double prevCurrentThrottle;
+    @Getter
     private int radarRotate;
     private int currentFlareIndex;
+    @Getter
     private int countOnUpdate;
+    @Setter
     private MCH_EntityChain towChainEntity;
+    @Setter
     private MCH_EntityChain towedChainEntity;
+    @Getter
     private int cameraId;
+    @Getter
     private boolean isHoveringMode = false;
     private MCH_EntityTvMissile TVmissile;
+    @Setter
+    @Getter
     private int despawnCount;
     private MCH_EntityUavStation uavStation;
+    @Setter
+    @Getter
     private int modeSwitchCooldown;
     private double fuelConsumption;
     private int fuelSuppliedCount;
@@ -235,7 +243,7 @@ public abstract class MCH_EntityAircraft
 
     public MCH_EntityAircraft(World world) {
         super(world);
-        MCH_Lib.DbgLog(world, "MCH_EntityAircraft : " + this);
+        MCH_Logger.debugLog(world, "MCH_EntityAircraft : " + this);
         this.isRequestedSyncStatus = false;
         this.setAcInfo(null);
         this.dropContentsWhenDead = false;
@@ -253,7 +261,6 @@ public abstract class MCH_EntityAircraft
         this.aircraftPitch = 0.0;
         this.currentSpeed = 0.0;
         this.setCurrentThrottle(0.0);
-        this.currentFuel = 0;
         this.cs_dismountAll = false;
         this.cs_heliAutoThrottleDown = true;
         this.cs_planeAutoThrottleDown = false;
@@ -329,12 +336,7 @@ public abstract class MCH_EntityAircraft
         return null;
     }
 
-    public static boolean isSeatPassenger(@Nullable Entity rider) {
-        return rider != null && rider.getRidingEntity() instanceof MCH_EntitySeat;
-    }
-
-    private static void getCollisionBoxes(@Nullable Entity entity, AxisAlignedBB box,
-                                          List<AxisAlignedBB> result) {
+    private static void getCollisionBoxes(@Nullable Entity entity, AxisAlignedBB box, List<AxisAlignedBB> result) {
         final int minX = MathHelper.floor(box.minX) - 1;
         final int maxX = MathHelper.ceil(box.maxX) + 1;
         final int minY = MathHelper.floor(box.minY) - 1;
@@ -342,6 +344,7 @@ public abstract class MCH_EntityAircraft
         final int minZ = MathHelper.floor(box.minZ) - 1;
         final int maxZ = MathHelper.ceil(box.maxZ) + 1;
 
+        if (entity == null) return;
         final World world = entity.world;
         final WorldBorder border = world.getWorldBorder();
 
@@ -378,10 +381,7 @@ public abstract class MCH_EntityAircraft
 
                         pos.setPos(x, y, z);
 
-                        final IBlockState state =
-                                (!border.contains(pos) && insideWorldBorder)
-                                        ? fallbackBlock
-                                        : world.getBlockState(pos);
+                        final IBlockState state = (!border.contains(pos) && insideWorldBorder) ? fallbackBlock : world.getBlockState(pos);
 
                         state.addCollisionBoxToList(world, pos, box, result, entity, false);
                     }
@@ -401,8 +401,7 @@ public abstract class MCH_EntityAircraft
             List<Entity> list1 = entityIn.world.getEntitiesWithinAABBExcludingEntity(entityIn, aabb.grow(0.25));
 
             for (Entity entity : list1) {
-                if (!W_Lib.isEntityLivingBase(entity) && !(entity instanceof MCH_EntitySeat) &&
-                        !(entity instanceof MCH_EntityHitBox)) {
+                if (!W_Lib.isEntityLivingBase(entity) && !(entity instanceof MCH_EntitySeat) && !(entity instanceof MCH_EntityHitBox)) {
                     AxisAlignedBB axisalignedbb = entity.getCollisionBoundingBox();
                     if (axisalignedbb != null && axisalignedbb.intersects(aabb)) {
                         list.add(axisalignedbb);
@@ -441,6 +440,7 @@ public abstract class MCH_EntityAircraft
         this.dataManager.register(STATUS, 0);
         this.dataManager.register(USE_WEAPON, 0);
         this.dataManager.register(FUEL, 0);
+        this.dataManager.register(FUEL_FF, "");
         this.dataManager.register(TEXTURE_NAME, "");
         this.dataManager.register(UAV_STATION, 0);
         this.dataManager.register(ROT_ROLL, 0);
@@ -460,7 +460,7 @@ public abstract class MCH_EntityAircraft
         return this.dataManager.get(ROT_ROLL).shortValue();
     }
 
-    public float getRotYaw() {
+    public float getYaw() {
         return this.rotationYaw;
     }
 
@@ -468,7 +468,7 @@ public abstract class MCH_EntityAircraft
         this.rotationYaw = f;
     }
 
-    public float getRotPitch() {
+    public float getPitch() {
         return this.rotationPitch;
     }
 
@@ -476,7 +476,7 @@ public abstract class MCH_EntityAircraft
         this.rotationPitch = f;
     }
 
-    public float getRotRoll() {
+    public float getRoll() {
         return this.rotationRoll;
     }
 
@@ -484,33 +484,29 @@ public abstract class MCH_EntityAircraft
         this.rotationRoll = f;
     }
 
-    public void setRotPitch(float f, String msg) {
-        this.setRotPitch(f);
-    }
-
     public void applyOnGroundPitch(float factor) {
         if (this.getAcInfo() != null) {
             float ogp = this.getAcInfo().onGroundPitch;
-            float pitch = this.getRotPitch();
+            float pitch = this.getPitch();
             pitch -= ogp;
             pitch *= factor;
             pitch += ogp;
-            this.setRotPitch(pitch, "applyOnGroundPitch");
+            this.setRotPitch(pitch);
         }
 
-        this.setRotRoll(this.getRotRoll() * factor);
+        this.setRotRoll(this.getRoll() * factor);
     }
 
     public float calcRotYaw(float partialTicks) {
-        return this.prevRotationYaw + (this.getRotYaw() - this.prevRotationYaw) * partialTicks;
+        return this.prevRotationYaw + (this.getYaw() - this.prevRotationYaw) * partialTicks;
     }
 
     public float calcRotPitch(float partialTicks) {
-        return this.prevRotationPitch + (this.getRotPitch() - this.prevRotationPitch) * partialTicks;
+        return this.prevRotationPitch + (this.getPitch() - this.prevRotationPitch) * partialTicks;
     }
 
     public float calcRotRoll(float partialTicks) {
-        return this.prevRotationRoll + (this.getRotRoll() - this.prevRotationRoll) * partialTicks;
+        return this.prevRotationRoll + (this.getRoll() - this.prevRotationRoll) * partialTicks;
     }
 
     protected void setRotation(float y, float p) {
@@ -571,7 +567,7 @@ public abstract class MCH_EntityAircraft
         if (s != null && !s.isEmpty() && s.compareTo(beforeType) != 0) {
             this.dataManager.set(ID_TYPE, s);
             this.changeType(s);
-            this.initRotationYaw(this.getRotYaw());
+            this.initRotationYaw(this.getYaw());
         }
     }
 
@@ -602,8 +598,13 @@ public abstract class MCH_EntityAircraft
     }
 
     public void openGui(EntityPlayer player) {
-        if (!this.world.isRemote) {
-            player.openGui(MCH_MOD.instance, 1, this.world, (int) this.posX, (int) this.posY, (int) this.posZ);
+        if (!this.world.isRemote && getAcInfo() != null) {
+            MCHGuiFactories.aircraft().openGui(player, this);
+        }
+    }
+    public void openContainer(EntityPlayer player) {
+        if (!this.world.isRemote && getAcInfo() != null && getInventory().getSlots() > 0) {
+            MCHGuiFactories.aircraft().openContainer(player, this);
         }
     }
 
@@ -624,8 +625,7 @@ public abstract class MCH_EntityAircraft
     }
 
     public boolean isCreative(@Nullable Entity entity) {
-        return entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode ||
-                entity instanceof MCH_EntityGunner && ((MCH_EntityGunner) entity).isCreative;
+        return entity instanceof EntityPlayer && ((EntityPlayer) entity).capabilities.isCreativeMode || entity instanceof MCH_EntityGunner && ((MCH_EntityGunner) entity).isCreative;
     }
 
     @Nullable
@@ -635,7 +635,7 @@ public abstract class MCH_EntityAircraft
             return this.uavStation.getRiddenByEntity();
         } else {
             List<Entity> passengers = this.getPassengers();
-            return passengers.isEmpty() ? null : passengers.get(0);
+            return passengers.isEmpty() ? null : passengers.getFirst();
         }
     }
 
@@ -658,8 +658,8 @@ public abstract class MCH_EntityAircraft
             }
 
             if (bofore != this.commonStatus) {
-                MCH_Lib.DbgLog(this.world, "setCommonStatus : %08X -> %08X ", this.dataManager.get(STATUS),
-                        this.commonStatus);
+                Object[] data = new Object[]{this.dataManager.get(STATUS), this.commonStatus};
+                MCH_Logger.debugLog(this.world, "setCommonStatus : %08X -> %08X ", data);
                 this.dataManager.set(STATUS, this.commonStatus);
             }
         }
@@ -741,8 +741,7 @@ public abstract class MCH_EntityAircraft
                     dse = DamageSource.causePlayerDamage((EntityPlayer) this.lastAttackedEntity);
                 }
             } else {
-                dse = DamageSource.causeExplosionDamage(new Explosion(this.world, this.lastAttackedEntity, this.posX,
-                        this.posY, this.posZ, 1.0F, false, true));
+                dse = DamageSource.causeExplosionDamage(new Explosion(this.world, this.lastAttackedEntity, this.posX, this.posY, this.posZ, 1.0F, false, true));
             }
 
             Entity riddenByEntity = this.getRiddenByEntity();
@@ -760,14 +759,6 @@ public abstract class MCH_EntityAircraft
 
     public boolean isDestroyed() {
         return this.getDespawnCount() > 0;
-    }
-
-    public int getDespawnCount() {
-        return this.despawnCount;
-    }
-
-    public void setDespawnCount(int despawnCount) {
-        this.despawnCount = despawnCount;
     }
 
     public boolean isEntityRadarMounted() {
@@ -826,22 +817,16 @@ public abstract class MCH_EntityAircraft
         } else {
             Entity player = MCH_Lib.getClientPlayer();
             int sid = this.getSeatIdByEntity(player);
-            if (sid == 0 && this.canSwitchCameraPos() && this.getCameraId() > 0 &&
-                    this.getCameraId() < this.getAcInfo().cameraPosition.size()) {
+            if (sid == 0 && this.canSwitchCameraPos() && this.getCameraId() > 0 && this.getCameraId() < this.getAcInfo().cameraPosition.size()) {
                 return this.getAcInfo().cameraPosition.get(this.getCameraId());
             } else {
-                return sid > 0 && sid < this.getSeatsInfo().length && this.getSeatsInfo()[sid].invCamPos ?
-                        this.getSeatsInfo()[sid].getCamPos() : this.getAcInfo().cameraPosition.get(0);
+                return sid > 0 && sid < this.getSeatsInfo().length && this.getSeatsInfo()[sid].invCamPos ? this.getSeatsInfo()[sid].getCamPos() : this.getAcInfo().cameraPosition.getFirst();
             }
         }
     }
 
-    public int getCameraId() {
-        return this.cameraId;
-    }
-
     public void setCameraId(int cameraId) {
-        MCH_Lib.DbgLog(true, "MCH_EntityAircraft.setCameraId %d -> %d", this.cameraId, cameraId);
+        MCH_Logger.debugLog(true, "MCH_EntityAircraft.setCameraId %d -> %d", this.cameraId, cameraId);
         this.cameraId = cameraId;
     }
 
@@ -888,7 +873,7 @@ public abstract class MCH_EntityAircraft
                 this.changeType(new String(dst));
             }
         } catch (Exception var6) {
-            MCH_Lib.Log(this, "readSpawnData error!");
+            MCH_Logger.log(this, "readSpawnData error!");
             var6.printStackTrace();
         }
     }
@@ -899,20 +884,21 @@ public abstract class MCH_EntityAircraft
         this.setTextureName(nbt.getString("TextureName"));
         this.setCommonUniqueId(nbt.getString("AircraftUniqueId"));
         this.setRotRoll(nbt.getFloat("AcRoll"));
-        this.prevRotationRoll = this.getRotRoll();
+        this.prevRotationRoll = this.getRoll();
         this.prevLastRiderYaw = this.lastRiderYaw = nbt.getFloat("AcLastRYaw");
         this.prevLastRiderPitch = this.lastRiderPitch = nbt.getFloat("AcLastRPitch");
         this.setPartStatus(nbt.getInteger("PartStatus"));
         this.setTypeName(nbt.getString("TypeName"));
         super.readEntityFromNBT(nbt);
-        this.getGuiInventory().readEntityFromNBT(nbt);
+        this.getGuiInventory().readFromNBT(nbt);
         this.setCommandForce(nbt.getString("AcCommand"));
         this.setGunnerStatus(nbt.getBoolean("AcGunnerStatus"));
         this.setFuel(nbt.getInteger("AcFuel"));
+        this.setFuelType(nbt.hasKey("AcFuelType") ? nbt.getString("AcFuelType") : "mch_fuel"); //Default to the default mcheli fuel
         int[] wa_list = nbt.getIntArray("AcWeaponsAmmo");
 
         for (int i = 0; i < wa_list.length; i++) {
-            this.getWeapon(i).setRestAllAmmoNum(wa_list[i]);
+            this.getWeapon(i).setReserveAmmo(wa_list[i]);
             this.getWeapon(i).reloadMag();
         }
 
@@ -936,8 +922,9 @@ public abstract class MCH_EntityAircraft
         nbt.setString("TypeName", this.getTypeName());
         nbt.setInteger("PartStatus", this.getPartStatus() & this.getLastPartStatusMask());
         nbt.setInteger("AcFuel", this.getFuel());
+        nbt.setString("AcFuelType", this.getFuelType());
         nbt.setInteger("AcDespawnCount", this.getDespawnCount());
-        nbt.setFloat("AcRoll", this.getRotRoll());
+        nbt.setFloat("AcRoll", this.getRoll());
         nbt.setBoolean("SearchLight", this.isSearchLightON());
         nbt.setFloat("AcLastRYaw", this.getLastRiderYaw());
         nbt.setFloat("AcLastRPitch", this.getLastRiderPitch());
@@ -948,11 +935,11 @@ public abstract class MCH_EntityAircraft
 
         nbt.setBoolean("AcGunnerStatus", this.getGunnerStatus());
         super.writeEntityToNBT(nbt);
-        this.getGuiInventory().writeEntityToNBT(nbt);
+        this.getGuiInventory().writeToNBT(nbt);
         int[] wa_list = new int[this.getWeaponNum()];
 
         for (int i = 0; i < wa_list.length; i++) {
-            wa_list[i] = this.getWeapon(i).getRestAllAmmoNum() + this.getWeapon(i).getAmmoNum();
+            wa_list[i] = this.getWeapon(i).getRestAllAmmoNum() + this.getWeapon(i).getAmmo();
         }
 
         nbt.setTag("AcWeaponsAmmo", W_NBTTag.newTagIntArray("AcWeaponsAmmo", wa_list));
@@ -960,8 +947,8 @@ public abstract class MCH_EntityAircraft
         nbt.setBoolean("AcDismounted", this.dismountedUserCtrl);
     }
 
-    @Override// TODO:Implement new AABB changes from Reforged
-    public boolean attackEntityFrom(DamageSource damageSource, float originalDamage) {
+    @Override
+    public boolean attackEntityFrom(@NotNull DamageSource damageSource, float originalDamage) {
         if (shouldIgnoreDamage(damageSource)) {
             return false;
         }
@@ -1018,8 +1005,7 @@ public abstract class MCH_EntityAircraft
 
     private boolean shouldIgnoreDamage(DamageSource src) {
         String type = src.getDamageType();
-        return this.isEntityInvulnerable(src) || this.isDead || this.timeSinceHit > 0 ||
-                type.equalsIgnoreCase("inFire") || type.equalsIgnoreCase("cactus");
+        return this.isEntityInvulnerable(src) || this.isDead || this.timeSinceHit > 0 || type.equalsIgnoreCase("inFire") || type.equalsIgnoreCase("cactus");
     }
 
     private float calculateDamage(DamageSource src, float base, float factor) {
@@ -1071,7 +1057,6 @@ public abstract class MCH_EntityAircraft
 
     private boolean evaluatePlayerAttack(EntityPlayer player, String type, float damage) {
         boolean creative = player.capabilities.isCreativeMode;
-        boolean sneaking = player.isSneaking();
 
         if (type.equalsIgnoreCase("player")) {
             if (creative) {
@@ -1079,8 +1064,7 @@ public abstract class MCH_EntityAircraft
             }
             if (this.getAcInfo() != null && !this.getAcInfo().creativeOnly && !MCH_Config.PreventingBroken.prmBool) {
                 if (MCH_Config.BreakableOnlyPickaxe.prmBool) {
-                    if (!player.getHeldItemMainhand().isEmpty() &&
-                            player.getHeldItemMainhand().getItem() instanceof ItemPickaxe) {
+                    if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() instanceof ItemPickaxe) {
                         return true;
                     }
                 } else {
@@ -1094,9 +1078,7 @@ public abstract class MCH_EntityAircraft
     }
 
     private void applyDamage(DamageSource src, float damage, String type, float factor) {
-        MCH_Lib.DbgLog(this.world,
-                "MCH_EntityAircraft.attackEntityFrom:damage=%.1f(factor=%.2f):%s",
-                damage, factor, type);
+        MCH_Logger.debugLog(this.world, "MCH_EntityAircraft.attackEntityFrom:damage=%.1f(factor=%.2f):%s", damage, factor, type);
         this.setDamageTaken(this.getDamageTaken() + (int) damage);
     }
 
@@ -1116,9 +1098,7 @@ public abstract class MCH_EntityAircraft
                 this.explosionByCrash(0.0);
                 this.damageSinceDestroyed = this.getMaxHP();
             } else {
-                MCH_Explosion.newExplosion(
-                        this.world, null, attacker, this.posX, this.posY, this.posZ,
-                        2.0F, 2.0F, true, true, true, true, 5);
+                MCH_Explosion.newExplosion(this.world, null, attacker, this.posX, this.posY, this.posZ, 2.0F, 2.0F, true, true, true, true, 5);
             }
         } else {
             dropItemIfNeeded((EntityPlayer) attacker);
@@ -1176,6 +1156,7 @@ public abstract class MCH_EntityAircraft
         }
 
         NBTTagCompound nbt = is.getTagCompound();
+        if (nbt == null) return;
         nbt.setString("MCH_Command", this.getCommand());
         if (MCH_Config.ItemFuel.prmBool) {
             nbt.setInteger("MCH_Fuel", this.getFuel());
@@ -1189,6 +1170,7 @@ public abstract class MCH_EntityAircraft
     public void getAcDataFromItem(ItemStack is) {
         if (is.hasTagCompound()) {
             NBTTagCompound nbt = is.getTagCompound();
+            if (nbt == null) return;
             this.setCommandForce(nbt.getString("MCH_Command"));
             if (MCH_Config.ItemFuel.prmBool) {
                 this.setFuel(nbt.getInteger("MCH_Fuel"));
@@ -1201,12 +1183,11 @@ public abstract class MCH_EntityAircraft
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer player) {
+    public boolean isUsableByPlayer(@NotNull EntityPlayer player) {
         if (this.isUAV()) {
             return super.isUsableByPlayer(player);
         } else if (!this.isDead) {
-            return this.getSeatIdByEntity(player) >= 0 ? player.getDistanceSq(this) <= 4096.0 :
-                    player.getDistanceSq(this) <= 64.0;
+            return this.getSeatIdByEntity(player) >= 0 ? player.getDistanceSq(this) <= 4096.0 : player.getDistanceSq(this) <= 64.0;
         } else {
             return false;
         }
@@ -1249,20 +1230,8 @@ public abstract class MCH_EntityAircraft
         }
     }
 
-    public double getCurrentThrottle() {
-        return this.currentThrottle;
-    }
-
-    public void setCurrentThrottle(double throttle) {
-        this.currentThrottle = throttle;
-    }
-
     public void addCurrentThrottle(double throttle) {
         this.setCurrentThrottle(this.getCurrentThrottle() + throttle);
-    }
-
-    public double getPrevCurrentThrottle() {
-        return this.prevCurrentThrottle;
     }
 
     public boolean canMouseRot() {
@@ -1335,37 +1304,27 @@ public abstract class MCH_EntityAircraft
         return 0.0F;
     }
 
-    public void setAngles(
-            Entity player,
-            boolean fixRot,
-            float fixYaw,
-            float fixPitch,
-            float deltaX,
-            float deltaY,
-            float inputX,
-            float inputY,
-            float deltaSeconds
-    ) {
+    public void setAngles(Entity player, boolean fixRot, float fixYaw, float fixPitch, float deltaX, float deltaY, float inputX, float inputY, float deltaSeconds) {
 
-        float prevPitch = this.getRotPitch();
-        float prevYaw   = this.getRotYaw();
-        float prevRoll  = this.getRotRoll();
+        float prevPitch = this.getPitch();
+        float prevYaw = this.getYaw();
+        float prevRoll = this.getRoll();
 
         if (this.isFreeLookMode()) {
             inputX = 0.0F;
             inputY = 0.0F;
         }
 
-        float yaw   = 0.0F;
+        float yaw = 0.0F;
         float pitch = 0.0F;
-        float roll  = 0.0F;
+        float roll = 0.0F;
 
         //YAW
         if (this.canUpdateYaw(player)) {
             double limit = this.getAddRotationYawLimit();
             yaw = this.getControlRotYaw(inputX, inputY, 1.0F);
             yaw = (float) MathHelper.clamp(yaw, -limit, limit);
-            yaw *= this.getYawFactor()   * deltaSeconds;
+            yaw *= this.getYawFactor() * deltaSeconds;
         }
 
         //PITCH
@@ -1373,7 +1332,7 @@ public abstract class MCH_EntityAircraft
             double limit = this.getAddRotationPitchLimit();
             pitch = this.getControlRotPitch(inputX, inputY, 1.0F);
             pitch = (float) MathHelper.clamp(pitch, -limit, limit);
-            pitch *= -this.getPitchFactor()  * deltaSeconds;
+            pitch *= -this.getPitchFactor() * deltaSeconds;
         }
 
         //ROLL
@@ -1381,30 +1340,27 @@ public abstract class MCH_EntityAircraft
             double limit = this.getAddRotationRollLimit();
             roll = this.getControlRotRoll(inputX, inputY, 1.0F);
             roll = (float) MathHelper.clamp(roll, -limit, limit);
-            roll *= this.getRollFactor()  * deltaSeconds;
+            roll *= this.getRollFactor() * deltaSeconds;
         }
 
 
         MCH_Math.FMatrix m = MCH_Math.newMatrix();
 
-        MCH_Math.MatTurnZ(m, roll  * ((float) Math.PI / 180.0F));
+        MCH_Math.MatTurnZ(m, roll * ((float) Math.PI / 180.0F));
         MCH_Math.MatTurnX(m, pitch * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnY(m, yaw   * ((float) Math.PI / 180.0F));
+        MCH_Math.MatTurnY(m, yaw * ((float) Math.PI / 180.0F));
 
-        MCH_Math.MatTurnZ(m, this.getRotRoll()  * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnX(m, this.getRotPitch() * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnY(m, this.getRotYaw()   * ((float) Math.PI / 180.0F));
+        MCH_Math.MatTurnZ(m, this.getRoll() * ((float) Math.PI / 180.0F));
+        MCH_Math.MatTurnX(m, this.getPitch() * ((float) Math.PI / 180.0F));
+        MCH_Math.MatTurnY(m, this.getYaw() * ((float) Math.PI / 180.0F));
 
         MCH_Math.FVector3D v = MCH_Math.MatrixToEuler(m);
 
         //LIMITS
+        assert this.getAcInfo() != null;
         if (this.getAcInfo().limitRotation) {
-            v.x = MCH_Lib.RNG(v.x,
-                    this.getAcInfo().minRotationPitch,
-                    this.getAcInfo().maxRotationPitch);
-            v.z = MCH_Lib.RNG(v.z,
-                    this.getAcInfo().minRotationRoll,
-                    this.getAcInfo().maxRotationRoll);
+            v.x = MCH_Lib.RNG(v.x, this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch);
+            v.z = MCH_Lib.RNG(v.z, this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll);
         }
 
         if (v.z > 180.0F) v.z -= 360.0F;
@@ -1417,32 +1373,25 @@ public abstract class MCH_EntityAircraft
         this.onUpdateAngles(deltaSeconds);
 
         //POST LIM CLAMP
+        assert this.getAcInfo() != null;
         if (this.getAcInfo().limitRotation) {
-            this.setRotPitch(MCH_Lib.RNG(
-                    this.getRotPitch(),
-                    this.getAcInfo().minRotationPitch,
-                    this.getAcInfo().maxRotationPitch));
+            this.setRotPitch(MCH_Lib.RNG(this.getPitch(), this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch));
 
-            this.setRotRoll(MCH_Lib.RNG(
-                    this.getRotRoll(),
-                    this.getAcInfo().minRotationRoll,
-                    this.getAcInfo().maxRotationRoll));
+            this.setRotRoll(MCH_Lib.RNG(this.getRoll(), this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll));
         }
 
         //CHECKS
-        if (MathHelper.abs(this.getRotPitch()) > 90.0F) {
-            MCH_Lib.DbgLog(true,
-                    "MCH_EntityAircraft.setAngles Error:Pitch=%.1f",
-                    this.getRotPitch());
+        if (MathHelper.abs(this.getPitch()) > 90.0F) {
+            MCH_Logger.debugLog(true, "MCH_EntityAircraft.setAngles Error:Pitch=%.1f", this.getPitch());
         }
 
-        if (this.getRotRoll() > 180.0F) this.setRotRoll(this.getRotRoll() - 360.0F);
-        if (this.getRotRoll() < -180.0F) this.setRotRoll(this.getRotRoll() + 360.0F);
+        if (this.getRoll() > 180.0F) this.setRotRoll(this.getRoll() - 360.0F);
+        if (this.getRoll() < -180.0F) this.setRotRoll(this.getRoll() + 360.0F);
 
-        this.prevRotationRoll  = this.getRotRoll();
-        this.prevRotationPitch = this.getRotPitch();
+        this.prevRotationRoll = this.getRoll();
+        this.prevRotationPitch = this.getPitch();
         if (this.getRidingEntity() == null) {
-            this.prevRotationYaw = this.getRotYaw();
+            this.prevRotationYaw = this.getYaw();
         }
 
         //SYNC
@@ -1450,25 +1399,23 @@ public abstract class MCH_EntityAircraft
             player.turn(deltaX, 0.0F);
         } else {
             if (this.getRidingEntity() == null) {
-                player.prevRotationYaw = this.getRotYaw() + (fixRot ? fixYaw : 0.0F);
+                player.prevRotationYaw = this.getYaw() + (fixRot ? fixYaw : 0.0F);
             } else {
-                if (this.getRotYaw() - player.rotationYaw > 180.0F) player.prevRotationYaw += 360.0F;
-                if (this.getRotYaw() - player.rotationYaw < -180.0F) player.prevRotationYaw -= 360.0F;
+                if (this.getYaw() - player.rotationYaw > 180.0F) player.prevRotationYaw += 360.0F;
+                if (this.getYaw() - player.rotationYaw < -180.0F) player.prevRotationYaw -= 360.0F;
             }
-            player.rotationYaw = this.getRotYaw() + (fixRot ? fixYaw : 0.0F);
+            player.rotationYaw = this.getYaw() + (fixRot ? fixYaw : 0.0F);
         }
 
         if (!this.isOverridePlayerPitch() && !fixRot) {
             player.turn(0.0F, deltaY);
         } else {
-            player.prevRotationPitch = this.getRotPitch() + (fixRot ? fixPitch : 0.0F);
-            player.rotationPitch     = this.getRotPitch() + (fixRot ? fixPitch : 0.0F);
+            player.prevRotationPitch = this.getPitch() + (fixRot ? fixPitch : 0.0F);
+            player.rotationPitch = this.getPitch() + (fixRot ? fixPitch : 0.0F);
         }
 
         //CHANGE FLAG
-        if ((this.getRidingEntity() == null && prevYaw != this.getRotYaw())
-                || prevPitch != this.getRotPitch()
-                || prevRoll  != this.getRotRoll()) {
+        if ((this.getRidingEntity() == null && prevYaw != this.getYaw()) || prevPitch != this.getPitch() || prevRoll != this.getRoll()) {
             this.aircraftRotChanged = true;
         }
     }
@@ -1490,51 +1437,60 @@ public abstract class MCH_EntityAircraft
         return this.getAcInfo() != null && !this.getAcInfo().searchLights.isEmpty();
     }
 
-    public float getSearchLightValue(Entity entity) {
-        if (this.haveSearchLight() && this.isSearchLightON()) {
-            for (MCH_AircraftInfo.SearchLight sl : this.getAcInfo().searchLights) {
-                Vec3d pos = this.getTransformedPosition(sl.pos);
-                double dist = entity.getDistanceSq(pos.x, pos.y, pos.z);
-                if (dist > 2.0 && dist < sl.height * sl.height + 20.0F) {
-                    double cx = entity.posX - pos.x;
-                    double cy = entity.posY - pos.y;
-                    double cz = entity.posZ - pos.z;
-                    double h;
-                    double v;
-                    if (!sl.fixDir) {
-                        Vec3d vv = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -this.lastSearchLightYaw + sl.yaw,
-                                -this.lastSearchLightPitch + sl.pitch, -this.getRotRoll());
-                        h = MCH_Lib.getPosAngle(vv.x, vv.z, cx, cz);
-                        v = Math.atan2(cy, Math.sqrt(cx * cx + cz * cz)) * 180.0 / Math.PI;
-                        v = Math.abs(v + this.lastSearchLightPitch + sl.pitch);
-                    } else {
-                        float stRot = 0.0F;
-                        if (sl.steering) {
-                            stRot = this.rotYawWheel * sl.stRot;
-                        }
+    public float getSearchLightValue(Entity target) {
+        var aircraftInfo = getAcInfo();
+        if (!haveSearchLight() || !isSearchLightON() || aircraftInfo == null) {
+            return 0.0F;
+        }
 
-                        Vec3d vv = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -this.getRotYaw() + sl.yaw + stRot,
-                                -this.getRotPitch() + sl.pitch, -this.getRotRoll());
-                        h = MCH_Lib.getPosAngle(vv.x, vv.z, cx, cz);
-                        v = Math.atan2(cy, Math.sqrt(cx * cx + cz * cz)) * 180.0 / Math.PI;
-                        v = Math.abs(v + this.getRotPitch() + sl.pitch);
-                    }
+        for (MCH_AircraftInfo.SearchLight searchLight : aircraftInfo.searchLights) {
+            Vec3d searchLightWorldPos = getTransformedPosition(searchLight.pos);
 
-                    float angle = sl.angle * 3.0F;
-                    if (h < angle && v < angle) {
-                        float value = 0.0F;
-                        if (h + v < angle) {
-                            value = (float) (1440.0 * (1.0 - (h + v) / angle));
-                        }
+            double deltaX = target.posX - searchLightWorldPos.x;
+            double deltaY = target.posY - searchLightWorldPos.y;
+            double deltaZ = target.posZ - searchLightWorldPos.z;
 
-                        return Math.min(value, 240.0F);
-                    }
+            double distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            double maxDistanceSquared = searchLight.height * searchLight.height + 20.0;
+
+            if (distanceSquared <= 2.0 || distanceSquared >= maxDistanceSquared) {
+                continue;
+            }
+
+            double horizontalAngle;
+            double verticalAngle;
+
+            double angrad = Math.atan2(deltaY, Math.sqrt(deltaX * deltaX + deltaZ * deltaZ));
+            if (!searchLight.fixDir) {
+                Vec3d lightDirection = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -lastSearchLightYaw + searchLight.yaw, -lastSearchLightPitch + searchLight.pitch, -getRoll());
+
+                horizontalAngle = MCH_Lib.getPosAngle(lightDirection.x, lightDirection.z, deltaX, deltaZ);
+                verticalAngle = Math.abs(Math.toDegrees(angrad) + lastSearchLightPitch + searchLight.pitch);
+            } else {
+                float steeringRotation = searchLight.steering ? rotYawWheel * searchLight.stRot : 0.0F;
+
+                Vec3d lightDirection = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -getYaw() + searchLight.yaw + steeringRotation, -getPitch() + searchLight.pitch, -getRoll());
+
+                horizontalAngle = MCH_Lib.getPosAngle(lightDirection.x, lightDirection.z, deltaX, deltaZ);
+                verticalAngle = Math.abs(Math.toDegrees(angrad) + getPitch() + searchLight.pitch);
+            }
+
+            float effectiveAngleLimit = searchLight.angle * 3.0F;
+
+            if (horizontalAngle < effectiveAngleLimit && verticalAngle < effectiveAngleLimit) {
+                float intensity = 0.0F;
+
+                if (horizontalAngle + verticalAngle < effectiveAngleLimit) {
+                    intensity = (float) (1440.0 * (1.0 - (horizontalAngle + verticalAngle) / effectiveAngleLimit));
                 }
+
+                return Math.min(intensity, 240.0F);
             }
         }
 
         return 0.0F;
     }
+
 
     public abstract void onUpdateAircraft();
 
@@ -1571,35 +1527,31 @@ public abstract class MCH_EntityAircraft
         if (this.isDestroyed() && this.getCountOnUpdate() % 20 == 0) {
             for (int sid = 0; sid < this.getSeatNum() + 1; sid++) {
                 Entity entity = this.getEntityBySeatId(sid);
-                if (entity != null && (sid != 0 || !this.isUAV()) &&
-                        MCH_Config.applyDamageVsEntity(entity, DamageSource.IN_FIRE, 1.0F) > 0.0F) {
+                if (entity != null && (sid != 0 || !this.isUAV()) && MCH_Config.applyDamageVsEntity(entity, DamageSource.IN_FIRE, 1.0F) > 0.0F) {
                     entity.setFire(5);
                 }
             }
         }
 
         //Apply raotation
-        if ((this.aircraftRotChanged || this.aircraftRollRev) && this.world.isRemote &&
-                this.getRiddenByEntity() != null) {
+        if ((this.aircraftRotChanged || this.aircraftRollRev) && this.world.isRemote && this.getRiddenByEntity() != null) {
             PacketIndRotation.send(this);
             this.aircraftRotChanged = false;
             this.aircraftRollRev = false;
         }
 
         //Apply roll
-        if (!this.world.isRemote && (int) this.prevRotationRoll != (int) this.getRotRoll()) {
-            float roll = MathHelper.wrapDegrees(this.getRotRoll());
+        if (!this.world.isRemote && (int) this.prevRotationRoll != (int) this.getRoll()) {
+            float roll = MathHelper.wrapDegrees(this.getRoll());
             this.dataManager.set(ROT_ROLL, (int) roll);
         }
-        this.prevRotationRoll = this.getRotRoll();
+        this.prevRotationRoll = this.getRoll();
 
         //Target drone specific
-        if (!this.world.isRemote && this.isTargetDrone() && !this.isDestroyed() && this.getCountOnUpdate() > 20 &&
-                !this.canUseFuel()) {
+        if (!this.world.isRemote && this.isTargetDrone() && !this.isDestroyed() && this.getCountOnUpdate() > 20 && !this.canUseFuel()) {
             this.setDamageTaken(this.getMaxHP());
             this.destroyAircraft();
-            MCH_Explosion.newExplosion(this.world, null, null, this.posX, this.posY, this.posZ, 2.0F, 2.0F, true, true,
-                    true, true, 5);
+            MCH_Explosion.newExplosion(this.world, null, null, this.posX, this.posY, this.posZ, 2.0F, 2.0F, true, true, true, true, 5);
         }
 
         //Despawn logic – client
@@ -1718,8 +1670,7 @@ public abstract class MCH_EntityAircraft
             this.updateRecoil(1.0F);
         }
 
-        if (!this.world.isRemote && this.isDestroyed() && !this.isExploded() && !prevOnGround && this.onGround &&
-                prevMotionY < -0.2) {
+        if (!this.world.isRemote && this.isDestroyed() && !this.isExploded() && !prevOnGround && this.onGround && prevMotionY < -0.2) {
             this.explosionByCrash(prevMotionY);
             this.damageSinceDestroyed = this.getMaxHP();
         }
@@ -1768,7 +1719,7 @@ public abstract class MCH_EntityAircraft
                     this.noCollisionEntities.put(this.getRidingEntity(), 60);
                 }
 
-                this.noCollisionEntities.replaceAll((k, v) -> this.noCollisionEntities.get(k) - 1);
+                this.noCollisionEntities.replaceAll((k, _) -> this.noCollisionEntities.get(k) - 1);
 
                 this.noCollisionEntities.values().removeIf(integer -> integer <= 0);
             }
@@ -1791,11 +1742,11 @@ public abstract class MCH_EntityAircraft
 
     public void updateRecoil(float partialTicks) {
         if (this.recoilCount > 0 && this.recoilCount >= 12) {
-            float pitch = MathHelper.cos((float) ((this.recoilYaw - this.getRotRoll()) * Math.PI / 180.0));
-            float roll = MathHelper.sin((float) ((this.recoilYaw - this.getRotRoll()) * Math.PI / 180.0));
+            float pitch = MathHelper.cos((float) ((this.recoilYaw - this.getRoll()) * Math.PI / 180.0));
+            float roll = MathHelper.sin((float) ((this.recoilYaw - this.getRoll()) * Math.PI / 180.0));
             float recoil = MathHelper.cos((float) (this.recoilCount * 6 * Math.PI / 180.0)) * this.recoilValue;
-            this.setRotPitch(this.getRotPitch() + recoil * pitch * partialTicks);
-            this.setRotRoll(this.getRotRoll() + recoil * roll * partialTicks);
+            this.setRotPitch(this.getPitch() + recoil * pitch * partialTicks);
+            this.setRotRoll(this.getRoll() + recoil * roll * partialTicks);
         }
     }
 
@@ -1818,54 +1769,51 @@ public abstract class MCH_EntityAircraft
 
     public void updateExtraBoundingBox() {
         for (MCH_BoundingBox bb : this.extraBoundingBox) {
-            bb.updatePosition(this.posX, this.posY, this.posZ, this.getRotYaw(), this.getRotPitch(), this.getRotRoll());
+            bb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(), this.getRoll());
         }
     }
 
     public void updatePartWheel() {
-        if (this.world.isRemote) {
-            if (this.getAcInfo() != null) {
-                this.prevRotWheel = this.rotWheel;
-                this.prevRotYawWheel = this.rotYawWheel;
-                double throttle = this.getCurrentThrottle();
-                double pivotTurnThrottle = this.getAcInfo().pivotTurnThrottle;
-                if (pivotTurnThrottle <= 0.0) {
-                    pivotTurnThrottle = 1.0;
-                } else {
-                    pivotTurnThrottle *= 0.1F;
-                }
+        if (!world.isRemote) return;
 
-                boolean localMoveLeft = this.moveLeft;
-                boolean localMoveRight = this.moveRight;
-                if (this.getAcInfo().enableBack && this.throttleBack > 0.01 && throttle <= 0.0) {
-                    throttle = -this.throttleBack * 15.0F;
-                }
+        var acInfo = getAcInfo();
+        if (acInfo == null) return;
 
-                if (localMoveLeft && !localMoveRight) {
-                    this.rotYawWheel += 0.1F;
-                    if (this.rotYawWheel > 1.0F) {
-                        this.rotYawWheel = 1.0F;
-                    }
-                } else if (!localMoveLeft && localMoveRight) {
-                    this.rotYawWheel -= 0.1F;
-                    if (this.rotYawWheel < -1.0F) {
-                        this.rotYawWheel = -1.0F;
-                    }
-                } else {
-                    this.rotYawWheel *= 0.9F;
-                }
+        prevRotWheel = rotWheel;
+        prevRotYawWheel = rotYawWheel;
 
-                this.rotWheel = (float) (this.rotWheel + throttle * this.getAcInfo().partWheelRot);
-                if (this.rotWheel >= 360.0F) {
-                    this.rotWheel -= 360.0F;
-                    this.prevRotWheel -= 360.0F;
-                } else if (this.rotWheel < 0.0F) {
-                    this.rotWheel += 360.0F;
-                    this.prevRotWheel += 360.0F;
-                }
-            }
+        // Compute throttle
+        double throttle = getCurrentThrottle();
+        double pivotThrottle = acInfo.pivotTurnThrottle;
+//        pivotThrottle = pivotThrottle <= 0.0 ? 1.0 : pivotThrottle * 0.1;
+
+        // Handle backward throttle
+        if (acInfo.enableBack && throttleBack > 0.01 && throttle <= 0.0) {
+            throttle = -throttleBack * 15.0;
+        }
+
+        // Handle wheel yaw based on input
+        if (moveLeft && !moveRight) {
+            rotYawWheel = (float) Math.min(rotYawWheel + 0.1, 1.0);
+        } else if (!moveLeft && moveRight) {
+            rotYawWheel = (float) Math.max(rotYawWheel - 0.1, -1.0);
+        } else {
+            rotYawWheel *= 0.9F;
+        }
+
+        // Update wheel rotation
+        rotWheel += (float) (throttle * acInfo.partWheelRot);
+
+        // Normalize to [0, 360)
+        if (rotWheel >= 360.0) {
+            rotWheel -= 360.0F;
+            prevRotWheel -= 360.0F;
+        } else if (rotWheel < 0.0) {
+            rotWheel += 360.0F;
+            prevRotWheel += 360.0F;
         }
     }
+
 
     public void updatePartCrawlerTrack() {
         if (!world.isRemote) return;
@@ -1880,9 +1828,7 @@ public abstract class MCH_EntityAircraft
         prevRotCrawlerTrack[1] = rotCrawlerTrack[1];
 
         double throttle = getCurrentThrottle();
-        double pivotTurnThrottle = info.pivotTurnThrottle <= 0.0
-                ? 1.0
-                : info.pivotTurnThrottle * 0.1;
+        double pivotTurnThrottle = info.pivotTurnThrottle <= 0.0 ? 1.0 : info.pivotTurnThrottle * 0.1;
 
         boolean moveLeft = this.moveLeft;
         boolean moveRight = this.moveRight;
@@ -1974,8 +1920,7 @@ public abstract class MCH_EntityAircraft
                     if (this.serverNoMoveCount >= 20) {
                         this.serverNoMoveCount = 0;
                         if (this.world instanceof WorldServer) {
-                            ((WorldServer) this.world).getEntityTracker().sendToTracking(this,
-                                    new SPacketEntityVelocity(this.getEntityId(), 0.0, 0.0, 0.0));
+                            ((WorldServer) this.world).getEntityTracker().sendToTracking(this, new SPacketEntityVelocity(this.getEntityId(), 0.0, 0.0, 0.0));
                         }
                     }
                 }
@@ -1986,16 +1931,14 @@ public abstract class MCH_EntityAircraft
     }
 
     public boolean haveRotPart() {
-        return this.world.isRemote && this.getAcInfo() != null && this.rotPartRotation.length > 0 &&
-                this.rotPartRotation.length == this.getAcInfo().partRotPart.size();
+        return this.world.isRemote && this.getAcInfo() != null && this.rotPartRotation.length > 0 && this.rotPartRotation.length == this.getAcInfo().partRotPart.size();
     }
 
     public void onUpdate_PartRotation() {
-        if (this.haveRotPart()) {
+        if (this.haveRotPart() && this.getAcInfo() != null) {
             for (int i = 0; i < this.rotPartRotation.length; i++) {
                 this.prevRotPartRotation[i] = this.rotPartRotation[i];
-                if (!this.isDestroyed() && this.getAcInfo().partRotPart.get(i).rotAlways ||
-                        this.getRiddenByEntity() != null) {
+                if (!this.isDestroyed() && this.getAcInfo().partRotPart.get(i).rotAlways || this.getRiddenByEntity() != null) {
                     this.rotPartRotation[i] = this.rotPartRotation[i] + this.getAcInfo().partRotPart.get(i).rotSpeed;
                     if (this.rotPartRotation[i] < 0.0F) {
                         this.rotPartRotation[i] = this.rotPartRotation[i] + 360.0F;
@@ -2014,14 +1957,13 @@ public abstract class MCH_EntityAircraft
 
     public int getAlt(double posX, double posY, double posZ) {
         int i = 0;
-        while (i < 256 && !(posY - i <= 0.0) &&
-                (!(posY - i < 256.0) || 0 == W_WorldFunc.getBlockId(this.world, (int) posX, (int) posY - i, (int) posZ))) {
+        while (i < 256 && !(posY - i <= 0.0) && (!(posY - i < 256.0) || 0 == W_WorldFunc.getBlockId(this.world, (int) posX, (int) posY - i, (int) posZ))) {
             i++;
         }
         return i;
     }
 
-    public boolean canRepelling(Entity entity) {
+    public boolean canRepell() {
         return this.isRepelling() && this.tickRepelling > 50;
     }
 
@@ -2049,15 +1991,12 @@ public abstract class MCH_EntityAircraft
             } else if (!this.world.isRemote) {
                 for (int ropeIdx = 0; ropeIdx < this.getAcInfo().repellingHooks.size(); ropeIdx++) {
                     MCH_AircraftInfo.RepellingHook hook = this.getAcInfo().repellingHooks.get(ropeIdx);
-                    if (this.getCountOnUpdate() % hook.interval == 0) {
+                    if (this.getCountOnUpdate() % hook.interval() == 0) {
                         for (int i = 1; i < this.getSeatNum(); i++) {
                             MCH_EntitySeat seat = this.getSeat(i);
-                            if (seat != null && seat.getRiddenByEntity() != null &&
-                                    !W_EntityPlayer.isPlayer(seat.getRiddenByEntity()) &&
-                                    !(seat.getRiddenByEntity() instanceof MCH_EntityGunner) &&
-                                    !(this.getSeatInfo(i + 1) instanceof MCH_SeatRackInfo)) {
+                            if (seat != null && seat.getRiddenByEntity() != null && !W_EntityPlayer.isPlayer(seat.getRiddenByEntity()) && !(seat.getRiddenByEntity() instanceof MCH_EntityGunner) && !(this.getSeatInfo(i + 1) instanceof MCH_SeatRackInfo)) {
                                 Entity entity = seat.getRiddenByEntity();
-                                Vec3d dropPos = this.getTransformedPosition(hook.pos, this.prevPosition.oldest());
+                                Vec3d dropPos = this.getTransformedPosition(hook.pos(), this.prevPosition.oldest());
                                 seat.posX = dropPos.x;
                                 seat.posY = dropPos.y - 2.0;
                                 seat.posZ = dropPos.z;
@@ -2091,9 +2030,7 @@ public abstract class MCH_EntityAircraft
             if (this.isParachuting) {
                 if (MCH_Lib.getBlockIdY(this, 3, -10) != 0) {
                     this.stopUnmountCrew();
-                } else if ((!this.haveHatch() || this.getHatchRotation() > 89.0F) &&
-                        this.getCountOnUpdate() % this.getAcInfo().mobDropOption.interval == 0 &&
-                        !this.unmountCrew(true)) {
+                } else if ((!this.haveHatch() || this.getHatchRotation() > 89.0F) && this.getCountOnUpdate() % this.getAcInfo().mobDropOption.interval == 0 && !this.unmountCrew(true)) {
                     this.stopUnmountCrew();
                 }
             }
@@ -2104,6 +2041,7 @@ public abstract class MCH_EntityAircraft
         Vec3d v = new Vec3d(this.posX, this.posY, this.posZ);
         if (this.getRidingEntity() instanceof MCH_EntitySeat) {
             MCH_EntityAircraft ac = ((MCH_EntitySeat) this.getRidingEntity()).getParent();
+            assert ac != null;
             MCH_SeatInfo seatInfo = ac.getSeatInfo(this);
             if (seatInfo instanceof MCH_SeatRackInfo) {
                 if (seatInfo.unmountPos != null) {
@@ -2117,9 +2055,9 @@ public abstract class MCH_EntityAircraft
             this.dismountedUserCtrl = true;
         }
 
-        this.setLocationAndAngles(v.x, v.y, v.z, this.getRotYaw(), this.getRotPitch());
+        this.setLocationAndAngles(v.x, v.y, v.z, this.getYaw(), this.getPitch());
         this.dismountRidingEntity();
-        this.setLocationAndAngles(v.x, v.y, v.z, this.getRotYaw(), this.getRotPitch());
+        this.setLocationAndAngles(v.x, v.y, v.z, this.getYaw(), this.getPitch());
     }
 
     public boolean canUnmount(Entity entity) {
@@ -2137,14 +2075,14 @@ public abstract class MCH_EntityAircraft
         final var info = getAcInfo();
         if (info == null) return;
 
-        final boolean repelling = canRepelling(entity) && info.haveRepellingHook();
+        final boolean repelling = canRepell() && info.haveRepellingHook();
         final boolean normalUnmount = !repelling && canUnmount(entity);
 
         if (!repelling && !normalUnmount) return;
 
         final MCH_EntitySeat seat = getSeatByEntity(entity);
         if (seat == null) {
-            MCH_Lib.Log(this, "Error:MCH_EntityAircraft.unmount seat=null : " + entity);
+            MCH_Logger.log(this, "Error:MCH_EntityAircraft.unmount seat=null : " + entity);
             return;
         }
 
@@ -2155,10 +2093,9 @@ public abstract class MCH_EntityAircraft
         if (repelling) {
             // Select next rope hook
             lastUsedRopeIndex = (lastUsedRopeIndex + 1) % info.repellingHooks.size();
-            hookPos = info.repellingHooks.get(lastUsedRopeIndex).pos;
+            hookPos = info.repellingHooks.get(lastUsedRopeIndex).pos();
 
-            dropPos = getTransformedPosition(hookPos, prevPosition.oldest())
-                    .add(0.0, -2.0, 0.0);
+            dropPos = getTransformedPosition(hookPos, prevPosition.oldest()).add(0.0, -2.0, 0.0);
 
         } else {
             MCH_SeatInfo seatInfo = getSeatInfo(seat.seatID + 1);
@@ -2188,18 +2125,9 @@ public abstract class MCH_EntityAircraft
         }
     }
 
-    public Vec3d findUnobstructedPos(@NotNull Entity entity, Vec3d desiredPos){
-        RayTraceResult result = world.rayTraceBlocks(entity.getPositionVector(), desiredPos);
-
-
-
-
-        return desiredPos;
-    }
 
     public boolean canParachute(Entity entity) {
-        if (this.getAcInfo() == null || !this.getAcInfo().isEnableParachuting || this.getSeatIdByEntity(entity) <= 1 ||
-                MCH_Lib.getBlockIdY(this, 3, -13) != 0) {
+        if (this.getAcInfo() == null || !this.getAcInfo().isEnableParachuting || this.getSeatIdByEntity(entity) <= 1 || MCH_Lib.getBlockIdY(this, 3, -13) != 0) {
             return false;
         } else {
             return this.getSeatIdByEntity(entity) > 1;
@@ -2207,8 +2135,7 @@ public abstract class MCH_EntityAircraft
     }
 
     public void onUpdate_RidingEntity() {
-        if (!this.world.isRemote && this.waitMountEntity == 0 && this.getCountOnUpdate() > 20 &&
-                this.canMountWithNearEmptyMinecart()) {
+        if (!this.world.isRemote && this.waitMountEntity == 0 && this.getCountOnUpdate() > 20 && this.canMountWithNearEmptyMinecart()) {
             this.mountWithNearEmptyMinecart();
         }
 
@@ -2217,8 +2144,8 @@ public abstract class MCH_EntityAircraft
         }
 
         if (!this.world.isRemote && this.getRidingEntity() != null) {
-            this.setRotRoll(this.getRotRoll() * 0.9F);
-            this.setRotPitch(this.getRotPitch() * 0.95F);
+            this.setRotRoll(this.getRoll() * 0.9F);
+            this.setRotPitch(this.getPitch() * 0.95F);
             Entity re = this.getRidingEntity();
             float target = MathHelper.wrapDegrees(re.rotationYaw + 90.0F);
             if (target - this.rotationYaw > 180.0F) {
@@ -2229,8 +2156,6 @@ public abstract class MCH_EntityAircraft
                 target += 360.0F;
             }
 
-            if (this.ticksExisted % 2 == 0) {
-            }
 
             float dist = 50.0F * (float) re.getDistanceSq(re.prevPosX, re.prevPosY, re.prevPosZ);
             if (dist > 0.001) {
@@ -2269,16 +2194,15 @@ public abstract class MCH_EntityAircraft
             exp = 15.0F;
         }
 
-        MCH_Lib.DbgLog(this.world, "OnGroundAfterDestroyed:motionY=%.3f", (float) prevMotionY);
-        MCH_Explosion.newExplosion(this.world, null, null, this.posX, this.posY, this.posZ, exp,
-                exp >= 2.0F ? exp * 0.5F : 1.0F, true, true, true, true, 5);
+        MCH_Logger.debugLog(this.world, "OnGroundAfterDestroyed:motionY=%.3f", (float) prevMotionY);
+        MCH_Explosion.newExplosion(this.world, null, null, this.posX, this.posY, this.posZ, exp, exp >= 2.0F ? exp * 0.5F : 1.0F, true, true, true, true, 5);
     }
 
     public void onUpdate_CollisionGroundDamage() {
         if (!this.isDestroyed()) {
             if (MCH_Lib.getBlockIdY(this, 3, -3) > 0 && !this.world.isRemote) {
-                float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRotRoll()));
-                float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getRotPitch()));
+                float roll = MathHelper.abs(MathHelper.wrapDegrees(this.getRoll()));
+                float pitch = MathHelper.abs(MathHelper.wrapDegrees(this.getPitch()));
                 if (roll > this.getGiveDamageRot() || pitch > this.getGiveDamageRot()) {
                     float dmg = MathHelper.abs(roll) + MathHelper.abs(pitch);
                     if (dmg < 90.0F) {
@@ -2293,11 +2217,7 @@ public abstract class MCH_EntityAircraft
                 }
             }
 
-            if (this.getCountOnUpdate() % 30 == 0 && (this.getAcInfo() == null || !this.getAcInfo().isFloat) &&
-                    MCH_Lib.isBlockInWater(
-                            this.world, (int) (this.posX + 0.5),
-                            (int) (this.posY + 1.5 + this.getAcInfo().submergedDamageHeight),
-                            (int) (this.posZ + 0.5))) {
+            if (this.getCountOnUpdate() % 30 == 0 && (this.getAcInfo() == null || !this.getAcInfo().isFloat) && MCH_Lib.isBlockInWater(this.world, (int) (this.posX + 0.5), (int) (this.posY + 1.5 + this.getAcInfo().submergedDamageHeight), (int) (this.posZ + 0.5))) {
                 int hp = this.getMaxHP() / 10;
                 if (hp <= 0) {
                     hp = 1;
@@ -2314,19 +2234,16 @@ public abstract class MCH_EntityAircraft
 
     public void applyServerPositionAndRotation() {
         double rpinc = this.aircraftPosRotInc;
-        double yaw = MathHelper.wrapDegrees(this.aircraftYaw - this.getRotYaw());
-        double roll = MathHelper.wrapDegrees(this.getServerRoll() - this.getRotRoll());
-        if (!this.isDestroyed() &&
-                (!W_Lib.isClientPlayer(this.getRiddenByEntity()) || this.getRidingEntity() != null)) {
-            this.setRotYaw((float) (this.getRotYaw() + yaw / rpinc));
-            this.setRotPitch((float) (this.getRotPitch() + (this.aircraftPitch - this.getRotPitch()) / rpinc));
-            this.setRotRoll((float) (this.getRotRoll() + roll / rpinc));
+        double yaw = MathHelper.wrapDegrees(this.aircraftYaw - this.getYaw());
+        double roll = MathHelper.wrapDegrees(this.getServerRoll() - this.getRoll());
+        if (!this.isDestroyed() && (!W_Lib.isClientPlayer(this.getRiddenByEntity()) || this.getRidingEntity() != null)) {
+            this.setRotYaw((float) (this.getYaw() + yaw / rpinc));
+            this.setRotPitch((float) (this.getPitch() + (this.aircraftPitch - this.getPitch()) / rpinc));
+            this.setRotRoll((float) (this.getRoll() + roll / rpinc));
         }
 
-        this.setPosition(
-                this.posX + (this.aircraftX - this.posX) / rpinc, this.posY + (this.aircraftY - this.posY) / rpinc,
-                this.posZ + (this.aircraftZ - this.posZ) / rpinc);
-        this.setRotation(this.getRotYaw(), this.getRotPitch());
+        this.setPosition(this.posX + (this.aircraftX - this.posX) / rpinc, this.posY + (this.aircraftY - this.posY) / rpinc, this.posZ + (this.aircraftZ - this.posZ) / rpinc);
+        this.setRotation(this.getYaw(), this.getPitch());
         this.aircraftPosRotInc--;
     }
 
@@ -2343,7 +2260,7 @@ public abstract class MCH_EntityAircraft
                     this.repairCount--;
                 } else {
                     this.repairCount = 40;
-                    double hpp = (double) (double) this.getHP() / this.getMaxHP();
+                    double hpp = (double) this.getHP() / this.getMaxHP();
                     if (hpp >= MCH_Config.AutoRepairHP.prmDouble) {
                         this.repair(this.getMaxHP() / 100);
                     }
@@ -2375,9 +2292,7 @@ public abstract class MCH_EntityAircraft
         float range = this.getAcInfo() != null ? this.getAcInfo().repairOtherVehiclesRange : 0.0F;
         if (!(range <= 0.0F)) {
             if (!this.world.isRemote && this.getCountOnUpdate() % 20 == 0) {
-                List<MCH_EntityAircraft> list = this.world
-                        .getEntitiesWithinAABB(MCH_EntityAircraft.class,
-                                this.getCollisionBoundingBox().grow(range, range, range));
+                List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(MCH_EntityAircraft.class, this.getCollisionBoundingBox().grow(range, range, range));
 
                 for (MCH_EntityAircraft ac : list) {
                     if (!W_Entity.isEqual(this, ac) && ac.getHP() < ac.getMaxHP()) {
@@ -2400,8 +2315,7 @@ public abstract class MCH_EntityAircraft
                             if (W_Lib.isEntityLivingBase(e) && !e.isDead) {
                                 PotionEffect pe = W_Entity.getActivePotionEffect(e, MobEffects.REGENERATION);
                                 if (pe == null || pe.getDuration() < 500) {
-                                    W_Entity.addPotionEffect(e,
-                                            new PotionEffect(MobEffects.REGENERATION, 250, 0, true, true));
+                                    W_Entity.addPotionEffect(e, new PotionEffect(MobEffects.REGENERATION, 250, 0, true, true));
                                 }
                             }
                         }
@@ -2412,34 +2326,37 @@ public abstract class MCH_EntityAircraft
     }
 
     public double getWaterDepth() {
-        byte b0 = 5;
-        double d0 = 0.0;
+        final int samples = 5;
+        final double sampleOffset = -0.125;
 
-        for (int i = 0; i < b0; i++) {
-            double d1 = this.getEntityBoundingBox().minY +
-                    (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) * (i) / b0 - 0.125;
-            double d2 = this.getEntityBoundingBox().minY +
-                    (this.getEntityBoundingBox().maxY - this.getEntityBoundingBox().minY) * (i + 1) / b0 - 0.125;
-            d1 += this.getAcInfo().floatOffset;
-            d2 += this.getAcInfo().floatOffset;
-            AxisAlignedBB axisalignedbb = W_AxisAlignedBB.getAABB(
-                    this.getEntityBoundingBox().minX, d1, this.getEntityBoundingBox().minZ,
-                    this.getEntityBoundingBox().maxX, d2, this.getEntityBoundingBox().maxZ);
-            if (this.world.isMaterialInBB(axisalignedbb, Material.WATER)) {
-                d0 += 1.0 / b0;
+        AxisAlignedBB box = getEntityBoundingBox();
+        double height = box.maxY - box.minY;
+        double depth = 0.0;
+
+        MCH_AircraftInfo info = getAcInfo();
+        if (info == null) {
+            return 0.0;
+        }
+
+        double floatOffset = info.floatOffset;
+
+        for (int i = 0; i < samples; i++) {
+            double yMin = box.minY + height * i / samples + sampleOffset + floatOffset;
+            double yMax = box.minY + height * (i + 1) / samples + sampleOffset + floatOffset;
+
+            AxisAlignedBB slice = W_AxisAlignedBB.getAABB(box.minX, yMin, box.minZ, box.maxX, yMax, box.maxZ);
+
+            if (world.isMaterialInBB(slice, Material.WATER)) {
+                depth += 1.0 / samples;
             }
         }
 
-        return d0;
+        return depth;
     }
 
-    public int getCountOnUpdate() {
-        return this.countOnUpdate;
-    }
 
     public boolean canSupply() {
-        return this.canFloatWater() ? MCH_Lib.getBlockIdY(this, 1, -3) != 0 :
-                MCH_Lib.getBlockIdY(this, 1, -3) != 0 && !this.isInWater();
+        return this.canFloatWater() ? MCH_Lib.getBlockIdY(this, 1, -3) != 0 : MCH_Lib.getBlockIdY(this, 1, -3) != 0 && !this.isInWater();
     }
 
     public int getFuel() {
@@ -2447,29 +2364,60 @@ public abstract class MCH_EntityAircraft
     }
 
     public void setFuel(int fuel) {
-        if (!this.world.isRemote) {
-            if (fuel < 0) {
-                fuel = 0;
-            }
-
-            if (fuel > this.getMaxFuel()) {
-                fuel = this.getMaxFuel();
-            }
-
-            if (fuel != this.getFuel()) {
-                this.dataManager.set(FUEL, fuel);
-            }
-        }
+        if (this.world.isRemote) return;
+        if (fuel < 0) fuel = 0;
+        if (fuel > this.getMaxFuel()) fuel = this.getMaxFuel();
+        if (fuel != this.getFuel()) this.dataManager.set(FUEL, fuel);
     }
 
-    public float getFuelP() {
+    @Nullable
+    public FluidStack getFuelStack() {
+        if (this.getFuel() == 0 || getFuelType().isEmpty()) return null;
+
+        if (!FluidRegistry.isFluidRegistered(getFuelType())) {
+            MCH_Logger.warn("Fluid: {} does not exist, make sure required fluids do exist. Fluid will be cleared");
+            return null;
+        }
+        return new FluidStack(FluidRegistry.getFluid(getFuelType()), getFuel());
+    }
+
+    @Nullable
+    public Fluid getFuelFluid() {
+        if (getFuel() < 0)
+            return null;
+        String fluidName = getFuelType();
+
+        var fluid = fluidName.isBlank() ? null : FluidRegistry.getFluid(fluidName);
+        if (fluid == null) {
+            MCH_Logger.warn("Retrieved fluid: {} does not exist, make sure required fluids do exist.", fluidName);
+        }
+
+        return fluid;
+    }
+
+    public String getFuelType() {
+        return this.dataManager.get(FUEL_FF);
+    }
+
+    public void setFuelType(String name) {
+        if (!name.isBlank() && FluidRegistry.getFluid(name) == null) {
+            MCH_Logger.warn("Set fluid: {} does not exist, make sure required fluids do exist. Fluid will be set to default", name);
+            this.dataManager.set(FUEL_FF, "mch_fuel");
+        } else this.dataManager.set(FUEL_FF, name);
+    }
+
+    public void setFuelType(Fluid fluid) {
+        if (fluid == null) return;
+        this.dataManager.set(FUEL_FF, fluid.getName());
+    }
+
+    public float getFuelPercentage() {
         int m = this.getMaxFuel();
         return m == 0 ? 0.0F : (float) this.getFuel() / m;
     }
 
     public boolean canUseFuel(boolean checkOtherSeet) {
-        return this.getMaxFuel() <= 0 || this.getFuel() > 1 ||
-                this.isInfinityFuel(this.getRiddenByEntity(), checkOtherSeet);
+        return this.getMaxFuel() <= 0 || this.getFuel() > 1 || this.isInfinityFuel(this.getRiddenByEntity(), checkOtherSeet);
     }
 
     public boolean canUseFuel() {
@@ -2481,95 +2429,179 @@ public abstract class MCH_EntityAircraft
     }
 
     public void supplyFuel() {
-        float range = this.getAcInfo() != null ? this.getAcInfo().fuelSupplyRange : 0.0F;
-        if (!(range <= 0.0F)) {
-            if (!this.world.isRemote && this.getCountOnUpdate() % 10 == 0) {
-                List<MCH_EntityAircraft> list = this.world
-                        .getEntitiesWithinAABB(MCH_EntityAircraft.class,
-                                this.getCollisionBoundingBox().grow(range, range, range));
+        MCH_AircraftInfo info = this.getAcInfo();
+        if (info == null || info.fuelSupplyRange <= 0.0F) return;
+        if (this.world.isRemote || this.getCountOnUpdate() % 10 != 0) return;
 
-                for (MCH_EntityAircraft ac : list) {
-                    if (!W_Entity.isEqual(this, ac)) {
-                        if ((!this.onGround || ac.canSupply()) && ac.getFuel() < ac.getMaxFuel()) {
-                            int fc = ac.getMaxFuel() - ac.getFuel();
-                            if (fc > 30) {
-                                fc = 30;
-                            }
+        Fluid fluid;
+        if (info.fuelSupplyInfinite) {
+            fluid = FluidRegistry.getFluid(info.fuelSupplyType);
+        } else {
+            fluid = this.getFuelFluid();
+        }
 
-                            ac.setFuel(ac.getFuel() + fc);
-                        }
+        if (fluid == null) return;
+        if (!info.fuelSupplyInfinite && this.getFuel() <= 0) return;
 
-                        ac.fuelSuppliedCount = 40;
+        float range = info.fuelSupplyRange;
+        List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(
+                MCH_EntityAircraft.class,
+                this.getCollisionBoundingBox().grow(range, range, range)
+        );
+
+        for (MCH_EntityAircraft ac : list) {
+            if (W_Entity.isEqual(this, ac)) continue;
+
+            if (ac.canAcceptFuel(fluid)) {
+                if ((!this.onGround || ac.canSupply()) && ac.getFuel() < ac.getMaxFuel()) {
+                    int amount = Math.min(ac.getMaxFuel() - ac.getFuel(), 30);
+
+                    if (ac.getFuel() <= 0) {
+                        ac.setFuelType(fluid);
+                    }
+
+                    ac.setFuel(ac.getFuel() + amount);
+
+                    if (!info.fuelSupplyInfinite) {
+                        this.setFuel(Math.max(0, this.getFuel() - amount));
                     }
                 }
+                ac.fuelSuppliedCount = 40;
             }
         }
+    }
+
+    public boolean canAcceptFuel(Fluid fluid) {
+        var info = getAcInfo();
+        if (info == null || fluid == null) return false;
+
+        if (!info.isFuelValid(new FluidStack(fluid, 1))) return false;
+
+        Fluid currentType = getFuelFluid();
+        return getFuel() <= 0 || currentType == null || currentType == fluid;
     }
 
     public void updateFuel() {
-        if (this.getMaxFuel() != 0) {
-            if (this.fuelSuppliedCount > 0) {
-                this.fuelSuppliedCount--;
+        if (getMaxFuel() == 0 || isDestroyed() || world.isRemote) return;
+
+        if (fuelSuppliedCount > 0) fuelSuppliedCount--;
+
+        //Consumption Logic
+        if (getCountOnUpdate() % 20 == 0 && getFuel() > 1 && getThrottle() > 0.0 && fuelSuppliedCount <= 0) {
+            var acInfo = getAcInfo();
+            if (acInfo != null) {
+                double throttleFactor = Math.min(getThrottle() * 1.4, 1.0);
+                fuelConsumption += throttleFactor * acInfo.fuelConsumption * getFuelConsumptionFactor();
+
+                if (fuelConsumption > 1.0) {
+                    int toConsume = (int) fuelConsumption;
+                    fuelConsumption -= toConsume;
+                    setFuel(getFuel() - toConsume);
+                }
+            }
+        }
+
+        //Refueling Logic
+        int currentFuel = getFuel();
+        int maxFuel = getMaxFuel();
+
+        if (canSupply() && getCountOnUpdate() % 10 == 0 && currentFuel < maxFuel) {
+            MCH_AircraftInventory inventory = getGuiInventory();
+            ItemStack inputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_IN);
+            if (inputStack.isEmpty()) return;
+
+            if (inputStack.getItem() instanceof MCH_ItemFuel) {
+                handleItemFuelRefuel(inventory, inputStack, currentFuel, maxFuel);
+                return;
             }
 
-            if (!this.isDestroyed() && !this.world.isRemote) {
-                if (this.getCountOnUpdate() % 20 == 0 && this.getFuel() > 1 && this.getThrottle() > 0.0 &&
-                        this.fuelSuppliedCount <= 0) {
-                    double t = this.getThrottle() * 1.4;
-                    if (t > 1.0) {
-                        t = 1.0;
-                    }
+            IFluidHandlerItem handler = inputStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+            if (handler == null) return;
 
-                    this.fuelConsumption = this.fuelConsumption +
-                            t * this.getAcInfo().fuelConsumption * this.getFuelConsumptionFactor();
-                    if (this.fuelConsumption > 1.0) {
-                        int f = (int) this.fuelConsumption;
-                        this.fuelConsumption -= f;
-                        this.setFuel(this.getFuel() - f);
-                    }
-                }
+            IFluidTankProperties tank = Arrays.stream(handler.getTankProperties())
+                    .filter(p -> p.canDrain() && p.getContents() != null && canAcceptFuel(p.getContents().getFluid()))
+                    .findFirst().orElse(null);
 
-                int curFuel = this.getFuel();
-                if (this.canSupply() && this.getCountOnUpdate() % 10 == 0 && curFuel < this.getMaxFuel()) {
-                    for (int i = 0; i < 3; i++) {
-                        if (curFuel < this.getMaxFuel()) {
-                            ItemStack fuel = this.getGuiInventory().getFuelSlotItemStack(i);
-                            if (!fuel.isEmpty() && fuel.getItem() instanceof MCH_ItemFuel &&
-                                    fuel.getMetadata() < fuel.getMaxDamage()) {
-                                int fc = this.getMaxFuel() - curFuel;
-                                if (fc > 100) {
-                                    fc = 100;
-                                }
+            if (tank == null) return;
 
-                                if (fuel.getMetadata() > fuel.getMaxDamage() - fc) {
-                                    fc = fuel.getMaxDamage() - fuel.getMetadata();
-                                }
+            int fuelNeeded = maxFuel - currentFuel;
+            Fluid fluid = tank.getContents().getFluid();
 
-                                fuel.setItemDamage(fuel.getMetadata() + fc);
-                                curFuel += fc;
-                            }
-                        }
-                    }
+            FluidStack drained = handler.drain(new FluidStack(fluid, fuelNeeded), true);
+            if (drained == null || drained.amount <= 0) return;
 
-                    if (this.getFuel() != curFuel && this.getRiddenByEntity() instanceof EntityPlayerMP) {
-                        MCH_CriteriaTriggers.SUPPLY_FUEL.trigger((EntityPlayerMP) this.getRiddenByEntity());
-                    }
+            ItemStack emptyContainer = handler.getContainer();
+            ItemStack outputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_OUT);
 
-                    this.setFuel(curFuel);
-                }
+            if (manageOutputSlot(inventory, outputStack, emptyContainer)) {
+                inputStack.shrink(1);
+                setFuelType(fluid);
+                setFuel(currentFuel + drained.amount);
+                triggerRefuelCriteria();
             }
         }
     }
 
+    private void handleItemFuelRefuel(MCH_AircraftInventory inventory, ItemStack stack, int current, int max) {
+        Fluid fuelType = FluidRegistry.getFluid("mch_fuel");
+        if (!canAcceptFuel(fuelType)) return;
+
+        int fuelInItem = stack.getMaxDamage() - stack.getItemDamage();
+        if (fuelInItem <= 0) return;
+
+        int needed = max - current;
+        int toTransfer = Math.min(needed, fuelInItem);
+
+        stack.setItemDamage(stack.getItemDamage() + toTransfer);
+        setFuelType(fuelType);
+        setFuel(current + toTransfer);
+
+        if (stack.getItemDamage() >= stack.getMaxDamage()) {
+            ItemStack empty = new ItemStack(stack.getItem());
+            empty.setItemDamage(stack.getMaxDamage());
+
+            ItemStack outputStack = inventory.getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_OUT);
+            if (manageOutputSlot(inventory, outputStack, empty)) {
+                stack.shrink(1);
+            }
+        }
+        triggerRefuelCriteria();
+    }
+
+    private void triggerRefuelCriteria() {
+        if (getRiddenByEntity() instanceof EntityPlayerMP player) {
+            MCH_CriteriaTriggers.SUPPLY_FUEL.trigger(player);
+        }
+    }
+
+    private boolean manageOutputSlot(MCH_AircraftInventory inv, ItemStack out, ItemStack container) {
+        if (out.isEmpty()) {
+            inv.getItemHandler().setStackInSlot(MCH_AircraftInventory.SLOT_FUEL_OUT, container.copy());
+            return true;
+        }
+        if (ItemStack.areItemsEqual(out, container) && ItemStack.areItemStackTagsEqual(out, container)
+                && out.getCount() < out.getMaxStackSize()) {
+            out.grow(container.getCount());
+            return true;
+        }
+        return false;
+    }
+
+    public void dumpFuel() {
+        if (world.isRemote) return;
+        this.dataManager.set(FUEL, 0);
+        this.dataManager.set(FUEL_FF, "");
+    }
+
     public float getFuelConsumptionFactor() {
-        return 1.0F;
+        var ac = getAcInfo();
+        if (ac == null) return 1F;
+        return ac.getFuelConsumption(this.getFuelType());
     }
 
     public void updateSupplyAmmo() {
         if (!this.world.isRemote) {
-            boolean isReloading = this.getRiddenByEntity() instanceof EntityPlayer &&
-                    !this.getRiddenByEntity().isDead &&
-                    ((EntityPlayer) this.getRiddenByEntity()).openContainer instanceof MCH_AircraftGuiContainer;
+            boolean isReloading = this.getRiddenByEntity() instanceof EntityPlayer && !this.getRiddenByEntity().isDead && ((EntityPlayer) this.getRiddenByEntity()).openContainer instanceof MCH_AircraftGuiContainer;
 
             this.setCommonStatus(2, isReloading);
             if (!this.isDestroyed() && this.beforeSupplyAmmo && !isReloading) {
@@ -2590,8 +2622,12 @@ public abstract class MCH_EntityAircraft
     }
 
     public void supplyAmmo(int weaponID) {
+        supplyAmmo(this.getWeapon(weaponID))
+        ;
+    }
+
+    public void supplyAmmo(MCH_WeaponSet ws) {
         if (this.world.isRemote) {
-            MCH_WeaponSet ws = this.getWeapon(weaponID);
             ws.supplyRestAllAmmo();
         } else {
             if (this.getRiddenByEntity() instanceof EntityPlayerMP) {
@@ -2599,8 +2635,7 @@ public abstract class MCH_EntityAircraft
             }
 
             if (this.getRiddenByEntity() instanceof EntityPlayer player) {
-                if (this.canPlayerSupplyAmmo(player, weaponID)) {
-                    MCH_WeaponSet ws = this.getWeapon(weaponID);
+                if (this.canPlayerSupplyAmmo(player, ws)) {
 
                     for (MCH_WeaponInfo.RoundItem ri : ws.getInfo().roundItems) {
                         int num = ri.num;
@@ -2608,8 +2643,7 @@ public abstract class MCH_EntityAircraft
                         for (int i = 0; i < player.inventory.mainInventory.size(); i++) {
                             ItemStack itemStack = player.inventory.mainInventory.get(i);
                             if (!itemStack.isEmpty() && itemStack.isItemEqual(ri.itemStack)) {
-                                if (itemStack.getItem() != W_Item.getItemByName("water_bucket") &&
-                                        itemStack.getItem() != W_Item.getItemByName("lava_bucket")) {
+                                if (itemStack.getItem() != W_Item.getItemByName("water_bucket") && itemStack.getItem() != W_Item.getItemByName("lava_bucket")) {
                                     if (itemStack.getCount() > num) {
                                         itemStack.shrink(num);
                                         num = 0;
@@ -2619,8 +2653,7 @@ public abstract class MCH_EntityAircraft
                                         player.inventory.mainInventory.set(i, ItemStack.EMPTY);
                                     }
                                 } else if (itemStack.getCount() == 1) {
-                                    player.inventory.setInventorySlotContents(i,
-                                            new ItemStack(W_Item.getItemByName("bucket"), 1));
+                                    player.inventory.setInventorySlotContents(i, new ItemStack(W_Item.getItemByName("bucket"), 1));
                                     num--;
                                 }
                             }
@@ -2641,25 +2674,23 @@ public abstract class MCH_EntityAircraft
         float range = this.getAcInfo() != null ? this.getAcInfo().ammoSupplyRange : 0.0F;
         if (!(range <= 0.0F)) {
             if (!this.world.isRemote && this.getCountOnUpdate() % 40 == 0) {
-                List<MCH_EntityAircraft> list = this.world
-                        .getEntitiesWithinAABB(MCH_EntityAircraft.class,
-                                this.getCollisionBoundingBox().grow(range, range, range));
+                List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(MCH_EntityAircraft.class, this.getCollisionBoundingBox().grow(range, range, range));
 
                 for (MCH_EntityAircraft ac : list) {
                     if (!W_Entity.isEqual(this, ac) && ac.canSupply()) {
                         for (int wid = 0; wid < ac.getWeaponNum(); wid++) {
                             MCH_WeaponSet ws = ac.getWeapon(wid);
-                            int num = ws.getRestAllAmmoNum() + ws.getAmmoNum();
-                            if (num < ws.getAllAmmoNum()) {
-                                int ammo = ws.getAllAmmoNum() / 10;
+                            int num = ws.getRestAllAmmoNum() + ws.getAmmo();
+                            if (num < ws.getMaxAmmo()) {
+                                int ammo = ws.getMaxAmmo() / 10;
                                 if (ammo < 1) {
                                     ammo = 1;
                                 }
 
-                                ws.setRestAllAmmoNum(num + ammo);
+                                ws.setReserveAmmo(num + ammo);
                                 EntityPlayer player = ac.getEntityByWeaponId(wid);
-                                if (num != ws.getRestAllAmmoNum() + ws.getAmmoNum()) {
-                                    if (ws.getAmmoNum() <= 0) {
+                                if (num != ws.getRestAllAmmoNum() + ws.getAmmo()) {
+                                    if (ws.getAmmo() <= 0) {
                                         ws.reloadMag();
                                     }
 
@@ -2674,48 +2705,66 @@ public abstract class MCH_EntityAircraft
     }
 
     public boolean canPlayerSupplyAmmo(EntityPlayer player, int weaponId) {
-        if (MCH_Lib.getBlockIdY(this, 1, -3) == 0) {
+        return canPlayerSupplyAmmo(player, this.getWeapon(weaponId));
+    }
+
+    public boolean canPlayerSupplyAmmo(EntityPlayer player, MCH_WeaponSet ws) {
+        if (!canSupply() || ws.getRestAllAmmoNum() + ws.getAmmo() >= ws.getMaxAmmo())
             return false;
-        } else if (!this.canSupply()) {
-            return false;
-        } else {
-            MCH_WeaponSet ws = this.getWeapon(weaponId);
-            if (ws.getRestAllAmmoNum() + ws.getAmmoNum() >= ws.getAllAmmoNum()) {
-                return false;
-            } else {
-                for (MCH_WeaponInfo.RoundItem ri : ws.getInfo().roundItems) {
-                    int num = ri.num;
+        for (MCH_WeaponInfo.RoundItem ri : ws.getInfo().roundItems) {
+            int num = ri.num;
 
-                    for (ItemStack itemStack : player.inventory.mainInventory) {
-                        if (!itemStack.isEmpty() && itemStack.isItemEqual(ri.itemStack)) {
-                            num -= itemStack.getCount();
-                        }
-
-                        if (num <= 0) {
-                            break;
-                        }
-                    }
-
-                    if (num > 0) {
-                        return false;
-                    }
+            for (ItemStack itemStack : player.inventory.mainInventory) {
+                if (!itemStack.isEmpty() && itemStack.isItemEqual(ri.itemStack)) {
+                    num -= itemStack.getCount();
                 }
 
-                return true;
+                if (num <= 0) {
+                    break;
+                }
+            }
+
+            if (num > 0) {
+                return false;
             }
         }
+
+        return true;
+    }
+
+    public List<ItemStack> getMissingAmmo(EntityPlayer player, MCH_WeaponSet ws) {
+        List<ItemStack> missingStacks = new ArrayList<>();
+
+
+        for (MCH_WeaponInfo.RoundItem ri : ws.getInfo().roundItems) {
+            int needed = ri.num;
+
+            for (ItemStack itemStack : player.inventory.mainInventory) {
+                if (!itemStack.isEmpty() && itemStack.isItemEqual(ri.itemStack)) {
+                    needed -= itemStack.getCount();
+                }
+                if (needed <= 0) break;
+            }
+
+            if (needed > 0) {
+                ItemStack missing = ri.itemStack.copy();
+                missing.setCount(needed);
+                missingStacks.add(missing);
+            }
+        }
+
+        return missingStacks;
     }
 
     public String getTextureName() {
         return this.dataManager.get(TEXTURE_NAME);
     }
 
-    public MCH_EntityAircraft setTextureName(@Nullable String name) {
+    public void setTextureName(@Nullable String name) {
         if (name != null && !name.isEmpty()) {
             this.dataManager.set(TEXTURE_NAME, name);
         }
 
-        return this;
     }
 
     public void switchNextTextureName() {
@@ -2760,10 +2809,6 @@ public abstract class MCH_EntityAircraft
         return this.camera.getMode(this.getSeatIdByEntity(player));
     }
 
-    public String getCameraModeName(EntityPlayer player) {
-        return this.camera.getModeName(this.getSeatIdByEntity(player));
-    }
-
     public void switchCameraMode(EntityPlayer player) {
         this.switchCameraMode(player, this.camera.getMode(this.getSeatIdByEntity(player)) + 1);
     }
@@ -2789,10 +2834,6 @@ public abstract class MCH_EntityAircraft
                 this.entityRadar.updateXZ(this, 64);
             }
         }
-    }
-
-    public int getRadarRotate() {
-        return this.radarRotate;
     }
 
     public void initRadar() {
@@ -2859,8 +2900,7 @@ public abstract class MCH_EntityAircraft
                 this.setEntityBoundingBox(oldBoundingBox);
 
                 moveY = this.stepHeight;
-                List<AxisAlignedBB> stepCollisionBoxes = getCollisionBoxes(this,
-                        oldBoundingBox.expand(originalX, moveY, originalZ));
+                List<AxisAlignedBB> stepCollisionBoxes = getCollisionBoxes(this, oldBoundingBox.expand(originalX, moveY, originalZ));
 
                 AxisAlignedBB stepAttemptBB1 = this.getEntityBoundingBox().expand(originalX, 0.0, originalZ);
                 double stepYOffset1 = moveY;
@@ -2947,8 +2987,7 @@ public abstract class MCH_EntityAircraft
                 BlockPos belowPos = pos.down();
                 IBlockState belowState = this.world.getBlockState(belowPos);
                 Block belowBlock = belowState.getBlock();
-                if (belowBlock instanceof BlockFence || belowBlock instanceof BlockWall ||
-                        belowBlock instanceof BlockFenceGate) {
+                if (belowBlock instanceof BlockFence || belowBlock instanceof BlockWall || belowBlock instanceof BlockFenceGate) {
                     state = belowState;
                     pos = belowPos;
                 }
@@ -3014,9 +3053,9 @@ public abstract class MCH_EntityAircraft
     public void onUpdate_ParticleSmoke() {
         if (this.world.isRemote) {
             if (!(this.getCurrentThrottle() <= 0.1F)) {
-                float yaw = this.getRotYaw();
-                float pitch = this.getRotPitch();
-                float roll = this.getRotRoll();
+                float yaw = this.getYaw();
+                float pitch = this.getPitch();
+                float roll = this.getRoll();
                 MCH_WeaponSet ws = this.getCurrentWeapon(this.getRiddenByEntity());
                 if (ws.getFirstWeapon() instanceof MCH_WeaponSmoke) {
                     for (int i = 0; i < ws.getWeaponsCount(); i++) {
@@ -3024,8 +3063,7 @@ public abstract class MCH_EntityAircraft
                         if (wb != null) {
                             MCH_WeaponInfo wi = wb.getInfo();
                             if (wi != null) {
-                                Vec3d rot = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw - 180.0F + wb.fixRotationYaw,
-                                        pitch - wb.fixRotationPitch, roll);
+                                Vec3d rot = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw - 180.0F + wb.fixRotationYaw, pitch - wb.fixRotationPitch, roll);
                                 if (this.rand.nextFloat() <= this.getCurrentThrottle() * 1.5) {
                                     Vec3d pos = MCH_Lib.RotVec3(wb.position, -yaw, -pitch, -roll);
                                     double x = this.posX + pos.x + rot.x;
@@ -3036,13 +3074,9 @@ public abstract class MCH_EntityAircraft
                                         float c = this.rand.nextFloat() * 0.05F;
                                         int maxAge = (int) (this.rand.nextDouble() * wi.smokeMaxAge);
                                         MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", x, y, z);
-                                        prm.setMotion(
-                                                rot.x * wi.acceleration + (this.rand.nextDouble() - 0.5) * 0.2,
-                                                rot.y * wi.acceleration + (this.rand.nextDouble() - 0.5) * 0.2,
-                                                rot.z * wi.acceleration + (this.rand.nextDouble() - 0.5) * 0.2);
+                                        prm.setMotion(rot.x * wi.acceleration + (this.rand.nextDouble() - 0.5) * 0.2, rot.y * wi.acceleration + (this.rand.nextDouble() - 0.5) * 0.2, rot.z * wi.acceleration + (this.rand.nextDouble() - 0.5) * 0.2);
                                         prm.size = (this.rand.nextInt(5) + 5.0F) * wi.smokeSize;
-                                        prm.setColor(wi.color.a + this.rand.nextFloat() * 0.05F, wi.color.r + c,
-                                                wi.color.g + c, wi.color.b + c);
+                                        prm.setColor(wi.color.a + this.rand.nextFloat() * 0.05F, wi.color.r + c, wi.color.g + c, wi.color.b + c);
                                         prm.age = maxAge;
                                         prm.toWhite = true;
                                         prm.diffusible = true;
@@ -3058,7 +3092,7 @@ public abstract class MCH_EntityAircraft
     }
 
     protected void onUpdate_ParticleSandCloud(boolean seaOnly) {
-        if (!seaOnly || this.getAcInfo().enableSeaSurfaceParticle) {
+        if (this.getAcInfo() != null && (!seaOnly || this.getAcInfo().enableSeaSurfaceParticle)) {
             double particlePosY = (int) this.posY;
             boolean b = false;
             float scale = this.getAcInfo().particlesScale * 3.0F;
@@ -3079,8 +3113,7 @@ public abstract class MCH_EntityAircraft
             for (y = 0; y < rangeY && !b; y++) {
                 for (int x = -1; x <= 1; x++) {
                     for (int z = -1; z <= 1; z++) {
-                        Block block = W_WorldFunc.getBlock(this.world, (int) (this.posX + 0.5) + x,
-                                (int) (this.posY + 0.5) - y, (int) (this.posZ + 0.5) + z);
+                        Block block = W_WorldFunc.getBlock(this.world, (int) (this.posX + 0.5) + x, (int) (this.posY + 0.5) - y, (int) (this.posZ + 0.5) + z);
                         if (!b && !Block.isEqualTo(block, Blocks.AIR)) {
                             if (seaOnly && W_Block.isEqual(block, W_Block.getWater())) {
                                 count--;
@@ -3103,16 +3136,7 @@ public abstract class MCH_EntityAircraft
                     float r = (float) (this.rand.nextDouble() * Math.PI * 2.0);
                     double dx = MathHelper.cos(r);
                     double dz = MathHelper.sin(r);
-                    MCH_ParticleParam prm = new MCH_ParticleParam(
-                            this.world,
-                            "smoke",
-                            this.posX + dx * scale * 3.0,
-                            particlePosY + (this.rand.nextDouble() - 0.5) * scale,
-                            this.posZ + dz * scale * 3.0,
-                            scale * (dx * 0.3),
-                            scale * -0.4 * 0.05,
-                            scale * (dz * 0.3),
-                            scale * 5.0F);
+                    MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", this.posX + dx * scale * 3.0, particlePosY + (this.rand.nextDouble() - 0.5) * scale, this.posZ + dz * scale * 3.0, scale * (dx * 0.3), scale * -0.4 * 0.05, scale * (dz * 0.3), scale * 5.0F);
                     prm.setColor(prm.a * 0.6F, prm.r, prm.g, prm.b);
                     prm.age = (int) (10.0F * scale);
                     prm.motionYUpAge = seaOnly ? 0.2F : 0.1F;
@@ -3130,7 +3154,7 @@ public abstract class MCH_EntityAircraft
         return par1Entity.getEntityBoundingBox();
     }
 
-    public AxisAlignedBB getCollisionBoundingBox() {
+    public @NotNull AxisAlignedBB getCollisionBoundingBox() {
         return this.getEntityBoundingBox();
     }
 
@@ -3164,11 +3188,17 @@ public abstract class MCH_EntityAircraft
     }
 
     public int getCurrentFlareType() {
-        return !this.haveFlare() ? 0 : this.getAcInfo().flare.types[this.currentFlareIndex];
+        if (!this.haveFlare()) {
+            return 0;
+        } else {
+            assert this.getAcInfo() != null;
+            return this.getAcInfo().flare.types[this.currentFlareIndex];
+        }
     }
 
     public void nextFlareType() {
         if (this.haveFlare()) {
+            assert this.getAcInfo() != null;
             this.currentFlareIndex = (this.currentFlareIndex + 1) % this.getAcInfo().flare.types.length;
         }
     }
@@ -3195,10 +3225,6 @@ public abstract class MCH_EntityAircraft
 
     public boolean haveFlare() {
         return this.getAcInfo() != null && this.getAcInfo().haveFlare();
-    }
-
-    public boolean haveFlare(int seatID) {
-        return this.haveFlare() && seatID >= 0 && seatID <= 1;
     }
 
     public MCH_EntitySeat[] getSeats() {
@@ -3298,10 +3324,10 @@ public abstract class MCH_EntityAircraft
 
     public void setSeat(int idx, MCH_EntitySeat seat) {
         if (idx < this.seats.length) {
-            MCH_Lib.DbgLog(
-                    this.world, "MCH_EntityAircraft.setSeat SeatID=" + idx + " / seat[]" + (this.seats[idx] != null) +
-                            " / " + (seat.getRiddenByEntity() != null));
-            if (this.seats[idx] != null && this.seats[idx].getRiddenByEntity() != null) {
+            String format = "MCH_EntityAircraft.setSeat SeatID=" + idx + " / seat[]" + (this.seats[idx] != null) + " / " + (seat.getRiddenByEntity() != null);
+            MCH_Logger.debugLog(this.world, format);
+            if (this.seats[idx] != null) {
+                this.seats[idx].getRiddenByEntity();
             }
 
             this.seats[idx] = seat;
@@ -3324,13 +3350,12 @@ public abstract class MCH_EntityAircraft
             this.pilotSeat.prevPosZ = this.pilotSeat.posZ;
             this.pilotSeat.setPosition(px, py, pz);
             if (info != null && info.length > 0 && info[0] != null) {
-                Vec3d v = this.getTransformedPosition(info[0].pos.x, info[0].pos.y, info[0].pos.z, px, py, pz,
-                        info[0].rotSeat);
+                Vec3d v = this.getTransformedPosition(info[0].pos.x, info[0].pos.y, info[0].pos.z, px, py, pz, info[0].rotSeat);
                 this.pilotSeat.setPosition(v.x, v.y, v.z);
             }
 
-            this.pilotSeat.rotationPitch = this.getRotPitch();
-            this.pilotSeat.rotationYaw = this.getRotYaw();
+            this.pilotSeat.rotationPitch = this.getPitch();
+            this.pilotSeat.rotationYaw = this.getYaw();
             if (setPrevPos) {
                 this.pilotSeat.prevPosX = this.pilotSeat.posX;
                 this.pilotSeat.prevPosY = this.pilotSeat.posY;
@@ -3344,9 +3369,7 @@ public abstract class MCH_EntityAircraft
             i++;
             if (seat != null && !seat.isDead) {
                 float offsetY = -0.5F;
-                if (seat.getRiddenByEntity() != null && !W_Lib.isClientPlayer(seat.getRiddenByEntity()) &&
-                        seat.getRiddenByEntity().height >= 1.0F) {
-                }
+
 
                 seat.prevPosX = seat.posX;
                 seat.prevPosY = seat.posY;
@@ -3354,8 +3377,8 @@ public abstract class MCH_EntityAircraft
                 MCH_SeatInfo si = i < info.length ? info[i] : info[0];
                 Vec3d v = this.getTransformedPosition(si.pos.x, si.pos.y + offsetY, si.pos.z, px, py, pz, si.rotSeat);
                 seat.setPosition(v.x, v.y, v.z);
-                seat.rotationPitch = this.getRotPitch();
-                seat.rotationYaw = this.getRotYaw();
+                seat.rotationPitch = this.getPitch();
+                seat.rotationYaw = this.getYaw();
                 if (setPrevPos) {
                     seat.prevPosX = seat.posX;
                     seat.prevPosY = seat.posY;
@@ -3363,7 +3386,7 @@ public abstract class MCH_EntityAircraft
                 }
 
                 if (si instanceof MCH_SeatRackInfo) {
-                    seat.updateRotation(seat.getRiddenByEntity(), si.fixYaw + this.getRotYaw(), si.fixPitch);
+                    seat.updateRotation(seat.getRiddenByEntity(), si.fixYaw + this.getYaw(), si.fixPitch);
                 }
 
                 seat.updatePosition(seat.getRiddenByEntity());
@@ -3376,8 +3399,7 @@ public abstract class MCH_EntityAircraft
     }
 
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9,
-                                             boolean teleport) {
+    public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9, boolean teleport) {
         this.aircraftPosRotInc = par9 + this.getClientPositionDelayCorrection();
         this.aircraftX = par1;
         this.aircraftY = par3;
@@ -3393,13 +3415,10 @@ public abstract class MCH_EntityAircraft
         MCH_SeatInfo[] info = this.getSeatsInfo();
         if (this.isPassenger(passenger) && !passenger.isDead) {
             float riddenEntityYOffset = 0.0F;
-            if (passenger instanceof EntityPlayer && !W_Lib.isClientPlayer(passenger)) {
-            }
 
             Vec3d v;
             if (info != null && info.length > 0) {
-                v = this.getTransformedPosition(info[0].pos.x, info[0].pos.y + riddenEntityYOffset - 0.5, info[0].pos.z,
-                        px, py + W_Entity.GLOBAL_Y_OFFSET, pz, info[0].rotSeat);
+                v = this.getTransformedPosition(info[0].pos.x, info[0].pos.y + riddenEntityYOffset - 0.5, info[0].pos.z, px, py + W_Entity.GLOBAL_Y_OFFSET, pz, info[0].rotSeat);
             } else {
                 v = this.getTransformedPosition(0.0, riddenEntityYOffset - 1.0F, 0.0);
             }
@@ -3418,19 +3437,12 @@ public abstract class MCH_EntityAircraft
             ry = this.getRiddenByEntity().rotationYaw;
         }
 
+        assert this.getAcInfo() != null;
         Vec3d tpos = this.getAcInfo().turretPosition.add(0.0, pos.y, 0.0);
         Vec3d v = pos.add(-tpos.x, -tpos.y, -tpos.z);
         v = MCH_Lib.RotVec3(v, -ry, 0.0F, 0.0F);
-        Vec3d vv = MCH_Lib.RotVec3(tpos, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+        Vec3d vv = MCH_Lib.RotVec3(tpos, -this.getYaw(), -this.getPitch(), -this.getRoll());
         return v.add(vv);
-    }
-
-    public float getLastRiderYaw() {
-        return this.lastRiderYaw;
-    }
-
-    public float getLastRiderPitch() {
-        return this.lastRiderPitch;
     }
 
     @SideOnly(Side.CLIENT)
@@ -3452,42 +3464,25 @@ public abstract class MCH_EntityAircraft
 
         if (this.getTVMissile() != null && W_Lib.isClientPlayer(this.getTVMissile().shootingEntity)) {
             Entity tv = this.getTVMissile();
+            assert tv != null;
             x = tv.prevPosX + (tv.posX - tv.prevPosX) * tick;
             y = tv.prevPosY + (tv.posY - tv.prevPosY) * tick;
             z = tv.prevPosZ + (tv.posZ - tv.prevPosZ) * tick;
             MCH_ViewEntityDummy.setCameraPosition(x, y, z);
         } else {
             MCH_AircraftInfo.CameraPosition cpi = this.getCameraPosInfo();
-            if (cpi != null && cpi.pos != null) {
+            if (cpi != null && cpi.pos() != null) {
                 MCH_SeatInfo seatInfo = this.getSeatInfo(player);
                 Vec3d v;
                 if (seatInfo != null && seatInfo.rotSeat) {
-                    v = this.calcOnTurretPos(cpi.pos);
+                    v = this.calcOnTurretPos(cpi.pos());
                 } else {
-                    v = MCH_Lib.RotVec3(cpi.pos, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+                    v = MCH_Lib.RotVec3(cpi.pos(), -this.getYaw(), -this.getPitch(), -this.getRoll());
                 }
 
                 MCH_ViewEntityDummy.setCameraPosition(x + v.x, y + v.y, z + v.z);
-                if (!cpi.fixRot) {
-                }
-            }
-        }
-    }
 
-    public Vec3d getTurretPos(Vec3d pos, boolean turret) {
-        if (turret) {
-            float ry = this.getLastRiderYaw();
-            if (this.getRiddenByEntity() != null) {
-                ry = this.getRiddenByEntity().rotationYaw;
             }
-
-            Vec3d tpos = this.getAcInfo().turretPosition.add(0.0, pos.y, 0.0);
-            Vec3d v = pos.add(-tpos.x, -tpos.y, -tpos.z);
-            v = MCH_Lib.RotVec3(v, -ry, 0.0F, 0.0F);
-            Vec3d vv = MCH_Lib.RotVec3(tpos, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
-            return v.add(vv);
-        } else {
-            return Vec3d.ZERO;
         }
     }
 
@@ -3503,32 +3498,26 @@ public abstract class MCH_EntityAircraft
         return this.getTransformedPosition(v.x, v.y, v.z, pos.x, pos.y, pos.z);
     }
 
-    public Vec3d getTransformedPosition(Vec3d v, double px, double py, double pz) {
-        return this.getTransformedPosition(v.x, v.y, v.z, this.posX, this.posY, this.posZ);
-    }
 
     public Vec3d getTransformedPosition(double x, double y, double z, double px, double py, double pz) {
-        Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+        Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getYaw(), -this.getPitch(), -this.getRoll());
         return v.add(px, py, pz);
     }
 
-    public Vec3d getTransformedPosition(double x, double y, double z, double px, double py, double pz,
-                                        boolean rotSeat) {
+    public Vec3d getTransformedPosition(double x, double y, double z, double px, double py, double pz, boolean rotSeat) {
         if (rotSeat && this.getAcInfo() != null) {
             MCH_AircraftInfo info = this.getAcInfo();
-            Vec3d tv = MCH_Lib.RotVec3(
-                    x - info.turretPosition.x, y - info.turretPosition.y, z - info.turretPosition.z,
-                    -this.getLastRiderYaw() + this.getRotYaw(), 0.0F, 0.0F);
+            Vec3d tv = MCH_Lib.RotVec3(x - info.turretPosition.x, y - info.turretPosition.y, z - info.turretPosition.z, -this.getLastRiderYaw() + this.getYaw(), 0.0F, 0.0F);
             x = tv.x + info.turretPosition.x;
             y = tv.y + info.turretPosition.x;
             z = tv.z + info.turretPosition.x;
         }
 
-        Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+        Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getYaw(), -this.getPitch(), -this.getRoll());
         return v.add(px, py, pz);
     }
 
-    protected MCH_SeatInfo[] getSeatsInfo() {
+    protected @NotNull MCH_SeatInfo[] getSeatsInfo() {
         if (this.seatsInfo == null) {
             this.newSeatsPos();
         }
@@ -3595,8 +3584,7 @@ public abstract class MCH_EntityAircraft
             int seatId = 1;
 
             for (MCH_EntitySeat seat : this.getSeats()) {
-                if (seat != null && seat.getRiddenByEntity() == null && !this.isMountedEntity(player) &&
-                        this.canRideSeatOrRack(seatId, player)) {
+                if (seat != null && seat.getRiddenByEntity() == null && !this.isMountedEntity(player) && this.canRideSeatOrRack(seatId, player)) {
                     if (!this.world.isRemote) {
                         player.startRiding(seat);
                     }
@@ -3612,15 +3600,13 @@ public abstract class MCH_EntityAircraft
 
     public void onMountPlayerSeat(MCH_EntitySeat seat, Entity entity) {
         if (seat != null) {
-            if (entity instanceof EntityPlayer || entity instanceof MCH_EntityGunner) {
-            }
-
             if (this.world.isRemote && MCH_Lib.getClientPlayer() == entity) {
                 this.switchGunnerFreeLookMode(false);
             }
 
             this.initCurrentWeapon(entity);
-            MCH_Lib.DbgLog(this.world, "onMountEntitySeat:%d", W_Entity.getEntityId(entity));
+            Object[] data1 = new Object[]{W_Entity.getEntityId(entity)};
+            MCH_Logger.debugLog(this.world, "onMountEntitySeat:%d", data1);
             Entity pilot = this.getRiddenByEntity();
             int sid = this.getSeatIdByEntity(entity);
             if (sid == 1 && (this.getAcInfo() == null || !this.getAcInfo().isEnableConcurrentGunnerMode)) {
@@ -3636,7 +3622,8 @@ public abstract class MCH_EntityAircraft
                 MCH_AircraftInfo.Weapon w = this.getAcInfo().getWeaponById(cwid);
                 if (w != null && this.getWeaponSeatID(this.getWeaponInfoById(cwid), w) == sid) {
                     int next = this.getNextWeaponID(pilot, 1);
-                    MCH_Lib.DbgLog(this.world, "onMountEntitySeat:%d:->%d", W_Entity.getEntityId(pilot), next);
+                    Object[] data = new Object[]{W_Entity.getEntityId(pilot), next};
+                    MCH_Logger.debugLog(this.world, "onMountEntitySeat:%d:->%d", data);
                     if (next >= 0) {
                         this.switchWeapon(pilot, next);
                     }
@@ -3670,8 +3657,7 @@ public abstract class MCH_EntityAircraft
                 d = 6;
             }
 
-            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this,
-                    this.getEntityBoundingBox().grow(d, d, d));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(d, d, d));
             if (!list.isEmpty()) {
                 for (Entity entity : list) {
                     if (entity instanceof EntityMinecartEmpty) {
@@ -3681,8 +3667,7 @@ public abstract class MCH_EntityAircraft
 
                         if (!entity.isBeingRidden() && entity.canBePushed()) {
                             this.waitMountEntity = 20;
-                            MCH_Lib.DbgLog(this.world.isRemote,
-                                    "MCH_EntityAircraft.mountWithNearEmptyMinecart:" + entity);
+                            MCH_Logger.debugLog(this.world.isRemote, "MCH_EntityAircraft.mountWithNearEmptyMinecart:" + entity);
                             this.startRiding(entity);
                             return;
                         }
@@ -3709,7 +3694,8 @@ public abstract class MCH_EntityAircraft
     }
 
     public void onUnmountPlayerSeat(MCH_EntitySeat seat, Entity entity) {
-        MCH_Lib.DbgLog(this.world, "onUnmountPlayerSeat:%d", W_Entity.getEntityId(entity));
+        Object[] data = new Object[]{W_Entity.getEntityId(entity)};
+        MCH_Logger.debugLog(this.world, "onUnmountPlayerSeat:%d", data);
         int sid = this.getSeatIdByEntity(entity);
         this.camera.initCamera(sid, entity);
         MCH_SeatInfo seatInfo = this.getSeatInfo(seat.seatID + 1);
@@ -3756,24 +3742,14 @@ public abstract class MCH_EntityAircraft
     }
 
     public void searchSeat() {
-        List<MCH_EntitySeat> list = this.world.getEntitiesWithinAABB(MCH_EntitySeat.class,
-                this.getEntityBoundingBox().grow(60.0, 60.0, 60.0));
+        List<MCH_EntitySeat> list = this.world.getEntitiesWithinAABB(MCH_EntitySeat.class, this.getEntityBoundingBox().grow(60.0, 60.0, 60.0));
 
         for (MCH_EntitySeat seat : list) {
-            if (!seat.isDead && seat.parentUniqueID.equals(this.getCommonUniqueId()) && seat.seatID >= 0 &&
-                    seat.seatID < this.getSeatNum() && this.seats[seat.seatID] == null) {
+            if (!seat.isDead && seat.parentUniqueID.equals(this.getCommonUniqueId()) && seat.seatID >= 0 && seat.seatID < this.getSeatNum() && this.seats[seat.seatID] == null) {
                 this.seats[seat.seatID] = seat;
                 seat.setParent(this);
             }
         }
-    }
-
-    public String getCommonUniqueId() {
-        return this.commonUniqueId;
-    }
-
-    public void setCommonUniqueId(String uniqId) {
-        this.commonUniqueId = uniqId;
     }
 
     @Override
@@ -3788,7 +3764,7 @@ public abstract class MCH_EntityAircraft
             this.getRiddenByEntity().dismountRidingEntity();
         }
 
-        this.getGuiInventory().setDead();
+        this.getGuiInventory().dropContents();
 
         for (MCH_EntitySeat s : this.seats) {
             if (s != null) {
@@ -3805,13 +3781,14 @@ public abstract class MCH_EntityAircraft
             this.setTowChainEntity(null);
         }
 
-        for (Entity e : this.getParts()) {
+        for (Entity e : Objects.requireNonNull(this.getParts())) {
             if (e != null) {
                 e.setDead();
             }
         }
 
-        MCH_Lib.DbgLog(this.world, "setDead:" + (this.getAcInfo() != null ? this.getAcInfo().name : "null"));
+        String format = "setDead:" + (this.getAcInfo() != null ? this.getAcInfo().name : "null");
+        MCH_Logger.debugLog(this.world, format);
     }
 
     public void unmountEntity() {
@@ -3834,7 +3811,7 @@ public abstract class MCH_EntityAircraft
             }
         }
 
-        MCH_Lib.DbgLog(this.world, "unmountEntity:" + rByEntity);
+        MCH_Logger.debugLog(this.world, "unmountEntity:" + rByEntity);
         if (!this.isRidePlayer()) {
             this.switchGunnerMode(false);
         }
@@ -3898,14 +3875,11 @@ public abstract class MCH_EntityAircraft
     }
 
     public Vec3d getRopePos(int ropeIndex) {
-        return this.getAcInfo() != null && this.getAcInfo().haveRepellingHook() &&
-                ropeIndex < this.getAcInfo().repellingHooks.size() ?
-                this.getTransformedPosition(this.getAcInfo().repellingHooks.get(ropeIndex).pos) :
-                new Vec3d(this.posX, this.posY, this.posZ);
+        return this.getAcInfo() != null && this.getAcInfo().haveRepellingHook() && ropeIndex < this.getAcInfo().repellingHooks.size() ? this.getTransformedPosition(this.getAcInfo().repellingHooks.get(ropeIndex).pos()) : new Vec3d(this.posX, this.posY, this.posZ);
     }
 
     private void startRepelling() {
-        MCH_Lib.DbgLog(this.world, "MCH_EntityAircraft.startRepelling()");
+        MCH_Logger.debugLog(this.world, "MCH_EntityAircraft.startRepelling()");
         this.setRepellingStat(true);
         this.throttleUp = false;
         this.throttleDown = false;
@@ -3915,13 +3889,13 @@ public abstract class MCH_EntityAircraft
     }
 
     private void stopRepelling() {
-        MCH_Lib.DbgLog(this.world, "MCH_EntityAircraft.stopRepelling()");
+        MCH_Logger.debugLog(this.world, "MCH_EntityAircraft.stopRepelling()");
         this.setRepellingStat(false);
     }
 
     public boolean canStartRepelling() {
-        if (this.getAcInfo().haveRepellingHook() && this.isHovering() && abs(this.getRotPitch()) < 3.0F &&
-                abs(this.getRotRoll()) < 3.0F) {
+        assert this.getAcInfo() != null;
+        if (this.getAcInfo().haveRepellingHook() && this.isHovering() && abs(this.getPitch()) < 3.0F && abs(this.getRoll()) < 3.0F) {
             Vec3d v = this.prevPosition.oldest().add(-this.posX, -this.posY, -this.posZ);
             return v.length() < 0.3;
         }
@@ -3930,44 +3904,47 @@ public abstract class MCH_EntityAircraft
     }
 
     public boolean unmountCrew(boolean unmountParachute) {
-        boolean ret = false;
-        MCH_SeatInfo[] pos = this.getSeatsInfo();
+        boolean anyUnmounted = false;
+        MCH_SeatInfo[] seatInfos = getSeatsInfo();
 
-        for (int i = 0; i < this.seats.length; i++) {
-            if (this.seats[i] != null && this.seats[i].getRiddenByEntity() != null) {
-                Entity entity = this.seats[i].getRiddenByEntity();
-                if (!(entity instanceof EntityPlayer) && !(pos[i + 1] instanceof MCH_SeatRackInfo)) {
-                    if (unmountParachute) {
-                        if (this.getSeatIdByEntity(entity) > 1) {
-                            ret = true;
-                            MCH_SeatInfo seatInfo = pos[i + 1];
-                            Vec3d localPos = (seatInfo != null && seatInfo.unmountPos != null)
-                                    ? seatInfo.unmountPos
-                                    : this.getAcInfo().mobDropOption.pos;
+        for (int i = 0; i < seats.length; i++) {
+            var seat = seats[i];
+            if (seat == null) continue;
 
-                            Vec3d dropPos = this.getTransformedPosition(localPos, this.prevPosition.oldest());
-                            this.seats[i].posX = dropPos.x;
-                            this.seats[i].posY = dropPos.y;
-                            this.seats[i].posZ = dropPos.z;
-                            entity.dismountRidingEntity();
-                            entity.posX = dropPos.x;
-                            entity.posY = dropPos.y;
-                            entity.posZ = dropPos.z;
-                            this.dropEntityParachute(entity);
-                            break;
-                        }
-                    } else {
-                        ret = true;
-                        this.setUnmountPosition(this.seats[i], pos[i + 1]);
-                        entity.dismountRidingEntity();
-                        this.setUnmountPosition(entity, pos[i + 1]);
-                    }
-                }
+            var occupant = seat.getRiddenByEntity();
+            if (occupant == null) continue;
+            if (occupant instanceof EntityPlayer) continue;
+            if (seatInfos[i + 1] instanceof MCH_SeatRackInfo) continue;
+
+            MCH_SeatInfo seatInfo = seatInfos[i + 1];
+            anyUnmounted = true;
+
+            if (unmountParachute && getSeatIdByEntity(occupant) > 1) {
+                Vec3d localUnmountPos = (seatInfo != null && seatInfo.unmountPos != null) ? seatInfo.unmountPos : getAcInfo().mobDropOption.pos; // acInfo assumed non-null
+
+                Vec3d worldDropPos = getTransformedPosition(localUnmountPos, prevPosition.oldest());
+
+                seat.posX = worldDropPos.x;
+                seat.posY = worldDropPos.y;
+                seat.posZ = worldDropPos.z;
+
+                occupant.dismountRidingEntity();
+                occupant.posX = worldDropPos.x;
+                occupant.posY = worldDropPos.y;
+                occupant.posZ = worldDropPos.z;
+
+                dropEntityParachute(occupant);
+                break; // stop after first parachute drop
+            } else {
+                setUnmountPosition(seat, seatInfo);
+                occupant.dismountRidingEntity();
+                setUnmountPosition(occupant, seatInfo);
             }
         }
 
-        return ret;
+        return anyUnmounted;
     }
+
 
     // returns local position in seat(rack) configs
     protected Vec3d getUnmountPos(MCH_SeatInfo seatInfo) {
@@ -3990,27 +3967,25 @@ public abstract class MCH_EntityAircraft
         if (rByEntity != null && seatInfo != null) {
             Vec3d localPos = this.getUnmountPos(seatInfo);
             Vec3d desired = this.getTransformedPosition(localPos);
-            RayTraceResult trace = world.rayTraceBlocks(rByEntity.getPositionVector(), desired, false, true, true );
+            RayTraceResult trace = world.rayTraceBlocks(rByEntity.getPositionVector(), desired, false, true, true);
             Vec3d dir = desired.subtract(rByEntity.getPositionVector()).normalize();
             var finPos = trace == null ? desired : trace.hitVec.subtract(dir);
 
 
             rByEntity.setPosition(finPos.x, finPos.y, finPos.z);
-            this.listUnmountReserve.add(new UnmountReserve(this, rByEntity, finPos.x, finPos.y, finPos.z));
+            this.listUnmountReserve.add(new UnmountReserve(rByEntity, finPos.x, finPos.y, finPos.z));
         }
     }
 
-    public boolean unmountEntityFromSeat(@Nullable Entity entity) {
-        if (entity != null && this.seats != null && this.seats.length != 0) {
+    public void unmountEntityFromSeat(@Nullable Entity entity) {
+        if (entity != null && this.seats != null) {
             for (MCH_EntitySeat seat : this.seats) {
-                if (seat != null && seat.getRiddenByEntity() != null &&
-                        W_Entity.isEqual(seat.getRiddenByEntity(), entity)) {
+                if (seat != null && seat.getRiddenByEntity() != null && W_Entity.isEqual(seat.getRiddenByEntity(), entity)) {
                     entity.dismountRidingEntity();
                 }
             }
 
         }
-        return false;
     }
 
     public void ejectSeat(@Nullable Entity entity) {
@@ -4037,13 +4012,13 @@ public abstract class MCH_EntityAircraft
     }
 
     public void ejectSeatSub(Entity entity, int sid) {
-        Vec3d pos = this.getSeatInfo(sid) != null ? this.getSeatInfo(sid).pos : null;
+        Vec3d pos = this.getSeatInfo(sid) != null ? Objects.requireNonNull(this.getSeatInfo(sid)).pos : null;
         if (pos != null) {
             Vec3d v = this.getTransformedPosition(pos.x, pos.y + 2.0, pos.z);
             entity.setPosition(v.x, v.y, v.z);
         }
 
-        Vec3d v = MCH_Lib.RotVec3(0.0, 2.0, 0.0, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+        Vec3d v = MCH_Lib.RotVec3(0.0, 2.0, 0.0, -this.getYaw(), -this.getPitch(), -this.getRoll());
         entity.motionX = this.motionX + v.x + (this.rand.nextFloat() - 0.5) * 0.1;
         entity.motionY = this.motionY + v.y;
         entity.motionZ = this.motionZ + v.z + (this.rand.nextFloat() - 0.5) * 0.1;
@@ -4056,6 +4031,7 @@ public abstract class MCH_EntityAircraft
         parachute.user = entity;
         parachute.setType(2);
         this.world.spawnEntity(parachute);
+        assert this.getAcInfo() != null;
         if (this.getAcInfo().haveCanopy() && this.isCanopyClose()) {
             this.openCanopy_EjectSeat();
         }
@@ -4065,42 +4041,22 @@ public abstract class MCH_EntityAircraft
 
     public boolean canEjectSeat(@Nullable Entity entity) {
         int sid = this.getSeatIdByEntity(entity);
-        return (sid != 0 || !this.isUAV()) && sid >= 0 && sid < 2 && this.getAcInfo() != null &&
-                this.getAcInfo().isEnableEjectionSeat;
+        return (sid != 0 || !this.isUAV()) && sid >= 0 && sid < 2 && this.getAcInfo() != null && this.getAcInfo().isEnableEjectionSeat;
     }
 
     public int getNumEjectionSeat() {
         return 0;
     }
 
-    public int getMountedEntityNum() {
-        int num = 0;
-        if (this.getRiddenByEntity() != null && !this.getRiddenByEntity().isDead) {
-            num++;
-        }
-
-        if (this.seats != null) {
-            for (MCH_EntitySeat seat : this.seats) {
-                if (seat != null && seat.getRiddenByEntity() != null && !seat.getRiddenByEntity().isDead) {
-                    num++;
-                }
-            }
-        }
-
-        return num;
-    }
-
     public void mountMobToSeats() {
-        List<EntityLivingBase> list = this.world.getEntitiesWithinAABB(W_Lib.getEntityLivingBaseClass(),
-                this.getEntityBoundingBox().grow(3.0, 2.0, 3.0));
+        List<EntityLivingBase> list = this.world.getEntitiesWithinAABB(W_Lib.getEntityLivingBaseClass(), this.getEntityBoundingBox().grow(3.0, 2.0, 3.0));
 
         for (Entity entity : list) {
             if (!(entity instanceof EntityPlayer) && entity.getRidingEntity() == null) {
                 int sid = 1;
 
                 for (MCH_EntitySeat seat : this.getSeats()) {
-                    if (seat != null && seat.getRiddenByEntity() == null && !this.isMountedEntity(entity) &&
-                            this.canRideSeatOrRack(sid, entity)) {
+                    if (seat != null && seat.getRiddenByEntity() == null && !this.isMountedEntity(entity) && this.canRideSeatOrRack(sid, entity)) {
                         if (this.getSeatInfo(sid) instanceof MCH_SeatRackInfo) {
                             break;
                         }
@@ -4130,11 +4086,8 @@ public abstract class MCH_EntityAircraft
 
         for (int sid = 0; sid < this.getSeatNum(); sid++) {
             MCH_EntitySeat seat = this.getSeat(sid);
-            if (this.getSeatInfo(1 + sid) instanceof MCH_SeatRackInfo info && seat != null &&
-                    seat.getRiddenByEntity() == null) {
-                Vec3d v = MCH_Lib.RotVec3(
-                        info.getEntryPos().x, info.getEntryPos().y, info.getEntryPos().z, -this.getRotYaw(),
-                        -this.getRotPitch(), -this.getRotRoll());
+            if (this.getSeatInfo(1 + sid) instanceof MCH_SeatRackInfo info && seat != null && seat.getRiddenByEntity() == null) {
+                Vec3d v = MCH_Lib.RotVec3(info.getEntryPos().x, info.getEntryPos().y, info.getEntryPos().z, -this.getYaw(), -this.getPitch(), -this.getRoll());
                 v = v.add(this.posX, this.posY, this.posZ);
                 AxisAlignedBB bb = new AxisAlignedBB(v.x, v.y, v.z, v.x, v.y, v.z);
                 float range = info.range;
@@ -4144,7 +4097,7 @@ public abstract class MCH_EntityAircraft
                     if (this.canRideSeatOrRack(1 + sid, entity)) {
                         if (entity instanceof MCH_IEntityCanRideAircraft) {
                             if (((MCH_IEntityCanRideAircraft) entity).canRideAircraft(this, sid, info)) {
-                                MCH_Lib.DbgLog(this.world, "MCH_EntityAircraft.mountEntityToRack:%d:%s", sid, entity);
+                                MCH_Logger.debugLog(this.world, "MCH_EntityAircraft.mountEntityToRack:%d:%s", sid, entity);
                                 entity.startRiding(seat);
                                 countRideEntity++;
                                 break;
@@ -4152,8 +4105,7 @@ public abstract class MCH_EntityAircraft
                         } else if (entity.getRidingEntity() == null) {
                             NBTTagCompound nbt = entity.getEntityData();
                             if (nbt.hasKey("CanMountEntity") && nbt.getBoolean("CanMountEntity")) {
-                                MCH_Lib.DbgLog(this.world, "MCH_EntityAircraft.mountEntityToRack:%d:%s:%s", sid, entity,
-                                        entity.getClass());
+                                MCH_Logger.debugLog(this.world, "MCH_EntityAircraft.mountEntityToRack:%d:%s:%s", sid, entity, entity.getClass());
                                 entity.startRiding(seat);
                                 countRideEntity++;
                                 break;
@@ -4172,13 +4124,13 @@ public abstract class MCH_EntityAircraft
     public void unmountEntityFromRack() {
         for (int sid = this.getSeatNum() - 1; sid >= 0; sid--) {
             MCH_EntitySeat seat = this.getSeat(sid);
-            if (this.getSeatInfo(sid + 1) instanceof MCH_SeatRackInfo info && seat != null &&
-                    seat.getRiddenByEntity() != null) {
+            if (this.getSeatInfo(sid + 1) instanceof MCH_SeatRackInfo info && seat != null && seat.getRiddenByEntity() != null) {
                 Entity entity = seat.getRiddenByEntity();
                 Vec3d pos = info.unmountPos;
                 if (pos == null) {
                     pos = info.getEntryPos();
                     if (entity instanceof MCH_EntityAircraft) {
+                        assert this.getAcInfo() != null;
                         if (pos.z >= this.getAcInfo().bbZ) {
                             pos = pos.add(0.0, 0.0, 12.0);
                         } else {
@@ -4187,20 +4139,18 @@ public abstract class MCH_EntityAircraft
                     }
                 }
 
-                Vec3d v = MCH_Lib.RotVec3(pos.x, pos.y, pos.z, -this.getRotYaw(), -this.getRotPitch(),
-                        -this.getRotRoll());
+                Vec3d v = MCH_Lib.RotVec3(pos.x, pos.y, pos.z, -this.getYaw(), -this.getPitch(), -this.getRoll());
                 seat.posX = entity.posX = this.posX + v.x;
                 seat.posY = entity.posY = this.posY + v.y;
                 seat.posZ = entity.posZ = this.posZ + v.z;
-                MCH_EntityAircraft.UnmountReserve ur = new UnmountReserve(this, entity, entity.posX, entity.posY,
-                        entity.posZ);
+                MCH_EntityAircraft.UnmountReserve ur = new UnmountReserve(entity, entity.posX, entity.posY, entity.posZ);
                 ur.cnt = 8;
                 this.listUnmountReserve.add(ur);
                 entity.dismountRidingEntity();
                 if (MCH_Lib.getBlockIdY(this, 3, -20) > 0) {
-                    MCH_Lib.DbgLog(this.world, "MCH_EntityAircraft.unmountEntityFromRack:%d:%s", sid, entity);
+                    MCH_Logger.debugLog(this.world, "MCH_EntityAircraft.unmountEntityFromRack:%d:%s", sid, entity);
                 } else {
-                    MCH_Lib.DbgLog(this.world, "MCH_EntityAircraft.unmountEntityFromRack:%d Parachute:%s", sid, entity);
+                    MCH_Logger.debugLog(this.world, "MCH_EntityAircraft.unmountEntityFromRack:%d Parachute:%s", sid, entity);
                     this.dropEntityParachute(entity);
                 }
                 break;
@@ -4238,11 +4188,8 @@ public abstract class MCH_EntityAircraft
                                 if (seat != null && seat.getRiddenByEntity() == null) {
                                     Vec3d v = ac.getTransformedPosition(info.getEntryPos());
                                     float r = info.range;
-                                    if (this.posX >= v.x - r && this.posX <= v.x + r && this.posY >= v.y - r &&
-                                            this.posY <= v.y + r && this.posZ >= v.z - r && this.posZ <= v.z + r &&
-                                            this.canRideAircraft(ac, sid, info)) {
-                                        MCH_SoundEvents.playSound(this.world, this.posX, this.posY, this.posZ,
-                                                "random.click", 1.0F, 1.0F);
+                                    if (this.posX >= v.x - r && this.posX <= v.x + r && this.posY >= v.y - r && this.posY <= v.y + r && this.posZ >= v.z - r && this.posZ <= v.z + r && this.canRideAircraft(ac, sid, info)) {
+                                        MCH_SoundEvents.playSound(this.world, this.posX, this.posY, this.posZ, "random.click", 1.0F, 1.0F);
                                         this.startRiding(seat);
                                         return;
                                     }
@@ -4296,9 +4243,7 @@ public abstract class MCH_EntityAircraft
                                     if (seat != null && seat.getRiddenByEntity() == null) {
                                         Vec3d v = ac.getTransformedPosition(info.getEntryPos());
                                         float r = info.range;
-                                        if (this.posX >= v.x - r && this.posX <= v.x + r && this.posY >= v.y - r &&
-                                                this.posY <= v.y + r && this.posZ >= v.z - r && this.posZ <= v.z + r &&
-                                                this.canRideAircraft(ac, sid, info)) {
+                                        if (this.posX >= v.x - r && this.posX <= v.x + r && this.posY >= v.y - r && this.posY <= v.y + r && this.posZ >= v.z - r && this.posZ <= v.z + r && this.canRideAircraft(ac, sid, info)) {
                                             this.canRideRackStatus = true;
                                             return;
                                         }
@@ -4318,48 +4263,48 @@ public abstract class MCH_EntityAircraft
 
     @Override
     public boolean canRideAircraft(MCH_EntityAircraft ac, int seatID, MCH_SeatRackInfo info) {
-        if (this.getAcInfo() == null) {
-            return false;
-        } else if (ac.getRidingEntity() != null) {
-            return false;
-        } else if (this.getRidingEntity() != null) {
-            return false;
-        } else {
-            boolean canRide = false;
+        var selfInfo = getAcInfo();
+        if (selfInfo == null) return false;
+        if (ac.getRidingEntity() != null) return false;
+        if (getRidingEntity() != null) return false;
 
-            for (String s : info.names) {
-                if (s.equalsIgnoreCase(this.getAcInfo().name) || s.equalsIgnoreCase(this.getAcInfo().getKindName())) {
-                    canRide = true;
-                    break;
-                }
+        var acInfo = ac.getAcInfo();
+
+        // Check names first
+        for (String name : info.names) {
+            if (name.equalsIgnoreCase(selfInfo.name) || name.equalsIgnoreCase(selfInfo.getKindName())) {
+                return checkNestedRiders();
             }
-
-            if (!canRide) {
-                for (MCH_AircraftInfo.RideRack rr : this.getAcInfo().rideRacks) {
-                    int id = ac.getAcInfo().getNumSeat() - 1 + (rr.rackID - 1);
-                    if (id == seatID && rr.name.equalsIgnoreCase(ac.getAcInfo().name)) {
-                        MCH_EntitySeat seat = ac.getSeat(ac.getAcInfo().getNumSeat() - 1 + rr.rackID - 1);
-                        if (seat != null && seat.getRiddenByEntity() == null) {
-                            canRide = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!canRide) {
-                    return false;
-                }
-            }
-
-            for (MCH_EntitySeat seat : this.getSeats()) {
-                if (seat != null && seat.getRiddenByEntity() instanceof MCH_IEntityCanRideAircraft) {
-                    return false;
-                }
-            }
-
-            return true;
         }
+
+        // Check ride racks
+        for (MCH_AircraftInfo.RideRack rr : selfInfo.rideRacks) {
+            assert acInfo != null;
+            int baseSeat = acInfo.getNumSeat() - 1;
+            int id = baseSeat + rr.rackID() - 1;
+
+            if (id != seatID) continue;
+            if (!rr.name().equalsIgnoreCase(acInfo.name)) continue;
+
+            MCH_EntitySeat seat = ac.getSeat(id);
+            if (seat != null && seat.getRiddenByEntity() == null) {
+                return checkNestedRiders();
+            }
+        }
+
+        // Nothing matched
+        return false;
     }
+
+    private boolean checkNestedRiders() {
+        for (MCH_EntitySeat seat : getSeats()) {
+            if (seat != null && seat.getRiddenByEntity() instanceof MCH_IEntityCanRideAircraft) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public boolean isMountedEntity(@Nullable Entity entity) {
         return entity != null && this.isMountedEntity(W_Entity.getEntityId(entity));
@@ -4386,8 +4331,7 @@ public abstract class MCH_EntityAircraft
                 return true;
             } else {
                 for (MCH_EntitySeat seat : this.getSeats()) {
-                    if (seat != null && seat.getRiddenByEntity() instanceof EntityLivingBase &&
-                            player.isOnSameTeam(seat.getRiddenByEntity())) {
+                    if (seat != null && seat.getRiddenByEntity() instanceof EntityLivingBase && player.isOnSameTeam(seat.getRiddenByEntity())) {
                         return true;
                     }
                 }
@@ -4399,36 +4343,12 @@ public abstract class MCH_EntityAircraft
         }
     }
 
-    public boolean isMountedOtherTeamEntity(@Nullable EntityLivingBase player) {
-        if (player != null) {
-            EntityLivingBase target;
-            if (this.getRiddenByEntity() instanceof EntityLivingBase) {
-                target = (EntityLivingBase) this.getRiddenByEntity();
-                if (player.getTeam() != null && target.getTeam() != null && !player.isOnSameTeam(target)) {
-                    return true;
-                }
-            }
-
-            for (MCH_EntitySeat seat : this.getSeats()) {
-                if (seat != null && seat.getRiddenByEntity() instanceof EntityLivingBase) {
-                    target = (EntityLivingBase) seat.getRiddenByEntity();
-                    if (player.getTeam() != null && target.getTeam() != null && !player.isOnSameTeam(target)) {
-                        return true;
-                    }
-                }
-            }
-
-        }
-        return false;
-    }
-
     public boolean isMountedEntity(int entityId) {
         if (W_Entity.getEntityId(this.getRiddenByEntity()) == entityId) {
             return true;
         } else {
             for (MCH_EntitySeat seat : this.getSeats()) {
-                if (seat != null && seat.getRiddenByEntity() != null &&
-                        W_Entity.getEntityId(seat.getRiddenByEntity()) == entityId) {
+                if (seat != null && seat.getRiddenByEntity() != null && W_Entity.getEntityId(seat.getRiddenByEntity()) == entityId) {
                     return true;
                 }
             }
@@ -4440,18 +4360,18 @@ public abstract class MCH_EntityAircraft
     public void onInteractFirst(EntityPlayer player) {
     }
 
-    public boolean checkTeam(EntityPlayer player) {
+    public boolean notOnSameTeam(EntityPlayer player) {
         for (int i = 0; i < 1 + this.getSeatNum(); i++) {
             Entity entity = this.getEntityBySeatId(i);
             if (entity instanceof EntityPlayer || entity instanceof MCH_EntityGunner) {
                 EntityLivingBase riddenEntity = (EntityLivingBase) entity;
                 if (riddenEntity.getTeam() != null && !riddenEntity.isOnSameTeam(player)) {
-                    return false;
+                    return true;
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
     public boolean processInitialInteract(EntityPlayer player, boolean ss, EnumHand hand) {
@@ -4465,7 +4385,7 @@ public abstract class MCH_EntityAircraft
     public boolean processInitialInteract(@NotNull EntityPlayer player, @NotNull EnumHand hand) {
         if (this.isDestroyed()) return false;
         if (this.getAcInfo() == null) return false;
-        if (!this.checkTeam(player)) return false;
+        if (this.notOnSameTeam(player)) return false;
 
         ItemStack stack = player.getHeldItem(hand);
 
@@ -4484,7 +4404,7 @@ public abstract class MCH_EntityAircraft
 
         // Sneak interactions
         if (player.isSneaking()) {
-            super.displayInventory(player);
+           openContainer(player);
             return false;
         }
 
@@ -4626,8 +4546,7 @@ public abstract class MCH_EntityAircraft
 
                     for (int ix = this.seats.length - 1; ix >= 0; ix--) {
                         MCH_EntitySeat seat = this.seats[ix];
-                        if (!(this.getSeatInfo(ix + 1) instanceof MCH_SeatRackInfo) && seat != null &&
-                                seat.getRiddenByEntity() == null) {
+                        if (!(this.getSeatInfo(ix + 1) instanceof MCH_SeatRackInfo) && seat != null && seat.getRiddenByEntity() == null) {
                             entity.startRiding(seat);
                             return;
                         }
@@ -4665,8 +4584,7 @@ public abstract class MCH_EntityAircraft
     }
 
     public boolean isRenderBullet(Entity entity, Entity rider) {
-        return !this.isCameraView(rider) || !W_Entity.isEqual(this.getTVMissile(), entity) ||
-                !W_Entity.isEqual(this.getTVMissile().shootingEntity, rider);
+        return !this.isCameraView(rider) || !W_Entity.isEqual(this.getTVMissile(), entity) || (this.getTVMissile() != null && !W_Entity.isEqual(this.getTVMissile().shootingEntity, rider));
     }
 
     public boolean isCameraView(Entity entity) {
@@ -4682,8 +4600,8 @@ public abstract class MCH_EntityAircraft
             } else {
                 this.setTVMissile(null);
                 MCH_AircraftInfo.CameraPosition cpi = this.getCameraPosInfo();
-                Vec3d cp = cpi != null ? cpi.pos : Vec3d.ZERO;
-                Vec3d v = MCH_Lib.RotVec3(cp, -this.getRotYaw(), -this.getRotPitch(), -this.getRotRoll());
+                Vec3d cp = cpi != null ? cpi.pos() : Vec3d.ZERO;
+                Vec3d v = MCH_Lib.RotVec3(cp, -this.getYaw(), -this.getPitch(), -this.getRoll());
                 this.camera.setPosition(x + v.x, y + v.y, z + v.z);
             }
         }
@@ -4735,18 +4653,17 @@ public abstract class MCH_EntityAircraft
                 MCH_WeaponBase[] wb = new MCH_WeaponBase[ws.weapons.size()];
 
                 for (int j = 0; j < ws.weapons.size(); j++) {
-                    wb[j] = MCH_WeaponCreator.createWeapon(
-                            this.world, ws.type, ws.weapons.get(j).pos, ws.weapons.get(j).yaw, ws.weapons.get(j).pitch,
-                            this, ws.weapons.get(j).turret);
+                    wb[j] = MCH_WeaponCreator.createWeapon(this.world, ws.type, ws.weapons.get(j).pos, ws.weapons.get(j).yaw, ws.weapons.get(j).pitch, this, ws.weapons.get(j).turret);
+                    assert wb[j] != null;
                     wb[j].aircraft = this;
                 }
 
                 if (wb.length > 0 && wb[0] != null) {
-                    float defYaw = ws.weapons.get(0).defaultYaw;
+                    float defYaw = ws.weapons.getFirst().defaultYaw;
                     weaponSetArray[i] = new MCH_WeaponSet(wb);
-                    weaponSetArray[i].prevRotationYaw = defYaw;
-                    weaponSetArray[i].rotationYaw = defYaw;
-                    weaponSetArray[i].defaultRotationYaw = defYaw;
+                    weaponSetArray[i].setPrevYaw(defYaw);
+                    weaponSetArray[i].setYaw(defYaw);
+                    weaponSetArray[i].setDefYaw(defYaw);
                 }
             }
 
@@ -4768,18 +4685,14 @@ public abstract class MCH_EntityAircraft
                     id = this.getWeaponNum() - 1;
                 }
 
-                MCH_Lib.DbgLog(this.world, "switchWeapon:" + W_Entity.getEntityId(entity) + " -> " + id);
+                String format = "switchWeapon:" + W_Entity.getEntityId(entity) + " -> " + id;
+                MCH_Logger.debugLog(this.world, format);
                 this.getCurrentWeapon(entity).reload();
                 this.currentWeaponID[sid] = id;
                 MCH_WeaponSet ws = this.getCurrentWeapon(entity);
                 ws.onSwitchWeapon(this.world.isRemote, this.isInfinityAmmo(entity));
                 if (!this.world.isRemote) {
-                    new PacketSyncWeapon(
-                            getEntityId(this),
-                            sid,
-                            id,
-                            (short) ws.getAmmoNum(),
-                            (short) ws.getRestAllAmmoNum()).sendPacketToAllAround(world, posX, posY, posZ, 150);
+                    new PacketSyncWeapon(getEntityId(this), sid, id, (short) ws.getAmmo(), (short) ws.getRestAllAmmoNum()).sendPacketToAllAround(world, posX, posY, posZ, 150);
                 }
             }
         }
@@ -4796,41 +4709,21 @@ public abstract class MCH_EntityAircraft
                     id = this.getWeaponNum() - 1;
                 }
 
-                MCH_Lib.DbgLog(this.world, "switchWeapon:seatID=" + sid + ", WeaponID=" + id);
+                MCH_Logger.debugLog(this.world, "switchWeapon:seatID=" + sid + ", WeaponID=" + id);
                 this.currentWeaponID[sid] = id;
             }
-        }
-    }
-
-    public void updateWeaponRestAmmo(int id, int num) {
-        if (id < this.getWeaponNum()) {
-            this.getWeapon(id).setRestAllAmmoNum(num);
         }
     }
 
     @Nullable
     public MCH_WeaponSet getWeaponByName(String name) {
         for (MCH_WeaponSet ws : this.weapons) {
-            if (ws.isEqual(name)) {
+            if (ws.isName(name)) {
                 return ws;
             }
         }
 
         return null;
-    }
-
-    public int getWeaponIdByName(String name) {
-        int id = 0;
-
-        for (MCH_WeaponSet ws : this.weapons) {
-            if (ws.isEqual(name)) {
-                return id;
-            }
-
-            id++;
-        }
-
-        return -1;
     }
 
     public void reloadAllWeapon() {
@@ -4840,13 +4733,13 @@ public abstract class MCH_EntityAircraft
     }
 
     public MCH_WeaponSet getFirstSeatWeapon() {
-        return this.currentWeaponID != null && this.currentWeaponID.length > 0 && this.currentWeaponID[0] >= 0 ?
-                this.getWeapon(this.currentWeaponID[0]) : this.getWeapon(0);
+        return this.currentWeaponID != null && this.currentWeaponID.length > 0 && this.currentWeaponID[0] >= 0 ? this.getWeapon(this.currentWeaponID[0]) : this.getWeapon(0);
     }
 
     public void initCurrentWeapon(Entity entity) {
         int sid = this.getSeatIdByEntity(entity);
-        MCH_Lib.DbgLog(this.world, "initCurrentWeapon:" + W_Entity.getEntityId(entity) + ":%d", sid);
+        String format = "initCurrentWeapon:" + W_Entity.getEntityId(entity) + ":%d";
+        MCH_Logger.debugLog(this.world, format, sid);
         if (sid >= 0 && sid < this.currentWeaponID.length) {
             this.currentWeaponID[sid] = -1;
             if (entity instanceof EntityPlayer || entity instanceof MCH_EntityGunner) {
@@ -4887,11 +4780,12 @@ public abstract class MCH_EntityAircraft
                 MCH_WeaponSet currentWs = this.getCurrentWeapon(prm.user);
                 if (currentWs != null) {
                     int sid = this.getSeatIdByEntity(prm.user);
+                    assert this.getAcInfo() != null;
                     if (this.getAcInfo().getWeaponSetById(sid) != null) {
-                        prm.isTurret = this.getAcInfo().getWeaponSetById(sid).weapons.get(0).turret;
+                        prm.isTurret = this.getAcInfo().getWeaponSetById(sid).weapons.getFirst().turret;
                     }
 
-                    this.lastLandInDistance = currentWs.getLandInDistance(prm);
+                    this.lastLandInDistance = currentWs.getImpactDistance(prm);
                 }
             }
         }
@@ -4911,17 +4805,17 @@ public abstract class MCH_EntityAircraft
         prm.isInfinity = this.isInfinityAmmo(prm.user);
         if (prm.user != null) {
             MCH_WeaponSet currentWs = this.getCurrentWeapon(prm.user);
-            if (currentWs != null && currentWs.canUse()) {
+            if (currentWs != null && currentWs.canFire()) {
                 int sid = this.getSeatIdByEntity(prm.user);
+                assert this.getAcInfo() != null;
                 if (this.getAcInfo().getWeaponSetById(sid) != null) {
-                    prm.isTurret = this.getAcInfo().getWeaponSetById(sid).weapons.get(0).turret;
+                    prm.isTurret = this.getAcInfo().getWeaponSetById(sid).weapons.getFirst().turret;
                 }
 
                 int lastUsedIndex = currentWs.getCurrentWeaponIndex();
                 if (currentWs.use(prm)) {
                     for (MCH_WeaponSet ws : this.weapons) {
-                        if (ws != currentWs && !ws.getInfo().group.isEmpty() &&
-                                ws.getInfo().group.equals(currentWs.getInfo().group)) {
+                        if (ws != currentWs && !ws.getInfo().group.isEmpty() && ws.getInfo().group.equals(currentWs.getInfo().group)) {
                             ws.waitAndReloadByOther(prm.reload);
                         }
                     }
@@ -4988,9 +4882,7 @@ public abstract class MCH_EntityAircraft
                     if (w != null) {
                         MCH_WeaponInfo wi = this.getWeaponInfoById(id);
                         int wpsid = this.getWeaponSeatID(wi, w);
-                        if (wpsid < this.getSeatNum() + 1 + 1 && (wpsid == sid ||
-                                sid == 0 && w.canUsePilot && !(this.getEntityBySeatId(wpsid) instanceof EntityPlayer) &&
-                                        !(this.getEntityBySeatId(wpsid) instanceof MCH_EntityGunner))) {
+                        if (wpsid < this.getSeatNum() + 1 + 1 && (wpsid == sid || sid == 0 && w.canUsePilot && !(this.getEntityBySeatId(wpsid) instanceof EntityPlayer) && !(this.getEntityBySeatId(wpsid) instanceof MCH_EntityGunner))) {
                             break;
                         }
                     }
@@ -4999,7 +4891,8 @@ public abstract class MCH_EntityAircraft
                 if (i >= this.getWeaponNum()) {
                     return -1;
                 } else {
-                    MCH_Lib.DbgLog(this.world, "getNextWeaponID:%d:->%d", W_Entity.getEntityId(entity), id);
+                    Object[] data = new Object[]{W_Entity.getEntityId(entity), id};
+                    MCH_Logger.debugLog(this.world, "getNextWeaponID:%d:->%d", data);
                     return id;
                 }
             }
@@ -5007,8 +4900,7 @@ public abstract class MCH_EntityAircraft
     }
 
     public int getWeaponSeatID(MCH_WeaponInfo wi, MCH_AircraftInfo.Weapon w) {
-        return wi == null || (wi.target & 195) != 0 || !wi.type.isEmpty() ||
-                !MCH_MOD.proxy.isSinglePlayer() && !MCH_Config.TestMode.prmBool ? w.seatID : 1000;
+        return wi == null || (wi.target & 195) != 0 || !wi.type.isEmpty() || !MCH_MOD.proxy.isSinglePlayer() && !MCH_Config.TestMode.prmBool ? w.seatID : 1000;
     }
 
     public boolean isMissileCameraMode(Entity entity) {
@@ -5076,15 +4968,15 @@ public abstract class MCH_EntityAircraft
                     this.useWeaponStat = this.dataManager.get(USE_WEAPON);
                 }
 
-                float yaw = MathHelper.wrapDegrees(this.getRotYaw());
-                float pitch = MathHelper.wrapDegrees(this.getRotPitch());
+                float yaw = MathHelper.wrapDegrees(this.getYaw());
+                float pitch = MathHelper.wrapDegrees(this.getPitch());
                 int id = 0;
 
                 for (int wid = 0; wid < this.weapons.length; wid++) {
                     MCH_WeaponSet w = this.weapons[wid];
                     boolean isLongDelay = false;
                     if (w.getFirstWeapon() != null) {
-                        isLongDelay = w.isLongDelayWeapon();
+                        isLongDelay = w.hasLongDelay();
                     }
 
                     boolean isSelected = false;
@@ -5111,15 +5003,14 @@ public abstract class MCH_EntityAircraft
                             if (recoil > 0.0F) {
                                 this.recoilCount = 30;
                                 this.recoilValue = recoil;
-                                this.recoilYaw = w.rotationYaw;
+                                this.recoilYaw = w.getYaw();
                             }
                         }
 
                         if (this.world.isRemote && isUsed) {
-                            Vec3d wrv = MCH_Lib.RotVec3(0.0, 0.0, -1.0, -w.rotationYaw - yaw, -w.rotationPitch);
+                            Vec3d wrv = MCH_Lib.RotVec3(0.0, 0.0, -1.0, -w.getYaw() - yaw, -w.getPitch());
                             Vec3d spv = w.getCurrentWeapon().getShotPos(this);
-                            this.spawnParticleMuzzleFlash(this.world, w.getInfo(), this.posX + spv.x, this.posY + spv.y,
-                                    this.posZ + spv.z, wrv);
+                            this.spawnParticleMuzzleFlash(this.world, w.getInfo(), this.posX + spv.x, this.posY + spv.y, this.posZ + spv.z, wrv);
                         }
 
                         w.updateWeapon(this, isUsed, index);
@@ -5130,15 +5021,14 @@ public abstract class MCH_EntityAircraft
                     MCH_AircraftInfo.Weapon wi = this.getAcInfo().getWeaponById(wid);
                     if (wi != null && !this.isDestroyed()) {
                         Entity entity = this.getEntityBySeatId(this.getWeaponSeatID(this.getWeaponInfoById(wid), wi));
-                        if (wi.canUsePilot && !(entity instanceof EntityPlayer) &&
-                                !(entity instanceof MCH_EntityGunner)) {
+                        if (wi.canUsePilot && !(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
                             entity = this.getEntityBySeatId(0);
                         }
 
                         if (!(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
-                            w.rotationTurretYaw = this.getLastRiderYaw() - this.getRotYaw();
+                            w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
                             if (this.getTowedChainEntity() != null || this.getRidingEntity() != null) {
-                                w.rotationYaw = 0.0F;
+                                w.setYaw(0.0F);
                             }
                         } else {
                             if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
@@ -5146,7 +5036,7 @@ public abstract class MCH_EntityAircraft
                                 float ey = MathHelper.wrapDegrees(entity.rotationYaw - yaw - wi.defaultYaw - ty);
                                 if (Math.abs((int) wi.minYaw) < 360 && Math.abs((int) wi.maxYaw) < 360) {
                                     float targetYaw = MCH_Lib.RNG(ey, wi.minYaw, wi.maxYaw);
-                                    float wy = w.rotationYaw - wi.defaultYaw - ty;
+                                    float wy = w.getYaw() - wi.defaultYaw - ty;
                                     if (targetYaw < wy) {
                                         if (wy - targetYaw > 15.0F) {
                                             wy -= 15.0F;
@@ -5161,15 +5051,15 @@ public abstract class MCH_EntityAircraft
                                         }
                                     }
 
-                                    w.rotationYaw = wy + wi.defaultYaw + ty;
+                                    w.setYaw(wy + wi.defaultYaw + ty);
                                 } else {
-                                    w.rotationYaw = ey + ty;
+                                    w.setYaw(ey + ty);
                                 }
                             }
 
                             float ep = MathHelper.wrapDegrees(entity.rotationPitch - pitch);
-                            w.rotationPitch = MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch);
-                            w.rotationTurretYaw = 0.0F;
+                            w.setPitch(MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch));
+                            w.setTurretYaw(0.0F);
                         }
                     }
                 }
@@ -5186,29 +5076,27 @@ public abstract class MCH_EntityAircraft
         if (this.getAcInfo() != null) {
             if (this.getAcInfo().getWeaponCount() > 0) {
                 if (!this.isDestroyed()) {
-                    float yaw = MathHelper.wrapDegrees(this.getRotYaw());
-                    float pitch = MathHelper.wrapDegrees(this.getRotPitch());
+                    float yaw = MathHelper.wrapDegrees(this.getYaw());
+                    float pitch = MathHelper.wrapDegrees(this.getPitch());
 
                     for (int wid = 0; wid < this.weapons.length; wid++) {
                         MCH_WeaponSet w = this.weapons[wid];
                         MCH_AircraftInfo.Weapon wi = this.getAcInfo().getWeaponById(wid);
                         if (wi != null) {
-                            Entity entity = this
-                                    .getEntityBySeatId(this.getWeaponSeatID(this.getWeaponInfoById(wid), wi));
-                            if (wi.canUsePilot && !(entity instanceof EntityPlayer) &&
-                                    !(entity instanceof MCH_EntityGunner)) {
+                            Entity entity = this.getEntityBySeatId(this.getWeaponSeatID(this.getWeaponInfoById(wid), wi));
+                            if (wi.canUsePilot && !(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
                                 entity = this.getEntityBySeatId(0);
                             }
 
                             if (!(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
-                                w.rotationTurretYaw = this.getLastRiderYaw() - this.getRotYaw();
+                                w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
                             } else {
                                 if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
                                     float ty = wi.turret ? MathHelper.wrapDegrees(this.getLastRiderYaw()) - yaw : 0.0F;
                                     float ey = MathHelper.wrapDegrees(entity.rotationYaw - yaw - wi.defaultYaw - ty);
                                     if (Math.abs((int) wi.minYaw) < 360 && Math.abs((int) wi.maxYaw) < 360) {
                                         float targetYaw = MCH_Lib.RNG(ey, wi.minYaw, wi.maxYaw);
-                                        float wy = w.rotationYaw - wi.defaultYaw - ty;
+                                        float wy = w.getYaw() - wi.defaultYaw - ty;
                                         if (targetYaw < wy) {
                                             if (wy - targetYaw > 15.0F) {
                                                 wy -= 15.0F;
@@ -5223,19 +5111,19 @@ public abstract class MCH_EntityAircraft
                                             }
                                         }
 
-                                        w.rotationYaw = wy + wi.defaultYaw + ty;
+                                        w.setYaw(wy + wi.defaultYaw + ty);
                                     } else {
-                                        w.rotationYaw = ey + ty;
+                                        w.setYaw(ey + ty);
                                     }
                                 }
 
                                 float ep = MathHelper.wrapDegrees(entity.rotationPitch - pitch);
-                                w.rotationPitch = MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch);
-                                w.rotationTurretYaw = 0.0F;
+                                w.setPitch(MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch));
+                                w.setTurretYaw(0.0F);
                             }
                         }
 
-                        w.prevRotationYaw = w.rotationYaw;
+                        w.setPrevYaw(w.getYaw());
                     }
                 }
             }
@@ -5272,17 +5160,7 @@ public abstract class MCH_EntityAircraft
         if (wi.listMuzzleFlash != null) {
             for (MCH_WeaponInfo.MuzzleFlash mf : wi.listMuzzleFlash) {
                 float color = this.rand.nextFloat() * 0.1F + 0.9F;
-                MCH_ParticlesUtil.spawnParticleMuzzleFlash(
-                        this.world,
-                        px + -wrv.x * mf.dist,
-                        py + -wrv.y * mf.dist,
-                        pz + -wrv.z * mf.dist,
-                        mf.size,
-                        color * mf.r,
-                        color * mf.g,
-                        color * mf.b,
-                        mf.a,
-                        mf.age + w.rand.nextInt(3));
+                MCH_ParticlesUtil.spawnParticleMuzzleFlash(this.world, px + -wrv.x * mf.dist, py + -wrv.y * mf.dist, pz + -wrv.z * mf.dist, mf.size, color * mf.r, color * mf.g, color * mf.b, mf.a, mf.age + w.rand.nextInt(3));
             }
         }
     }
@@ -5290,10 +5168,10 @@ public abstract class MCH_EntityAircraft
     private void updateWeaponBay() {
         for (int i = 0; i < this.weaponBays.length; i++) {
             MCH_EntityAircraft.WeaponBay wb = this.weaponBays[i];
+            assert this.getAcInfo() != null;
             MCH_AircraftInfo.WeaponBay info = this.getAcInfo().partWeaponBay.get(i);
             boolean isSelected = false;
             Integer[] arr$ = info.weaponIds;
-            int len$ = arr$.length;
 
             for (int wid : arr$) {
                 for (int sid = 0; sid < this.currentWeaponID.length; sid++) {
@@ -5324,10 +5202,6 @@ public abstract class MCH_EntityAircraft
         }
     }
 
-    public int getHitStatus() {
-        return this.hitStatus;
-    }
-
     public int getMaxHitStatus() {
         return 15;
     }
@@ -5343,8 +5217,8 @@ public abstract class MCH_EntityAircraft
         this.lastSearchLightYaw = yaw;
 
         for (MCH_WeaponSet w : this.weapons) {
-            w.rotationYaw = w.defaultRotationYaw;
-            w.rotationPitch = 0.0F;
+            w.setYaw(w.getDefYaw());
+            w.setPitch(0.0F);
         }
     }
 
@@ -5365,6 +5239,7 @@ public abstract class MCH_EntityAircraft
             this.extraBoundingBox = this.createExtraBoundingBox();
             this.partEntities = this.createParts();
             this.stepHeight = info.stepHeight;
+            this.setInventorySize((short) info.inventorySize);
         }
     }
 
@@ -5445,7 +5320,8 @@ public abstract class MCH_EntityAircraft
             }
         }
 
-        MCH_Lib.DbgLog(this.world, "switchGunnerMode %s->%s", debug_bk_mode ? "ON" : "OFF", mode ? "ON" : "OFF");
+        Object[] data = new Object[]{debug_bk_mode ? "ON" : "OFF", mode ? "ON" : "OFF"};
+        MCH_Logger.debugLog(this.world, "switchGunnerMode %s->%s", data);
     }
 
     public boolean canSwitchGunnerMode() {
@@ -5477,10 +5353,6 @@ public abstract class MCH_EntityAircraft
 
     public void switchGunnerModeOtherSeat(EntityPlayer player) {
         this.isGunnerModeOtherSeat = !this.isGunnerModeOtherSeat;
-    }
-
-    public boolean isHoveringMode() {
-        return this.isHoveringMode;
     }
 
     public void switchHoveringMode(boolean mode) {
@@ -5588,9 +5460,7 @@ public abstract class MCH_EntityAircraft
         if (!isFolded && gearFactor <= 0.1F) {
             // Attempt to fold landing gear
             blockId = MCH_Lib.getBlockIdY(this, 3, -20);
-            boolean safeToFold = (this.getCurrentThrottle() <= 0.8F || this.onGround || blockId != 0) &&
-                    this.getAcInfo().isFloat &&
-                    (this.isInWater() || MCH_Lib.getBlockY(this, 3, -20, true) == W_Block.getWater());
+            boolean safeToFold = (this.getCurrentThrottle() <= 0.8F || this.onGround || blockId != 0) && this.getAcInfo() != null && this.getAcInfo().isFloat && (this.isInWater() || MCH_Lib.getBlockY(this, 3, -20, true) == W_Block.getWater());
 
             if (safeToFold) {
                 this.partLandingGear.setStatusServer(true);
@@ -5603,15 +5473,8 @@ public abstract class MCH_EntityAircraft
             if (this.getCurrentThrottle() < this.getUnfoldLandingGearThrottle() && blockId != 0) {
                 shouldUnfold = true;
 
-                if (this.getAcInfo().isFloat) {
-                    blockId = MCH_Lib.getBlockIdY(
-                            this.world,
-                            this.posX,
-                            this.posY + 1.0 + this.getAcInfo().floatOffset,
-                            this.posZ,
-                            1,
-                            65386,
-                            true);
+                if (this.getAcInfo() != null && this.getAcInfo().isFloat) {
+                    blockId = MCH_Lib.getBlockIdY(this.world, this.posX, this.posY + 1.0 + this.getAcInfo().floatOffset, this.posZ, 1, 65386, true);
                     if (W_Block.isEqual(blockId, W_Block.getWater())) {
                         shouldUnfold = false;
                     }
@@ -5644,25 +5507,25 @@ public abstract class MCH_EntityAircraft
         this.camera.partRotationYaw = yaw;
         this.camera.prevPartRotationYaw = yaw;
         this.lastSearchLightYaw = yaw;
+
+        this.lastRiderPitch = pitch;
+        this.prevLastRiderPitch = pitch;
+        this.camera.partRotationPitch = pitch;
+        this.camera.prevPartRotationPitch = pitch;
+        this.lastSearchLightPitch = pitch;
+
     }
 
     public int getLastPartStatusMask() {
         return 24;
     }
 
-    public int getModeSwitchCooldown() {
-        return this.modeSwitchCooldown;
-    }
-
-    public void setModeSwitchCooldown(int n) {
-        this.modeSwitchCooldown = n;
-    }
-
     protected MCH_EntityAircraft.WeaponBay[] createWeaponBays() {
+        assert this.getAcInfo() != null;
         MCH_EntityAircraft.WeaponBay[] wbs = new MCH_EntityAircraft.WeaponBay[this.getAcInfo().partWeaponBay.size()];
 
         for (int i = 0; i < wbs.length; i++) {
-            wbs[i] = new WeaponBay(this);
+            wbs[i] = new WeaponBay();
         }
 
         return wbs;
@@ -5670,7 +5533,7 @@ public abstract class MCH_EntityAircraft
 
     protected MCH_Parts createHatch() {
         MCH_Parts hatch = null;
-        if (this.getAcInfo().haveHatch()) {
+        if (this.getAcInfo() != null && this.getAcInfo().haveHatch()) {
             hatch = new MCH_Parts(this, 4, PART_STAT, "Hatch");
             hatch.rotationMax = 90.0F;
             hatch.rotationInv = 1.5F;
@@ -5820,7 +5683,7 @@ public abstract class MCH_EntityAircraft
 
     protected MCH_Parts createCanopy() {
         MCH_Parts canopy = null;
-        if (this.getAcInfo().haveCanopy()) {
+        if (this.getAcInfo() != null && this.getAcInfo().haveCanopy()) {
             canopy = new MCH_Parts(this, 0, PART_STAT, "Canopy");
             canopy.rotationMax = 90.0F;
             canopy.rotationInv = 3.5F;
@@ -5860,18 +5723,9 @@ public abstract class MCH_EntityAircraft
         return this.getAcInfo() != null ? this.getAcInfo().inventorySize : 0;
     }
 
-    @Override
-    public String getInvName() {
-        if (this.getAcInfo() == null) {
-            return super.getInvName();
-        } else {
-            String s = this.getAcInfo().displayName;
-            return s.length() <= 32 ? s : s.substring(0, 31);
-        }
-    }
 
     @Override
-    public boolean isInvNameLocalized() {
+    public boolean hasCustomName() {
         return this.getAcInfo() != null;
     }
 
@@ -5880,17 +5734,9 @@ public abstract class MCH_EntityAircraft
         return this.towChainEntity;
     }
 
-    public void setTowChainEntity(MCH_EntityChain chainEntity) {
-        this.towChainEntity = chainEntity;
-    }
-
     @Nullable
     public MCH_EntityChain getTowedChainEntity() {
         return this.towedChainEntity;
-    }
-
-    public void setTowedChainEntity(MCH_EntityChain towedChainEntity) {
-        this.towedChainEntity = towedChainEntity;
     }
 
     public void setEntityBoundingBox(@NotNull AxisAlignedBB bb) {
@@ -5919,17 +5765,14 @@ public abstract class MCH_EntityAircraft
     }
 
     public String getNameOnMyRadar(MCH_EntityAircraft other) {
-        switch (getAcInfo().radarType) {
-            case MODERN_AA:
-                return other.getAcInfo().nameOnModernAARadar;
-            case EARLY_AA:
-                return other.getAcInfo().nameOnEarlyAARadar;
-            case MODERN_AS:
-                return other.getAcInfo().nameOnModernASRadar;
-            case EARLY_AS:
-                return other.getAcInfo().nameOnEarlyASRadar;
-        }
-        return "?";
+        if (other.getAcInfo() == null || this.getAcInfo() == null) return "";
+        else return switch (getAcInfo().radarType) {
+            case MODERN_AA -> other.getAcInfo().nameOnModernAARadar;
+            case EARLY_AA -> other.getAcInfo().nameOnEarlyAARadar;
+            case MODERN_AS -> other.getAcInfo().nameOnModernASRadar;
+            case EARLY_AS -> other.getAcInfo().nameOnEarlyASRadar;
+            case null -> "";
+        };
     }
 
     public String getNameOnMyRadar(EntityInfo other) {
@@ -5943,6 +5786,108 @@ public abstract class MCH_EntityAircraft
         return this.getAcInfo() != null && this.getAcInfo().isSmallUAV;
     }
 
+    @Override
+    public @NotNull AxisAlignedBB getRenderBoundingBox() {
+        return this.getEntityBoundingBox().grow(32);
+    }
+
+    public IFluidTankProperties[] getTankProperties() {
+        return new IFluidTankProperties[]{new FluidTankProperties(getFuelStack(), getMaxFuel())};
+    }
+
+
+    public int fill(FluidStack resource, boolean doFill) {
+        var ac = this.getAcInfo();
+        if (ac == null) return 0;
+        int maxFill = getMaxFuel();
+        int contents = getFuel();
+        String type = getTypeName();
+        String fluidName = resource.getFluid().getName();
+        boolean sameFuel = fluidName.equalsIgnoreCase(type);
+
+        //can't overfill or mix fuels
+        if (contents >= maxFill || (contents > 0 && !sameFuel)) return 0;
+
+        int accepted = Math.min(resource.amount, maxFill - contents);
+        if (doFill) {
+            this.dataManager.set(FUEL, contents + accepted);
+        }
+        return accepted;
+    }
+
+    @Nullable
+    public FluidStack drain(FluidStack resource, boolean doDrain) {
+        if (resource == null || resource.amount <= 0) return null;
+
+        int contents = getFuel();
+        if (contents <= 0) return null;
+
+        String type = getTypeName();
+        String fluidName = resource.getFluid().getName();
+
+        if (!fluidName.equalsIgnoreCase(type)) return null;
+
+        int drained = Math.min(resource.amount, contents);
+
+        if (doDrain) {
+            this.dataManager.set(FUEL, contents - drained);
+        }
+
+        return new FluidStack(resource.getFluid(), drained);
+    }
+
+    public ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings) {
+        return data.isContainerOnly() ?
+                ContainerGui.buildUI(data, syncManager, settings, this) : AircraftGui.buildUI(data, syncManager, settings, this);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public ModularScreen createScreen(AircraftGuiData data, ModularPanel mainPanel) {
+        return new ModularScreen(Tags.MODID, mainPanel);
+    }
+
+    @Nullable
+    public FluidStack drain(int maxDrain, boolean doDrain) {
+        if (maxDrain <= 0) return null;
+
+        int contents = getFuel();
+        if (contents <= 0) return null;
+
+        int drained = Math.min(maxDrain, contents);
+
+        if (doDrain) {
+            this.dataManager.set(FUEL, contents - drained);
+        }
+
+        Fluid fluid = FluidRegistry.getFluid(getTypeName());
+        if (fluid == null) return null;
+
+        return new FluidStack(fluid, drained);
+    }
+
+    public void manualReloadForPlayer(EntityPlayer player) {
+        boolean didReload = getCurrentWeapon(player).manualReload();
+        if (didReload && !world.isRemote && player instanceof EntityPlayerMP playerMP)
+            new PacketSyncReload(this.getEntityId()).sendToPlayer(playerMP);
+    }
+
+    public String getName() {
+        if (this.getAcInfo() == null) return super.getName();
+        return I18n.hasKey("item.mcheli:" + acInfo.name + ".name") ?
+                I18n.format("item.mcheli:" + acInfo.name + ".name") : acInfo.displayName;
+
+    }
+
+    public double getCurrentSpeed() {
+        double motionX = this.motionX;
+        double motionY = this.motionY;
+        double motionZ = this.motionZ;
+
+        double tickDistance = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
+
+        return tickDistance * 20.0D;
+    }
+
     public static class UnmountReserve {
 
         final Entity entity;
@@ -5951,7 +5896,7 @@ public abstract class MCH_EntityAircraft
         final double posZ;
         int cnt = 5;
 
-        public UnmountReserve(MCH_EntityAircraft paramMCH_EntityAircraft, Entity e, double x, double y, double z) {
+        public UnmountReserve(Entity e, double x, double y, double z) {
             this.entity = e;
             this.posX = x;
             this.posY = y;
@@ -5964,13 +5909,7 @@ public abstract class MCH_EntityAircraft
         public float rot = 0.0F;
         public float prevRot = 0.0F;
 
-        public WeaponBay(MCH_EntityAircraft paramMCH_EntityAircraft) {
+        public WeaponBay() {
         }
     }
-
-    @Override
-    public AxisAlignedBB getRenderBoundingBox() {
-        return this.getEntityBoundingBox().grow(32);
-    }
-
 }
