@@ -1,8 +1,5 @@
 package com.norwood.mcheli.vehicle;
 
-import com.cleanroommc.modularui.screen.ModularPanel;
-import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_ModelManager;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
@@ -52,7 +49,7 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
                 GlStateManager.rotate(pitch, 1.0F, 0.0F, 0.0F);
                 this.bindTexture("textures/vehicles/" + vehicle.getTextureName() + ".png", vehicle);
                 renderBody(vehicleInfo.model);
-                if (!vehicleInfo.partCrawlerTrack.isEmpty() && isNotMoving(vehicle) )
+                if (!vehicleInfo.partCrawlerTrack.isEmpty() && isNotMoving(vehicle))
                     ((ModelVBO) vehicleInfo.model).renderTracksBuffer(vehicleInfo);
                 MCH_WeaponSet ws = vehicle.getFirstSeatWeapon();
                 this.drawPart(vehicle, vehicleInfo, yaw, pitch, ws, tickTime);
@@ -72,15 +69,15 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
     }
 
     int drawPart(
-                 MCH_VehicleInfo.VPart vp,
-                 MCH_EntityVehicle vehicle,
-                 MCH_VehicleInfo info,
-                 float yaw,
-                 float pitch,
-                 float rotBrl,
-                 float tickTime,
-                 MCH_WeaponSet ws,
-                 int index) {
+            MCH_VehicleInfo.VPart vp,
+            MCH_EntityVehicle vehicle,
+            MCH_VehicleInfo info,
+            float yaw,
+            float pitch,
+            float rotBrl,
+            float tickTime,
+            MCH_WeaponSet ws,
+            int index) {
         GlStateManager.pushMatrix();
         float recoilBuf = 0.0F;
         if (index < ws.getWeaponsCount()) {

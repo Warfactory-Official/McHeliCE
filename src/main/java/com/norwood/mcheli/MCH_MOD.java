@@ -35,6 +35,7 @@ import com.norwood.mcheli.plane.MCP_ItemPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.ship.MCH_ItemShip;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
+import com.norwood.mcheli.sound.SoundPatcherUtil;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tank.MCH_ItemTank;
 import com.norwood.mcheli.tank.MCH_TankInfo;
@@ -583,6 +584,10 @@ public class MCH_MOD {
         proxy.registerParticleTextures(event);
     }
 
+    @EventHandler
+    public void onConstruction(FMLConstructionEvent event) {
+        SoundPatcherUtil.patchSounds();
+    }
     @SubscribeEvent
     public void onTextureStitchPost(TextureStitchEvent.Post event) {
         proxy.registerShaders(event);
