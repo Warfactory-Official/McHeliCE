@@ -77,7 +77,7 @@ import java.util.Map.Entry;
 @Mod(
         modid = "mcheli",
         name = "MC Helicopter MOD",
-        dependencies = "required-after:elegant_networking;after:hbm")
+        dependencies = "required-after:elegant_networking;after:hbm;required-after:modularui")
 public class MCH_MOD {
     public static final boolean DEBUG_LD = false;
 
