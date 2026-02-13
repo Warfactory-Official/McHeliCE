@@ -7,6 +7,7 @@ import com.norwood.mcheli.helper.MCH_Logger;
 import lombok.SneakyThrows;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -101,7 +102,7 @@ public class SoundPatcherUtil {
     }
 
     private static List<Path> discoverSoundJsons() throws IOException {
-        Path addonPath = Minecraft.getMinecraft().gameDir.toPath().resolve("mcheli_addons");
+        Path addonPath = Loader.instance().getConfigDir().toPath().getParent().resolve("mcheli_addons");
         List<Path> jsonPaths = new ArrayList<>();
         if (!Files.exists(addonPath)) return jsonPaths;
 
