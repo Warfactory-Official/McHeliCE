@@ -6,6 +6,7 @@ import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.helper.MCH_Logger;
 import lombok.SneakyThrows;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,6 +36,7 @@ public class SoundPatcherUtil {
             var jsound = iterator.next();
 
             if (jsound.object.has("mchce_patched")) {
+                registerSound(jsound.object);
                 iterator.remove();
                 continue;
             }
@@ -64,7 +66,13 @@ public class SoundPatcherUtil {
             markerEvent.addProperty("_note", "Patched by " + Tags.MODNAME + " " + Tags.VERSION);
 
             jsound.object.add("mchce_patched", markerEvent);
+            registerSound(jsound.object);
         }
+    }
+
+    public static void registerSound(JsonObject object) {
+        object.entrySet().forEach(e -> SoundRegistry.INSTANCE.soundSet.add(new ResourceLocation(Tags.MODID, e.getKey())));
+
     }
 
     public static void saveJsonObject(List<SoundJson> soundJsons) throws IOException {
@@ -105,5 +113,6 @@ public class SoundPatcherUtil {
         return jsonPaths;
     }
 
-    record SoundJson(Path path, JsonObject object) {}
+    record SoundJson(Path path, JsonObject object) {
+    }
 }

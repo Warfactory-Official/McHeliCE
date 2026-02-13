@@ -102,6 +102,7 @@ public class SoundRegistry {
     }
 
 
+
     public static boolean validateSoundResource(ResourceLocation sound) {
 
         var resourcelocation = new ResourceLocation(sound.getNamespace(), "sounds/" + sound.getPath() + ".ogg");
