@@ -26,6 +26,7 @@ import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
+import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.UAVTracker;
 import com.norwood.mcheli.weapon.*;
@@ -226,7 +227,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     @Setter
     @Getter
     private int despawnCount;
-    private MCH_EntityUavStation uavStation;
+    private IUavStation uavStation;
     @Setter
     @Getter
     private int modeSwitchCooldown;
@@ -330,7 +331,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             }
 
             if (rider.getRidingEntity() instanceof MCH_EntityUavStation uavStation) {
-                return uavStation.getControlAircract();
+                return uavStation.getControlled();
             }
         }
 
@@ -610,7 +611,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     @Nullable
-    public MCH_EntityUavStation getUavStation() {
+    public IUavStation getUavStation() {
         return this.isUAV() ? this.uavStation : null;
     }
 
@@ -633,7 +634,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     @Override
     public Entity getRiddenByEntity() {
         if (this.isUAV() && this.uavStation != null) {
-            return this.uavStation.getRiddenByEntity();
+            return this.uavStation.getOperator();
         } else {
             List<Entity> passengers = this.getPassengers();
             return passengers.isEmpty() ? null : passengers.getFirst();
@@ -5274,34 +5275,51 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public void updateUAV() {
-        if (this.isUAV()) {
-            if (this.world.isRemote) {
-                int eid = this.dataManager.get(UAV_STATION);
-                if (eid > 0) {
-                    if (this.uavStation == null) {
-                        Entity uavEntity = this.world.getEntityByID(eid);
-                        if (uavEntity instanceof MCH_EntityUavStation) {
-                            this.uavStation = (MCH_EntityUavStation) uavEntity;
-                            this.uavStation.setControlAircract(this);
-                        }
-                    }
-                } else if (this.uavStation != null) {
-                    this.uavStation.setControlAircract(null);
-                    this.uavStation = null;
-                }
-            } else if (this.uavStation != null) {
-                double udx = this.posX - this.uavStation.posX;
-                double udz = this.posZ - this.uavStation.posZ;
-                if (udx * udx + udz * udz > 15129.0) {
-                    this.uavStation.setControlAircract(null);
-                    this.setUavStation(null);
-                    this.attackEntityFrom(DamageSource.OUT_OF_WORLD, this.getMaxHP() + 10);
-                }
-            }
+        if (!this.isUAV()) {
+            return;
+        }
 
-            if (this.uavStation != null && this.uavStation.isDead) {
-                this.uavStation = null;
+        if (this.world.isRemote) {
+            updateClientUavStation();
+        } else {
+            updateServerUavStation();
+        }
+
+        if (this.uavStation != null && uavStation instanceof Entity entityUav && entityUav.isDead) {
+            this.uavStation = null;
+        }
+    }
+
+    private void updateClientUavStation() {
+        int eid = this.dataManager.get(UAV_STATION);
+        if (eid > 0) {
+            if (this.uavStation == null) {
+                Entity entity = this.world.getEntityByID(eid);
+                if (entity instanceof IUavStation) {
+                    this.uavStation = (IUavStation) entity;
+                    this.uavStation.setControlled(this);
+                }
             }
+        } else if (this.uavStation != null) {
+            this.uavStation.setControlled(null);
+            this.uavStation = null;
+        }
+    }
+
+    private void updateServerUavStation() {
+        if (this.uavStation == null) {
+            return;
+        }
+
+        double rangeSq = this.uavStation.getType() == IUavStation.StationType.SMALL ? 2500.0 : 15129.0;
+        Vec3d stationPos = this.uavStation.getPos();
+        double udx = this.posX - stationPos.x;
+        double udz = this.posZ - stationPos.z;
+
+        if (udx * udx + udz * udz > rangeSq) {
+            this.uavStation.setControlled(null);
+            this.setUavStation(null);
+            this.attackEntityFrom(DamageSource.OUT_OF_WORLD, this.getMaxHP() + 10);
         }
     }
 

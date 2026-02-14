@@ -3,9 +3,8 @@ package com.norwood.mcheli.networking.packet.control;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
-import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.IUavStation;
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -25,9 +24,9 @@ public class PacketPlayerControlShip extends PacketPlayerControlBase {
             if (((MCH_EntitySeat) player.getRidingEntity()).getParent() instanceof MCH_EntityShip) {
                 ship = (MCH_EntityShip) ((MCH_EntitySeat) player.getRidingEntity()).getParent();
             }
-        } else if (player.getRidingEntity() instanceof MCH_EntityUavStation uavStation) {
-            if (uavStation.getControlAircract() instanceof MCH_EntityShip) {
-                ship = (MCH_EntityShip) uavStation.getControlAircract();
+        } else if (player.getRidingEntity() instanceof IUavStation uavStation) {
+            if (uavStation.getControlled() instanceof MCH_EntityShip) {
+                ship = (MCH_EntityShip) uavStation.getControlled();
             }
         }
         process(ship, controlBaseData, player);

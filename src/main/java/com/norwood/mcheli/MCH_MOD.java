@@ -44,6 +44,7 @@ import com.norwood.mcheli.throwable.MCH_ItemThrowable;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
+import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.MCH_ItemUavStation;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
@@ -492,19 +493,36 @@ public class MCH_MOD {
     }
 
     public void registerItemUavStation() {
-        String[] dispName = new String[]{"UAV Station", "Portable UAV Controller"};
-        String[] localName = new String[]{"UAVステーション", "携帯UAV制御端末"};
-        itemUavStation = new MCH_ItemUavStation[MCH_ItemUavStation.UAV_STATION_KIND_NUM];
+        itemUavStation = new MCH_ItemUavStation[IUavStation.StationType.values().length];
         String name = "uav_station";
 
-        for (int i = 0; i < itemUavStation.length; i++) {
-            String nn = i > 0 ? "" + (i + 1) : "";
-            MCH_ItemUavStation item = new MCH_ItemUavStation(MCH_Config.ItemID_UavStation[i].prmInt, 1 + i);
-            itemUavStation[i] = item;
-            registerItem(item, name + nn, creativeTabs);
-            W_LanguageRegistry.addName(item, dispName[i]);
-            W_LanguageRegistry.addNameForObject(item, "ja_jp", localName[i]);
-        }
+        //Register DEFAULT Station (ID 1)
+        itemUavStation[0] = createAndRegisterUav(
+                0,
+                IUavStation.StationType.DEFAULT,
+                name,
+                "UAV Station",
+                "UAVステーション"
+        );
+
+        //SMALL Station (ID 2)
+        itemUavStation[1] = createAndRegisterUav(
+                1,
+                IUavStation.StationType.SMALL,
+                name + "2",
+                "Portable UAV Controller",
+                "携帯UAV制御端末"
+        );
+    }
+
+    private MCH_ItemUavStation createAndRegisterUav(int index, IUavStation.StationType type, String registryName, String enName, String jpName) {
+        MCH_ItemUavStation item = new MCH_ItemUavStation(MCH_Config.ItemID_UavStation[index].prmInt, type);
+
+        registerItem(item, registryName, creativeTabs);
+        W_LanguageRegistry.addName(item, enName);
+        W_LanguageRegistry.addNameForObject(item, "ja_jp", jpName);
+
+        return item;
     }
 
     public void registerItemParachute() {

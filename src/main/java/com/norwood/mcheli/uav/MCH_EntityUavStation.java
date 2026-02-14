@@ -4,6 +4,7 @@ import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Explosion;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
@@ -40,6 +41,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -48,7 +50,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySinglePassenger {
+public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySinglePassenger, IUavStation {
 
     private static final DataParameter<Byte> STATUS = EntityDataManager.createKey(MCH_EntityUavStation.class,
             DataSerializers.BYTE);
@@ -57,24 +59,15 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
     private static final DataParameter<BlockPos> UAV_POS = EntityDataManager.createKey(MCH_EntityUavStation.class,
             DataSerializers.BLOCK_POS);
     public boolean isRequestedSyncStatus;
-    public int posUavX;
-    public int posUavY;
-    public int posUavZ;
-    public float rotCover;
-    public float prevRotCover;
+    public int offsetX, offsetY, offsetZ;
+    public float coverRotation, prevCoverRotation;
+    @SideOnly(Side.CLIENT)
+    protected double velocityX, velocityY, velocityZ;
     protected Entity lastRiddenByEntity;
     @SideOnly(Side.CLIENT)
-    protected double velocityX;
-    @SideOnly(Side.CLIENT)
-    protected double velocityY;
-    @SideOnly(Side.CLIENT)
-    protected double velocityZ;
     protected int aircraftPosRotInc;
-    protected double aircraftX;
-    protected double aircraftY;
-    protected double aircraftZ;
-    protected double aircraftYaw;
-    protected double aircraftPitch;
+    protected double aircraftX, aircraftY, aircraftZ;
+    protected double aircraftYaw, aircraftPitch;
     private MCH_EntityAircraft controlAircraft;
     private MCH_EntityAircraft lastControlAircraft;
     private String loadedLastControlAircraftGuid;
@@ -95,12 +88,12 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         this.aircraftZ = 0.0;
         this.aircraftYaw = 0.0;
         this.aircraftPitch = 0.0;
-        this.posUavX = 0;
-        this.posUavY = 0;
-        this.posUavZ = 0;
-        this.rotCover = 0.0F;
-        this.prevRotCover = 0.0F;
-        this.setControlAircract(null);
+        this.offsetX = 0;
+        this.offsetY = 0;
+        this.offsetZ = 0;
+        this.coverRotation = 0.0F;
+        this.prevCoverRotation = 0.0F;
+        this.setControlled(null);
         this.setLastControlAircraft(null);
         this.loadedLastControlAircraftGuid = "";
     }
@@ -125,12 +118,23 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         }
     }
 
-    public int getKind() {
-        return 127 & this.getStatus();
+    public @NotNull StationType getType() {
+        int kind = 127 & this.getStatus();
+        return switch (kind) {
+            case 2  -> StationType.SMALL;
+            default -> StationType.DEFAULT;
+        };
     }
 
-    public void setKind(int n) {
-        this.setStatus(this.getStatus() & 128 | n);
+    public void setType(@NotNull StationType type) {
+        int kind = (type == StationType.SMALL) ? 2 : 1;
+        this.setStatus((this.getStatus() & 128) | (kind & 127));
+    }
+
+    @Override
+    @Nullable
+    public Entity getOperator() {
+        return getRiddenByEntity();
     }
 
     public boolean isOpen() {
@@ -141,61 +145,72 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         this.setStatus((b ? 128 : 0) | this.getStatus() & 127);
     }
 
+
+    @Override
+    public Vec3d getPos() {
+       return new Vec3d(posX,posY,posZ)
+        ;
+    }
+
     @Nullable
-    public MCH_EntityAircraft getControlAircract() {
+    public MCH_EntityAircraft getControlled() {
         return this.controlAircraft;
     }
 
-    public void setControlAircract(@Nullable MCH_EntityAircraft ac) {
-        this.controlAircraft = ac;
-        if (ac != null && !ac.isDead) {
-            this.setLastControlAircraft(ac);
+    public void setControlled(@Nullable MCH_EntityAircraft aircraft) {
+        this.controlAircraft = aircraft;
+        if (aircraft != null && !aircraft.isDead) {
+            this.setLastControlAircraft(aircraft);
         }
     }
 
     public void setUavPosition(int x, int y, int z) {
         if (!this.world.isRemote) {
-            this.posUavX = x;
-            this.posUavY = y;
-            this.posUavZ = z;
+            this.offsetX = x;
+            this.offsetY = y;
+            this.offsetZ = z;
             this.dataManager.set(UAV_POS, new BlockPos(x, y, z));
         }
     }
 
     public void updateUavPosition() {
         BlockPos uavPos = this.dataManager.get(UAV_POS);
-        this.posUavX = uavPos.getX();
-        this.posUavY = uavPos.getY();
-        this.posUavZ = uavPos.getZ();
+        this.offsetX = uavPos.getX();
+        this.offsetY = uavPos.getY();
+        this.offsetZ = uavPos.getZ();
     }
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt) {
         super.writeEntityToNBT(nbt);
+
         nbt.setInteger("UavStatus", this.getStatus());
-        nbt.setInteger("PosUavX", this.posUavX);
-        nbt.setInteger("PosUavY", this.posUavY);
-        nbt.setInteger("PosUavZ", this.posUavZ);
-        String s = "";
-        if (this.getLastControlAircraft() != null && !this.getLastControlAircraft().isDead) {
-            s = this.getLastControlAircraft().getCommonUniqueId();
-        }
 
-        if (s.isEmpty()) {
-            s = this.loadedLastControlAircraftGuid;
-        }
+        nbt.setInteger("PosUavX", this.offsetX);
+        nbt.setInteger("PosUavY", this.offsetY);
+        nbt.setInteger("PosUavZ", this.offsetZ);
 
-        nbt.setString("LastCtrlAc", s);
+        String guid = (this.getLastControlAircraft() instanceof MCH_EntityAircraft ac && !ac.isDead)
+                ? ac.getCommonUniqueId()
+                : this.loadedLastControlAircraftGuid;
+
+        nbt.setString("LastCtrlAc", guid);
     }
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbt) {
         super.readEntityFromNBT(nbt);
-        this.setUavPosition(nbt.getInteger("PosUavX"), nbt.getInteger("PosUavY"), nbt.getInteger("PosUavZ"));
+
+        this.setUavPosition(
+                nbt.getInteger("PosUavX"),
+                nbt.getInteger("PosUavY"),
+                nbt.getInteger("PosUavZ")
+        );
+
         if (nbt.hasKey("UavStatus")) {
             this.setStatus(nbt.getInteger("UavStatus"));
         } else {
-            this.setKind(1);
+            this.setType(StationType.DEFAULT);
         }
 
         this.loadedLastControlAircraftGuid = nbt.getString("LastCtrlAc");
@@ -203,10 +218,10 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
 
     public void initUavPostion() {
         int rt = (int) (MCH_Lib.getRotate360(this.rotationYaw + 45.0F) / 90.0);
-        this.posUavX = rt != 0 && rt != 3 ? -12 : 12;
-        this.posUavZ = rt != 0 && rt != 1 ? -12 : 12;
-        this.posUavY = 2;
-        this.setUavPosition(this.posUavX, this.posUavY, this.posUavZ);
+        this.offsetX = rt != 0 && rt != 3 ? -12 : 12;
+        this.offsetZ = rt != 0 && rt != 1 ? -12 : 12;
+        this.offsetY = 2;
+        this.setUavPosition(this.offsetX, this.offsetY, this.offsetZ);
     }
 
     @Override
@@ -215,59 +230,62 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-        if (this.isEntityInvulnerable(damageSource)) {
-            return false;
-        } else if (this.isDead) {
-            return true;
-        } else if (this.world.isRemote) {
-            return true;
-        } else {
-            String dmt = damageSource.getDamageType();
-            damage = MCH_Config.applyDamageByExternal(this, damageSource, damage);
-            if (!MCH_Multiplay.canAttackEntity(damageSource, this)) {
-                return false;
-            } else {
-                boolean isCreative = false;
-                Entity entity = damageSource.getTrueSource();
-                boolean isDamegeSourcePlayer = false;
-                if (entity instanceof EntityPlayer) {
-                    isCreative = ((EntityPlayer) entity).capabilities.isCreativeMode;
-                    if (dmt.compareTo("player") == 0) {
-                        isDamegeSourcePlayer = true;
-                    }
+    public boolean attackEntityFrom(DamageSource source, float damage) {
+        if (isEntityInvulnerable(source)) return false;
+        if (isDead || world.isRemote) return true;
 
-                    W_WorldFunc.playSoundAt(this, "hit", 1.0F, 1.0F);
-                } else {
-                    W_WorldFunc.playSoundAt(this, "helidmg", 1.0F, 0.9F + this.rand.nextFloat() * 0.1F);
-                }
+        final float finalDamage = MCH_Config.applyDamageByExternal(this, source, damage);
+        if (!MCH_Multiplay.canAttackEntity(source, this)) return false;
 
-                this.markVelocityChanged();
-                if (damage > 0.0F) {
-                    Entity riddenByEntity = this.getRiddenByEntity();
-                    if (riddenByEntity != null) {
-                        riddenByEntity.startRiding(this);
-                    }
+        String sound = switch (source.getTrueSource()) {
+            case EntityPlayer _ -> "hit";
+            default -> "helidmg";
+        };
 
-                    this.dropContentsWhenDead = true;
-                    this.setDead();
-                    if (!isDamegeSourcePlayer) {
-                        MCH_Explosion.newExplosion(this.world, null, riddenByEntity, this.posX, this.posY, this.posZ,
-                                1.0F, 0.0F, true, true, false, false, 0);
-                    }
+        float pitch = sound.equals("hit") ? 1.0F : 0.9F + rand.nextFloat() * 0.1F;
+        W_WorldFunc.playSoundAt(this, sound, 1.0F, pitch);
 
-                    if (!isCreative) {
-                        int kind = this.getKind();
-                        if (kind > 0) {
-                            this.dropItemWithOffset(MCH_MOD.itemUavStation[kind - 1], 1, 0.0F);
-                        }
-                    }
-                }
+        markVelocityChanged();
 
-                return true;
+        if (finalDamage > 0.0F) {
+            processDestruction(source);
+        }
+
+        return true;
+    }
+
+    private void processDestruction(DamageSource source) {
+        Entity pilot = getRiddenByEntity();
+        if (pilot != null) pilot.startRiding(this);
+
+        this.dropContentsWhenDead = true;
+        this.setDead();
+
+        switch (source.getTrueSource()) {
+            case EntityPlayer p when source.getDamageType().equals("player") -> {
+                if (!p.capabilities.isCreativeMode) dropUavStation();
+            }
+            case Entity _ -> {
+                MCH_Explosion.newExplosion(world, null, pilot, posX, posY, posZ, 1.0F, 0.0F, true, true, false, false, 0);
+                dropUavStation();
+            }
+            case null -> {
+                MCH_Explosion.newExplosion(world, null, pilot, posX, posY, posZ, 1.0F, 0.0F, true, true, false, false, 0);
+                dropUavStation();
             }
         }
     }
+    private void dropUavStation() {
+        int kind = switch (getType()) {
+            case DEFAULT -> 1;
+            case SMALL   -> 2;
+        };
+
+        if (kind > 0 && kind <= MCH_MOD.itemUavStation.length) {
+            this.dropItemWithOffset(MCH_MOD.itemUavStation[kind - 1], 1, 0.0F);
+        }
+    }
+
 
     protected boolean canTriggerWalking() {
         return false;
@@ -283,7 +301,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
 
     public double getMountedYOffset() {
         Entity riddenByEntity = this.getRiddenByEntity();
-        if (this.getKind() == 2 && riddenByEntity != null) {
+        if (this.getType() == StationType.SMALL && riddenByEntity != null) {
             double px = -Math.sin(this.rotationYaw * Math.PI / 180.0) * 0.9;
             double pz = Math.cos(this.rotationYaw * Math.PI / 180.0) * 0.9;
             int x = (int) (this.posX + px);
@@ -319,43 +337,37 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         this.velocityZ = this.motionZ = par5;
     }
 
+    @Override
     public void onUpdate() {
         super.onUpdate();
-        this.prevRotCover = this.rotCover;
-        if (this.isOpen()) {
-            if (this.rotCover < 1.0F) {
-                this.rotCover += 0.1F;
-            } else {
-                this.rotCover = 1.0F;
-            }
-        } else if (this.rotCover > 0.0F) {
-            this.rotCover -= 0.1F;
-        } else {
-            this.rotCover = 0.0F;
-        }
 
-        Entity riddenByEntity = this.getRiddenByEntity();
-        if (riddenByEntity == null) {
+        this.prevCoverRotation = this.coverRotation;
+        float delta = this.isOpen() ? 0.1F : -0.1F;
+        this.coverRotation = Math.clamp(this.coverRotation + delta, 0.0F, 1.0F);
+
+        Entity currentRider = this.getRiddenByEntity();
+        if (currentRider == null) {
             if (this.lastRiddenByEntity != null) {
                 this.unmountEntity(true);
             }
-
-            this.setControlAircract(null);
+            this.setControlled(null);
         }
 
-        int uavStationKind = this.getKind();
-        if (this.ticksExisted >= 30 || uavStationKind != 2 || this.world.isRemote && !this.isRequestedSyncStatus) {
-            this.isRequestedSyncStatus = true;
+        if (!this.isRequestedSyncStatus) {
+            this.isRequestedSyncStatus = this.ticksExisted >= 30
+                    || this.getType() != StationType.SMALL
+                    || this.world.isRemote;
         }
 
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
-        if (this.getControlAircract() != null && this.getControlAircract().isDead) {
-            this.setControlAircract(null);
+
+        if (this.getControlled() instanceof MCH_EntityAircraft ac && ac.isDead) {
+            this.setControlled(null);
         }
 
-        if (this.getLastControlAircraft() != null && this.getLastControlAircraft().isDead) {
+        if (this.getLastControlAircraft() instanceof MCH_EntityAircraft lastAc && lastAc.isDead) {
             this.setLastControlAircraft(null);
         }
 
@@ -365,7 +377,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
             this.onUpdate_Server();
         }
 
-        this.lastRiddenByEntity = this.getRiddenByEntity();
+        this.lastRiddenByEntity = currentRider;
     }
 
     @Nullable
@@ -496,129 +508,93 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
     public void controlLastAircraft(Entity user) {
         if (this.getLastControlAircraft() != null && !this.getLastControlAircraft().isDead) {
             this.getLastControlAircraft().setUavStation(this);
-            this.setControlAircract(this.getLastControlAircraft());
+            this.setControlled(this.getLastControlAircraft());
             W_EntityPlayer.closeScreen(user);
         }
     }
 
     public void handleItem(@Nullable Entity user, ItemStack itemStack) {
-        if (user != null && !user.isDead && !itemStack.isEmpty() && itemStack.getCount() == 1) {
-            if (!this.world.isRemote) {
-                MCH_EntityAircraft ac = null;
-                double x = this.posX + this.posUavX;
-                double y = this.posY + this.posUavY;
-                double z = this.posZ + this.posUavZ;
-                if (y <= 1.0) {
-                    y = 2.0;
-                }
+        if (user == null || user.isDead || itemStack.isEmpty() || itemStack.getCount() != 1 || world.isRemote) {
+            return;
+        }
 
-                Item item = itemStack.getItem();
-                if (item instanceof MCP_ItemPlane) {
-                    MCH_PlaneInfo pi = MCP_PlaneInfoManager.getFromItem(item);
-                    if (pi != null && pi.isUAV) {
-                        if (!pi.isSmallUAV && this.getKind() == 2) {
-                            ac = null;
-                        } else {
-                            ac = ((MCP_ItemPlane) item).createAircraft(this.world, x, y, z, itemStack);
-                        }
-                    }
-                }
+        double x = posX + offsetX;
+        double y = Math.max(posY + offsetY, 2.0);
+        double z = posZ + offsetZ;
 
-                if (item instanceof MCH_ItemShip) {
-                    MCH_ShipInfo si = MCH_ShipInfoManager.getFromItem(item);
-                    if (si != null && si.isUAV) {
-                        if (!si.isSmallUAV && this.getKind() == 2) {
-                            ac = null;
-                        } else {
-                            ac = ((MCH_ItemShip) item).createAircraft(this.world, x, y, z, itemStack);
-                        }
-                    }
-                }
+        MCH_EntityAircraft ac = switch (itemStack.getItem()) {
+            case MCP_ItemPlane p when getInfo(p) instanceof MCH_PlaneInfo pi && pi.isUAV ->
+                    (pi.isSmallUAV || getType() != StationType.SMALL) ? p.createAircraft(world, x, y, z, itemStack) : null;
+            case MCH_ItemShip s when getInfo(s) instanceof MCH_ShipInfo si && si.isUAV ->
+                    (si.isSmallUAV || getType() != StationType.SMALL) ? s.createAircraft(world, x, y, z, itemStack) : null;
+            case MCH_ItemHeli h when getInfo(h) instanceof MCH_HeliInfo hi && hi.isUAV ->
+                    (hi.isSmallUAV || getType() != StationType.SMALL) ? h.createAircraft(world, x, y, z, itemStack) : null;
+            case MCH_ItemTank t when getInfo(t) instanceof MCH_TankInfo ti && ti.isUAV ->
+                    (ti.isSmallUAV || getType() != StationType.SMALL) ? t.createAircraft(world, x, y, z, itemStack) : null;
 
-                if (item instanceof MCH_ItemHeli) {
-                    MCH_HeliInfo hi = MCH_HeliInfoManager.getFromItem(item);
-                    if (hi != null && hi.isUAV) {
-                        if (!hi.isSmallUAV && this.getKind() == 2) {
-                            ac = null;
-                        } else {
-                            ac = ((MCH_ItemHeli) item).createAircraft(this.world, x, y, z, itemStack);
-                        }
-                    }
-                }
+            default -> null;
+        };
 
-                if (item instanceof MCH_ItemTank) {
-                    MCH_TankInfo hi = MCH_TankInfoManager.getFromItem(item);
-                    if (hi != null && hi.isUAV) {
-                        if (!hi.isSmallUAV && this.getKind() == 2) {
-                            ac = null;
-                        } else {
-                            ac = ((MCH_ItemTank) item).createAircraft(this.world, x, y, z, itemStack);
-                        }
-                    }
-                }
+        if (ac != null) {
+            finalizeUavSpawn(ac, user, itemStack);
+        }
+    }
 
-                if (ac != null) {
-                    ac.rotationYaw = this.rotationYaw - 180.0F;
-                    ac.prevRotationYaw = ac.rotationYaw;
-                    user.rotationYaw = this.rotationYaw - 180.0F;
-                    if (this.world.getCollisionBoxes(ac, ac.getEntityBoundingBox().grow(-0.1, -0.1, -0.1)).isEmpty()) {
-                        itemStack.shrink(1);
-                        Object[] data = new Object[]{item.getTranslationKey(), item};
-                        MCH_Logger.debugLog(this.world, "Create UAV: %s : %s", data);
-                        user.rotationYaw = this.rotationYaw - 180.0F;
-                        if (!ac.isTargetDrone()) {
-                            ac.setUavStation(this);
-                            this.setControlAircract(ac);
-                        }
+    private MCH_AircraftInfo getInfo(Item item) {
+        return switch (item) {
+            case MCP_ItemPlane p -> MCP_PlaneInfoManager.getFromItem(p);
+            case MCH_ItemHeli h -> MCH_HeliInfoManager.getFromItem(h);
+            case MCH_ItemTank t -> MCH_TankInfoManager.getFromItem(t);
+            case MCH_ItemShip s -> MCH_ShipInfoManager.getFromItem(s);
+            default -> null;
+        };
+    }
 
-                        this.world.spawnEntity(ac);
-                        if (!ac.isTargetDrone()) {
-                            ac.setFuel((int) (ac.getMaxFuel() * 0.05F));
-                            W_EntityPlayer.closeScreen(user);
-                        } else {
-                            ac.setFuel(ac.getMaxFuel());
-                        }
-                    } else {
-                        ac.setDead();
-                    }
-                }
+    private void finalizeUavSpawn(MCH_EntityAircraft ac, Entity user, ItemStack stack) {
+        float yaw = rotationYaw - 180.0F;
+        ac.rotationYaw = ac.prevRotationYaw = yaw;
+
+        if (world.getCollisionBoxes(ac, ac.getEntityBoundingBox().grow(-0.1)).isEmpty()) {
+            stack.shrink(1);
+            if (ac.isTargetDrone()) {
+                ac.setFuel(ac.getMaxFuel());
+            } else {
+                ac.setUavStation(this);
+                setControlled(ac);
+                W_EntityPlayer.closeScreen(user);
             }
+            user.rotationYaw = yaw;
+            world.spawnEntity(ac);
+        } else {
+            ac.setDead();
         }
     }
 
 
     public boolean processInitialInteract(@NotNull EntityPlayer player, @NotNull EnumHand hand) {
-        if (hand != EnumHand.MAIN_HAND) {
-            return false;
-        } else {
-            int kind = this.getKind();
-            if (kind <= 0) {
+        if (hand != EnumHand.MAIN_HAND || this.getRidingEntity() != null) return false;
+
+        if (getType() == StationType.SMALL) {
+            if (player.isSneaking()) {
+                this.setOpen(!this.isOpen());
                 return false;
-            } else if (this.getRiddenByEntity() != null) {
+            }
+
+            if (!this.isOpen()) {
                 return false;
-            } else {
-                if (kind == 2) {
-                    if (player.isSneaking()) {
-                        this.setOpen(!this.isOpen());
-                        return false;
-                    }
-
-                    if (!this.isOpen()) {
-                        return false;
-                    }
-                }
-
-                this.lastRiddenByEntity = null;
-                PooledGuiParameter.setEntity(player, this);
-                if (!this.world.isRemote) {
-                    player.startRiding(this);
-                    player.openGui(MCH_MOD.instance, 0, player.world, (int) this.posX, (int) this.posY,
-                            (int) this.posZ);
-                }
-
-                return true;
             }
         }
+
+        this.lastRiddenByEntity = null;
+        PooledGuiParameter.setEntity(player, this);
+        if (!this.world.isRemote) {
+            player.startRiding(this);
+            player.openGui(MCH_MOD.instance, 0, player.world, (int) this.posX, (int) this.posY,
+                    (int) this.posZ);
+        }
+
+        return true;
+
     }
 
     @Override
@@ -643,11 +619,11 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
             rByEntity = this.lastRiddenByEntity;
         }
 
-        if (this.getControlAircract() != null) {
-            this.getControlAircract().setUavStation(null);
+        if (this.getControlled() != null) {
+            this.getControlled().setUavStation(null);
         }
 
-        this.setControlAircract(null);
+        this.setControlled(null);
         if (this.world.isRemote) {
             W_EntityPlayer.closeScreen(rByEntity);
         }

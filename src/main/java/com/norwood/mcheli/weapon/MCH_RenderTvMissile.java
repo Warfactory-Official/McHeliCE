@@ -2,7 +2,7 @@ package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.IUavStation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -26,12 +26,12 @@ public class MCH_RenderTvMissile extends MCH_RenderBulletBase<MCH_EntityBaseBull
                              float par9) {
         MCH_EntityAircraft ac = null;
         Entity ridingEntity = Minecraft.getMinecraft().player.getRidingEntity();
-        if (ridingEntity instanceof MCH_EntityAircraft) {
-            ac = (MCH_EntityAircraft) ridingEntity;
-        } else if (ridingEntity instanceof MCH_EntitySeat) {
-            ac = ((MCH_EntitySeat) ridingEntity).getParent();
-        } else if (ridingEntity instanceof MCH_EntityUavStation) {
-            ac = ((MCH_EntityUavStation) ridingEntity).getControlAircract();
+        switch (ridingEntity) {
+            case MCH_EntityAircraft aircraft -> ac = aircraft;
+            case MCH_EntitySeat mchEntitySeat -> ac = mchEntitySeat.getParent();
+            case IUavStation iUavStation -> ac = iUavStation.getControlled();
+            case null, default -> {
+            }
         }
 
         if (ac == null || ac.isRenderBullet(entity, Minecraft.getMinecraft().player)) {

@@ -9,7 +9,7 @@ import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.control.PacketPlayerControlShip;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -88,9 +88,9 @@ public class MCH_ClientShipTickHandler extends MCH_AircraftClientTickHandler {
                     isPilot = false;
                     ship = (MCH_EntityShip) seat.getParent();
                 }
-            } else if (player.getRidingEntity() instanceof MCH_EntityUavStation uavStation) {
-                if (uavStation.getControlAircract() instanceof MCH_EntityShip) {
-                    ship = (MCH_EntityShip) uavStation.getControlAircract();
+            } else if (player.getRidingEntity() instanceof IUavStation uavStation) {
+                if (uavStation.getControlled() instanceof MCH_EntityShip) {
+                    ship = (MCH_EntityShip) uavStation.getControlled();
                 }
             }
         }

@@ -302,7 +302,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
         CompletableFuture<Void> uavFuture = CompletableFuture.runAsync(() -> {
             long start = System.nanoTime();
-            for (String s : MCH_RenderUavStation.MODEL_NAME) {
+            for (String s : MCH_RenderUavStation.MODELS) {
                 MCH_ModelManager.load(s);
 
             }

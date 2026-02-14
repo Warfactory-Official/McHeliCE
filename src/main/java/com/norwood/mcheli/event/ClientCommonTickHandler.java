@@ -20,6 +20,7 @@ import com.norwood.mcheli.tank.MCH_ClientTankTickHandler;
 import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tool.MCH_ClientToolTickHandler;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
+import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.vehicle.MCH_ClientVehicleTickHandler;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
@@ -270,7 +271,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
             case MCH_EntityPlane plane -> plane;
             case MCH_EntityShip ship -> ship;
             case MCH_EntityTank tank -> tank;
-            case MCH_EntityUavStation uav -> uav.getControlAircract();
+            case IUavStation uav -> uav.getControlled();
             case MCH_EntityVehicle vehicle -> {
                 vehicle.setupAllRiderRenderPosition(partialTicks, player);
                 yield null;

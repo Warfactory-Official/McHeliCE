@@ -4,7 +4,7 @@ import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.IUavStation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -62,14 +62,12 @@ public class MCH_CameraManager {
     @Nullable
     private static MCH_EntityAircraft getRiddenAircraft(Minecraft mc, EntityPlayer player) {
         Entity riding = player.getRidingEntity();
-        if (riding instanceof MCH_EntityAircraft) {
-            return (MCH_EntityAircraft) riding;
-        } else if (riding instanceof MCH_EntitySeat) {
-            return ((MCH_EntitySeat) riding).getParent();
-        } else if (riding instanceof MCH_EntityUavStation) {
-            return ((MCH_EntityUavStation) riding).getControlAircract();
-        }
-        return null;
+        return switch (riding) {
+            case MCH_EntityAircraft aircraft -> aircraft;
+            case MCH_EntitySeat mchEntitySeat -> mchEntitySeat.getParent();
+            case IUavStation iUavStation -> iUavStation.getControlled();
+            case null, default -> null;
+        };
     }
 
     @SubscribeEvent

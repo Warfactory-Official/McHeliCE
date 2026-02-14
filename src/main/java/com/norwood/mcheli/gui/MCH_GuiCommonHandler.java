@@ -1,6 +1,5 @@
 package com.norwood.mcheli.gui;
 
-import com.cleanroommc.modularui.factory.GuiFactories;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.aircraft.MCH_AircraftGui;
 import com.norwood.mcheli.aircraft.MCH_AircraftGuiContainer;
@@ -50,7 +49,7 @@ public class MCH_GuiCommonHandler implements IGuiHandler {
                 if (riding instanceof MCH_EntityAircraft a) {
                     ac = a;
                 } else if (riding instanceof MCH_EntityUavStation station) {
-                    ac = station.getControlAircract();
+                    ac = station.getControlled();
                 }
 
                 yield ac != null ? new MCH_AircraftGuiContainer(player, ac) : null;
@@ -91,7 +90,7 @@ public class MCH_GuiCommonHandler implements IGuiHandler {
                 if (riding instanceof MCH_EntityAircraft a) {
                     ac = a;
                 } else if (riding instanceof MCH_EntityUavStation station) {
-                    ac = station.getControlAircract();
+                    ac = station.getControlled();
                 }
 
                 yield ac != null ? new MCH_AircraftGui(player, ac) : null;

@@ -52,7 +52,7 @@ public class MCH_GuiUavStation extends W_GuiContainer {
             }
 
             if (item.isEmpty() || info != null && info.isUAV) {
-                if (this.uavStation.getKind() <= 1) {
+                if (this.uavStation.getType() == IUavStation.StationType.SMALL) {
                     this.drawString("UAV Station", 8, 6, 16777215);
                 } else if (!item.isEmpty() && !info.isSmallUAV) {
                     this.drawString("Small UAV only", 8, 6, 16711680);
@@ -64,9 +64,9 @@ public class MCH_GuiUavStation extends W_GuiContainer {
             }
 
             this.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 16777215);
-            this.drawString(String.format("X.%+2d", this.uavStation.posUavX), 58, 15, 16777215);
-            this.drawString(String.format("Y.%+2d", this.uavStation.posUavY), 58, 37, 16777215);
-            this.drawString(String.format("Z.%+2d", this.uavStation.posUavZ), 58, 59, 16777215);
+            this.drawString(String.format("X.%+2d", this.uavStation.offsetX), 58, 15, 16777215);
+            this.drawString(String.format("Y.%+2d", this.uavStation.offsetY), 58, 37, 16777215);
+            this.drawString(String.format("Z.%+2d", this.uavStation.offsetZ), 58, 59, 16777215);
         }
     }
 
@@ -85,16 +85,16 @@ public class MCH_GuiUavStation extends W_GuiContainer {
                         this.uavStation.getLastControlAircraft() != null &&
                         !this.uavStation.getLastControlAircraft().isDead) {
                     var data = new PacketUavStatus();
-                    data.posUavX = (byte) this.uavStation.posUavX;
-                    data.posUavY = (byte) this.uavStation.posUavY;
-                    data.posUavZ = (byte) this.uavStation.posUavZ;
+                    data.posUavX = (byte) this.uavStation.offsetX;
+                    data.posUavY = (byte) this.uavStation.offsetY;
+                    data.posUavZ = (byte) this.uavStation.offsetZ;
                     data.continueControl = true;
                     data.sendToServer();
                 }
 
                 this.buttonContinue.enabled = false;
             } else {
-                int[] pos = new int[] { this.uavStation.posUavX, this.uavStation.posUavY, this.uavStation.posUavZ };
+                int[] pos = new int[] { this.uavStation.offsetX, this.uavStation.offsetY, this.uavStation.offsetZ};
                 int i = btn.id >> 4 & 15;
                 int j = (btn.id & 15) - 1;
                 int[] BTN = new int[] { -10, -1, 1, 10 };
@@ -107,8 +107,8 @@ public class MCH_GuiUavStation extends W_GuiContainer {
                     pos[i] = 50;
                 }
 
-                if (this.uavStation.posUavX != pos[0] || this.uavStation.posUavY != pos[1] ||
-                        this.uavStation.posUavZ != pos[2]) {
+                if (this.uavStation.offsetX != pos[0] || this.uavStation.offsetY != pos[1] ||
+                        this.uavStation.offsetZ != pos[2]) {
                     var data = new PacketUavStatus();
                     data.posUavX = (byte) pos[0];
                     data.posUavY = (byte) pos[1];

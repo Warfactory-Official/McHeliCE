@@ -693,7 +693,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 } else if (player.getRidingEntity() instanceof MCH_EntitySeat) {
                     ac = ((MCH_EntitySeat) player.getRidingEntity()).getParent();
                 } else if (player.getRidingEntity() instanceof MCH_EntityUavStation) {
-                    ac = ((MCH_EntityUavStation) player.getRidingEntity()).getControlAircract();
+                    ac = ((MCH_EntityUavStation) player.getRidingEntity()).getControlled();
                 }
 
                 if (ac != null) {

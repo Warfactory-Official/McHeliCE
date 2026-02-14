@@ -4,6 +4,7 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
+import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,9 @@ public class PacketPlayerControlPlane extends PacketPlayerControlBase {
             if (((MCH_EntitySeat) player.getRidingEntity()).getParent() instanceof MCH_EntityPlane) {
                 plane = (MCH_EntityPlane) ((MCH_EntitySeat) player.getRidingEntity()).getParent();
             }
-        } else if (player.getRidingEntity() instanceof MCH_EntityUavStation uavStation) {
-            if (uavStation.getControlAircract() instanceof MCH_EntityPlane) {
-                plane = (MCH_EntityPlane) uavStation.getControlAircract();
+        } else if (player.getRidingEntity() instanceof IUavStation uavStation) {
+            if (uavStation.getControlled() instanceof MCH_EntityPlane) {
+                plane = (MCH_EntityPlane) uavStation.getControlled();
             }
         }
 

@@ -286,8 +286,9 @@ public abstract class MCH_HudItem extends Gui {
     private static double getUAV_Fs(MCH_EntityAircraft ac) {
         double uav_fs = 0.0;
         if (ac.isUAV() && ac.getUavStation() != null) {
-            double dx = ac.posX - ac.getUavStation().posX;
-            double dz = ac.posZ - ac.getUavStation().posZ;
+            var pos = ac.getUavStation().getPos();
+            double dx = ac.posX - pos.x;
+            double dz = ac.posZ - pos.z;
             float dist = (float) Math.sqrt(dx * dx + dz * dz);
             if (dist > 120.0F) {
                 dist = 120.0F;
@@ -488,8 +489,9 @@ public abstract class MCH_HudItem extends Gui {
 
     public static void updateUAV(MCH_EntityAircraft ac) {
         if (ac.isUAV() && ac.getUavStation() != null) {
-            double dx = ac.posX - ac.getUavStation().posX;
-            double dz = ac.posZ - ac.getUavStation().posZ;
+            var pos = ac.getUavStation().getPos();
+            double dx = ac.posX - pos.x;
+            double dz = ac.posZ - pos.z;
             UAV_Dist = (float) Math.sqrt(dx * dx + dz * dz);
         } else {
             UAV_Dist = 0.0;

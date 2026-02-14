@@ -9,7 +9,7 @@ import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.data.DataPlayerControlVehicle;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.IUavStation;
 import hohserg.elegant.networking.api.ElegantPacket;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.entity.Entity;
@@ -53,9 +53,9 @@ public class PacketPlayerControlHeli extends PacketPlayerControlBase {
             if (((MCH_EntitySeat) player.getRidingEntity()).getParent() instanceof MCH_EntityHeli) {
                 heli = (MCH_EntityHeli) ((MCH_EntitySeat) player.getRidingEntity()).getParent();
             }
-        } else if (player.getRidingEntity() instanceof MCH_EntityUavStation uavStation) {
-            if (uavStation.getControlAircract() instanceof MCH_EntityHeli) {
-                heli = (MCH_EntityHeli) uavStation.getControlAircract();
+        } else if (player.getRidingEntity() instanceof IUavStation uavStation) {
+            if (uavStation.getControlled() instanceof MCH_EntityHeli) {
+                heli = (MCH_EntityHeli) uavStation.getControlled();
             }
         }
         process(heli, controlBaseData, player);

@@ -1,6 +1,5 @@
 package com.norwood.mcheli.aircraft;
 
-import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.parachute.MCH_ItemParachute;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -85,11 +84,12 @@ public class MCH_AircraftGuiContainer extends Container {
             return true;
         }
 
+        //FIXME: That will crash someday
         if (aircraft.isUAV()) {
-            MCH_EntityUavStation station = aircraft.getUavStation();
+            MCH_EntityUavStation station = (MCH_EntityUavStation) aircraft.getUavStation();
             if (station != null) {
-                double x = station.posX + station.posUavX;
-                double z = station.posZ + station.posUavZ;
+                double x = station.posX + station.offsetX;
+                double z = station.posZ + station.offsetZ;
                 return aircraft.posX > x - 10 && aircraft.posX < x + 10
                         && aircraft.posZ > z - 10 && aircraft.posZ < z + 10;
             }

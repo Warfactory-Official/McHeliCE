@@ -3,7 +3,7 @@ package com.norwood.mcheli.weapon;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.networking.packet.PacketNotifyLock;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Lib;
 import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
@@ -266,9 +266,9 @@ public class MCH_WeaponGuidanceSystem {
     }
 
     public Entity getLockEntity(Entity entity) {
-        if (entity.getRidingEntity() instanceof MCH_EntityUavStation us) {
-            if (us.getControlAircract() != null) {
-                return us.getControlAircract();
+        if (entity.getRidingEntity() instanceof IUavStation us) {
+            if (us.getControlled() != null) {
+                return us.getControlled();
             }
         }
 
