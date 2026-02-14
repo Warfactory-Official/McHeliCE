@@ -39,10 +39,6 @@ public class UAVTracker {
         data.markDirty();
     }
 
-    public static void onUnload(ChunkEvent.Unload){
-
-    }
-
 
 
 
