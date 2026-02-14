@@ -1,12 +1,13 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.helper.MCH_Utils;
+import com.norwood.mcheli.helper.info.parsers.IParser;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class MCH_WeaponDummy extends MCH_WeaponBase {
 
-    static final MCH_WeaponInfo dummy = new MCH_WeaponInfo(MCH_Utils.buildinAddon("none"), "none");
+    static final MCH_WeaponInfo dummy = new MCH_WeaponInfo(MCH_Utils.buildinAddon("none"), "none", IParser.BUILTIN);
 
     public MCH_WeaponDummy(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         super(w, v, yaw, pitch, !nm.isEmpty() ? nm : "none", wi != null ? wi : dummy);

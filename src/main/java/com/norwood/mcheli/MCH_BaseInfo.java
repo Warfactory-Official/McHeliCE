@@ -2,21 +2,19 @@ package com.norwood.mcheli;
 
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
 import com.norwood.mcheli.helper.info.IContentData;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.util.math.Vec3d;
-
-import javax.annotation.Nullable;
 
 public abstract class MCH_BaseInfo implements IContentData {
 
     public final String filePath;
     public final AddonResourceLocation location;
     public String author = "";
+    public final String parserIdentifier;
 
-    public MCH_BaseInfo(AddonResourceLocation location, String filePath) {
+    public MCH_BaseInfo(AddonResourceLocation location, String filePath, String parserIdentifier) {
         this.location = location;
         this.filePath = filePath;
+        this.parserIdentifier = parserIdentifier;
     }
 
     public boolean toBool(String s) {

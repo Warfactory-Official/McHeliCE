@@ -21,8 +21,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import javax.annotation.Nullable;
 
 @EventBusSubscriber(
-                    modid = "mcheli",
-                    value = { Side.CLIENT })
+        modid = "mcheli",
+        value = {Side.CLIENT})
 public class MCH_CameraManager {
 
     private static final float DEF_THIRD_CAMERA_DIST = 4.0F;
@@ -31,19 +31,6 @@ public class MCH_CameraManager {
     private static float cameraDistance = 4.0F;
     private static float cameraZoom = 1.0F;
     private static MCH_EntityAircraft ridingAircraft = null;
-
-    // For hud canceling
-    @SubscribeEvent
-    public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {}
-
-    @SubscribeEvent
-    public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
-        Tuple<EntityPlayer, MCH_EntityAircraft> ctx = getActivePilotContext();
-        if (ctx == null) return;
-        if (ctx.getSecond().getAcInfo() == null) return;
-        ctx.getSecond().getAcInfo().getHudCache().forEach(drawable -> drawable.renderHud(event, ctx));
-    }
 
     @Nullable
     private static Tuple<EntityPlayer, MCH_EntityAircraft> getActivePilotContext() {
@@ -127,5 +114,19 @@ public class MCH_CameraManager {
 
     public static void setRidingAircraft(@Nullable MCH_EntityAircraft aircraft) {
         ridingAircraft = aircraft;
+    }
+
+    // For hud canceling
+    @SubscribeEvent
+    public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {
+    }
+
+    @SubscribeEvent
+    public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+        Tuple<EntityPlayer, MCH_EntityAircraft> ctx = getActivePilotContext();
+        if (ctx == null) return;
+        if (ctx.getSecond().getAcInfo() == null) return;
+        ctx.getSecond().getAcInfo().getHudCache().forEach(drawable -> drawable.renderHud(event, ctx));
     }
 }

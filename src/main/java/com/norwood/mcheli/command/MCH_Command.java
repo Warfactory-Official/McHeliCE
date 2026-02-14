@@ -5,12 +5,18 @@ import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.helper.info.ContentRegistry;
 import com.norwood.mcheli.helper.info.emitters.IEmitter;
+import com.norwood.mcheli.helper.info.emitters.IEmitter.EmissionException;
 import com.norwood.mcheli.helper.info.emitters.YamlEmitter;
+import com.norwood.mcheli.helper.info.parsers.IParser;
+import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
+import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.multiplay.MultiplayerHandler;
 import com.norwood.mcheli.networking.packet.PacketHandleCommand;
 import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
@@ -23,6 +29,7 @@ import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -258,71 +265,93 @@ public class MCH_Command extends CommandBase {
         }
     }
 
+    private boolean isDumpable(MCH_BaseInfo info) {
+        String id = info.parserIdentifier;
+        return !id.equals(IParser.BUILTIN) && !id.equals(YamlParser.INSTANCE.getIdentifier());
+    }
+
     private int dumpRegistry(IEmitter emitter, Path dir,
                              ContentRegistry<? extends MCH_BaseInfo> reg) throws IOException {
         int count = 0;
         if (reg == null) return 0;
         Files.createDirectories(dir);
-        for (Entry<String, ? extends MCH_BaseInfo> e : reg.entries()) {
-            String key = sanitizeFileName(e.getKey());
-            Path out = dir.resolve(key + ".yml");
+        var toDump = reg.entries().stream().filter( i ->isDumpable(i.getValue())).toList();
+        for (Entry<String, ? extends MCH_BaseInfo> e : toDump) {
             MCH_BaseInfo info = e.getValue();
-            String content;
-            if (info instanceof MCH_HeliInfo) {
-                content = emitter.emitHelicopter((MCH_HeliInfo) info);
-            } else if (info instanceof MCH_PlaneInfo) {
-                content = emitter.emitPlane((MCH_PlaneInfo) info);
-            } else if (info instanceof MCH_ShipInfo) {
-                content = emitter.emitShip((MCH_ShipInfo) info);
-            } else if (info instanceof MCH_TankInfo) {
-                content = emitter.emitTank((MCH_TankInfo) info);
-            } else if (info instanceof MCH_VehicleInfo) {
-                content = emitter.emitVehicle((MCH_VehicleInfo) info);
-            } else {
-                continue;
+            try {
+                String key = sanitizeFileName(e.getKey());
+                Path out = dir.resolve(key + ".yml");
+                String content;
+                switch (info) {
+                    case MCH_HeliInfo mchHeliInfo -> content = emitter.emitHelicopter(mchHeliInfo);
+                    case MCH_PlaneInfo mchPlaneInfo -> content = emitter.emitPlane(mchPlaneInfo);
+                    case MCH_ShipInfo mchShipInfo -> content = emitter.emitShip(mchShipInfo);
+                    case MCH_TankInfo mchTankInfo -> content = emitter.emitTank(mchTankInfo);
+                    case MCH_VehicleInfo mchVehicleInfo -> content = emitter.emitVehicle(mchVehicleInfo);
+                    case null, default -> {
+                        MCH_Logger.warn("Skipping unknown info type: %s", info.getClass().getSimpleName());
+                        continue;
+                    }
+                }
+                YamlEmitter.writeTo(out, content);
+                count++;
+            } catch (Exception error){
+                MCH_Logger.error("Failed to dump %s (class: %s): %s", ((MCH_AircraftInfo)info).name, info.getClass().getSimpleName(),error.getCause());
             }
-            YamlEmitter.writeTo(out, content);
-            count++;
         }
         return count;
     }
 
     private int dumpWeapons(IEmitter emitter, Path dir, ContentRegistry<MCH_WeaponInfo> reg) throws IOException {
-        int count = 0;
         if (reg == null) return 0;
+        int count = 0;
         Files.createDirectories(dir);
-        for (Entry<String, MCH_WeaponInfo> e : reg.entries()) {
-            String key = sanitizeFileName(e.getKey());
-            Path out = dir.resolve(key + ".yml");
-            YamlEmitter.writeTo(out, emitter.emitWeapon(e.getValue()));
-            count++;
+        var toDump = reg.entries().stream().filter( i ->isDumpable(i.getValue())).toList();
+        for (var e : toDump) {
+            MCH_WeaponInfo info = e.getValue();
+            try {
+                Path out = dir.resolve(sanitizeFileName(e.getKey()) + ".yml");
+                YamlEmitter.writeTo(out, emitter.emitWeapon(e.getValue()));
+                count++;
+            } catch (EmissionException err) {
+
+                MCH_Logger.error("Failed to dump %s (class: %s): %s", info.name, info.getClass().getSimpleName(),err.getCause());
+            }
         }
         return count;
     }
 
     private int dumpThrowable(IEmitter emitter, Path dir, ContentRegistry<MCH_ThrowableInfo> reg) throws IOException {
-        int count = 0;
         if (reg == null) return 0;
+        int count = 0;
         Files.createDirectories(dir);
-        for (Entry<String, MCH_ThrowableInfo> e : reg.entries()) {
-            String key = sanitizeFileName(e.getKey());
-            Path out = dir.resolve(key + ".yml");
-            YamlEmitter.writeTo(out, emitter.emitThrowable(e.getValue()));
-            count++;
+        var toDump = reg.entries().stream().filter( i ->isDumpable(i.getValue())).toList();
+        for (var e : toDump) {
+            var info = e.getValue();
+            try {
+                Path out = dir.resolve(sanitizeFileName(e.getKey()) + ".yml");
+                YamlEmitter.writeTo(out, emitter.emitThrowable(e.getValue()));
+                count++;
+            } catch (EmissionException err) {
+                MCH_Logger.error("Failed to dump %s (class: %s): %s", info.name, info.getClass().getSimpleName(),err.getCause());
+            }
         }
         return count;
     }
 
-    private int dumpHud(IEmitter emitter, Path dir,
-                        ContentRegistry<com.norwood.mcheli.hud.MCH_Hud> reg) throws IOException {
-        int count = 0;
+    private int dumpHud(IEmitter emitter, Path dir, ContentRegistry<MCH_Hud> reg) throws IOException {
         if (reg == null) return 0;
+        int count = 0;
         Files.createDirectories(dir);
-        for (Entry<String, com.norwood.mcheli.hud.MCH_Hud> e : reg.entries()) {
-            String key = sanitizeFileName(e.getKey());
-            Path out = dir.resolve(key + ".yml");
-            YamlEmitter.writeTo(out, emitter.emitHud(e.getValue()));
-            count++;
+        var toDump = reg.entries().stream().filter( i ->isDumpable(i.getValue())).toList();
+        for (var e : toDump) {
+            try {
+                Path out = dir.resolve(sanitizeFileName(e.getKey()) + ".yml");
+                YamlEmitter.writeTo(out, emitter.emitHud(e.getValue()));
+                count++;
+            } catch (EmissionException err) {
+                MCH_Logger.error("Failed to dump HUD [%s]: %s", e.getKey(), err.getMessage());
+            }
         }
         return count;
     }

@@ -18,8 +18,8 @@ public class MCH_TankInfo extends MCH_AircraftInfo {
     public int weightType = 0;
     public float weightedCenterZ = 0.0F;
 
-    public MCH_TankInfo(AddonResourceLocation location, String path) {
-        super(location, path);
+    public MCH_TankInfo(AddonResourceLocation location, String path, String parser) {
+        super(location, path, parser);
     }
 
     @Override

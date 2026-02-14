@@ -27,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.Yaml;
 
@@ -106,10 +107,15 @@ public class YamlParser implements IParser {
     }
 
     @Override
+    public @NotNull String getIdentifier() {
+        return "yml";
+    }
+
+    @Override
     public @Nullable MCH_HeliInfo parseHelicopter(AddonResourceLocation location, String filepath, List<String> lines,
                                                   boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
-        var info = new MCH_HeliInfo(location, filepath);
+        var info = new MCH_HeliInfo(location, filepath, getIdentifier());
         mapToAircraft(info, root);
         for (Map.Entry<String, Object> entry : root.entrySet()) {
             switch (entry.getKey()) {
@@ -138,7 +144,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines,
                                               boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(String.join("\n", lines));
-        var info = new MCH_PlaneInfo(location, filepath);
+        var info = new MCH_PlaneInfo(location, filepath, getIdentifier());
         mapToAircraft(info, root);
         for (Map.Entry<String, Object> entry : root.entrySet()) {
             switch (entry.getKey()) {
@@ -157,7 +163,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines,
                                             boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(String.join("\n", lines));
-        var info = new MCH_ShipInfo(location, filepath);
+        var info = new MCH_ShipInfo(location, filepath, getIdentifier());
         mapToAircraft(info, root);
         for (Map.Entry<String, Object> entry : root.entrySet()) {
             switch (entry.getKey()) {
@@ -176,7 +182,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_TankInfo parseTank(AddonResourceLocation location, String filepath, List<String> lines,
                                             boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
-        var info = new MCH_TankInfo(location, filepath);
+        var info = new MCH_TankInfo(location, filepath, getIdentifier());
         mapToAircraft(info, root);
         if (root.containsKey("TankFeatures"))
             parseTankFeat((Map<String, Object>) root.get("TankFeatures"), info);
@@ -208,7 +214,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_VehicleInfo parseVehicle(AddonResourceLocation location, String filepath, List<String> lines,
                                                   boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(String.join("\n", lines));
-        var info = new MCH_VehicleInfo(location, filepath);
+        var info = new MCH_VehicleInfo(location, filepath, getIdentifier());
         mapToAircraft(info, root);
         for (Map.Entry<String, Object> entry : root.entrySet()) {
             switch (entry.getKey()) {
@@ -237,7 +243,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines,
                                                 boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
-        var info = new MCH_WeaponInfo(location, filepath);
+        var info = new MCH_WeaponInfo(location, filepath, getIdentifier());
         WeaponParser.parse(info, root);
         info.validate();
         return info;
@@ -247,7 +253,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath,
                                                       List<String> lines, boolean reload) throws Exception {
         Map<String, Object> root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
-        var throwable = new MCH_ThrowableInfo(location, filepath);
+        var throwable = new MCH_ThrowableInfo(location, filepath, getIdentifier());
         ThrowableParser.parse(throwable, root);
         throwable.validate();
         return throwable;
@@ -257,7 +263,7 @@ public class YamlParser implements IParser {
     public @Nullable MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines,
                                       boolean reload) throws Exception {
         Object root = YAML_INSTANCE.load(lines.stream().collect(Collectors.joining("\n")));
-        var info = new MCH_Hud(location, filepath);
+        var info = new MCH_Hud(location, filepath, getIdentifier());
         HUDParser.parse(info, root);
         info.validate();
         return info;

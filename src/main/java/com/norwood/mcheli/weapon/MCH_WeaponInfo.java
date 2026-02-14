@@ -310,8 +310,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public int markerRocketSpawnHeight = 200;
     public int markerRocketSpawnSpeed = 5;
 
-    public MCH_WeaponInfo(AddonResourceLocation location, String path) {
-        super(location, path);
+    public MCH_WeaponInfo(AddonResourceLocation location, String path, String parser) {
+        super(location, path, parser);
         this.name = location.getPath();
         this.displayName = this.name;
         this.fireSound = new ResourceLocation(Tags.MODID, this.name + "_snd");

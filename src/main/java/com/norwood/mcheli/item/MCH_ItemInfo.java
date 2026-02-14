@@ -23,8 +23,8 @@ public class MCH_ItemInfo extends MCH_BaseInfo implements IContentData { // impl
 
 
 
-    public MCH_ItemInfo(AddonResourceLocation location, String filePath, String name) {
-        super(location, filePath); // required in 1.12.2 or something
+    public MCH_ItemInfo(AddonResourceLocation location, String filePath, String name, String parserIdenfier) {
+        super(location, filePath, parserIdenfier);
         this.name = name;
         this.displayName = name;
         this.displayNameLang = new HashMap<>();

@@ -8,6 +8,7 @@ import com.norwood.mcheli.aircraft.MCH_SeatRackInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.info.parsers.yaml.ComponentParser;
 import com.norwood.mcheli.helper.info.parsers.yaml.HUDParser;
+import com.norwood.mcheli.helper.info.parsers.yaml.YamlParser;
 import com.norwood.mcheli.hud.*;
 import com.norwood.mcheli.item.MCH_ItemInfo;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
@@ -38,6 +39,7 @@ import static com.google.common.base.Predicates.instanceOf;
 @SuppressWarnings("AutoBoxing")
 public class YamlEmitter implements IEmitter {
 
+    public static final String identifier = YamlParser.INSTANCE.getIdentifier();
     private static final Yaml YAML;
 
     static {
@@ -146,157 +148,212 @@ public class YamlEmitter implements IEmitter {
     }
 
     @Override
-    public String emitHelicopter(MCH_HeliInfo info) {
-        MCH_HeliInfo dummyInfo = new MCH_HeliInfo(info.getLocation(), info.getContentPath());
-        Map<String, Object> root = baseAircraft(info, dummyInfo);
-        Map<String, Object> heli = new LinkedHashMap<>();
-        heli.put("IsFoldableBlade", info.isEnableFoldBlade);
-        root.put("HeliFeatures", heli);
-        Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
-        addCommonComponents(components, info);
-        if (!components.isEmpty()) root.put("Components", components);
-        return YAML.dump(root);
-    }
+    public String emitHelicopter(MCH_HeliInfo info) throws EmissionException {
+        try {
+            MCH_HeliInfo dummyInfo = new MCH_HeliInfo(info.getLocation(), info.getContentPath(), identifier);
+            Map<String, Object> root = baseAircraft(info, dummyInfo);
 
-    @Override
-    public String emitPlane(MCH_PlaneInfo info) {
-        var dummyInfo = new MCH_PlaneInfo(info.getLocation(), info.getContentPath());
-        Map<String, Object> root = baseAircraft(info, dummyInfo);
-        Map<String, Object> plane = new LinkedHashMap<>();
-        plane.put("VariableSweepWing", info.isVariableSweepWing);
-        plane.put("SweepWingSpeed", info.sweepWingSpeed);
-        if (info.isEnableVtol) {
-            Map<String, Object> vtol = new LinkedHashMap<>();
-            vtol.put("IsDefault", info.isDefaultVtol);
-            if (info.vtolYaw != 0.3F) vtol.put("Yaw", info.vtolYaw);
-            if (info.vtolPitch != 0.2F) vtol.put("Pitch", info.vtolPitch);
-            plane.put("EnableVtol", vtol);
-        } else {
-            plane.put("EnableVtol", false);
-        }
-        plane.put("EnableAutoPilot", info.isEnableAutoPilot);
-        root.put("PlaneFeatures", plane);
-        Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
-        addCommonComponents(components, info);
-        // Plane-specific
-        if (!info.rotorList.isEmpty()) {
-            List<Map<String, Object>> list = new ArrayList<>();
-            for (MCH_PlaneInfo.Rotor rotor : info.rotorList) {
-                Map<String, Object> rotMap = drawnPart(rotor);
-                if (rotor.maxRotFactor != 0) rotMap.put("RotFactor", rotor.maxRotFactor * 90.0F);
-                if (!rotor.blades.isEmpty()) {
-                    List<Map<String, Object>> blades = new ArrayList<>();
-                    for (var blade : rotor.blades) {
-                        var bladeMap = drawnPart(blade);
-                        bladeMap.put("BladeNum", blade.numBlade);
-                        bladeMap.put("BladeRot", blade.rotBlade);
-                        blades.add(bladeMap);
-                    }
-                    rotMap.put("Blades", blades);
+            Map<String, Object> heli = new LinkedHashMap<>();
+            heli.put("IsFoldableBlade", info.isEnableFoldBlade);
+            root.put("HeliFeatures", heli);
 
-                }
-                list.add(rotMap);
+            Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
+            addCommonComponents(components, info);
+
+            if (!components.isEmpty()) {
+                root.put("Components", components);
             }
-            components.put("PlaneRotor", list);
+
+            return YAML.dump(root);
+        } catch (Exception e) {
+            throw new EmissionException("Failed to emit helicopter info", info, e);
         }
-        if (!info.wingList.isEmpty()) {
-            List<Map<String, Object>> list = new ArrayList<>();
-            for (MCH_PlaneInfo.Wing w : info.wingList) {
-                Map<String, Object> m = drawnPart(w);
-                m.put("MaxRotation", w.maxRot);
-                if (w.pylonList != null && !w.pylonList.isEmpty()) {
-                    List<Map<String, Object>> pylons = new ArrayList<>();
-                    for (MCH_PlaneInfo.Pylon p : w.pylonList) {
-                        Map<String, Object> pm = drawnPart(p);
-                        pm.put("MaxRotation", p.maxRot);
-                        pylons.add(pm);
-                    }
-                    m.put("Pylons", pylons);
-                }
-                list.add(m);
+    }
+
+    @Override
+    public String emitPlane(MCH_PlaneInfo info) throws EmissionException {
+        try {
+            var dummyInfo = new MCH_PlaneInfo(info.getLocation(), info.getContentPath(), identifier);
+            Map<String, Object> root = baseAircraft(info, dummyInfo);
+
+            Map<String, Object> plane = new LinkedHashMap<>();
+            plane.put("VariableSweepWing", info.isVariableSweepWing);
+            plane.put("SweepWingSpeed", info.sweepWingSpeed);
+
+            if (info.isEnableVtol) {
+                Map<String, Object> vtol = new LinkedHashMap<>();
+                vtol.put("IsDefault", info.isDefaultVtol);
+                if (info.vtolYaw != 0.3F) vtol.put("Yaw", info.vtolYaw);
+                if (info.vtolPitch != 0.2F) vtol.put("Pitch", info.vtolPitch);
+                plane.put("EnableVtol", vtol);
+            } else {
+                plane.put("EnableVtol", false);
             }
-            components.put("Wing", list);
-        }
-        if (!info.nozzles.isEmpty()) {
-            List<Map<String, Object>> list = new ArrayList<>();
-            for (MCH_AircraftInfo.DrawnPart np : info.nozzles) list.add(drawnPart(np));
-            components.put("Nozzle", list);
-        }
-        if (!components.isEmpty()) root.put("Components", components);
-        return YAML.dump(root);
-    }
 
-    @Override
-    public String emitShip(MCH_ShipInfo info) {
-        var dummyInfo = new MCH_ShipInfo(info.getLocation(), info.getContentPath());
-        Map<String, Object> root = baseAircraft(info, dummyInfo);
-        Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
-        addCommonComponents(components, info);
-        if (!components.isEmpty()) root.put("Components", components);
-        return YAML.dump(root);
-    }
+            plane.put("EnableAutoPilot", info.isEnableAutoPilot);
+            root.put("PlaneFeatures", plane);
 
-    @Override
-    public String emitTank(MCH_TankInfo info) {
-        var dummyInfo = new MCH_TankInfo(info.getLocation(), info.getContentPath());
-        Map<String, Object> root = baseAircraft(info, dummyInfo);
-        Map<String, Object> tank = new LinkedHashMap<>();
-        tank.put("WeightType", tankWeight(info.weightType));
-        tank.put("WeightedCenterZ", info.weightedCenterZ);
-        root.put("TankFeatures", tank);
-        Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
-        addCommonComponents(components, info);
-        if (!components.isEmpty()) root.put("Components", components);
-        return YAML.dump(root);
-    }
+            Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
+            addCommonComponents(components, info);
 
-    @Override
-    public String emitVehicle(MCH_VehicleInfo info) {
-        var dummyInfo = new MCH_VehicleInfo(info.getLocation(), info.getContentPath());
-        Map<String, Object> root = baseAircraft(info, dummyInfo);
-        Map<String, Object> veh = new LinkedHashMap<>();
-        if (info.isEnableMove != dummyInfo.isEnableMove)
-            veh.put("CanMove", info.isEnableMove);
-        if (info.isEnableRot != dummyInfo.isEnableRot)
-            veh.put("CanRotate", info.isEnableRot);
-        if (!veh.isEmpty())
-            root.put("VehicleFeatures", veh);
-        Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
-        addCommonComponents(components, info);
-        if (!info.partList.isEmpty()) {
-            List<Map<String, Object>> vparts = new ArrayList<>();
-            for (MCH_VehicleInfo.VPart vp : info.partList) {
-                Map<String, Object> m = drawnPart(vp);
-                m.put("DrawFP", vp.drawFP);
-                m.put("CanYaw", vp.rotYaw);
-                m.put("CanPitch", vp.rotPitch);
-                m.put("Type", ComponentParser.VpartType.values()[vp.type].name());
-                if (vp.recoilBuf != 0) m.put("RecoilBuff", vp.recoilBuf);
-                if (vp.child != null && !vp.child.isEmpty()) {
-                    List<Map<String, Object>> children = new ArrayList<>();
-                    for (MCH_VehicleInfo.VPart cp : vp.child) {
-                        Map<String, Object> cm = drawnPart(cp);
-                        cm.put("DrawFP", cp.drawFP);
-                        cm.put("CanYaw", cp.rotYaw);
-                        cm.put("CanPitch", cp.rotPitch);
-                        cm.put("Type", ComponentParser.VpartType.values()[cp.type].name());
-                        if (cp.recoilBuf != 0) cm.put("RecoilBuff", cp.recoilBuf);
-                        children.add(cm);
+            if (!info.rotorList.isEmpty()) {
+                components.put("PlaneRotor", info.rotorList.stream().map(rotor -> {
+                    Map<String, Object> rotMap = drawnPart(rotor);
+                    if (rotor.maxRotFactor != 0) rotMap.put("RotFactor", rotor.maxRotFactor * 90.0F);
+
+                    if (!rotor.blades.isEmpty()) {
+                        rotMap.put("Blades", rotor.blades.stream().map(blade -> {
+                            var bladeMap = drawnPart(blade);
+                            bladeMap.put("BladeNum", blade.numBlade);
+                            bladeMap.put("BladeRot", blade.rotBlade);
+                            return bladeMap;
+                        }).toList());
                     }
-                    m.put("Children", children);
-                }
-                vparts.add(m);
+                    return rotMap;
+                }).toList());
             }
-            components.put("Vpart", vparts);
+
+            if (!info.wingList.isEmpty()) {
+                components.put("Wing", info.wingList.stream().map(w -> {
+                    Map<String, Object> m = drawnPart(w);
+                    m.put("MaxRotation", w.maxRot);
+
+                    if (w.pylonList != null && !w.pylonList.isEmpty()) {
+                        m.put("Pylons", w.pylonList.stream().map(p -> {
+                            Map<String, Object> pm = drawnPart(p);
+                            pm.put("MaxRotation", p.maxRot);
+                            return pm;
+                        }).toList());
+                    }
+                    return m;
+                }).toList());
+            }
+
+            if (!info.nozzles.isEmpty()) {
+                components.put("Nozzle", info.nozzles.stream()
+                        .map(this::drawnPart)
+                        .toList());
+            }
+
+            if (!components.isEmpty()) {
+                root.put("Components", components);
+            }
+
+            return YAML.dump(root);
+        } catch (Exception e) {
+            throw new EmissionException("Failed to emit plane info", info, e);
         }
-        if (!components.isEmpty()) root.put("Components", components);
-        return YAML.dump(root);
     }
 
     @Override
-    public String emitWeapon(MCH_WeaponInfo info) {
-        var dummy = new MCH_WeaponInfo(info.location, info.filePath);
+    public String emitShip(MCH_ShipInfo info) throws EmissionException {
+        try {
+            var dummyInfo = new MCH_ShipInfo(info.getLocation(), info.getContentPath(), identifier);
+            Map<String, Object> root = baseAircraft(info, dummyInfo);
+
+            Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
+            addCommonComponents(components, info);
+
+            if (!components.isEmpty()) {
+                root.put("Components", components);
+            }
+
+            return YAML.dump(root);
+        } catch (Exception e) {
+            throw new EmissionException("Failed to emit ship info", info, e);
+        }
+    }
+
+    @Override
+    public String emitTank(MCH_TankInfo info) throws EmissionException {
+        try {
+            var dummyInfo = new MCH_TankInfo(info.getLocation(), info.getContentPath(), identifier);
+            Map<String, Object> root = baseAircraft(info, dummyInfo);
+
+            Map<String, Object> tank = new LinkedHashMap<>();
+            tank.put("WeightType", tankWeight(info.weightType));
+            tank.put("WeightedCenterZ", info.weightedCenterZ);
+            root.put("TankFeatures", tank);
+
+            Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
+            addCommonComponents(components, info);
+
+            if (!components.isEmpty()) {
+                root.put("Components", components);
+            }
+
+            return YAML.dump(root);
+        } catch (Exception e) {
+            throw new EmissionException("Failed to emit tank info", info, e);
+        }
+    }
+
+    @Override
+    public String emitVehicle(MCH_VehicleInfo info) throws EmissionException {
+        try {
+            var dummyInfo = new MCH_VehicleInfo(info.getLocation(), info.getContentPath(), identifier);
+            Map<String, Object> root = baseAircraft(info, dummyInfo);
+
+            Map<String, Object> veh = new LinkedHashMap<>();
+            addIfChanged(veh, "CanMove", info.isEnableMove, dummyInfo.isEnableMove);
+            addIfChanged(veh, "CanRotate", info.isEnableRot, dummyInfo.isEnableRot);
+
+            if (!veh.isEmpty()) {
+                root.put("VehicleFeatures", veh);
+            }
+
+            Map<String, List<Map<String, Object>>> components = new LinkedHashMap<>();
+            addCommonComponents(components, info);
+
+            if (!info.partList.isEmpty()) {
+                List<Map<String, Object>> vparts = info.partList.stream()
+                        .map(this::mapVehiclePart)
+                        .toList();
+                components.put("Vpart", vparts);
+            }
+
+            if (!components.isEmpty()) {
+                root.put("Components", components);
+            }
+
+            return YAML.dump(root);
+        } catch (Exception e) {
+            throw new EmissionException("Failed to emit vehicle info", info, e);
+        }
+    }
+
+
+    private Map<String, Object> mapVehiclePart(MCH_VehicleInfo.VPart vp) {
+        Map<String, Object> m = drawnPart(vp);
+
+        m.put("DrawFP", vp.drawFP);
+        m.put("CanYaw", vp.rotYaw);
+        m.put("CanPitch", vp.rotPitch);
+
+        var types = ComponentParser.VpartType.values();
+        String typeName = (vp.type >= 0 && vp.type < types.length)
+                ? types[vp.type].name()
+                : "UNKNOWN_" + vp.type;
+        m.put("Type", typeName);
+
+        if (vp.recoilBuf != 0) {
+            m.put("RecoilBuff", vp.recoilBuf);
+        }
+
+        if (vp.child != null && !vp.child.isEmpty()) {
+            m.put("Children", vp.child.stream()
+                    .map(this::mapVehiclePart)
+                    .toList());
+        }
+
+        return m;
+    }
+
+    @Override
+    public String emitWeapon(MCH_WeaponInfo info) throws EmissionException {
         Map<String, Object> root = new LinkedHashMap<>();
+        try {
+        var dummy = new MCH_WeaponInfo(info.location, info.filePath, identifier);
         if (notBlank(info.displayName)) root.put("DisplayName", info.displayName);
         if (notBlank(info.type)) root.put("Type", info.type);
         if (notBlank(info.group)) root.put("Group", info.group);
@@ -640,121 +697,130 @@ public class YamlEmitter implements IEmitter {
         }
         if (!smoke.isEmpty()) render.put("Smoke", smoke);
         if (!render.isEmpty()) root.put("Render", render);
-
+        } catch (Exception e) {
+            throw new EmissionException("Unexpected error during throwable emission", info, e);
+        }
         return YAML.dump(root);
     }
 
     @Override
-    public String emitThrowable(MCH_ThrowableInfo info) {
-        Map<String, Object> root = new LinkedHashMap<>();
-        var dummy = new MCH_ThrowableInfo(info.location, info.filePath); // Contains default values
+    public String emitThrowable(MCH_ThrowableInfo info) throws EmissionException {
+        try {
+            Map<String, Object> root = new LinkedHashMap<>();
+            var dummy = new MCH_ThrowableInfo(info.location, info.filePath, identifier);
 
-        // DisplayName
-        if (!Objects.equals(info.displayName, dummy.displayName) || !info.displayNameLang.isEmpty()) {
-            if (info.displayNameLang.isEmpty()) {
-                root.put("DisplayName", info.displayName);
-            } else {
-                Map<String, String> nameMap = new LinkedHashMap<>(info.displayNameLang);
-                nameMap.put("DEFAULT", info.displayName);
-                root.put("DisplayName", nameMap);
-            }
-        }
-
-        // ItemID
-        if (info.itemID != dummy.itemID) root.put("ItemID", info.itemID);
-
-        // Sound
-        Map<String, Object> soundMap = new LinkedHashMap<>();
-        if (info.soundVolume != dummy.soundVolume) soundMap.put("Volume", info.soundVolume);
-        if (info.soundPitch != dummy.soundPitch) soundMap.put("Pitch", info.soundPitch);
-        if (!soundMap.isEmpty()) root.put("Sound", soundMap);
-
-        // Recepie
-        if (info.isShapedRecipe != dummy.isShapedRecipe || info.recipeString != null && !info.recipeString.isEmpty()) {
-            Map<String, Object> recipeMap = new LinkedHashMap<>();
-            recipeMap.put("isShaped", info.isShapedRecipe);
-            if (info.recipeString != null && !info.recipeString.isEmpty()) {
-                List<String> pattern = new ArrayList<>();
-                for (String s : info.recipeString) {
-                    pattern.add(s.trim().toUpperCase());
+            // DisplayName
+            if (!Objects.equals(info.displayName, dummy.displayName) || !info.displayNameLang.isEmpty()) {
+                if (info.displayNameLang.isEmpty()) {
+                    root.put("DisplayName", info.displayName);
+                } else {
+                    Map<String, String> nameMap = new LinkedHashMap<>(info.displayNameLang);
+                    nameMap.put("DEFAULT", info.displayName);
+                    root.put("DisplayName", nameMap);
                 }
-                recipeMap.put("Pattern", pattern);
             }
-            root.put("Recepie", recipeMap);
+
+            if (info.itemID != dummy.itemID) root.put("ItemID", info.itemID);
+
+            // Sound
+            Map<String, Object> soundMap = new LinkedHashMap<>();
+            if (info.soundVolume != dummy.soundVolume) soundMap.put("Volume", info.soundVolume);
+            if (info.soundPitch != dummy.soundPitch) soundMap.put("Pitch", info.soundPitch);
+            if (!soundMap.isEmpty()) root.put("Sound", soundMap);
+
+            // Recipe
+            if (info.isShapedRecipe != dummy.isShapedRecipe || (info.recipeString != null && !info.recipeString.isEmpty())) {
+                Map<String, Object> recipeMap = new LinkedHashMap<>();
+                recipeMap.put("isShaped", info.isShapedRecipe);
+                if (info.recipeString != null) {
+                    recipeMap.put("Pattern", info.recipeString.stream()
+                            .map(s -> s.trim().toUpperCase())
+                            .toList());
+                }
+                root.put("Recipe", recipeMap);
+            }
+
+            addIfChanged(root, "Power", info.power, dummy.power);
+            addIfChanged(root, "Acceleration", info.acceleration, dummy.acceleration);
+            addIfChanged(root, "AccelerationInWater", info.accelerationInWater, dummy.accelerationInWater);
+            addIfChanged(root, "DispenseAcceleration", info.dispenseAcceleration, dummy.dispenseAcceleration);
+            addIfChanged(root, "Explosion", info.explosion, dummy.explosion);
+            addIfChanged(root, "DelayFuse", info.delayFuse, dummy.delayFuse);
+            addIfChanged(root, "Bound", info.bound, dummy.bound);
+            addIfChanged(root, "TimeFuse", info.timeFuse, dummy.timeFuse);
+            addIfChanged(root, "Flaming", info.flaming, dummy.flaming);
+            addIfChanged(root, "StackSize", info.stackSize, dummy.stackSize);
+            addIfChanged(root, "ProximityFuseDist", info.proximityFuseDist, dummy.proximityFuseDist);
+            addIfChanged(root, "Accuracy", info.accuracy, dummy.accuracy);
+            addIfChanged(root, "AliveTime", info.aliveTime, dummy.aliveTime);
+            addIfChanged(root, "Bomblet", info.bomblet, dummy.bomblet);
+            addIfChanged(root, "BombletSpread", info.bombletDiff, dummy.bombletDiff);
+            addIfChanged(root, "Gravity", info.gravity, dummy.gravity);
+            addIfChanged(root, "GravityInWater", info.gravityInWater, dummy.gravityInWater);
+
+            if (!Objects.equals(info.particleName, dummy.particleName)) root.put("Particle", info.particleName);
+
+            // Smoke
+            if (info.disableSmoke != dummy.disableSmoke || info.smokeSize != dummy.smokeSize ||
+                    info.smokeNum != dummy.smokeNum || info.smokeColor != null ||
+                    info.smokeVelocityHorizontal != dummy.smokeVelocityHorizontal ||
+                    info.smokeVelocityVertical != dummy.smokeVelocityVertical) {
+
+                Map<String, Object> smokeMap = new LinkedHashMap<>();
+                if (info.disableSmoke != dummy.disableSmoke) smokeMap.put("DisableSmoke", info.disableSmoke);
+                if (info.smokeSize != dummy.smokeSize) smokeMap.put("Size", info.smokeSize);
+                if (info.smokeNum != dummy.smokeNum) smokeMap.put("Count", info.smokeNum);
+                if (info.smokeColor != null) smokeMap.put("Color", info.smokeColor.toHexString());
+
+                Map<String, Object> velMap = new LinkedHashMap<>();
+                if (info.smokeVelocityVertical != dummy.smokeVelocityVertical)
+                    velMap.put("Vertical", info.smokeVelocityVertical);
+                if (info.smokeVelocityHorizontal != dummy.smokeVelocityHorizontal)
+                    velMap.put("Horizontal", info.smokeVelocityHorizontal);
+
+                if (!velMap.isEmpty()) smokeMap.put("Velocity", velMap);
+                root.put("Smoke", smokeMap);
+            }
+
+            return YAML.dump(root);
+        } catch (Exception e) {
+            throw new EmissionException("Unexpected error during throwable emission", info, e);
         }
+    }
 
-        // Numeric & boolean fields
-        if (info.power != dummy.power) root.put("Power", info.power);
-        if (info.acceleration != dummy.acceleration) root.put("Acceleration", info.acceleration);
-        if (info.accelerationInWater != dummy.accelerationInWater)
-            root.put("AccelerationInWater", info.accelerationInWater);
-        if (info.dispenseAcceleration != dummy.dispenseAcceleration)
-            root.put("DispenseAcceleration", info.dispenseAcceleration);
-        if (info.explosion != dummy.explosion) root.put("Explosion", info.explosion);
-        if (info.delayFuse != dummy.delayFuse) root.put("DelayFuse", info.delayFuse);
-        if (info.bound != dummy.bound) root.put("Bound", info.bound);
-        if (info.timeFuse != dummy.timeFuse) root.put("TimeFuse", info.timeFuse);
-        if (info.flaming != dummy.flaming) root.put("Flaming", info.flaming);
-        if (info.stackSize != dummy.stackSize) root.put("StackSize", info.stackSize);
-        if (info.proximityFuseDist != dummy.proximityFuseDist) root.put("ProximityFuseDist", info.proximityFuseDist);
-        if (info.accuracy != dummy.accuracy) root.put("Accuracy", info.accuracy);
-        if (info.aliveTime != dummy.aliveTime) root.put("AliveTime", info.aliveTime);
-        if (info.bomblet != dummy.bomblet) root.put("Bomblet", info.bomblet);
-        if (info.bombletDiff != dummy.bombletDiff) root.put("BombletSpread", info.bombletDiff);
-        if (info.gravity != dummy.gravity) root.put("Gravity", info.gravity);
-        if (info.gravityInWater != dummy.gravityInWater) root.put("GravityInWater", info.gravityInWater);
-
-        // Particle
-        if (!Objects.equals(info.particleName, dummy.particleName)) root.put("Particle", info.particleName);
-
-        // Smoke
-        if (info.disableSmoke != dummy.disableSmoke || info.smokeSize != dummy.smokeSize ||
-                info.smokeNum != dummy.smokeNum || info.smokeColor != null ||
-                info.smokeVelocityHorizontal != dummy.smokeVelocityHorizontal ||
-                info.smokeVelocityVertical != dummy.smokeVelocityVertical) {
-            Map<String, Object> smokeMap = new LinkedHashMap<>();
-            if (info.disableSmoke != dummy.disableSmoke) smokeMap.put("DisableSmoke", info.disableSmoke);
-            if (info.smokeSize != dummy.smokeSize) smokeMap.put("Size", info.smokeSize);
-            if (info.smokeNum != dummy.smokeNum) smokeMap.put("Count", info.smokeNum);
-            if (info.smokeColor != null) smokeMap.put("Color", info.smokeColor.toHexString());
-
-            Map<String, Object> velMap = new LinkedHashMap<>();
-            if (info.smokeVelocityVertical != dummy.smokeVelocityVertical)
-                velMap.put("Vertical", info.smokeVelocityVertical);
-            if (info.smokeVelocityHorizontal != dummy.smokeVelocityHorizontal)
-                velMap.put("Horizontal", info.smokeVelocityHorizontal);
-            if (!velMap.isEmpty()) smokeMap.put("Velocity", velMap);
-
-            root.put("Smoke", smokeMap);
-        }
-
-        return YAML.dump(root);
+    private void addIfChanged(Map<String, Object> map, String key, Object val, Object dummyVal) {
+        if (!Objects.equals(val, dummyVal)) map.put(key, val);
     }
 
     @Override
-    public String emitHud(MCH_Hud hud) {
-        List<Object> rootList = new ArrayList<>();
-        ListIterator<MCH_HudItem> iterator = hud.list.listIterator();
+    public String emitHud(MCH_Hud hud) throws EmissionException {
+        try {
+            List<Object> rootList = new ArrayList<>();
+            ListIterator<MCH_HudItem> iterator = hud.list.listIterator();
 
-        while (iterator.hasNext()) {
-            MCH_HudItem item = iterator.next();
+            while (iterator.hasNext()) {
+                MCH_HudItem item = iterator.next();
 
-            if (item instanceof MCH_HudItemConditional conditional && !conditional.isEndif()) {
-                Map<String, Object> conditionalMap = new LinkedHashMap<>();
-                conditionalMap.put("If", conditional.getConditional());
-                conditionalMap.put("Do", collectConditionalList(iterator));
-                rootList.add(conditionalMap);
-            } else if (!(item instanceof MCH_HudItemConditional)) {
-                Map.Entry<String, Object> entry = getHudEntry(item);
-                if (entry != null) {
-                    Map<String, Object> itemMap = new LinkedHashMap<>();
-                    itemMap.put(entry.getKey(), entry.getValue());
-                    rootList.add(itemMap);
+                if (item instanceof MCH_HudItemConditional cond && !cond.isEndif()) {
+                    Map<String, Object> conditionalMap = new LinkedHashMap<>();
+                    conditionalMap.put("If", cond.getConditional());
+
+                    conditionalMap.put("Do", collectConditionalList(iterator));
+                    rootList.add(conditionalMap);
+                } else if (!(item instanceof MCH_HudItemConditional)) {
+                    Map.Entry<String, Object> entry = getHudEntry(item);
+                    if (entry != null) {
+                        Map<String, Object> itemMap = new LinkedHashMap<>();
+                        itemMap.put(entry.getKey(), entry.getValue());
+                        rootList.add(itemMap);
+                    }
                 }
             }
-        }
 
-        return YAML.dump(rootList);
+            return YAML.dump(rootList);
+        } catch (Exception e) {
+            throw new EmissionException("Failed to emit HUD structure due to internal error", null, e);
+        }
     }
 
     private List<Object> collectConditionalList(Iterator<MCH_HudItem> iterator) {

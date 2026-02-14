@@ -25,8 +25,8 @@ public class MCH_ShipInfo extends MCH_AircraftInfo {
     public boolean isVariableSweepWing = false;
     public float sweepWingSpeed = this.speed;
 
-    public MCH_ShipInfo(AddonResourceLocation location, String path) {
-        super(location, path);
+    public MCH_ShipInfo(AddonResourceLocation location, String path, String parser) {
+        super(location, path, parser);
     }
 
     @Override

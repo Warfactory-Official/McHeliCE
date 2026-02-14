@@ -251,8 +251,8 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     private MCH_AircraftInfo.PartWeapon lastWeaponPart = null;
     private List<DirectDrawable> hudCache = null;
 
-    public MCH_AircraftInfo(AddonResourceLocation location, String path) {
-        super(location, path);
+    public MCH_AircraftInfo(AddonResourceLocation location, String path, String parserIdentifier) {
+        super(location, path, parserIdentifier);
         this.name = location == null ? "IAMTEST" : location.getPath();
         this.displayName = this.name;
         this.textureNameList.add(this.name);

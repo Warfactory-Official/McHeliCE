@@ -17,8 +17,8 @@ public class MCH_VehicleInfo extends MCH_AircraftInfo {
     public boolean isEnableRot = false;
     public final List<MCH_VehicleInfo.VPart> partList = new ArrayList<>();
 
-    public MCH_VehicleInfo(AddonResourceLocation location, String path) {
-        super(location, path);
+    public MCH_VehicleInfo(AddonResourceLocation location, String path, String parser) {
+        super(location, path, parser);
     }
 
     public float getMinRotationPitch() {

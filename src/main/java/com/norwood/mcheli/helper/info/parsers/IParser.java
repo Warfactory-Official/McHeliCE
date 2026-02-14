@@ -10,11 +10,17 @@ import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public interface IParser {
+
+    @NotNull
+    String getIdentifier();
+
+    public static final String BUILTIN = "builtin";
 
     @Nullable
     MCH_HeliInfo parseHelicopter(AddonResourceLocation location, String filepath, List<String> lines,

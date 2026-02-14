@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MCH_Hud extends MCH_BaseInfo {
 
-    public static final MCH_Hud NoDisp = new MCH_Hud(MCH_Utils.buildinAddon("none"), "none");
+    public static final MCH_Hud NoDisp = new MCH_Hud(MCH_Utils.buildinAddon("none"), "none", "builtin");
     public final String name;
     public final String fileName;
     public boolean isWaitEndif;
@@ -24,8 +24,8 @@ public class MCH_Hud extends MCH_BaseInfo {
     public final List<MCH_HudItem> list;
     private boolean isDrawing;
 
-    public MCH_Hud(AddonResourceLocation location, String filePath) {
-        super(location, filePath);
+    public MCH_Hud(AddonResourceLocation location, String filePath, String parserIdentifier) {
+        super(location, filePath, parserIdentifier);
         this.name = location.getPath();
         this.fileName = filePath;
         this.list = new ArrayList<>();

@@ -21,7 +21,6 @@ import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tool.MCH_ClientToolTickHandler;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.uav.IUavStation;
-import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.vehicle.MCH_ClientVehicleTickHandler;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.weapon.GPSPosition;
@@ -64,7 +63,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
     public final KeyboardInputHandler kbInput;
     public final GuiTickHandler guiTickHandler;
     public final CameraHandler cameraHandler;
-
+    long prevNanoTime;
 
     public ClientCommonTickHandler(Minecraft minecraft, MCH_Config config) {
         super(minecraft);
@@ -111,14 +110,12 @@ public class ClientCommonTickHandler extends W_TickHandler {
         }
     }
 
-
     private void handleTickHandlers(boolean inOtherGui) {
         for (MCH_ClientTickHandlerBase tick : ticks) {
             tick.onTick(inOtherGui);
         }
         Arrays.stream(guiTickHandler.guiTicks).forEach(MCH_Gui::onTick);
     }
-
 
     @Override
     public void onTickPre() {
@@ -133,7 +130,6 @@ public class ClientCommonTickHandler extends W_TickHandler {
             MCH_GuiTargetMarker.onClientTick();
         }
     }
-
 
     public void updateMouseDelta(boolean stickMode, float partialTicks) {
         prevMouseDeltaX = mouseDeltaX;
@@ -199,8 +195,6 @@ public class ClientCommonTickHandler extends W_TickHandler {
         cameraHandler.handleAircraftCamera(player);
         handleGps(player);
     }
-
-    long prevNanoTime;
 
     @Override
     public void onRenderTickPre(float partialTicks) {
@@ -310,7 +304,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
             }
         }
 
-        applyMouseOrAircraftRotation(ac, player, fixRot, fixYaw, fixPitch, partialTicks,delta);
+        applyMouseOrAircraftRotation(ac, player, fixRot, fixYaw, fixPitch, partialTicks, delta);
         dampMouseRollIfNeeded(ac, stickMode);
         updateCameraRoll(ac, player);
     }

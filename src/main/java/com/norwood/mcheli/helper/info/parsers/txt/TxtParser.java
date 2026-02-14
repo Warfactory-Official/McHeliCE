@@ -38,6 +38,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -56,10 +57,15 @@ public class TxtParser implements IParser {
     }
 
     @Override
+    public @NotNull String getIdentifier() {
+        return "txt";
+    }
+
+    @Override
     @Nullable
     public MCH_HeliInfo parseHelicopter(AddonResourceLocation location, String filepath, List<String> lines,
                                         boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_HeliInfo(location, filepath),
+        return parse(location, filepath, lines, reload, () -> new MCH_HeliInfo(location, filepath, getIdentifier()),
                 this::applyAircraftLine,
                 this::applyHelicopterLine);
     }
@@ -68,7 +74,7 @@ public class TxtParser implements IParser {
     @Nullable
     public MCH_PlaneInfo parsePlane(AddonResourceLocation location, String filepath, List<String> lines,
                                     boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_PlaneInfo(location, filepath),
+        return parse(location, filepath, lines, reload, () -> new MCH_PlaneInfo(location, filepath, getIdentifier()),
                 this::applyAircraftLine, this::applyPlaneLine);
     }
 
@@ -76,7 +82,7 @@ public class TxtParser implements IParser {
     @Nullable
     public MCH_ShipInfo parseShip(AddonResourceLocation location, String filepath, List<String> lines,
                                   boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_ShipInfo(location, filepath),
+        return parse(location, filepath, lines, reload, () -> new MCH_ShipInfo(location, filepath, getIdentifier()),
                 this::applyAircraftLine, this::applyShipLine);
     }
 
@@ -84,7 +90,7 @@ public class TxtParser implements IParser {
     @Nullable
     public MCH_TankInfo parseTank(AddonResourceLocation location, String filepath, List<String> lines,
                                   boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_TankInfo(location, filepath),
+        return parse(location, filepath, lines, reload, () -> new MCH_TankInfo(location, filepath, getIdentifier()),
                 this::applyAircraftLine, this::applyTankLine);
     }
 
@@ -92,7 +98,7 @@ public class TxtParser implements IParser {
     @Nullable
     public MCH_VehicleInfo parseVehicle(AddonResourceLocation location, String filepath, List<String> lines,
                                         boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_VehicleInfo(location, filepath),
+        return parse(location, filepath, lines, reload, () -> new MCH_VehicleInfo(location, filepath, getIdentifier()),
                 this::applyAircraftLine,
                 this::applyVehicleLine);
     }
@@ -101,7 +107,7 @@ public class TxtParser implements IParser {
     @Nullable
     public MCH_WeaponInfo parseWeapon(AddonResourceLocation location, String filepath, List<String> lines,
                                       boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_WeaponInfo(location, filepath),
+        return parse(location, filepath, lines, reload, () -> new MCH_WeaponInfo(location, filepath, getIdentifier()),
                 this::applyWeaponLine);
     }
 
@@ -109,7 +115,7 @@ public class TxtParser implements IParser {
     @Nullable
     public MCH_ThrowableInfo parseThrowable(AddonResourceLocation location, String filepath, List<String> lines,
                                             boolean reload) throws Exception {
-        return parse(location, filepath, lines, reload, () -> new MCH_ThrowableInfo(location, filepath),
+        return parse(location, filepath, lines, reload, () -> new MCH_ThrowableInfo(location, filepath, getIdentifier()),
                 this::applyThrowableLine);
     }
 
@@ -117,7 +123,7 @@ public class TxtParser implements IParser {
     @Nullable
     public MCH_Hud parseHud(AddonResourceLocation location, String filepath, List<String> lines,
                             boolean reload) throws Exception {
-        MCH_Hud info = new MCH_Hud(location, filepath);
+        MCH_Hud info = new MCH_Hud(location, filepath, getIdentifier());
         int lineNumber = 0;
         try {
             for (String raw : lines) {
@@ -149,7 +155,7 @@ public class TxtParser implements IParser {
     public MCH_ItemInfo parseItem(AddonResourceLocation location, String filepath, List<String> lines,
                                   boolean reload) throws Exception {
         String name = location.getPath();
-        return parse(location, filepath, lines, reload, () -> new MCH_ItemInfo(location, filepath, name),
+        return parse(location, filepath, lines, reload, () -> new MCH_ItemInfo(location, filepath, name, getIdentifier()),
                 this::applyItemLine);
     }
 

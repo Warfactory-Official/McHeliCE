@@ -54,8 +54,8 @@ public class MCH_ThrowableInfo extends MCH_BaseInfo implements IItemContent {
     public boolean disableSmoke = true;
     public MCH_Color smokeColor = new MCH_Color();
 
-    public MCH_ThrowableInfo(AddonResourceLocation location, String path) {
-        super(location, path);
+    public MCH_ThrowableInfo(AddonResourceLocation location, String path, String parser) {
+        super(location, path, parser);
         this.name = location.getPath();
         this.displayName = location.getPath();
     }

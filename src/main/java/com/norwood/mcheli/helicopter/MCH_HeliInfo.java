@@ -17,8 +17,8 @@ public class MCH_HeliInfo extends MCH_AircraftInfo {
     public boolean isEnableFoldBlade = false;
     public final List<MCH_HeliInfo.Rotor> rotorList = new ArrayList<>();
 
-    public MCH_HeliInfo(AddonResourceLocation location, String path) {
-        super(location, path);
+    public MCH_HeliInfo(AddonResourceLocation location, String path, String parser) {
+        super(location, path,parser);
         // this.minRotationPitch = -20.0F;
         // this.maxRotationPitch = 20.0F;
     }
