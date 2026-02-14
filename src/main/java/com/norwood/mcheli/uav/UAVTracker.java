@@ -5,10 +5,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.event.world.ChunkEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -20,7 +19,16 @@ public class UAVTracker {
 
 
     @Nullable
-    public static ChunkPos getChunkPosForUAV(@NotNull World world, @NotNull UUID id) {
+    public static ChunkPos getUAVPos(@NotNull World world, @NotNull UUID id) {
+        if (world.isRemote || !(world instanceof WorldServer serverWorld)) return null;
+        var uav = serverWorld.getEntityFromUuid(id);
+        if (uav != null) return new ChunkPos(uav.getPosition());
+        return getChunkPosForUAV(world, id);
+    }
+
+
+    @Nullable
+    private static ChunkPos getChunkPosForUAV(@NotNull World world, @NotNull UUID id) {
         if (world.isRemote) return null;
         return MCH_GlobalUAVData.get(world).entityLocations.get(id);
     }
@@ -38,8 +46,6 @@ public class UAVTracker {
         data.entityLocations.remove(aircraft.getUniqueID());
         data.markDirty();
     }
-
-
 
 
     public static class MCH_GlobalUAVData extends WorldSavedData {

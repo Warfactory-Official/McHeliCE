@@ -27,6 +27,7 @@ import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.UAVTracker;
 import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import io.netty.buffer.ByteBuf;
@@ -3786,6 +3787,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                 e.setDead();
             }
         }
+        if(isUAV()) UAVTracker.delUAVPos(world, this);
 
         String format = "setDead:" + (this.getAcInfo() != null ? this.getAcInfo().name : "null");
         MCH_Logger.debugLog(this.world, format);
