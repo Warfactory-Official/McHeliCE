@@ -7,6 +7,7 @@ import com.norwood.mcheli.chain.MCH_ItemChain;
 import com.norwood.mcheli.command.MCH_Command;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
+import com.norwood.mcheli.uav.UAVTracker;
 import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_EntityPlayer;
@@ -15,6 +16,7 @@ import com.norwood.mcheli.wrapper.W_Lib;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.CommandEvent;
@@ -23,6 +25,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -195,6 +198,21 @@ public class MCH_EventHook extends W_EventHook {
     public void entityCanUpdate(CanUpdate event) {
         if (event.getEntity() instanceof MCH_EntityBaseBullet bullet) {
             bullet.setDead();
+        }
+    }
+
+    @SubscribeEvent
+    public void onChunkUnload(ChunkEvent.Unload unload) {
+        if (!unload.getWorld().isRemote) {
+            ClassInheritanceMultiMap<Entity>[] entityLists = unload.getChunk().getEntityLists();
+
+            for (ClassInheritanceMultiMap<Entity> list : entityLists) {
+                for (Entity entity : list) {
+                    if (entity instanceof MCH_EntityAircraft ac && ac.isUAV()) {
+                        UAVTracker.saveUAVPos(unload.getWorld(), ac);
+                    }
+                }
+            }
         }
     }
 }

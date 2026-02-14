@@ -306,9 +306,11 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         return !this.isDead;
     }
 
-    public void applyEntityCollision(@NotNull Entity par1Entity) {}
+    public void applyEntityCollision(@NotNull Entity par1Entity) {
+    }
 
-    public void addVelocity(double par1, double par3, double par5) {}
+    public void addVelocity(double par1, double par3, double par5) {
+    }
 
     @SideOnly(Side.CLIENT)
     public void setVelocity(double par1, double par3, double par5) {
@@ -583,7 +585,6 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
             }
         }
     }
-
 
 
     public boolean processInitialInteract(@NotNull EntityPlayer player, @NotNull EnumHand hand) {
