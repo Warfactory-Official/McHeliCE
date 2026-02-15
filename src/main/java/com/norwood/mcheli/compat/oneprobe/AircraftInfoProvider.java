@@ -1,5 +1,7 @@
 package com.norwood.mcheli.compat.oneprobe;
 
+import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import io.netty.buffer.ByteBuf;
@@ -15,6 +17,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -41,16 +44,17 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
         if (entity instanceof MCH_EntityAircraft aircraft) {
             var info = aircraft.getAcInfo();
             if (info == null) return false;
-
             IProbeInfo root = iProbeInfo.vertical();
             IProbeInfo row = root.horizontal();
+            var name  =MCH_MOD.proxy.deduceVehicleName(info);
+
 
             row.element(new AircraftElement(aircraft, row.defaultEntityStyle()
                     .scale(info.oneProbeScale * 0.8f)
-                    .width(100)
+                    .width(name.length()*6)
                     .height(100)));
 
-            root.text(String.format("§e%s§r", aircraft.getTranslationKey()));
+            root.text(name);
             root.text(String.format("HP: %d / %d", aircraft.getHP(), aircraft.getMaxHP()));
             root.text(String.format("Speed: %.0f m/s", aircraft.getCurrentSpeed()));
 
