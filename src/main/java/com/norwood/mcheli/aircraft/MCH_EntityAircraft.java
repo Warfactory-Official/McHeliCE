@@ -40,7 +40,6 @@ import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -604,6 +603,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             MCHGuiFactories.aircraft().openGui(player, this);
         }
     }
+
     public void openContainer(EntityPlayer player) {
         if (!this.world.isRemote && getAcInfo() != null && getInventory().getSlots() > 0) {
             MCHGuiFactories.aircraft().openContainer(player, this);
@@ -3788,7 +3788,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                 e.setDead();
             }
         }
-        if(isUAV()) UAVTracker.delUAVPos(world, this);
+        if (isUAV()) UAVTracker.delUAVPos(world, this);
 
         String format = "setDead:" + (this.getAcInfo() != null ? this.getAcInfo().name : "null");
         MCH_Logger.debugLog(this.world, format);
@@ -4407,7 +4407,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
         // Sneak interactions
         if (player.isSneaking()) {
-           openContainer(player);
+            openContainer(player);
             return false;
         }
 
@@ -5893,9 +5893,14 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     public String getName() {
         if (this.getAcInfo() == null) return super.getName();
-        return I18n.hasKey("item.mcheli:" + acInfo.name + ".name") ?
-                I18n.format("item.mcheli:" + acInfo.name + ".name") : acInfo.displayName;
+        return this.acInfo.name;
+    }
 
+    public String getTranslationKey() {
+        if (getAcInfo() != null)
+            return "item.mcheli:" + getAcInfo().name + ".name";
+        else
+            return "";
     }
 
     public double getCurrentSpeed() {

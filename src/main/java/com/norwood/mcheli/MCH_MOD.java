@@ -395,11 +395,8 @@ public class MCH_MOD {
 
     @EventHandler
     public void onLoadComplete(FMLLoadCompleteEvent evt) {
-        MCH_WeaponInfoManager.setRoundItems();
-        ContentRegistries.weapon().values().parallelStream().filter(mchWeaponInfo -> mchWeaponInfo.useHBM)
-                .forEach(MCH_WeaponInfo::loadNTMFunctionality);
-        if (ModCompatManager.isLoaded(ModCompatManager.MODID_TOP))
-            AircraftInfoProvider.register();
+      proxy.onLoadComplete(evt);
+
     }
 
     @EventHandler

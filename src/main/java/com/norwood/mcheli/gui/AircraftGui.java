@@ -430,7 +430,7 @@ public class AircraftGui {
                 .child(
                         new Column()
                                 .bottom(0)
-                                .child(IKey.str(aircraft.getName()).asWidget().padding(4, 2).background(GuiTextures.MC_BACKGROUND))
+                                .child(IKey.lang(aircraft.getTranslationKey()).asWidget().padding(4, 2).background(GuiTextures.MC_BACKGROUND))
                                 .child(vehicleGui)
                                 .child(inventory)
                 );

@@ -1,22 +1,29 @@
 package com.norwood.mcheli;
 
+import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_SoundUpdater;
+import com.norwood.mcheli.compat.ModCompatManager;
+import com.norwood.mcheli.compat.oneprobe.AircraftInfoProvider;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonManager;
 import com.norwood.mcheli.helper.addon.AddonPack;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
+import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.helper.info.ContentType;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
 import com.norwood.mcheli.tank.MCH_TankInfo;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import com.norwood.mcheli.weapon.MCH_WeaponInfoManager;
 import com.norwood.mcheli.wrapper.W_LanguageRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 
 import java.io.File;
@@ -200,4 +207,19 @@ public class MCH_CommonProxy {
     public void registerParticleTextures(TextureStitchEvent.Pre event) {}
 
     public void registerShaders(TextureStitchEvent.Post event) {}
+
+    public void onLoadComplete(FMLLoadCompleteEvent evt) {
+        MCH_WeaponInfoManager.setRoundItems();
+        if (ModCompatManager.isLoaded(ModCompatManager.MODID_TOP))
+            AircraftInfoProvider.register();
+        ContentRegistries.weapon().values().parallelStream().filter(mchWeaponInfo -> mchWeaponInfo.useHBM)
+                .forEach(MCH_WeaponInfo::loadNTMFunctionality);
+    }
+
+   public String deduceVehicleName(MCH_AircraftInfo info){
+        return info.displayName;
+
+
+   }
+
 }

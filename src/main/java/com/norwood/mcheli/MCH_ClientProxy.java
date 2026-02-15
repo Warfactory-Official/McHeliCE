@@ -6,6 +6,8 @@ import com.norwood.mcheli.block.MCH_DraftingTableTileEntity;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.chain.MCH_RenderChain;
 import com.norwood.mcheli.command.MCH_GuiTitle;
+import com.norwood.mcheli.compat.ModCompatManager;
+import com.norwood.mcheli.compat.oneprobe.AircraftInfoProvider;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_RenderContainer;
 import com.norwood.mcheli.event.CameraHandler;
@@ -59,6 +61,7 @@ import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.text.ITextComponent;
@@ -69,6 +72,7 @@ import net.minecraftforge.fml.client.SplashProgress;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -674,6 +678,15 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         ShaderRegistry.init();
     }
 
+    public void onLoadComplete(FMLLoadCompleteEvent evt) {
+        super.onLoadComplete(evt);
+
+    }
+    public String deduceVehicleName(MCH_AircraftInfo info){
+        return I18n.hasKey("item.mcheli:" + info.name + ".name") ?
+                I18n.format("item.mcheli:" + info.name + ".name") : info.displayName;
+
+    }
 }
 
 

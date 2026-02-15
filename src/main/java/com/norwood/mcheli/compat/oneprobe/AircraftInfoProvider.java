@@ -19,6 +19,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static com.norwood.mcheli.gui.AircraftGui.getTexturePath;
 import static mcjty.theoneprobe.apiimpl.client.ElementEntityRender.fixEntityId;
@@ -48,7 +50,7 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
                     .width(100)
                     .height(100)));
 
-            root.text(String.format("§e%s§r", aircraft.getName()));
+            root.text(String.format("§e%s§r", aircraft.getTranslationKey()));
             root.text(String.format("HP: %d / %d", aircraft.getHP(), aircraft.getMaxHP()));
             root.text(String.format("Speed: %.0f m/s", aircraft.getCurrentSpeed()));
 
@@ -110,6 +112,7 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
 
         }
 
+        @SideOnly(Side.CLIENT)
         private void renderAircraft(IEntityStyle style, int x, int y, MCH_EntityAircraft entity) {
             var info = entity.getAcInfo();
             assert entity.getAcInfo() != null;
@@ -157,6 +160,7 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
 
         }
 
+        @SideOnly(Side.CLIENT)
         public void render(int x, int y) {
             if (entityName != null && !entityName.isEmpty()) {
                 Entity entity = null;
