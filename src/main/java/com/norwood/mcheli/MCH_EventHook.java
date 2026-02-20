@@ -49,7 +49,9 @@ public class MCH_EventHook extends W_EventHook {
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onTextureStitchPost(TextureStitchEvent.Post event) {
-        MCH_MOD.proxy.registerShaders(event);
+        if (!MCH_Config.DisableShader.prmBool) {
+            MCH_MOD.proxy.registerShaders(event);
+        }
     }
 
     @Override

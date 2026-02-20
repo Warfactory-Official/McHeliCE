@@ -5,9 +5,7 @@ import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.client._IModelCustom;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.*;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -20,10 +18,29 @@ import static org.lwjgl.opengl.GL15.*;
 
 public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
+    // VAO support detection (cached)
+    private static final boolean GL30Support = GLContext.getCapabilities().OpenGL30;
+    private static final boolean ARBSupport  = GLContext.getCapabilities().GL_ARB_vertex_array_object;
+
+    private static int VAO_MODE = -1; // -1 = not checked, 0 = legacy, 1 = GL30, 2 = ARB
+
+    private static int getVAOMode() {
+        if (VAO_MODE == -1) {
+            VAO_MODE = GL30Support ? 1 : (ARBSupport ? 2 : 0);
+            if (VAO_MODE == 0) {
+                MCH_Logger.warn("VAO not supported on this system (likely Apple Silicon / OpenGL 2.1 Metal). Falling back to legacy VBO + client state mode.");
+            }
+        }
+        return VAO_MODE;
+    }
+
+    private final int vaoMode;
+
     private static final int FLOAT_SIZE = 4;
     private static final int STRIDE = 9 * FLOAT_SIZE;
     static int VERTEX_SIZE = 3;
-    List<ModelVBO.VBOBufferData> groups = new ArrayList<>();
+
+    List<VBOBufferData> groups = new ArrayList<>();
 
     private int staticVAO = -1;
     private int staticVBO = -1;
@@ -35,6 +52,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     private int trackVerts;
 
     public ModelVBO(W_WavefrontObject obj) {
+        this.vaoMode = getVAOMode();
         uploadVBO(obj.groupObjects);
 
         this.min = obj.min;
@@ -54,6 +72,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     }
 
     public ModelVBO(W_MetasequoiaObject obj) {
+        this.vaoMode = getVAOMode();
         uploadVBO(cleanUpMsqMess(obj.groupObjects));
 
         this.min = obj.min;
@@ -72,7 +91,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         this.sizeZ = obj.sizeZ;
     }
 
-    // Metasequoia users seem to not understand what proper mesh grouping is, so we need to do it for them
     private static List<GroupObject> cleanUpMsqMess(ArrayList<GroupObject> groupObjects) {
         List<GroupObject> result = new ArrayList<>();
         GroupObject currentKey = null;
@@ -83,15 +101,12 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             if (name.isEmpty()) continue;
 
             if (name.charAt(0) == '$') {
-                // Start a new key group
                 currentKey = new GroupObject(name);
-                currentKey.faces.addAll(obj.faces); // keep existing faces if any
+                currentKey.faces.addAll(obj.faces);
                 result.add(currentKey);
             } else if (currentKey != null) {
-                // Merge into the most recent $ group
                 currentKey.faces.addAll(obj.faces);
             } else {
-                // Ungrouped before any $, keep standalone
                 result.add(obj);
             }
         }
@@ -104,33 +119,52 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             VBOBufferData data = new VBOBufferData();
             data.name = g.name;
 
-            float[] combinedData = prepareGroupData(g, data); // helper method to flatten vertices/uv/normals
+            float[] combinedData = prepareGroupData(g, data);
             FloatBuffer buffer = BufferUtils.createFloatBuffer(combinedData.length);
             buffer.put(combinedData).flip();
-            if (g.name.contains("crawler_track")) { //Really fragile but oh well
+            if (g.name.contains("crawler_track")) {
                 treadBuffer = combinedData;
             }
 
-            data.vaoHandle = GL30.glGenVertexArrays();
+            // VAO handling (only if supported)
+            if (vaoMode != 0) {
+                data.vaoHandle = (vaoMode == 1)
+                        ? GL30.glGenVertexArrays()
+                        : ARBVertexArrayObject.glGenVertexArrays();
+
+                if (vaoMode == 1) {
+                    GL30.glBindVertexArray(data.vaoHandle);
+                } else {
+                    ARBVertexArrayObject.glBindVertexArray(data.vaoHandle);
+                }
+            } else {
+                data.vaoHandle = -1;
+            }
+
             data.vboHandle = glGenBuffers();
-            GL30.glBindVertexArray(data.vaoHandle);
             glBindBuffer(GL_ARRAY_BUFFER, data.vboHandle);
             glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
 
-            GL11.glVertexPointer(3, GL11.GL_FLOAT, STRIDE, 0L);
+            // Set up vertex attributes (saved in VAO if available, otherwise set every render)
+            GL11.glVertexPointer(3, GL_FLOAT, STRIDE, 0L);
             glEnableClientState(GL_VERTEX_ARRAY);
-            GL11.glTexCoordPointer(3, GL11.GL_FLOAT, STRIDE, 3L * Float.BYTES);
+            GL11.glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * FLOAT_SIZE);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            GL11.glNormalPointer(GL11.GL_FLOAT, STRIDE, 6L * Float.BYTES);
+            GL11.glNormalPointer(GL_FLOAT, STRIDE, 6L * FLOAT_SIZE);
             glEnableClientState(GL_NORMAL_ARRAY);
 
-            GL30.glBindVertexArray(0);
+            // Unbind
+            if (vaoMode != 0) {
+                if (vaoMode == 1) {
+                    GL30.glBindVertexArray(0);
+                } else {
+                    ARBVertexArrayObject.glBindVertexArray(0);
+                }
+            }
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             groups.add(data);
         }
-
-
     }
 
     public void uploadStatic(MCH_AircraftInfo info) {
@@ -139,18 +173,29 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
                 .mapToInt(g -> g.vertices)
                 .sum();
 
-        staticVAO = GL30.glGenVertexArrays();
-        staticVBO = glGenBuffers();
+        if (vaoMode != 0) {
+            staticVAO = (vaoMode == 1)
+                    ? GL30.glGenVertexArrays()
+                    : ARBVertexArrayObject.glGenVertexArrays();
 
-        GL30.glBindVertexArray(staticVAO);
+            if (vaoMode == 1) {
+                GL30.glBindVertexArray(staticVAO);
+            } else {
+                ARBVertexArrayObject.glBindVertexArray(staticVAO);
+            }
+        } else {
+            staticVAO = -1;
+        }
+
+        staticVBO = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, staticVBO);
-        glBufferData(GL_ARRAY_BUFFER, (long) airframeVerts * 9 * Float.BYTES, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (long) airframeVerts * 9 * FLOAT_SIZE, GL_STATIC_DRAW);
 
         glVertexPointer(3, GL_FLOAT, STRIDE, 0L);
         glEnableClientState(GL_VERTEX_ARRAY);
-        glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * Float.BYTES);
+        glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * FLOAT_SIZE);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glNormalPointer(GL_FLOAT, STRIDE, 6L * Float.BYTES);
+        glNormalPointer(GL_FLOAT, STRIDE, 6L * FLOAT_SIZE);
         glEnableClientState(GL_NORMAL_ARRAY);
 
         long offset = 0;
@@ -158,18 +203,19 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             if (g.name.contains("crawler_track")) continue;
 
             glBindBuffer(GL_COPY_READ_BUFFER, g.vboHandle);
-            long size = g.vertices * 9L * Float.BYTES;
+            long size = g.vertices * 9L * FLOAT_SIZE;
             glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_ARRAY_BUFFER, 0, offset, size);
             offset += size;
         }
         this.staticVerts = airframeVerts;
 
-
         if (treadBuffer != null && !info.partCrawlerTrack.isEmpty()) {
             uploadTracks(info);
         } else {
-
-            GL30.glBindVertexArray(0);
+            if (vaoMode != 0) {
+                if (vaoMode == 1) GL30.glBindVertexArray(0);
+                else ARBVertexArrayObject.glBindVertexArray(0);
+            }
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindBuffer(GL_COPY_READ_BUFFER, 0);
         }
@@ -179,10 +225,21 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         float[] bakedData = bakeCrawlerTrack(info, treadBuffer);
         this.trackVerts = bakedData.length / 9;
 
-        bakedTracksVAO = GL30.glGenVertexArrays();
-        bakedTracksVBO = glGenBuffers();
+        if (vaoMode != 0) {
+            bakedTracksVAO = (vaoMode == 1)
+                    ? GL30.glGenVertexArrays()
+                    : ARBVertexArrayObject.glGenVertexArrays();
 
-        GL30.glBindVertexArray(bakedTracksVAO);
+            if (vaoMode == 1) {
+                GL30.glBindVertexArray(bakedTracksVAO);
+            } else {
+                ARBVertexArrayObject.glBindVertexArray(bakedTracksVAO);
+            }
+        } else {
+            bakedTracksVAO = -1;
+        }
+
+        bakedTracksVBO = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, bakedTracksVBO);
 
         FloatBuffer buffer = BufferUtils.createFloatBuffer(bakedData.length);
@@ -191,17 +248,18 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
         glVertexPointer(3, GL_FLOAT, STRIDE, 0L);
         glEnableClientState(GL_VERTEX_ARRAY);
-        glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * Float.BYTES);
+        glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * FLOAT_SIZE);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glNormalPointer(GL_FLOAT, STRIDE, 6L * Float.BYTES);
+        glNormalPointer(GL_FLOAT, STRIDE, 6L * FLOAT_SIZE);
         glEnableClientState(GL_NORMAL_ARRAY);
 
-
-        GL30.glBindVertexArray(0);
+        if (vaoMode != 0) {
+            if (vaoMode == 1) GL30.glBindVertexArray(0);
+            else ARBVertexArrayObject.glBindVertexArray(0);
+        }
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_COPY_READ_BUFFER, 0);
     }
-
 
     private float[] prepareGroupData(GroupObject g, VBOBufferData data) {
         List<Float> vertexData = new ArrayList<>(g.faces.size() * 3 * VERTEX_SIZE);
@@ -245,60 +303,85 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         return combinedData;
     }
 
-    public void delete() {
-        var vaoIDBuffer = BufferUtils.createIntBuffer(groups.size());
-        var vboIDBuffer = BufferUtils.createIntBuffer(groups.size());
-        for (VBOBufferData data : groups) {
-            vaoIDBuffer.put(data.vaoHandle);
-            vboIDBuffer.put(data.vboHandle);
-        }
-        vaoIDBuffer.flip();
-        vboIDBuffer.flip();
-
-        GL30.glDeleteVertexArrays(vaoIDBuffer);
-        GL15.glDeleteBuffers(vboIDBuffer);
-    }
-
-    private void renderVBO(ModelVBO.VBOBufferData data) {
-        GL30.glBindVertexArray(data.vaoHandle);
-        GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, data.vertices);
-        GL30.glBindVertexArray(0);
-    }
-
-    @Override
-    public String getType() {
-        return "obj_vbo";
-    }
-
-    @Override
-    public void renderAll() {
-        for (ModelVBO.VBOBufferData data : groups) {
-            renderVBO(data);
-        }
-    }
-
-    @Override
-    public void renderOnly(String... groupNames) {
-        for (ModelVBO.VBOBufferData data : groups) {
-            for (String name : groupNames) {
-                if (data.name.equalsIgnoreCase(name)) {
-                    renderVBO(data);
-                }
+    private void renderVBO(VBOBufferData data) {
+        if (vaoMode != 0) {
+            if (vaoMode == 1) {
+                GL30.glBindVertexArray(data.vaoHandle);
+            } else {
+                ARBVertexArrayObject.glBindVertexArray(data.vaoHandle);
             }
+        } else {
+            // Legacy: bind VBO and set pointers every time
+            glBindBuffer(GL_ARRAY_BUFFER, data.vboHandle);
+            GL11.glVertexPointer(3, GL_FLOAT, STRIDE, 0L);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            GL11.glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * FLOAT_SIZE);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            GL11.glNormalPointer(GL_FLOAT, STRIDE, 6L * FLOAT_SIZE);
+            glEnableClientState(GL_NORMAL_ARRAY);
+        }
+
+        GlStateManager.glDrawArrays(GL_TRIANGLES, 0, data.vertices);
+
+        if (vaoMode != 0) {
+            if (vaoMode == 1) {
+                GL30.glBindVertexArray(0);
+            } else {
+                ARBVertexArrayObject.glBindVertexArray(0);
+            }
+        } else {
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
         }
     }
 
     public void renderStatic(MCH_AircraftInfo info) {
-        if (staticVAO == -1)
+        if (staticVAO == -1 && vaoMode != 0 || staticVBO == -1) {
             uploadStatic(info);
-        GL30.glBindVertexArray(this.staticVAO);
-        GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, staticVerts);
-        if (this.bakedTracksVAO != -1) {
-            GL30.glBindVertexArray(this.bakedTracksVAO);
-            GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, trackVerts);
         }
 
-        GL30.glBindVertexArray(0);
+        if (vaoMode != 0) {
+            if (vaoMode == 1) {
+                GL30.glBindVertexArray(staticVAO);
+            } else {
+                ARBVertexArrayObject.glBindVertexArray(staticVAO);
+            }
+        } else {
+            glBindBuffer(GL_ARRAY_BUFFER, staticVBO);
+            GL11.glVertexPointer(3, GL_FLOAT, STRIDE, 0L);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            GL11.glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * FLOAT_SIZE);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glNormalPointer(GL_FLOAT, STRIDE, 6L * FLOAT_SIZE);
+            glEnableClientState(GL_NORMAL_ARRAY);
+        }
+
+        GlStateManager.glDrawArrays(GL_TRIANGLES, 0, staticVerts);
+
+        if (bakedTracksVAO != -1 || bakedTracksVBO != -1) {
+            if (vaoMode != 0) {
+                if (vaoMode == 1) {
+                    GL30.glBindVertexArray(bakedTracksVAO);
+                } else {
+                    ARBVertexArrayObject.glBindVertexArray(bakedTracksVAO);
+                }
+            } else {
+                glBindBuffer(GL_ARRAY_BUFFER, bakedTracksVBO);
+                GL11.glVertexPointer(3, GL_FLOAT, STRIDE, 0L);
+                glEnableClientState(GL_VERTEX_ARRAY);
+                GL11.glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * FLOAT_SIZE);
+                glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+                glNormalPointer(GL_FLOAT, STRIDE, 6L * FLOAT_SIZE);
+                glEnableClientState(GL_NORMAL_ARRAY);
+            }
+            GlStateManager.glDrawArrays(GL_TRIANGLES, 0, trackVerts);
+        }
+
+        if (vaoMode != 0) {
+            if (vaoMode == 1) GL30.glBindVertexArray(0);
+            else ARBVertexArrayObject.glBindVertexArray(0);
+        } else {
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
     }
 
     public void renderTracksBuffer(MCH_AircraftInfo info) {
@@ -307,14 +390,75 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             return;
         }
 
-        if (bakedTracksVAO == -1)
+        if (bakedTracksVAO == -1 && vaoMode != 0 || bakedTracksVBO == -1) {
             uploadTracks(info);
-        GL30.glBindVertexArray(this.bakedTracksVAO);
-        GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, trackVerts);
+        }
 
-        GL30.glBindVertexArray(0);
+        if (vaoMode != 0) {
+            if (vaoMode == 1) {
+                GL30.glBindVertexArray(bakedTracksVAO);
+            } else {
+                ARBVertexArrayObject.glBindVertexArray(bakedTracksVAO);
+            }
+        } else {
+            glBindBuffer(GL_ARRAY_BUFFER, bakedTracksVBO);
+            GL11.glVertexPointer(3, GL_FLOAT, STRIDE, 0L);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            GL11.glTexCoordPointer(3, GL_FLOAT, STRIDE, 3L * FLOAT_SIZE);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glNormalPointer(GL_FLOAT, STRIDE, 6L * FLOAT_SIZE);
+            glEnableClientState(GL_NORMAL_ARRAY);
+        }
+
+        GlStateManager.glDrawArrays(GL_TRIANGLES, 0, trackVerts);
+
+        if (vaoMode != 0) {
+            if (vaoMode == 1) GL30.glBindVertexArray(0);
+            else ARBVertexArrayObject.glBindVertexArray(0);
+        } else {
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
     }
 
+    public void delete() {
+        // Delete VBOs
+        var vboBuffer = BufferUtils.createIntBuffer(groups.size());
+        for (VBOBufferData data : groups) {
+            vboBuffer.put(data.vboHandle);
+        }
+        vboBuffer.flip();
+        GL15.glDeleteBuffers(vboBuffer);
+
+        // Delete VAOs only if they were created
+        if (vaoMode != 0) {
+            var vaoBuffer = BufferUtils.createIntBuffer(groups.size());
+            for (VBOBufferData data : groups) {
+                vaoBuffer.put(data.vaoHandle);
+            }
+            vaoBuffer.flip();
+
+            if (vaoMode == 1) {
+                GL30.glDeleteVertexArrays(vaoBuffer);
+            } else {
+                ARBVertexArrayObject.glDeleteVertexArrays(vaoBuffer);
+            }
+
+            if (staticVAO != -1) {
+                if (vaoMode == 1) GL30.glDeleteVertexArrays(staticVAO);
+                else ARBVertexArrayObject.glDeleteVertexArrays(staticVAO);
+            }
+            if (bakedTracksVAO != -1) {
+                if (vaoMode == 1) GL30.glDeleteVertexArrays(bakedTracksVAO);
+                else ARBVertexArrayObject.glDeleteVertexArrays(bakedTracksVAO);
+            }
+        }
+
+        if (staticVBO != -1) glDeleteBuffers(staticVBO);
+        if (bakedTracksVBO != -1) glDeleteBuffers(bakedTracksVBO);
+
+        staticVAO = staticVBO = bakedTracksVAO = bakedTracksVBO = -1;
+        groups.clear();
+    }
 
     public float[] bakeCrawlerTrack(MCH_AircraftInfo info, float[] treadTemplate) {
         if (info.partCrawlerTrack.isEmpty()) return new float[0];
@@ -343,7 +487,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
                 float nz = treadTemplate[j + 8];
 
                 baked[cursor++] = vx;
-
                 baked[cursor++] = (vy * cosR + vz * sinR) + (float)current.x;
                 baked[cursor++] = (-vy * sinR + vz * cosR) + (float)current.y;
 
@@ -379,10 +522,32 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         return baked;
     }
 
+    @Override
+    public String getType() {
+        return "obj_vbo";
+    }
+
+    @Override
+    public void renderAll() {
+        for (VBOBufferData data : groups) {
+            renderVBO(data);
+        }
+    }
+
+    @Override
+    public void renderOnly(String... groupNames) {
+        for (VBOBufferData data : groups) {
+            for (String name : groupNames) {
+                if (data.name.equalsIgnoreCase(name)) {
+                    renderVBO(data);
+                }
+            }
+        }
+    }
 
     @Override
     public void renderPart(String partName) {
-        for (ModelVBO.VBOBufferData data : groups) {
+        for (VBOBufferData data : groups) {
             if (data.name.equalsIgnoreCase(partName)) {
                 renderVBO(data);
             }
@@ -391,7 +556,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
     @Override
     public void renderAllExcept(String... excludedGroupNames) {
-        for (ModelVBO.VBOBufferData data : groups) {
+        for (VBOBufferData data : groups) {
             boolean skip = false;
             for (String name : excludedGroupNames) {
                 if (data.name.equalsIgnoreCase(name)) {
@@ -412,7 +577,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
     @Override
     public boolean containsPart(String partName) {
-        for (ModelVBO.VBOBufferData data : groups) {
+        for (VBOBufferData data : groups) {
             if (data.name.equalsIgnoreCase(partName)) {
                 return true;
             }
@@ -439,7 +604,6 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     }
 
     static class VBOBufferData {
-
         String name;
         int vertices = 0;
         int vboHandle;
