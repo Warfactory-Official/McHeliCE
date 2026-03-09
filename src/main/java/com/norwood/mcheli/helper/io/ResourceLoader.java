@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -43,12 +44,6 @@ public abstract class ResourceLoader implements Closeable {
 
     public InputStream getInputStream(String relativePath) throws IOException {
         return this.getInputStreamFromEntry(this.load(relativePath));
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        this.close();
-        super.finalize();
     }
 
     static class DirectoryLoader extends ResourceLoader {
@@ -158,10 +153,11 @@ public abstract class ResourceLoader implements Closeable {
 
     static class ZipJarFileLoader extends ResourceLoader {
 
-        private ZipFile resourcePackZipFile;
+        private final AtomicReference<ZipFile> resourcePackZipFile = new AtomicReference<>();
 
         ZipJarFileLoader(File file) {
             super(file);
+            ZipFileCleanupTracker.track(this, this.resourcePackZipFile, file);
         }
 
         @Override
@@ -198,19 +194,24 @@ public abstract class ResourceLoader implements Closeable {
         }
 
         private ZipFile getResourcePackZipFile() throws IOException {
-            if (this.resourcePackZipFile == null) {
-                this.resourcePackZipFile = new ZipFile(this.dir);
+            ZipFile zipFile = this.resourcePackZipFile.get();
+            if (zipFile != null) {
+                return zipFile;
             }
 
-            return this.resourcePackZipFile;
+            synchronized (this) {
+                zipFile = this.resourcePackZipFile.get();
+                if (zipFile == null) {
+                    zipFile = new ZipFile(this.dir);
+                    this.resourcePackZipFile.set(zipFile);
+                }
+                return zipFile;
+            }
         }
 
         @Override
         public void close() throws IOException {
-            if (this.resourcePackZipFile != null) {
-                this.resourcePackZipFile.close();
-                this.resourcePackZipFile = null;
-            }
+            ZipFileCleanupTracker.close(this.resourcePackZipFile);
         }
     }
 }

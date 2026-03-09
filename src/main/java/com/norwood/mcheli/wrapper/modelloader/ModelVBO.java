@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL30;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -111,9 +110,9 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
                 treadBuffer = combinedData;
             }
 
-            data.vaoHandle = GL30.glGenVertexArrays();
+            data.vaoHandle = VertexArraySupport.glGenVertexArrays();
             data.vboHandle = glGenBuffers();
-            GL30.glBindVertexArray(data.vaoHandle);
+            VertexArraySupport.glBindVertexArray(data.vaoHandle);
             glBindBuffer(GL_ARRAY_BUFFER, data.vboHandle);
             glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
 
@@ -124,7 +123,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             GL11.glNormalPointer(GL11.GL_FLOAT, STRIDE, 6L * Float.BYTES);
             glEnableClientState(GL_NORMAL_ARRAY);
 
-            GL30.glBindVertexArray(0);
+            VertexArraySupport.glBindVertexArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             groups.add(data);
@@ -139,10 +138,10 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
                 .mapToInt(g -> g.vertices)
                 .sum();
 
-        staticVAO = GL30.glGenVertexArrays();
+        staticVAO = VertexArraySupport.glGenVertexArrays();
         staticVBO = glGenBuffers();
 
-        GL30.glBindVertexArray(staticVAO);
+        VertexArraySupport.glBindVertexArray(staticVAO);
         glBindBuffer(GL_ARRAY_BUFFER, staticVBO);
         glBufferData(GL_ARRAY_BUFFER, (long) airframeVerts * 9 * Float.BYTES, GL_STATIC_DRAW);
 
@@ -169,7 +168,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
             uploadTracks(info);
         } else {
 
-            GL30.glBindVertexArray(0);
+            VertexArraySupport.glBindVertexArray(0);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindBuffer(GL_COPY_READ_BUFFER, 0);
         }
@@ -179,10 +178,10 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         float[] bakedData = bakeCrawlerTrack(info, treadBuffer);
         this.trackVerts = bakedData.length / 9;
 
-        bakedTracksVAO = GL30.glGenVertexArrays();
+        bakedTracksVAO = VertexArraySupport.glGenVertexArrays();
         bakedTracksVBO = glGenBuffers();
 
-        GL30.glBindVertexArray(bakedTracksVAO);
+        VertexArraySupport.glBindVertexArray(bakedTracksVAO);
         glBindBuffer(GL_ARRAY_BUFFER, bakedTracksVBO);
 
         FloatBuffer buffer = BufferUtils.createFloatBuffer(bakedData.length);
@@ -197,7 +196,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         glEnableClientState(GL_NORMAL_ARRAY);
 
 
-        GL30.glBindVertexArray(0);
+        VertexArraySupport.glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_COPY_READ_BUFFER, 0);
     }
@@ -255,14 +254,14 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
         vaoIDBuffer.flip();
         vboIDBuffer.flip();
 
-        GL30.glDeleteVertexArrays(vaoIDBuffer);
+        VertexArraySupport.glDeleteVertexArrays(vaoIDBuffer);
         GL15.glDeleteBuffers(vboIDBuffer);
     }
 
     private void renderVBO(ModelVBO.VBOBufferData data) {
-        GL30.glBindVertexArray(data.vaoHandle);
+        VertexArraySupport.glBindVertexArray(data.vaoHandle);
         GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, data.vertices);
-        GL30.glBindVertexArray(0);
+        VertexArraySupport.glBindVertexArray(0);
     }
 
     @Override
@@ -291,14 +290,14 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     public void renderStatic(MCH_AircraftInfo info) {
         if (staticVAO == -1)
             uploadStatic(info);
-        GL30.glBindVertexArray(this.staticVAO);
+        VertexArraySupport.glBindVertexArray(this.staticVAO);
         GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, staticVerts);
         if (this.bakedTracksVAO != -1) {
-            GL30.glBindVertexArray(this.bakedTracksVAO);
+            VertexArraySupport.glBindVertexArray(this.bakedTracksVAO);
             GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, trackVerts);
         }
 
-        GL30.glBindVertexArray(0);
+        VertexArraySupport.glBindVertexArray(0);
     }
 
     public void renderTracksBuffer(MCH_AircraftInfo info) {
@@ -309,10 +308,10 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
 
         if (bakedTracksVAO == -1)
             uploadTracks(info);
-        GL30.glBindVertexArray(this.bakedTracksVAO);
+        VertexArraySupport.glBindVertexArray(this.bakedTracksVAO);
         GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, trackVerts);
 
-        GL30.glBindVertexArray(0);
+        VertexArraySupport.glBindVertexArray(0);
     }
 
 

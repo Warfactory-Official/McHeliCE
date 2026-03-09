@@ -2,27 +2,39 @@ package com.norwood.mcheli.helper.info;
 
 import com.google.common.collect.Lists;
 import com.norwood.mcheli.helper.MCH_Logger;
+import com.norwood.mcheli.helper.io.ZipFileCleanupTracker;
 
 import java.io.*;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class FileContentLoader extends ContentLoader implements Closeable {
 
-    private ZipFile resourcePackZipFile;
+    private final AtomicReference<ZipFile> resourcePackZipFile = new AtomicReference<>();
 
     public FileContentLoader(String domain, File addonDir, String loaderVersion, Predicate<String> fileFilter) {
         super(domain, addonDir, loaderVersion, fileFilter);
+        ZipFileCleanupTracker.track(this, this.resourcePackZipFile, addonDir);
     }
 
     private ZipFile getResourcePackZipFile() throws IOException {
-        if (this.resourcePackZipFile == null) {
-            this.resourcePackZipFile = new ZipFile(this.dir);
+        ZipFile zipFile = this.resourcePackZipFile.get();
+        if (zipFile != null) {
+            return zipFile;
         }
-        return this.resourcePackZipFile;
+
+        synchronized (this) {
+            zipFile = this.resourcePackZipFile.get();
+            if (zipFile == null) {
+                zipFile = new ZipFile(this.dir);
+                this.resourcePackZipFile.set(zipFile);
+            }
+            return zipFile;
+        }
     }
 
     @Override
@@ -72,16 +84,7 @@ public class FileContentLoader extends ContentLoader implements Closeable {
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        this.close();
-        super.finalize();
-    }
-
-    @Override
     public void close() throws IOException {
-        if (this.resourcePackZipFile != null) {
-            this.resourcePackZipFile.close();
-            this.resourcePackZipFile = null;
-        }
+        ZipFileCleanupTracker.close(this.resourcePackZipFile);
     }
 }
