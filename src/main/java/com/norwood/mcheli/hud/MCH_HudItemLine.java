@@ -12,7 +12,7 @@ public class MCH_HudItemLine extends MCH_HudItem {
         this.pos = new String[position.length];
 
         for (int i = 0; i < position.length; i++) {
-            this.pos[i] = position[i].toLowerCase();
+            this.pos[i] = toFormula(position[i]);
         }
     }
 
