@@ -136,9 +136,6 @@ public abstract class W_Entity extends Entity {
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
-        double huge = 1.0e6;
-        return new AxisAlignedBB(
-                posX - huge, posY - huge, posZ - huge,
-                posX + huge, posY + huge, posZ + huge);
+        return net.minecraft.tileentity.TileEntity.INFINITE_EXTENT_AABB;
     }
 }
