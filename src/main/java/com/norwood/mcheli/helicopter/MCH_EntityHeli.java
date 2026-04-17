@@ -410,26 +410,26 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
     public void onUpdateAngles(float deltaSeconds) {
         if (!this.isDestroyed()) {
             float rotRoll = !this.isHovering() ? 0.04F : 0.07F;
-            rotRoll = 1.0F - rotRoll * deltaSeconds;
+            rotRoll = (float) Math.pow(1.0F - rotRoll, deltaSeconds * 20.0F);
             if (MCH_ServerSettings.enableRotationLimit) {
                 if (this.getPitch() > MCH_ServerSettings.pitchLimitMax) {
                     this.setRotPitch(this.getPitch() -
-                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMax) * 0.1F * deltaSeconds));
+                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMax) * 2.0F * deltaSeconds));
                 }
 
                 if (this.getPitch() < MCH_ServerSettings.pitchLimitMin) {
                     this.setRotPitch(this.getPitch() +
-                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMin) * 0.2F * deltaSeconds));
+                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMin) * 4.0F * deltaSeconds));
                 }
 
                 if (this.getRoll() > MCH_ServerSettings.rollLimit) {
                     this.setRotRoll(this.getRoll() -
-                            Math.abs((this.getRoll() - MCH_ServerSettings.rollLimit) * 0.03F * deltaSeconds));
+                            Math.abs((this.getRoll() - MCH_ServerSettings.rollLimit) * 0.6F * deltaSeconds));
                 }
 
                 if (this.getRoll() < -MCH_ServerSettings.rollLimit) {
                     this.setRotRoll(this.getRoll() +
-                            Math.abs((this.getRoll() + MCH_ServerSettings.rollLimit) * 0.03F * deltaSeconds));
+                            Math.abs((this.getRoll() + MCH_ServerSettings.rollLimit) * 0.6F * deltaSeconds));
                 }
             }
 
