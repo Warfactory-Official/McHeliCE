@@ -426,14 +426,16 @@ public class ClientCommonTickHandler extends W_TickHandler {
     }
 
     private void updateViewEntityDummy(MCH_EntityAircraft ac, EntityPlayer player) {
-        Entity de = MCH_ViewEntityDummy.getInstance(player.world);
-        if (de != null) {
-            de.rotationYaw = player.rotationYaw;
-            de.prevRotationYaw = player.prevRotationYaw;
-            if (ac != null) {
-                MCH_WeaponSet wi = ac.getCurrentWeapon(player);
-                if (wi != null && wi.getInfo() != null && wi.getInfo().fixCameraPitch) {
-                    de.rotationPitch = de.prevRotationPitch = 0.0F;
+        if (ac != null || player.getRidingEntity() instanceof MCH_EntityGLTD || player.getRidingEntity() instanceof IUavStation) {
+            Entity de = MCH_ViewEntityDummy.getInstance(player.world);
+            if (de != null) {
+                de.rotationYaw = player.rotationYaw;
+                de.prevRotationYaw = player.prevRotationYaw;
+                if (ac != null) {
+                    MCH_WeaponSet wi = ac.getCurrentWeapon(player);
+                    if (wi != null && wi.getInfo() != null && wi.getInfo().fixCameraPitch) {
+                        de.rotationPitch = de.prevRotationPitch = 0.0F;
+                    }
                 }
             }
         }
@@ -469,12 +471,14 @@ public class ClientCommonTickHandler extends W_TickHandler {
     public void onRenderTickPost(float partialTicks) {
         if (this.mc.player != null) {
             MCH_ClientTickHandlerBase.applyRotLimit(this.mc.player);
-            Entity e = MCH_ViewEntityDummy.getInstance(this.mc.player.world);
-            if (e != null) {
-                e.rotationPitch = this.mc.player.rotationPitch;
-                e.rotationYaw = this.mc.player.rotationYaw;
-                e.prevRotationPitch = this.mc.player.prevRotationPitch;
-                e.prevRotationYaw = this.mc.player.prevRotationYaw;
+            if (ridingAircraft != null) {
+                Entity e = MCH_ViewEntityDummy.getInstance(this.mc.player.world);
+                if (e != null) {
+                    e.rotationPitch = this.mc.player.rotationPitch;
+                    e.rotationYaw = this.mc.player.rotationYaw;
+                    e.prevRotationPitch = this.mc.player.prevRotationPitch;
+                    e.prevRotationYaw = this.mc.player.prevRotationYaw;
+                }
             }
         }
         guiTickHandler.handleGui(partialTicks);

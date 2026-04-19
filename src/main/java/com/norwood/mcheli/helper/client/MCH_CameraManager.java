@@ -60,7 +60,7 @@ public class MCH_CameraManager {
     @SubscribeEvent
     static void onCameraSetupEvent(CameraSetup event) {
         float f = event.getEntity().getEyeHeight();
-        if (mc.gameSettings.thirdPersonView > 0) {
+        if (ridingAircraft != null && mc.gameSettings.thirdPersonView > 0) {
             if (mc.gameSettings.thirdPersonView == 2) {
                 GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
             }
@@ -88,9 +88,15 @@ public class MCH_CameraManager {
 
     @SubscribeEvent
     static void onFOVModifierEvent(FOVModifier event) {
-        MCH_ViewEntityDummy viewer = MCH_ViewEntityDummy.getInstance(mc.world);
-        if (viewer == event.getEntity() || MCH_ItemRangeFinder.isUsingScope(mc.player)) {
+        if (MCH_ItemRangeFinder.isUsingScope(mc.player)) {
             event.setFOV(event.getFOV() * (1.0F / cameraZoom));
+            return;
+        }
+        if (ridingAircraft != null) {
+            MCH_ViewEntityDummy viewer = MCH_ViewEntityDummy.getInstance(mc.world);
+            if (viewer == event.getEntity()) {
+                event.setFOV(event.getFOV() * (1.0F / cameraZoom));
+            }
         }
     }
 
@@ -113,6 +119,11 @@ public class MCH_CameraManager {
     }
 
     public static void setRidingAircraft(@Nullable MCH_EntityAircraft aircraft) {
+        if (aircraft == null && ridingAircraft != null) {
+            cameraDistance = DEF_THIRD_CAMERA_DIST;
+            cameraZoom = 1.0F;
+            cameraRoll = 0.0F;
+        }
         ridingAircraft = aircraft;
     }
 

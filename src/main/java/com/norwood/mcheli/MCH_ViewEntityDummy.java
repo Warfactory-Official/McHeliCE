@@ -29,7 +29,6 @@ public class MCH_ViewEntityDummy extends EntityPlayerSP {
             instance = new MCH_ViewEntityDummy(w);
             instance.movementInput = new MovementInput();
             instance.setPosition(0.0, -4.0, 0.0);
-            w.spawnEntity(instance);
         }
         return instance;
     }

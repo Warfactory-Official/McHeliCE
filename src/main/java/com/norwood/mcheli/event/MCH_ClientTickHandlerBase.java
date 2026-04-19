@@ -40,12 +40,12 @@ public abstract class MCH_ClientTickHandlerBase {
         playerRotMaxYaw = max;
         playerRotLimitYaw = true;
         if (e != null) {
-            if (e.rotationPitch < playerRotMinPitch) {
-                e.rotationPitch = playerRotMinPitch;
-                e.prevRotationPitch = playerRotMinPitch;
-            } else if (e.rotationPitch > playerRotMaxPitch) {
-                e.rotationPitch = playerRotMaxPitch;
-                e.prevRotationPitch = playerRotMaxPitch;
+            if (e.rotationYaw < playerRotMinYaw) {
+                e.rotationYaw = playerRotMinYaw;
+                e.prevRotationYaw = playerRotMinYaw;
+            } else if (e.rotationYaw > playerRotMaxYaw) {
+                e.rotationYaw = playerRotMaxYaw;
+                e.prevRotationYaw = playerRotMaxYaw;
             }
         }
     }
@@ -53,7 +53,7 @@ public abstract class MCH_ClientTickHandlerBase {
     public static void initRotLimit() {
         playerRotMinPitch = -90.0F;
         playerRotMaxPitch = 90.0F;
-        playerRotLimitYaw = false;
+        playerRotLimitPitch = false;
         playerRotMinYaw = -180.0F;
         playerRotMaxYaw = 180.0F;
         playerRotLimitYaw = false;
@@ -71,7 +71,15 @@ public abstract class MCH_ClientTickHandlerBase {
                 }
             }
 
-            if (!playerRotLimitYaw) {}
+            if (playerRotLimitYaw) {
+                if (e.rotationYaw < playerRotMinYaw) {
+                    e.rotationYaw = playerRotMinYaw;
+                    e.prevRotationYaw = playerRotMinYaw;
+                } else if (e.rotationYaw > playerRotMaxYaw) {
+                    e.rotationYaw = playerRotMaxYaw;
+                    e.prevRotationYaw = playerRotMaxYaw;
+                }
+            }
         }
     }
 
