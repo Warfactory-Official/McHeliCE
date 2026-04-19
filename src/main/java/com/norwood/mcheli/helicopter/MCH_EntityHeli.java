@@ -407,29 +407,29 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
     }
 
     @Override
-    public void onUpdateAngles(float partialTicks) {
+    public void onUpdateAngles(float deltaSeconds) {
         if (!this.isDestroyed()) {
             float rotRoll = !this.isHovering() ? 0.04F : 0.07F;
-            rotRoll = 1.0F - rotRoll * partialTicks;
+            rotRoll = (float) Math.pow(1.0F - rotRoll, deltaSeconds * 20.0F);
             if (MCH_ServerSettings.enableRotationLimit) {
                 if (this.getPitch() > MCH_ServerSettings.pitchLimitMax) {
                     this.setRotPitch(this.getPitch() -
-                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMax) * 0.1F * partialTicks));
+                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMax) * 2.0F * deltaSeconds));
                 }
 
                 if (this.getPitch() < MCH_ServerSettings.pitchLimitMin) {
                     this.setRotPitch(this.getPitch() +
-                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMin) * 0.2F * partialTicks));
+                            Math.abs((this.getPitch() - MCH_ServerSettings.pitchLimitMin) * 4.0F * deltaSeconds));
                 }
 
                 if (this.getRoll() > MCH_ServerSettings.rollLimit) {
                     this.setRotRoll(this.getRoll() -
-                            Math.abs((this.getRoll() - MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
+                            Math.abs((this.getRoll() - MCH_ServerSettings.rollLimit) * 0.6F * deltaSeconds));
                 }
 
                 if (this.getRoll() < -MCH_ServerSettings.rollLimit) {
                     this.setRotRoll(this.getRoll() +
-                            Math.abs((this.getRoll() + MCH_ServerSettings.rollLimit) * 0.03F * partialTicks));
+                            Math.abs((this.getRoll() + MCH_ServerSettings.rollLimit) * 0.6F * deltaSeconds));
                 }
             }
 
@@ -443,11 +443,11 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
 
             if (MCH_Lib.getBlockIdY(this, 3, -3) == 0) {
                 if (this.moveLeft && !this.moveRight) {
-                    this.setRotRoll(this.getRoll() - 1.2F * partialTicks);
+                    this.setRotRoll(this.getRoll() - 24.0F * deltaSeconds);
                 }
 
                 if (this.moveRight && !this.moveLeft) {
-                    this.setRotRoll(this.getRoll() + 1.2F * partialTicks);
+                    this.setRotRoll(this.getRoll() + 24.0F * deltaSeconds);
                 }
             } else {
                 if (MathHelper.abs(this.getPitch()) < 40.0F) {
@@ -457,11 +457,11 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
                 if (this.heliInfo.isEnableFoldBlade && this.rotors.length > 0 && this.getFoldBladeStat() == 0 &&
                         !this.isDestroyed()) {
                     if (this.moveLeft && !this.moveRight) {
-                        this.setRotYaw(this.getYaw() - 0.5F * partialTicks);
+                        this.setRotYaw(this.getYaw() - 10.0F * deltaSeconds);
                     }
 
                     if (this.moveRight && !this.moveLeft) {
-                        this.setRotYaw(this.getYaw() + 0.5F * partialTicks);
+                        this.setRotYaw(this.getYaw() + 10.0F * deltaSeconds);
                     }
                 }
             }
