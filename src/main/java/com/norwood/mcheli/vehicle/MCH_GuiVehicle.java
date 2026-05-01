@@ -39,9 +39,9 @@ public class MCH_GuiVehicle extends MCH_AircraftCommonGui {
                     this.drawTvMissileNoise(vehicle, vehicle.getTVMissile());
                 }
 
-                this.drawDebugtInfo(vehicle);
                 if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
                     this.drawHud(vehicle, player, seatID);
+                    this.drawDetachedTurretDot(vehicle, player);
                     this.drawKeyBind(vehicle, player);
                 }
 

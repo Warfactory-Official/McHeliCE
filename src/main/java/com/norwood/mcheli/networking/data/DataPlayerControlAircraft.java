@@ -28,6 +28,9 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
     public double useWeaponPosX = 0.0;
     public double useWeaponPosY = 0.0;
     public double useWeaponPosZ = 0.0;
+    public boolean detachedWeaponAim = false;
+    public float detachedWeaponAimYaw = 0.0F;
+    public float detachedWeaponAimPitch = 0.0F;
     public byte switchFreeLook = 0;
 
     public DataPlayerControlAircraft() {
@@ -55,6 +58,9 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         buf.writeDouble(useWeaponPosX);
         buf.writeDouble(useWeaponPosY);
         buf.writeDouble(useWeaponPosZ);
+        buf.writeBoolean(detachedWeaponAim);
+        buf.writeFloat(detachedWeaponAimYaw);
+        buf.writeFloat(detachedWeaponAimPitch);
 
         buf.writeByte(switchFreeLook);
     }
@@ -80,6 +86,9 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         this.useWeaponPosX = buf.readDouble();
         this.useWeaponPosY = buf.readDouble();
         this.useWeaponPosZ = buf.readDouble();
+        this.detachedWeaponAim = buf.readBoolean();
+        this.detachedWeaponAimYaw = buf.readFloat();
+        this.detachedWeaponAimPitch = buf.readFloat();
 
         this.switchFreeLook = buf.readByte();
     }

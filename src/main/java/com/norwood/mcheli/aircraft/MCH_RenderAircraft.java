@@ -339,7 +339,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
 
             GlStateManager.translate(-part.pos.x, -part.pos.y, -part.pos.z);
 
-            if (!part.isMissile || !aircraft.isWeaponNotCooldown(weaponSet, weaponIndex)) {
+            if (!part.isMissile || aircraft.isWeaponOnCooldown(weaponSet, weaponIndex)) {
                 renderPart(part.model, info.model, part.modelName);
 
                 for (MCH_AircraftInfo.PartWeaponChild child : part.child) {

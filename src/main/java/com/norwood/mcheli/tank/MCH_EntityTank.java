@@ -47,6 +47,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class MCH_EntityTank extends MCH_EntityAircraft {
 
@@ -101,12 +102,12 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.setDead();
         } else {
             this.setAcInfo(this.tankInfo);
-            this.newSeats(this.getAcInfo().getNumSeatAndRack());
+            this.newSeats(Objects.requireNonNull(this.getAcInfo()).getNumSeatAndRack());
             this.switchFreeLookModeClient(this.getAcInfo().defaultFreelook);
             this.weapons = this.createWeapon(1 + this.getSeatNum());
             this.initPartRotation(this.getYaw(), this.getPitch());
             this.WheelMng.createWheels(this.world, this.getAcInfo().wheels,
-                    new Vec3d(0.0, -GLOBAL_Y_OFFSET, this.getTankInfo().weightedCenterZ));
+                    new Vec3d(0.0, -GLOBAL_Y_OFFSET, Objects.requireNonNull(this.getTankInfo()).weightedCenterZ));
         }
     }
 
@@ -191,7 +192,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.onUpdate_Seats();
             this.onUpdate_Control();
             this.prevRotationRotor = this.rotationRotor;
-            this.rotationRotor = (float) (this.rotationRotor + this.getCurrentThrottle() * this.getAcInfo().rotorSpeed);
+            this.rotationRotor = (float) (this.rotationRotor + this.getCurrentThrottle() * Objects.requireNonNull(this.getAcInfo()).rotorSpeed);
             if (this.rotationRotor > 360.0F) {
                 this.rotationRotor -= 360.0F;
                 this.prevRotationRotor -= 360.0F;
@@ -239,33 +240,33 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
     }
 
-    public MCH_EntityTank.ClacAxisBB calculateXOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double x) {
+    public ClacAxisBB calculateXOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double x) {
         for (AxisAlignedBB axisAlignedBB : list) {
             x = axisAlignedBB.calculateXOffset(bb, x);
         }
 
-        return new MCH_EntityTank.ClacAxisBB(x, bb.offset(x, 0.0, 0.0));
+        return new ClacAxisBB(x, bb.offset(x, 0.0, 0.0));
     }
 
-    public MCH_EntityTank.ClacAxisBB calculateYOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double y) {
+    public ClacAxisBB calculateYOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double y) {
         return this.calculateYOffset(list, bb, bb, y);
     }
 
-    public MCH_EntityTank.ClacAxisBB calculateYOffset(List<AxisAlignedBB> list, AxisAlignedBB calcBB,
-                                                      AxisAlignedBB offsetBB, double y) {
+    public ClacAxisBB calculateYOffset(List<AxisAlignedBB> list, AxisAlignedBB calcBB,
+                                       AxisAlignedBB offsetBB, double y) {
         for (AxisAlignedBB axisAlignedBB : list) {
             y = axisAlignedBB.calculateYOffset(calcBB, y);
         }
 
-        return new MCH_EntityTank.ClacAxisBB(y, offsetBB.offset(0.0, y, 0.0));
+        return new ClacAxisBB(y, offsetBB.offset(0.0, y, 0.0));
     }
 
-    public MCH_EntityTank.ClacAxisBB calculateZOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double z) {
+    public ClacAxisBB calculateZOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double z) {
         for (AxisAlignedBB axisAlignedBB : list) {
             z = axisAlignedBB.calculateZOffset(bb, z);
         }
 
-        return new MCH_EntityTank.ClacAxisBB(z, bb.offset(0.0, 0.0, z));
+        return new ClacAxisBB(z, bb.offset(0.0, 0.0, z));
     }
 
     @Override
@@ -277,7 +278,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         List<AxisAlignedBB> list1 = getCollisionBoxes(this, this.getEntityBoundingBox().expand(x, y, z));
         AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
         if (y != 0.0) {
-            MCH_EntityTank.ClacAxisBB v = this.calculateYOffset(list1, this.getEntityBoundingBox(), y);
+            ClacAxisBB v = this.calculateYOffset(list1, this.getEntityBoundingBox(), y);
             y = v.value;
             this.setEntityBoundingBox(v.bb);
         }
@@ -290,7 +291,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
 
         if (x != 0.0) {
-            MCH_EntityTank.ClacAxisBB v = this.calculateXOffset(list1, this.getEntityBoundingBox(), x);
+            ClacAxisBB v = this.calculateXOffset(list1, this.getEntityBoundingBox(), x);
             x = v.value;
             if (x != 0.0) {
                 this.setEntityBoundingBox(v.bb);
@@ -298,7 +299,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
 
         if (z != 0.0) {
-            MCH_EntityTank.ClacAxisBB v = this.calculateZOffset(list1, this.getEntityBoundingBox(), z);
+            ClacAxisBB v = this.calculateZOffset(list1, this.getEntityBoundingBox(), z);
             z = v.value;
             if (z != 0.0) {
                 this.setEntityBoundingBox(v.bb);
@@ -315,7 +316,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             List<AxisAlignedBB> list = getCollisionBoxes(this, this.getEntityBoundingBox().expand(d2, y, d4));
             AxisAlignedBB axisalignedbb2 = this.getEntityBoundingBox();
             AxisAlignedBB axisalignedbb3 = axisalignedbb2.expand(d2, 0.0, d4);
-            MCH_EntityTank.ClacAxisBB v = this.calculateYOffset(list, axisalignedbb3, axisalignedbb2, y);
+            ClacAxisBB v = this.calculateYOffset(list, axisalignedbb3, axisalignedbb2, y);
             double d8 = v.value;
             axisalignedbb2 = v.bb;
             v = this.calculateXOffset(list, axisalignedbb2, d2);
@@ -417,7 +418,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             if (MathHelper.abs(this.getRoll()) > 20.0F) {
                 this.setRotRoll(this.getRoll() * (float) Math.pow(0.95, deltaSeconds * 20));
             }
-            this.setRotYaw(this.getYaw() + this.getAcInfo().autoPilotRot * 0.2F * deltaSeconds * 20);
+            this.setRotYaw(this.getYaw() + Objects.requireNonNull(this.getAcInfo()).autoPilotRot * 0.2F * deltaSeconds * 20);
         }
 
         this.updateRecoil(deltaSeconds);
@@ -427,7 +428,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         float interp = deltaSeconds;
 
         boolean isFly = MCH_Lib.getBlockIdY(this, 3, -3) == 0;
-        boolean nearWaterFloat = this.getAcInfo().isFloat && this.getWaterDepth() > 0.0;
+        boolean nearWaterFloat = Objects.requireNonNull(this.getAcInfo()).isFloat && this.getWaterDepth() > 0.0;
         if (!isFly || nearWaterFloat) {
             float gmy = 1.0F;
             if (!isFly) {
@@ -506,7 +507,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         if (this.getBrake()) {
             this.throttleBack = (float) (this.throttleBack * 0.5);
             if (this.getCurrentThrottle() > 0.0) {
-                this.addCurrentThrottle(-0.02 * this.getAcInfo().throttleUpDown);
+                this.addCurrentThrottle(-0.02 * Objects.requireNonNull(this.getAcInfo()).throttleUpDown);
             } else {
                 this.setCurrentThrottle(0.0);
             }
@@ -519,7 +520,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.throttleUp = true;
             this.onUpdate_ControlSub();
         } else if (this.getCurrentThrottle() > 0.0) {
-            this.addCurrentThrottle(-0.0025 * this.getAcInfo().throttleUpDown);
+            this.addCurrentThrottle(-0.0025 * Objects.requireNonNull(this.getAcInfo()).throttleUpDown);
         } else {
             this.setCurrentThrottle(0.0);
         }
@@ -546,6 +547,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     protected void onUpdate_ControlSub() {
         if (!super.isGunnerMode) {
+            assert this.getAcInfo() != null;
             float throttleUpDown = this.getAcInfo().throttleUpDown;
             if (super.throttleUp) {
                 float f = throttleUpDown;
@@ -587,10 +589,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                                 double dx = super.posX - super.prevPosX;
                                 double dz = super.posZ - super.prevPosZ;
                                 double dist = dx * dx + dz * dz;
-                                float sf = (float) Math.sqrt(dist <= 1.0D ? dist : 1.0D);
-                                if (pivotTurnThrottle1 <= 0.0F) {
-                                    sf = 1.0F;
-                                }
+                                float sf = (float) Math.sqrt(Math.min(dist, 1.0D));
 
                                 float rotonground = 1.0F;
                                 boolean isFly = MCH_Lib.getBlockIdY(this, 3, -3) == 0;
@@ -645,7 +644,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                     for (int ri = 0; ri < bbNum; ri++) {
                         if (this.getHP() >= this.getMaxHP() * 0.2 && this.getMaxHP() > 0) {
                             int d = (int) (((double) this.getHP() / this.getMaxHP() - 0.2) / 0.3 * 15.0);
-                            if (d > 0 && this.rand.nextInt(d) > 0) {}
+                            if (d > 0) {
+                                this.rand.nextInt(d);
+                            }
                         } else {
                             MCH_BoundingBox bb = this.getTankInfo().extraBoundingBox.get(ri);
                             Vec3d pos = this.getTransformedPosition(bb.offsetX, bb.offsetY, bb.offsetZ);
@@ -668,8 +669,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                         double px = this.posX;
                         double py = this.posY;
                         double pz = this.posZ;
-                        if (this.getSeatInfo(0) != null && this.getSeatInfo(0).pos != null) {
-                            Vec3d pos = MCH_Lib.RotVec3(0.0, this.getSeatInfo(0).pos.y, -2.0, -yaw, -pitch, -roll);
+                        if (this.getSeatInfo(0) != null && Objects.requireNonNull(this.getSeatInfo(0)).pos != null) {
+                            Vec3d pos = MCH_Lib.RotVec3(0.0, Objects.requireNonNull(this.getSeatInfo(0)).pos.y, -2.0, -yaw, -pitch, -roll);
                             px += pos.x;
                             py += pos.y;
                             pz += pos.z;
@@ -761,7 +762,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     @Override
     public int getClientPositionDelayCorrection() {
-        return this.getTankInfo().weightType == 1 ? 2 : (7);
+        return Objects.requireNonNull(this.getTankInfo()).weightType == 1 ? 2 : (7);
     }
 
     protected void onUpdate_Client() {
@@ -799,8 +800,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     }
 
     @Override
-    public void applyOnGroundPitch(float factor) {}
-
+    public void applyOnGroundPitch(float factor) {
+    }
 
 
     private void onUpdate_Server() {
@@ -816,7 +817,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         if (dp == 0.0) {
             if (!levelOff) {
                 this.motionY = this.motionY +
-                        (0.04 + (!this.isInWater() ? this.getAcInfo().gravity : this.getAcInfo().gravityInWater));
+                        (0.04 + (!this.isInWater() ? this.getAcInfo() != null ? this.getAcInfo().gravity : 0 : this.getAcInfo() != null ? this.getAcInfo().gravityInWater : 0));
                 this.motionY = this.motionY + -0.047 * (1.0 - this.getCurrentThrottle());
             } else {
                 this.motionY *= 0.8;
@@ -855,17 +856,14 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         // apply vertical thrust: only meaningful vertical lift while airborne and moving
         if (!levelOff) {
             double horizSpeed = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-            if (!this.onGround && horizSpeed > AIRBORNE_SPEED_MIN) {
+            if (!this.onGround && horizSpeed > AIRBORNE_SPEED_MIN)
                 this.motionY += v.y * throttle / 8.0;
-            } else {
-                // intentionally skip tiny vertical kicks while grounded to avoid pitch wobble
-                // If you want a tiny bump for climbing small obstacles, change the line below:
-                // this.motionY += v.y * throttle / 32.0;
-            }
+
+
         }
 
         boolean canMove = true;
-        if (!this.getAcInfo().canMoveOnGround) {
+        if (!Objects.requireNonNull(this.getAcInfo()).canMoveOnGround) {
             Block block = MCH_Lib.getBlockY(this, 3, -2, false);
             if (!W_Block.isEqual(block, W_Block.getWater()) && !W_Block.isEqual(block, Blocks.AIR)) {
                 canMove = false;
@@ -951,7 +949,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                 MCH_EntityAircraft rideAc = this.getRidingEntity() instanceof MCH_EntitySeat ?
                         ((MCH_EntitySeat) this.getRidingEntity()).getParent() :
                         (this.getRidingEntity() instanceof MCH_EntityAircraft ?
-                                (MCH_EntityAircraft) this.getRidingEntity() : null);
+                         (MCH_EntityAircraft) this.getRidingEntity() : null);
                 List<Entity> list = this.world
                         .getEntitiesInAABBexcluding(
                                 this,
@@ -1001,7 +999,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                             e.motionZ = e.motionZ + this.motionZ * 1.5;
                         }
 
-                        if (this.getTankInfo().weightType != 2 && (e.width >= 1.0F || e.height >= 1.5)) {
+                        if (Objects.requireNonNull(this.getTankInfo()).weightType != 2 && (e.width >= 1.0F || e.height >= 1.5)) {
                             if (e instanceof EntityLivingBase) {
                                 ds = DamageSource.causeMobDamage((EntityLivingBase) e);
                             } else {
@@ -1066,7 +1064,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     public void destoryBlockRange(Vec3d v, double w, double h) {
         if (this.getAcInfo() != null) {
-            List<Block> destroyBlocks = MCH_Config.getBreakableBlockListFromType(this.getTankInfo().weightType);
+            List<Block> destroyBlocks = MCH_Config.getBreakableBlockListFromType(Objects.requireNonNull(this.getTankInfo()).weightType);
             List<Block> noDestroyBlocks = MCH_Config.getNoBreakableBlockListFromType(this.getTankInfo().weightType);
             List<Material> destroyMaterials = MCH_Config
                     .getBreakableMaterialListFromType(this.getTankInfo().weightType);
@@ -1133,14 +1131,14 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     }
 
     public float getMaxSpeed() {
-        return this.getTankInfo().speed;
+        return Objects.requireNonNull(this.getTankInfo()).speed;
     }
 
     @Override
     public void setAngles(Entity player, boolean fixRot, float fixYaw, float fixPitch, float deltaX, float deltaY,
                           float x, float y, float deltaSeconds) {
         updateAircraftOrientation(deltaSeconds);
-        handlePlayerInput(player, fixRot, fixYaw, fixPitch, deltaX, deltaY);
+        handleTurret(player, fixRot, fixYaw, fixPitch, deltaX, deltaY);
     }
 
     public void updateAircraftOrientation(float deltaSeconds) {
@@ -1171,7 +1169,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         this.onUpdateAngles(deltaSeconds);
 
-        if (this.getAcInfo().limitRotation) {
+        if (Objects.requireNonNull(this.getAcInfo()).limitRotation) {
             this.setRotPitch(MCH_Lib.RNG(this.getPitch(), -90.0F, 90.0F));
             this.setRotRoll(MCH_Lib.RNG(this.getRoll(), -90.0F, 90.0F));
         }
@@ -1196,8 +1194,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
     }
 
-    public void handlePlayerInput(Entity player, boolean fixRot, float fixYaw, float fixPitch, float deltaX, float deltaY) {
-        float deltaLimit = (this.getAcInfo().cameraRotationSpeed * 5);
+    public void handleTurret(Entity player, boolean fixRot, float fixYaw, float fixPitch, float deltaX, float deltaY) {
+        float deltaLimit = (Objects.requireNonNull(this.getAcInfo()).cameraRotationSpeed * 5);
 
         MCH_WeaponSet ws = this.getCurrentWeapon(player);
         if (ws != null && ws.getInfo() != null) {
@@ -1298,17 +1296,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     @Override
     public void updateParts(int stat) {
         super.updateParts(stat);
-        if (!this.isDestroyed()) {
-            MCH_Parts[] parts = new MCH_Parts[0];
-
-            for (MCH_Parts p : parts) {
-                if (p != null) {
-                    p.updateStatusClient(stat);
-                    p.update();
-                }
-            }
-        }
     }
+
     @Override
     public double getCurrentSpeed() {
         double tickDistance = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -1320,14 +1309,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         return 0.7F;
     }
 
-    public static class ClacAxisBB {
+    public record ClacAxisBB(double value, AxisAlignedBB bb) {
 
-        public final double value;
-        public final AxisAlignedBB bb;
-
-        public ClacAxisBB(double value, AxisAlignedBB bb) {
-            this.value = value;
-            this.bb = bb;
-        }
     }
 }

@@ -72,6 +72,12 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
 
     public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot,
                                        DataPlayerControlAircraft pc) {
+        if (ac.supportsDetachedTurretAim() && ac.isDetachedWeaponAimActive()) {
+            pc.detachedWeaponAim = true;
+            pc.detachedWeaponAimYaw = ac.getDetachedWeaponAimYaw();
+            pc.detachedWeaponAimPitch = ac.getDetachedWeaponAimPitch();
+        }
+
         if (Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
             if (this.KeyGUI.isKeyDown() || this.KeyExtra.isKeyDown()) {
                 PacketSeatPlayerControl psc = new PacketSeatPlayerControl();

@@ -6,11 +6,15 @@ import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.gui.MCH_Gui;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.weapon.MCH_EntityTvMissile;
+import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -40,9 +44,7 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         }
     }
 
-    public void drawDebugtInfo(MCH_EntityAircraft ac) {
-        if (MCH_Config.DebugLog) {}
-    }
+
 
     public void drawNightVisionNoise() {
         GlStateManager.enableBlend();
@@ -99,6 +101,65 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
                 this.rand.nextInt(256), 256.0, 256.0, 0.0F);
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableBlend();
+    }
+
+    protected void drawDetachedTurretDot(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        if (!aircraft.isDetachedWeaponAimActive()) {
+            return;
+        }
+
+        MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
+        if (weaponSet == null) {
+            return;
+        }
+
+        MCH_WeaponBase currentWeapon = weaponSet.getCurrentWeapon();
+        if (currentWeapon == null) {
+            return;
+        }
+
+        Vec3d start = currentWeapon.getShotPos(aircraft).add(aircraft.posX, aircraft.posY, aircraft.posZ);
+        float yaw = aircraft.getCurrentWeaponShotYaw(player);
+        float pitch = aircraft.getCurrentWeaponShotPitch(player);
+        Vec3d direction = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
+        Vec3d end = start.add(direction.scale(512.0));
+        RayTraceResult hit = aircraft.world.rayTraceBlocks(start, end, false, true, false);
+        Vec3d target = hit != null && hit.hitVec != null ? hit.hitVec : end;
+
+        Entity camera = this.mc.getRenderViewEntity();
+        if (camera == null) {
+            return;
+        }
+
+        double camX = camera.lastTickPosX + (camera.posX - camera.lastTickPosX) * this.smoothCamPartialTicks;
+        double camY = camera.lastTickPosY + (camera.posY - camera.lastTickPosY) * this.smoothCamPartialTicks;
+        double camZ = camera.lastTickPosZ + (camera.posZ - camera.lastTickPosZ) * this.smoothCamPartialTicks;
+        float camYaw = camera.prevRotationYaw + (camera.rotationYaw - camera.prevRotationYaw) * this.smoothCamPartialTicks;
+        float camPitch = camera.prevRotationPitch + (camera.rotationPitch - camera.prevRotationPitch) * this.smoothCamPartialTicks;
+
+        double yawRad = Math.toRadians(camYaw);
+        double pitchRad = Math.toRadians(camPitch);
+        Vec3d forward = new Vec3d(
+                -Math.sin(yawRad) * Math.cos(pitchRad),
+                -Math.sin(pitchRad),
+                Math.cos(yawRad) * Math.cos(pitchRad));
+        Vec3d right = new Vec3d(Math.cos(yawRad), 0.0, Math.sin(yawRad));
+        Vec3d up = forward.crossProduct(right);
+        Vec3d relative = target.subtract(camX, camY, camZ);
+        double viewX = relative.dotProduct(right);
+        double viewY = relative.dotProduct(up);
+        double viewZ = relative.dotProduct(forward);
+        if (viewZ <= 0.01) {
+            return;
+        }
+
+        double focal = this.centerX / Math.tan(Math.toRadians(this.mc.gameSettings.fovSetting * 0.5));
+        double screenX = this.centerX - viewX * focal / viewZ;
+        double screenY = this.centerY - viewY * focal / viewZ;
+        this.drawLine(new double[] {
+                screenX - 1.5, screenY, screenX + 1.5, screenY,
+                screenX, screenY - 1.5, screenX, screenY + 1.5
+        }, 0xFF00FF00);
     }
 
     public void drawKeyBind(

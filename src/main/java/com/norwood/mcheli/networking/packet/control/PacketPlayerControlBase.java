@@ -15,6 +15,12 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
     protected void process(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
         if (aircraft == null) return;
 
+        if (data.detachedWeaponAim && aircraft.supportsDetachedTurretAim()) {
+            aircraft.setDetachedWeaponAim(data.detachedWeaponAimYaw, data.detachedWeaponAimPitch);
+        } else {
+            aircraft.clearDetachedWeaponAim();
+        }
+
         handleUnmount(aircraft, data);
         handleEjectSeat(aircraft, data, player);
         handleVtolSwitch(aircraft, data);
@@ -88,6 +94,9 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         prm.setPosAndRot(data.useWeaponPosX, data.useWeaponPosY, data.useWeaponPosZ, 0.0F, 0.0F);
         prm.option1 = data.useWeaponOption1;
         prm.option2 = data.useWeaponOption2;
+        if (aircraft.supportsDetachedTurretAim()) {
+            aircraft.updateWeaponsRotation();
+        }
         aircraft.useCurrentWeapon(prm);
     }
 

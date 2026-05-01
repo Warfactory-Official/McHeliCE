@@ -20,8 +20,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.relauncher.Side;
 import org.lwjgl.opengl.Display;
 
+@Mod.EventBusSubscriber(
+        modid = "mcheli",
+        value = {Side.CLIENT})
 public class MouseInputHandler {
     private static final double MAX_STICK_LENGTH = 40.0;
     private static double prevMouseDeltaX;
@@ -33,6 +38,13 @@ public class MouseInputHandler {
 
     private final Minecraft mc;
     private boolean isRideAircraft = false;
+    private boolean limitedMountedLookActive = false;
+    private int limitedMountedLookEntityId = Integer.MIN_VALUE;
+    private int limitedMountedLookSeatId = Integer.MIN_VALUE;
+    private float limitedMountedCurrentYaw = 0.0F;
+    private float limitedMountedCurrentPitch = 0.0F;
+    private float limitedMountedTargetYaw = 0.0F;
+    private float limitedMountedTargetPitch = 0.0F;
     private float prevTick = 0.0F;
     private long prevNanoTime;
 
@@ -63,35 +75,44 @@ public class MouseInputHandler {
 
     private static boolean isStickMode(MCH_EntityAircraft ac) {
         return switch (ac) {
-            case MCH_EntityPlane plane -> MCH_Config.MouseControlStickModePlane.prmBool;
-            case MCH_EntityHeli heli -> MCH_Config.MouseControlStickModeHeli.prmBool;
+            case MCH_EntityPlane _ -> MCH_Config.MouseControlStickModePlane.prmBool;
+            case MCH_EntityHeli _ -> MCH_Config.MouseControlStickModeHeli.prmBool;
             case null, default -> false;
         };
     }
-
     public void handleRenderTickPre(EntityPlayer player, float partialTicks) {
         ClientCommonTickHandler.ridingAircraft = MCH_EntityAircraft.getAircraft_RiddenOrControl(player);
         GuiTickHandler.handleWrenchUI(player);
         CameraHandler.cameraMode = getCameraMode(player);
 
-        MCH_EntityAircraft aircraft = getControlledAircraft(player, partialTicks);
+        MCH_EntityAircraft aircraft = getControlledAircraft(player);
+        MCH_EntityVehicle vehicle = getDirectRiddenVehicle(player);
         boolean stickMode = isStickMode(aircraft);
         prevTickCorrection(partialTicks);
 
         long now = System.nanoTime();
+        if (prevNanoTime == 0) prevNanoTime = now;
         float deltaSeconds = (now - prevNanoTime) / 1_000_000_000.0F;
+        if (deltaSeconds > 0.1F) deltaSeconds = 0.1F;
         prevNanoTime = now;
 
         if (aircraft != null && aircraft.canMouseRot()) {
             handleAircraftMouseControl(aircraft, player, stickMode, partialTicks, deltaSeconds);
+        } else if (vehicle != null && vehicle.canMouseRot()) {
+            handleVehicleMouseControl(vehicle, player, partialTicks, deltaSeconds);
         } else {
-            handleSeatOrIdle(player, stickMode, partialTicks);
+            if (vehicle != null) {
+                vehicle.setupAllRiderRenderPosition(partialTicks, player);
+            }
+            handleSeatOrIdle(player, stickMode, partialTicks, deltaSeconds);
         }
 
         if (aircraft != null) {
             updateRiderLastPositions(aircraft, player);
+        } else if (vehicle != null) {
+            updateRiderLastPositions(vehicle, player);
         }
-        updateViewEntityDummy(aircraft, player);
+        updateViewEntityDummy(aircraft != null ? aircraft : vehicle, player);
         prevTick = partialTicks;
     }
 
@@ -105,19 +126,19 @@ public class MouseInputHandler {
         return 0;
     }
 
-    private MCH_EntityAircraft getControlledAircraft(EntityPlayer player, float partialTicks) {
+    private MCH_EntityAircraft getControlledAircraft(EntityPlayer player) {
         return switch (player.getRidingEntity()) {
             case MCH_EntityHeli heli -> heli;
             case MCH_EntityPlane plane -> plane;
             case MCH_EntityShip ship -> ship;
             case MCH_EntityTank tank -> tank;
             case IUavStation uav -> uav.getControlled();
-            case MCH_EntityVehicle vehicle -> {
-                vehicle.setupAllRiderRenderPosition(partialTicks, player);
-                yield null;
-            }
             case null, default -> null;
         };
+    }
+
+    private MCH_EntityVehicle getDirectRiddenVehicle(EntityPlayer player) {
+        return player.getRidingEntity() instanceof MCH_EntityVehicle vehicle ? vehicle : null;
     }
 
     private void prevTickCorrection(float partialTicks) {
@@ -189,11 +210,12 @@ public class MouseInputHandler {
         MCH_SeatInfo seatInfo = aircraft.getSeatInfo(player);
 
         if (seatInfo != null && seatInfo.fixRot && aircraft.getIsGunnerMode(player) &&
-                !aircraft.isGunnerLookMode(player)) {
+                aircraft.isGunnerLookMode(player)) {
             fixRot = true;
             fixYaw = seatInfo.fixYaw;
             fixPitch = seatInfo.fixPitch;
             zeroMouseDeltas();
+            clearDetachedMountedAim(aircraft);
         } else if (aircraft.isPilot(player)) {
             MCH_AircraftInfo.CameraPosition cameraPosition = aircraft.getCameraPosInfo();
             if (cameraPosition != null) {
@@ -202,46 +224,84 @@ public class MouseInputHandler {
             }
         }
 
+        if (isLimitedMountedLookAircraft(aircraft)) {
+            player.turn((float) mouseDeltaX, (float) mouseDeltaY);
+            updateDetachedMountedAim(aircraft, player, deltaSeconds);
+            if (aircraft instanceof MCH_EntityTank tank) {
+                tank.updateAircraftOrientation(deltaSeconds);
+            }
+            aircraft.setupAllRiderRenderPosition(partialTicks, player);
+            dampMouseRollIfNeeded(stickMode);
+            updateCameraRoll(aircraft, player);
+            return;
+        }
+
+        clearDetachedMountedAim(aircraft);
         applyMouseOrAircraftRotation(aircraft, player, fixRot, fixYaw, fixPitch, partialTicks, deltaSeconds);
         dampMouseRollIfNeeded(stickMode);
         updateCameraRoll(aircraft, player);
     }
 
-    private void handleSeatOrIdle(EntityPlayer player, boolean stickMode, float partialTicks) {
+    private void handleVehicleMouseControl(MCH_EntityVehicle vehicle, EntityPlayer player, float partialTicks,
+                                           float deltaSeconds) {
+        if (!isRideAircraft) {
+            vehicle.onInteractFirst(player);
+        }
+        isRideAircraft = true;
+
+        updateMouseDelta(false, partialTicks);
+        player.turn((float) mouseDeltaX, (float) mouseDeltaY);
+        updateDetachedMountedAim(vehicle, player, deltaSeconds);
+        vehicle.setupAllRiderRenderPosition(partialTicks, player);
+    }
+
+    private void handleSeatOrIdle(EntityPlayer player, boolean stickMode, float partialTicks, float deltaSeconds) {
         MCH_EntitySeat seat = player.getRidingEntity() instanceof MCH_EntitySeat ?
                 (MCH_EntitySeat) player.getRidingEntity() : null;
         if (seat != null && seat.getParent() != null) {
-            handleSeatMouseControl(seat, player, stickMode, partialTicks);
+            handleSeatMouseControl(seat, player, stickMode, partialTicks, deltaSeconds);
         } else if (isRideAircraft) {
             W_Reflection.setCameraRoll(0.0F);
             isRideAircraft = false;
             mouseRollDeltaX = 0.0;
             mouseRollDeltaY = 0.0;
+            resetLimitedMountedLook();
         }
     }
 
     private void handleSeatMouseControl(MCH_EntitySeat seat, EntityPlayer player, boolean stickMode,
-                                        float partialTicks) {
+                                        float partialTicks, float deltaSeconds) {
         updateMouseDelta(stickMode, partialTicks);
         MCH_EntityAircraft aircraft = seat.getParent();
 
         boolean fixRot = false;
+        assert aircraft != null;
         MCH_SeatInfo seatInfo = aircraft.getSeatInfo(player);
         if (seatInfo != null && seatInfo.fixRot && aircraft.getIsGunnerMode(player) &&
-                !aircraft.isGunnerLookMode(player)) {
+                aircraft.isGunnerLookMode(player)) {
             fixRot = true;
             zeroMouseDeltas();
+            clearDetachedMountedAim(aircraft);
         }
 
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
-        mouseDeltaY *= weaponSet != null && weaponSet.getInfo() != null ?
-                weaponSet.getInfo().cameraRotationSpeedPitch : 1.0;
+        boolean limitedMountedLook = isLimitedMountedLookAircraft(aircraft);
+        if (!limitedMountedLook) {
+            clearDetachedMountedAim(aircraft);
+            mouseDeltaY *= weaponSet != null && weaponSet.getInfo() != null ?
+                    weaponSet.getInfo().cameraRotationSpeedPitch : 1.0;
+        } else {
+            player.turn((float) mouseDeltaX, (float) mouseDeltaY);
+            updateDetachedMountedAim(aircraft, player, deltaSeconds);
+        }
 
         float yaw = aircraft.getYaw();
         float pitch = aircraft.getPitch();
         float roll = aircraft.getRoll();
 
-        player.turn((float) mouseDeltaX, (float) mouseDeltaY);
+        if (!limitedMountedLook) {
+            player.turn((float) mouseDeltaX, (float) mouseDeltaY);
+        }
         aircraft.setRotYaw(aircraft.calcRotYaw(partialTicks));
         aircraft.setRotPitch(aircraft.calcRotPitch(partialTicks));
         aircraft.setRotRoll(aircraft.calcRotRoll(partialTicks));
@@ -258,6 +318,83 @@ public class MouseInputHandler {
         mouseRollDeltaX *= 0.9;
         mouseRollDeltaY *= 0.9;
         updateCameraRoll(aircraft, player);
+    }
+
+    private boolean isLimitedMountedLookAircraft(MCH_EntityAircraft aircraft) {
+        return aircraft instanceof MCH_EntityTank || aircraft instanceof MCH_EntityVehicle;
+    }
+
+    private void resetLimitedMountedLook() {
+        limitedMountedLookActive = false;
+        limitedMountedLookEntityId = Integer.MIN_VALUE;
+        limitedMountedLookSeatId = Integer.MIN_VALUE;
+        limitedMountedTargetYaw = 0.0F;
+        limitedMountedTargetPitch = 0.0F;
+    }
+
+    private void updateDetachedMountedAim(MCH_EntityAircraft aircraft, EntityPlayer player, float deltaSeconds) {
+        float yawSpeed = getMountedLookYawSpeed(aircraft);
+        float pitchSpeed = getMountedLookPitchSpeed(aircraft, player, yawSpeed);
+        if (yawSpeed <= 0.0F || pitchSpeed < 0.0F) {
+            clearDetachedMountedAim(aircraft);
+            return;
+        }
+
+        syncLimitedMountedLookState(aircraft, player);
+        limitedMountedTargetYaw = player.rotationYaw;
+        limitedMountedTargetPitch = player.rotationPitch;
+
+        float maxYawStep = Math.max(0.0F, yawSpeed * deltaSeconds);
+        float maxPitchStep = Math.max(0.0F, pitchSpeed * deltaSeconds);
+        float yawStep = clampWrappedDelta(limitedMountedCurrentYaw, limitedMountedTargetYaw, maxYawStep);
+        float pitchStep = clampLinearDelta(limitedMountedCurrentPitch, limitedMountedTargetPitch, maxPitchStep);
+
+        float prevYaw = limitedMountedCurrentYaw;
+        float prevPitch = limitedMountedCurrentPitch;
+        limitedMountedCurrentYaw = MathHelper.wrapDegrees(limitedMountedCurrentYaw + yawStep);
+        limitedMountedCurrentPitch = MathHelper.clamp(limitedMountedCurrentPitch + pitchStep, -90.0F, 90.0F);
+        aircraft.setDetachedWeaponAim(prevYaw, limitedMountedCurrentYaw, prevPitch, limitedMountedCurrentPitch);
+    }
+
+    private void syncLimitedMountedLookState(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        int entityId = aircraft.getEntityId();
+        int seatId = aircraft.getSeatIdByEntity(player);
+        if (!limitedMountedLookActive || limitedMountedLookEntityId != entityId || limitedMountedLookSeatId != seatId) {
+            limitedMountedLookActive = true;
+            limitedMountedLookEntityId = entityId;
+            limitedMountedLookSeatId = seatId;
+            limitedMountedCurrentYaw = player.rotationYaw;
+            limitedMountedCurrentPitch = player.rotationPitch;
+            limitedMountedTargetYaw = player.rotationYaw;
+            limitedMountedTargetPitch = player.rotationPitch;
+            aircraft.setDetachedWeaponAim(player.prevRotationYaw, player.rotationYaw, player.prevRotationPitch,
+                    player.rotationPitch);
+        }
+    }
+
+    private float getMountedLookYawSpeed(MCH_EntityAircraft aircraft) {
+        return aircraft.getAcInfo() != null ? Math.max(0.0F, aircraft.getAcInfo().cameraRotationSpeed) : 0.0F;
+    }
+
+    private float getMountedLookPitchSpeed(MCH_EntityAircraft aircraft, EntityPlayer player, float yawSpeed) {
+        MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
+        if (weaponSet != null && weaponSet.getInfo() != null) {
+            return yawSpeed * weaponSet.getInfo().cameraRotationSpeedPitch;
+        }
+        return yawSpeed;
+    }
+
+    private float clampWrappedDelta(float current, float target, float maxStep) {
+        return MathHelper.clamp(MathHelper.wrapDegrees(target - current), -maxStep, maxStep);
+    }
+
+    private float clampLinearDelta(float current, float target, float maxStep) {
+        return MathHelper.clamp(target - current, -maxStep, maxStep);
+    }
+
+    private void clearDetachedMountedAim(MCH_EntityAircraft aircraft) {
+        aircraft.clearDetachedWeaponAim();
+        resetLimitedMountedLook();
     }
 
     private void zeroMouseDeltas() {
@@ -329,10 +466,17 @@ public class MouseInputHandler {
 
     private void updateRiderLastPositions(MCH_EntityAircraft aircraft, EntityPlayer player) {
         if (aircraft.getSeatIdByEntity(player) == 0 && !aircraft.isDestroyed()) {
-            aircraft.lastRiderYaw = player.rotationYaw;
-            aircraft.prevLastRiderYaw = player.prevRotationYaw;
-            aircraft.lastRiderPitch = player.rotationPitch;
-            aircraft.prevLastRiderPitch = player.prevRotationPitch;
+            if (aircraft.isDetachedWeaponAimActive()) {
+                aircraft.lastRiderYaw = aircraft.getDetachedWeaponAimYaw();
+                aircraft.prevLastRiderYaw = aircraft.getPrevDetachedWeaponAimYaw();
+                aircraft.lastRiderPitch = aircraft.getDetachedWeaponAimPitch();
+                aircraft.prevLastRiderPitch = aircraft.getPrevDetachedWeaponAimPitch();
+            } else {
+                aircraft.lastRiderYaw = player.rotationYaw;
+                aircraft.prevLastRiderYaw = player.prevRotationYaw;
+                aircraft.lastRiderPitch = player.rotationPitch;
+                aircraft.prevLastRiderPitch = player.prevRotationPitch;
+            }
         }
         aircraft.updateWeaponsRotation();
     }

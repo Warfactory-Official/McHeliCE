@@ -110,7 +110,7 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
             }
 
             boolean hideHand = true;
-            if ((!isPilot || !heli.isAlwaysCameraView()) && !heli.getIsGunnerMode(player)) {
+            if ((!isPilot || heli.isAlwaysCameraView()) && !heli.getIsGunnerMode(player)) {
                 MCH_Lib.setRenderViewEntity(player);
                 if (!isPilot && heli.getCurrentWeaponID(player) < 0) {
                     hideHand = false;

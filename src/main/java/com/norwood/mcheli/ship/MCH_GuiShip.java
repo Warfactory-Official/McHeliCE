@@ -41,7 +41,6 @@ public class MCH_GuiShip extends MCH_AircraftCommonGui {
                 }
             }
 
-            this.drawDebugtInfo(plane);
             if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
                 if (plane.getTVMissile() == null || !plane.getIsGunnerMode(player) && !plane.isUAV()) {
                     this.drawKeybind(plane, player, seatID);

@@ -32,7 +32,10 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
         if (entity instanceof MCH_EntityVehicle vehicle) {
             vehicleInfo = vehicle.getVehicleInfo();
             if (vehicleInfo != null) {
-                if (vehicle.getRiddenByEntity() != null && !vehicle.isDestroyed()) {
+                if (vehicle.isDetachedWeaponAimActive()) {
+                    vehicle.lastRiderYaw = vehicle.getDetachedWeaponAimYaw();
+                    vehicle.lastRiderPitch = vehicle.getDetachedWeaponAimPitch();
+                } else if (vehicle.getRiddenByEntity() != null && !vehicle.isDestroyed()) {
                     vehicle.isUsedPlayer = true;
                     vehicle.lastRiderYaw = vehicle.getRiddenByEntity().rotationYaw;
                     vehicle.lastRiderPitch = vehicle.getRiddenByEntity().rotationPitch;
@@ -119,7 +122,7 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
         }
 
         if ((vp.drawFP || !W_Lib.isClientPlayer(vehicle.getRiddenByEntity()) || !W_Lib.isFirstPerson()) &&
-                (vp.type != 3 || !vehicle.isWeaponNotCooldown(ws, bkIndex))) {
+                (vp.type != 3 || vehicle.isWeaponOnCooldown(ws, bkIndex))) {
             renderPart(vp.model, info.model, vp.modelName);
             MCH_ModelManager.render("vehicles", vp.modelName);
         }

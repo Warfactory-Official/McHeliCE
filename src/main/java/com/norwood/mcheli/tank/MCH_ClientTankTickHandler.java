@@ -107,7 +107,7 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
             }
 
             boolean hideHand = true;
-            if ((!isPilot || !tank.isAlwaysCameraView()) && !tank.getIsGunnerMode(player) && tank.getCameraId() <= 0) {
+            if ((!isPilot || tank.isAlwaysCameraView()) && !tank.getIsGunnerMode(player) && tank.getCameraId() <= 0) {
                 MCH_Lib.setRenderViewEntity(player);
                 if (!isPilot && tank.getCurrentWeaponID(player) < 0) {
                     hideHand = false;

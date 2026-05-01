@@ -9,6 +9,7 @@ public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
 
     public boolean isSpawnParticle = true;
 
+    @SuppressWarnings("unused")
     public MCH_EntityTvMissile(World par1World) {
         super(par1World);
     }

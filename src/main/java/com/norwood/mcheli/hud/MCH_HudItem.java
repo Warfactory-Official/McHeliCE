@@ -195,6 +195,10 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("test_mode", MCH_Config.TestMode.prmBool);
         updateVarMapItem("plyr_yaw", MathHelper.wrapDegrees(player.rotationYaw));
         updateVarMapItem("plyr_pitch", player.rotationPitch);
+
+        updateVarMapItem("brl_yaw", ac.getCurrentWeaponShotYaw(player) );
+        updateVarMapItem("brl_pitch", ac.getCurrentWeaponShotPitch(player));
+
         updateVarMapItem("yaw", MathHelper.wrapDegrees(ac.getYaw()));
         updateVarMapItem("pitch", ac.getPitch());
         updateVarMapItem("roll", MathHelper.wrapDegrees(ac.getRoll()));
@@ -268,7 +272,7 @@ public abstract class MCH_HudItem extends Gui {
                 fmt = String.format(": %.2f", d);
             }
             else {
-                fmt = ": " + String.valueOf(val);
+                fmt = ": " + val;
             }
 
             dummy.drawString(fmt, x + 50, y, 52992);

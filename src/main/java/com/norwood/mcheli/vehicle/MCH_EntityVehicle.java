@@ -1,7 +1,6 @@
 package com.norwood.mcheli.vehicle;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketStatusRequest;
@@ -9,18 +8,18 @@ import com.norwood.mcheli.weapon.MCH_WeaponParam;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_Lib;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
@@ -73,7 +72,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.setDead();
         } else {
             this.setAcInfo(this.vehicleInfo);
-            this.newSeats(this.getAcInfo().getNumSeatAndRack());
+            this.newSeats(Objects.requireNonNull(this.getAcInfo()).getNumSeatAndRack());
             this.weapons = this.createWeapon(1 + this.getSeatNum());
             this.initPartRotation(this.rotationYaw, this.rotationPitch);
         }
@@ -150,24 +149,40 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
     @Override
     public boolean useCurrentWeapon(MCH_WeaponParam prm) {
-        if (prm.user != null) {
-            MCH_WeaponSet currentWs = this.getCurrentWeapon(prm.user);
-            if (currentWs != null) {
-                MCH_AircraftInfo.Weapon w = this.getAcInfo().getWeaponByName(currentWs.getInfo().name);
-                if (w != null && w.maxYaw != 0.0F && w.minYaw != 0.0F) {
-                    return super.useCurrentWeapon(prm);
-                }
-            }
-        }
-
-        float breforeUseWeaponPitch = this.rotationPitch;
-        float breforeUseWeaponYaw = this.rotationYaw;
-        this.rotationPitch = prm.user.rotationPitch;
-        this.rotationYaw = prm.user.rotationYaw;
+        float beforeUseWeaponPitch = this.rotationPitch;
+        float beforeUseWeaponYaw = this.rotationYaw;
+        this.rotationPitch = this.getWeaponUserPitch(prm.user);
+        this.rotationYaw = this.getWeaponUserYaw(prm.user);
         boolean result = super.useCurrentWeapon(prm);
-        this.rotationPitch = breforeUseWeaponPitch;
-        this.rotationYaw = breforeUseWeaponYaw;
+        this.rotationPitch = beforeUseWeaponPitch;
+        this.rotationYaw = beforeUseWeaponYaw;
         return result;
+    }
+
+    @Override
+    public float getCurrentWeaponShotYaw(Entity user) {
+        MCH_WeaponSet currentWs = user != null ? this.getCurrentWeapon(user) : null;
+        if (currentWs != null) {
+            return MathHelper.wrapDegrees(this.getWeaponUserYaw(user) + currentWs.getCurrentWeapon().fixRotationYaw);
+        }
+        return super.getCurrentWeaponShotYaw(user);
+    }
+
+    @Override
+    public float getCurrentWeaponShotPitch(Entity user) {
+        MCH_WeaponSet currentWs = user != null ? this.getCurrentWeapon(user) : null;
+        if (currentWs != null) {
+            return MathHelper.wrapDegrees(this.getWeaponUserPitch(user) + currentWs.getCurrentWeapon().fixRotationPitch);
+        }
+        return super.getCurrentWeaponShotPitch(user);
+    }
+
+    public Vec3d getCurrentWeaponShotPos(Vec3d localPos, Entity user) {
+        return com.norwood.mcheli.MCH_Lib.RotVec3(
+                localPos,
+                -this.getWeaponUserYaw(user),
+                -this.getWeaponUserPitch(user),
+                -this.getRoll());
     }
 
     @Override
@@ -240,7 +255,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             } else {
                 this.setCurrentThrottle(0.0);
             }
-        } else if (this.getVehicleInfo().isEnableMove || this.getVehicleInfo().isEnableRot) {
+        } else if (Objects.requireNonNull(this.getVehicleInfo()).isEnableMove || this.getVehicleInfo().isEnableRot) {
             this.onUpdate_ControlOnGround();
         }
 
@@ -270,7 +285,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             float yaw;
             double x = 0.0;
             double z = 0.0;
-            if (this.getVehicleInfo().isEnableMove) {
+            if (Objects.requireNonNull(this.getVehicleInfo()).isEnableMove) {
                 if (this.throttleUp) {
                     yaw = this.rotationYaw;
                     x += Math.sin(yaw * Math.PI / 180.0);
@@ -300,59 +315,6 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                 double d = Math.sqrt(x * x + z * z);
                 this.motionX -= x / d * 0.03F;
                 this.motionZ += z / d * 0.03F;
-            }
-        }
-    }
-
-    protected void onUpdate_Particle() {
-        double particlePosY = this.posY;
-        boolean b = false;
-
-        int y;
-        for (y = 0; y < 5 && !b; y++) {
-            for (int x = -1; x <= 1; x++) {
-                for (int z = -1; z <= 1; z++) {
-                    int block = W_WorldFunc.getBlockId(this.world, (int) (this.posX + 0.5) + x,
-                            (int) (this.posY + 0.5) - y, (int) (this.posZ + 0.5) + z);
-                    if (block != 0 && !b) {
-                        particlePosY = (int) (this.posY + 1.0) - y;
-                        b = true;
-                    }
-                }
-            }
-
-            for (int x = -3; b && x <= 3; x++) {
-                for (int zx = -3; zx <= 3; zx++) {
-                    if (W_WorldFunc.isBlockWater(this.world, (int) (this.posX + 0.5) + x, (int) (this.posY + 0.5) - y,
-                            (int) (this.posZ + 0.5) + zx)) {
-                        for (int i = 0; i < 7.0 * this.getCurrentThrottle(); i++) {
-                            this.world
-                                    .spawnParticle(
-                                            EnumParticleTypes.WATER_SPLASH,
-                                            this.posX + 0.5 + x + (this.rand.nextDouble() - 0.5) * 2.0,
-                                            particlePosY + this.rand.nextDouble(),
-                                            this.posZ + 0.5 + zx + (this.rand.nextDouble() - 0.5) * 2.0,
-                                            x + (this.rand.nextDouble() - 0.5) * 2.0,
-                                            -0.3,
-                                            zx + (this.rand.nextDouble() - 0.5) * 2.0);
-                        }
-                    }
-                }
-            }
-        }
-
-        double pn = (5 - y + 1) / 5.0;
-        if (b) {
-            for (int k = 0; k < (int) (this.getCurrentThrottle() * 6.0 * pn); k++) {
-                this.world
-                        .spawnParticle(
-                                EnumParticleTypes.EXPLOSION_NORMAL,
-                                this.posX + (this.rand.nextDouble() - 0.5),
-                                particlePosY + (this.rand.nextDouble() - 0.5),
-                                this.posZ + (this.rand.nextDouble() - 0.5),
-                                (this.rand.nextDouble() - 0.5) * 2.0,
-                                -0.4,
-                                (this.rand.nextDouble() - 0.5) * 2.0);
             }
         }
     }
@@ -387,7 +349,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             }
         }
 
-        if (this.getRiddenByEntity() != null) {}
+        this.getRiddenByEntity();
 
         this.updateCamera(this.posX, this.posY, this.posZ);
     }
@@ -399,7 +361,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         if (this.canFloatWater()) {
             double dp = this.getWaterDepth();
             if (dp == 0.0) {
-                this.motionY += this.isInWater() ? this.getAcInfo().gravityInWater : this.getAcInfo().gravity;
+                this.motionY += this.isInWater() ? this.getAcInfo() != null ? this.getAcInfo().gravityInWater : 0 : this.getAcInfo() != null ? this.getAcInfo().gravity : 0;
             } else if (dp < 1.0) {
                 this.motionY -= 1.0E-4;
                 this.motionY += 0.007 * this.getCurrentThrottle();
@@ -410,7 +372,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                 this.motionY += 0.007;
             }
         } else {
-            this.motionY += this.getAcInfo().gravity;
+            this.motionY += Objects.requireNonNull(this.getAcInfo()).gravity;
         }
 
         // Horizontal aceleration
@@ -423,7 +385,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
         // Speed
         double motionH = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        float speedLimit = this.getAcInfo().speed;
+        float speedLimit = Objects.requireNonNull(this.getAcInfo()).speed;
         if (motionH > speedLimit) {
             double scale = speedLimit / motionH;
             this.motionX *= scale;

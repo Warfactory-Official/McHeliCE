@@ -348,11 +348,15 @@ public class MCH_WeaponSet {
 
     private void setupWeaponParam(MCH_WeaponParam prm, MCH_WeaponBase current, MCH_WeaponInfo info) {
         current.canPlaySound = (this.soundWait == 0);
-        float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
-        float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
-
-        prm.rotYaw = baseYaw + this.yaw + current.fixRotationYaw;
-        prm.rotPitch = basePitch + this.pitch + current.fixRotationPitch;
+        if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
+            prm.rotYaw = aircraft.getCurrentWeaponShotYaw(prm.user);
+            prm.rotPitch = aircraft.getCurrentWeaponShotPitch(prm.user);
+        } else {
+            float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
+            float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
+            prm.rotYaw = baseYaw + this.yaw + current.fixRotationYaw;
+            prm.rotPitch = basePitch + this.pitch + current.fixRotationPitch;
+        }
 
         if (info.accuracy > 0.0F) {
             prm.rotYaw += (rand.nextFloat() - 0.5F) * info.accuracy;
@@ -440,11 +444,15 @@ public class MCH_WeaponSet {
         MCH_WeaponBase current = this.getCurrentWeapon();
         if (current == null || current.getInfo() == null) return -1.0;
 
-        float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
-        float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
-
-        prm.rotYaw = MathHelper.wrapDegrees(baseYaw + this.yaw + current.fixRotationYaw);
-        prm.rotPitch = MathHelper.wrapDegrees(basePitch + this.pitch + current.fixRotationPitch);
+        if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
+            prm.rotYaw = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotYaw(prm.user));
+            prm.rotPitch = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotPitch(prm.user));
+        } else {
+            float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
+            float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
+            prm.rotYaw = MathHelper.wrapDegrees(baseYaw + this.yaw + current.fixRotationYaw);
+            prm.rotPitch = MathHelper.wrapDegrees(basePitch + this.pitch + current.fixRotationPitch);
+        }
 
         return current.getLandInDistance(prm);
     }
