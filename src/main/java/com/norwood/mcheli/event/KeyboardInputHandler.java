@@ -5,11 +5,13 @@ import com.norwood.mcheli.MCH_Key;
 import com.norwood.mcheli.MCH_ServerSettings;
 import com.norwood.mcheli.networking.packet.PacketOpenScreen;
 import com.norwood.mcheli.wrapper.W_Reflection;
+import net.minecraft.client.Minecraft;
 
 import static com.norwood.mcheli.event.ClientCommonTickHandler.isDrawScoreboard;
 
 public class KeyboardInputHandler {
-    public ClientCommonTickHandler HANDLER;
+    private final Minecraft mc;
+    private final MCH_ClientTickHandlerBase[] ticks;
     public MCH_Key[] Keys;
     public MCH_Key KeyCamDistUp;
     public MCH_Key KeyCamDistDown;
@@ -22,8 +24,9 @@ public class KeyboardInputHandler {
         }
     }
 
-    protected KeyboardInputHandler(ClientCommonTickHandler HANDLER) {
-        this.HANDLER = HANDLER;
+    protected KeyboardInputHandler(Minecraft mc, MCH_ClientTickHandlerBase[] ticks) {
+        this.mc = mc;
+        this.ticks = ticks;
     }
 
     public void updateKeybind(MCH_Config config) {
@@ -33,12 +36,22 @@ public class KeyboardInputHandler {
         this.KeyMultiplayManager = new MCH_Key(MCH_Config.KeyMultiplayManager.prmInt);
         this.Keys = new MCH_Key[]{this.KeyCamDistUp, this.KeyCamDistDown, this.KeyScoreboard, this.KeyMultiplayManager};
 
-        for (MCH_ClientTickHandlerBase t : HANDLER.ticks) {
+        for (MCH_ClientTickHandlerBase t : ticks) {
             t.updateKeybind(config);
         }
     }
+
+    protected void onTick() {
+        updateKeys();
+
+        if (mc.player != null && mc.currentScreen == null) {
+            handleCameraDistance();
+            handleScoreboardAndMultiplayer();
+        }
+    }
+
     protected void handleScoreboardAndMultiplayer() {
-        if (HANDLER.mc.isSingleplayer() && !MCH_Config.DebugLog) return;
+        if (mc.isSingleplayer() && !MCH_Config.DebugLog) return;
 
         isDrawScoreboard = KeyScoreboard.isKeyPress();
 
