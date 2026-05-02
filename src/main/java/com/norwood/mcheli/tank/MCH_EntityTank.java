@@ -1309,11 +1309,6 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         return 0.7F;
     }
 
-    @Override
-    public boolean canSwitchFreeLook() {
-        return true;
-    }
-
     public record ClacAxisBB(double value, AxisAlignedBB bb) {
 
     }

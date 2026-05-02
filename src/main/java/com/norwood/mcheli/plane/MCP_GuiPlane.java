@@ -1,6 +1,7 @@
 package com.norwood.mcheli.plane;
 
 import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
 import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.client.Minecraft;
@@ -39,7 +40,7 @@ public class MCP_GuiPlane extends MCH_AircraftCommonGui {
                     this.drawHud(ac, player, seatID);
                 }
 
-                this.renderCrosshair(plane, player);
+                this.drawDetachedTurretDot(plane, player);
             }
 
             if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {

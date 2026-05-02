@@ -1,6 +1,7 @@
 package com.norwood.mcheli.ship;
 
 import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
 import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.client.Minecraft;
@@ -38,7 +39,7 @@ public class MCH_GuiShip extends MCH_AircraftCommonGui {
                 } else {
                     this.drawHud(ac, player, seatID);
                 }
-                this.renderCrosshair(plane, player);
+                this.drawDetachedTurretDot(plane, player);
             }
 
             this.drawDebugtInfo(plane);

@@ -811,9 +811,9 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         MCH_AircraftInfo info = entity.getAcInfo();
         if (info != null) {
             GlStateManager.pushMatrix();
-            float yaw = calcRot(entity.getYaw(), entity.prevRotationYaw, tickTime);
+            float yaw = this.calcRot(entity.getYaw(), entity.prevRotationYaw, tickTime);
             float pitch = entity.calcRotPitch(tickTime);
-            float roll = calcRot(entity.getRoll(), entity.prevRotationRoll, tickTime);
+            float roll = this.calcRot(entity.getRoll(), entity.prevRotationRoll, tickTime);
             if (MCH_Config.EnableModEntityRender.prmBool) {
                 this.renderRiddenEntity(entity, tickTime, yaw, pitch + info.entityPitch, roll + info.entityRoll,
                         info.entityWidth, info.entityHeight);

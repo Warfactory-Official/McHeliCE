@@ -421,6 +421,6 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
     @Override
     public boolean canSwitchFreeLook() {
-        return true;
+        return false;
     }
 }

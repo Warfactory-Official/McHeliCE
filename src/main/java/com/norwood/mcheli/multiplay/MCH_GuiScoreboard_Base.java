@@ -2,6 +2,7 @@ package com.norwood.mcheli.multiplay;
 
 import com.google.common.collect.Lists;
 import com.norwood.mcheli.wrapper.W_GuiContainer;
+import com.norwood.mcheli.wrapper.W_ScaledResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -32,8 +33,8 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
     public static final int BUTTON_ID_JUMP_SPAWN_POINT = 768;
     public static final int BUTTON_ID_SWITCH_PVP = 1024;
     public static final int BUTTON_ID_DESTORY_ALL = 1280;
-    private final MCH_IGuiScoreboard screen_switcher;
     public List<Gui> listGui;
+    private final MCH_IGuiScoreboard screen_switcher;
 
     public MCH_GuiScoreboard_Base(MCH_IGuiScoreboard switcher, EntityPlayer player) {
         super(new MCH_ContainerScoreboard(player));
@@ -52,7 +53,7 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
     }
 
     public static int getScoreboradWidth(Minecraft mc) {
-        ScaledResolution scaledresolution = new ScaledResolution(mc);
+        ScaledResolution scaledresolution = new W_ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int ScaledWidth = scaledresolution.getScaledWidth() - 40;
         int width = ScaledWidth * 3 / 4 / (mc.world.getScoreboard().getTeams().size() + 1);
         if (width > 150) {
@@ -63,7 +64,7 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
     }
 
     public static int getScoreBoardLeft(Minecraft mc, int teamNum, int teamIndex) {
-        ScaledResolution scaledresolution = new ScaledResolution(mc);
+        ScaledResolution scaledresolution = new W_ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int ScaledWidth = scaledresolution.getScaledWidth();
         return (int) ((double) ScaledWidth / 2 + (getScoreboradWidth(mc) + 10) * (-teamNum / 2.0 + teamIndex));
     }
@@ -95,7 +96,7 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
 
     public static void drawPlayersList(Minecraft mc, FontRenderer fontRendererObj, ScorePlayerTeam team, int teamIndex,
                                        int teamNum) {
-        ScaledResolution scaledresolution = new ScaledResolution(mc);
+        ScaledResolution scaledresolution = new W_ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int ScaledHeight = scaledresolution.getScaledHeight();
         ScoreObjective scoreobjective = mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
         NetHandlerPlayClient nethandlerplayclient = mc.player.connection;
@@ -181,8 +182,7 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
         tessellator.draw();
     }
 
-    public void initGui() {
-    }
+    public void initGui() {}
 
     public void initGui(List<GuiButton> buttonList, GuiScreen parents) {
         this.listGui = new ArrayList<>();
@@ -201,18 +201,15 @@ public abstract class MCH_GuiScoreboard_Base extends W_GuiContainer {
         this.buttonList.clear();
     }
 
-    public void updateScreenButtons(List<GuiButton> list) {
-    }
+    public void updateScreenButtons(List<GuiButton> list) {}
 
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-    }
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {}
 
     public int getTeamNum() {
         return this.mc.world.getScoreboard().getTeams().size();
     }
 
-    protected void acviveScreen() {
-    }
+    protected void acviveScreen() {}
 
     public void onSwitchScreen() {
         for (Object b : this.listGui) {

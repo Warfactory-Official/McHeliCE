@@ -1,6 +1,7 @@
 package com.norwood.mcheli.tank;
 
 import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_KeyName;
 import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import net.minecraft.client.Minecraft;
@@ -33,7 +34,7 @@ public class MCH_GuiTank extends MCH_AircraftCommonGui {
 
             if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
                 this.drawHud(ac, player, seatID);
-                this.renderCrosshair(tank, player);
+                this.drawDetachedTurretDot(tank, player);
             }
 
             this.drawDebugtInfo(tank);
