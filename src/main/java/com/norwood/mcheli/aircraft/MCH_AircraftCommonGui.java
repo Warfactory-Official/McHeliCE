@@ -144,9 +144,6 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         float b = (float)(argb & 255) / 255.0F;
 
         GlStateManager.disableTexture2D();
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         GlStateManager.color(r, g, b, a);
 
         Tessellator tessellator = Tessellator.getInstance();
@@ -160,8 +157,7 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
 
         tessellator.draw();
 
-        GlStateManager.enableAlpha();
-        GlStateManager.disableBlend();
+
         GlStateManager.enableTexture2D();
     }
 
@@ -189,9 +185,12 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         float pitch = aircraft.prevLastRiderPitch + (aircraft.getLastRiderPitch() - aircraft.prevLastRiderPitch) * this.smoothCamPartialTicks;
 
         Vec3d direction = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
-        Vec3d end = start.add(direction.scale(512.0));
+        Vec3d end = start.add(direction.scale(256.0));
         RayTraceResult hit = aircraft.world.rayTraceBlocks(start, end, false, true, false);
-        Vec3d target = hit != null && hit.hitVec != null ? hit.hitVec : end;
+        boolean hitSomething = hit != null
+                && (hit.typeOfHit == RayTraceResult.Type.BLOCK || hit.typeOfHit == RayTraceResult.Type.ENTITY)
+                && hit.hitVec != null;
+        Vec3d target = hitSomething ? hit.hitVec : end;
 
         Entity camera = this.mc.getRenderViewEntity();
         if (camera == null) {
@@ -235,15 +234,26 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
 
         double screenX = this.centerX - rotatedViewX * focal / viewZ;
         double screenY = this.centerY - rotatedViewY * focal / viewZ;
-        float baseSpread = currentWeapon.getInfo().accuracy * 0.5F;
+        float baseSpread = 0.0F;
+        if (currentWeapon.getInfo() != null) {
+            baseSpread = currentWeapon.getInfo().accuracy * 0.5F;
+        }
 
 
+        double gunDistance = start.distanceTo(target);
+        double physicalRadiusAtImpact = gunDistance * Math.tan(Math.toRadians(baseSpread));
+        double screenRadius = (physicalRadiusAtImpact * focal) / viewZ;
+        double finalRadius = Math.max(screenRadius, 2.0);
+
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.enableBlend();
+        GlStateManager.enableAlpha();
         this.drawLine(new double[] {
                 screenX - 1.5, screenY, screenX + 1.5, screenY,
                 screenX, screenY - 1.5, screenX, screenY + 1.5
-        }, 0xFF00FF00);
-        drawSpreadCircle(screenX, screenY, baseSpread, 0xFF00FF00);
-
+        }, 0xFFFFFFFF);
+        drawSpreadCircle(screenX, screenY, finalRadius, 0xFFFFFFFF);
+        GlStateManager.disableBlend();
     }
 
     public void drawAircraftKeyBinds(MCH_EntityAircraft aircraft, MCH_AircraftInfo info, EntityPlayer player, int seatID, LayoutTheme theme) {
