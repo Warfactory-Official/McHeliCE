@@ -39,6 +39,8 @@ public class MCP_GuiPlane extends MCH_AircraftCommonGui {
                 } else {
                     this.drawHud(ac, player, seatID);
                 }
+
+                this.drawDetachedTurretDot(plane, player);
             }
 
             if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {

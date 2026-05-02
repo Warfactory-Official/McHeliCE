@@ -438,6 +438,12 @@ public class MouseInputHandler {
         float yaw = MathHelper.wrapDegrees(aircraft.getYaw() - player.rotationYaw);
         roll *= MathHelper.cos((float) (yaw * Math.PI / 180.0));
 
+        if ((aircraft instanceof MCH_EntityTank || aircraft instanceof MCH_EntityVehicle) &&
+                player.getRidingEntity() instanceof MCH_EntitySeat &&
+                !aircraft.getIsGunnerMode(player)) {
+            roll = 0.0F;
+        }
+
         if (aircraft.getTVMissile() != null && W_Lib.isClientPlayer(aircraft.getTVMissile().shootingEntity) &&
                 aircraft.getIsGunnerMode(player)) {
             roll = 0.0F;

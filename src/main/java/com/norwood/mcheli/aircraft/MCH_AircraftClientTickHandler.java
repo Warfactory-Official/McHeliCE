@@ -81,13 +81,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         if (Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
             if (this.KeyGUI.isKeyDown() || this.KeyExtra.isKeyDown()) {
                 PacketSeatPlayerControl psc = new PacketSeatPlayerControl();
-                if (isPilot) {
-                    psc.switchSeat = this.KeyGUI.isKeyDown() ? PlayerControlState.NEXT : PlayerControlState.PREV;
-                } else {
-                    ac.keepOnRideRotation = true;
-                    psc.switchSeat = PlayerControlState.DISMOUNT;
-                }
-
+                psc.switchSeat = this.KeyGUI.isKeyDown() ? PlayerControlState.NEXT : PlayerControlState.PREV;
                 psc.sendToServer();
                 return false;
             }

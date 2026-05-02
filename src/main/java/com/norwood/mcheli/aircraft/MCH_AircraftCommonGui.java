@@ -140,12 +140,11 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
     }
 
 
-
     private void drawSpreadCircle(double x, double y, double radius, int argb) {
-        float a = (float)(argb >> 24 & 255) / 255.0F;
-        float r = (float)(argb >> 16 & 255) / 255.0F;
-        float g = (float)(argb >> 8 & 255) / 255.0F;
-        float b = (float)(argb & 255) / 255.0F;
+        float a = (float) (argb >> 24 & 255) / 255.0F;
+        float r = (float) (argb >> 16 & 255) / 255.0F;
+        float g = (float) (argb >> 8 & 255) / 255.0F;
+        float b = (float) (argb & 255) / 255.0F;
 
         GlStateManager.disableTexture2D();
         GlStateManager.color(r, g, b, a);
@@ -166,10 +165,6 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
     }
 
     protected void drawDetachedTurretDot(MCH_EntityAircraft aircraft, EntityPlayer player) {
-        if (!aircraft.isDetachedWeaponAimActive()) {
-            return;
-        }
-
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
         MCH_WeaponBase weapon = weaponSet != null ? weaponSet.getCurrentWeapon() : null;
         if (weapon == null || weapon.getInfo() == null) {
@@ -199,18 +194,24 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
 
         double mx, my, mz;
         if (weapon instanceof MCH_WeaponBomb) {
-            mx = aircraft.motionX; my = aircraft.motionY; mz = aircraft.motionZ;
+            mx = aircraft.motionX;
+            my = aircraft.motionY;
+            mz = aircraft.motionZ;
         } else if (weapon instanceof MCH_WeaponTorpedo) {
             mx = look.x * info.acceleration + aircraft.motionX;
             my = look.y * info.acceleration + aircraft.motionY;
             mz = look.z * info.acceleration + aircraft.motionZ;
         } else {
             double accel = Math.min(weapon.acceleration, 3.9F);
-            mx = look.x * accel; my = look.y * accel; mz = look.z * accel;
+            mx = look.x * accel;
+            my = look.y * accel;
+            mz = look.z * accel;
         }
 
         if (weapon instanceof MCH_WeaponMachineGun1 || weapon instanceof MCH_WeaponMachineGun2) {
-            px += mx * 0.5; py += my * 0.5; pz += mz * 0.5;
+            px += mx * 0.5;
+            py += my * 0.5;
+            pz += mz * 0.5;
         }
 
         Vec3d apexPos = new Vec3d(px, py, pz);
@@ -232,7 +233,9 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
             } else {
                 my += info.gravityInWater;
                 if (info.velocityInWater > 0.0F) {
-                    mx *= info.velocityInWater; my *= info.velocityInWater; mz *= info.velocityInWater;
+                    mx *= info.velocityInWater;
+                    my *= info.velocityInWater;
+                    mz *= info.velocityInWater;
                 }
             }
 
@@ -246,7 +249,9 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
                 target = hit.hitVec;
                 break;
             }
-            px = nextX; py = nextY; pz = nextZ;
+            px = nextX;
+            py = nextY;
+            pz = nextZ;
         }
 
         if (target == null) {
@@ -291,7 +296,7 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
 
             drawSpreadCircle(screenX, screenY, finalRadius, 0xCCffffff);
 
-            if (finalRadius > 3.0) {
+            if (finalRadius > 2.0) {
                 this.drawLine(new double[]{
                         screenX - 2, screenY, screenX + 2, screenY,
                         screenX, screenY - 2, screenX, screenY + 2
@@ -303,7 +308,6 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
             GlStateManager.popMatrix();
         }
     }
-
 
 
     public void drawAircraftKeyBinds(MCH_EntityAircraft aircraft, MCH_AircraftInfo info, EntityPlayer player, int seatID, LayoutTheme theme) {

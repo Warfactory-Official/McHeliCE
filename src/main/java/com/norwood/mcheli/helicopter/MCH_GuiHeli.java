@@ -36,11 +36,13 @@ public class MCH_GuiHeli extends MCH_AircraftCommonGui {
             }
 
             if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
+
                 if (seatID == 0 && heli.getIsGunnerMode(player)) {
                     this.drawHud(ac, player, 1);
                 } else {
                     this.drawHud(ac, player, seatID);
                 }
+                this.drawDetachedTurretDot(heli, player);
             }
 
             if (!heli.getIsGunnerMode(player)) {
