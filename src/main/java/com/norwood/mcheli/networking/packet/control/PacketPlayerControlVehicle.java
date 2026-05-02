@@ -29,6 +29,11 @@ public class PacketPlayerControlVehicle extends PacketPlayerControlBase {
 
     protected void process(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
         if (aircraft == null) return;
+        if (data.detachedWeaponAim && aircraft.supportsDetachedTurretAim()) {
+            aircraft.setDetachedWeaponAim(data.detachedWeaponAimYaw, data.detachedWeaponAimPitch);
+        } else {
+            aircraft.clearDetachedWeaponAim();
+        }
         handleUnmount(aircraft, data);
         handleEjectSeat(aircraft, data, player);
         handleFold(aircraft, data);

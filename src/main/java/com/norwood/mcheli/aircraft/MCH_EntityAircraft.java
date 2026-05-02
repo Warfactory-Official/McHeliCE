@@ -137,16 +137,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     @Getter
     public float lastRiderPitch;
     public float prevLastRiderPitch;
-    @Getter
-    private boolean detachedWeaponAimActive;
-    @Getter
-    private float detachedWeaponAimYaw;
-    @Getter
-    private float prevDetachedWeaponAimYaw;
-    @Getter
-    private float detachedWeaponAimPitch;
-    @Getter
-    private float prevDetachedWeaponAimPitch;
     public int serverNoMoveCount = 0;
     public int repairCount;
     public int beforeDamageTaken;
@@ -207,6 +197,16 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     protected boolean isGunnerMode = false;
     protected boolean isGunnerModeOtherSeat = false;
     protected boolean isGunnerFreeLookMode = false;
+    @Getter
+    private boolean detachedWeaponAimActive;
+    @Getter
+    private float detachedWeaponAimYaw;
+    @Getter
+    private float prevDetachedWeaponAimYaw;
+    @Getter
+    private float detachedWeaponAimPitch;
+    @Getter
+    private float prevDetachedWeaponAimPitch;
     private MCH_AircraftInfo acInfo;
     private int commonStatus;
     private Entity[] partEntities;
@@ -3516,7 +3516,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         if (weaponSet == null || weaponSet.getCurrentWeapon() == null) {
             return this.getWeaponUserYaw(entity);
         }
-        return MathHelper.wrapDegrees(this.getYaw() + weaponSet.getYaw() + weaponSet.getCurrentWeapon().fixRotationYaw);
+        var yaw  = this.getYaw();
+        var wsYaw = weaponSet.getYaw();
+        var wsFixedYaw = weaponSet.getCurrentWeapon().fixRotationYaw;
+        return MathHelper.wrapDegrees( yaw + wsYaw  + wsFixedYaw);
     }
 
     public float getCurrentWeaponShotPitch(@Nullable Entity entity) {
@@ -4886,45 +4889,54 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     public boolean useCurrentWeapon(MCH_WeaponParam prm) {
         prm.isInfinity = this.isInfinityAmmo(prm.user);
-        if (prm.user != null) {
-            MCH_WeaponSet currentWs = this.getCurrentWeapon(prm.user);
-            if (currentWs != null && currentWs.canFire()) {
-                int sid = this.getSeatIdByEntity(prm.user);
-                assert this.getAcInfo() != null;
-                if (this.getAcInfo().getWeaponSetById(sid) != null) {
-                    prm.isTurret = this.getAcInfo().getWeaponSetById(sid).weapons.getFirst().turret;
-                }
+        if (prm.user == null) {
+            return false;
+        }
 
-                int lastUsedIndex = currentWs.getCurrentWeaponIndex();
-                if (currentWs.use(prm)) {
-                    for (MCH_WeaponSet ws : this.weapons) {
-                        if (ws != currentWs && !ws.getInfo().group.isEmpty() && ws.getInfo().group.equals(currentWs.getInfo().group)) {
-                            ws.waitAndReloadByOther(prm.reload);
-                        }
-                    }
+        var currentWs = this.getCurrentWeapon(prm.user);
+        if (currentWs == null || !currentWs.canFire()) {
+            return false;
+        }
 
-                    if (!this.world.isRemote) {
-                        int shift = 0;
-
-                        for (MCH_WeaponSet wsx : this.weapons) {
-                            if (wsx == currentWs) {
-                                break;
-                            }
-
-                            shift += wsx.getWeaponsCount();
-                        }
-
-                        shift += lastUsedIndex;
-                        this.useWeaponStat |= shift < 32 ? 1 << shift : 0;
-                    }
-
-                    return true;
-                }
+        var acInfo = this.getAcInfo();
+        if (acInfo != null) {
+            var seatWeaponSet = acInfo.getWeaponSetById(this.getSeatIdByEntity(prm.user));
+            if (seatWeaponSet != null && !seatWeaponSet.weapons.isEmpty()) {
+                prm.isTurret = seatWeaponSet.weapons.getFirst().turret;
             }
         }
 
-        return false;
+        int lastUsedIndex = currentWs.getCurrentWeaponIndex();
+
+        if (!currentWs.use(prm)) {
+            return false;
+        }
+
+        String currentGroup = currentWs.getInfo().group;
+        boolean hasGroup = currentGroup != null && !currentGroup.isEmpty();
+
+        for (var ws : this.weapons) {
+            if (ws != currentWs && hasGroup && currentGroup.equals(ws.getInfo().group)) {
+                ws.waitAndReloadByOther(prm.reload);
+            }
+        }
+
+        if (!this.world.isRemote) {
+            int shift = 0;
+            for (var wsx : this.weapons) {
+                if (wsx == currentWs) break;
+                shift += wsx.getWeaponsCount();
+            }
+            shift += lastUsedIndex;
+
+            if (shift < 32) {
+                this.useWeaponStat |= (1 << shift);
+            }
+        }
+
+        return true;
     }
+
 
     public void switchCurrentWeaponMode(Entity entity) {
         this.getCurrentWeapon(entity).switchMode();
@@ -5158,64 +5170,61 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public void updateWeaponsRotation() {
-        if (this.getAcInfo() != null) {
-            if (this.getAcInfo().getWeaponCount() > 0) {
-                if (!this.isDestroyed()) {
-                    float yaw = MathHelper.wrapDegrees(this.getYaw());
-                    float pitch = MathHelper.wrapDegrees(this.getPitch());
+        if (this.getAcInfo() == null || this.getAcInfo().getWeaponCount() <= 0 || this.isDestroyed()) {
+            return;
+        }
 
-                    for (int wid = 0; wid < this.weapons.length; wid++) {
-                        MCH_WeaponSet w = this.weapons[wid];
-                        MCH_AircraftInfo.Weapon wi = this.getAcInfo().getWeaponById(wid);
-                        if (wi != null) {
-                            Entity entity = this.getEntityBySeatId(this.getWeaponSeatID(this.getWeaponInfoById(wid), wi));
-                            if (wi.canUsePilot && !(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
-                                entity = this.getEntityBySeatId(0);
-                            }
+        float yaw = MathHelper.wrapDegrees(this.getYaw());
+        float pitch = MathHelper.wrapDegrees(this.getPitch());
 
-                            float entityPitch = this.getWeaponUserPitch(entity);
-                            if (!(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
-                                w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
-                            } else {
-                                if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
-                                    float entityYaw = this.getWeaponUserYaw(entity);
-                                    float ty = wi.turret ? MathHelper.wrapDegrees(this.getLastRiderYaw()) - yaw : 0.0F;
-                                    float ey = MathHelper.wrapDegrees(entityYaw - yaw - wi.defaultYaw - ty);
-                                    if (Math.abs((int) wi.minYaw) < 360 && Math.abs((int) wi.maxYaw) < 360) {
-                                        float targetYaw = MCH_Lib.RNG(ey, wi.minYaw, wi.maxYaw);
-                                        float wy = w.getYaw() - wi.defaultYaw - ty;
-                                        if (targetYaw < wy) {
-                                            if (wy - targetYaw > 15.0F) {
-                                                wy -= 15.0F;
-                                            } else {
-                                                wy = targetYaw;
-                                            }
-                                        } else if (targetYaw > wy) {
-                                            if (targetYaw - wy > 15.0F) {
-                                                wy += 15.0F;
-                                            } else {
-                                                wy = targetYaw;
-                                            }
-                                        }
+        for (int wid = 0; wid < this.weapons.length; wid++) {
+            var w = this.weapons[wid];
+            var wi = this.getAcInfo().getWeaponById(wid);
 
-                                        w.setYaw(wy + wi.defaultYaw + ty);
-                                    } else {
-                                        w.setYaw(ey + ty);
-                                    }
-                                }
+            if (wi == null) {
+                w.setPrevYaw(w.getYaw());
+                continue;
+            }
 
-                                float ep = MathHelper.wrapDegrees(entityPitch - pitch);
-                                w.setPitch(MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch));
-                                w.setTurretYaw(0.0F);
-                            }
-                        }
+            var entity = this.getEntityBySeatId(this.getWeaponSeatID(this.getWeaponInfoById(wid), wi));
+            boolean isHuman = entity instanceof EntityPlayer || entity instanceof MCH_EntityGunner;
 
-                        w.setPrevYaw(w.getYaw());
+            if (wi.canUsePilot && !isHuman) {
+                entity = this.getEntityBySeatId(0);
+                isHuman = entity instanceof EntityPlayer || entity instanceof MCH_EntityGunner;
+            }
+
+            if (!isHuman) {
+                w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
+            } else {
+                if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
+                    float entityYaw = this.getWeaponUserYaw(entity);
+                    float ty = wi.turret ? MathHelper.wrapDegrees(this.getLastRiderYaw()) - yaw : 0.0F;
+                    float ey = MathHelper.wrapDegrees(entityYaw - yaw - wi.defaultYaw - ty);
+
+                    if (Math.abs((int) wi.minYaw) < 360 && Math.abs((int) wi.maxYaw) < 360) {
+                        float targetYaw = Math.clamp(ey, wi.minYaw, wi.maxYaw);
+                        float wy = w.getYaw() - wi.defaultYaw - ty;
+
+                        wy += Math.clamp(targetYaw - wy, -15.0F, 15.0F);
+
+                        w.setYaw(wy + wi.defaultYaw + ty);
+                    } else {
+                        w.setYaw(ey + ty);
                     }
                 }
+
+                float entityPitch = this.getWeaponUserPitch(entity);
+                float ep = MathHelper.wrapDegrees(entityPitch - pitch);
+
+                w.setPitch(Math.clamp(ep, wi.minPitch, wi.maxPitch));
+                w.setTurretYaw(0.0F);
             }
+
+            w.setPrevYaw(w.getYaw());
         }
     }
+
 
     private void spawnParticleMuzzleFlash(World w, MCH_WeaponInfo wi, double px, double py, double pz, Vec3d wrv) {
         if (wi.listMuzzleFlashSmoke != null) {
