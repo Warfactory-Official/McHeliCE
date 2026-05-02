@@ -359,8 +359,10 @@ public class MCH_WeaponSet {
         }
 
         if (info.accuracy > 0.0F) {
-            prm.rotYaw += (rand.nextFloat() - 0.5F) * info.accuracy;
-            prm.rotPitch += (rand.nextFloat() - 0.5F) * info.accuracy;
+            double r = Math.sqrt(rand.nextDouble()) * (info.accuracy * 0.5);
+            double theta = rand.nextDouble() * 2 * Math.PI;
+            prm.rotYaw += (float) (r * Math.cos(theta));
+            prm.rotPitch += (float) (r * Math.sin(theta));
         }
 
         prm.rotYaw = MathHelper.wrapDegrees(prm.rotYaw);

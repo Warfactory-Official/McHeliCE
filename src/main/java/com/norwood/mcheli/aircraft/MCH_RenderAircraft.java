@@ -486,8 +486,8 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 GlStateManager.enableBlend();
 
                 int pointCount = track.lp.size() - 1;
-                double currentProgress = aircraft != null ? aircraft.rotCrawlerTrack[track.side] : 0.0;
-                double prevProgress = aircraft != null ? aircraft.prevRotCrawlerTrack[track.side] : 0.0;
+                double currentProgress = aircraft.rotCrawlerTrack[track.side];
+                double prevProgress = aircraft.prevRotCrawlerTrack[track.side];
 
                 double interpolatedProgress = prevProgress + (currentProgress - prevProgress) * tickTime;
 

@@ -242,46 +242,46 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     public static void drawVarMap() {
-        if (!MCH_Config.TestMode.prmBool) {
-            return;
-        }
+        if (!MCH_Config.TestMode.prmBool || varMap.isEmpty()) return;
 
-        int i = 0;
-        int x = (int) (-350.0 + centerX);
-        int y = (int) (-110.0 + centerY);
+        var screenWidth = centerX * 2;
+        var screenHeight = centerY * 2;
 
-        for (String key : varMap.keySet()) {
-            dummy.drawString(key, x, y, 52992);
+        var leftColX = Math.max(10, (int) (screenWidth * 0.10));
+        var rightColX = Math.min(screenWidth - 150, (int) (screenWidth * 0.80));
+        var startY = Math.max(10, (int) (screenHeight * 0.35));
+        var valOffsetX = Math.max(80, (int) (screenWidth * 0.01));
 
-            Object val = varMap.get(key);
+        var x = leftColX;
+        var y = startY;
+        var halfSize = varMap.size() / 2;
+        var i = 0;
+
+        for (var entry : varMap.entrySet()) {
+            var key = entry.getKey();
+            var val = entry.getValue();
             String fmt;
 
             if (key.equalsIgnoreCase("color")) {
-                int color = 0;
-                if (val instanceof Number) {
-                    color = ((Number) val).intValue();
-                }
-                fmt = String.format(": 0x%08X", color);
-            }
-            else if (val instanceof Boolean) {
-                boolean b = (Boolean) val;
-                fmt = String.format(": %s (%.2f)", b, b ? 1.0 : 0.0);
-            }
-            else if (val instanceof Number) {
-                double d = ((Number) val).doubleValue();
-                fmt = String.format(": %.2f", d);
-            }
-            else {
+                var color = val instanceof Number n ? n.intValue() : 0;
+                fmt = ": 0x%08X".formatted(color);
+            } else if (val instanceof Boolean b) {
+                fmt = ": %s (%.2f)".formatted(b, b ? 1.0 : 0.0);
+            } else if (val instanceof Number n) {
+                fmt = ": %.2f".formatted(n.doubleValue());
+            } else {
                 fmt = ": " + val;
             }
 
-            dummy.drawString(fmt, x + 50, y, 52992);
+            dummy.drawString(key, x, y, 52992);
+            dummy.drawString(fmt, x + valOffsetX, y, 52992);
 
             i++;
-            y += 8;
-            if (i == varMap.size() / 2) {
-                x = (int) (200.0 + centerX);
-                y = (int) (-100.0 + centerY);
+            y += 10;
+
+            if (i == halfSize) {
+                x = (int) rightColX;
+                y = startY;
             }
         }
     }

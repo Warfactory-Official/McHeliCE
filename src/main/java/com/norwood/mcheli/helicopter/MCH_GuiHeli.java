@@ -65,54 +65,57 @@ public class MCH_GuiHeli extends MCH_AircraftCommonGui {
     }
 
     public void drawKeyBind(MCH_EntityHeli heli, EntityPlayer player, int seatID) {
-        if (!MCH_Config.HideKeybind.prmBool) {
-            MCH_HeliInfo info = heli.getHeliInfo();
-            if (info != null) {
-                int colorActive = -1342177281;
-                int colorInactive = -1349546097;
-                int RX = this.centerX + 120;
-                int LX = this.centerX - 200;
-                this.drawKeyBind(heli, info, player, seatID, RX, LX, colorActive, colorInactive);
-                if (seatID == 0 && info.isEnableGunnerMode && !Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
-                    int c = heli.isHoveringMode() ? colorInactive : colorActive;
-                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Gunner") + " : " +
-                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
-                    this.drawString(msg, RX, this.centerY - 70, c);
-                }
+        var info = heli.getHeliInfo();
+        if (MCH_Config.HideKeybind.prmBool || info == null) return;
 
-                if (seatID > 0 && heli.canSwitchGunnerModeOtherSeat(player)) {
-                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " +
-                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
-                    this.drawString(msg, RX, this.centerY - 40, colorActive);
-                }
+        var colorActive = -1342177281;
+        var colorInactive = -1349546097;
 
-                if (seatID == 0 && !Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
-                    int c = heli.getIsGunnerMode(player) ? colorInactive : colorActive;
-                    String msg = (heli.getIsGunnerMode(player) ? "Normal" : "Hovering") + " : " +
-                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchHovering.prmInt);
-                    this.drawString(msg, RX, this.centerY - 60, c);
-                }
+        var screenWidth = this.centerX * 2;
+        var leftX = Math.max(10, (int) (screenWidth * 0.05));
+        var rightX = Math.min(screenWidth - 100, (int) (screenWidth * 0.80));
 
-                if (seatID == 0) {
-                    if (heli.getTowChainEntity() != null && !heli.getTowChainEntity().isDead) {
-                        String msg = "Drop  : " + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
-                        this.drawString(msg, RX, this.centerY - 30, colorActive);
-                    } else if (info.isEnableFoldBlade &&
-                            MCH_Lib.getBlockIdY(heli.world, heli.posX, heli.posY, heli.posZ, 1, -2, true) > 0 &&
-                            heli.getCurrentThrottle() <= 0.01) {
-                                String msg = "FoldBlade  : " + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
-                                this.drawString(msg, RX, this.centerY - 30, colorActive);
-                            }
-                }
+        this.currentLeftY = this.centerY - 80;
+        this.currentRightY = this.centerY - 80;
 
-                if ((heli.getIsGunnerMode(player) || heli.isUAV()) && info.cameraZoom > 1) {
-                    String msg = "Zoom : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
-                    this.drawString(msg, LX, this.centerY - 80, colorActive);
-                } else if (seatID == 0 && (heli.canUnfoldHatch() || heli.canFoldHatch())) {
-                    String msg = "OpenHatch : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
-                    this.drawString(msg, LX, this.centerY - 80, colorActive);
-                }
+        var theme = new LayoutTheme(leftX, rightX, colorActive, colorInactive);
+
+        drawAircraftKeyBinds(heli, info, player, seatID, theme);
+
+        var freeLookPressed = Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt);
+
+        if (seatID == 0 && info.isEnableGunnerMode && !freeLookPressed) {
+            var color = heli.isHoveringMode() ? theme.inactive() : theme.active();
+            var mode = heli.getIsGunnerMode(player) ? "Normal" : "Gunner";
+            drawRightKey(mode, MCH_Config.KeySwitchMode.prmInt, theme.rightX(), color);
+        }
+
+        if (seatID > 0 && heli.canSwitchGunnerModeOtherSeat(player)) {
+            var mode = heli.getIsGunnerMode(player) ? "Normal" : "Camera";
+            drawRightKey(mode, MCH_Config.KeySwitchMode.prmInt, theme.rightX(), theme.active());
+        }
+
+        if (seatID == 0 && !freeLookPressed) {
+            var color = heli.getIsGunnerMode(player) ? theme.inactive() : theme.active();
+            var mode = heli.getIsGunnerMode(player) ? "Normal" : "Hovering";
+            drawRightKey(mode, MCH_Config.KeySwitchHovering.prmInt, theme.rightX(), color);
+        }
+
+        if (seatID == 0) {
+            var towChain = heli.getTowChainEntity();
+            if (towChain != null && !towChain.isDead) {
+                drawRightKey("Drop", MCH_Config.KeyExtra.prmInt, theme.rightX(), theme.active());
+            } else if (info.isEnableFoldBlade &&
+                    MCH_Lib.getBlockIdY(heli.world, heli.posX, heli.posY, heli.posZ, 1, -2, true) > 0 &&
+                    heli.getCurrentThrottle() <= 0.01) {
+                drawRightKey("FoldBlade", MCH_Config.KeyExtra.prmInt, theme.rightX(), theme.active());
             }
+        }
+
+        if ((heli.getIsGunnerMode(player) || heli.isUAV()) && info.cameraZoom > 1) {
+            drawLeftKey("Zoom", MCH_Config.KeyZoom.prmInt, theme.leftX(), theme.active());
+        } else if (seatID == 0 && (heli.canUnfoldHatch() || heli.canFoldHatch())) {
+            drawLeftKey("OpenHatch", MCH_Config.KeyZoom.prmInt, theme.leftX(), theme.active());
         }
     }
 }

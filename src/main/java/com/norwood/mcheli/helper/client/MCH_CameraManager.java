@@ -5,6 +5,7 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
 import com.norwood.mcheli.uav.IUavStation;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -130,6 +131,21 @@ public class MCH_CameraManager {
     // For hud canceling
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {
+        EntityPlayer player = mc.player;
+        if (player == null) {
+            return;
+        }
+
+        Entity riding = player.getRidingEntity();
+        boolean inVehicle = riding instanceof MCH_EntityAircraft ||
+                riding instanceof MCH_EntitySeat seat && seat.getParent() instanceof MCH_EntityAircraft;
+        if (!inVehicle) {
+            return;
+        }
+
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) {
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent

@@ -10,7 +10,10 @@ import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
@@ -22,6 +25,9 @@ import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public abstract class MCH_AircraftCommonGui extends MCH_Gui {
+
+    protected int currentLeftY;
+    protected int currentRightY;
 
     public MCH_AircraftCommonGui(Minecraft minecraft) {
         super(minecraft);
@@ -44,7 +50,33 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         }
     }
 
+    public void drawDebugtInfo(MCH_EntityAircraft ac) {
+        if (!MCH_Config.DebugLog) {
+            return;
+        }
 
+        EntityPlayer player = this.mc.player;
+        if (player == null) {
+            return;
+        }
+
+        int x = this.centerX - 145;
+        int y = this.centerY;
+        int color = -1342177281;
+        this.drawString(String.format("X: %+.1f", ac.posX), x, y, color);
+        this.drawString(String.format("Y: %+.1f", ac.posY), x, y + 10, color);
+        this.drawString(String.format("Z: %+.1f", ac.posZ), x, y + 20, color);
+        this.drawString(String.format("AX: %+.1f", player.rotationYaw), x, y + 40, color);
+        this.drawString(String.format("AY: %+.1f", player.rotationPitch), x, y + 50, color);
+
+        MCH_WeaponSet weaponSet = ac.getCurrentWeapon(player);
+        if (weaponSet != null && weaponSet.getCurrentWeapon() != null) {
+            float barrelYaw = ac.getCurrentWeaponShotYaw(player);
+            float barrelPitch = ac.getCurrentWeaponShotPitch(player);
+            this.drawString(String.format("BX: %+.1f", barrelYaw), x, y + 70, color);
+            this.drawString(String.format("BY: %+.1f", barrelPitch), x, y + 80, color);
+        }
+    }
 
     public void drawNightVisionNoise() {
         GlStateManager.enableBlend();
@@ -82,8 +114,8 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
 
         int alpha = hitStrength * (256 / maxHitStrength);
         int finalColor = (int) (MCH_Config.hitMarkColorAlpha * alpha) << 24 | MCH_Config.hitMarkColorRGB;// FIXME:
-                                                                                                         // basecolor
-                                                                                                         // ignored...?
+        // basecolor
+        // ignored...?
 
         this.drawLine(markerLines, finalColor);
     }
@@ -103,24 +135,59 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         GlStateManager.disableBlend();
     }
 
+
+
+    private void drawSpreadCircle(double x, double y, double radius, int argb) {
+        float a = (float)(argb >> 24 & 255) / 255.0F;
+        float r = (float)(argb >> 16 & 255) / 255.0F;
+        float g = (float)(argb >> 8 & 255) / 255.0F;
+        float b = (float)(argb & 255) / 255.0F;
+
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.color(r, g, b, a);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder builder = tessellator.getBuffer();
+
+        builder.begin(GL11.GL_LINE_LOOP, DefaultVertexFormats.POSITION);
+
+        for (int i = 0; i < CIRCLE_SEGMENTS; i++) {
+            builder.pos(x + (CIRCLE_COS[i] * radius), y + (CIRCLE_SIN[i] * radius), 0.0D).endVertex();
+        }
+
+        tessellator.draw();
+
+        GlStateManager.enableAlpha();
+        GlStateManager.disableBlend();
+        GlStateManager.enableTexture2D();
+    }
+
     protected void drawDetachedTurretDot(MCH_EntityAircraft aircraft, EntityPlayer player) {
         if (!aircraft.isDetachedWeaponAimActive()) {
             return;
         }
 
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
-        if (weaponSet == null) {
+        if (weaponSet == null || weaponSet.getCurrentWeapon() == null) {
             return;
         }
 
         MCH_WeaponBase currentWeapon = weaponSet.getCurrentWeapon();
-        if (currentWeapon == null) {
-            return;
-        }
 
-        Vec3d start = currentWeapon.getShotPos(aircraft).add(aircraft.posX, aircraft.posY, aircraft.posZ);
-        float yaw = aircraft.getCurrentWeaponShotYaw(player);
-        float pitch = aircraft.getCurrentWeaponShotPitch(player);
+
+        double acX = aircraft.lastTickPosX + (aircraft.posX - aircraft.lastTickPosX) * this.smoothCamPartialTicks;
+        double acY = aircraft.lastTickPosY + (aircraft.posY - aircraft.lastTickPosY) * this.smoothCamPartialTicks;
+        double acZ = aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * this.smoothCamPartialTicks;
+
+        Vec3d start = currentWeapon.getShotPos(aircraft).add(acX, acY, acZ);
+
+
+        float yaw = aircraft.prevLastRiderYaw + (aircraft.getLastRiderYaw() - aircraft.prevLastRiderYaw) * this.smoothCamPartialTicks;
+        float pitch = aircraft.prevLastRiderPitch + (aircraft.getLastRiderPitch() - aircraft.prevLastRiderPitch) * this.smoothCamPartialTicks;
+
         Vec3d direction = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
         Vec3d end = start.add(direction.scale(512.0));
         RayTraceResult hit = aircraft.world.rayTraceBlocks(start, end, false, true, false);
@@ -146,109 +213,131 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         Vec3d right = new Vec3d(Math.cos(yawRad), 0.0, Math.sin(yawRad));
         Vec3d up = forward.crossProduct(right);
         Vec3d relative = target.subtract(camX, camY, camZ);
+
         double viewX = relative.dotProduct(right);
         double viewY = relative.dotProduct(up);
         double viewZ = relative.dotProduct(forward);
+
         if (viewZ <= 0.01) {
             return;
         }
 
-        double focal = this.centerX / Math.tan(Math.toRadians(this.mc.gameSettings.fovSetting * 0.5));
-        double screenX = this.centerX - viewX * focal / viewZ;
-        double screenY = this.centerY - viewY * focal / viewZ;
+
+        float acRoll = aircraft.prevRotationRoll + (aircraft.rotationRoll - aircraft.prevRotationRoll) * this.smoothCamPartialTicks;
+        double rollRad = Math.toRadians(acRoll);
+
+        double rotatedViewX = viewX * Math.cos(rollRad) - viewY * Math.sin(rollRad);
+        double rotatedViewY = viewX * Math.sin(rollRad) + viewY * Math.cos(rollRad);
+
+
+        double fov = this.mc.gameSettings.fovSetting;
+        double focal = this.centerY / Math.tan(Math.toRadians(fov * 0.5));
+
+        double screenX = this.centerX - rotatedViewX * focal / viewZ;
+        double screenY = this.centerY - rotatedViewY * focal / viewZ;
+        float baseSpread = currentWeapon.getInfo().accuracy * 0.5F;
+
+
         this.drawLine(new double[] {
                 screenX - 1.5, screenY, screenX + 1.5, screenY,
                 screenX, screenY - 1.5, screenX, screenY + 1.5
         }, 0xFF00FF00);
+        drawSpreadCircle(screenX, screenY, baseSpread, 0xFF00FF00);
+
     }
 
-    public void drawKeyBind(
-                            MCH_EntityAircraft aircraft,
-                            MCH_AircraftInfo info,
-                            EntityPlayer player,
-                            int seatID,
-                            int rightX,
-                            int leftX,
-                            int colorActive,
-                            int colorInactive) {
+    public void drawAircraftKeyBinds(MCH_EntityAircraft aircraft, MCH_AircraftInfo info, EntityPlayer player, int seatID, LayoutTheme theme) {
         if (seatID == 0) {
-            drawConditionalKeyBind(aircraft.canPutToRack(), "PutRack", MCH_Config.KeyPutToRack.prmInt, leftX, -10,
-                    colorActive);
-            drawConditionalKeyBind(aircraft.canDownFromRack(), "DownRack", MCH_Config.KeyDownFromRack.prmInt, leftX, 0,
-                    colorActive);
-            drawConditionalKeyBind(aircraft.canRideRack(), "RideRack", MCH_Config.KeyPutToRack.prmInt, leftX, 10,
-                    colorActive);
-            drawConditionalKeyBind(aircraft.getRidingEntity() != null, "DismountRack",
-                    MCH_Config.KeyDownFromRack.prmInt, leftX, 10, colorActive);
+            drawLeftConditional(aircraft.canPutToRack(), "PutRack", MCH_Config.KeyPutToRack.prmInt, theme.leftX(), theme.active());
+            drawLeftConditional(aircraft.canDownFromRack(), "DownRack", MCH_Config.KeyDownFromRack.prmInt, theme.leftX(), theme.active());
+            drawLeftConditional(aircraft.canRideRack(), "RideRack", MCH_Config.KeyPutToRack.prmInt, theme.leftX(), theme.active());
+            drawLeftConditional(aircraft.getRidingEntity() != null, "DismountRack", MCH_Config.KeyDownFromRack.prmInt, theme.leftX(), theme.active());
         }
 
-        boolean multipleSeats = aircraft.getSeatNum() > 1;
-        boolean freeLookPressed = Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt);
-        if (seatID > 0 && multipleSeats || freeLookPressed) {
-            int seatColor = seatID == 0 ? 'Ｐ' : colorActive;
-            String prefix = seatID == 0 ? MCH_KeyName.getDescOrName(MCH_Config.KeyFreeLook.prmInt) + " + " : "";
-            drawString("NextSeat : " + prefix + MCH_KeyName.getDescOrName(MCH_Config.KeyGUI.prmInt), rightX,
-                    centerY - 70, seatColor);
-            drawString("PrevSeat : " + prefix + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt), rightX,
-                    centerY - 60, seatColor);
+        var multipleSeats = aircraft.getSeatNum() > 1;
+        var freeLookPressed = Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt);
+
+        if ((seatID > 0 && multipleSeats) || freeLookPressed) {
+            var seatColor = seatID == 0 ? 'Ｐ' : theme.active();
+            var prefix = seatID == 0 ? MCH_KeyName.getDescOrName(MCH_Config.KeyFreeLook.prmInt) + " + " : "";
+
+            var nextMsg = "NextSeat : " + prefix + MCH_KeyName.getDescOrName(MCH_Config.KeyGUI.prmInt);
+            drawString(nextMsg, theme.rightX(), currentRightY, seatColor);
+            currentRightY += 10;
+
+            var prevMsg = "PrevSeat : " + prefix + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
+            drawString(prevMsg, theme.rightX(), currentRightY, seatColor);
+            currentRightY += 10;
         }
 
-        drawString(
-                "Gunner " + (aircraft.getGunnerStatus() ? "ON" : "OFF") + " : " +
-                        MCH_KeyName.getDescOrName(MCH_Config.KeyFreeLook.prmInt) + " + " +
-                        MCH_KeyName.getDescOrName(MCH_Config.KeyCameraMode.prmInt),
-                leftX, centerY - 40, colorActive);
+        var gunnerStatus = aircraft.getGunnerStatus() ? "ON" : "OFF";
+        var gunnerMsg = "Gunner %s : %s + %s".formatted(
+                gunnerStatus,
+                MCH_KeyName.getDescOrName(MCH_Config.KeyFreeLook.prmInt),
+                MCH_KeyName.getDescOrName(MCH_Config.KeyCameraMode.prmInt)
+        );
+        drawString(gunnerMsg, theme.leftX(), currentLeftY, theme.active());
+        currentLeftY += 10;
 
         if (seatID >= 0 && seatID <= 1 && aircraft.haveFlare()) {
-            int flareColor = aircraft.isFlarePreparation() ? colorInactive : colorActive;
-            drawString("Flare : " + MCH_KeyName.getDescOrName(MCH_Config.KeyFlare.prmInt), rightX, centerY - 50,
-                    flareColor);
+            var flareColor = aircraft.isFlarePreparation() ? theme.inactive() : theme.active();
+            drawRightKey("Flare", MCH_Config.KeyFlare.prmInt, theme.rightX(), flareColor);
         }
 
         if (seatID == 0 && info.haveLandingGear()) {
             if (aircraft.canFoldLandingGear()) {
-                drawConditionalKeyBind(true, "Gear Up", MCH_Config.KeyGearUpDown.prmInt, rightX, -40, colorActive);
+                drawRightKey("Gear Up", MCH_Config.KeyGearUpDown.prmInt, theme.rightX(), theme.active());
             } else if (aircraft.canUnfoldLandingGear()) {
-                drawConditionalKeyBind(true, "Gear Down", MCH_Config.KeyGearUpDown.prmInt, rightX, -40, colorActive);
+                drawRightKey("Gear Down", MCH_Config.KeyGearUpDown.prmInt, theme.rightX(), theme.active());
             }
         }
 
-        MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
+        var weaponSet = aircraft.getCurrentWeapon(player);
         if (aircraft.getWeaponNum() > 1) {
-            drawConditionalKeyBind(true, "Weapon", MCH_Config.KeySwitchWeapon2.prmInt, leftX, -70, colorActive);
+            drawLeftKey("Weapon", MCH_Config.KeySwitchWeapon2.prmInt, theme.leftX(), theme.active());
         }
 
-        if (weaponSet.getCurrentWeapon().numMode > 0) {
-            drawConditionalKeyBind(true, "WeaponMode", MCH_Config.KeySwWeaponMode.prmInt, leftX, -60, colorActive);
+        if (weaponSet != null && weaponSet.getCurrentWeapon() != null && weaponSet.getCurrentWeapon().numMode > 0) {
+            drawLeftKey("WeaponMode", MCH_Config.KeySwWeaponMode.prmInt, theme.leftX(), theme.active());
         }
 
         if (aircraft.canSwitchSearchLight(player)) {
-            drawConditionalKeyBind(true, "SearchLight", MCH_Config.KeyCameraMode.prmInt, leftX, -50, colorActive);
+            drawLeftKey("SearchLight", MCH_Config.KeyCameraMode.prmInt, theme.leftX(), theme.active());
         } else if (aircraft.canSwitchCameraMode(seatID)) {
-            drawConditionalKeyBind(true, "CameraMode", MCH_Config.KeyCameraMode.prmInt, leftX, -50, colorActive);
+            drawLeftKey("CameraMode", MCH_Config.KeyCameraMode.prmInt, theme.leftX(), theme.active());
         }
 
         if (seatID == 0 && aircraft.getSeatNum() >= 1) {
-            int dismountColor = colorActive;
-            String dismountLabel = "Dismount";
-            if (info.isEnableParachuting && MCH_Lib.getBlockIdY(aircraft, 3, -10) == 0) {
-                dismountLabel = "Parachuting";
-            } else if (aircraft.canStartRepelling()) {
-                dismountLabel = "Repelling";
-                dismountColor = 0x00FF00;
-            }
-            drawConditionalKeyBind(true, dismountLabel, MCH_Config.KeyUnmount.prmInt, leftX, -30, dismountColor);
+            var isParachuting = info.isEnableParachuting && MCH_Lib.getBlockIdY(aircraft, 3, -10) == 0;
+            var isRepelling = aircraft.canStartRepelling();
+
+            var dismountLabel = isParachuting ? "Parachuting" : (isRepelling ? "Repelling" : "Dismount");
+            var dismountColor = isRepelling ? 0x00FF00 : theme.active();
+
+            drawLeftKey(dismountLabel, MCH_Config.KeyUnmount.prmInt, theme.leftX(), dismountColor);
         }
 
-        boolean canFreeLook = seatID == 0 && aircraft.canSwitchFreeLook() ||
-                seatID > 0 && aircraft.canSwitchGunnerModeOtherSeat(player);
-        drawConditionalKeyBind(canFreeLook, "FreeLook", MCH_Config.KeyFreeLook.prmInt, leftX, -20, colorActive);
+        var canFreeLook = (seatID == 0 && aircraft.canSwitchFreeLook()) ||
+                (seatID > 0 && aircraft.canSwitchGunnerModeOtherSeat(player));
+        drawLeftConditional(canFreeLook, "FreeLook", MCH_Config.KeyFreeLook.prmInt, theme.leftX(), theme.active());
     }
 
-    private void drawConditionalKeyBind(boolean condition, String label, int key, int x, int yOffset, int color) {
-        if (condition) {
-            String keyName = MCH_KeyName.getDescOrName(key);
-            drawString(label + " : " + keyName, x, centerY + yOffset, color);
-        }
+    protected void drawLeftKey(String label, int key, int x, int color) {
+        var keyName = MCH_KeyName.getDescOrName(key);
+        drawString(label + " : " + keyName, x, currentLeftY, color);
+        currentLeftY += 10;
+    }
+
+    protected void drawRightKey(String label, int key, int x, int color) {
+        var keyName = MCH_KeyName.getDescOrName(key);
+        drawString(label + " : " + keyName, x, currentRightY, color);
+        currentRightY += 10;
+    }
+
+    protected void drawLeftConditional(boolean condition, String label, int key, int x, int color) {
+        if (condition) drawLeftKey(label, key, x, color);
+    }
+
+    public static record LayoutTheme(int leftX, int rightX, int active, int inactive) {
     }
 }
