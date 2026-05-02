@@ -1,6 +1,7 @@
 package com.norwood.mcheli.event;
 
 import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Math;
 import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
@@ -20,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import org.lwjgl.opengl.Display;
@@ -448,18 +450,20 @@ public class MouseInputHandler {
     }
 
     private void updateCameraRoll(MCH_EntityAircraft aircraft, EntityPlayer player) {
-        float roll = MathHelper.wrapDegrees(aircraft.getRoll());
-        float yaw = MathHelper.wrapDegrees(aircraft.getYaw() - player.rotationYaw);
-        roll *= MathHelper.cos((float) (yaw * Math.PI / 180.0));
+        float roll = 0.0F;
+
+        if (aircraft.getTVMissile() == null || !W_Lib.isClientPlayer(aircraft.getTVMissile().shootingEntity) || !aircraft.getIsGunnerMode(player)) {
+            MCH_Math.FMatrix m = MCH_Math.newMatrix();
+            MCH_Math.MatTurnZ(m, aircraft.getRoll() * ((float) Math.PI / 180.0F));
+            MCH_Math.MatTurnX(m, aircraft.getPitch() * ((float) Math.PI / 180.0F));
+            MCH_Math.MatTurnY(m, (aircraft.getYaw() - player.rotationYaw) * ((float) Math.PI / 180.0F));
+            MCH_Math.FVector3D v = MCH_Math.MatrixToEuler(m);
+            roll = v.z;
+        }
 
         if ((aircraft instanceof MCH_EntityTank || aircraft instanceof MCH_EntityVehicle) &&
                 player.getRidingEntity() instanceof MCH_EntitySeat &&
                 !aircraft.getIsGunnerMode(player)) {
-            roll = 0.0F;
-        }
-
-        if (aircraft.getTVMissile() != null && W_Lib.isClientPlayer(aircraft.getTVMissile().shootingEntity) &&
-                aircraft.getIsGunnerMode(player)) {
             roll = 0.0F;
         }
 

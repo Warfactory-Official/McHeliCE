@@ -164,7 +164,7 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         GlStateManager.enableTexture2D();
     }
 
-    protected void drawDetachedTurretDot(MCH_EntityAircraft aircraft, EntityPlayer player) {
+    protected void renderCrosshair(MCH_EntityAircraft aircraft, EntityPlayer player) {
         ScaledResolution res = new ScaledResolution(this.mc);
 
         GlStateManager.pushMatrix();
