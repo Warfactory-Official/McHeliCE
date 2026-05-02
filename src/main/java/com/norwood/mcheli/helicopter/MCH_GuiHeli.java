@@ -42,7 +42,7 @@ public class MCH_GuiHeli extends MCH_AircraftCommonGui {
                 } else {
                     this.drawHud(ac, player, seatID);
                 }
-                this.drawDetachedTurretDot(heli, player);
+                this.drawTurretBallistics(heli, player);
             }
 
             if (!heli.getIsGunnerMode(player)) {

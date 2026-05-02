@@ -39,7 +39,7 @@ public class MCH_GuiShip extends MCH_AircraftCommonGui {
                 } else {
                     this.drawHud(ac, player, seatID);
                 }
-                this.drawDetachedTurretDot(plane, player);
+                this.drawTurretBallistics(plane, player);
             }
 
             this.drawDebugtInfo(plane);

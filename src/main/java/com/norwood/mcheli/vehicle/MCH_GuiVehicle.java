@@ -38,7 +38,7 @@ public class MCH_GuiVehicle extends MCH_AircraftCommonGui {
 
                 if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
                     this.drawHud(vehicle, player, seatID);
-                    this.drawDetachedTurretDot(vehicle, player);
+                    this.drawTurretBallistics(vehicle, player);
                     this.drawKeyBind(vehicle, player);
                 }
 

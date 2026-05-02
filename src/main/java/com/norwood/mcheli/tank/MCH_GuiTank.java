@@ -34,7 +34,7 @@ public class MCH_GuiTank extends MCH_AircraftCommonGui {
 
             if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
                 this.drawHud(ac, player, seatID);
-                this.drawDetachedTurretDot(tank, player);
+                this.drawTurretBallistics(tank, player);
             }
 
             this.drawDebugtInfo(tank);

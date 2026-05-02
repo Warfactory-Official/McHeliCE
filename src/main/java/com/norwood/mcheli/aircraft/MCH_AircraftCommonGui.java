@@ -164,14 +164,13 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         GlStateManager.enableTexture2D();
     }
 
-    protected void drawDetachedTurretDot(MCH_EntityAircraft aircraft, EntityPlayer player) {
-        ScaledResolution res = new ScaledResolution(this.mc);
-
+    protected void drawTurretBallistics(MCH_EntityAircraft aircraft, EntityPlayer player){
         GlStateManager.pushMatrix();
         GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.enableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.disableTexture2D();
-
+        ScaledResolution res = new ScaledResolution(this.mc);
         double centerX = res.getScaledWidth_double() / 2.0;
         double centerY = res.getScaledHeight_double() / 2.0;
         this.drawLine(new double[]{
@@ -179,42 +178,81 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
                 centerX, centerY - 2, centerX, centerY + 2
         }, 0xFF00FF00);
 
-        if (!aircraft.isDetachedWeaponAimActive()) {
-            GlStateManager.enableTexture2D();
-            GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
-            return;
-        }
+        this.drawDetachedTurretDot(aircraft, player);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
 
+    }
+
+    protected void drawDetachedTurretDot(MCH_EntityAircraft aircraft, EntityPlayer player) {
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
         MCH_WeaponBase weapon = weaponSet != null ? weaponSet.getCurrentWeapon() : null;
-        if (weapon == null || weapon.getInfo() == null) {
-            return;
-        }
-
-        MCH_WeaponInfo info = weapon.getInfo();
+        if (weapon == null || weapon.getInfo() == null) return;
 
         float yaw = aircraft.getCurrentWeaponShotYaw(player, this.smoothCamPartialTicks);
         float pitch = aircraft.getCurrentWeaponShotPitch(player, this.smoothCamPartialTicks);
         Vec3d look = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
-        Vec3d startPos = aircraft instanceof com.norwood.mcheli.vehicle.MCH_EntityVehicle vehicle && aircraft.isDetachedWeaponAimActive() ?
-                vehicle.getCurrentWeaponShotPos(weapon.position, player, this.smoothCamPartialTicks).add(
-                        aircraft.lastTickPosX + (aircraft.posX - aircraft.lastTickPosX) * this.smoothCamPartialTicks,
-                        aircraft.lastTickPosY + (aircraft.posY - aircraft.lastTickPosY) * this.smoothCamPartialTicks,
-                        aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * this.smoothCamPartialTicks) :
-                weapon.getShotPos(aircraft).add(
-                        aircraft.lastTickPosX + (aircraft.posX - aircraft.lastTickPosX) * this.smoothCamPartialTicks,
-                        aircraft.lastTickPosY + (aircraft.posY - aircraft.lastTickPosY) * this.smoothCamPartialTicks,
-                        aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * this.smoothCamPartialTicks);
 
-        double px = startPos.x;
-        double py = startPos.y;
-        double pz = startPos.z;
+        Vec3d target = getWeaponTrajectoryTarget(aircraft, player, weapon, look, this.smoothCamPartialTicks);
 
-        double accelFactor = 1.0;
-        if ((weapon instanceof MCH_WeaponMachineGun1 || weapon instanceof MCH_WeaponMachineGun2 || weapon instanceof MCH_WeaponRocket)
-                && info.acceleration > 4.0F) {
-            accelFactor = info.acceleration / 4.0F;
+        Entity camera = this.mc.getRenderViewEntity();
+        if (camera == null) return;
+
+        double camX = camera.lastTickPosX + (camera.posX - camera.lastTickPosX) * this.smoothCamPartialTicks;
+        double camY = camera.lastTickPosY + (camera.posY - camera.lastTickPosY) * this.smoothCamPartialTicks + camera.getEyeHeight();
+        double camZ = camera.lastTickPosZ + (camera.posZ - camera.lastTickPosZ) * this.smoothCamPartialTicks;
+        Vec3d cameraPos = new Vec3d(camX, camY, camZ);
+
+        Vec3d camLookVec = camera.getLook(this.smoothCamPartialTicks);
+        Vec3d dirToTarget = target.subtract(cameraPos).normalize();
+        boolean isInFront = camLookVec.dotProduct(dirToTarget) > 0;
+
+        FloatBuffer screenCoords = BufferUtils.createFloatBuffer(3);
+        boolean result = Project.gluProject(
+                (float) (target.x - camX), (float) (target.y - camY), (float) (target.z - camZ),
+                ActiveRenderInfo.MODELVIEW, ActiveRenderInfo.PROJECTION, ActiveRenderInfo.VIEWPORT, screenCoords
+        );
+
+        if (result && isInFront) {
+            ScaledResolution res = new ScaledResolution(this.mc);
+            int scaleFactor = res.getScaleFactor();
+            double screenX = screenCoords.get(0) / scaleFactor;
+            double screenY = (ActiveRenderInfo.VIEWPORT.get(3) - screenCoords.get(1)) / scaleFactor;
+
+            float focalY = ActiveRenderInfo.PROJECTION.get(5);
+            double distanceToCamera = cameraPos.distanceTo(target);
+            double physicalRadius = distanceToCamera * Math.tan(Math.toRadians(weapon.getInfo().accuracy * 0.5F));
+            double viewportHeight = ActiveRenderInfo.VIEWPORT.get(3);
+
+            double screenRadius = (physicalRadius * (focalY * (viewportHeight / 2.0))) / distanceToCamera;
+            double finalRadius = Math.max(screenRadius / scaleFactor, 2.0);
+
+            drawSpreadCircle(screenX, screenY, finalRadius, 0xCCffffff);
+
+            if (finalRadius > 2.0) {
+                this.drawLine(new double[]{
+                        screenX - 2, screenY, screenX + 2, screenY,
+                        screenX, screenY - 2, screenX, screenY + 2
+                }, 0xCCFFFFFF);
+            }
+        }
+    }
+
+
+
+
+    protected Vec3d getWeaponTrajectoryTarget(MCH_EntityAircraft aircraft, EntityPlayer player, MCH_WeaponBase weapon, Vec3d look, float partialTicks) {
+        MCH_WeaponInfo info = weapon.getInfo();
+        double interX = aircraft.lastTickPosX + (aircraft.posX - aircraft.lastTickPosX) * partialTicks;
+        double interY = aircraft.lastTickPosY + (aircraft.posY - aircraft.lastTickPosY) * partialTicks;
+        double interZ = aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * partialTicks;
+
+        Vec3d currentPos;
+        if (aircraft instanceof com.norwood.mcheli.vehicle.MCH_EntityVehicle vehicle && aircraft.isDetachedWeaponAimActive()) {
+            currentPos = vehicle.getCurrentWeaponShotPos(weapon.position, player, partialTicks).add(interX, interY, interZ);
+        } else {
+            currentPos = weapon.getShotPos(aircraft).add(interX, interY, interZ);
         }
 
         double mx, my, mz;
@@ -233,104 +271,42 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
             mz = look.z * accel;
         }
 
+        double accelFactor = (info.acceleration > 4.0F && (weapon instanceof MCH_WeaponMachineGun1 || weapon instanceof MCH_WeaponMachineGun2 || weapon instanceof MCH_WeaponRocket))
+                ? info.acceleration / 4.0F : 1.0;
+
         if (weapon instanceof MCH_WeaponMachineGun1 || weapon instanceof MCH_WeaponMachineGun2) {
-            px += mx * 0.5;
-            py += my * 0.5;
-            pz += mz * 0.5;
+            currentPos = currentPos.add(mx * 0.5, my * 0.5, mz * 0.5);
         }
 
-        Vec3d apexPos = new Vec3d(px, py, pz);
-        double highestY = py;
+        Vec3d apexPos = currentPos;
+        double highestY = currentPos.y;
         int maxSteps = (info.timeFuse > 0) ? Math.min(256, info.timeFuse) : 256;
-        Vec3d target = null;
 
         for (int step = 0; step < maxSteps; step++) {
-            var blockPos = new net.minecraft.util.math.BlockPos(px, py, pz);
+            var blockPos = new net.minecraft.util.math.BlockPos(currentPos.x, currentPos.y, currentPos.z);
             boolean inWater = aircraft.world.getBlockState(blockPos).getMaterial() == net.minecraft.block.material.Material.WATER;
 
-            if (py > highestY) {
-                highestY = py;
-                apexPos = new Vec3d(px, py, pz);
+            if (currentPos.y > highestY) {
+                highestY = currentPos.y;
+                apexPos = currentPos;
             }
 
-            if (!inWater) {
-                my += info.gravity;
-            } else {
-                my += info.gravityInWater;
-                if (info.velocityInWater > 0.0F) {
-                    mx *= info.velocityInWater;
-                    my *= info.velocityInWater;
-                    mz *= info.velocityInWater;
-                }
+            my += inWater ? info.gravityInWater : info.gravity;
+            if (inWater && info.velocityInWater > 0.0F) {
+                mx *= info.velocityInWater; my *= info.velocityInWater; mz *= info.velocityInWater;
             }
 
-            double nextX = px + mx * accelFactor;
-            double nextY = py + my * accelFactor;
-            double nextZ = pz + mz * accelFactor;
+            Vec3d nextPos = new Vec3d(currentPos.x + mx * accelFactor, currentPos.y + my * accelFactor, currentPos.z + mz * accelFactor);
+            RayTraceResult hit = aircraft.world.rayTraceBlocks(currentPos, nextPos, false, true, false);
 
-            RayTraceResult hit = aircraft.world.rayTraceBlocks(new Vec3d(px, py, pz), new Vec3d(nextX, nextY, nextZ), false, true, false);
-
-            if (hit != null && hit.typeOfHit == RayTraceResult.Type.BLOCK && hit.hitVec != null) {
-                target = hit.hitVec;
-                break;
+            if (hit != null && hit.typeOfHit == RayTraceResult.Type.BLOCK) {
+                return hit.hitVec;
             }
-            px = nextX;
-            py = nextY;
-            pz = nextZ;
+            currentPos = nextPos;
         }
 
-        if (target == null) {
-            target = (look.y > 0) ? apexPos : new Vec3d(px, py, pz);
-        }
 
-        Entity camera = this.mc.getRenderViewEntity();
-        if (camera == null) return;
-
-        double camX = camera.lastTickPosX + (camera.posX - camera.lastTickPosX) * this.smoothCamPartialTicks;
-        double camY = camera.lastTickPosY + (camera.posY - camera.lastTickPosY) * this.smoothCamPartialTicks + camera.getEyeHeight();
-        double camZ = camera.lastTickPosZ + (camera.posZ - camera.lastTickPosZ) * this.smoothCamPartialTicks;
-        Vec3d cameraPos = new Vec3d(camX, camY, camZ);
-
-        FloatBuffer screenCoords = BufferUtils.createFloatBuffer(3);
-        boolean result = Project.gluProject(
-                (float) (target.x - camX), (float) (target.y - camY), (float) (target.z - camZ),
-                ActiveRenderInfo.MODELVIEW, ActiveRenderInfo.PROJECTION, ActiveRenderInfo.VIEWPORT, screenCoords
-        );
-
-        if (result && screenCoords.get(2) > 0.0F) {
-            int scaleFactor = res.getScaleFactor();
-
-            double screenX = screenCoords.get(0) / scaleFactor;
-            double screenY = (ActiveRenderInfo.VIEWPORT.get(3) - screenCoords.get(1)) / scaleFactor;
-
-            float focalY = ActiveRenderInfo.PROJECTION.get(5);
-            double distanceToCamera = cameraPos.distanceTo(target);
-            float baseSpread = info.accuracy > 0.0F ? info.accuracy * 0.5F : 0.0F;
-
-            double physicalRadiusAtImpact = distanceToCamera * Math.tan(Math.toRadians(baseSpread));
-            double viewportHeight = ActiveRenderInfo.VIEWPORT.get(3);
-
-            double screenRadius = (physicalRadiusAtImpact * (focalY * (viewportHeight / 2.0))) / distanceToCamera;
-            double finalRadius = Math.max(screenRadius / scaleFactor, 2.0);
-
-            GlStateManager.pushMatrix();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            GlStateManager.enableBlend();
-            GlStateManager.disableTexture2D();
-
-            drawSpreadCircle(screenX, screenY, finalRadius, 0xCCffffff);
-
-            if (finalRadius > 2.0) {
-                this.drawLine(new double[]{
-                        screenX - 2, screenY, screenX + 2, screenY,
-                        screenX, screenY - 2, screenX, screenY + 2
-                }, 0xCCFFFFFF);
-            }
-
-            GlStateManager.enableTexture2D();
-            GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
-        }
+        return (my >= 0 || look.y > 0) ? apexPos : currentPos;
     }
 
 
