@@ -5,11 +5,11 @@ import com.norwood.mcheli.MCH_KeyName;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.gui.MCH_Gui;
 import com.norwood.mcheli.hud.MCH_Hud;
-import com.norwood.mcheli.weapon.MCH_EntityTvMissile;
-import com.norwood.mcheli.weapon.MCH_WeaponBase;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
+import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.W_McClient;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -20,8 +20,12 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.Project;
+
+import java.nio.FloatBuffer;
 
 @SideOnly(Side.CLIENT)
 public abstract class MCH_AircraftCommonGui extends MCH_Gui {
@@ -167,94 +171,140 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         }
 
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
-        if (weaponSet == null || weaponSet.getCurrentWeapon() == null) {
+        MCH_WeaponBase weapon = weaponSet != null ? weaponSet.getCurrentWeapon() : null;
+        if (weapon == null || weapon.getInfo() == null) {
             return;
         }
 
-        MCH_WeaponBase currentWeapon = weaponSet.getCurrentWeapon();
+        MCH_WeaponInfo info = weapon.getInfo();
 
+        float yaw = aircraft.getCurrentWeaponShotYaw(player);
+        float pitch = aircraft.getCurrentWeaponShotPitch(player);
+        Vec3d look = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
 
         double acX = aircraft.lastTickPosX + (aircraft.posX - aircraft.lastTickPosX) * this.smoothCamPartialTicks;
         double acY = aircraft.lastTickPosY + (aircraft.posY - aircraft.lastTickPosY) * this.smoothCamPartialTicks;
         double acZ = aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * this.smoothCamPartialTicks;
+        Vec3d startPos = weapon.getShotPos(aircraft).add(acX, acY, acZ);
 
-        Vec3d start = currentWeapon.getShotPos(aircraft).add(acX, acY, acZ);
+        double px = startPos.x;
+        double py = startPos.y;
+        double pz = startPos.z;
 
+        double accelFactor = 1.0;
+        if ((weapon instanceof MCH_WeaponMachineGun1 || weapon instanceof MCH_WeaponMachineGun2 || weapon instanceof MCH_WeaponRocket)
+                && info.acceleration > 4.0F) {
+            accelFactor = info.acceleration / 4.0F;
+        }
 
-        float yaw = aircraft.prevLastRiderYaw + (aircraft.getLastRiderYaw() - aircraft.prevLastRiderYaw) * this.smoothCamPartialTicks;
-        float pitch = aircraft.prevLastRiderPitch + (aircraft.getLastRiderPitch() - aircraft.prevLastRiderPitch) * this.smoothCamPartialTicks;
+        double mx, my, mz;
+        if (weapon instanceof MCH_WeaponBomb) {
+            mx = aircraft.motionX; my = aircraft.motionY; mz = aircraft.motionZ;
+        } else if (weapon instanceof MCH_WeaponTorpedo) {
+            mx = look.x * info.acceleration + aircraft.motionX;
+            my = look.y * info.acceleration + aircraft.motionY;
+            mz = look.z * info.acceleration + aircraft.motionZ;
+        } else {
+            double accel = Math.min(weapon.acceleration, 3.9F);
+            mx = look.x * accel; my = look.y * accel; mz = look.z * accel;
+        }
 
-        Vec3d direction = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
-        Vec3d end = start.add(direction.scale(256.0));
-        RayTraceResult hit = aircraft.world.rayTraceBlocks(start, end, false, true, false);
-        boolean hitSomething = hit != null
-                && (hit.typeOfHit == RayTraceResult.Type.BLOCK || hit.typeOfHit == RayTraceResult.Type.ENTITY)
-                && hit.hitVec != null;
-        Vec3d target = hitSomething ? hit.hitVec : end;
+        if (weapon instanceof MCH_WeaponMachineGun1 || weapon instanceof MCH_WeaponMachineGun2) {
+            px += mx * 0.5; py += my * 0.5; pz += mz * 0.5;
+        }
+
+        Vec3d apexPos = new Vec3d(px, py, pz);
+        double highestY = py;
+        int maxSteps = (info.timeFuse > 0) ? Math.min(256, info.timeFuse) : 256;
+        Vec3d target = null;
+
+        for (int step = 0; step < maxSteps; step++) {
+            var blockPos = new net.minecraft.util.math.BlockPos(px, py, pz);
+            boolean inWater = aircraft.world.getBlockState(blockPos).getMaterial() == net.minecraft.block.material.Material.WATER;
+
+            if (py > highestY) {
+                highestY = py;
+                apexPos = new Vec3d(px, py, pz);
+            }
+
+            if (!inWater) {
+                my += info.gravity;
+            } else {
+                my += info.gravityInWater;
+                if (info.velocityInWater > 0.0F) {
+                    mx *= info.velocityInWater; my *= info.velocityInWater; mz *= info.velocityInWater;
+                }
+            }
+
+            double nextX = px + mx * accelFactor;
+            double nextY = py + my * accelFactor;
+            double nextZ = pz + mz * accelFactor;
+
+            RayTraceResult hit = aircraft.world.rayTraceBlocks(new Vec3d(px, py, pz), new Vec3d(nextX, nextY, nextZ), false, true, false);
+
+            if (hit != null && hit.typeOfHit == RayTraceResult.Type.BLOCK && hit.hitVec != null) {
+                target = hit.hitVec;
+                break;
+            }
+            px = nextX; py = nextY; pz = nextZ;
+        }
+
+        if (target == null) {
+            target = (look.y > 0) ? apexPos : new Vec3d(px, py, pz);
+        }
 
         Entity camera = this.mc.getRenderViewEntity();
-        if (camera == null) {
-            return;
-        }
+        if (camera == null) return;
 
         double camX = camera.lastTickPosX + (camera.posX - camera.lastTickPosX) * this.smoothCamPartialTicks;
-        double camY = camera.lastTickPosY + (camera.posY - camera.lastTickPosY) * this.smoothCamPartialTicks;
+        double camY = camera.lastTickPosY + (camera.posY - camera.lastTickPosY) * this.smoothCamPartialTicks + camera.getEyeHeight();
         double camZ = camera.lastTickPosZ + (camera.posZ - camera.lastTickPosZ) * this.smoothCamPartialTicks;
-        float camYaw = camera.prevRotationYaw + (camera.rotationYaw - camera.prevRotationYaw) * this.smoothCamPartialTicks;
-        float camPitch = camera.prevRotationPitch + (camera.rotationPitch - camera.prevRotationPitch) * this.smoothCamPartialTicks;
+        Vec3d cameraPos = new Vec3d(camX, camY, camZ);
 
-        double yawRad = Math.toRadians(camYaw);
-        double pitchRad = Math.toRadians(camPitch);
-        Vec3d forward = new Vec3d(
-                -Math.sin(yawRad) * Math.cos(pitchRad),
-                -Math.sin(pitchRad),
-                Math.cos(yawRad) * Math.cos(pitchRad));
-        Vec3d right = new Vec3d(Math.cos(yawRad), 0.0, Math.sin(yawRad));
-        Vec3d up = forward.crossProduct(right);
-        Vec3d relative = target.subtract(camX, camY, camZ);
+        FloatBuffer screenCoords = BufferUtils.createFloatBuffer(3);
+        boolean result = Project.gluProject(
+                (float) (target.x - camX), (float) (target.y - camY), (float) (target.z - camZ),
+                ActiveRenderInfo.MODELVIEW, ActiveRenderInfo.PROJECTION, ActiveRenderInfo.VIEWPORT, screenCoords
+        );
 
-        double viewX = relative.dotProduct(right);
-        double viewY = relative.dotProduct(up);
-        double viewZ = relative.dotProduct(forward);
+        if (result && screenCoords.get(2) > 0.0F) {
+            ScaledResolution res = new ScaledResolution(this.mc);
+            int scaleFactor = res.getScaleFactor();
 
-        if (viewZ <= 0.01) {
-            return;
+            double screenX = screenCoords.get(0) / scaleFactor;
+            double screenY = (ActiveRenderInfo.VIEWPORT.get(3) - screenCoords.get(1)) / scaleFactor;
+
+            float focalY = ActiveRenderInfo.PROJECTION.get(5);
+            double distanceToCamera = cameraPos.distanceTo(target);
+            float baseSpread = info.accuracy > 0.0F ? info.accuracy * 0.5F : 0.0F;
+
+            double physicalRadiusAtImpact = distanceToCamera * Math.tan(Math.toRadians(baseSpread));
+            double viewportHeight = ActiveRenderInfo.VIEWPORT.get(3);
+
+            double screenRadius = (physicalRadiusAtImpact * (focalY * (viewportHeight / 2.0))) / distanceToCamera;
+            double finalRadius = Math.max(screenRadius / scaleFactor, 2.0);
+
+            GlStateManager.pushMatrix();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.enableBlend();
+            GlStateManager.disableTexture2D();
+
+            drawSpreadCircle(screenX, screenY, finalRadius, 0xCCffffff);
+
+            if (finalRadius > 3.0) {
+                this.drawLine(new double[]{
+                        screenX - 2, screenY, screenX + 2, screenY,
+                        screenX, screenY - 2, screenX, screenY + 2
+                }, 0xCCFFFFFF);
+            }
+
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
         }
-
-
-        float acRoll = aircraft.prevRotationRoll + (aircraft.rotationRoll - aircraft.prevRotationRoll) * this.smoothCamPartialTicks;
-        double rollRad = Math.toRadians(acRoll);
-
-        double rotatedViewX = viewX * Math.cos(rollRad) - viewY * Math.sin(rollRad);
-        double rotatedViewY = viewX * Math.sin(rollRad) + viewY * Math.cos(rollRad);
-
-
-        double fov = this.mc.gameSettings.fovSetting;
-        double focal = this.centerY / Math.tan(Math.toRadians(fov * 0.5));
-
-        double screenX = this.centerX - rotatedViewX * focal / viewZ;
-        double screenY = this.centerY - rotatedViewY * focal / viewZ;
-        float baseSpread = 0.0F;
-        if (currentWeapon.getInfo() != null) {
-            baseSpread = currentWeapon.getInfo().accuracy * 0.5F;
-        }
-
-
-        double gunDistance = start.distanceTo(target);
-        double physicalRadiusAtImpact = gunDistance * Math.tan(Math.toRadians(baseSpread));
-        double screenRadius = (physicalRadiusAtImpact * focal) / viewZ;
-        double finalRadius = Math.max(screenRadius, 2.0);
-
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.enableBlend();
-        GlStateManager.enableAlpha();
-        this.drawLine(new double[] {
-                screenX - 1.5, screenY, screenX + 1.5, screenY,
-                screenX, screenY - 1.5, screenX, screenY + 1.5
-        }, 0xFFFFFFFF);
-        drawSpreadCircle(screenX, screenY, finalRadius, 0xFFFFFFFF);
-        GlStateManager.disableBlend();
     }
+
+
 
     public void drawAircraftKeyBinds(MCH_EntityAircraft aircraft, MCH_AircraftInfo info, EntityPlayer player, int seatID, LayoutTheme theme) {
         if (seatID == 0) {
