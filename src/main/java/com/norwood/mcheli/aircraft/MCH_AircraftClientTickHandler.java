@@ -232,7 +232,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
             if (!this.KeySwitchWeapon1.isKeyDown() && !this.KeySwitchWeapon2.isKeyDown() && getMouseWheel() == 0) {
                 if (this.KeySwWeaponMode.isKeyDown()) {
                     ac.switchCurrentWeaponMode(player);
-                } else if (this.KeyUseWeapon.isKeyPress() && ac.useCurrentWeapon(player)) {
+                } else if (this.KeyUseWeapon.isKeyPress() && ac.prepareCurrentWeapon(player)) {
                     pc.setUseWeapon(true);
                     pc.useWeaponOption1 = ac.getCurrentWeapon(player).getOptionParm1();
                     pc.useWeaponOption2 = ac.getCurrentWeapon(player).getOptionParm2();

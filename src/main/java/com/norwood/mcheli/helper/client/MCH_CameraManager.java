@@ -143,7 +143,7 @@ public class MCH_CameraManager {
             return;
         }
 
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) {
+        if (event.getType() != RenderGameOverlayEvent.ElementType.CHAT) {
             event.setCanceled(true);
         }
     }

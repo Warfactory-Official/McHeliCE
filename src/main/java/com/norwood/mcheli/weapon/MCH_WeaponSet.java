@@ -346,6 +346,27 @@ public class MCH_WeaponSet {
         return false;
     }
 
+    public boolean prepareUse(MCH_WeaponParam prm) {
+        MCH_WeaponBase current = this.getCurrentWeapon();
+        if (current == null || current.getInfo() == null) return false;
+
+        MCH_WeaponInfo info = current.getInfo();
+        boolean hasAmmo = this.getMagSize() <= 0 || this.getAmmo() > 0;
+        boolean notOverheated = info.maxHeatCount <= 0 || this.currentHeat < info.maxHeatCount;
+
+        if (!hasAmmo || !notOverheated || !this.canFire()) {
+            return false;
+        }
+
+        setupWeaponParam(prm, current, info);
+        if (current.shot(prm)) {
+            handlePostFire(prm, current, info);
+            return true;
+        }
+
+        return false;
+    }
+
     private void setupWeaponParam(MCH_WeaponParam prm, MCH_WeaponBase current, MCH_WeaponInfo info) {
         current.canPlaySound = (this.soundWait == 0);
         if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {

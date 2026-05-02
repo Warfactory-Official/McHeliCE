@@ -165,6 +165,27 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
     }
 
     protected void drawDetachedTurretDot(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        ScaledResolution res = new ScaledResolution(this.mc);
+
+        GlStateManager.pushMatrix();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+
+        double centerX = res.getScaledWidth_double() / 2.0;
+        double centerY = res.getScaledHeight_double() / 2.0;
+        this.drawLine(new double[]{
+                centerX - 2, centerY, centerX + 2, centerY,
+                centerX, centerY - 2, centerX, centerY + 2
+        }, 0xFF00FF00);
+
+        if (!aircraft.isDetachedWeaponAimActive()) {
+            GlStateManager.enableTexture2D();
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+            return;
+        }
+
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
         MCH_WeaponBase weapon = weaponSet != null ? weaponSet.getCurrentWeapon() : null;
         if (weapon == null || weapon.getInfo() == null) {
@@ -273,7 +294,6 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         );
 
         if (result && screenCoords.get(2) > 0.0F) {
-            ScaledResolution res = new ScaledResolution(this.mc);
             int scaleFactor = res.getScaleFactor();
 
             double screenX = screenCoords.get(0) / scaleFactor;

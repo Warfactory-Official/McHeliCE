@@ -11,6 +11,7 @@ import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
 import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.wrapper.W_ClientEventHook;
 import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
@@ -157,6 +158,12 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
     public void renderPlayerPre(net.minecraftforge.client.event.RenderPlayerEvent.Pre event) {
         this.event = event;
         if (event.getEntity() != null) {
+            if (event.getEntity().getRidingEntity() instanceof MCH_EntityVehicle ||
+                    event.getEntity().getRidingEntity() instanceof MCH_EntitySeat seat &&
+                            seat.getParent() instanceof MCH_EntityVehicle) {
+                return;
+            }
+
             if (event.getEntity().getRidingEntity() instanceof MCH_EntityAircraft riding) {
                 if (riding.getAcInfo() != null && riding.getAcInfo().hideEntity) {
                     event.setCanceled(true);

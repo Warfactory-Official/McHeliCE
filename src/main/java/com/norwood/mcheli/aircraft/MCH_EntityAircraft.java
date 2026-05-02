@@ -4887,6 +4887,29 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return this.useCurrentWeapon(prm);
     }
 
+    public boolean prepareCurrentWeapon(Entity user) {
+        MCH_WeaponParam prm = new MCH_WeaponParam();
+        prm.setPosition(this.posX, this.posY, this.posZ);
+        prm.entity = this;
+        prm.user = user;
+        prm.isInfinity = this.isInfinityAmmo(prm.user);
+        if (prm.user == null) {
+            return false;
+        }
+
+        MCH_WeaponSet currentWs = this.getCurrentWeapon(prm.user);
+        if (currentWs == null) {
+            return false;
+        }
+
+        int sid = this.getSeatIdByEntity(prm.user);
+        if (this.getAcInfo() != null && this.getAcInfo().getWeaponSetById(sid) != null) {
+            prm.isTurret = this.getAcInfo().getWeaponSetById(sid).weapons.getFirst().turret;
+        }
+
+        return currentWs.prepareUse(prm);
+    }
+
     public boolean useCurrentWeapon(MCH_WeaponParam prm) {
         prm.isInfinity = this.isInfinityAmmo(prm.user);
         if (prm.user == null) {
