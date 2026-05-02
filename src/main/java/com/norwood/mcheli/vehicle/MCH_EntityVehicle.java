@@ -185,6 +185,14 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                 -this.getRoll());
     }
 
+    public Vec3d getCurrentWeaponShotPos(Vec3d localPos, Entity user, float partialTicks) {
+        return com.norwood.mcheli.MCH_Lib.RotVec3(
+                localPos,
+                -this.getWeaponUserYaw(user, partialTicks),
+                -this.getWeaponUserPitch(user, partialTicks),
+                -(this.prevRotationRoll + (this.rotationRoll - this.prevRotationRoll) * partialTicks));
+    }
+
     @Override
     protected void mountWithNearEmptyMinecart() {
         if (!MCH_Config.FixVehicleAtPlacedPoint.prmBool) {

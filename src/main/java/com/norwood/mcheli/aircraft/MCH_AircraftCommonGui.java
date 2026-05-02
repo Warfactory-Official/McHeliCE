@@ -194,14 +194,18 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
 
         MCH_WeaponInfo info = weapon.getInfo();
 
-        float yaw = aircraft.getCurrentWeaponShotYaw(player);
-        float pitch = aircraft.getCurrentWeaponShotPitch(player);
+        float yaw = aircraft.getCurrentWeaponShotYaw(player, this.smoothCamPartialTicks);
+        float pitch = aircraft.getCurrentWeaponShotPitch(player, this.smoothCamPartialTicks);
         Vec3d look = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
-
-        double acX = aircraft.lastTickPosX + (aircraft.posX - aircraft.lastTickPosX) * this.smoothCamPartialTicks;
-        double acY = aircraft.lastTickPosY + (aircraft.posY - aircraft.lastTickPosY) * this.smoothCamPartialTicks;
-        double acZ = aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * this.smoothCamPartialTicks;
-        Vec3d startPos = weapon.getShotPos(aircraft).add(acX, acY, acZ);
+        Vec3d startPos = aircraft instanceof com.norwood.mcheli.vehicle.MCH_EntityVehicle vehicle && aircraft.isDetachedWeaponAimActive() ?
+                vehicle.getCurrentWeaponShotPos(weapon.position, player, this.smoothCamPartialTicks).add(
+                        aircraft.lastTickPosX + (aircraft.posX - aircraft.lastTickPosX) * this.smoothCamPartialTicks,
+                        aircraft.lastTickPosY + (aircraft.posY - aircraft.lastTickPosY) * this.smoothCamPartialTicks,
+                        aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * this.smoothCamPartialTicks) :
+                weapon.getShotPos(aircraft).add(
+                        aircraft.lastTickPosX + (aircraft.posX - aircraft.lastTickPosX) * this.smoothCamPartialTicks,
+                        aircraft.lastTickPosY + (aircraft.posY - aircraft.lastTickPosY) * this.smoothCamPartialTicks,
+                        aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * this.smoothCamPartialTicks);
 
         double px = startPos.x;
         double py = startPos.y;

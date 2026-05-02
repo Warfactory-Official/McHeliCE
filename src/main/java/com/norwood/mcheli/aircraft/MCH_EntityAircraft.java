@@ -3491,6 +3491,14 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.detachedWeaponAimActive = false;
     }
 
+    public float getPrevDetachedWeaponAimYaw() {
+        return this.prevDetachedWeaponAimYaw;
+    }
+
+    public float getPrevDetachedWeaponAimPitch() {
+        return this.prevDetachedWeaponAimPitch;
+    }
+
     public float getWeaponUserYaw(@Nullable Entity entity) {
         if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
             return this.detachedWeaponAimYaw;
@@ -3501,6 +3509,28 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return this.getLastRiderYaw();
     }
 
+    public float getWeaponUserYaw(@Nullable Entity entity, float partialTicks) {
+        if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
+            float prev = this.prevDetachedWeaponAimYaw;
+            float curr = this.detachedWeaponAimYaw;
+            if (curr - prev > 180.0F) prev += 360.0F;
+            else if (curr - prev < -180.0F) prev -= 360.0F;
+            return MathHelper.wrapDegrees(prev + (curr - prev) * partialTicks);
+        }
+        if (entity != null) {
+            float prev = entity.prevRotationYaw;
+            float curr = entity.rotationYaw;
+            if (curr - prev > 180.0F) prev += 360.0F;
+            else if (curr - prev < -180.0F) prev -= 360.0F;
+            return MathHelper.wrapDegrees(prev + (curr - prev) * partialTicks);
+        }
+        float prev = this.prevLastRiderYaw;
+        float curr = this.getLastRiderYaw();
+        if (curr - prev > 180.0F) prev += 360.0F;
+        else if (curr - prev < -180.0F) prev -= 360.0F;
+        return MathHelper.wrapDegrees(prev + (curr - prev) * partialTicks);
+    }
+
     public float getWeaponUserPitch(@Nullable Entity entity) {
         if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
             return this.detachedWeaponAimPitch;
@@ -3509,6 +3539,16 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             return entity.rotationPitch;
         }
         return this.getLastRiderPitch();
+    }
+
+    public float getWeaponUserPitch(@Nullable Entity entity, float partialTicks) {
+        if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
+            return this.prevDetachedWeaponAimPitch + (this.detachedWeaponAimPitch - this.prevDetachedWeaponAimPitch) * partialTicks;
+        }
+        if (entity != null) {
+            return entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
+        }
+        return this.prevLastRiderPitch + (this.getLastRiderPitch() - this.prevLastRiderPitch) * partialTicks;
     }
 
     public float getCurrentWeaponShotYaw(@Nullable Entity entity) {
@@ -3522,12 +3562,36 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return MathHelper.wrapDegrees( yaw + wsYaw  + wsFixedYaw);
     }
 
+    public float getCurrentWeaponShotYaw(@Nullable Entity entity, float partialTicks) {
+        MCH_WeaponSet weaponSet = entity != null ? this.getCurrentWeapon(entity) : null;
+        if (weaponSet == null || weaponSet.getCurrentWeapon() == null) {
+            return this.getWeaponUserYaw(entity, partialTicks);
+        }
+
+        float yaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * partialTicks;
+        float wsYaw = weaponSet.getPrevYaw() + (weaponSet.getYaw() - weaponSet.getPrevYaw()) * partialTicks;
+        float wsFixedYaw = weaponSet.getCurrentWeapon().fixRotationYaw;
+        return MathHelper.wrapDegrees(yaw + wsYaw + wsFixedYaw);
+    }
+
     public float getCurrentWeaponShotPitch(@Nullable Entity entity) {
         MCH_WeaponSet weaponSet = entity != null ? this.getCurrentWeapon(entity) : null;
         if (weaponSet == null || weaponSet.getCurrentWeapon() == null) {
             return this.getWeaponUserPitch(entity);
         }
         return MathHelper.wrapDegrees(this.getPitch() + weaponSet.getPitch() + weaponSet.getCurrentWeapon().fixRotationPitch);
+    }
+
+    public float getCurrentWeaponShotPitch(@Nullable Entity entity, float partialTicks) {
+        MCH_WeaponSet weaponSet = entity != null ? this.getCurrentWeapon(entity) : null;
+        if (weaponSet == null || weaponSet.getCurrentWeapon() == null) {
+            return this.getWeaponUserPitch(entity, partialTicks);
+        }
+
+        float pitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
+        float wsPitch = weaponSet.getPrevPitch() + (weaponSet.getPitch() - weaponSet.getPrevPitch()) * partialTicks;
+        float wsFixedPitch = weaponSet.getCurrentWeapon().fixRotationPitch;
+        return MathHelper.wrapDegrees(pitch + wsPitch + wsFixedPitch);
     }
 
     @SideOnly(Side.CLIENT)
