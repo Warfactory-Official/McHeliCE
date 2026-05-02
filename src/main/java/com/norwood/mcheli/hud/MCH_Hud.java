@@ -5,7 +5,6 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
-import com.norwood.mcheli.wrapper.W_ScaledResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,8 +57,7 @@ public class MCH_Hud extends MCH_BaseInfo {
         MCH_HudItem.ac = ac;
         MCH_HudItem.player = player;
         MCH_HudItem.partialTicks = partialTicks;
-        ScaledResolution scaledresolution = new W_ScaledResolution(MCH_HudItem.mc, MCH_HudItem.mc.displayWidth,
-                MCH_HudItem.mc.displayHeight);
+        ScaledResolution scaledresolution = new ScaledResolution(MCH_HudItem.mc);
         MCH_HudItem.scaleFactor = scaledresolution.getScaleFactor();
         if (MCH_HudItem.scaleFactor <= 0) {
             MCH_HudItem.scaleFactor = 1;

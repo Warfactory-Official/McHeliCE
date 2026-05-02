@@ -2,7 +2,6 @@ package com.norwood.mcheli.multiplay;
 
 import com.norwood.mcheli.networking.packet.PacketHandleCommand;
 import com.norwood.mcheli.wrapper.W_McClient;
-import com.norwood.mcheli.wrapper.W_ScaledResolution;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
@@ -48,7 +47,7 @@ public class MCH_GuiScoreboard_CreateTeam extends MCH_GuiScoreboard_Base {
     @Override
     public void initGui() {
         super.initGui();
-        ScaledResolution sr = new W_ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+        ScaledResolution sr = new ScaledResolution(mc);
         int factor = sr.getScaleFactor() > 0 ? sr.getScaleFactor() : 1;
         this.guiLeft = 0;
         this.guiTop = 0;
@@ -139,7 +138,7 @@ public class MCH_GuiScoreboard_CreateTeam extends MCH_GuiScoreboard_Base {
     @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
         drawList(this.mc, this.fontRenderer, true);
-        ScaledResolution sr = new W_ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+        ScaledResolution sr = new ScaledResolution(mc);
         int factor = sr.getScaleFactor() > 0 ? sr.getScaleFactor() : 1;
         W_McClient.MOD_bindTexture("textures/gui/mp_new_team.png");
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

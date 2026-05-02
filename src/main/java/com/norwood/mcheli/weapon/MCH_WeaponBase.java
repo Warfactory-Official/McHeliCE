@@ -5,6 +5,7 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.wrapper.W_McClient;
+import lombok.Setter;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
@@ -42,6 +43,7 @@ public abstract class MCH_WeaponBase {
     public int optionParameter1;
     public int optionParameter2;
     public boolean canPlaySound;
+    @Setter
     private int currentMode;
     public int nukeYield;
 
@@ -98,10 +100,6 @@ public abstract class MCH_WeaponBase {
 
     public int getCurrentMode() {
         return this.getInfo() != null && this.getInfo().fixMode > 0 ? this.getInfo().fixMode : this.currentMode;
-    }
-
-    public void setCurrentMode(int currentMode) {
-        this.currentMode = currentMode;
     }
 
     public final int getAllAmmoNum() {

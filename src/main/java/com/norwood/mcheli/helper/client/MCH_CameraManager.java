@@ -128,7 +128,6 @@ public class MCH_CameraManager {
         ridingAircraft = aircraft;
     }
 
-    // For hud canceling
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {
         EntityPlayer player = mc.player;
@@ -143,7 +142,11 @@ public class MCH_CameraManager {
             return;
         }
 
-        if (event.getType() != RenderGameOverlayEvent.ElementType.CHAT) {
+        RenderGameOverlayEvent.ElementType type = event.getType();
+        if (type != RenderGameOverlayEvent.ElementType.CHAT &&
+                type != RenderGameOverlayEvent.ElementType.DEBUG &&
+                type != RenderGameOverlayEvent.ElementType.HEALTH &&
+                type != RenderGameOverlayEvent.ElementType.BOSSINFO) {
             event.setCanceled(true);
         }
     }

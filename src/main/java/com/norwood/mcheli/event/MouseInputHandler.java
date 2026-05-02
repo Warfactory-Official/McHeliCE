@@ -8,6 +8,7 @@ import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.helper.client.MCH_CameraManager;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
 import com.norwood.mcheli.tank.MCH_EntityTank;
@@ -242,21 +243,21 @@ public class MouseInputHandler {
         updateCameraRoll(aircraft, player);
     }
 
-    private void handleVehicleMouseControl(MCH_EntityVehicle vehicle, EntityPlayer player, float partialTicks,
-                                           float deltaSeconds) {
+    private void handleVehicleMouseControl(MCH_EntityVehicle vehicle, EntityPlayer player, float partialTicks, float deltaSeconds) {
         if (!isRideAircraft) {
             vehicle.onInteractFirst(player);
         }
         isRideAircraft = true;
 
-        if (shouldLockVehicleSeatView(vehicle, player)) {
-            lockPlayerToVehicleView(vehicle, player);
+        updateMouseDelta(false, partialTicks);
+
+        if (shouldLockSeatView(vehicle, player)) {
+            lockPlayerToAircraftView(vehicle, player);
             vehicle.setupAllRiderRenderPosition(partialTicks, player);
             W_Reflection.setCameraRoll(0.0F);
             return;
         }
 
-        updateMouseDelta(false, partialTicks);
         player.turn((float) mouseDeltaX, (float) mouseDeltaY);
         updateDetachedMountedAim(vehicle, player, deltaSeconds);
         vehicle.setupAllRiderRenderPosition(partialTicks, player);
@@ -292,10 +293,10 @@ public class MouseInputHandler {
         }
 
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
-        if (aircraft instanceof MCH_EntityVehicle vehicle && shouldLockVehicleSeatView(vehicle, player)) {
-            lockPlayerToVehicleView(vehicle, player);
+        if (isLimitedMountedLookAircraft(aircraft) && shouldLockSeatView(aircraft, player)) {
+            lockPlayerToAircraftView(aircraft, player);
             aircraft.setupAllRiderRenderPosition(partialTicks, player);
-            W_Reflection.setCameraRoll(0.0F);
+            MCH_CameraManager.setCameraRoll(0.0F);
             return;
         }
 
@@ -467,16 +468,19 @@ public class MouseInputHandler {
         correctViewEntityDummy(player);
     }
 
-    private boolean shouldLockVehicleSeatView(MCH_EntityVehicle vehicle, EntityPlayer player) {
-        return !vehicle.canSwitchFreeLook() &&
-                !vehicle.getIsGunnerMode(player) &&
-                vehicle.getCurrentWeaponID(player) < 0;
+    private boolean shouldLockSeatView(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        return !aircraft.canSwitchFreeLook() &&
+                !aircraft.getIsGunnerMode(player) &&
+                aircraft.getCurrentWeaponID(player) < 0;
     }
 
-    private void lockPlayerToVehicleView(MCH_EntityVehicle vehicle, EntityPlayer player) {
-        player.prevRotationYaw = player.rotationYaw = vehicle.getYaw();
-        player.prevRotationPitch = player.rotationPitch = vehicle.getPitch();
+    private void lockPlayerToAircraftView(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        player.prevRotationYaw = player.rotationYaw = aircraft.getYaw();
+        player.prevRotationPitch = player.rotationPitch = aircraft.getPitch();
     }
+
+
+
 
     private void fixPlayerRotation(MCH_EntityAircraft aircraft, MCH_SeatInfo seatInfo, EntityPlayer player) {
         player.rotationYaw = aircraft.getYaw() + seatInfo.fixYaw;
