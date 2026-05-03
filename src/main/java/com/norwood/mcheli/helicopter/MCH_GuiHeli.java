@@ -1,7 +1,6 @@
 package com.norwood.mcheli.helicopter;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_KeyName;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;

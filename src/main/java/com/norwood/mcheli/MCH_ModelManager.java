@@ -6,6 +6,7 @@ import com.norwood.mcheli.helper.client._IModelCustom;
 import com.norwood.mcheli.wrapper.W_ModelBase;
 import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
+import lombok.Setter;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,6 +22,7 @@ public class MCH_ModelManager extends W_ModelBase {
     private static final MCH_ModelManager instance = new MCH_ModelManager();
     private static final ConcurrentHashMap<String, _IModelCustom> map = new ConcurrentHashMap<>();
     private static final ModelRenderer defaultModel;
+    @Setter
     private static boolean forceReloadMode = false;
 
     static {
@@ -35,10 +37,6 @@ public class MCH_ModelManager extends W_ModelBase {
         map.forEach((k, v) -> {
             if (v != null) v.toVBO();
         });
-    }
-
-    public static void setForceReloadMode(boolean b) {
-        forceReloadMode = b;
     }
 
     public static _IModelCustom load(@NotNull String path, @NotNull String name, boolean noThrow) {

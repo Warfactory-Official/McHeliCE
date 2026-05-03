@@ -204,7 +204,6 @@ public class WeaponParser {
     private static void parseDispenseItem(MCH_WeaponInfo info, Map<String, Object> value) {
         String loc = ((String) MCH_Utils.getAny(value, Arrays.asList("Location", "Loc", "Name"), null)).toLowerCase()
                 .trim();
-        if (loc != null && !loc.isEmpty());
         info.dispenseItemLoc = loc;
         info.dispenseDamege = ((Number) MCH_Utils.getAny(value, Arrays.asList("Meta", "Damage"), 0)).intValue();
         if (value.containsKey("DispenseRange"))
@@ -531,7 +530,6 @@ public class WeaponParser {
         String loc = ((String) MCH_Utils.getAny(roundMap, Arrays.asList("Loc", "Name"), null)).toLowerCase(Locale.ROOT)
                 .trim();
         int meta = getClamped(Short.MAX_VALUE, MCH_Utils.getAny(roundMap, Arrays.asList("Meta", "Damage"), 1));
-        if (loc == null) throw new IllegalArgumentException("Ammo item must have a resource path!");
         return new MCH_WeaponInfo.RoundItem(count, loc, meta);
     }
 
@@ -581,6 +579,7 @@ public class WeaponParser {
     private static void parseSound(MCH_WeaponInfo info, Map<String, Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
+                case "Name" -> info.fireSound = INSTANCE.parseSoundEffect(entry.getValue());
                 case "Locations" -> parseSoundLoc(info, (Map<String, Object>) entry.getValue());
                 case "Delay" -> info.soundDelay = getClamped(0, 1000, entry.getValue());
                 case "Volume" -> info.soundVolume = getClamped(0.0F, 1000.0F, entry.getValue());

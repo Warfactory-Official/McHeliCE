@@ -3452,19 +3452,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public Vec3d calcOnTurretPos(Vec3d pos) {
-        float ry = this.getLastRiderYaw();
-        if (this.isDetachedWeaponAimActive()) {
-            ry = this.getDetachedWeaponAimYaw();
-        } else if (this.getRiddenByEntity() != null) {
-            ry = this.getRiddenByEntity().rotationYaw;
-        }
-
-        assert this.getAcInfo() != null;
-        Vec3d tpos = this.getAcInfo().turretPosition.add(0.0, pos.y, 0.0);
-        Vec3d v = pos.add(-tpos.x, -tpos.y, -tpos.z);
-        v = MCH_Lib.RotVec3(v, -ry, 0.0F, 0.0F);
-        Vec3d vv = MCH_Lib.RotVec3(tpos, -this.getYaw(), -this.getPitch(), -this.getRoll());
-        return v.add(vv);
+        return this.getRotSeatTransformedOffset(pos, this.getRotSeatYaw());
     }
 
     public boolean supportsDetachedTurretAim() {
@@ -3655,15 +3643,30 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     public Vec3d getTransformedPosition(double x, double y, double z, double px, double py, double pz, boolean rotSeat) {
         if (rotSeat && this.getAcInfo() != null) {
-            MCH_AircraftInfo info = this.getAcInfo();
-            Vec3d tv = MCH_Lib.RotVec3(x - info.turretPosition.x, y - info.turretPosition.y, z - info.turretPosition.z, -this.getLastRiderYaw() + this.getYaw(), 0.0F, 0.0F);
-            x = tv.x + info.turretPosition.x;
-            y = tv.y + info.turretPosition.x;
-            z = tv.z + info.turretPosition.x;
+            Vec3d v = this.getRotSeatTransformedOffset(new Vec3d(x, y, z), this.getRotSeatYaw());
+            return v.add(px, py, pz);
         }
 
         Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getYaw(), -this.getPitch(), -this.getRoll());
         return v.add(px, py, pz);
+    }
+
+    private float getRotSeatYaw() {
+        if (this.isDetachedWeaponAimActive()) {
+            return this.getDetachedWeaponAimYaw();
+        }
+        if (this.getRiddenByEntity() != null) {
+            return this.getRiddenByEntity().rotationYaw;
+        }
+        return this.getLastRiderYaw();
+    }
+
+    private Vec3d getRotSeatTransformedOffset(Vec3d localPos, float riderYaw) {
+        assert this.getAcInfo() != null;
+        Vec3d turretPos = this.getAcInfo().turretPosition;
+        Vec3d relative = localPos.subtract(turretPos);
+        Vec3d rotatedRelative = MCH_Lib.RotVec3(relative, this.getYaw() - riderYaw, 0.0F, 0.0F);
+        return MCH_Lib.RotVec3(rotatedRelative.add(turretPos), -this.getYaw(), -this.getPitch(), -this.getRoll());
     }
 
     protected @NotNull MCH_SeatInfo[] getSeatsInfo() {

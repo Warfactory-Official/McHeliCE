@@ -381,10 +381,13 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
 
         this.angle = (float) (Math.atan2(this.radius, this.length) * 180.0D / 3.141592653589793D);
 
-        if (new ResourceLocation(Tags.MODID, this.name + "_snd").equals(hitSound))
-            SoundRegistry.INSTANCE.parseSound(hitSound.getPath());
+        SoundRegistry.INSTANCE.parseSound(this.fireSound.getPath());
+        if (this.hitSound != null) SoundRegistry.INSTANCE.parseSound(this.hitSound.getPath());
+        SoundRegistry.INSTANCE.parseSound(this.hitSoundIron.getPath());
+        SoundRegistry.INSTANCE.parseSound(this.railgunSound.getPath());
+        if (this.weaponSwitchSound != null) SoundRegistry.INSTANCE.parseSound(this.weaponSwitchSound.getPath());
 
-            return true;
+        return true;
     }
 
     public float getDamageFactor(Entity e) {

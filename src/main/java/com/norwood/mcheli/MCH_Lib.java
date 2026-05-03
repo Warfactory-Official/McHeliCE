@@ -14,9 +14,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -186,22 +184,6 @@ public class MCH_Lib {
         }
     }
 
-    public static void rotatePoints(ArrayList<MCH_Vector2> points, float r) {
-        r = r / 180.0F * (float) Math.PI;
-
-        for (int i = 0; i + 1 < points.size(); i += 2) {
-            double x = points.get(i).x;
-            double y = points.get(i).y;
-            points.get(i).x = x * MathHelper.cos(r) - y * MathHelper.sin(r);
-            points.get(i).y = x * MathHelper.sin(r) + y * MathHelper.cos(r);
-        }
-    }
-
-    public static String[] listupFileNames(String path) {
-        File dir = new File(path);
-        return dir.list();
-    }
-
     public static boolean isBlockInWater(World w, int x, int y, int z) {
         int[][] offset = new int[][] { { 0, -1, 0 }, { 0, 0, 0 }, { 0, 0, -1 }, { 0, 0, 1 }, { -1, 0, 0 }, { 1, 0, 0 },
                 { 0, 1, 0 } };
@@ -233,10 +215,6 @@ public class MCH_Lib {
 
     public static Block getBlockY(Entity entity, int size, int lenY, boolean canColliableOnly) {
         return getBlockY(entity.world, entity.posX, entity.posY, entity.posZ, size, lenY, canColliableOnly);
-    }
-
-    public static Block getBlockY(World world, Vec3d pos, int size, int lenY, boolean canColliableOnly) {
-        return getBlockY(world, pos.x, pos.y, pos.z, size, lenY, canColliableOnly);
     }
 
     public static Block getBlockY(World world, double posX, double posY, double posZ, int size, int lenY,
