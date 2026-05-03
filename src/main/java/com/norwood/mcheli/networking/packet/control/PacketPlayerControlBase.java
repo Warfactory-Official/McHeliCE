@@ -113,6 +113,7 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
 
     protected void handleFlare(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
         if (data.useFlareType > 0) aircraft.useFlare(data.useFlareType);
+        if(data.isUseChaff()) aircraft.useChaff();
     }
 
     protected void handleGui(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {

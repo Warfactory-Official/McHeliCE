@@ -11,6 +11,7 @@ import com.norwood.mcheli.compat.oneprobe.AircraftInfoProvider;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_ItemContainer;
 import com.norwood.mcheli.factories.MCHGuiFactories;
+import com.norwood.mcheli.flare.MCH_EntityChaff;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
 import com.norwood.mcheli.gltd.MCH_ItemGLTD;
@@ -434,6 +435,7 @@ public class MCH_MOD {
         MCH_Entities.register(MCH_EntityFlare.class, "MCH.E.Flare", 300, this, 330, 10, true);
         MCH_Entities.register(MCH_EntityThrowable.class, "MCH.E.Throwable", 400, this, 330, 10, true);
         MCH_Entities.register(MCH_EntityGunner.class, "MCH.E.Gunner", 500, this, 530, 5, true);
+        MCH_Entities.register(MCH_EntityChaff.class, "MCH.E.Chaff", 402, this, 330, 10, true);
     }
 
     @EventHandler

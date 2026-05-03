@@ -53,6 +53,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm KeyCameraMode;
     public static MCH_ConfigPrm KeyUnmount;
     public static MCH_ConfigPrm KeyFlare;
+    public static MCH_ConfigPrm KeyChaff;
     public static MCH_ConfigPrm KeyExtra;
     public static MCH_ConfigPrm KeyCameraDistUp;
     public static MCH_ConfigPrm KeyCameraDistDown;
@@ -184,6 +185,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm BlockID_DraftingTableON;
     public static MCH_ConfigPrm[] KeyConfig;
     public static MCH_ConfigPrm[] General;
+
     public final String destroyBlockNames = "glass_pane, stained_glass_pane, tallgrass, double_plant, yellow_flower, red_flower, vine, wheat, reeds, waterlily";
 
     public MCH_Config(String minecraftPath, String cfgFile) {
@@ -215,6 +217,7 @@ public class MCH_Config {
         KeyCameraMode = new MCH_ConfigPrm("KeyCameraMode", Keyboard.KEY_C);
         KeyUnmount = new MCH_ConfigPrm("KeyUnmountMob", Keyboard.KEY_Y);
         KeyFlare = new MCH_ConfigPrm("KeyFlare", Keyboard.KEY_V);
+        KeyChaff = new MCH_ConfigPrm("KeyChaff", Keyboard.KEY_V);
         KeyExtra = new MCH_ConfigPrm("KeyExtra", Keyboard.KEY_F);
         KeyCameraDistUp = new MCH_ConfigPrm("KeyCameraDistanceUp", Keyboard.KEY_PRIOR);
         KeyCameraDistDown = new MCH_ConfigPrm("KeyCameraDistanceDown", Keyboard.KEY_NEXT);
@@ -240,6 +243,7 @@ public class MCH_Config {
                 KeyCameraMode,
                 KeyUnmount,
                 KeyFlare,
+                KeyChaff,
                 KeyExtra,
                 KeyCameraDistUp,
                 KeyCameraDistDown,

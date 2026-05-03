@@ -92,7 +92,6 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public MCH_Cartridge cartridge = null;
     public MCH_Color color = new MCH_Color();
     public MCH_Color colorInWater = new MCH_Color();
-    //    public String soundFileName;
     public float smokeSize = 2.0F;
     public int smokeNum = 1;
     public int smokeMaxAge = 100;
@@ -119,19 +118,6 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public String group = "";
     public List<MuzzleFlash> listMuzzleFlash = null;
     public List<MuzzleFlash> listMuzzleFlashSmoke = null;
-
-    /**
-     * Number of block-breaking particles generated
-     */
-    public int flakParticlesCrack = 10;
-    /**
-     * Number of white smoke particles generated
-     */
-    public int numParticlesFlak = 3;
-    /**
-     * Spread of block-breaking particles. Recommended values: 0.1 (rifle bullet) ~ 0.6 (anti-tank rifle)
-     */
-    public float flakParticlesDiff = 0.3F;
     @NotNull
     public ResourceLocation fireSound;
     @Nullable
@@ -139,146 +125,85 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
 
     public ResourceLocation hitSoundIron = new ResourceLocation(Tags.MODID, "hit_metal");
     public ResourceLocation railgunSound = new ResourceLocation(Tags.MODID, "railgun");
-    public float hitSoundRange = 100;
-    /**
-     * Whether this is an infrared missile (affected by flares)
-     */
-    public boolean isHeatSeekerMissile = true;
-    /**
-     * Whether this is a radar-guided missile (affected by chaff)
-     */
-    public boolean isRadarMissile = false;
-    // Maximum homing angle of the missile seeker
-    public int maxDegreeOfMissile = 60;
-    // Unlock delay; -1 means permanent lock
-    public int tickEndHoming = -1;
-    /**
-     * Maximum lock-on range
-     */
-    public int maxLockOnRange = 300;
-    /**
-     * Maximum lock-on angle for aircraft radar
-     */
-    public int maxLockOnAngle = 10;
-    /**
-     * Maximum angle for pulse-Doppler radar; beyond this, the missile will lose lock (can be used for IR missile rear
-     * attacks)
-     */
-    public float pdHDNMaxDegree = 1000f;
-    /**
-     * Unlock interval for pulse-Doppler radar; after exceeding max angle, missile unlocks after this many ticks
-     */
-    public int pdHDNMaxDegreeLockOutCount = 10;
-    /**
-     * Duration of flare resistance; -1 means no resistance
-     */
-    public int antiFlareCount = -1;
-    /**
-     * Radar missile multipath clutter detection height — aircraft below this height will cause radar lock loss
-     */
-    public int lockMinHeight = 25;
-    /**
-     * Semi-active radar missile requires continuous guidance
-     */
-    public boolean passiveRadar = false;
-
-    /**
-     * Unlock countdown after semi-active radar missile loses guidance
-     */
-    public int passiveRadarLockOutCount = 20;
-
-    /**
-     * Enable laser guidance for TV missiles
-     */
-    public boolean laserGuidance = false;
-
-    /**
-     * Whether the aircraft has a laser targeting pod
-     */
-    public boolean hasLaserGuidancePod = true;
-
-    /// Allow off-boresight firing (for AA missiles)
-    public boolean enableOffAxis = true;
-
-    /// Missile maneuverability factor — smaller = smoother. 1 means vanilla missile movement. Recommended: 0.1
-    public double turningFactor = 0.5;
-
-    /// Enable chunk loader (experimental feature)
-    public boolean enableChunkLoader = false;
-
-    /// Active radar missile (BVR) will automatically track target after launch
-    public boolean activeRadar = false;
-
-    /// Scan interval for active radar missile
-    public int scanInterval = 20;
-
-    /// Weapon switch cooldown
-    public int weaponSwitchCount = 0;
-
-    /// Weapon switch sound effect
     @Nullable
     public ResourceLocation weaponSwitchSound = null;
 
-    /// Vertical weapon recoil
+    /** Block break particle count */
+    public int flakParticlesCrack = 10;
+    /** White smoke particle count */
+    public int numParticlesFlak = 3;
+    /** Block break particle spread (0.1 rifle ~ 0.6 anti-tank) */
+    public float flakParticlesDiff = 0.3F;
+    /** Infrared missile; affected by flares */
+    public boolean isHeatSeekerMissile = true;
+    /** Radar missile; affected by chaff */
+    public boolean isRadarMissile = false;
+    /** Maximum seeker tracking angle */
+    public int maxDegreeOfMissile = 60;
+    /** Lost-lock delay; -1 for infinite lock */
+    public int tickEndHoming = -1;
+    /** Maximum lock-on range */
+    public int maxLockOnRange = 300;
+    /** Maximum aircraft radar lock angle */
+    public int maxLockOnAngle = 10;
+    /** Pulse Doppler/Rear-aspect max angle; breaks lock beyond this */
+    public float pdHDNMaxDegree = 1000f;
+    /** Delay ticks before lock break after exceeding max angle */
+    public int pdHDNMaxDegreeLockOutCount = 10;
+    /** Missile jamming resistance duration; -1 to disable */
+    public int antiFlareCount = -1;
+    /** Multipath clutter detection height; below this, radar lock breaks */
+    public int lockMinHeight = 25;
+    /** Semi-active radar missile (requires continuous guidance) */
+    public boolean passiveRadar = false;
+    /** Lock-out timer after semi-active guidance is lost */
+    public int passiveRadarLockOutCount = 20;
+    /** Enables laser guidance for TV missiles */
+    public boolean laserGuidance = false;
+    /** Presence of a laser guidance pod */
+    public boolean hasLaserGuidancePod = true;
+    /** Allows off-boresight firing for AA missiles */
+    public boolean enableOffAxis = true;
+    /** Maneuverability factor; 1.0 is vanilla, 0.1 recommended */
+    public double turningFactor = 0.5;
+    /** Enables chunk loader (experimental) */
+    public boolean enableChunkLoader = false;
+    /** Active radar missile (BVR); autonomous tracking after launch */
+    public boolean activeRadar = false;
+    /** Active radar scan interval */
+    public int scanInterval = 20;
+    /** Weapon switch cooldown */
+    public int weaponSwitchCount = 0;
+    /** Weapon switch sound effect */
+    /** Vertical recoil */
     public float recoilPitch = 0.0F;
-    /**
-     * Horizontal weapon recoil (fixed direction)
-     */
+    /** Horizontal recoil (fixed direction) */
     public float recoilYaw = 0.0F;
-    /**
-     * Random vertical recoil (Recoil 2 + rndRecoil 0.5 == 1.5–2.5 recoil range)
-     */
+    /** Random vertical recoil range */
     public float recoilPitchRange = 0.0F;
-    /**
-     * Random horizontal recoil
-     */
+    /** Random horizontal recoil range */
     public float recoilYawRange = 0.0F;
-    /**
-     * Weapon recoil recovery speed
-     */
+    /** Recoil recovery speed */
     public float recoilRecoverFactor = 0.8F;
-
-    /**
-     * Per-tick speed increment. Negative = deceleration, positive = acceleration
-     */
+    /** Velocity change per tick; positive to accelerate, negative to decelerate */
     public float speedFactor = 0F;
-    /**
-     * Start tick for per-tick speed multiplier
-     */
+    /** Start tick for velocity multiplier */
     public int speedFactorStartTick = 0;
-    /**
-     * End tick for per-tick speed multiplier
-     */
+    /** End tick for velocity multiplier */
     public int speedFactorEndTick = 0;
-    /**
-     * Whether missile speed depends on aircraft velocity (final speed = aircraft speed + projectile speed)
-     */
+    /** Inherit aircraft velocity (Final speed = Aircraft + Bullet) */
     public boolean speedDependsAircraft = false;
-    /**
-     * Whether missile can lock onto other missile entities
-     */
+    /** Allows locking onto missile entities */
     public boolean canLockMissile = false;
-    /**
-     * Allow beyond visual range (BVR) target acquisition
-     */
+    /** Enables Beyond Visual Range (BVR) targeting */
     public boolean enableBVR = false;
-    /**
-     * Minimum activation distance for BVR functionality
-     */
+    /** Minimum distance to enable BVR */
     public int minRangeBVR = 300;
-    /**
-     * Predict target position
-     */
+    /** Enables target position prediction */
     public boolean predictTargetPos = true;
-
-    /**
-     * Maximum number of chaff locks — beyond this, the missile will fly straight
-     */
+    /** Max chaff locks before missile reverts to unguided flight */
     public int numLockedChaffMax = 2;
-
-    /**
-     * Explosion damage multipliers for different entity types
-     */
+    /** Explosion damage multipliers by entity type */
     public float explosionDamageVsLiving = 1f;
     public float explosionDamageVsPlayer = 1f;
     public float explosionDamageVsPlane = 1f;
@@ -289,26 +214,18 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public boolean canBeIntercepted = false;
     public boolean canAirburst = false;
     public int explosionAirburst;
-    /**
-     * HUD custom field, used to indicate reticle type
-     */
+    /** HUD custom field for crosshair indicators */
     public int crossType = 0;
-    /**
-     * Whether the weapon has a mortar radar
-     */
+    /** Presence of mortar radar */
     public boolean hasMortarRadar = false;
-    /**
-     * Maximum display distance for mortar radar — should be greater than the indirect-fire weapon’s max range
-     */
+    /** Mortar radar range; should exceed weapon range */
     public double mortarRadarMaxDist = -1;
-
-    /**
-     * Marker rocket parameters
-     */
+    /** Marker Rocket parameters */
     public int markerRocketSpawnNum = 5;
     public int markerRocketSpawnDiff = 15;
     public int markerRocketSpawnHeight = 200;
     public int markerRocketSpawnSpeed = 5;
+    public int hitSoundRange = 100;
 
     public MCH_WeaponInfo(AddonResourceLocation location, String path, String parser) {
         super(location, path, parser);

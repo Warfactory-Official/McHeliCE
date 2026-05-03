@@ -38,7 +38,7 @@ public class WeaponPointRenderer {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-        GlStateManager.enableLighting();
+        GlStateManager.disableLighting();
         GlStateManager.depthMask(false);
         GlStateManager.depthFunc(GL11.GL_LEQUAL);
         GlStateManager.pushMatrix();
@@ -88,6 +88,7 @@ public class WeaponPointRenderer {
         GlStateManager.depthMask(true);
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+        GlStateManager.enableLighting();
     }
 
     private static void renderWeaponChildLinks(MCH_EntityAircraft ac, MCH_AircraftInfo info) {
@@ -99,7 +100,7 @@ public class WeaponPointRenderer {
         for (MCH_AircraftInfo.PartWeapon part : info.partWeapon) {
             Color4f c = C[id % C.length];
             Vec3d parentLocal = part.pos;
-            Vec3d parentWorld = ac.getTransformedPosition(parentLocal);
+            Vec3d parentWorld = getRelativePos(ac, parentLocal);
             for (MCH_AircraftInfo.PartWeaponChild child : part.child) {
                 drawWeaponChildLine(ac, builder, parentLocal, parentWorld, child, c);
             }
@@ -125,7 +126,7 @@ public class WeaponPointRenderer {
     private static void drawWeaponChildLine(MCH_EntityAircraft ac, BufferBuilder builder, Vec3d parentLocalPos,
                                             Vec3d parentWorldPos, MCH_AircraftInfo.PartWeaponChild child, Color4f c) {
         Vec3d childLocalPos = parentLocalPos.add(child.pos);
-        Vec3d childWorldPos = ac.getTransformedPosition(childLocalPos);
+        Vec3d childWorldPos = getRelativePos(ac, childLocalPos);
         drawLine(builder, parentWorldPos, childWorldPos, c);
     }
 
@@ -135,13 +136,17 @@ public class WeaponPointRenderer {
             return;
         }
 
-        Vec3d parentWorldPos = ac.getTransformedPosition(parentLocalPos);
+        Vec3d parentWorldPos = getRelativePos(ac, parentLocalPos);
         for (MCH_VehicleInfo.VPart child : parent.child) {
             Vec3d childLocalPos = parentLocalPos.add(child.pos);
-            Vec3d childWorldPos = ac.getTransformedPosition(childLocalPos);
+            Vec3d childWorldPos = getRelativePos(ac, childLocalPos);
             drawLine(builder, parentWorldPos, childWorldPos, c);
             drawVehicleChildLinesRecursive(ac, builder, child, childLocalPos, c);
         }
+    }
+
+    private static Vec3d getRelativePos(MCH_EntityAircraft ac, Vec3d localPos) {
+        return ac.getTransformedPosition(localPos.x, localPos.y, localPos.z, 0, 0, 0);
     }
 
     private static void drawLine(BufferBuilder builder, Vec3d start, Vec3d end, Color4f c) {

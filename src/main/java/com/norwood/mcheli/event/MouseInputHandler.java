@@ -370,15 +370,26 @@ public class MouseInputHandler {
             return false;
         }
 
+        if (aircraft instanceof MCH_EntityVehicle) {
+            return true;
+        }
+
         MCH_AircraftInfo.Weapon weapon = aircraft.getAcInfo().getWeaponById(weaponId);
         return weapon != null && hasIndependentMountedAim(weapon);
     }
 
     private boolean shouldLockMountedView(MCH_EntityAircraft aircraft, EntityPlayer player) {
-        return isLimitedMountedLookAircraft(aircraft) &&
-                !shouldUseDetachedMountedAim(aircraft, player) &&
-                !aircraft.canSwitchFreeLook() &&
-                !aircraft.getIsGunnerMode(player);
+        if (!isLimitedMountedLookAircraft(aircraft) ||
+                aircraft.canSwitchFreeLook() ||
+                aircraft.getIsGunnerMode(player)) {
+            return false;
+        }
+
+        if (aircraft instanceof MCH_EntityVehicle) {
+            return aircraft.getCurrentWeaponID(player) < 0;
+        }
+
+        return !shouldUseDetachedMountedAim(aircraft, player);
     }
 
     private boolean hasIndependentMountedAim(MCH_AircraftInfo.Weapon weapon) {

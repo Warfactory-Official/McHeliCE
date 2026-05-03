@@ -10,6 +10,7 @@ import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.command.MCH_Command;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.factories.MCHGuiFactories;
+import com.norwood.mcheli.flare.MCH_Chaff;
 import com.norwood.mcheli.flare.MCH_Flare;
 import com.norwood.mcheli.gui.AircraftGui;
 import com.norwood.mcheli.gui.ContainerGui;
@@ -83,6 +84,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.*;
+
+import static com.norwood.mcheli.RadarType.EARLY_AS;
 
 public abstract class MCH_EntityAircraft extends W_EntityContainer implements IGuiHolder<AircraftGuiData>, MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler {
 
@@ -177,6 +180,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     public int brightness = 240;
     public float thirdPersonDist = 4.0F;
     public Entity lastAttackedEntity = null;
+    public MCH_Chaff chaff;
+    public int chaffUseTime = 0;
     protected double velocityX;
     protected double velocityY;
     protected double velocityZ;
@@ -262,6 +267,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.dropContentsWhenDead = false;
         this.ignoreFrustumCheck = true;
         this.flareDv = new MCH_Flare(world, this);
+        this.chaff = new MCH_Chaff(world, this);
         this.currentFlareIndex = 0;
         this.entityRadar = new MCH_Radar(world);
         this.radarRotate = 0;
@@ -1648,6 +1654,13 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.autoRepair();
         int ft = this.getFlareTick();
         this.flareDv.update();
+
+        if (this.chaff != null) {
+            this.chaff.chaffUseTime = getAcInfo().chaffUseTime;
+            this.chaff.chaffWaitTime = getAcInfo().chaffWaitTime;
+            this.chaff.onUpdate();
+        }
+
         if (!this.world.isRemote && this.getFlareTick() == 0 && ft != 0) {
             this.setCommonStatus(0, false);
         }
@@ -5413,6 +5426,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return this.acInfo;
     }
 
+
     public void setAcInfo(@Nullable MCH_AircraftInfo info) {
         this.acInfo = info;
         if (info != null) {
@@ -6039,6 +6053,14 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return new FluidStack(resource.getFluid(), drained);
     }
 
+
+    public boolean canUseChaff() {
+        return this.getAcInfo() != null && this.getAcInfo().haveChaff() && this.chaff.tick == 0;
+    }
+    public boolean useChaff() {
+        return this.getAcInfo() != null && this.getAcInfo().haveChaff() && this.chaff.onUse();
+    }
+
     public ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings) {
         return data.isContainerOnly() ?
                 ContainerGui.buildUI(data, syncManager, settings, this) : AircraftGui.buildUI(data, syncManager, settings, this);
@@ -6094,6 +6116,17 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         double tickDistance = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
 
         return tickDistance * 20.0D;
+    }
+
+    public String getNameOnOtherRadar(MCH_EntityAircraft other) {
+        if(other.getAcInfo() == null || this.getAcInfo() == null) return "?";
+        return switch (other.getAcInfo().radarType) {
+            case MODERN_AA -> getAcInfo().nameOnModernAARadar;
+            case EARLY_AA -> getAcInfo().nameOnEarlyAARadar;
+            case MODERN_AS -> getAcInfo().nameOnModernASRadar;
+            case EARLY_AS -> getAcInfo().nameOnEarlyASRadar;
+            default -> "?";
+        };
     }
 
     public static class UnmountReserve {

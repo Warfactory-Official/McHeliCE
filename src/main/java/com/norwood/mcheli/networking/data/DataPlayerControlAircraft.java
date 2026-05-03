@@ -37,34 +37,6 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         switches = new PlayerControlSwitches();
     }
 
-    public void serialize(ByteBuf buf) {
-        // Serialize enums as bytes
-        buf.writeByte(isUnmount.ordinal());
-        buf.writeByte(switchVtol.ordinal());
-        buf.writeByte(switchMode.ordinal());
-        buf.writeByte(switchHatch.ordinal());
-        buf.writeByte(switchGear.ordinal());
-        buf.writeByte(putDownRack.ordinal());
-        buf.writeByte(switchCameraMode.ordinal());
-
-        switches.serialize(buf);
-
-        buf.writeByte(switchWeapon);
-        buf.writeByte(useFlareType);
-
-        buf.writeInt(useWeaponOption1);
-        buf.writeInt(useWeaponOption2);
-
-        buf.writeDouble(useWeaponPosX);
-        buf.writeDouble(useWeaponPosY);
-        buf.writeDouble(useWeaponPosZ);
-        buf.writeBoolean(detachedWeaponAim);
-        buf.writeFloat(detachedWeaponAimYaw);
-        buf.writeFloat(detachedWeaponAimPitch);
-
-        buf.writeByte(switchFreeLook);
-    }
-
     @SuppressWarnings("unused")
     public DataPlayerControlAircraft(ByteBuf buf) {
         this.isUnmount = UnmountAction.values()[buf.readByte()];
@@ -91,6 +63,34 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         this.detachedWeaponAimPitch = buf.readFloat();
 
         this.switchFreeLook = buf.readByte();
+    }
+
+    public void serialize(ByteBuf buf) {
+        // Serialize enums as bytes
+        buf.writeByte(isUnmount.ordinal());
+        buf.writeByte(switchVtol.ordinal());
+        buf.writeByte(switchMode.ordinal());
+        buf.writeByte(switchHatch.ordinal());
+        buf.writeByte(switchGear.ordinal());
+        buf.writeByte(putDownRack.ordinal());
+        buf.writeByte(switchCameraMode.ordinal());
+
+        switches.serialize(buf);
+
+        buf.writeByte(switchWeapon);
+        buf.writeByte(useFlareType);
+
+        buf.writeInt(useWeaponOption1);
+        buf.writeInt(useWeaponOption2);
+
+        buf.writeDouble(useWeaponPosX);
+        buf.writeDouble(useWeaponPosY);
+        buf.writeDouble(useWeaponPosZ);
+        buf.writeBoolean(detachedWeaponAim);
+        buf.writeFloat(detachedWeaponAimYaw);
+        buf.writeFloat(detachedWeaponAimPitch);
+
+        buf.writeByte(switchFreeLook);
     }
 
     public static enum UnmountAction {
@@ -155,6 +155,7 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         public boolean moveRight = false;
         public boolean openGui = false;
         public boolean reload = false;
+        public boolean useChaff = false;
 
         @SuppressWarnings("unused")
         public PlayerControlSwitches(ByteBuf buf) {
@@ -170,21 +171,24 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
             moveRight = (mask & (1 << 8)) != 0;
             openGui = (mask & (1 << 9)) != 0;
             reload = (mask & (1 << 10)) != 0;
+            useChaff = (mask & (1 << 11)) != 0;
         }
 
         public void serialize(ByteBuf acc) {
             short mask = 0;
-            mask |= (ejectSeat ? 1 << 0 : 0);
-            mask |= (useWeapon ? 1 << 1 : 0);
-            mask |= (switchSearchLight ? 1 << 2 : 0);
-            mask |= (useBrake ? 1 << 3 : 0);
-            mask |= (switchGunnerStatus ? 1 << 4 : 0);
-            mask |= (throttleUp ? 1 << 5 : 0);
-            mask |= (throttleDown ? 1 << 6 : 0);
-            mask |= (moveLeft ? 1 << 7 : 0);
-            mask |= (moveRight ? 1 << 8 : 0);
-            mask |= (openGui ? 1 << 9 : 0);
-            mask |= (reload ? 10 << 9 : 0);
+            if (ejectSeat) mask |= (1 << 0);
+            if (useWeapon) mask |= (1 << 1);
+            if (switchSearchLight) mask |= (1 << 2);
+            if (useBrake) mask |= (1 << 3);
+            if (switchGunnerStatus) mask |= (1 << 4);
+            if (throttleUp) mask |= (1 << 5);
+            if (throttleDown) mask |= (1 << 6);
+            if (moveLeft) mask |= (1 << 7);
+            if (moveRight) mask |= (1 << 8);
+            if (openGui) mask |= (1 << 9);
+            if (reload) mask |= (1 << 10);
+            if (useChaff) mask |= (1 << 11);
+
             acc.writeShort(mask);
         }
     }

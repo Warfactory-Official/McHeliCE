@@ -58,6 +58,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public final List<MCH_AircraftInfo.Hatch> lightHatchList = new ArrayList<>();
     private final List<String> textureNameList = new ArrayList<>();
     public MCH_AircraftInfo.Flare flare = new Flare();
+    public MCH_AircraftInfo.Chaff chaff = null;
     public String displayName;
     public HashMap<String, String> displayNameLang = new HashMap<>();
     public int itemID = 0;
@@ -619,6 +620,9 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
 
         return true;
+    }
+    public boolean haveChaff() {
+        return this.chaff != null;
     }
 
     @Override
@@ -1648,5 +1652,10 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                     ", size=" + size +
                     '}';
         }
+    }
+
+    public class Chaff {
+        public Vec3d pos = Vec3d.ZERO;
+
     }
 }

@@ -197,6 +197,9 @@ public class MCH_Lib {
         }
         return false;
     }
+    public static boolean isBlockInWater(World w, BlockPos pos) {
+        return isBlockInWater(w, pos.getX(), pos.getY(), pos.getZ());
+    }
 
     public static int getBlockIdY(World w, double posX, double posY, double posZ, int size, int lenY,
                                   boolean canColliableOnly) {
