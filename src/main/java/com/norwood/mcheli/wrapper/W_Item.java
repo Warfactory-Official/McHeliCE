@@ -25,10 +25,6 @@ public class W_Item extends Item {
         return ForgeRegistries.ITEMS.getValue(new ResourceLocation(nm));
     }
 
-    public static String getNameForItem(Item item) {
-        return ForgeRegistries.ITEMS.getKey(item).toString();
-    }
-
     public static @NotNull Item getItemFromBlock(@NotNull Block block) {
         return Item.getItemFromBlock(block);
     }

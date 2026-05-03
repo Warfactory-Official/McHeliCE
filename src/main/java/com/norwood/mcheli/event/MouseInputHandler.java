@@ -225,9 +225,21 @@ public class MouseInputHandler {
             }
         }
 
-        if (isLimitedMountedLookAircraft(aircraft)) {
+        if (shouldUseDetachedMountedAim(aircraft, player)) {
             player.turn((float) mouseDeltaX, (float) mouseDeltaY);
             updateDetachedMountedAim(aircraft, player, deltaSeconds);
+            if (aircraft instanceof MCH_EntityTank tank) {
+                tank.updateAircraftOrientation(deltaSeconds);
+            }
+            aircraft.setupAllRiderRenderPosition(partialTicks, player);
+            dampMouseRollIfNeeded(stickMode);
+            updateCameraRoll(aircraft, player);
+            return;
+        }
+
+        if (shouldLockMountedView(aircraft, player)) {
+            clearDetachedMountedAim(aircraft);
+            lockPlayerToAircraftView(aircraft, player);
             if (aircraft instanceof MCH_EntityTank tank) {
                 tank.updateAircraftOrientation(deltaSeconds);
             }
@@ -251,16 +263,24 @@ public class MouseInputHandler {
 
         updateMouseDelta(false, partialTicks);
 
-        if (shouldLockSeatView(vehicle, player)) {
+        if (shouldLockMountedView(vehicle, player)) {
+            clearDetachedMountedAim(vehicle);
             lockPlayerToAircraftView(vehicle, player);
             vehicle.setupAllRiderRenderPosition(partialTicks, player);
             W_Reflection.setCameraRoll(0.0F);
             return;
         }
 
-        player.turn((float) mouseDeltaX, (float) mouseDeltaY);
-        updateDetachedMountedAim(vehicle, player, deltaSeconds);
-        vehicle.setupAllRiderRenderPosition(partialTicks, player);
+        if (shouldUseDetachedMountedAim(vehicle, player)) {
+            player.turn((float) mouseDeltaX, (float) mouseDeltaY);
+            updateDetachedMountedAim(vehicle, player, deltaSeconds);
+            vehicle.setupAllRiderRenderPosition(partialTicks, player);
+        } else {
+            clearDetachedMountedAim(vehicle);
+            applyMouseOrAircraftRotation(vehicle, player, false, 0.0F, 0.0F, partialTicks, deltaSeconds);
+        }
+
+        W_Reflection.setCameraRoll(0.0F);
     }
 
     private void handleSeatOrIdle(EntityPlayer player, boolean stickMode, float partialTicks, float deltaSeconds) {
@@ -293,14 +313,15 @@ public class MouseInputHandler {
         }
 
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
-        if (isLimitedMountedLookAircraft(aircraft) && shouldLockSeatView(aircraft, player)) {
+        if (shouldLockMountedView(aircraft, player)) {
+            clearDetachedMountedAim(aircraft);
             lockPlayerToAircraftView(aircraft, player);
             aircraft.setupAllRiderRenderPosition(partialTicks, player);
             MCH_CameraManager.setCameraRoll(0.0F);
             return;
         }
 
-        boolean limitedMountedLook = isLimitedMountedLookAircraft(aircraft);
+        boolean limitedMountedLook = shouldUseDetachedMountedAim(aircraft, player);
         if (!limitedMountedLook) {
             clearDetachedMountedAim(aircraft);
             mouseDeltaY *= weaponSet != null && weaponSet.getInfo() != null ?
@@ -337,6 +358,39 @@ public class MouseInputHandler {
 
     private boolean isLimitedMountedLookAircraft(MCH_EntityAircraft aircraft) {
         return aircraft instanceof MCH_EntityTank || aircraft instanceof MCH_EntityVehicle;
+    }
+
+    private boolean shouldUseDetachedMountedAim(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        if (!isLimitedMountedLookAircraft(aircraft) || aircraft.getAcInfo() == null) {
+            return false;
+        }
+
+        int weaponId = aircraft.getCurrentWeaponID(player);
+        if (weaponId < 0) {
+            return false;
+        }
+
+        MCH_AircraftInfo.Weapon weapon = aircraft.getAcInfo().getWeaponById(weaponId);
+        return weapon != null && hasIndependentMountedAim(weapon);
+    }
+
+    private boolean shouldLockMountedView(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        return isLimitedMountedLookAircraft(aircraft) &&
+                !shouldUseDetachedMountedAim(aircraft, player) &&
+                !aircraft.canSwitchFreeLook() &&
+                !aircraft.getIsGunnerMode(player);
+    }
+
+    private boolean hasIndependentMountedAim(MCH_AircraftInfo.Weapon weapon) {
+        return weapon.turret ||
+                hasIndependentAimAxis(weapon.minYaw) ||
+                hasIndependentAimAxis(weapon.maxYaw) ||
+                hasIndependentAimAxis(weapon.minPitch) ||
+                hasIndependentAimAxis(weapon.maxPitch);
+    }
+
+    private boolean hasIndependentAimAxis(float value) {
+        return Math.abs(value) > 0.001F;
     }
 
     private void resetLimitedMountedLook() {
@@ -466,12 +520,6 @@ public class MouseInputHandler {
 
         W_Reflection.setCameraRoll(roll);
         correctViewEntityDummy(player);
-    }
-
-    private boolean shouldLockSeatView(MCH_EntityAircraft aircraft, EntityPlayer player) {
-        return !aircraft.canSwitchFreeLook() &&
-                !aircraft.getIsGunnerMode(player) &&
-                aircraft.getCurrentWeaponID(player) < 0;
     }
 
     private void lockPlayerToAircraftView(MCH_EntityAircraft aircraft, EntityPlayer player) {
