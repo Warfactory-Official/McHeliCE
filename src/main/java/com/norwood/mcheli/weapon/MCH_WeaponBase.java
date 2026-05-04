@@ -183,13 +183,15 @@ public abstract class MCH_WeaponBase {
         }
     }
     protected Vec2f calculateShotRotation(MCH_WeaponParam prm, boolean applyYawLimit, boolean useSeatPitch) {
-        float yaw = getInfo().enableOffAxis ? prm.user.rotationYaw + this.fixRotationYaw : prm.entity.rotationYaw + this.fixRotationYaw;
-        float pitch = getInfo().enableOffAxis ? prm.user.rotationPitch + this.fixRotationPitch : prm.entity.rotationPitch + this.fixRotationPitch;
+        float yaw = prm.rotYaw;
+        float pitch = prm.rotPitch;
+
+        if (yaw == 0.0F && pitch == 0.0F) {
+            yaw = getInfo().enableOffAxis ? prm.user.rotationYaw + this.fixRotationYaw : prm.entity.rotationYaw + this.fixRotationYaw;
+            pitch = getInfo().enableOffAxis ? prm.user.rotationPitch + this.fixRotationPitch : prm.entity.rotationPitch + this.fixRotationPitch;
+        }
 
         if (prm.entity instanceof MCH_EntityTank tank) {
-            yaw = prm.user.rotationYaw + prm.randYaw;
-            pitch = prm.user.rotationPitch + prm.randPitch;
-
             float minPitch, maxPitch;
             if (useSeatPitch) {
                 var seat = tank.getSeatInfo(prm.entity);

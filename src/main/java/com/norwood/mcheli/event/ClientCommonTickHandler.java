@@ -89,6 +89,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
     public void onTickPost() {
         if(super.mc.player != null && super.mc.world != null) {
             MCH_GuiTargetMarker.onClientTick();
+            clearMountedArmSwing(super.mc.player);
         }
         MCH_PlayerViewHandler.onUpdate();
     }
@@ -154,6 +155,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
     @Override
     public void onRenderTickPost(float partialTicks) {
         if (this.mc.player != null) {
+            clearMountedArmSwing(this.mc.player);
             MCH_ClientTickHandlerBase.applyRotLimit(this.mc.player);
             if (ridingAircraft != null) {
                 Entity e = MCH_ViewEntityDummy.getInstance(this.mc.player.world);
@@ -166,6 +168,16 @@ public class ClientCommonTickHandler extends W_TickHandler {
             }
         }
         guiTickHandler.handleGui(partialTicks);
+    }
+
+    private void clearMountedArmSwing(EntityPlayer player) {
+        if (MCH_EntityAircraft.getAircraft_RiddenOrControl(player) == null) {
+            return;
+        }
+
+        player.swingProgress = 0.0F;
+        player.prevSwingProgress = 0.0F;
+        player.swingProgressInt = 0;
     }
 
 }

@@ -5,6 +5,7 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.flare.MCH_EntityChaff;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
@@ -282,7 +283,10 @@ public class MCH_WeaponGuidanceSystem extends MCH_EntityGuidanceSystem {
     private boolean playLockSound(Entity user, boolean locked) {
         String soundPath = locked ? "mcheli:ir_basic_tone" : "mcheli:ir_lock_tone";
         SoundEvent sound = SoundEvent.REGISTRY.getObject(new ResourceLocation(soundPath));
-        this.world.playSound(user.posX, user.posY, user.posZ, Objects.requireNonNull(sound), SoundCategory.PLAYERS, 1.0F, 1.0F, false);
+        if(sound != null)
+            this.world.playSound(user.posX, user.posY, user.posZ, Objects.requireNonNull(sound), SoundCategory.PLAYERS, 1.0F, 1.0F, false);
+        else
+            MCH_Logger.warn("Missing audio:" + soundPath);
         if (locked) this.lastLockEntity = targetEntity;
         return locked;
     }
