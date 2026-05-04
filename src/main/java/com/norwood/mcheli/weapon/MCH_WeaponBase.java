@@ -46,7 +46,6 @@ public abstract class MCH_WeaponBase {
     public int optionParameter1;
     public int optionParameter2;
     public boolean canPlaySound;
-    public int nukeYield;
     @Setter
     private int currentMode;
 
@@ -60,7 +59,6 @@ public abstract class MCH_WeaponBase {
         this.displayName = wi != null ? wi.displayName : "";
         this.power = 0;
         this.acceleration = 0.0F;
-        this.nukeYield = 0; // REMOVE ME
         this.explosionPower = 0;
         this.explosionPowerInWater = 0;
         this.interval = 1;
