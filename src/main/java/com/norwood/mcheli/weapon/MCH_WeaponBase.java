@@ -2,14 +2,17 @@ package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
+import com.norwood.mcheli.tank.MCH_EntityTank;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.wrapper.W_McClient;
 import lombok.Setter;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +28,7 @@ public abstract class MCH_WeaponBase {
     public final float fixRotationPitch;
     public final String name;
     public final MCH_WeaponInfo weaponInfo;
+    public final int lockTime;
     public String displayName;
     public int power;
     public float acceleration;
@@ -33,7 +37,6 @@ public abstract class MCH_WeaponBase {
     public int interval;
     public int delayedInterval;
     public int numMode;
-    public final int lockTime;
     public int piercing;
     public int heatCount;
     public MCH_Cartridge cartridge;
@@ -43,9 +46,9 @@ public abstract class MCH_WeaponBase {
     public int optionParameter1;
     public int optionParameter2;
     public boolean canPlaySound;
+    public int nukeYield;
     @Setter
     private int currentMode;
-    public int nukeYield;
 
     public MCH_WeaponBase(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         this.world = w;
@@ -76,13 +79,23 @@ public abstract class MCH_WeaponBase {
         return this.weaponInfo;
     }
 
+    public boolean lock(MCH_WeaponParam prm) {
+        return false;
+    }
+
+    public void onUnlock(MCH_WeaponParam prm) {
+    }
+
+
+
     public String getName() {
         return this.displayName;
     }
 
     public abstract boolean shot(MCH_WeaponParam var1);
 
-    public void setLockChecker(MCH_IEntityLockChecker checker) {}
+    public void setLockChecker(MCH_IEntityLockChecker checker) {
+    }
 
     public int getLockCount() {
         return 0;
@@ -92,7 +105,8 @@ public abstract class MCH_WeaponBase {
         return 0;
     }
 
-    public void setLockCountMax(int n) {}
+    public void setLockCountMax(int n) {
+    }
 
     public final int getNumAmmoMax() {
         return this.getInfo().round;
@@ -132,7 +146,8 @@ public abstract class MCH_WeaponBase {
         this.modifyParameters();
     }
 
-    public void modifyParameters() {}
+    public void modifyParameters() {
+    }
 
     public boolean switchMode() {
         if (this.getInfo() != null && this.getInfo().fixMode > 0) {
@@ -153,7 +168,8 @@ public abstract class MCH_WeaponBase {
         }
     }
 
-    public void onSwitchMode() {}
+    public void onSwitchMode() {
+    }
 
     public boolean use(@NotNull MCH_WeaponParam prm) {
         Vec3d v = this.getShotPos(prm.entity);
@@ -166,6 +182,42 @@ public abstract class MCH_WeaponBase {
         } else {
             return false;
         }
+    }
+    protected Vec2f calculateShotRotation(MCH_WeaponParam prm, boolean applyYawLimit, boolean useSeatPitch) {
+        float yaw = getInfo().enableOffAxis ? prm.user.rotationYaw + this.fixRotationYaw : prm.entity.rotationYaw + this.fixRotationYaw;
+        float pitch = getInfo().enableOffAxis ? prm.user.rotationPitch + this.fixRotationPitch : prm.entity.rotationPitch + this.fixRotationPitch;
+
+        if (prm.entity instanceof MCH_EntityTank tank) {
+            yaw = prm.user.rotationYaw + prm.randYaw;
+            pitch = prm.user.rotationPitch + prm.randPitch;
+
+            float minPitch, maxPitch;
+            if (useSeatPitch) {
+                var seat = tank.getSeatInfo(prm.entity);
+                minPitch = (seat == null) ? tank.getAcInfo().minRotationPitch : seat.minPitch;
+                maxPitch = (seat == null) ? tank.getAcInfo().maxRotationPitch : seat.maxPitch;
+            } else {
+                var weapon = tank.getAcInfo().getWeaponById(tank.getCurrentWeaponID(prm.user));
+                minPitch = (weapon == null) ? tank.getAcInfo().minRotationPitch : weapon.minPitch;
+                maxPitch = (weapon == null) ? tank.getAcInfo().maxRotationPitch : weapon.maxPitch;
+            }
+
+            float playerYawRel = MathHelper.wrapDegrees(tank.getYaw() - yaw);
+            float radYaw = (float) Math.toRadians(playerYawRel);
+            float playerPitch = tank.getPitch() * MathHelper.cos(radYaw) - tank.getRoll() * MathHelper.sin(radYaw);
+
+            if (applyYawLimit) {
+                var weapon = tank.getAcInfo().getWeaponById(tank.getCurrentWeaponID(prm.user));
+                float yawLimit = (weapon == null) ? 360F : weapon.maxYaw;
+                float relativeYaw = MathHelper.clamp(MathHelper.wrapDegrees(yaw - tank.getYaw()), -yawLimit, yawLimit);
+                yaw = tank.getYaw() + relativeYaw;
+            }
+
+            pitch = MathHelper.clamp(pitch, playerPitch + minPitch, playerPitch + maxPitch);
+            pitch = MathHelper.clamp(pitch, -90.0F, 90.0F);
+        }
+
+        return new Vec2f(MathHelper.wrapDegrees(yaw), pitch);
     }
 
     public Vec3d getShotPos(Entity entity) {

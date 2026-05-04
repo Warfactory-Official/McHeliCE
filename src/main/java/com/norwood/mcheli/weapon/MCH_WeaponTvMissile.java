@@ -7,6 +7,7 @@ import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -104,57 +105,17 @@ public class MCH_WeaponTvMissile extends MCH_WeaponBase {
     }
 
     protected boolean shotServer(MCH_WeaponParam prm) {
-        float yaw, pitch;
+        this.playSound(prm.entity);
 
-        // Determine initial orientation based on weapon config
-        if (getInfo().enableOffAxis) {
-            yaw = prm.user.rotationYaw + fixRotationYaw;
-            pitch = prm.user.rotationPitch + fixRotationPitch;
-        } else {
-            yaw = prm.entity.rotationYaw + fixRotationYaw;
-            pitch = prm.entity.rotationPitch + fixRotationPitch;
-        }
-
-        if (prm.entity instanceof MCH_EntityTank tank) {
-            yaw = prm.user.rotationYaw + prm.randYaw;
-            pitch = prm.user.rotationPitch + prm.randPitch;
-
-            int weaponId = tank.getCurrentWeaponID(prm.user);
-            var weapon = Objects.requireNonNull(tank.getAcInfo()).getWeaponById(weaponId);
-
-            // Determine pitch limits
-            float minP = (weapon == null) ? tank.getAcInfo().minRotationPitch : weapon.minPitch;
-            float maxP = (weapon == null) ? tank.getAcInfo().maxRotationPitch : weapon.maxPitch;
-
-            // Calculate relative rotation adjusted for tank tilt (Roll/Pitch)
-            float playerYaw = MathHelper.wrapDegrees(tank.getYaw() - yaw);
-            float radYaw = (float) Math.toRadians(playerYaw);
-
-            float playerPitch = tank.getPitch() * MathHelper.cos(radYaw) +
-                    -tank.getRoll() * MathHelper.sin(radYaw);
-
-            // Apply Yaw constraints
-            float yawLimit = (weapon == null) ? 360.0F : weapon.maxYaw;
-            float playerYawRel = MathHelper.wrapDegrees(yaw - tank.getYaw());
-            float relativeYaw = MathHelper.clamp(playerYawRel, -yawLimit, yawLimit);
-
-            yaw = MathHelper.wrapDegrees(tank.getYaw() + relativeYaw);
-            pitch = MathHelper.clamp(pitch, playerPitch + minP, playerPitch + maxP);
-            pitch = MathHelper.clamp(pitch, -90.0F, 90.0F);
-        }
-
-        // Convert Euler angles to directional vector components
-        double radYaw = Math.toRadians(yaw);
-        double radPitch = Math.toRadians(pitch);
-
-        double tX = -Math.sin(radYaw) * Math.cos(radPitch);
-        double tZ = Math.cos(radYaw) * Math.cos(radPitch);
-        double tY = -Math.sin(radPitch);
+        Vec2f rot = calculateShotRotation(prm, true, false);
+        Vec3d motion = Vec3d.fromPitchYaw(rot.y, rot.x);
 
         this.isTVGuided = prm.option1 == 0;
         float finalAcceleration = isTVGuided ? acceleration : acceleration * 1.5F;
 
-        var missile = new MCH_EntityTvMissile(world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ, yaw, pitch, finalAcceleration);
+        var missile = new MCH_EntityTvMissile(world, prm.posX, prm.posY, prm.posZ,
+                motion.x, motion.y, motion.z, rot.x, rot.y, finalAcceleration);
+
         missile.setName(this.name);
         missile.setParameterFromWeapon(this, prm.entity, prm.user);
 
@@ -162,8 +123,6 @@ public class MCH_WeaponTvMissile extends MCH_WeaponBase {
         this.lastShotTvMissile = missile;
 
         world.spawnEntity(missile);
-        this.playSound(prm.entity);
-
         return true;
     }
 

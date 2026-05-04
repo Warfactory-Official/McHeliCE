@@ -1,27 +1,42 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Objects;
+
 public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
 
     public boolean isSpawnParticle = true;
-    public double targetPosX, targetPosY, targetPosZ;
+    public double targetPosX;
+    public double targetPosY;
+    public double targetPosZ;
 
     public MCH_EntityTvMissile(World world) {
         super(world);
     }
 
-    public MCH_EntityTvMissile(World world, double x, double y, double z, double tx, double ty, double tz, float yaw, float pitch, double accel) {
-        super(world, x, y, z, tx, ty, tz, yaw, pitch, accel);
+    public MCH_EntityTvMissile(World world, double posX, double posY, double posZ, double targetX, double targetY, double targetZ, float yaw, float pitch, double acceleration) {
+        super(world, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
+    }
+
+    public void setMotion(double targetX, double targetY, double targetZ) {
+        double distance = Math.sqrt(targetX * targetX + targetY * targetY + targetZ * targetZ);
+        this.motionX = (targetX * this.acceleration) / distance;
+        this.motionY = (targetY * this.acceleration) / distance;
+        this.motionZ = (targetZ * this.acceleration) / distance;
     }
 
     @Override
@@ -29,32 +44,33 @@ public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
         super.onUpdate();
         this.onUpdateBomblet();
 
-        final var info = getInfo();
+        final var info = this.getInfo();
         if (this.isSpawnParticle && info != null && !info.disableSmoke) {
-            this.spawnParticle(info.trajectoryParticleName, 3, 2.5F * info.smokeSize);
+            this.spawnParticle(info.trajectoryParticleName, 3, 5.0F * info.smokeSize * 0.5F);
         }
 
-        if (shootingEntity == null) {
-            if (!world.isRemote) setDead();
-            return;
-        }
+        if (this.shootingEntity != null) {
+            double distSq = this.getDistanceSq(this.shootingEntity);
+            if (distSq > 1440000.0D) {
+                this.setDead();
+            }
 
-        if (getDistanceSq(shootingEntity) > 1440000.0D) {
-            setDead();
-            return;
-        }
-
-        if (!world.isRemote && !isDead) {
-            onUpdateMotion();
+            if (!this.world.isRemote && !this.isDead) {
+                this.onUpdateMotion();
+            }
+        } else if (!this.world.isRemote) {
+            this.setDead();
         }
     }
 
     public void onUpdateMotion() {
-        final var info = getInfo();
-        if (info == null) return;
+        Entity shooter = this.shootingEntity;
+        if (shooter == null || shooter.isDead) return;
 
-        Entity shooter = shootingEntity;
         MCH_EntityAircraft ac = MCH_EntityAircraft.getAircraft_RiddenOrControl(shooter);
+        final var info = this.getInfo();
+
+        if (info == null) return;
 
         if (!info.laserGuidance) {
             handleWireGuidance(shooter, ac);
@@ -64,90 +80,44 @@ public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
     }
 
     private void handleWireGuidance(Entity shooter, MCH_EntityAircraft ac) {
-        if (ac == null || ac.getTVMissile() != this) return;
+        if (ac != null && ac.getTVMissile() == this) {
+            float yaw = shooter.rotationYaw;
+            float pitch = shooter.rotationPitch;
 
-        float yaw = shooter.rotationYaw;
-        float pitch = shooter.rotationPitch;
+            double tX = -Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
+            double tZ = Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
+            double tY = -Math.sin(Math.toRadians(pitch));
 
-        double tX = -Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
-        double tZ = Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch));
-        double tY = -Math.sin(Math.toRadians(pitch));
-
-        this.setMotion(tX, tY, tZ);
-        this.setRotation(yaw, pitch);
+            this.setMotion(tX, tY, tZ);
+            this.setRotation(yaw, pitch);
+        }
     }
 
     private void handleLaserGuidance(Entity shooter, MCH_EntityAircraft ac, MCH_WeaponInfo info) {
         if (ac != null && ac.getCurrentWeapon(shooter).getCurrentWeapon() instanceof MCH_WeaponTvMissile weapon) {
-            if (weapon.guidanceSystem != null && !weapon.guidanceSystem.targeting) return;
+            if (weapon.guidanceSystem != null && !weapon.guidanceSystem.targeting) {
+                return;
+            }
         }
 
-        float yaw = info.hasLaserGuidancePod ? shooter.rotationYaw : shootingAircraft.rotationYaw;
-        float pitch = info.hasLaserGuidancePod ? shooter.rotationPitch : shootingAircraft.rotationPitch;
+        float yaw = info.hasLaserGuidancePod ? shooter.rotationYaw : this.shootingAircraft.rotationYaw;
+        float pitch = info.hasLaserGuidancePod ? shooter.rotationPitch : this.shootingAircraft.rotationPitch;
 
-        Vec3d lookDir = new Vec3d(
-                -Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)),
-                -Math.sin(Math.toRadians(pitch)),
-                Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch))
-        );
-
-        updateLaserTargetPoint(shooter, ac, lookDir);
-        applyLaserSteering();
-    }
-
-    private void updateLaserTargetPoint(Entity shooter, MCH_EntityAircraft ac, Vec3d lookDir) {
-        Vec3d src = world.isRemote ? clientTarget() : getServerLaserSource(shooter, ac);
+        Vec3d src = this.world.isRemote ? clientTarget() : getServerLaserSource(shooter, ac);
+        Vec3d lookDir = Vec3d.fromPitchYaw(pitch, yaw);
         double maxDist = 1500.0;
         Vec3d dst = src.add(lookDir.scale(maxDist));
 
-        RayTraceResult result = world.rayTraceBlocks(src, dst, false, true, true);
+        RayTraceResult hitResult = this.world.rayTraceBlocks(src, dst, false, true, true);
 
-        if (!world.isRemote) {
-            Vec3d hit = (result != null) ? result.hitVec : dst;
-            targetPosX = hit.x;
-            targetPosY = hit.y;
-            targetPosZ = hit.z;
+        if (!this.world.isRemote) {
+            Vec3d hit = (hitResult != null && hitResult.typeOfHit != RayTraceResult.Type.MISS) ? hitResult.hitVec : dst;
+            this.targetPosX = hit.x;
+            this.targetPosY = hit.y;
+            this.targetPosZ = hit.z;
         }
-    }
 
-    private void applyLaserSteering() {
-        BlockPos targetPos = new BlockPos(targetPosX, targetPosY, targetPosZ);
-        if (!world.isBlockLoaded(targetPos) || world.isAirBlock(targetPos)) return;
-
-        double dx = targetPosX - posX;
-        double dy = targetPosY - posY;
-        double dz = targetPosZ - posZ;
-
-        if (getGravity() != 0.0f) dy *= 0.3D; // Gravity-assisted drop logic
-
-        double dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        if (dist < 0.001) return;
-
-        double targetVelX = (dx * acceleration) / dist;
-        double targetVelY = (dy * acceleration) / dist;
-        double targetVelZ = (dz * acceleration) / dist;
-
-        // Turning interpolation
-        motionX += (targetVelX - motionX) * getInfo().turningFactor;
-        motionY += (targetVelY - motionY) * getInfo().turningFactor;
-        motionZ += (targetVelZ - motionZ) * getInfo().turningFactor;
-
-        limitSpeed(getInfo().acceleration);
-        updateMissileRotation();
-    }
-
-    private void limitSpeed(double max) {
-        double speed = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
-        if (speed > max) {
-            double scale = max / speed;
-            motionX *= scale; motionY *= scale; motionZ *= scale;
-        }
-    }
-
-    private void updateMissileRotation() {
-        double hSpeed = Math.sqrt(motionX * motionX + motionZ * motionZ);
-        rotationYaw = (float) Math.toDegrees(Math.atan2(motionZ, motionX)) - 90.0F;
-        rotationPitch = -(float) Math.toDegrees(Math.atan2(motionY, hSpeed));
+        this.onLaserGuide();
     }
 
     private Vec3d getServerLaserSource(Entity shooter, MCH_EntityAircraft ac) {
@@ -155,37 +125,79 @@ public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
         double interpX = origin.prevPosX + (origin.posX - origin.prevPosX) * 0.5;
         double interpY = origin.prevPosY + (origin.posY - origin.prevPosY) * 0.5;
         double interpZ = origin.prevPosZ + (origin.posZ - origin.prevPosZ) * 0.5;
+
         return new Vec3d(interpX, interpY + (origin == shooter ? origin.getEyeHeight() : 0), interpZ);
     }
 
     @SideOnly(Side.CLIENT)
     private Vec3d clientTarget() {
-        // Use Minecraft instance for 1.12.2 compatibility
         var rm = Minecraft.getMinecraft().getRenderManager();
         return new Vec3d(rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ);
     }
 
-    public void setMotion(double tx, double ty, double tz) {
-        double d = Math.sqrt(tx * tx + ty * ty + tz * tz);
-        motionX = tx * acceleration / d;
-        motionY = ty * acceleration / d;
-        motionZ = tz * acceleration / d;
+    public void onLaserGuide() {
+        BlockPos targetPos = new BlockPos(this.targetPosX, this.targetPosY, this.targetPosZ);
+        IBlockState targetState = this.world.getBlockState(targetPos);
+
+        if (targetState.getMaterial().isSolid()) {
+            double deltaX = this.targetPosX - this.posX;
+            double deltaY = this.targetPosY - this.posY;
+            double deltaZ = this.targetPosZ - this.posZ;
+
+            if (this.getGravity() == 0.0D) {
+                double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+                if (distance < 0.001) return;
+
+                double targetMotionX = (deltaX * this.acceleration) / distance;
+                double targetMotionY = (deltaY * this.acceleration) / distance;
+                double targetMotionZ = (deltaZ * this.acceleration) / distance;
+
+                float turn = (float) Objects.requireNonNull(this.getInfo()).turningFactor;
+                this.motionX += (targetMotionX - this.motionX) * turn;
+                this.motionY += (targetMotionY - this.motionY) * turn;
+                this.motionZ += (targetMotionZ - this.motionZ) * turn;
+
+                // Speed limit constraint
+                double maxSpeed = this.getInfo().acceleration;
+                double currentSpeed = Math.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+
+                if (currentSpeed > maxSpeed) {
+                    double scale = maxSpeed / currentSpeed;
+                    this.motionX *= scale;
+                    this.motionY *= scale;
+                    this.motionZ *= scale;
+                }
+            } else {
+                deltaY *= 0.3D; // Gravity scaling
+                double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+                if (distance < 0.001) return;
+
+                this.motionX = (deltaX * this.acceleration) / distance;
+                this.motionZ = (deltaZ * this.acceleration) / distance;
+            }
+        }
+
+        // Update missile orientation based on motion vectors
+        double horizontalSpeed = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        this.rotationYaw = (float) Math.toDegrees(Math.atan2(this.motionZ, this.motionX)) - 90.0F;
+        this.rotationPitch = -(float) Math.toDegrees(Math.atan2(this.motionY, horizontalSpeed));
     }
 
     @Override
     public void sprinkleBomblet() {
-        if (world.isRemote) return;
-        MCH_EntityRocket e = new MCH_EntityRocket(world, posX, posY, posZ, motionX, motionY, motionZ, rotationYaw, rotationPitch, acceleration);
-        e.setName(getName());
-        e.setParameterFromWeapon(this, shootingAircraft, shootingEntity);
+        if (this.world.isRemote) return;
 
-        double spread = getInfo().bombletDiff;
-        e.motionX += (rand.nextDouble() - 0.5) * spread;
-        e.motionY += (rand.nextDouble() - 0.5) * spread;
-        e.motionZ += (rand.nextDouble() - 0.5) * spread;
+        MCH_EntityRocket rocket = new MCH_EntityRocket(this.world, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, this.rotationYaw, this.rotationPitch, this.acceleration);
+        rocket.setName(this.getName());
+        rocket.setParameterFromWeapon(this, this.shootingAircraft, this.shootingEntity);
 
-        e.setBomblet();
-        world.spawnEntity(e);
+        float spread = this.getInfo().bombletDiff;
+        rocket.motionX += (this.rand.nextFloat() - 0.5D) * spread;
+        rocket.motionY += (this.rand.nextFloat() - 0.5D) * spread;
+        rocket.motionZ += (this.rand.nextFloat() - 0.5D) * spread;
+
+        rocket.setBomblet();
+        this.world.spawnEntity(rocket);
     }
 
     @Override

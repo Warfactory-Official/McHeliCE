@@ -13,6 +13,7 @@ import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.world.MCH_ExplosionV2;
+import com.norwood.mcheli.networking.PacketLockTarget;
 import com.norwood.mcheli.networking.packet.PacketClientSound;
 import com.norwood.mcheli.networking.packet.PacketNotifyHit;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
@@ -62,14 +63,11 @@ import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
 
 public abstract class MCH_EntityBaseBullet extends W_Entity {
 
-    private static final DataParameter<Integer> TARGET_ID = EntityDataManager.createKey(MCH_EntityBaseBullet.class,
-            DataSerializers.VARINT);
-    private static final DataParameter<String> INFO_NAME = EntityDataManager.createKey(MCH_EntityBaseBullet.class,
-            DataSerializers.STRING);
-    private static final DataParameter<String> BULLET_MODEL = EntityDataManager.createKey(MCH_EntityBaseBullet.class,
-            DataSerializers.STRING);
-    private static final DataParameter<Byte> BOMBLET_FLAG = EntityDataManager.createKey(MCH_EntityBaseBullet.class,
-            DataSerializers.BYTE);
+    private static final DataParameter<Integer> TARGET_ID = EntityDataManager.createKey(MCH_EntityBaseBullet.class, DataSerializers.VARINT);
+    private static final DataParameter<String> INFO_NAME = EntityDataManager.createKey(MCH_EntityBaseBullet.class, DataSerializers.STRING);
+    private static final DataParameter<String> BULLET_MODEL = EntityDataManager.createKey(MCH_EntityBaseBullet.class, DataSerializers.STRING);
+    private static final DataParameter<Byte> BOMBLET_FLAG = EntityDataManager.createKey(MCH_EntityBaseBullet.class, DataSerializers.BYTE);
+    private final LongList loadedChunks = new LongArrayList();
     public Entity shootingEntity;
     public Entity shootingAircraft;
     public int explosionPower;
@@ -101,7 +99,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     private MCH_WeaponInfo weaponInfo;
     private MCH_BulletModel model;
     private ForgeChunkManager.Ticket chunkLoaderTicket;
-    private final LongList loadedChunks = new LongArrayList();
     private double airburstTravelled = 0.0D;
     private boolean airburstTriggered = false;
 
@@ -127,8 +124,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
     }
 
-    public MCH_EntityBaseBullet(World par1World, double px, double py, double pz, double mx, double my, double mz,
-                                float yaw, float pitch, double acceleration) {
+    public MCH_EntityBaseBullet(World par1World, double px, double py, double pz, double mx, double my, double mz, float yaw, float pitch, double acceleration) {
         this(par1World);
         this.setSize(1.0F, 1.0F);
         this.setLocationAndAngles(px, py, pz, yaw, pitch);
@@ -180,18 +176,11 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         int nextX = cx + (int) Math.signum(mx);
         int nextZ = cz + (int) Math.signum(mz);
 
-        LongStream.of(
-                        ChunkPos.asLong(cx, cz),
-                        ChunkPos.asLong(nextX, cz),
-                        ChunkPos.asLong(cx, nextZ),
-                        ChunkPos.asLong(nextX, nextZ)
-                )
-                .distinct()
-                .forEach(id -> {
-                    loadedChunks.add(id);
-                    var newPos = new ChunkPos((int) id, (int) (id >> 32));
-                    ForgeChunkManager.forceChunk(chunkLoaderTicket, newPos);
-                });
+        LongStream.of(ChunkPos.asLong(cx, cz), ChunkPos.asLong(nextX, cz), ChunkPos.asLong(cx, nextZ), ChunkPos.asLong(nextX, nextZ)).distinct().forEach(id -> {
+            loadedChunks.add(id);
+            var newPos = new ChunkPos((int) id, (int) (id >> 32));
+            ForgeChunkManager.forceChunk(chunkLoaderTicket, newPos);
+        });
     }
 
     private void clearChunkLoaders() {
@@ -217,8 +206,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     }
 
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch,
-                                             int posRotationIncrements, boolean teleport) {
+    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport) {
         this.setPosition(x, (y + this.posY * 2.0) / 3.0, z);
         this.setRotation(yaw, pitch);
     }
@@ -291,12 +279,9 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         this.targetEntity = entity;
         if (!this.world.isRemote) {
             if (this.targetEntity instanceof EntityPlayerMP) {
-                String format = "MCH_EntityBaseBullet.setTargetEntity alert" + this.targetEntity + " / " +
-                        this.targetEntity.getRidingEntity();
+                String format = "MCH_EntityBaseBullet.setTargetEntity alert" + this.targetEntity + " / " + this.targetEntity.getRidingEntity();
                 MCH_Logger.debugLog(this.world, format);
-                if (this.targetEntity.getRidingEntity() != null &&
-                        !(this.targetEntity.getRidingEntity() instanceof MCH_EntityAircraft) &&
-                        !(this.targetEntity.getRidingEntity() instanceof MCH_EntitySeat)) {
+                if (this.targetEntity.getRidingEntity() != null && !(this.targetEntity.getRidingEntity() instanceof MCH_EntityAircraft) && !(this.targetEntity.getRidingEntity() instanceof MCH_EntitySeat)) {
                     W_WorldFunc.playSoundAt(this.targetEntity, "alert", 2.0F, 1.0F);
                 }
             }
@@ -354,26 +339,13 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             double z2 = (this.prevPosZ - this.prevPosZ2) / num;
             if (name.equals("explode")) {
                 for (int i = 0; i < num; i++) {
-                    MCH_ParticleParam prm = new MCH_ParticleParam(
-                            this.world,
-                            "smoke",
-                            (this.prevPosX + x * i + (this.prevPosX2 + x2 * i)) / 2.0,
-                            (this.prevPosY + y * i + (this.prevPosY2 + y2 * i)) / 2.0,
-                            (this.prevPosZ + z * i + (this.prevPosZ2 + z2 * i)) / 2.0);
+                    MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "smoke", (this.prevPosX + x * i + (this.prevPosX2 + x2 * i)) / 2.0, (this.prevPosY + y * i + (this.prevPosY2 + y2 * i)) / 2.0, (this.prevPosZ + z * i + (this.prevPosZ2 + z2 * i)) / 2.0);
                     prm.size = size + this.rand.nextFloat();
                     MCH_ParticlesUtil.spawnParticle(prm);
                 }
             } else {
                 for (int i = 0; i < num; i++) {
-                    MCH_ParticlesUtil.DEF_spawnParticle(
-                            name,
-                            (this.prevPosX + x * i + (this.prevPosX2 + x2 * i)) / 2.0,
-                            (this.prevPosY + y * i + (this.prevPosY2 + y2 * i)) / 2.0,
-                            (this.prevPosZ + z * i + (this.prevPosZ2 + z2 * i)) / 2.0,
-                            0.0,
-                            0.0,
-                            0.0,
-                            50.0F);
+                    MCH_ParticlesUtil.DEF_spawnParticle(name, (this.prevPosX + x * i + (this.prevPosX2 + x2 * i)) / 2.0, (this.prevPosY + y * i + (this.prevPosY2 + y2 * i)) / 2.0, (this.prevPosZ + z * i + (this.prevPosZ2 + z2 * i)) / 2.0, 0.0, 0.0, 0.0, 50.0F);
                 }
             }
         }
@@ -418,8 +390,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
     public boolean usingFlareOfTarget(Entity entity) {
         if (this.getCountOnUpdate() % 3 == 0) {
-            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this,
-                    entity.getEntityBoundingBox().grow(15.0, 15.0, 15.0));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, entity.getEntityBoundingBox().grow(15.0, 15.0, 15.0));
 
             for (Entity value : list) {
                 if (value.getEntityData().getBoolean("FlareUsing")) {
@@ -493,8 +464,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         if (this.shootingEntity == null && this.shootingAircraft == null) {
             return false;
         } else {
-            Entity shooter = this.shootingAircraft != null && this.shootingAircraft.isDead &&
-                    this.shootingEntity == null ? this.shootingAircraft : this.shootingEntity;
+            Entity shooter = this.shootingAircraft != null && this.shootingAircraft.isDead && this.shootingEntity == null ? this.shootingAircraft : this.shootingEntity;
             double x = this.posX - shooter.posX;
             double z = this.posZ - shooter.posZ;
             return x * x + z * z < 3.38724E7 && this.posY > -10.0;
@@ -650,11 +620,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         if (this.world.isRemote) {
             this.updateSplash();
             if (this.isInWater()) {
-                this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE,
-                        this.posX - this.motionX * 0.25D,
-                        this.posY - this.motionY * 0.25D,
-                        this.posZ - this.motionZ * 0.25D,
-                        this.motionX, this.motionY, this.motionZ);
+                this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * 0.25D, this.posY - this.motionY * 0.25D, this.posZ - this.motionZ * 0.25D, this.motionX, this.motionY, this.motionZ);
             }
         }
 
@@ -688,8 +654,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
                 if (this.getInfo() != null) {
                     if (this.getInfo().enableChunkLoader) this.clearChunkLoaders();
-                    PacketClientSound.sendSoundPacket(ex, ey, ez, this.getInfo().hitSoundRange, this.world,
-                            this.getInfo().hitSound != null ? this.getInfo().hitSound.toString() : null, true);
+                    PacketClientSound.sendSoundPacket(ex, ey, ez, this.getInfo().hitSoundRange, this.world, this.getInfo().hitSound != null ? this.getInfo().hitSound.toString() : null, true);
                 }
                 this.setDead();
             }
@@ -704,10 +669,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     public void updateSplash() {
         if (this.getInfo() != null) {
             if (this.getInfo().power > 0) {
-                if (!W_WorldFunc.isBlockWater(this.world, (int) (this.prevPosX + 0.5), (int) (this.prevPosY + 0.5),
-                        (int) (this.prevPosZ + 0.5)) &&
-                        W_WorldFunc.isBlockWater(this.world, (int) (this.posX + 0.5), (int) (this.posY + 0.5),
-                                (int) (this.posZ + 0.5))) {
+                if (!W_WorldFunc.isBlockWater(this.world, (int) (this.prevPosX + 0.5), (int) (this.prevPosY + 0.5), (int) (this.prevPosZ + 0.5)) && W_WorldFunc.isBlockWater(this.world, (int) (this.posX + 0.5), (int) (this.posY + 0.5), (int) (this.posZ + 0.5))) {
                     double x = this.posX - this.prevPosX;
                     double y = this.posY - this.prevPosY;
                     double z = this.posZ - this.prevPosZ;
@@ -727,23 +689,13 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                         px += x;
                         py += y;
                         pz += z;
-                        if (W_WorldFunc.isBlockWater(this.world, (int) (px + 0.5), (int) (py + 0.5),
-                                (int) (pz + 0.5))) {
+                        if (W_WorldFunc.isBlockWater(this.world, (int) (px + 0.5), (int) (py + 0.5), (int) (pz + 0.5))) {
                             float pwr = this.getInfo().power < 20 ? this.getInfo().power : 20.0F;
                             int n = this.rand.nextInt(1 + (int) pwr / 3) + (int) pwr / 2 + 1;
                             pwr *= 0.03F;
 
                             for (int j = 0; j < n; j++) {
-                                MCH_ParticleParam prm = new MCH_ParticleParam(
-                                        this.world,
-                                        "splash",
-                                        px,
-                                        py + 0.5,
-                                        pz,
-                                        pwr * (this.rand.nextDouble() - 0.5) * 0.3,
-                                        pwr * (this.rand.nextDouble() * 0.5 + 0.5) * 1.8,
-                                        pwr * (this.rand.nextDouble() - 0.5) * 0.3,
-                                        pwr * 5.0F);
+                                MCH_ParticleParam prm = new MCH_ParticleParam(this.world, "splash", px, py + 0.5, pz, pwr * (this.rand.nextDouble() - 0.5) * 0.3, pwr * (this.rand.nextDouble() * 0.5 + 0.5) * 1.8, pwr * (this.rand.nextDouble() - 0.5) * 0.3, pwr * 5.0F);
                                 MCH_ParticlesUtil.spawnParticle(prm);
                             }
                             break;
@@ -757,12 +709,10 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     public void onUpdateTimeout() {
         if (this.isInWater()) {
             if (this.explosionPowerInWater > 0) {
-                this.newExplosion(this.posX, this.posY, this.posZ, this.explosionPowerInWater,
-                        this.explosionPowerInWater, true);
+                this.newExplosion(this.posX, this.posY, this.posZ, this.explosionPowerInWater, this.explosionPowerInWater, true);
             }
         } else if (this.explosionPower > 0) {
-            this.newExplosion(this.posX, this.posY, this.posZ, this.explosionPower, this.getInfo().explosionBlock,
-                    false);
+            this.newExplosion(this.posX, this.posY, this.posZ, this.explosionPower, this.getInfo().explosionBlock, false);
         } else if (this.explosionPower < 0) {
             this.playExplosionSound();
         }
@@ -872,8 +822,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             }
 
             Entity entity = null;
-            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this,
-                    this.getEntityBoundingBox().expand(mx, my, mz).grow(21.0, 21.0, 21.0));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(mx, my, mz).grow(21.0, 21.0, 21.0));
             double d0 = 0.0;
 
             for (Entity entity1 : list) {
@@ -933,6 +882,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
         return true;
     }
+
     public void notifyHitBullet() {
         if (this.shootingAircraft instanceof MCH_EntityAircraft && W_EntityPlayer.isPlayer(this.shootingEntity)) {
             PacketNotifyHit.send((MCH_EntityAircraft) this.shootingAircraft, (EntityPlayerMP) this.shootingEntity);
@@ -951,14 +901,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
         int crackCount = getInfo().flakParticlesCrack + rand.nextInt(3);
         for (int i = 0; i < crackCount; i++) {
-            var fx = (ParticleDigging) effectRenderer.spawnEffectParticle(
-                    EnumParticleTypes.BLOCK_CRACK.getParticleID(),
-                    raytraceResult.hitVec.x + (rand.nextFloat() - 0.5D) * width,
-                    raytraceResult.hitVec.y + 0.1D,
-                    raytraceResult.hitVec.z + (rand.nextFloat() - 0.5D) * width,
-                    0, 0, 0,
-                    Block.getStateId(state)
-            );
+            var fx = (ParticleDigging) effectRenderer.spawnEffectParticle(EnumParticleTypes.BLOCK_CRACK.getParticleID(), raytraceResult.hitVec.x + (rand.nextFloat() - 0.5D) * width, raytraceResult.hitVec.y + 0.1D, raytraceResult.hitVec.z + (rand.nextFloat() - 0.5D) * width, 0, 0, 0, Block.getStateId(state));
 
             if (fx != null) {
                 float diff = getInfo().flakParticlesDiff;
@@ -971,15 +914,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
         // Cloud/Smoke particles
         for (int i = 0; i < getInfo().numParticlesFlak; i++) {
-             effectRenderer.spawnEffectParticle(
-                    EnumParticleTypes.CLOUD.getParticleID(),
-                    raytraceResult.hitVec.x + rand.nextGaussian(),
-                    raytraceResult.hitVec.y + rand.nextGaussian(),
-                    raytraceResult.hitVec.z + rand.nextGaussian(),
-                    rand.nextGaussian() / 200.0D,
-                    rand.nextGaussian() / 200.0D,
-                    rand.nextGaussian() / 200.0D
-            );
+            effectRenderer.spawnEffectParticle(EnumParticleTypes.CLOUD.getParticleID(), raytraceResult.hitVec.x + rand.nextGaussian(), raytraceResult.hitVec.y + rand.nextGaussian(), raytraceResult.hitVec.z + rand.nextGaussian(), rand.nextGaussian() / 200.0D, rand.nextGaussian() / 200.0D, rand.nextGaussian() / 200.0D);
 
 
         }
@@ -999,7 +934,8 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
 
         if (m.entityHit != null) {
-            if (m.entityHit instanceof MCH_EntityBaseBullet && !Objects.requireNonNull(this.getInfo()).canBeIntercepted) return;
+            if (m.entityHit instanceof MCH_EntityBaseBullet && !Objects.requireNonNull(this.getInfo()).canBeIntercepted)
+                return;
             if (m.entityHit instanceof MCH_EntityFlare || m.entityHit instanceof MCH_EntityChaff) return;
 
             this.onImpactEntity(m.entityHit, damageFactor);
@@ -1067,14 +1003,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
         int crackNum = Objects.requireNonNull(getInfo()).flakParticlesCrack + rand.nextInt(3);
         for (int i = 0; i < crackNum; i++) {
-            var fx = (ParticleDigging) effectRenderer.spawnEffectParticle(
-                    EnumParticleTypes.BLOCK_CRACK.getParticleID(),
-                    result.hitVec.x + (rand.nextFloat() - 0.5D) * width,
-                    result.hitVec.y + 0.1D,
-                    result.hitVec.z + (rand.nextFloat() - 0.5D) * width,
-                    0, 0, 0,
-                    Block.getStateId(state)
-            );
+            var fx = (ParticleDigging) effectRenderer.spawnEffectParticle(EnumParticleTypes.BLOCK_CRACK.getParticleID(), result.hitVec.x + (rand.nextFloat() - 0.5D) * width, result.hitVec.y + 0.1D, result.hitVec.z + (rand.nextFloat() - 0.5D) * width, 0, 0, 0, Block.getStateId(state));
 
             if (fx != null) {
                 fx.setRBGColorF(r, g, b);
@@ -1087,15 +1016,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
         int cloudNum = 50 + (int) getInfo().flakParticlesDiff;
         for (int i = 0; i < cloudNum; i++) {
-            var cloud = (ParticleCloud) effectRenderer.spawnEffectParticle(
-                    EnumParticleTypes.CLOUD.getParticleID(),
-                    result.hitVec.x + (rand.nextFloat() - 0.5D) * width,
-                    result.hitVec.y + rand.nextGaussian() * height,
-                    result.hitVec.z + (rand.nextFloat() - 0.5D) * width,
-                    rand.nextGaussian() / 100,
-                    rand.nextGaussian() / 100,
-                    rand.nextGaussian() / 100
-            );
+            var cloud = (ParticleCloud) effectRenderer.spawnEffectParticle(EnumParticleTypes.CLOUD.getParticleID(), result.hitVec.x + (rand.nextFloat() - 0.5D) * width, result.hitVec.y + rand.nextGaussian() * height, result.hitVec.z + (rand.nextFloat() - 0.5D) * width, rand.nextGaussian() / 100, rand.nextGaussian() / 100, rand.nextGaussian() / 100);
 
             if (cloud != null) {
                 cloud.setRBGColorF(r, g, b);
@@ -1111,9 +1032,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             float damage = MCH_Config.applyDamageVsEntity(entity, ds, this.getPower() * damageFactor);
             damage *= this.getInfo() != null ? this.getInfo().getDamageFactor(entity) : 1.0F;
             entity.attackEntityFrom(ds, damage);
-            if (this instanceof MCH_EntityBullet && entity instanceof EntityVillager && this.shootingEntity != null &&
-                    this.shootingEntity instanceof EntityPlayerMP &&
-                    this.shootingEntity.getRidingEntity() instanceof MCH_EntitySeat) {
+            if (this instanceof MCH_EntityBullet && entity instanceof EntityVillager && this.shootingEntity != null && this.shootingEntity instanceof EntityPlayerMP && this.shootingEntity.getRidingEntity() instanceof MCH_EntitySeat) {
                 MCH_CriteriaTriggers.VILLAGER_HURT_BULLET.trigger((EntityPlayerMP) this.shootingEntity);
             }
 
@@ -1123,9 +1042,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     }
 
     public void newFAExplosion(double x, double y, double z, float exp, float expBlock) {
-        MCH_Explosion.ExplosionResult result = MCH_Explosion.newExplosion(
-                this.world, this, this.shootingEntity, x, y, z, exp, expBlock, true, true, this.getInfo().flaming,
-                false, 15);
+        MCH_Explosion.ExplosionResult result = MCH_Explosion.newExplosion(this.world, this, this.shootingEntity, x, y, z, exp, expBlock, true, true, this.getInfo().flaming, false, 15);
         if (result != null && result.hitEntity) {
             this.notifyHitBullet();
         }
@@ -1139,37 +1056,9 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
         if (!getInfo().effectOnly) {
             if (!inWater) {
-                result = MCH_Explosion.newExplosion(
-                        this.world,
-                        this,
-                        this.shootingEntity,
-                        x,
-                        y,
-                        z,
-                        exp,
-                        expBlock,
-                        this.rand.nextInt(3) == 0,
-                        true,
-                        this.getInfo().flaming,
-                        true,
-                        0,
-                        this.getInfo() != null ? this.getInfo().damageFactor : null);
+                result = MCH_Explosion.newExplosion(this.world, this, this.shootingEntity, x, y, z, exp, expBlock, this.rand.nextInt(3) == 0, true, this.getInfo().flaming, true, 0, this.getInfo() != null ? this.getInfo().damageFactor : null);
             } else {
-                result = MCH_Explosion.newExplosionInWater(
-                        this.world,
-                        this,
-                        this.shootingEntity,
-                        x,
-                        y,
-                        z,
-                        exp,
-                        expBlock,
-                        this.rand.nextInt(3) == 0,
-                        true,
-                        this.getInfo().flaming,
-                        true,
-                        0,
-                        this.getInfo() != null ? this.getInfo().damageFactor : null);
+                result = MCH_Explosion.newExplosionInWater(this.world, this, this.shootingEntity, x, y, z, exp, expBlock, this.rand.nextInt(3) == 0, true, this.getInfo().flaming, true, 0, this.getInfo() != null ? this.getInfo().damageFactor : null);
             }
 
             if (result != null && result.hitEntity) {
@@ -1196,8 +1085,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             case NTM_NT -> {
                 if (getInfo().ntSettingContainer == null) break;
                 var nt = getInfo().ntSettingContainer;
-                if (!effectOnly)
-                    nt.explode(this.world, this, x, y, z, (int) expBlock);
+                if (!effectOnly) nt.explode(this.world, this, x, y, z, (int) expBlock);
 
             }
             case NTM_MINI_NUKE -> {
@@ -1214,8 +1102,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             case NTM_MIST -> {
                 if (getInfo().mistContainer == null) break;
                 var mist = getInfo().mistContainer;
-                if (!effectOnly)
-                    mist.execute(world, x, y, z);
+                if (!effectOnly) mist.execute(world, x, y, z);
             }
         }
     }
@@ -1269,7 +1156,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     }
 
 
-
     protected void scanForTargets() {
         if (numLockedChaff >= getInfo().numLockedChaffMax) {
             setTargetEntity(null);
@@ -1280,8 +1166,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         final double maxAngleRad = Math.toRadians(getInfo().maxLockOnAngle);
         final Vec3d missileDir = new Vec3d(this.motionX, this.motionY, this.motionZ);
 
-        List<Entity> entities = world.getEntitiesWithinAABB(Entity.class,
-                getEntityBoundingBox().grow(range));
+        List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, getEntityBoundingBox().grow(range));
 
         if (entities.isEmpty()) return;
 
@@ -1318,7 +1203,8 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                         }
                     }
                 }
-                default -> {}
+                default -> {
+                }
             }
         }
 
@@ -1330,6 +1216,15 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             this.targetEntity = closestTarget;
         }
     }
+
+    public void clientSetTargetEntity(Entity entity) {
+        if (!super.world.isRemote) return;
+
+        this.targetEntity = entity;
+        if (entity != null) new PacketLockTarget(entity.getEntityId(), this.getEntityId()).sendToServer();
+        else new PacketLockTarget(0, this.getEntityId()).sendToServer();
+    }
+
 
     private boolean isFriendlyFire(Entity target) {
         if (W_Entity.isEqual(target, shootingAircraft) || W_Entity.isEqual(target, shootingEntity)) return true;
