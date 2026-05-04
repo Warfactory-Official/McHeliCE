@@ -45,10 +45,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public final List<MCH_AircraftInfo.Camera> cameraList = new ArrayList<>();
     public final List<MCH_AircraftInfo.PartWeapon> partWeapon = new ArrayList<>();
     public final List<MCH_AircraftInfo.WeaponBay> partWeaponBay = new ArrayList<>();
+    public final List<MCH_AircraftInfo.WeaponBay> partTurretWeaponBay = new ArrayList<>(); // Reforged field
     public final List<MCH_AircraftInfo.Canopy> canopyList = new ArrayList<>();
     public final List<MCH_AircraftInfo.LandingGear> landingGear = new ArrayList<>();
     public final List<MCH_AircraftInfo.Throttle> partThrottle = new ArrayList<>();
     public final List<MCH_AircraftInfo.RotPart> partRotPart = new ArrayList<>();
+    public final List<MCH_AircraftInfo.TurretRotPart> partTurretRotPart = new ArrayList<>(); // Reforged field
     public final List<MCH_AircraftInfo.CrawlerTrack> partCrawlerTrack = new ArrayList<>();
     public final List<MCH_AircraftInfo.TrackRoller> partTrackRoller = new ArrayList<>();
     public final List<MCH_AircraftInfo.PartWheel> partWheel = new ArrayList<>();
@@ -153,90 +155,120 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float soundPitch = 1.0F;
     public float soundRange = this.getDefaultSoundRange();
     public IModelCustom model = null;
+    public int destroyRewardSLMin = -1; // Reforged field
+    public int destroyRewardSLMax = -1; // Reforged field
+    public int destroyRewardGEMin = -1; // Reforged field
+    public int destroyRewardGEMax = -1; // Reforged field
+    public int destroyRewardRPMin = -1; // Reforged field
+    public int destroyRewardRPMax = -1; // Reforged field
     /**
-     * Radar type
+     * Reforged field: radar type.
      */
     public RadarType radarType = RadarType.EARLY_AA;
     /**
-     * RWR type
+     * Reforged field: RWR type.
      */
     public RWRType rwrType = RWRType.DIGITAL;
     /**
-     * Display name on modern air-to-air radar
+     * Reforged field: display name on modern air-to-air radar.
      */
     public String nameOnModernAARadar = "";
     /**
-     * Display name on early air-to-air radar
+     * Reforged field: display name on advanced air-to-air radar.
+     */
+    public String nameOnAdvancedAARadar = "";
+    /**
+     * Reforged field: display name on early air-to-air radar.
      */
     public String nameOnEarlyAARadar = "";
     /**
-     * Display name on modern air-to-surface radar
+     * Reforged field: display name on modern air-to-surface radar.
      */
     public String nameOnModernASRadar = "";
     /**
-     * Display name on early air-to-surface radar
+     * Reforged field: display name on early air-to-surface radar.
      */
     public String nameOnEarlyASRadar = "";
     /**
-     * Explosion radius when the vehicle is destroyed
+     * Reforged field: explosion radius when the vehicle is destroyed.
      */
     public float explosionSizeByCrash = 5;
     /**
-     * Reverse speed multiplier (default 1)
+     * Reforged field: reverse speed multiplier (default 1).
      */
     public float throttleDownFactor = 1;
     /**
-     * Duration of chaff effectiveness
+     * Reforged field: duration of chaff effectiveness.
      */
     public int chaffUseTime = 100;
     /**
-     * Chaff cooldown time
+     * Reforged field: chaff cooldown time.
      */
     public int chaffWaitTime = 400;
     /**
-     * Duration of repair system (duration = heal percentage)
+     * Reforged field: duration of repair system (duration = heal percentage).
      */
     public int maintenanceUseTime = 20;
     /**
-     * Repair system cooldown time
+     * Reforged field: repair system cooldown time.
      */
     public int maintenanceWaitTime = 300;
     /**
-     * Vehicle paralysis threshold; engine shuts down below this HP percentage
+     * Reforged field: vehicle paralysis threshold; engine shuts down below this HP percentage.
      */
     public int engineShutdownThreshold = 20;
     /**
-     * APS active duration
+     * Reforged field: APS active duration.
      */
     public int apsUseTime = 100;
     /**
-     * APS cooldown time
+     * Reforged field: APS cooldown time.
      */
     public int apsWaitTime = 400;
     /**
-     * APS range
+     * Reforged field: APS range.
      */
     public int apsRange = 8;
     /**
-     * Whether the vehicle has APS
+     * Reforged field: whether the vehicle has APS.
      */
     public boolean hasAPS = false;
     /**
-     * Whether the vehicle has RWR
+     * Reforged field: whether the vehicle has RWR.
      */
     public boolean hasRWR = false;
 
-    public boolean enableRadar = false;
-    public boolean passiveRadar = false;
-    public float radarMaxTargetRange = 3000.0F;
-    public float radarScanAzimuthDeg = 120.0F;
-    public float radarScanElevationDeg = 40.0F;
-    public int radarScanTick = 12;
-    public String nameOnRWR = "?";
+    public boolean enableRadar = false; // Reforged field
+    public boolean passiveRadar = false; // Reforged field
+    public float radarMaxTargetRange = 3000.0F; // Reforged field
+    public float radarScanAzimuthDeg = 120.0F; // Reforged field
+    public float radarPanelFillAlpha = 0.30F; // Reforged field
+    public boolean radarFollowTurretYaw = false; // Reforged field
+    public float radarScanElevationDeg = 40.0F; // Reforged field
+    public int radarScanTick = 12; // Reforged field
+    public float radarDetectChanceBase = 0.75F; // Reforged field
+    public float radarGainNearFactor = 1.5F; // Reforged field
+    public float radarGainFarFactor = 0.5F; // Reforged field
+    public float radarRcsFrontFactor = 1.0F; // Reforged field
+    public float radarRcsSideFactor = 1.0F; // Reforged field
+    public float radarRcsRearFactor = 1.0F; // Reforged field
+    public float radarRcsTimeFactor = 1.0F; // Reforged field
+    public int radarContactHoldTick = 40; // Reforged field
+    public String radarElevationReference = "HORIZON"; // Reforged field
+    public String radarElevationCoverage = "UP_ONLY"; // Reforged field
+    public boolean enableBVR = false; // Reforged field
+    public float radarMinScanAltitude = 10.0F; // Reforged field
+    public float radarMaxScanAltitude = 25.0F; // Reforged field
+    public String radarSearchType = "SRC"; // Reforged field
+    public float radarTrackAzimuthDeg = 90.0F; // Reforged field
+    public float radarTrackElevationDeg = 45.0F; // Reforged field
+    public int radarRetargetCooldownTick = 40; // Reforged field
+    public String nameOnRWR = "?"; // Reforged field
 
-    public boolean enableECMJammer = false;
-    public int ecmJammerWaitTime = 400;
-    public int ecmJammerUseTime = 100;
+    public boolean enableECMJammer = false; // Reforged field
+    public int ecmJammerWaitTime = 400; // Reforged field
+    public int ecmJammerUseTime = 100; // Reforged field
+    public int ecmJammerType = 0; // Reforged field
 
     /**
      * HUD custom field for vehicle HUD type
@@ -247,13 +279,18 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      */
     public int weaponGroupType = 0;
     /**
-     * Explosion damage multiplier; final damage = base * multiplier
+     * Reforged field: explosion damage multiplier; final damage = base * multiplier.
      */
     public float armorExplosionDamageMultiplier = 1.0f;
     /**
-     * Whether the vehicle has a photoelectric jammer (immune to laser lock-on)
+     * Reforged field: whether the vehicle has a photoelectric jammer (immune to laser lock-on).
      */
     public boolean hasPhotoelectricJammer = false;
+    public boolean hasDIRCM = false; // Reforged field
+    public final List<Float> impactAngleThresholds = new ArrayList<>(); // Reforged field
+    public final List<Float> impactAngleCoefficients = new ArrayList<>(); // Reforged field
+    public float impactRicochetStartAngle = 89.0F; // Reforged field
+    public final List<SignMarker> signMarkers = new ArrayList<>(); // Reforged field
     /**
      * Scale of preview in TheOneProbe
      */
@@ -346,6 +383,14 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         return this.hasAPS;
     }
 
+    public boolean haveMaintenance() {
+        return this.maintenanceUseTime > 0;
+    }
+
+    public boolean haveECMJammer() {
+        return this.enableECMJammer;
+    }
+
     public boolean haveCanopy() {
         return !this.canopyList.isEmpty();
     }
@@ -358,6 +403,9 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @Override
     public boolean validate() throws Exception {
+        normalizeDestroyRewardRanges();
+        ensureImpactDamageDefaults();
+
         if (this.cameraPosition.isEmpty()) {
             this.cameraPosition.add(new CameraPosition(this));
         }
@@ -429,9 +477,76 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                     }
                 }
 
+                for (int i = 0; i < this.partTurretWeaponBay.size(); i++) {
+                    MCH_AircraftInfo.WeaponBay wb = this.partTurretWeaponBay.get(i);
+                    String[] weaponNames = wb.weaponName.split("\\s*/\\s*");
+                    if (weaponNames.length == 0) {
+                        this.partTurretWeaponBay.remove(i);
+                    } else {
+                        List<Integer> list = new ArrayList<>();
+                        for (String s : weaponNames) {
+                            int id = this.getWeaponIdByName(s);
+                            if (id >= 0) {
+                                list.add(id);
+                            }
+                        }
+                        if (list.isEmpty()) {
+                            this.partTurretWeaponBay.remove(i);
+                        } else {
+                            this.partTurretWeaponBay.get(i).weaponIds = list.toArray(new Integer[0]);
+                        }
+                    }
+                }
+
                 return true;
             }
         }
+    }
+
+    private void normalizeDestroyRewardRanges() {
+        if (this.destroyRewardSLMin >= 0 && this.destroyRewardSLMax >= 0 && this.destroyRewardSLMin > this.destroyRewardSLMax) {
+            int t = this.destroyRewardSLMin;
+            this.destroyRewardSLMin = this.destroyRewardSLMax;
+            this.destroyRewardSLMax = t;
+        }
+        if (this.destroyRewardGEMin >= 0 && this.destroyRewardGEMax >= 0 && this.destroyRewardGEMin > this.destroyRewardGEMax) {
+            int t = this.destroyRewardGEMin;
+            this.destroyRewardGEMin = this.destroyRewardGEMax;
+            this.destroyRewardGEMax = t;
+        }
+        if (this.destroyRewardRPMin >= 0 && this.destroyRewardRPMax >= 0 && this.destroyRewardRPMin > this.destroyRewardRPMax) {
+            int t = this.destroyRewardRPMin;
+            this.destroyRewardRPMin = this.destroyRewardRPMax;
+            this.destroyRewardRPMax = t;
+        }
+    }
+
+    private void ensureImpactDamageDefaults() {
+        if (this.impactAngleThresholds.isEmpty()) {
+            this.impactAngleThresholds.add(0.0F);
+            this.impactAngleCoefficients.add(1.0F);
+            return;
+        }
+        if (this.impactAngleThresholds.get(0) > 0.0F) {
+            float firstCoeff = this.impactAngleCoefficients.isEmpty() ? 1.0F : this.impactAngleCoefficients.get(0);
+            this.impactAngleThresholds.add(0, 0.0F);
+            this.impactAngleCoefficients.add(0, firstCoeff);
+        }
+    }
+
+    public float getImpactDamageCoefficient(float angleDeg) {
+        float absAngle = Math.abs(angleDeg);
+        float coeff = this.impactAngleCoefficients.isEmpty() ? 1.0F : this.impactAngleCoefficients.get(0);
+        for (int i = 1; i < this.impactAngleThresholds.size() && i < this.impactAngleCoefficients.size(); i++) {
+            if (absAngle >= this.impactAngleThresholds.get(i)) {
+                coeff = this.impactAngleCoefficients.get(i);
+            }
+        }
+        return coeff;
+    }
+
+    public boolean shouldRicochetByImpactAngle(float angleDeg) {
+        return Math.abs(angleDeg) >= this.impactRicochetStartAngle;
     }
 
     public int getInfo_MaxSeatNum() {
@@ -1373,6 +1488,22 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
     }
 
+    public static class TurretRotPart extends MCH_AircraftInfo.DrawnPart {
+
+        public final boolean rotAlways;
+
+        public TurretRotPart(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry,
+                             float rz, boolean rotAlways, String name) {
+            super(paramMCH_AircraftInfo, px, py, pz, rx, ry, rz, name);
+            this.rotAlways = rotAlways;
+        }
+
+        public TurretRotPart(DrawnPart other, boolean rotAlways) {
+            super(other);
+            this.rotAlways = rotAlways;
+        }
+    }
+
     public static class SearchLight {
 
         public final Vec3d pos;
@@ -1508,6 +1639,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public static class Weapon {
 
         public final Vec3d pos;
+        public final Vec3d muzzleFlashPos; // Reforged field
         public final float yaw;
         public final float pitch;
         public final boolean canUsePilot;
@@ -1524,6 +1656,9 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                 float x,
                 float y,
                 float z,
+                float mx,
+                float my,
+                float mz,
                 float yaw,
                 float pitch,
                 boolean canPirot,
@@ -1535,6 +1670,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                 float mxp,
                 boolean turret) {
             this.pos = new Vec3d(x, y + W_Entity.GLOBAL_Y_OFFSET, z);
+            this.muzzleFlashPos = new Vec3d(mx, my + W_Entity.GLOBAL_Y_OFFSET, mz);
             this.yaw = yaw;
             this.pitch = pitch;
             this.canUsePilot = canPirot;
@@ -1551,6 +1687,9 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                 float x,
                 float y,
                 float z,
+                float mx,
+                float my,
+                float mz,
                 float yaw,
                 float pitch,
                 boolean canPirot,
@@ -1562,6 +1701,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                 float mxp,
                 boolean turret) {
             this.pos = new Vec3d(x, y + W_Entity.GLOBAL_Y_OFFSET, z);
+            this.muzzleFlashPos = new Vec3d(mx, my + W_Entity.GLOBAL_Y_OFFSET, mz);
             this.yaw = yaw;
             this.pitch = pitch;
             this.canUsePilot = canPirot;
@@ -1578,6 +1718,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public String toString() {
             return "Weapon{" +
                     "pos=" + pos +
+                    ", muzzleFlashPos=" + muzzleFlashPos +
                     ", yaw=" + yaw +
                     ", pitch=" + pitch +
                     ", canUsePilot=" + canUsePilot +
@@ -1589,6 +1730,25 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
                     ", maxPitch=" + maxPitch +
                     ", turret=" + turret +
                     '}';
+        }
+    }
+
+    public static class SignMarker {
+
+        public final float px;
+        public final float py;
+        public final float pz;
+        public final String signName; // Reforged field
+        public final float signSize;
+        public final boolean perspectiveScale; // Reforged field
+
+        public SignMarker(float px, float py, float pz, String signName, float signSize, boolean perspectiveScale) {
+            this.px = px;
+            this.py = py;
+            this.pz = pz;
+            this.signName = signName;
+            this.signSize = signSize;
+            this.perspectiveScale = perspectiveScale;
         }
     }
 

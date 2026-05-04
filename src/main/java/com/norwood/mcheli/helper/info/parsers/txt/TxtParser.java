@@ -540,8 +540,11 @@ public class TxtParser implements IParser {
                         float mxy = sx.length >= 11 ? info.toFloat(sx[10]) : 0.0F;
                         float mnp = sx.length >= 12 ? info.toFloat(sx[11]) : 0.0F;
                         float mxp = sx.length >= 13 ? info.toFloat(sx[12]) : 0.0F;
-                        MCH_AircraftInfo.Weapon e = new Weapon(info, info.toFloat(sx[1]), info.toFloat(sx[2]),
-                                info.toFloat(sx[3]), y, p, canUsePilot, seatID, dfy, mny, mxy, mnp,
+                        float px = info.toFloat(sx[1]);
+                        float py = info.toFloat(sx[2]);
+                        float pz = info.toFloat(sx[3]);
+                        MCH_AircraftInfo.Weapon e = new Weapon(info, px, py,
+                                pz, px, py, pz, y, p, canUsePilot, seatID, dfy, mny, mxy, mnp,
                                 mxp, item.equalsIgnoreCase("AddTurretWeapon"));
                         WeaponSet set = info.getOrCreateWeaponSet(type);
                         set.weapons.add(e);

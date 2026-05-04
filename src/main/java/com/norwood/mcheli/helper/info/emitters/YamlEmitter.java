@@ -457,6 +457,12 @@ public class YamlEmitter implements IEmitter {
             expl.put("CanAirburst", info.canAirburst);
         if (info.explosionAirburst != dummy.explosionAirburst)
             expl.put("ExplosionAirburst", info.explosionAirburst);
+        if (info.explosionThroughWall != dummy.explosionThroughWall)
+            expl.put("ThroughWall", info.explosionThroughWall);
+        if (info.explosionThroughWallFactor != dummy.explosionThroughWallFactor)
+            expl.put("ThroughWallFactor", info.explosionThroughWallFactor);
+        if (info.isNewExplosionBreak != dummy.isNewExplosionBreak)
+            expl.put("NewBreak", info.isNewExplosionBreak);
         if (info.proximityFuseDist != dummy.proximityFuseDist)
             expl.put("ProximityFuseDist", info.proximityFuseDist);
         if (info.disableDestroyBlock != dummy.disableDestroyBlock)
@@ -476,6 +482,18 @@ public class YamlEmitter implements IEmitter {
             cam.put("FixPitch", info.fixCameraPitch);
         if (info.cameraRotationSpeedPitch != dummy.cameraRotationSpeedPitch)
             cam.put("RotationSpeedPitch", info.cameraRotationSpeedPitch);
+        if (info.ccip != dummy.ccip)
+            cam.put("CCIP", info.ccip);
+        if (!Objects.equals(info.ccipTexture, dummy.ccipTexture))
+            cam.put("CCIPTexture", info.ccipTexture);
+        if (info.ccipFactor != dummy.ccipFactor)
+            cam.put("CCIPFactor", info.ccipFactor);
+        if (info.lockEntity != dummy.lockEntity)
+            cam.put("LockEntity", info.lockEntity);
+        if (info.cameraFollowLockEntity != dummy.cameraFollowLockEntity)
+            cam.put("FollowLockEntity", info.cameraFollowLockEntity);
+        if (info.cameraFollowStrength != dummy.cameraFollowStrength)
+            cam.put("FollowStrength", info.cameraFollowStrength);
         String sight = sightToString(info.sight);
         if (!Objects.equals(sight, sightToString(dummy.sight)))
             cam.put("Sight", sight);
@@ -502,6 +520,16 @@ public class YamlEmitter implements IEmitter {
             missile.put("MinRangeBVR", info.minRangeBVR);
         if (info.scanInterval != dummy.scanInterval)
             missile.put("ScanInterval", info.scanInterval);
+        if (info.enableDataLink != dummy.enableDataLink)
+            missile.put("EnableDataLink", info.enableDataLink);
+        if (info.onlyDataLink != dummy.onlyDataLink)
+            missile.put("OnlyDataLink", info.onlyDataLink);
+        if (info.enableHMS != dummy.enableHMS)
+            missile.put("EnableHMS", info.enableHMS);
+        if (!Objects.equals(info.nameOnRWR, dummy.nameOnRWR))
+            missile.put("NameOnRWR", info.nameOnRWR);
+        if (info.isGPSMissile != dummy.isGPSMissile)
+            missile.put("IsGPSMissile", info.isGPSMissile);
         if (info.tickEndHoming != dummy.tickEndHoming)
             missile.put("TickEndHoming", info.tickEndHoming);
         if (info.pdHDNMaxDegree != dummy.pdHDNMaxDegree)
@@ -514,6 +542,80 @@ public class YamlEmitter implements IEmitter {
             missile.put("MaxDegreeOfMissile", info.maxDegreeOfMissile);
         if (info.canBeIntercepted != dummy.canBeIntercepted)
             missile.put("CanBeIntercepted", info.canBeIntercepted);
+        Map<String, Object> initGuidance = new LinkedHashMap<>();
+        if (info.initMaxDegreeTick != dummy.initMaxDegreeTick)
+            initGuidance.put("InitMaxDegreeTick", info.initMaxDegreeTick);
+        if (info.initMaxDegreeOfMissile != dummy.initMaxDegreeOfMissile)
+            initGuidance.put("InitMaxDegreeOfMissile", info.initMaxDegreeOfMissile);
+        if (info.initTurningFactorTick != dummy.initTurningFactorTick)
+            initGuidance.put("InitTurningFactorTick", info.initTurningFactorTick);
+        if (info.initTurningFactor != dummy.initTurningFactor)
+            initGuidance.put("InitTurningFactor", info.initTurningFactor);
+        if (!initGuidance.isEmpty())
+            missile.put("InitGuidance", initGuidance);
+        Map<String, Object> ballistic = new LinkedHashMap<>();
+        if (info.ballisticMissile != dummy.ballisticMissile)
+            ballistic.put("BallisticMissile", info.ballisticMissile);
+        if (info.ballisticArcFactor != dummy.ballisticArcFactor)
+            ballistic.put("ArcFactor", info.ballisticArcFactor);
+        if (info.ballisticArcMinHeight != dummy.ballisticArcMinHeight)
+            ballistic.put("ArcMinHeight", info.ballisticArcMinHeight);
+        if (info.ballisticArcMaxHeight != dummy.ballisticArcMaxHeight)
+            ballistic.put("ArcMaxHeight", info.ballisticArcMaxHeight);
+        if (info.ballisticMinDistance != dummy.ballisticMinDistance)
+            ballistic.put("MinDistance", info.ballisticMinDistance);
+        if (info.ballisticLateralSine != dummy.ballisticLateralSine)
+            ballistic.put("LateralSine", info.ballisticLateralSine);
+        if (info.ballisticLateralAmplitude != dummy.ballisticLateralAmplitude)
+            ballistic.put("LateralAmplitude", info.ballisticLateralAmplitude);
+        if (info.ballisticLateralWaves != dummy.ballisticLateralWaves)
+            ballistic.put("LateralWaves", info.ballisticLateralWaves);
+        if (info.ballisticLateralPhaseDeg != dummy.ballisticLateralPhaseDeg)
+            ballistic.put("LateralPhaseDeg", info.ballisticLateralPhaseDeg);
+        if (info.ballisticLateralStartRatio != dummy.ballisticLateralStartRatio)
+            ballistic.put("LateralStartRatio", info.ballisticLateralStartRatio);
+        if (info.ballisticLateralEndRatio != dummy.ballisticLateralEndRatio)
+            ballistic.put("LateralEndRatio", info.ballisticLateralEndRatio);
+        if (info.ballisticTerminalNoWeaveDist != dummy.ballisticTerminalNoWeaveDist)
+            ballistic.put("TerminalNoWeaveDist", info.ballisticTerminalNoWeaveDist);
+        if (info.ballisticTerminalCylinderRadius != dummy.ballisticTerminalCylinderRadius)
+            ballistic.put("TerminalCylinderRadius", info.ballisticTerminalCylinderRadius);
+        if (info.canister != dummy.canister)
+            ballistic.put("Canister", info.canister);
+        if (info.canisterType != dummy.canisterType)
+            ballistic.put("CanisterType", info.canisterType);
+        if (info.dragInAir != dummy.dragInAir)
+            ballistic.put("DragInAir", info.dragInAir);
+        if (!ballistic.isEmpty())
+            missile.put("Ballistic", ballistic);
+        Map<String, Object> arm = new LinkedHashMap<>();
+        if (info.antiRadiationMissile != dummy.antiRadiationMissile)
+            arm.put("AntiRadiationMissile", info.antiRadiationMissile);
+        if (info.armEmitterLostGraceTick != dummy.armEmitterLostGraceTick)
+            arm.put("EmitterLostGraceTick", info.armEmitterLostGraceTick);
+        if (info.armMemoryTimeTick != dummy.armMemoryTimeTick)
+            arm.put("MemoryTimeTick", info.armMemoryTimeTick);
+        if (info.armCruiseEnable != dummy.armCruiseEnable)
+            arm.put("CruiseEnable", info.armCruiseEnable);
+        if (info.armCruiseStartDistance != dummy.armCruiseStartDistance)
+            arm.put("CruiseStartDistance", info.armCruiseStartDistance);
+        if (info.armCruiseTerminalRadius != dummy.armCruiseTerminalRadius)
+            arm.put("CruiseTerminalRadius", info.armCruiseTerminalRadius);
+        if (info.armCruiseTerminalHeight != dummy.armCruiseTerminalHeight)
+            arm.put("CruiseTerminalHeight", info.armCruiseTerminalHeight);
+        if (!arm.isEmpty())
+            missile.put("ARM", arm);
+        Map<String, Object> signature = new LinkedHashMap<>();
+        if (info.rcsFrontFactor != dummy.rcsFrontFactor)
+            signature.put("Front", info.rcsFrontFactor);
+        if (info.rcsSideFactor != dummy.rcsSideFactor)
+            signature.put("Side", info.rcsSideFactor);
+        if (info.rcsRearFactor != dummy.rcsRearFactor)
+            signature.put("Rear", info.rcsRearFactor);
+        if (info.rcsTimeFactor != dummy.rcsTimeFactor)
+            signature.put("Time", info.rcsTimeFactor);
+        if (!signature.isEmpty())
+            missile.put("Signature", signature);
         if (!missile.isEmpty())
             root.put("Missile", missile);
         // LockOn
@@ -528,6 +630,12 @@ public class YamlEmitter implements IEmitter {
             lockOn.put("PassiveRadarLockOutCount", info.passiveRadarLockOutCount);
         if (info.numLockedChaffMax != dummy.numLockedChaffMax)
             lockOn.put("LockedChaffMax", info.numLockedChaffMax);
+        if (info.proximityFuseTick != dummy.proximityFuseTick)
+            lockOn.put("ProximityFuseTick", info.proximityFuseTick);
+        if (info.proximityFuseDamage != dummy.proximityFuseDamage)
+            lockOn.put("ProximityFuseDamage", info.proximityFuseDamage);
+        if (info.proximityFuseHeight != dummy.proximityFuseHeight)
+            lockOn.put("ProximityFuseHeight", info.proximityFuseHeight);
         if (!lockOn.isEmpty()) missile.put("LockOn", lockOn);
 
         // Radar
@@ -535,6 +643,7 @@ public class YamlEmitter implements IEmitter {
         if (info.isRadarMissile != dummy.isRadarMissile) radar.put("IsRadarMissile", info.isRadarMissile);
         if (info.activeRadar != dummy.activeRadar) radar.put("ActiveRadar", info.activeRadar);
         if (info.passiveRadar != dummy.passiveRadar) radar.put("PassiveRadar", info.passiveRadar);
+        if (info.semiActiveRadar != dummy.semiActiveRadar) radar.put("SemiActiveRadar", info.semiActiveRadar);
         if (!radar.isEmpty()) missile.put("Radar", radar);
 
         // Heat
@@ -605,6 +714,8 @@ public class YamlEmitter implements IEmitter {
             dmg.put("ExplosionDamageVsTank", info.explosionDamageVsTank);
         if (info.explosionDamageVsHeli != dummy.explosionDamageVsHeli)
             dmg.put("ExplosionDamageVsHeli", info.explosionDamageVsHeli);
+        if (info.explosionDamageVsShip != dummy.explosionDamageVsShip)
+            dmg.put("ExplosionDamageVsShip", info.explosionDamageVsShip);
         if (!dmg.isEmpty()) root.put("Damage", dmg);
 
         // Render settings
@@ -668,6 +779,18 @@ public class YamlEmitter implements IEmitter {
             render.put("TrajectoryParticle", info.trajectoryParticleName);
         if (info.trajectoryParticleStartTick != dummy.trajectoryParticleStartTick)
             render.put("TrajectoryParticleStartTick", info.trajectoryParticleStartTick);
+        if (info.trajectoryParticleEndTick != dummy.trajectoryParticleEndTick)
+            render.put("TrajectoryParticleEndTick", info.trajectoryParticleEndTick);
+        if (info.enableExhaustFlare != dummy.enableExhaustFlare)
+            render.put("EnableExhaustFlare", info.enableExhaustFlare);
+        if (!Objects.equals(info.bulletModelNameEnd, dummy.bulletModelNameEnd) || info.bulletModelEndTick != dummy.bulletModelEndTick) {
+            Map<String, Object> bulletModelEnd = new LinkedHashMap<>();
+            if (!Objects.equals(info.bulletModelNameEnd, dummy.bulletModelNameEnd))
+                bulletModelEnd.put("Name", info.bulletModelNameEnd);
+            if (info.bulletModelEndTick != dummy.bulletModelEndTick)
+                bulletModelEnd.put("EndTick", info.bulletModelEndTick);
+            render.put("BulletModelEnd", bulletModelEnd);
+        }
         if (info.flakParticlesCrack != dummy.flakParticlesCrack)
             render.put("FlakParticlesCrack", info.flakParticlesCrack);
         if (info.numParticlesFlak != dummy.numParticlesFlak)
@@ -697,6 +820,40 @@ public class YamlEmitter implements IEmitter {
         }
         if (!smoke.isEmpty()) render.put("Smoke", smoke);
         if (!render.isEmpty()) root.put("Render", render);
+
+        Map<String, Object> submunition = new LinkedHashMap<>();
+        if (info.bomblet != dummy.bomblet) submunition.put("Count", info.bomblet);
+        if (info.bombletSTime != dummy.bombletSTime) submunition.put("DeployTime", info.bombletSTime);
+        if (info.bombletDiff != dummy.bombletDiff) submunition.put("Spread", info.bombletDiff);
+        if (info.spawnBulletInAir != dummy.spawnBulletInAir) submunition.put("SpawnInAir", info.spawnBulletInAir);
+        if (info.spawnBulletMaxNum != dummy.spawnBulletMaxNum) submunition.put("SpawnMaxNum", info.spawnBulletMaxNum);
+        if (info.spawnBulletIntervalTick != dummy.spawnBulletIntervalTick)
+            submunition.put("SpawnIntervalTick", info.spawnBulletIntervalTick);
+        if (info.spawnBulletPerNum != dummy.spawnBulletPerNum) submunition.put("SpawnPerNum", info.spawnBulletPerNum);
+        if (info.spawnBulletInheritSpeed != dummy.spawnBulletInheritSpeed)
+            submunition.put("SpawnInheritSpeed", info.spawnBulletInheritSpeed);
+        if (info.destructAfterSpawnBullet != dummy.destructAfterSpawnBullet)
+            submunition.put("DestructAfterSpawn", info.destructAfterSpawnBullet);
+        if (info.ahead != dummy.ahead) submunition.put("Ahead", info.ahead);
+        if (info.aheadSolveIntervalTick != dummy.aheadSolveIntervalTick)
+            submunition.put("AheadSolveIntervalTick", info.aheadSolveIntervalTick);
+        if (!submunition.isEmpty()) root.put("Submunition", submunition);
+
+        Map<String, Object> effects = new LinkedHashMap<>();
+        if (!info.potionEffect.isEmpty()) {
+            List<Map<String, Object>> potionEffects = new ArrayList<>();
+            for (var effect : info.potionEffect) {
+                Map<String, Object> effectMap = new LinkedHashMap<>();
+                effectMap.put("Potion", Objects.requireNonNull(effect.potionEffect.getPotion().getRegistryName()).toString());
+                effectMap.put("Duration", effect.potionEffect.getDuration());
+                effectMap.put("Amplifier", effect.potionEffect.getAmplifier());
+                effectMap.put("StartDist", effect.startDist);
+                effectMap.put("EndDist", effect.endDist);
+                potionEffects.add(effectMap);
+            }
+            effects.put("PotionEffects", potionEffects);
+        }
+        if (!effects.isEmpty()) root.put("Effects", effects);
         } catch (Exception e) {
             throw new EmissionException("Unexpected error during throwable emission", info, e);
         }
@@ -1022,6 +1179,9 @@ public class YamlEmitter implements IEmitter {
         if (notBlank(info.nameOnModernAARadar) && !info.nameOnModernAARadar.equals(dummyInfo.nameOnModernAARadar))
             root.put("NameOnModernAARadar", info.nameOnModernAARadar);
 
+        if (notBlank(info.nameOnAdvancedAARadar) && !info.nameOnAdvancedAARadar.equals(dummyInfo.nameOnAdvancedAARadar))
+            root.put("NameOnAdvancedAARadar", info.nameOnAdvancedAARadar);
+
         if (notBlank(info.nameOnEarlyAARadar) && !info.nameOnEarlyAARadar.equals(dummyInfo.nameOnEarlyAARadar))
             root.put("NameOnEarlyAARadar", info.nameOnEarlyAARadar);
 
@@ -1035,6 +1195,18 @@ public class YamlEmitter implements IEmitter {
             root.put("ExplosionSizeByCrash", (int) info.explosionSizeByCrash);
         if (info.throttleDownFactor != dummyInfo.explosionSizeByCrash)
             root.put("ThrottleDownFactor", info.throttleDownFactor);
+        if (info.destroyRewardSLMin != dummyInfo.destroyRewardSLMin || info.destroyRewardSLMax != dummyInfo.destroyRewardSLMax
+                || info.destroyRewardGEMin != dummyInfo.destroyRewardGEMin || info.destroyRewardGEMax != dummyInfo.destroyRewardGEMax
+                || info.destroyRewardRPMin != dummyInfo.destroyRewardRPMin || info.destroyRewardRPMax != dummyInfo.destroyRewardRPMax) {
+            Map<String, Object> rewards = new LinkedHashMap<>();
+            rewards.put("SLMin", info.destroyRewardSLMin);
+            rewards.put("SLMax", info.destroyRewardSLMax);
+            rewards.put("GEMin", info.destroyRewardGEMin);
+            rewards.put("GEMax", info.destroyRewardGEMax);
+            rewards.put("RPMin", info.destroyRewardRPMin);
+            rewards.put("RPMax", info.destroyRewardRPMax);
+            root.put("DestroyRewards", rewards);
+        }
 
         // Global camera section
         Map<String, Object> camera = new LinkedHashMap<>();
@@ -1161,6 +1333,18 @@ public class YamlEmitter implements IEmitter {
 
         if (info.enableSeaSurfaceParticle != dummyInfo.enableSeaSurfaceParticle)
             render.put("EnableSeaSurfaceParticle", info.enableSeaSurfaceParticle);
+        if (!info.signMarkers.isEmpty()) {
+            List<Map<String, Object>> markers = new ArrayList<>();
+            for (MCH_AircraftInfo.SignMarker marker : info.signMarkers) {
+                Map<String, Object> markerMap = new LinkedHashMap<>();
+                markerMap.put("Position", inline(marker.px, marker.py, marker.pz));
+                markerMap.put("Name", marker.signName);
+                markerMap.put("Size", marker.signSize);
+                if (!marker.perspectiveScale) markerMap.put("PerspectiveScale", false);
+                markers.add(markerMap);
+            }
+            render.put("SignMarkers", markers);
+        }
 
         // Splash particles
         if (!info.particleSplashs.isEmpty()) {
@@ -1215,6 +1399,8 @@ public class YamlEmitter implements IEmitter {
 
                 m.put("Type", set.type);
                 m.put("Position", vecMinusYOffset(w.pos));
+                if (!w.muzzleFlashPos.equals(w.pos))
+                    m.put("MuzzleFlashPos", vecMinusYOffset(w.muzzleFlashPos));
 
                 if (w.yaw != 0 || dummyInfo.weaponSetList.contains(set) &&
                         w.yaw != dummyInfo.weaponSetList.get(dummyInfo.weaponSetList.indexOf(set)).weapons
@@ -1412,6 +1598,61 @@ public class YamlEmitter implements IEmitter {
             feats.put("Flare", flare);
         }
 
+        Map<String, Object> radar = new LinkedHashMap<>();
+        if (info.radarType != dummyInfo.radarType) radar.put("Type", info.radarType.name());
+        if (info.radarMaxTargetRange != dummyInfo.radarMaxTargetRange) radar.put("MaxTargetRange", info.radarMaxTargetRange);
+        if (info.radarScanAzimuthDeg != dummyInfo.radarScanAzimuthDeg) radar.put("ScanAzimuth", info.radarScanAzimuthDeg);
+        if (info.radarPanelFillAlpha != dummyInfo.radarPanelFillAlpha) radar.put("PanelFillAlpha", info.radarPanelFillAlpha);
+        if (info.radarFollowTurretYaw != dummyInfo.radarFollowTurretYaw) radar.put("FollowTurretYaw", info.radarFollowTurretYaw);
+        if (info.radarScanElevationDeg != dummyInfo.radarScanElevationDeg) radar.put("ScanElevation", info.radarScanElevationDeg);
+        if (info.radarScanTick != dummyInfo.radarScanTick) radar.put("ScanTick", info.radarScanTick);
+        if (info.radarDetectChanceBase != dummyInfo.radarDetectChanceBase) radar.put("DetectChanceBase", info.radarDetectChanceBase);
+        if (info.radarGainNearFactor != dummyInfo.radarGainNearFactor) radar.put("GainNearFactor", info.radarGainNearFactor);
+        if (info.radarGainFarFactor != dummyInfo.radarGainFarFactor) radar.put("GainFarFactor", info.radarGainFarFactor);
+        if (info.radarRcsFrontFactor != dummyInfo.radarRcsFrontFactor) radar.put("RcsFrontFactor", info.radarRcsFrontFactor);
+        if (info.radarRcsSideFactor != dummyInfo.radarRcsSideFactor) radar.put("RcsSideFactor", info.radarRcsSideFactor);
+        if (info.radarRcsRearFactor != dummyInfo.radarRcsRearFactor) radar.put("RcsRearFactor", info.radarRcsRearFactor);
+        if (info.radarRcsTimeFactor != dummyInfo.radarRcsTimeFactor) radar.put("RcsTimeFactor", info.radarRcsTimeFactor);
+        if (info.radarContactHoldTick != dummyInfo.radarContactHoldTick) radar.put("ContactHoldTick", info.radarContactHoldTick);
+        if (!Objects.equals(info.radarElevationReference, dummyInfo.radarElevationReference)) radar.put("ElevationReference", info.radarElevationReference);
+        if (!Objects.equals(info.radarElevationCoverage, dummyInfo.radarElevationCoverage)) radar.put("ElevationCoverage", info.radarElevationCoverage);
+        if (info.enableBVR != dummyInfo.enableBVR) radar.put("EnableBVR", info.enableBVR);
+        if (info.radarMinScanAltitude != dummyInfo.radarMinScanAltitude) radar.put("MinScanAltitude", info.radarMinScanAltitude);
+        if (info.radarMaxScanAltitude != dummyInfo.radarMaxScanAltitude) radar.put("MaxScanAltitude", info.radarMaxScanAltitude);
+        if (!Objects.equals(info.radarSearchType, dummyInfo.radarSearchType)) radar.put("SearchType", info.radarSearchType);
+        if (info.radarTrackAzimuthDeg != dummyInfo.radarTrackAzimuthDeg) radar.put("TrackAzimuth", info.radarTrackAzimuthDeg);
+        if (info.radarTrackElevationDeg != dummyInfo.radarTrackElevationDeg) radar.put("TrackElevation", info.radarTrackElevationDeg);
+        if (info.radarRetargetCooldownTick != dummyInfo.radarRetargetCooldownTick) radar.put("RetargetCooldownTick", info.radarRetargetCooldownTick);
+        if (info.passiveRadar != dummyInfo.passiveRadar) radar.put("Passive", info.passiveRadar);
+        if (!radar.isEmpty()) feats.put("Radar", radar);
+
+        Map<String, Object> rwr = new LinkedHashMap<>();
+        if (info.hasRWR != dummyInfo.hasRWR) rwr.put("Enabled", info.hasRWR);
+        if (info.rwrType != dummyInfo.rwrType) rwr.put("Type", info.rwrType.name());
+        if (!Objects.equals(info.nameOnRWR, dummyInfo.nameOnRWR)) rwr.put("Name", info.nameOnRWR);
+        if (!rwr.isEmpty()) feats.put("RWR", rwr);
+
+        Map<String, Object> ecm = new LinkedHashMap<>();
+        if (info.enableECMJammer != dummyInfo.enableECMJammer) ecm.put("Enabled", info.enableECMJammer);
+        if (info.ecmJammerWaitTime != dummyInfo.ecmJammerWaitTime) ecm.put("WaitTime", info.ecmJammerWaitTime);
+        if (info.ecmJammerUseTime != dummyInfo.ecmJammerUseTime) ecm.put("UseTime", info.ecmJammerUseTime);
+        if (info.ecmJammerType != dummyInfo.ecmJammerType) ecm.put("Type", info.ecmJammerType);
+        if (info.hasPhotoelectricJammer != dummyInfo.hasPhotoelectricJammer) ecm.put("PhotoelectricJammer", info.hasPhotoelectricJammer);
+        if (info.hasDIRCM != dummyInfo.hasDIRCM) ecm.put("DIRCM", info.hasDIRCM);
+        if (!ecm.isEmpty()) feats.put("ECM", ecm);
+
+        Map<String, Object> impactAngles = new LinkedHashMap<>();
+        if (info.impactRicochetStartAngle != dummyInfo.impactRicochetStartAngle)
+            impactAngles.put("RicochetStartAngle", info.impactRicochetStartAngle);
+        if (!info.impactAngleThresholds.isEmpty() && info.impactAngleThresholds.size() == info.impactAngleCoefficients.size()) {
+            List<List<Float>> entries = new ArrayList<>();
+            for (int i = 0; i < info.impactAngleThresholds.size(); i++) {
+                entries.add(Arrays.asList(info.impactAngleThresholds.get(i), info.impactAngleCoefficients.get(i)));
+            }
+            impactAngles.put("Entries", entries);
+        }
+        if (!impactAngles.isEmpty()) feats.put("ImpactAngles", impactAngles);
+
         if (!feats.isEmpty()) root.put("AircraftFeatures", feats);
 
         return root;
@@ -1546,6 +1787,19 @@ public class YamlEmitter implements IEmitter {
             }
             if (!list.isEmpty()) components.put("WeaponBay", list);
         }
+        if (!info.partTurretWeaponBay.isEmpty()) {
+            List<Map<String, Object>> list = new ArrayList<>();
+            for (MCH_AircraftInfo.WeaponBay wb : info.partTurretWeaponBay) {
+                String weaponNameStr = wb.weaponName;
+                if (!notBlank(weaponNameStr)) continue;
+                Map<String, Object> m = drawnPart(wb);
+                m.put("WeaponName", weaponNameStr);
+                m.put("MaxRotation", wb.maxRotFactor);
+                if (wb.isSlide) m.put("IsSliding", true);
+                list.add(m);
+            }
+            if (!list.isEmpty()) components.put("TurretWeaponBay", list);
+        }
         if (!info.partRotPart.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (MCH_AircraftInfo.RotPart r : info.partRotPart) {
@@ -1555,6 +1809,15 @@ public class YamlEmitter implements IEmitter {
                 list.add(m);
             }
             components.put("Rotation", list);
+        }
+        if (!info.partTurretRotPart.isEmpty()) {
+            List<Map<String, Object>> list = new ArrayList<>();
+            for (MCH_AircraftInfo.TurretRotPart r : info.partTurretRotPart) {
+                Map<String, Object> m = drawnPart(r);
+                if (r.rotAlways) m.put("AlwaysRotate", true);
+                list.add(m);
+            }
+            components.put("TurretRotation", list);
         }
         if (!info.partSteeringWheel.isEmpty()) {
             List<Map<String, Object>> list = new ArrayList<>();

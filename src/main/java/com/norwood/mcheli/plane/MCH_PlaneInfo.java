@@ -19,7 +19,7 @@ public class MCH_PlaneInfo extends MCH_AircraftInfo {
     public final List<MCH_AircraftInfo.DrawnPart> nozzles = new ArrayList<>();
     public final List<MCH_PlaneInfo.Rotor> rotorList = new ArrayList<>();
     public final List<MCH_PlaneInfo.Wing> wingList = new ArrayList<>();
-    public final List<ExhaustFlame> exhaustFlames = new ArrayList<>();
+    public final List<ExhaustFlame> exhaustFlames = new ArrayList<>(); // Reforged field
     public boolean isEnableVtol = false;
     public boolean isDefaultVtol;
     public float vtolYaw = 0.3F;
@@ -28,7 +28,7 @@ public class MCH_PlaneInfo extends MCH_AircraftInfo {
     public boolean isVariableSweepWing = false;
     public float sweepWingSpeed = this.speed;
 
-    public static final Map<String, Integer> exhaustFlameTextureMap = new HashMap<>();
+    public static final Map<String, Integer> exhaustFlameTextureMap = new HashMap<>(); // Reforged field
 
     public MCH_PlaneInfo(AddonResourceLocation location, String path, String parser) {
         super(location, path, parser);
@@ -182,9 +182,9 @@ public class MCH_PlaneInfo extends MCH_AircraftInfo {
 
     public static class ExhaustFlame extends MCH_AircraftInfo.DrawnPart {
 
-        public final String texturePrefix;
-        public final float degreeYaw;
-        public final int delay;
+        public final String texturePrefix; // Reforged field
+        public final float degreeYaw; // Reforged field
+        public final int delay; // Reforged field
 
         public ExhaustFlame(MCH_PlaneInfo paramMCP_PlaneInfo, String modelName, String texturePrefix, float x, float y,
                             float z, float rx, float ry, float rz, float degreeYaw, int delay, String partName) {
