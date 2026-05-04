@@ -442,7 +442,7 @@ public class YamlParser implements IParser {
                 case "NameOnEarlyASRadar" -> info.nameOnEarlyASRadar = ((String) value).trim();
                 case "ExplosionSizeByCrash" -> info.explosionSizeByCrash = getClamped(100, value);
                 case "ThrottleDownFactor" -> info.throttleDownFactor = getClamped(10F, value);
-                case "DestroyRewards" -> parseDestroyRewards((Map<String, Object>) value, info);
+//                case "DestroyRewards" -> parseDestroyRewards((Map<String, Object>) value, info);
 
                 case "Weapons" -> {
                     List<Map<String, Object>> weapons = (List<Map<String, Object>>) value;
@@ -772,6 +772,7 @@ public class YamlParser implements IParser {
                 case "ThrottleUpDown" -> info.throttleUpDown = getClamped(3F, entry.getValue());
                 case "ThrottleUpDownEntity" -> info.throttleUpDownOnEntity = getClamped(100_000F, entry.getValue());
                 case "Parachuting" -> parseParachuting(entry, info);
+                case "Maintenance" -> parseMaintenance(entry, info);
                 case "Flare" -> info.flare = parseFlare((Map<String, Object>) entry.getValue());
                 case "APS" -> parseAPS(info, (Map<String, Object>) entry.getValue());
                 case "Radar" -> parseRadar(info, (Map<String, Object>) entry.getValue());
@@ -781,6 +782,26 @@ public class YamlParser implements IParser {
                 default -> logUnkownEntry(entry, "AircraftFeatures");
             }
         }
+    }
+
+    private void parseMaintenance(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
+        Object value = entry.getValue();
+        if (value instanceof Boolean bool) {
+            info.enableMaintenance = bool;
+            return;
+        }
+        if (value instanceof Map<?, ?> maintenanceMapRaw) {
+            info.isEnableParachuting = true;
+            for (Map.Entry<String, Object> string : ((Map<String, Object>) maintenanceMapRaw).entrySet()) {
+                switch (string.getKey()) {
+                    case "UseTime" -> info.maintenanceUseTime = ((Number) string.getValue()).intValue();
+                    case "Cooldown" -> info.maintenanceWaitTime = ((Number) string.getValue()).intValue();
+                    default -> logUnkownEntry(string, "Maintenance");
+                }
+            }
+            return;
+        }
+        throw new IllegalArgumentException("Parachuting type must be a boolean or map, got: " + value.getClass());
     }
 
     private void parseImpactAngles(MCH_AircraftInfo info, Map<String, Object> value) {
@@ -1166,19 +1187,19 @@ public class YamlParser implements IParser {
         set.weapons.add(weapon);
     }
 
-    private void parseDestroyRewards(Map<String, Object> value, MCH_AircraftInfo info) {
-        for (Map.Entry<String, Object> entry : value.entrySet()) {
-            switch (entry.getKey()) {
-                case "SLMin" -> info.destroyRewardSLMin = ((Number) entry.getValue()).intValue();
-                case "SLMax" -> info.destroyRewardSLMax = ((Number) entry.getValue()).intValue();
-                case "GEMin" -> info.destroyRewardGEMin = ((Number) entry.getValue()).intValue();
-                case "GEMax" -> info.destroyRewardGEMax = ((Number) entry.getValue()).intValue();
-                case "RPMin" -> info.destroyRewardRPMin = ((Number) entry.getValue()).intValue();
-                case "RPMax" -> info.destroyRewardRPMax = ((Number) entry.getValue()).intValue();
-                default -> logUnkownEntry(entry, "DestroyRewards");
-            }
-        }
-    }
+//    private void parseDestroyRewards(Map<String, Object> value, MCH_AircraftInfo info) {
+//        for (Map.Entry<String, Object> entry : value.entrySet()) {
+//            switch (entry.getKey()) {
+//                case "SLMin" -> info.destroyRewardSLMin = ((Number) entry.getValue()).intValue();
+//                case "SLMax" -> info.destroyRewardSLMax = ((Number) entry.getValue()).intValue();
+//                case "GEMin" -> info.destroyRewardGEMin = ((Number) entry.getValue()).intValue();
+//                case "GEMax" -> info.destroyRewardGEMax = ((Number) entry.getValue()).intValue();
+//                case "RPMin" -> info.destroyRewardRPMin = ((Number) entry.getValue()).intValue();
+//                case "RPMax" -> info.destroyRewardRPMax = ((Number) entry.getValue()).intValue();
+//                default -> logUnkownEntry(entry, "DestroyRewards");
+//            }
+//        }
+//    }
 
     @SuppressWarnings("unboxing")
     private void parseSeatInfo(Map<String, Object> map, MCH_AircraftInfo info, int seatCount) {

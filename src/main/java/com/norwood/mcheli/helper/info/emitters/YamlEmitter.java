@@ -1195,18 +1195,18 @@ public class YamlEmitter implements IEmitter {
             root.put("ExplosionSizeByCrash", (int) info.explosionSizeByCrash);
         if (info.throttleDownFactor != dummyInfo.explosionSizeByCrash)
             root.put("ThrottleDownFactor", info.throttleDownFactor);
-        if (info.destroyRewardSLMin != dummyInfo.destroyRewardSLMin || info.destroyRewardSLMax != dummyInfo.destroyRewardSLMax
-                || info.destroyRewardGEMin != dummyInfo.destroyRewardGEMin || info.destroyRewardGEMax != dummyInfo.destroyRewardGEMax
-                || info.destroyRewardRPMin != dummyInfo.destroyRewardRPMin || info.destroyRewardRPMax != dummyInfo.destroyRewardRPMax) {
-            Map<String, Object> rewards = new LinkedHashMap<>();
-            rewards.put("SLMin", info.destroyRewardSLMin);
-            rewards.put("SLMax", info.destroyRewardSLMax);
-            rewards.put("GEMin", info.destroyRewardGEMin);
-            rewards.put("GEMax", info.destroyRewardGEMax);
-            rewards.put("RPMin", info.destroyRewardRPMin);
-            rewards.put("RPMax", info.destroyRewardRPMax);
-            root.put("DestroyRewards", rewards);
-        }
+//        if (info.destroyRewardSLMin != dummyInfo.destroyRewardSLMin || info.destroyRewardSLMax != dummyInfo.destroyRewardSLMax
+//                || info.destroyRewardGEMin != dummyInfo.destroyRewardGEMin || info.destroyRewardGEMax != dummyInfo.destroyRewardGEMax
+//                || info.destroyRewardRPMin != dummyInfo.destroyRewardRPMin || info.destroyRewardRPMax != dummyInfo.destroyRewardRPMax) {
+//            Map<String, Object> rewards = new LinkedHashMap<>();
+//            rewards.put("SLMin", info.destroyRewardSLMin);
+//            rewards.put("SLMax", info.destroyRewardSLMax);
+//            rewards.put("GEMin", info.destroyRewardGEMin);
+//            rewards.put("GEMax", info.destroyRewardGEMax);
+//            rewards.put("RPMin", info.destroyRewardRPMin);
+//            rewards.put("RPMax", info.destroyRewardRPMax);
+//            root.put("DestroyRewards", rewards);
+//        }
 
         // Global camera section
         Map<String, Object> camera = new LinkedHashMap<>();

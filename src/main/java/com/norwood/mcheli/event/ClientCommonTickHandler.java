@@ -37,6 +37,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
     public static ClientCommonTickHandler instance;
     public static MCH_EntityAircraft ridingAircraft = null;
     public static boolean isDrawScoreboard = false;
+    public static boolean enableNew3rdCamera = true;
     public final MCH_ClientTickHandlerBase[] ticks;
     public final KeyboardInputHandler kbInput;
     public final MouseInputHandler mouseInput;
@@ -104,7 +105,28 @@ public class ClientCommonTickHandler extends W_TickHandler {
         handleImageDataSending();
         handleTickHandlers(inGui);
         cameraHandler.handleAircraftCamera(player);
+        handleThirdPersonCamera(player);
         handleGps(player);
+    }
+
+    private void handleThirdPersonCamera(EntityPlayer player) {
+        if (!(player instanceof net.minecraft.client.entity.EntityPlayerSP playerSP) || mc.world == null) {
+            MCH_3rdCamera.clear();
+            return;
+        }
+
+        if (enableNew3rdCamera && player.getRidingEntity() instanceof MCH_EntityAircraft aircraft &&
+                mc.gameSettings.thirdPersonView != 0 && !aircraft.isDestroyed()) {
+            MCH_3rdCamera thirdCamera = MCH_3rdCamera.getInstance(mc.world, aircraft);
+            thirdCamera.update(aircraft, playerSP);
+            MCH_Lib.setRenderViewEntity(thirdCamera);
+            return;
+        }
+
+        if (mc.getRenderViewEntity() instanceof MCH_3rdCamera) {
+            MCH_Lib.setRenderViewEntity(playerSP);
+        }
+        MCH_3rdCamera.clear();
     }
 
     @Override

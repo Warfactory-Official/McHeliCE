@@ -4,6 +4,7 @@ import com.norwood.mcheli.wrapper.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -301,6 +302,8 @@ public class MCH_Lib {
     public static void setRenderViewEntity(EntityLivingBase entity) {
         if (MCH_Config.ReplaceRenderViewEntity.prmBool) {
             W_McClient.setRenderEntity(entity);
+            if(!entity.equals(Minecraft.getMinecraft().getRenderViewEntity()))
+                Minecraft.getMinecraft().renderGlobal.loadRenderers();
         }
     }
 }

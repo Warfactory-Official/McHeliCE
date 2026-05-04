@@ -1,5 +1,6 @@
 package com.norwood.mcheli.helper.client;
 
+import com.norwood.mcheli.MCH_3rdCamera;
 import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
@@ -96,7 +97,7 @@ public class MCH_CameraManager {
         }
         if (ridingAircraft != null) {
             MCH_ViewEntityDummy viewer = MCH_ViewEntityDummy.getInstance(mc.world);
-            if (viewer == event.getEntity()) {
+            if (viewer == event.getEntity() || event.getEntity() instanceof MCH_3rdCamera) {
                 event.setFOV(event.getFOV() * (1.0F / cameraZoom));
             }
         }

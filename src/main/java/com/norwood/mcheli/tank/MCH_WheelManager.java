@@ -6,7 +6,6 @@ import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.wrapper.W_Block;
-import com.norwood.mcheli.wrapper.W_Lib;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.MoverType;
@@ -74,10 +73,6 @@ public class MCH_WheelManager {
         final double WHEEL_Y_COMP = 0.35D;           // small lift to keep wheels out of collision fudge zone
         final double GROUND_HORZ_SPEED_EPS = 0.06D;  // treat below this as basically stationary
         final float MAX_DOWN_PITCH_STATIONARY = 3.5F;
-        final float GROUND_HIGH_THROTTLE_BLEND = 0.12F;
-        final float GROUND_IDLE_BLEND = 0.55F;
-        final float AIR_BLEND = 0.9F;
-        final float MAX_DELTA_PER_TICK = 2.5F;       // clamp pitch/roll per tick
 
         // 1) Update wheels' prev positions and compute motion target
         for (MCH_EntityWheel wheel : this.wheels) {
@@ -195,9 +190,6 @@ public class MCH_WheelManager {
             if (roll - ac.getRoll() > ogrf) roll = ac.getRoll() + ogrf;
             if (roll - ac.getRoll() < -ogrf) roll = ac.getRoll() - ogrf;
 
-            this.targetPitch = pitch;
-            this.targetRoll = roll;
-
             // DEFENSIVE: when essentially stationary on ground, avoid nose digging
             boolean groundLike = ac.onGround || MCH_Lib.getBlockIdY(ac, 1, -2) > 0;
             double horizSpeed = Math.sqrt(ac.motionX * ac.motionX + ac.motionZ * ac.motionZ);
@@ -205,38 +197,11 @@ public class MCH_WheelManager {
                 if (pitch - ac.getPitch() < -MAX_DOWN_PITCH_STATIONARY) {
                     pitch = ac.getPitch() - MAX_DOWN_PITCH_STATIONARY;
                 }
-                // damp the correction somewhat so it doesn't instantly change
                 pitch = ac.getPitch() + (pitch - ac.getPitch()) * 0.45F;
             }
 
-            // Blended application: stronger in air, much weaker on ground when throttling/moving
-            float blend;
-            double throttle = ac.getCurrentThrottle();
-            if (!groundLike) {
-                blend = AIR_BLEND;
-            } else {
-                if (throttle > 0.05D || horizSpeed > 0.08D) {
-                    blend = GROUND_HIGH_THROTTLE_BLEND;
-                } else {
-                    blend = GROUND_IDLE_BLEND;
-                }
-            }
-
-            float newPitch = ac.getPitch() + (pitch - ac.getPitch()) * blend;
-            float newRoll = ac.getRoll() + (roll - ac.getRoll()) * blend;
-
-            // clamp per-tick delta
-            float dpitch = newPitch - ac.getPitch();
-            float droll = newRoll - ac.getRoll();
-            if (dpitch > MAX_DELTA_PER_TICK) dpitch = MAX_DELTA_PER_TICK;
-            if (dpitch < -MAX_DELTA_PER_TICK) dpitch = -MAX_DELTA_PER_TICK;
-            if (droll > MAX_DELTA_PER_TICK) droll = MAX_DELTA_PER_TICK;
-            if (droll < -MAX_DELTA_PER_TICK) droll = -MAX_DELTA_PER_TICK;
-
-            if (!W_Lib.isClientPlayer(ac.getRiddenByEntity())) {
-                ac.setRotPitch(ac.getPitch() + dpitch);
-                ac.setRotRoll(ac.getRoll() + droll);
-            }
+            this.targetPitch = pitch;
+            this.targetRoll = roll;
         }
 
         // 6) Reposition wheels to follow targetPitch/targetRoll (respecting movement limits)

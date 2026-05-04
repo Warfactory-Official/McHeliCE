@@ -155,12 +155,12 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float soundPitch = 1.0F;
     public float soundRange = this.getDefaultSoundRange();
     public IModelCustom model = null;
-    public int destroyRewardSLMin = -1; // Reforged field
-    public int destroyRewardSLMax = -1; // Reforged field
-    public int destroyRewardGEMin = -1; // Reforged field
-    public int destroyRewardGEMax = -1; // Reforged field
-    public int destroyRewardRPMin = -1; // Reforged field
-    public int destroyRewardRPMax = -1; // Reforged field
+//    public int destroyRewardSLMin = -1; // Reforged field
+//    public int destroyRewardSLMax = -1; // Reforged field
+//    public int destroyRewardGEMin = -1; // Reforged field
+//    public int destroyRewardGEMax = -1; // Reforged field
+//    public int destroyRewardRPMin = -1; // Reforged field
+//    public int destroyRewardRPMax = -1; // Reforged field
     /**
      * Reforged field: radar type.
      */
@@ -205,8 +205,11 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      * Reforged field: chaff cooldown time.
      */
     public int chaffWaitTime = 400;
+
+
+    public boolean enableMaintenance = false;
     /**
-     * Reforged field: duration of repair system (duration = heal percentage).
+     * reforged field: duration of repair system (duration = heal percentage).
      */
     public int maintenanceUseTime = 20;
     /**
@@ -403,7 +406,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     @Override
     public boolean validate() throws Exception {
-        normalizeDestroyRewardRanges();
+//        normalizeDestroyRewardRanges();
         ensureImpactDamageDefaults();
 
         if (this.cameraPosition.isEmpty()) {
@@ -503,23 +506,23 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         }
     }
 
-    private void normalizeDestroyRewardRanges() {
-        if (this.destroyRewardSLMin >= 0 && this.destroyRewardSLMax >= 0 && this.destroyRewardSLMin > this.destroyRewardSLMax) {
-            int t = this.destroyRewardSLMin;
-            this.destroyRewardSLMin = this.destroyRewardSLMax;
-            this.destroyRewardSLMax = t;
-        }
-        if (this.destroyRewardGEMin >= 0 && this.destroyRewardGEMax >= 0 && this.destroyRewardGEMin > this.destroyRewardGEMax) {
-            int t = this.destroyRewardGEMin;
-            this.destroyRewardGEMin = this.destroyRewardGEMax;
-            this.destroyRewardGEMax = t;
-        }
-        if (this.destroyRewardRPMin >= 0 && this.destroyRewardRPMax >= 0 && this.destroyRewardRPMin > this.destroyRewardRPMax) {
-            int t = this.destroyRewardRPMin;
-            this.destroyRewardRPMin = this.destroyRewardRPMax;
-            this.destroyRewardRPMax = t;
-        }
-    }
+//    private void normalizeDestroyRewardRanges() {
+//        if (this.destroyRewardSLMin >= 0 && this.destroyRewardSLMax >= 0 && this.destroyRewardSLMin > this.destroyRewardSLMax) {
+//            int t = this.destroyRewardSLMin;
+//            this.destroyRewardSLMin = this.destroyRewardSLMax;
+//            this.destroyRewardSLMax = t;
+//        }
+//        if (this.destroyRewardGEMin >= 0 && this.destroyRewardGEMax >= 0 && this.destroyRewardGEMin > this.destroyRewardGEMax) {
+//            int t = this.destroyRewardGEMin;
+//            this.destroyRewardGEMin = this.destroyRewardGEMax;
+//            this.destroyRewardGEMax = t;
+//        }
+//        if (this.destroyRewardRPMin >= 0 && this.destroyRewardRPMax >= 0 && this.destroyRewardRPMin > this.destroyRewardRPMax) {
+//            int t = this.destroyRewardRPMin;
+//            this.destroyRewardRPMin = this.destroyRewardRPMax;
+//            this.destroyRewardRPMax = t;
+//        }
+//    }
 
     private void ensureImpactDamageDefaults() {
         if (this.impactAngleThresholds.isEmpty()) {

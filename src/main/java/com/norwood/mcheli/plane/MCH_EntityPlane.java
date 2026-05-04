@@ -663,7 +663,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     }
 
     protected void onUpdate_Client() {
-        if (this.getRiddenByEntity() != null && W_Lib.isClientPlayer(this.getRiddenByEntity())) {
+        boolean localPilot = this.getRiddenByEntity() != null && W_Lib.isClientPlayer(this.getRiddenByEntity());
+        if (localPilot) {
             this.getRiddenByEntity().rotationPitch = this.getRiddenByEntity().prevRotationPitch;
         }
 

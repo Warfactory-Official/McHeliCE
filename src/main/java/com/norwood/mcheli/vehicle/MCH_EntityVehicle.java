@@ -117,6 +117,26 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         super.setDead();
     }
 
+    private static Vec3d getFlatForwardVector(float yawDeg) {
+        double yawRad = Math.toRadians(yawDeg);
+        return new Vec3d(-Math.sin(yawRad), 0.0D, Math.cos(yawRad));
+    }
+
+    private double getSignedForwardSpeed() {
+        Vec3d forward = getFlatForwardVector(this.rotationYaw);
+        return this.motionX * forward.x + this.motionZ * forward.z;
+    }
+
+    private void applyGroundGrip(double lateralGrip, double rollingFriction) {
+        Vec3d forward = getFlatForwardVector(this.rotationYaw);
+        double forwardSpeed = this.motionX * forward.x + this.motionZ * forward.z;
+        double lateralSpeed = this.motionX * -forward.z + this.motionZ * forward.x;
+        lateralSpeed *= lateralGrip;
+        forwardSpeed *= rollingFriction;
+        this.motionX = forward.x * forwardSpeed - forward.z * lateralSpeed;
+        this.motionZ = forward.z * forwardSpeed + forward.x * lateralSpeed;
+    }
+
     @Override
     public float getSoundVolume() {
         return (float) this.getCurrentThrottle() * 2.0F;
@@ -309,20 +329,32 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                 }
             }
 
-            if (this.getVehicleInfo().isEnableMove) {
+            if (this.getVehicleInfo().isEnableRot) {
+                float steerInput = 0.0F;
                 if (this.moveLeft && !this.moveRight) {
-                    this.rotationYaw = (float) (this.rotationYaw - 0.5);
+                    steerInput = -1.0F;
+                } else if (this.moveRight && !this.moveLeft) {
+                    steerInput = 1.0F;
                 }
 
-                if (this.moveRight && !this.moveLeft) {
-                    this.rotationYaw = (float) (this.rotationYaw + 0.5);
+                if (steerInput != 0.0F) {
+                    double signedSpeed = getSignedForwardSpeed();
+                    if (Math.abs(signedSpeed) < 0.02D) {
+                        signedSpeed = (this.throttleUp ? 0.02D : 0.0D) - (this.throttleDown ? 0.02D : 0.0D);
+                    }
+                    if (Math.abs(signedSpeed) > 0.001D) {
+                        float steerRate = (float) Math.min(60.0D, 16.0D + Math.abs(signedSpeed) * 140.0D);
+                        this.rotationYaw += steerInput * steerRate * (signedSpeed >= 0.0D ? 1.0F : -1.0F) / 20.0F;
+                    }
                 }
             }
 
             if (move) {
                 double d = Math.sqrt(x * x + z * z);
-                this.motionX -= x / d * 0.03F;
-                this.motionZ += z / d * 0.03F;
+                if (d > 0.0D) {
+                    this.motionX -= x / d * 0.035F;
+                    this.motionZ += z / d * 0.035F;
+                }
             }
         }
     }
@@ -345,10 +377,10 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.setRotation(this.rotationYaw, this.rotationPitch);
             this.aircraftPosRotInc--;
         } else {
+            boolean localPilot = W_Lib.isClientPlayer(this.getRiddenByEntity());
             this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            if (this.onGround) {
-                this.motionX *= 0.95;
-                this.motionZ *= 0.95;
+            if (this.onGround && !localPilot) {
+                applyGroundGrip(0.12D, 0.992D);
             }
 
             if (this.isInWater()) {
@@ -383,12 +415,12 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.motionY += Objects.requireNonNull(this.getAcInfo()).gravity;
         }
 
-        // Horizontal aceleration
+        // Horizontal acceleration
         if (this.getCurrentThrottle() > 0.0) {
-            double yawRad = Math.toRadians(this.rotationYaw);
-            double accel = 0.03 * this.getCurrentThrottle(); // scale throttle → accel
-            this.motionX -= Math.sin(yawRad) * accel;
-            this.motionZ += Math.cos(yawRad) * accel;
+            Vec3d forward = getFlatForwardVector(this.rotationYaw);
+            double accel = 0.035 * this.getCurrentThrottle();
+            this.motionX += forward.x * accel;
+            this.motionZ += forward.z * accel;
         }
 
         // Speed
@@ -400,10 +432,13 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.motionZ *= scale;
         }
 
-        // Friction
-        double groundFriction = this.onGround ? 0.91 : 0.99;
-        this.motionX *= groundFriction;
-        this.motionZ *= groundFriction;
+        // Friction / grip
+        if (this.onGround) {
+            applyGroundGrip(0.08D, 0.985D);
+        } else {
+            this.motionX *= 0.99;
+            this.motionZ *= 0.99;
+        }
         this.motionY *= 0.95;
 
         // Move
@@ -414,6 +449,30 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         if (this.getRiddenByEntity() != null && this.getRiddenByEntity().isDead) {
             this.unmountEntity();
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9,
+                                             boolean teleport) {
+        int delay = par9 + this.getClientPositionDelayCorrection();
+        if (W_Lib.isClientPlayer(this.getRiddenByEntity())) {
+            delay = Math.max(1, delay - 1);
+        }
+        this.aircraftPosRotInc = delay;
+        this.aircraftX = par1;
+        this.aircraftY = par3;
+        this.aircraftZ = par5;
+        this.aircraftYaw = par7;
+        this.aircraftPitch = par8;
+        this.motionX = this.velocityX;
+        this.motionY = this.velocityY;
+        this.motionZ = this.velocityZ;
+    }
+
+    @Override
+    public int getClientPositionDelayCorrection() {
+        return 5;
     }
 
     @Override
