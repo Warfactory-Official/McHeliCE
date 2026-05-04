@@ -58,7 +58,9 @@ public class MCH_CommonProxy {
 
     public void registerClientTick() {}
 
-    public void registerServerTick() {}
+    public void registerServerTick() {
+        new EntityInfoManagerAsync();
+    }
 
     public boolean isRemote() {
         return false;

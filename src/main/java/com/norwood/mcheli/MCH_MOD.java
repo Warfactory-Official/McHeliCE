@@ -363,6 +363,7 @@ public class MCH_MOD {
         MCH_Logger.log("Register system");
         MinecraftForge.EVENT_BUS.register(new MCH_EventHook());
         proxy.registerClientTick();
+        proxy.registerServerTick();
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new MCH_GuiCommonHandler());
         MCH_Logger.log("Register entity");
         this.registerEntity();

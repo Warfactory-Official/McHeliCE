@@ -277,7 +277,7 @@ public abstract class MCH_WeaponBase {
                 }
 
                 double spx = prm.posX;
-                double spy = prm.posY + 3.0;
+                double spy = prm.posY;
                 double spz = prm.posZ;
 
                 for (int i = 0; i < 50; i++) {
@@ -285,8 +285,8 @@ public abstract class MCH_WeaponBase {
                     Vec3d ve = new Vec3d(spx + mx, spy + my, spz + mz);
                     RayTraceResult mop = this.world.rayTraceBlocks(vs, ve);
                     if (mop != null && mop.typeOfHit == Type.BLOCK) {
-                        double dx = mop.getBlockPos().getX() - prm.posX;
-                        double dz = mop.getBlockPos().getZ() - prm.posZ;
+                        double dx = mop.hitVec.x - prm.posX;
+                        double dz = mop.hitVec.z - prm.posZ;
                         return Math.sqrt(dx * dx + dz * dz);
                     }
 
@@ -294,7 +294,7 @@ public abstract class MCH_WeaponBase {
                     spx += mx;
                     spy += my;
                     spz += mz;
-                    if (spy < prm.posY) {
+                    if (spy < prm.posY - 100.0) {
                         double dx = spx - prm.posX;
                         double dz = spz - prm.posZ;
                         return Math.sqrt(dx * dx + dz * dz);

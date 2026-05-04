@@ -50,14 +50,14 @@ public class HudMortarRadar implements DirectDrawable {
         double maxDist = MAX_DISTANCE;
         double currentDist = -1.0;
 
-        // TODO: Bake into the cache system
         MCH_WeaponSet ws = ac.getCurrentWeapon(player);
         if (ws != null) {
             MCH_WeaponInfo wi = ws.getInfo();
-//            if (wi == null || !wi.hasMortarRadar) return;
             if (wi.mortarRadarMaxDist > 0) maxDist = wi.mortarRadarMaxDist;
             if (wi.displayMortarDistance) currentDist = ac.getLandInDistance(player);
         }
+
+        double interpDist = ac.prevLandInDistance + (currentDist - ac.prevLandInDistance) * event.getPartialTicks();
 
         GlStateManager.pushMatrix();
         double sx = sc.getScaledHeight_double() * (RWR_CENTER_X / SCREEN_HEIGHT_ADAPT_CONSTANT);
@@ -65,29 +65,43 @@ public class HudMortarRadar implements DirectDrawable {
         drawRWRCircle(sx, sy, sc, RADAR);
 
         double circleRadius = sc.getScaledHeight_double() * (RWR_SIZE / SCREEN_HEIGHT_ADAPT_CONSTANT) / 2.0;
+        boolean isDeadOn = false;
+
+        double pax = interpolate(ac.posX, ac.prevPosX, event.getPartialTicks());
+        double pay = interpolate(ac.posY, ac.prevPosY, event.getPartialTicks());
+        double paz = interpolate(ac.posZ, ac.prevPosZ, event.getPartialTicks());
+
+        float yaw = ac.prevRotationYaw + (ac.rotationYaw - ac.prevRotationYaw) * event.getPartialTicks();
+        if (ws != null) {
+            float wsYaw = ws.getPrevYaw() + (ws.getYaw() - ws.getPrevYaw()) * event.getPartialTicks();
+            yaw += wsYaw + ws.getCurrentWeapon().fixRotationYaw;
+        }
+
+        float radYaw = (float) Math.toRadians(yaw);
+        Vec3d lookH = new Vec3d(MathHelper.sin(-radYaw), 0, MathHelper.cos(radYaw));
 
         for (EntityInfo entity : getServerLoadedEntity()) {
-            if (!isValidEntity(entity, player)) continue;
+            if (!isValidEntity(entity, ac)) continue;
 
             double xPos = interpolate(entity.x, entity.prevX, event.getPartialTicks());
             double yPos = interpolate(entity.y, entity.prevY, event.getPartialTicks());
             double zPos = interpolate(entity.z, entity.prevZ, event.getPartialTicks());
 
-            double px = player.prevPosX + (player.posX - player.prevPosX) * event.getPartialTicks();
-            double py = player.prevPosY + (player.posY - player.prevPosY) * event.getPartialTicks();
-            double pz = player.prevPosZ + (player.posZ - player.prevPosZ) * event.getPartialTicks();
-
-            Vec3d delta = new Vec3d(xPos - px, yPos - py, zPos - pz);
-            Vec3d lookVec = getDirection(player, event.getPartialTicks());
-
+            Vec3d delta = new Vec3d(xPos - pax, yPos - pay, zPos - paz);
             Vec3d deltaH = new Vec3d(delta.x, 0, delta.z).normalize();
-            Vec3d lookH = new Vec3d(lookVec.x, 0, lookVec.z).normalize();
 
             double dot = lookH.dotProduct(deltaH);
             double angle = Math.toDegrees(Math.acos(MathHelper.clamp(dot, -1.0, 1.0)));
-            if (lookH.crossProduct(deltaH).y < 0) angle = -angle;
+            // Check cross product to determine left/right
+            if ((lookH.x * deltaH.z - lookH.z * deltaH.x) > 0) angle = -angle;
 
             double distance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
+
+            // High precision hit detection
+            if (Math.abs(angle) < 3.0 && Math.abs(distance - interpDist) < 5.0) {
+                isDeadOn = true;
+            }
+
             double ratio = MathHelper.clamp((distance - MIN_DISTANCE) / (maxDist - MIN_DISTANCE), 0.0, 1.0);
             double renderRadius = MIN_RADIUS + (circleRadius - MIN_RADIUS) * ratio;
 
@@ -96,40 +110,37 @@ public class HudMortarRadar implements DirectDrawable {
             double markerY = sy - renderRadius * Math.cos(rad);
 
             drawMortarTarget(markerX, markerY, sc);
-            HudRWR.RWRResult rwrResult = getTargetTypeOnRadar(entity, ac);
+             HudRWR.RWRResult rwrResult = getTargetTypeOnRadar(entity, ac);
             String text = rwrResult.name + "[" + (int) distance + "]";
             int color = rwrResult.color;
             int fw = mc.fontRenderer.getStringWidth(text);
-            mc.fontRenderer.drawString(text, (int) (markerX - fw / 2.0), (int) markerY, color, true);
+            mc.fontRenderer.drawString(text, (int) (markerX - fw / 2.0), (int) (markerY + 10.0), color, true);
         }
         GlStateManager.popMatrix();
 
         GlStateManager.pushMatrix();
-        if (currentDist >= MIN_DISTANCE) {
-            double ratio = MathHelper.clamp((currentDist - MIN_DISTANCE) / (maxDist - MIN_DISTANCE), 0.0, 1.0);
+        if (interpDist >= MIN_DISTANCE) {
+            double ratio = MathHelper.clamp((interpDist - MIN_DISTANCE) / (maxDist - MIN_DISTANCE), 0.0, 1.0);
             double circleR = sc.getScaledHeight_double() * (RWR_SIZE / SCREEN_HEIGHT_ADAPT_CONSTANT) / 2.0;
             double renderR = MIN_RADIUS + (circleR - MIN_RADIUS) * ratio;
             double markerX = sx;
             double markerY = sy - renderR;
-            drawMortarCross(markerX, markerY, sc);
+
+            float r = isDeadOn ? 1.0F : 1.0F;
+            float g = isDeadOn ? 0.0F : 1.0F;
+            float b = isDeadOn ? 0.0F : 1.0F;
+            drawMortarCross(markerX, markerY, sc, r, g, b);
         }
         GlStateManager.popMatrix();
     }
 
-    private Vec3d getDirection(Entity e, float partialTicks) {
-        float pitch = e.prevRotationPitch + (e.rotationPitch - e.prevRotationPitch) * partialTicks;
-        float yaw = e.prevRotationYaw + (e.rotationYaw - e.prevRotationYaw) * partialTicks;
-        float f3 = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
-        float f5 = -MathHelper.cos(-pitch * 0.017453292F);
-        float f6 = MathHelper.sin(-pitch * 0.017453292F);
-        return new Vec3d(f4 * f5, f6, f3 * f5);
-    }
 
-    private boolean isValidEntity(EntityInfo entity, EntityPlayer player) {
+    private boolean isValidEntity(EntityInfo entity, MCH_EntityAircraft ac) {
         if (entity.entityClassName.contains("MCH_EntityChaff") || entity.entityClassName.contains("MCH_EntityFlare"))
             return false;
-        return entity.getDistanceSqToEntity(player) >= MIN_DISTANCE * MIN_DISTANCE;
+        double dx = entity.x - ac.posX;
+        double dz = entity.z - ac.posZ;
+        return (dx * dx + dz * dz) >= MIN_DISTANCE * MIN_DISTANCE;
     }
 
     private HudRWR.RWRResult getTargetTypeOnRadar(EntityInfo entity, MCH_EntityAircraft ac) {
@@ -145,7 +156,7 @@ public class HudMortarRadar implements DirectDrawable {
     }
 
     private void drawRWRCircle(double x, double y, ScaledResolution sc, ResourceLocation rwr) {
-        prepareRenderState();
+        prepareRenderState(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(rwr);
         Tessellator tess = Tessellator.getInstance();
         BufferBuilder buf = tess.getBuffer();
@@ -160,8 +171,8 @@ public class HudMortarRadar implements DirectDrawable {
         restoreRenderState();
     }
 
-    private void drawMortarCross(double x, double y, ScaledResolution sc) {
-        prepareRenderState();
+    private void drawMortarCross(double x, double y, ScaledResolution sc, float r, float g, float b) {
+        prepareRenderState(r, g, b, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(CROSS);
         Tessellator tess = Tessellator.getInstance();
         BufferBuilder buf = tess.getBuffer();
@@ -177,7 +188,7 @@ public class HudMortarRadar implements DirectDrawable {
     }
 
     private void drawMortarTarget(double x, double y, ScaledResolution sc) {
-        prepareRenderState();
+        prepareRenderState(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(TARGET);
         Tessellator tess = Tessellator.getInstance();
         BufferBuilder buf = tess.getBuffer();
@@ -192,10 +203,10 @@ public class HudMortarRadar implements DirectDrawable {
         restoreRenderState();
     }
 
-    private void prepareRenderState() {
+    private void prepareRenderState(float r, float g, float b, float a) {
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.color(1F, 1F, 1F, 1F);
+        GlStateManager.color(r, g, b, a);
     }
 
     private void restoreRenderState() {

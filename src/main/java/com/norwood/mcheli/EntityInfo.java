@@ -1,9 +1,18 @@
 package com.norwood.mcheli;
 
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import hohserg.elegant.networking.api.ElegantSerializable;
+import hohserg.elegant.networking.api.IByteBufSerializable;
+import io.netty.buffer.ByteBuf;
+import lombok.*;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
-public class EntityInfo {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+public class EntityInfo implements IByteBufSerializable {
 
     public int entityId;
     public String worldName;
@@ -30,6 +39,39 @@ public class EntityInfo {
         this.prevY = lastTickPosY;
         this.prevZ = lastTickPosZ;
         this.lastUpdateTime = System.currentTimeMillis();
+    }
+
+    @SuppressWarnings("unused")
+    public EntityInfo(ByteBuf buf) {
+        this.entityId = buf.readInt();
+        this.worldName = ByteBufUtils.readUTF8String(buf);
+        this.entityName = ByteBufUtils.readUTF8String(buf);
+        this.entityClassName = ByteBufUtils.readUTF8String(buf);
+
+        this.x = buf.readDouble();
+        this.y = buf.readDouble();
+        this.z = buf.readDouble();
+        this.prevX = buf.readDouble();
+        this.prevY = buf.readDouble();
+        this.prevZ = buf.readDouble();
+
+        this.lastUpdateTime = buf.readLong();
+    }
+
+    public void serialize(ByteBuf buf) {
+        buf.writeInt(this.entityId);
+        ByteBufUtils.writeUTF8String(buf, this.worldName);
+        ByteBufUtils.writeUTF8String(buf, this.entityName);
+        ByteBufUtils.writeUTF8String(buf, this.entityClassName);
+
+        buf.writeDouble(this.x);
+        buf.writeDouble(this.y);
+        buf.writeDouble(this.z);
+        buf.writeDouble(this.prevX);
+        buf.writeDouble(this.prevY);
+        buf.writeDouble(this.prevZ);
+
+        buf.writeLong(this.lastUpdateTime);
     }
 
     public static EntityInfo createInfo(Entity e) {
