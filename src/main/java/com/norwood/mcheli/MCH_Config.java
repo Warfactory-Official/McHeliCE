@@ -57,6 +57,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm KeyChaff;
     public static MCH_ConfigPrm KeyAPS;
     public static MCH_ConfigPrm KeyECMJammer;
+    public static MCH_ConfigPrm KeyAirburstDistReset;
     public static MCH_ConfigPrm KeyRadarSwitch;
     public static MCH_ConfigPrm KeyExtra;
     public static MCH_ConfigPrm KeyCameraDistUp;
@@ -225,6 +226,7 @@ public class MCH_Config {
         KeyChaff = new MCH_ConfigPrm("KeyChaff", Keyboard.KEY_V);
         KeyAPS = new MCH_ConfigPrm("KeyAPS", Keyboard.KEY_V);
         KeyECMJammer = new MCH_ConfigPrm("KeyECMJammer", Keyboard.KEY_V);
+        KeyAirburstDistReset = new MCH_ConfigPrm("KeyAirburstDistReset", -99);
         KeyRadarSwitch = new MCH_ConfigPrm("KeyRadarSwitch", Keyboard.KEY_GRAVE);
         KeyExtra = new MCH_ConfigPrm("KeyExtra", Keyboard.KEY_F);
         KeyCameraDistUp = new MCH_ConfigPrm("KeyCameraDistanceUp", Keyboard.KEY_PRIOR);
@@ -254,6 +256,7 @@ public class MCH_Config {
                 KeyChaff,
                 KeyAPS,
                 KeyECMJammer,
+                KeyAirburstDistReset,
                 KeyRadarSwitch,
                 KeyExtra,
                 KeyCameraDistUp,

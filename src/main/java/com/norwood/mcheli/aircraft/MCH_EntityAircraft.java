@@ -6214,6 +6214,28 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return new FluidStack(fluid, drained);
     }
 
+    public void resetAirburstDistance(EntityPlayer player, MCH_WeaponBase wb) {
+        if (wb == null) {
+            return;
+        }
+
+        int dist = 0;
+        if (wb.airburstDist <= 0) {
+            Vec3d start = player.getPositionEyes(1.0F);
+            Vec3d look = player.getLook(1.0F);
+            Vec3d end = start.add(look.x * 3000.0, look.y * 3000.0, look.z * 3000.0);
+            RayTraceResult mop = this.world.rayTraceBlocks(start, end, false, true, false);
+            if (mop != null && mop.typeOfHit != RayTraceResult.Type.MISS) {
+                dist = (int) player.getDistance(mop.hitVec.x, mop.hitVec.y, mop.hitVec.z);
+            }
+        }
+
+        wb.airburstDist = dist;
+        if (this.world.isRemote) {
+            new PacketAirburstDistReset(this.getEntityId(), dist).sendToServer();
+        }
+    }
+
     public void manualReloadForPlayer(EntityPlayer player) {
         boolean didReload = getCurrentWeapon(player).manualReload();
         if (didReload && !world.isRemote && player instanceof EntityPlayerMP playerMP)

@@ -190,7 +190,8 @@ public class MCH_ConfigGui extends W_GuiContainer {
                 new MCH_GuiListItemKeyBind(219, 319, x1, "Put entity in the rack", MCH_Config.KeyPutToRack),
                 new MCH_GuiListItemKeyBind(220, 320, x1, "Drop entity from the rack", MCH_Config.KeyDownFromRack),
                 new MCH_GuiListItemKeyBind(221, 321, x1, "[MP]Score board", MCH_Config.KeyScoreboard),
-                new MCH_GuiListItemKeyBind(222, 322, x1, "[MP][OP]Multiplay manager", MCH_Config.KeyMultiplayManager)
+                new MCH_GuiListItemKeyBind(222, 322, x1, "[MP][OP]Multiplay manager", MCH_Config.KeyMultiplayManager),
+                new MCH_GuiListItemKeyBind(223, 323, x1, "Airburst Distance Reset", MCH_Config.KeyAirburstDistReset)
         };
 
         for (MCH_GuiListItemKeyBind item : listKeyBindItems) {

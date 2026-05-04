@@ -57,6 +57,7 @@ public abstract class MCH_HudItem extends Gui {
     protected static float ReloadPer = 0.0F;
     protected static float ReloadSec = 0.0F;
     protected static float MortarDist = 0.0F;
+    protected static String airburstDist = "";
     protected static double StickX;
     protected static double StickY;
     protected static double TVM_PosX;
@@ -309,6 +310,7 @@ public abstract class MCH_HudItem extends Gui {
         float rel_time = 0.0F;
         double lock = 0.0;
         int sight_type = 0;
+        int has_airburst = 0;
 
         boolean reloading = false;
         boolean is_heat_wpn = false;
@@ -351,6 +353,8 @@ public abstract class MCH_HudItem extends Gui {
             if (sight == MCH_SightType.ROCKET) {
                 sight_type = 1;
             }
+
+            has_airburst = wb.airburstDist == 0 ? 0 : 1;
         }
 
         updateVarMapItem("reloading", reloading);
@@ -361,6 +365,7 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("lock", lock);
         updateVarMapItem("dsp_mt_dist", display_mortar_dist);
         updateVarMapItem("mt_dist", MortarDist);
+        updateVarMapItem("has_airburst", has_airburst);
     }
 
 
@@ -483,6 +488,12 @@ public abstract class MCH_HudItem extends Gui {
                 } else {
                     ReloadSec = ws.reloadCooldown;
                     ReloadPer = (float) ws.reloadCooldown / (wi.reloadTime > 0 ? wi.reloadTime : 1);
+                }
+
+                if (ws.getCurrentWeapon().airburstDist <= 5 || ws.getCurrentWeapon().airburstDist >= 3000) {
+                    airburstDist = "---";
+                } else {
+                    airburstDist = ws.getCurrentWeapon().airburstDist + "m + 3";
                 }
 
                 ReloadSec /= 20.0F;

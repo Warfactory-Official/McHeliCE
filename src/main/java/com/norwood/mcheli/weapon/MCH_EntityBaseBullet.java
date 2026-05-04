@@ -370,6 +370,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         this.piercing = w.piercing;
         this.shootingAircraft = entity;
         this.shootingEntity = user;
+        this.airburstDist = w.airburstDist;
     }
 
     public void setParameterFromWeapon(MCH_EntityBaseBullet b, Entity entity, Entity user) {
@@ -379,6 +380,11 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         this.piercing = b.piercing;
         this.shootingAircraft = entity;
         this.shootingEntity = user;
+        this.airburstDist = b.airburstDist;
+    }
+
+    public void setAirburstDist(int airburstDist) {
+        this.airburstDist = airburstDist;
     }
 
     public void setMotion(double targetX, double targetY, double targetZ) {
@@ -629,7 +635,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
     private void onUpdateAirburst() {
         int abDist = this.airburstDist;
-        if (this.airburstTriggered || abDist <= 5 || abDist >= 300) return;
+        if (this.airburstTriggered || abDist <= 5 || abDist >= 3000) return;
 
         double targetDist = abDist + 3.0D;
         double dx = this.motionX * this.accelerationFactor;

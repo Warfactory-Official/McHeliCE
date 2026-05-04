@@ -958,6 +958,23 @@ public class TxtParser implements IParser {
             info.vtolPitch = info.toFloat(data, 0.01F, 1.0F);
         } else if (item.compareTo("enableautopilot") == 0) {
             info.isEnableAutoPilot = info.toBool(data);
+        } else if (item.equalsIgnoreCase("addexhaustflame")) {
+            String[] s = data.split("\\s*,\\s*");
+            if (s.length == 10) {
+                String modelName = s[0].trim();
+                String texturePrefix = s[1].trim();
+                float x = info.toFloat(s[2]);
+                float y = info.toFloat(s[3]);
+                float z = info.toFloat(s[4]);
+                float rx = info.toFloat(s[5]);
+                float ry = info.toFloat(s[6]);
+                float rz = info.toFloat(s[7]);
+                float degreeYaw = info.toFloat(s[8]);
+                int delay = info.toInt(s[9]);
+                MCH_PlaneInfo.ExhaustFlame ef = new MCH_PlaneInfo.ExhaustFlame(info, modelName, texturePrefix, x, y, z,
+                        rx, ry, rz, degreeYaw, delay, "exhaustflame" + info.exhaustFlames.size());
+                info.exhaustFlames.add(ef);
+            }
         }
     }
 
@@ -1108,6 +1125,10 @@ public class TxtParser implements IParser {
             info.explosionInWater = info.toInt(data, 0, 50);
         } else if (item.equalsIgnoreCase("ExplosionAltitude")) {
             info.explosionAltitude = info.toInt(data, 0, 100);
+        } else if (item.equalsIgnoreCase("CanAirburst")) {
+            info.canAirburst = info.toBool(data);
+        } else if (item.equalsIgnoreCase("ExplosionAirburst")) {
+            info.explosionAirburst = info.toInt(data, 0, 50);
         } else if (item.equalsIgnoreCase("TimeFuse")) {
             info.timeFuse = info.toInt(data, 0, 100000);
         } else if (item.equalsIgnoreCase("DelayFuse")) {

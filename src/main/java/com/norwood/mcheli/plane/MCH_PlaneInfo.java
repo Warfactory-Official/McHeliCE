@@ -9,7 +9,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MCH_PlaneInfo extends MCH_AircraftInfo {
 
@@ -17,6 +19,7 @@ public class MCH_PlaneInfo extends MCH_AircraftInfo {
     public final List<MCH_AircraftInfo.DrawnPart> nozzles = new ArrayList<>();
     public final List<MCH_PlaneInfo.Rotor> rotorList = new ArrayList<>();
     public final List<MCH_PlaneInfo.Wing> wingList = new ArrayList<>();
+    public final List<ExhaustFlame> exhaustFlames = new ArrayList<>();
     public boolean isEnableVtol = false;
     public boolean isDefaultVtol;
     public float vtolYaw = 0.3F;
@@ -24,6 +27,8 @@ public class MCH_PlaneInfo extends MCH_AircraftInfo {
     public boolean isEnableAutoPilot = false;
     public boolean isVariableSweepWing = false;
     public float sweepWingSpeed = this.speed;
+
+    public static final Map<String, Integer> exhaustFlameTextureMap = new HashMap<>();
 
     public MCH_PlaneInfo(AddonResourceLocation location, String path, String parser) {
         super(location, path, parser);
@@ -172,6 +177,28 @@ public class MCH_PlaneInfo extends MCH_AircraftInfo {
             this.maxRot = mr;
             this.maxRotFactor = this.maxRot / 90.0F;
             this.pylonList = null;
+        }
+    }
+
+    public static class ExhaustFlame extends MCH_AircraftInfo.DrawnPart {
+
+        public final String texturePrefix;
+        public final float degreeYaw;
+        public final int delay;
+
+        public ExhaustFlame(MCH_PlaneInfo paramMCP_PlaneInfo, String modelName, String texturePrefix, float x, float y,
+                            float z, float rx, float ry, float rz, float degreeYaw, int delay, String partName) {
+            super(paramMCP_PlaneInfo, x, y, z, rx, ry, rz, modelName);
+            this.texturePrefix = texturePrefix;
+            this.degreeYaw = degreeYaw;
+            this.delay = delay;
+        }
+
+        public ExhaustFlame(DrawnPart other, String texturePrefix, float degreeYaw, int delay) {
+            super(other);
+            this.texturePrefix = texturePrefix;
+            this.degreeYaw = degreeYaw;
+            this.delay = delay;
         }
     }
 }

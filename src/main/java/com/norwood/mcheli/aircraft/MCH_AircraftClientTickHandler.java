@@ -6,6 +6,7 @@ import com.norwood.mcheli.event.MCH_ClientTickHandlerBase;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.PacketSeatPlayerControl;
 import com.norwood.mcheli.networking.packet.control.PacketPlayerControlBase;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.input.Keyboard;
@@ -94,6 +95,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         this.KeyAPS = new MCH_Key(MCH_Config.KeyAPS.prmInt);
         this.KeyECMJammer = new MCH_Key(MCH_Config.KeyECMJammer.prmInt);
         this.KeyRadarSwitch = new MCH_Key(MCH_Config.KeyRadarSwitch.prmInt);
+        this.KeyAirburstDistReset = new MCH_Key(MCH_Config.KeyAirburstDistReset.prmInt);
     }
 
     protected void commonPlayerControlInGUI(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot,
@@ -332,6 +334,14 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
                 send = true;
             }
         }
+
+        if (KeyAirburstDistReset.isKeyDown()) {
+            MCH_WeaponSet ws = ac.getCurrentWeapon(player);
+            if (ws != null && ws.getInfo() != null && ws.getInfo().canAirburst) {
+                ac.resetAirburstDistance(player, ws.getCurrentWeapon());
+            }
+        }
+
         return send;
     }
 

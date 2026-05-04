@@ -121,6 +121,7 @@ public class MCH_HudItemString extends MCH_HudItem {
                 case UAV_DIST -> prm[i] = UAV_Dist;
                 case KEY_GUI -> prm[i] = MCH_KeyName.getDescOrName(MCH_Config.KeyGUI.prmInt);
                 case THROTTLE -> prm[i] = ac.getCurrentThrottle() * 100.0;
+                case AIRBURST_DIST -> prm[i] = airburstDist;
             }
         }
 

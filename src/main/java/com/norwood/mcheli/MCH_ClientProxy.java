@@ -65,6 +65,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -403,10 +404,41 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         MCH_ModelManager.setForceReloadMode(false);
     }
 
+    private boolean resourceExists(String texturePath) {
+        try {
+            ResourceLocation resource = new ResourceLocation(MCH_MOD.MOD_ID, texturePath);
+            Minecraft.getMinecraft().getResourceManager().getResource(resource);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     @Override
     public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
         uploadModel(info, "planes");
+
+        for (MCH_PlaneInfo.ExhaustFlame exhaustFlame : info.exhaustFlames) {
+            MCH_ModelManager.load("exhaustflames", exhaustFlame.modelName);
+            if (!MCH_PlaneInfo.exhaustFlameTextureMap.containsKey(exhaustFlame.texturePrefix)) {
+                String texturePrefix = exhaustFlame.texturePrefix;
+                int count = 0;
+                try {
+                    for (int i = 0; i < 100; i++) {
+                        String texturePath = "textures/exhaustflames/" + texturePrefix + i + ".png";
+                        if (resourceExists(texturePath)) {
+                            count++;
+                        } else {
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                MCH_PlaneInfo.exhaustFlameTextureMap.put(texturePrefix, count);
+            }
+        }
 
         for (MCH_AircraftInfo.DrawnPart n : info.nozzles) {
             n.model = this.loadPartModel("planes", info.name, info.model, n.modelName);

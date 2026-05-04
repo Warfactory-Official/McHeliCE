@@ -264,6 +264,10 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             this.explosionBlock = this.explosion;
         }
 
+        if (this.explosionAirburst <= 0) {
+            this.explosionAirburst = this.explosion;
+        }
+
         if (this.fixMode >= this.modeNum) {
             this.fixMode = 0;
         }

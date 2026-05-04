@@ -39,6 +39,15 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     private MCH_PlaneInfo planeInfo = null;
     private boolean addKeyFlag;
 
+    public float prevRotationExhaustFlameX;
+    public float prevRotationExhaustFlameY;
+    public float prevRotationExhaustFlameZ;
+    public float rotationExhaustFlameX;
+    public float rotationExhaustFlameY;
+    public float rotationExhaustFlameZ;
+
+    public ExhaustAnimState exhaustAnimState;
+
     public MCH_EntityPlane(World world) {
         super(world);
         this.currentSpeed = 0.07;
@@ -356,6 +365,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                 rot = (float) Math.pow(0.9, deltaSeconds * 20.0F);
                 this.setRotRoll(this.getRoll() * rot);
             }
+
+            this.updateExhaustFlameRotation(deltaSeconds);
         }
     }
 
@@ -1042,5 +1053,46 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
 
     public float getPrevWingRotation() {
         return this.partWing != null ? this.partWing.prevRotation : 0.0F;
+    }
+
+    private void updateExhaustFlameRotation(float deltaSeconds) {
+        this.prevRotationExhaustFlameY = this.rotationExhaustFlameY;
+        float key = 0.0F;
+        if (this.moveLeft && !this.moveRight) {
+            key = -1.0F;
+        }
+
+        if (this.moveRight && !this.moveLeft) {
+            key = 1.0F;
+        }
+
+        float target = key;
+        float follow = 2.0F * deltaSeconds;
+        if (follow > 1.0F) {
+            follow = 1.0F;
+        }
+
+        this.rotationExhaustFlameY = (float) (this.rotationExhaustFlameY + (target - this.rotationExhaustFlameY) * follow);
+        if (this.rotationExhaustFlameY > 1.0F) {
+            this.rotationExhaustFlameY = 1.0F;
+        }
+
+        if (this.rotationExhaustFlameY < -1.0F) {
+            this.rotationExhaustFlameY = -1.0F;
+        }
+
+        this.prevRotationExhaustFlameX = this.rotationExhaustFlameX;
+        this.prevRotationExhaustFlameZ = this.rotationExhaustFlameZ;
+    }
+
+    public static class ExhaustAnimState {
+
+        public final int[] frame;
+        public final int[] tick;
+
+        public ExhaustAnimState(int n) {
+            this.frame = new int[n];
+            this.tick = new int[n];
+        }
     }
 }
