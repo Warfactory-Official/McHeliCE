@@ -4,7 +4,7 @@ import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.RWRType;
 import com.norwood.mcheli.RadarType;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.info.IItemContent;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.hud.MCH_HudManager;
@@ -23,8 +23,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemContent {
 
@@ -154,7 +152,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public float soundVolume = 1.0F;
     public float soundPitch = 1.0F;
     public float soundRange = this.getDefaultSoundRange();
-    public _IModelCustom model = null;
+    public IModelCustom model = null;
     /**
      * Radar type
      */
@@ -948,7 +946,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         public final Vec3d pos;
         public final Vec3d rot;
         public final String modelName;
-        public _IModelCustom model;
+        public IModelCustom model;
 
         public DrawnPart(MCH_AircraftInfo paramMCH_AircraftInfo, float px, float py, float pz, float rx, float ry,
                          float rz, String name) {

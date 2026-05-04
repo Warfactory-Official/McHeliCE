@@ -3,7 +3,6 @@ package com.norwood.mcheli.weapon;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -141,7 +140,7 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
         Vec3d src = new Vec3d(prm.entity.posX, prm.entity.posY + 2.0, prm.entity.posZ);
         Vec3d dst = new Vec3d(prm.entity.posX + tX, prm.entity.posY + tY + 2.0, prm.entity.posZ + tZ);
         RayTraceResult m = W_WorldFunc.clip(this.world, src, dst);
-        if (W_MovingObjectPosition.isHitTypeTile(m)) {
+        if (m != null && m.typeOfHit == RayTraceResult.Type.BLOCK) {
             this.targetPosX = m.hitVec.x;
             this.targetPosY = m.hitVec.y;
             this.targetPosZ = m.hitVec.z;
@@ -186,7 +185,7 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
         Vec3d src = new Vec3d(px, py, pz);
         Vec3d dst = new Vec3d(px + tX, py + tY, pz + tZ);
         RayTraceResult m = W_WorldFunc.clip(this.world, src, dst);
-        if (W_MovingObjectPosition.isHitTypeTile(m)) {
+        if (m != null && m.typeOfHit == RayTraceResult.Type.BLOCK) {
             if (this.world.isRemote) {
                 double dx = m.hitVec.x - px;
                 double dz = m.hitVec.z - pz;

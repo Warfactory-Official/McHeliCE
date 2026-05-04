@@ -19,9 +19,11 @@ public class MCH_RenderBullet extends MCH_RenderBulletBase<MCH_EntityBaseBullet>
     public void renderBullet(MCH_EntityBaseBullet entity, double posX, double posY, double posZ, float yaw,
                              float tickTime) {
         GlStateManager.pushMatrix();
+        float interpYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * tickTime;
+        float interpPitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * tickTime;
         GlStateManager.translate(posX, posY, posZ);
-        GlStateManager.rotate(-entity.rotationYaw, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(entity.rotationPitch, 1.0F, 0.0F, 0.0F);
+        GlStateManager.rotate(-interpYaw, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(interpPitch, 1.0F, 0.0F, 0.0F);
         this.renderModel(entity);
         GlStateManager.popMatrix();
     }

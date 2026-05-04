@@ -6,8 +6,6 @@ import com.norwood.mcheli.block.MCH_DraftingTableTileEntity;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.chain.MCH_RenderChain;
 import com.norwood.mcheli.command.MCH_GuiTitle;
-import com.norwood.mcheli.compat.ModCompatManager;
-import com.norwood.mcheli.compat.oneprobe.AircraftInfoProvider;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_RenderContainer;
 import com.norwood.mcheli.event.CameraHandler;
@@ -27,7 +25,7 @@ import com.norwood.mcheli.helper.addon.AddonManager;
 import com.norwood.mcheli.helper.addon.AddonPack;
 import com.norwood.mcheli.helper.client.MCH_CameraManager;
 import com.norwood.mcheli.helper.client.MCH_ItemModelRenderers;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.client.model.LegacyModelLoader;
 import com.norwood.mcheli.helper.client.renderer.item.*;
 import com.norwood.mcheli.helper.debug.MCH_RenderTest;
@@ -125,7 +123,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     public static void registerModels_Bullet() {
         for (MCH_WeaponInfo wi : ContentRegistries.weapon().values()) {
-            _IModelCustom m;
+            IModelCustom m;
             if (!wi.bulletModelName.isEmpty()) {
                 m = MCH_ModelManager.load("bullets", wi.bulletModelName);
                 if (m != null) {
@@ -253,7 +251,6 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityTorpedo.class, MCH_RenderBullet.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityBomb.class, MCH_RenderBomb.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityMarkerRocket.class, MCH_RenderBullet.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(MCH_EntityDispensedItem.class, MCH_RenderNone.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityFlare.class, MCH_RenderFlare.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityThrowable.class, MCH_RenderThrowable.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityGunner.class, MCH_RenderGunner.FACTORY);
@@ -490,11 +487,11 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     }
 
     private MCH_BulletModel loadBulletModel(String name) {
-        _IModelCustom m = MCH_ModelManager.load("bullets", name);
+        IModelCustom m = MCH_ModelManager.load("bullets", name);
         return m != null ? new MCH_BulletModel(name, m) : null;
     }
 
-    private _IModelCustom loadPartModel(String path, String name, _IModelCustom body, String part) {
+    private IModelCustom loadPartModel(String path, String name, IModelCustom body, String part) {
         return body instanceof W_ModelCustom && ((W_ModelCustom) body).containsPart("$" + part) ? null : MCH_ModelManager.load(path, name + "_" + part, true);
     }
 

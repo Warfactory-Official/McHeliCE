@@ -3,7 +3,7 @@ package com.norwood.mcheli.weapon;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -19,6 +19,7 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
             DataSerializers.BYTE);
     public int countDown;
 
+    @SuppressWarnings("unused")
     public MCH_EntityMarkerRocket(World par1World) {
         super(par1World);
         this.setMarkerStatus(0);
@@ -26,8 +27,8 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
     }
 
     public MCH_EntityMarkerRocket(
-                                  World par1World, double posX, double posY, double posZ, double targetX,
-                                  double targetY, double targetZ, float yaw, float pitch, double acceleration) {
+            World par1World, double posX, double posY, double posZ, double targetX,
+            double targetY, double targetZ, float yaw, float pitch, double acceleration) {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
         this.setMarkerStatus(0);
         this.countDown = 0;
@@ -143,40 +144,63 @@ public class MCH_EntityMarkerRocket extends MCH_EntityBaseBullet {
     }
 
     @Override
-    protected void onImpact(RayTraceResult m, float damageFactor) {
-        if (!this.world.isRemote) {
-            if (m.entityHit == null && !W_MovingObjectPosition.isHitTypeEntity(m)) {
-                BlockPos blockpos = m.getBlockPos();
-                blockpos = blockpos.offset(m.sideHit);
-                if (this.world.isAirBlock(blockpos)) {
-                    if (MCH_Config.Explosion_FlamingBlock.prmBool) {
-                        this.world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
-                    }
+    public void onImpact(RayTraceResult m, float damageFactor) {
+        if (world.isRemote) return;
 
-                    int noAirBlockCount = 0;
+        if (m.entityHit != null) {
+            handleEntityImpact(m.entityHit);
+        } else if (m.typeOfHit == RayTraceResult.Type.BLOCK) {
+            handleBlockImpact(m);
+        }
+    }
 
-                    for (int i = 1; i < 256; i++) {
-                        if (!this.world.isAirBlock(blockpos.up(i))) {
-                            if (++noAirBlockCount >= 5) {
-                                break;
-                            }
-                        }
-                    }
+    private void handleEntityImpact(Entity entity) {
+        this.setMarkerStatus(2);
 
-                    if (noAirBlockCount < 5) {
-                        this.setMarkerStatus(2);
-                        this.setPosition(blockpos.getX() + 0.5, blockpos.getY() + 1.1, blockpos.getZ() + 0.5);
-                        this.prevPosX = this.posX;
-                        this.prevPosY = this.posY;
-                        this.prevPosZ = this.posZ;
-                        this.countDown = 100;
-                    } else {
-                        this.setDead();
-                    }
-                } else {
-                    this.setDead();
-                }
+        // Position the rocket 1.1 blocks above the entity's head
+        double px = entity.posX;
+        double py = entity.posY + entity.height + 1.1D;
+        double pz = entity.posZ;
+
+        this.setPosition(px, py, pz);
+        this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
+
+        this.countDown = 100;
+    }
+
+    private void handleBlockImpact(RayTraceResult m) {
+        // Offset the hit position based on the side hit (e.g., if hitting top of block, go up 1)
+        BlockPos targetPos = m.getBlockPos().offset(m.sideHit);
+
+        if (!world.isAirBlock(targetPos)) {
+            this.setDead();
+            return;
+        }
+
+        if (MCH_Config.Explosion_FlamingBlock.prmBool) {
+            world.setBlockState(targetPos, Blocks.FIRE.getDefaultState());
+        }
+
+        // Check overhead clearance (must have fewer than 5 non-air blocks above to call air support)
+        int nonAirAbove = 0;
+        for (int i = targetPos.getY() + 1; i < 256; i++) {
+            if (!world.isAirBlock(new BlockPos(targetPos.getX(), i, targetPos.getZ()))) {
+                if (++nonAirAbove >= 5) break;
             }
+        }
+
+        if (nonAirAbove < 5) {
+            this.setMarkerStatus(2);
+            this.setPosition(targetPos.getX() + 0.5D, targetPos.getY() + 1.1D, targetPos.getZ() + 0.5D);
+
+            this.prevPosX = this.posX;
+            this.prevPosY = this.posY;
+            this.prevPosZ = this.posZ;
+            this.countDown = 100;
+        } else {
+            this.setDead();
         }
     }
 

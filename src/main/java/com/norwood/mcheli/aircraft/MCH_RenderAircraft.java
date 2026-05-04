@@ -10,13 +10,12 @@ import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.gui.MCH_Gui;
 import com.norwood.mcheli.helper.MCH_ColorInt;
 import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.client.renderer.MCH_Verts;
 import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
 import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.weapon.MCH_EntityGuidanceSystem;
-import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.*;
@@ -41,7 +40,7 @@ import javax.annotation.Nullable;
 public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W_Render<T> {
 
     public static boolean renderingEntity = false;
-    public static _IModelCustom debugModel = null;
+    public static IModelCustom debugModel = null;
 
     protected MCH_RenderAircraft(RenderManager renderManager) {
         super(renderManager);
@@ -134,7 +133,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
     }
 
-    public static void renderBody(@Nullable _IModelCustom model) {
+    public static void renderBody(@Nullable IModelCustom model) {
         if (model != null) {
             if (model instanceof W_ModelCustom) {
                 if (((W_ModelCustom) model).containsPart("$body")) {
@@ -148,7 +147,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
     }
 
-    public static void renderPart(@Nullable _IModelCustom model, @Nullable _IModelCustom modelBody, String partName) {
+    public static void renderPart(@Nullable IModelCustom model, @Nullable IModelCustom modelBody, String partName) {
         if (model != null) {
             model.renderAll();
         } else if (modelBody instanceof W_ModelCustom && ((W_ModelCustom) modelBody).containsPart("$" + partName)) {

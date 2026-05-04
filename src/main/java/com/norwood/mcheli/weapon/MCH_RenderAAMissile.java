@@ -8,6 +8,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderAAMissile extends MCH_RenderBulletBase<MCH_EntityAAMissile> {
@@ -19,9 +20,14 @@ public class MCH_RenderAAMissile extends MCH_RenderBulletBase<MCH_EntityAAMissil
         this.shadowSize = 0.5F;
     }
 
+    @Override
+    public void doRender(@NotNull MCH_EntityAAMissile entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        this.renderMissileFlame(entity, x, y, z, partialTicks, 0.8D, 4.0F);
+    }
+
     public void renderBullet(MCH_EntityAAMissile entity, double posX, double posY, double posZ, float par8,
                              float par9) {
-        if (entity instanceof MCH_EntityAAMissile) {
             double mx = entity.prevMotionX + (entity.motionX - entity.prevMotionX) * par9;
             double my = entity.prevMotionY + (entity.motionY - entity.prevMotionY) * par9;
             double mz = entity.prevMotionZ + (entity.motionZ - entity.prevMotionZ) * par9;
@@ -32,10 +38,9 @@ public class MCH_RenderAAMissile extends MCH_RenderBulletBase<MCH_EntityAAMissil
             GlStateManager.rotate((float) v.z, -1.0F, 0.0F, 0.0F);
             this.renderModel(entity);
             GlStateManager.popMatrix();
-        }
     }
 
-    protected ResourceLocation getEntityTexture(MCH_EntityAAMissile entity) {
+    protected ResourceLocation getEntityTexture(@NotNull MCH_EntityAAMissile entity) {
         return TEX_DEFAULT;
     }
 }

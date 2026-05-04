@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.jetbrains.annotations.NotNull;
 
 @SideOnly(Side.CLIENT)
 public class MCH_RenderTvMissile extends MCH_RenderBulletBase<MCH_EntityBaseBullet> {
@@ -20,6 +21,11 @@ public class MCH_RenderTvMissile extends MCH_RenderBulletBase<MCH_EntityBaseBull
     public MCH_RenderTvMissile(RenderManager renderManager) {
         super(renderManager);
         this.shadowSize = 0.5F;
+    }
+    @Override
+    public void doRender(@NotNull MCH_EntityBaseBullet entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        this.renderMissileFlame(entity, x, y, z, partialTicks, 0.8D, 4.0F);
     }
 
     public void renderBullet(MCH_EntityBaseBullet entity, double posX, double posY, double posZ, float par8,

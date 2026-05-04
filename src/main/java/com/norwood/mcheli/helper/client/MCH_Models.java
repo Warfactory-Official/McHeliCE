@@ -21,7 +21,7 @@ public class MCH_Models {
     private static final IVertexModelLoader[] loaders = new IVertexModelLoader[] { objLoader, mqoLoader };
 
     @Contract("_ -> new")
-    public static _IModelCustom loadModel(String name) throws ModelLoadException {
+    public static IModelCustom loadModel(String name) throws ModelLoadException {
         ResourceLocation resource = MCH_Utils.suffix("models/" + name);
         IResourceManager resourceManager = Minecraft.getMinecraft().getResourceManager();
         Throwable message = null;

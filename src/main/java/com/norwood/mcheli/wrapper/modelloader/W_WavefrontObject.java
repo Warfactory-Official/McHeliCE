@@ -1,6 +1,6 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.client._ModelFormatException;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -257,7 +257,7 @@ public class W_WavefrontObject extends W_ModelCustom {
     }
 
     @Override
-    public _IModelCustom toVBO() {
+    public IModelCustom toVBO() {
         return new ModelVBO(this);
     }
 

@@ -2,7 +2,7 @@ package com.norwood.mcheli.wrapper.modelloader;
 
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.helper.MCH_Logger;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.ARBCopyBuffer.glCopyBufferSubData;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
-public class ModelVBO extends W_ModelCustom implements _IModelCustom {
+public class ModelVBO extends W_ModelCustom implements IModelCustom {
 
     private static final int FLOAT_SIZE = 4;
     private static final int STRIDE = 9 * FLOAT_SIZE;
@@ -405,7 +405,7 @@ public class ModelVBO extends W_ModelCustom implements _IModelCustom {
     }
 
     @Override
-    public _IModelCustom toVBO() {
+    public IModelCustom toVBO() {
         return this;
     }
 

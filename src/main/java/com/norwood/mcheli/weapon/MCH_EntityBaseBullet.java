@@ -19,7 +19,6 @@ import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_EntityPlayer;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
@@ -33,7 +32,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleCloud;
 import net.minecraft.client.particle.ParticleDigging;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -92,6 +93,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     public int airburstDist = 0;
     boolean doingTopAttack = false;
     boolean speedAddedFromAircraft = false;
+    @Getter
     private int countOnUpdate = 0;
     @Getter
     @Setter
@@ -99,7 +101,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     private MCH_WeaponInfo weaponInfo;
     private MCH_BulletModel model;
     private ForgeChunkManager.Ticket chunkLoaderTicket;
-    private LongList loadedChunks = new LongArrayList();
+    private final LongList loadedChunks = new LongArrayList();
     private double airburstTravelled = 0.0D;
     private boolean airburstTriggered = false;
 
@@ -194,7 +196,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
     private void clearChunkLoaders() {
         for (long id : loadedChunks) {
-            var chunk = new ChunkPos((int) (long) id, (int) (id >> 32));
+            var chunk = new ChunkPos((int) id, (int) (id >> 32));
             ForgeChunkManager.unforceChunk(chunkLoaderTicket, chunk);
         }
     }
@@ -377,10 +379,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
     }
 
-    public int getCountOnUpdate() {
-        return this.countOnUpdate;
-    }
-
     public void clearCountOnUpdate() {
         this.countOnUpdate = 0;
     }
@@ -513,7 +511,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
     public void onUpdate() {
         if (!this.world.isRemote) {
-            if (this.shootingAircraft instanceof MCH_EntityAircraft ac && !this.speedAddedFromAircraft && this.getInfo().speedDependsAircraft) {
+            if (this.getInfo() != null && this.shootingAircraft instanceof MCH_EntityAircraft ac && !this.speedAddedFromAircraft && this.getInfo().speedDependsAircraft) {
                 double s = Math.sqrt(ac.motionX * ac.motionX + ac.motionY * ac.motionY + ac.motionZ * ac.motionZ);
                 this.acceleration += s;
                 double d = Math.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
@@ -691,7 +689,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                 if (this.getInfo() != null) {
                     if (this.getInfo().enableChunkLoader) this.clearChunkLoaders();
                     PacketClientSound.sendSoundPacket(ex, ey, ez, this.getInfo().hitSoundRange, this.world,
-                            this.getInfo().hitSound.toString(), true);
+                            this.getInfo().hitSound != null ? this.getInfo().hitSound.toString() : null, true);
                 }
                 this.setDead();
             }
@@ -844,7 +842,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             Vec3d vec31 = new Vec3d(this.posX + mx, this.posY + my, this.posZ + mz);
             m = W_WorldFunc.clip(this.world, vec3, vec31);
             boolean continueClip = false;
-            if (this.shootingEntity != null && W_MovingObjectPosition.isHitTypeTile(m)) {
+            if (this.shootingEntity != null && m != null && m.typeOfHit == RayTraceResult.Type.BLOCK) {
                 BlockPos blockpos1 = m.getBlockPos();
                 Block block = this.world.getBlockState(blockpos1).getBlock();
                 if (MCH_Config.bulletBreakableBlocks.contains(block)) {
@@ -1268,5 +1266,110 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     @SideOnly(Side.CLIENT)
     public int getBrightnessForRender() {
         return 15728880;
+    }
+
+
+
+    protected void scanForTargets() {
+        if (numLockedChaff >= getInfo().numLockedChaffMax) {
+            setTargetEntity(null);
+            return;
+        }
+
+        final double range = getInfo().maxLockOnRange;
+        final double maxAngleRad = Math.toRadians(getInfo().maxLockOnAngle);
+        final Vec3d missileDir = new Vec3d(this.motionX, this.motionY, this.motionZ);
+
+        List<Entity> entities = world.getEntitiesWithinAABB(Entity.class,
+                getEntityBoundingBox().grow(range));
+
+        if (entities.isEmpty()) return;
+
+        Entity closestTarget = null;
+        Entity nearestChaff = null;
+        double minAngle = Double.MAX_VALUE;
+        double minChaffDistSq = Double.MAX_VALUE;
+
+        for (Entity entity : entities) {
+            if (isFriendlyFire(entity)) continue;
+
+            switch (this) {
+                case MCH_EntityAAMissile aa -> {
+                    if (entity instanceof MCH_EntityChaff) {
+                        double distSq = handleChaff(entity, missileDir, maxAngleRad);
+                        if (distSq < minChaffDistSq) {
+                            minChaffDistSq = distSq;
+                            nearestChaff = entity;
+                        }
+                    } else if (isValidAATarget(entity, missileDir, maxAngleRad)) {
+                        double angle = calculateAngle(entity, missileDir);
+                        if (angle < minAngle) {
+                            minAngle = angle;
+                            closestTarget = entity;
+                        }
+                    }
+                }
+                case MCH_EntityATMissile at -> {
+                    if (isValidATTarget(entity, missileDir, maxAngleRad)) {
+                        double angle = calculateAngle(entity, missileDir);
+                        if (angle < minAngle) {
+                            minAngle = angle;
+                            closestTarget = entity;
+                        }
+                    }
+                }
+                default -> {}
+            }
+        }
+
+        // Target Selection Priority: Chaff > Target
+        if (nearestChaff != null) {
+            this.targetEntity = nearestChaff;
+            this.numLockedChaff++;
+        } else {
+            this.targetEntity = closestTarget;
+        }
+    }
+
+    private boolean isFriendlyFire(Entity target) {
+        if (W_Entity.isEqual(target, shootingAircraft) || W_Entity.isEqual(target, shootingEntity)) return true;
+        if (shootingEntity instanceof EntityLivingBase && target.getControllingPassenger() instanceof EntityPlayer player) {
+            return player.isOnSameTeam(shootingEntity);
+        }
+        if (shootingEntity instanceof EntityLivingBase shooter && target instanceof EntityLivingBase living) {
+            return living.isOnSameTeam(shooter);
+        }
+        return false;
+    }
+
+    private double handleChaff(Entity chaff, Vec3d missileDir, double maxAngle) {
+        double angle = calculateAngle(chaff, missileDir);
+        return (angle <= maxAngle) ? getDistanceSq(chaff) : Double.MAX_VALUE;
+    }
+
+    private boolean isValidAATarget(Entity entity, Vec3d missileDir, double maxAngle) {
+        if (!(entity instanceof MCH_EntityAircraft ac)) return false;
+        if (ac.chaffUseTime > 0) return false;
+        if (MCH_WeaponGuidanceSystem.isEntityOnGround(entity, getInfo().lockMinHeight)) return false;
+
+        return calculateAngle(entity, missileDir) <= maxAngle;
+    }
+
+    private boolean isValidATTarget(Entity entity, Vec3d missileDir, double maxAngle) {
+        boolean onGround = MCH_WeaponGuidanceSystem.isEntityOnGround(entity, getInfo().lockMinHeight);
+        if (!onGround) return false;
+
+        if (entity instanceof MCH_EntityAircraft) return calculateAngle(entity, missileDir) <= maxAngle;
+
+        if (!getInfo().ridableOnly && entity instanceof EntityLivingBase && !entity.isRiding()) {
+            return calculateAngle(entity, missileDir) <= maxAngle;
+        }
+        return false;
+    }
+
+    private double calculateAngle(Entity target, Vec3d missileDir) {
+        Vec3d targetVec = new Vec3d(target.posX - this.posX, target.posY - this.posY, target.posZ - this.posZ);
+        double dot = missileDir.normalize().dotProduct(targetVec.normalize());
+        return Math.acos(MathHelper.clamp(dot, -1.0, 1.0));
     }
 }

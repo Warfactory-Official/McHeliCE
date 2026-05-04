@@ -16,23 +16,25 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class MCH_EntityA10 extends W_Entity {
 
-    private static final DataParameter<String> WEAPON_NAME = EntityDataManager.createKey(MCH_EntityA10.class,
-            DataSerializers.STRING);
-    static int snd_num = 0;
-    public final int DESPAWN_COUNT = 70;
-    public int despawnCount = 0;
+    private static final DataParameter<String> WEAPON_NAME = EntityDataManager.createKey(
+            MCH_EntityA10.class, DataSerializers.STRING);
+
+    public static final int DESPAWN_COUNT_MAX = 70;
+    private static final int RENDER_START_TICK = 20;
+
+    private int despawnCount = 0;
+    private int shotCount = 0;
+
     public Entity shootingAircraft;
     public Entity shootingEntity;
-    public int shotCount = 0;
-    public int direction = 0;
-    public int power;
-    public float acceleration;
-    public int explosionPower;
-    public final boolean isFlaming;
-    public String name;
+    public int direction = 0; // 0: South, 1: West, 2: North, 3: East
+    public int power = 32;
+    public float acceleration = 4.0F;
+    public int explosionPower = 1;
     public MCH_WeaponInfo weaponInfo;
 
     public MCH_EntityA10(World world) {
@@ -40,28 +42,16 @@ public class MCH_EntityA10 extends W_Entity {
         this.ignoreFrustumCheck = true;
         this.preventEntitySpawning = false;
         this.setSize(5.0F, 3.0F);
-        this.motionX = 0.0;
-        this.motionY = 0.0;
-        this.motionZ = 0.0;
-        this.power = 32;
-        this.acceleration = 4.0F;
-        this.explosionPower = 1;
-        this.isFlaming = false;
-        this.shootingEntity = null;
-        this.shootingAircraft = null;
         this.isImmuneToFire = true;
         this._renderDistanceWeight *= 10.0;
     }
 
     public MCH_EntityA10(World world, double x, double y, double z) {
         this(world);
-        this.lastTickPosX = this.prevPosX = this.posX = x;
-        this.lastTickPosY = this.prevPosY = this.posY = y;
-        this.lastTickPosZ = this.prevPosZ = this.posZ = z;
-    }
-
-    protected boolean canTriggerWalking() {
-        return false;
+        this.setPosition(x, y, z);
+        this.prevPosX = this.lastTickPosX = x;
+        this.prevPosY = this.lastTickPosY = y;
+        this.prevPosZ = this.lastTickPosZ = z;
     }
 
     @Override
@@ -69,49 +59,42 @@ public class MCH_EntityA10 extends W_Entity {
         this.dataManager.register(WEAPON_NAME, "");
     }
 
+    // Modernized NBT Handling
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound compound) {
+        compound.setString("WeaponName", getWeaponName());
+    }
+
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound compound) {
+        this.despawnCount = 200;
+        Optional.of(compound.getString("WeaponName"))
+                .filter(s -> !s.isEmpty())
+                .ifPresent(this::setWeaponName);
+    }
+
+    public void setWeaponName(String s) {
+        if (s == null || s.isEmpty()) return;
+
+        this.weaponInfo = MCH_WeaponInfoManager.get(s);
+        if (this.weaponInfo != null && !this.world.isRemote) {
+            this.dataManager.set(WEAPON_NAME, s);
+        }
+    }
+
     public String getWeaponName() {
         return this.dataManager.get(WEAPON_NAME);
     }
 
-    public void setWeaponName(String s) {
-        if (s != null && !s.isEmpty()) {
-            this.weaponInfo = MCH_WeaponInfoManager.get(s);
-            if (this.weaponInfo != null && !this.world.isRemote) {
-                this.dataManager.set(WEAPON_NAME, s);
-            }
-        }
-    }
-
-    @Nullable
-    public MCH_WeaponInfo getInfo() {
-        return this.weaponInfo;
-    }
-
-    public AxisAlignedBB getCollisionBox(Entity par1Entity) {
-        return par1Entity.getEntityBoundingBox();
-    }
-
-    public AxisAlignedBB getCollisionBoundingBox() {
-        return this.getEntityBoundingBox();
-    }
-
     @Override
-    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
-        return false;
-    }
-
-    public void setDead() {
-        super.setDead();
-    }
-
     public void onUpdate() {
         super.onUpdate();
-        if (!this.isDead) {
-            this.despawnCount++;
-        }
 
+        if (!this.isDead) this.despawnCount++;
+
+        // Ensure weapon info is synced
         if (this.weaponInfo == null) {
-            this.setWeaponName(this.getWeaponName());
+            setWeaponName(getWeaponName());
             if (this.weaponInfo == null) {
                 this.setDead();
                 return;
@@ -119,101 +102,96 @@ public class MCH_EntityA10 extends W_Entity {
         }
 
         if (this.world.isRemote) {
-            this.onUpdate_Client();
+            this.shotCount += 4;
         } else {
-            this.onUpdate_Server();
+            updateServer();
         }
 
-        if (!this.isDead) {
-            if (this.despawnCount <= 20) {
-                this.motionY = -0.3;
-            } else {
-                this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-                this.motionY += 0.02;
+        updateMotion();
+    }
+
+    private void updateServer() {
+        if (this.isDead) return;
+
+        if (this.despawnCount > DESPAWN_COUNT_MAX) {
+            this.setDead();
+        } else if (this.despawnCount > 0 && this.shotCount < 40) {
+            // Spawn two bullets per tick
+            repeat(2, () -> shotGAU8(this.shotCount++));
+
+            if (this.shotCount == 38) {
+                String sound = MCH_MOD.DOMAIN + ":gau-8_snd";
+                MCH_SoundEvents.playSound(world, posX, posY, posZ, sound, 150.0F, 1.0F);
             }
         }
     }
 
-    public boolean isRender() {
-        return this.despawnCount > 20;
-    }
+    private void updateMotion() {
+        if (this.isDead) return;
 
-    private void onUpdate_Client() {
-        this.shotCount += 4;
-    }
-
-    private void onUpdate_Server() {
-        if (!this.isDead) {
-            if (this.despawnCount > 70) {
-                this.setDead();
-            } else if (this.despawnCount > 0 && this.shotCount < 40) {
-                for (int i = 0; i < 2; i++) {
-                    this.shotGAU8(true, this.shotCount);
-                    this.shotCount++;
-                }
-
-                if (this.shotCount == 38) {
-                    MCH_SoundEvents.playSound(this.world, this.posX, this.posY, this.posZ, MCH_MOD.DOMAIN + ":" + "gau-8_snd", 150.0F, 1.0F);
-                }
-            }
+        if (this.despawnCount <= RENDER_START_TICK) {
+            this.motionY = -0.3;
+        } else {
+            this.setPosition(posX + motionX, posY + motionY, posZ + motionZ);
+            this.motionY += 0.02;
         }
     }
 
-    protected void shotGAU8(boolean playSound, int cnt) {
-        float yaw = 90 * this.direction;
+    /**
+     * Modernized GAU-8 firing logic using Switch Expressions
+     */
+    protected void shotGAU8(int currentShot) {
+        float yaw = 90.0F * this.direction;
         float pitch = 30.0F;
-        double x = this.posX;
-        double y = this.posY;
-        double z = this.posZ;
-        double tX = this.rand.nextDouble() - 0.5;
+
+        // Use switch expression to calculate offsets based on direction
+        double offset = currentShot * 0.6;
+
+        double spawnX = this.posX;
+        double spawnZ = this.posZ;
+
+        // Target vectors
+        double tX = rand.nextDouble() - 0.5;
         double tY = -2.6;
-        double tZ = this.rand.nextDouble() - 0.5;
-        if (this.direction == 0) {
-            tZ += 10.0;
-            z += cnt * 0.6;
-        }
+        double tZ = rand.nextDouble() - 0.5;
 
-        if (this.direction == 1) {
-            tX -= 10.0;
-            x -= cnt * 0.6;
-        }
-
-        if (this.direction == 2) {
-            tZ -= 10.0;
-            z -= cnt * 0.6;
-        }
-
-        if (this.direction == 3) {
-            tX += 10.0;
-            x += cnt * 0.6;
+        switch (this.direction) {
+            case 0 -> { tZ += 10.0; spawnZ += offset; } // South
+            case 1 -> { tX -= 10.0; spawnX -= offset; } // West
+            case 2 -> { tZ -= 10.0; spawnZ -= offset; } // North
+            case 3 -> { tX += 10.0; spawnX += offset; } // East
         }
 
         double dist = MathHelper.sqrt(tX * tX + tY * tY + tZ * tZ);
-        tX = tX * 4.0 / dist;
-        tY = tY * 4.0 / dist;
-        tZ = tZ * 4.0 / dist;
-        MCH_EntityBullet e = new MCH_EntityBullet(this.world, x, y, z, tX, tY, tZ, yaw, pitch, this.acceleration);
-        e.setName(this.getWeaponName());
-        e.explosionPower = this.shotCount % 4 == 0 ? this.explosionPower : 0;
-        e.setPower(this.power);
-        e.shootingEntity = this.shootingEntity;
-        e.shootingAircraft = this.shootingAircraft;
-        this.world.spawnEntity(e);
+        double velX = (tX * 4.0) / dist;
+        double velY = (tY * 4.0) / dist;
+        double velZ = (tZ * 4.0) / dist;
+
+        MCH_EntityBullet bullet = new MCH_EntityBullet(world, spawnX, posY, spawnZ, velX, velY, velZ, yaw, pitch, acceleration);
+
+        bullet.setName(getWeaponName());
+        bullet.explosionPower = (currentShot % 4 == 0) ? this.explosionPower : 0;
+        bullet.setPower(this.power);
+        bullet.shootingEntity = this.shootingEntity;
+        bullet.shootingAircraft = this.shootingAircraft;
+
+        this.world.spawnEntity(bullet);
     }
 
-    protected void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
-        par1NBTTagCompound.setString("WeaponName", this.getWeaponName());
+    private void repeat(int times, Runnable action) {
+        for (int i = 0; i < times; i++) action.run();
     }
 
-    protected void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
-        this.despawnCount = 200;
-        if (par1NBTTagCompound.hasKey("WeaponName")) {
-            this.setWeaponName(par1NBTTagCompound.getString("WeaponName"));
-        }
+    public boolean isRender() {
+        return this.despawnCount > RENDER_START_TICK;
     }
+
+    @Override
+    protected boolean canTriggerWalking() { return false; }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) { return false; }
 
     @SideOnly(Side.CLIENT)
-    public float getShadowSize() {
-        return 10.0F;
-    }
+    public float getShadowSize() { return 10.0F; }
 }

@@ -6,18 +6,22 @@ public class MCH_WeaponParam {
 
     public Entity entity = null;
     public Entity user = null;
-    public double posX = 0.0;
-    public double posY = 0.0;
-    public double posZ = 0.0;
+    public double posX = 0.0D;
+    public double posY = 0.0D;
+    public double posZ = 0.0D;
     public float rotYaw = 0.0F;
     public float rotPitch = 0.0F;
-    public final float rotRoll = 0.0F;
+    public float rotRoll = 0.0F;
     public int option1 = 0;
     public int option2 = 0;
     public boolean isInfinity = false;
     public boolean isTurret = false;
     public boolean result;
     public boolean reload;
+    public float minPitch;
+    public float maxPitch;
+    public float randYaw;
+    public float randPitch;
 
     public void setPosAndRot(double x, double y, double z, float yaw, float pitch) {
         this.setPosition(x, y, z);

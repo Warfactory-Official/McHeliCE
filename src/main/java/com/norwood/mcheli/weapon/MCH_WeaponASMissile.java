@@ -1,7 +1,6 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -52,7 +51,7 @@ public class MCH_WeaponASMissile extends MCH_WeaponBase {
         Vec3d src = new Vec3d(prm.entity.posX, prm.entity.posY + 1.62, prm.entity.posZ);
         Vec3d dst = new Vec3d(prm.entity.posX + tX, prm.entity.posY + 1.62 + tY, prm.entity.posZ + tZ);
         RayTraceResult m = W_WorldFunc.clip(this.world, src, dst);
-        if (W_MovingObjectPosition.isHitTypeTile(m) && !MCH_Lib.isBlockInWater(this.world, m.getBlockPos().getX(),
+        if (m != null && m.typeOfHit == RayTraceResult.Type.BLOCK && !MCH_Lib.isBlockInWater(this.world, m.getBlockPos().getX(),
                 m.getBlockPos().getY(), m.getBlockPos().getZ())) {
             if (!this.world.isRemote) {
                 MCH_EntityASMissile e = new MCH_EntityASMissile(this.world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,

@@ -5,7 +5,6 @@ import com.norwood.mcheli.helper.MCH_CriteriaTriggers;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_EntityPlayer;
 import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
@@ -187,7 +186,7 @@ public abstract class MCH_ItemAircraft extends W_Item {
             if (flag) {
                 return ActionResult.newResult(EnumActionResult.PASS, itemstack);
             } else {
-                if (W_MovingObjectPosition.isHitTypeTile(mop)) {
+                if (mop != null && mop.typeOfHit == RayTraceResult.Type.BLOCK) {
                     if (MCH_Config.PlaceableOnSpongeOnly.prmBool) {
                         MCH_AircraftInfo acInfo = this.getAircraftInfo();
                         if (acInfo != null && acInfo.isFloat && !acInfo.canMoveOnGround) {

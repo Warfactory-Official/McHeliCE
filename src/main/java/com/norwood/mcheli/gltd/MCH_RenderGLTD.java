@@ -1,7 +1,7 @@
 package com.norwood.mcheli.gltd;
 
 import com.norwood.mcheli.MCH_RenderLib;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.wrapper.W_Lib;
 import com.norwood.mcheli.wrapper.W_Render;
 import net.minecraft.client.Minecraft;
@@ -22,7 +22,7 @@ public class MCH_RenderGLTD extends W_Render<MCH_EntityGLTD> {
 
     public static final IRenderFactory<MCH_EntityGLTD> FACTORY = MCH_RenderGLTD::new;
     public static final Random rand = new Random();
-    public static _IModelCustom model;
+    public static IModelCustom model;
 
     public MCH_RenderGLTD(RenderManager renderManager) {
         super(renderManager);

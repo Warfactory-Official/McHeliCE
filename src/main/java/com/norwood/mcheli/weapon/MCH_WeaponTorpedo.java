@@ -1,7 +1,6 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -78,7 +77,7 @@ public class MCH_WeaponTorpedo extends MCH_WeaponBase {
         Vec3d src = new Vec3d(prm.user.posX, prm.user.posY, prm.user.posZ);
         Vec3d dst = new Vec3d(prm.user.posX + tX, prm.user.posY + tY, prm.user.posZ + tZ);
         RayTraceResult m = W_WorldFunc.clip(this.world, src, dst);
-        if (W_MovingObjectPosition.isHitTypeTile(m) && MCH_Lib.isBlockInWater(this.world, m.getBlockPos().getX(),
+        if (m != null && m.typeOfHit == RayTraceResult.Type.BLOCK && MCH_Lib.isBlockInWater(this.world, m.getBlockPos().getX(),
                 m.getBlockPos().getY(), m.getBlockPos().getZ())) {
             if (!this.world.isRemote) {
                 double mx = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) *

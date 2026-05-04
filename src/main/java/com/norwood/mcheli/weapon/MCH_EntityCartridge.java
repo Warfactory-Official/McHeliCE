@@ -1,9 +1,8 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.wrapper.W_Entity;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.MathHelper;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class MCH_EntityCartridge extends W_Entity {
 
     public final String texture_name;
-    public final _IModelCustom model;
+    public final IModelCustom model;
     private final float bound;
     private final float gravity;
     private final float scale;
@@ -124,7 +123,7 @@ public class MCH_EntityCartridge extends W_Entity {
         RayTraceResult m = W_WorldFunc.clip(this.world, vec1, vec2);
         double d = Math.max(Math.abs(this.motionX), Math.abs(this.motionY));
         d = Math.max(d, Math.abs(this.motionZ));
-        if (W_MovingObjectPosition.isHitTypeTile(m)) {
+        if (m != null && m.typeOfHit == RayTraceResult.Type.BLOCK) {
             this.setPosition(m.hitVec.x, m.hitVec.y, m.hitVec.z);
             this.motionX = this.motionX + d * (this.rand.nextFloat() - 0.5F) * 0.1F;
             this.motionY = this.motionY + d * (this.rand.nextFloat() - 0.5F) * 0.1F;
