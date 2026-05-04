@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
@@ -48,24 +47,12 @@ public class HudMortarRadar implements DirectDrawable {
         var sc = new ScaledResolution(mc);
 
         double maxDist = MAX_DISTANCE;
-        double currentDist = -1.0;
-
         MCH_WeaponSet ws = ac.getCurrentWeapon(player);
         if (ws != null) {
             MCH_WeaponInfo wi = ws.getInfo();
             if (wi.mortarRadarMaxDist > 0) maxDist = wi.mortarRadarMaxDist;
-            if (wi.displayMortarDistance) currentDist = ac.getLandInDistance(player);
+            ac.getLandInDistance(player);
         }
-
-        double interpDist = ac.prevLandInDistance + (currentDist - ac.prevLandInDistance) * event.getPartialTicks();
-
-        GlStateManager.pushMatrix();
-        double sx = sc.getScaledHeight_double() * (RWR_CENTER_X / SCREEN_HEIGHT_ADAPT_CONSTANT);
-        double sy = sc.getScaledHeight_double() * (RWR_CENTER_Y / SCREEN_HEIGHT_ADAPT_CONSTANT);
-        drawRWRCircle(sx, sy, sc, RADAR);
-
-        double circleRadius = sc.getScaledHeight_double() * (RWR_SIZE / SCREEN_HEIGHT_ADAPT_CONSTANT) / 2.0;
-        boolean isDeadOn = false;
 
         double pax = interpolate(ac.posX, ac.prevPosX, event.getPartialTicks());
         double pay = interpolate(ac.posY, ac.prevPosY, event.getPartialTicks());
@@ -80,6 +67,31 @@ public class HudMortarRadar implements DirectDrawable {
         float radYaw = (float) Math.toRadians(yaw);
         Vec3d lookH = new Vec3d(MathHelper.sin(-radYaw), 0, MathHelper.cos(radYaw));
 
+        double impactX = 0, impactY = 0, impactZ = 0;
+        boolean hasImpact = false;
+        if (ac.impactPos != null && ac.prevImpactPos != null) {
+            impactX = interpolate(ac.impactPos.x, ac.prevImpactPos.x, event.getPartialTicks());
+            impactY = interpolate(ac.impactPos.y, ac.prevImpactPos.y, event.getPartialTicks());
+            impactZ = interpolate(ac.impactPos.z, ac.prevImpactPos.z, event.getPartialTicks());
+            hasImpact = true;
+        }
+
+        Vec3d deltaImpact = new Vec3d(impactX - pax, impactY - pay, impactZ - paz);
+        Vec3d deltaImpactH = new Vec3d(deltaImpact.x, 0, deltaImpact.z);
+        double interpDist = deltaImpactH.length();
+
+        double dotImpact = lookH.dotProduct(deltaImpactH.normalize());
+        double angleImpact = Math.toDegrees(Math.acos(MathHelper.clamp(dotImpact, -1.0, 1.0)));
+        if ((lookH.x * deltaImpactH.z - lookH.z * deltaImpactH.x) > 0) angleImpact = -angleImpact;
+
+        GlStateManager.pushMatrix();
+        double sx = sc.getScaledHeight_double() * (RWR_CENTER_X / SCREEN_HEIGHT_ADAPT_CONSTANT);
+        double sy = sc.getScaledHeight_double() * (RWR_CENTER_Y / SCREEN_HEIGHT_ADAPT_CONSTANT);
+        drawRWRCircle(sx, sy, sc, RADAR);
+
+        double circleRadius = sc.getScaledHeight_double() * (RWR_SIZE / SCREEN_HEIGHT_ADAPT_CONSTANT) / 2.0;
+        boolean isDeadOn = false;
+
         for (EntityInfo entity : getServerLoadedEntity()) {
             if (!isValidEntity(entity, ac)) continue;
 
@@ -92,14 +104,17 @@ public class HudMortarRadar implements DirectDrawable {
 
             double dot = lookH.dotProduct(deltaH);
             double angle = Math.toDegrees(Math.acos(MathHelper.clamp(dot, -1.0, 1.0)));
-            // Check cross product to determine left/right
             if ((lookH.x * deltaH.z - lookH.z * deltaH.x) > 0) angle = -angle;
 
             double distance = Math.sqrt(delta.x * delta.x + delta.z * delta.z);
 
-            // High precision hit detection
-            if (Math.abs(angle) < 3.0 && Math.abs(distance - interpDist) < 5.0) {
-                isDeadOn = true;
+            // Precision hit detection relative to actual impact point
+            if (hasImpact) {
+                double edx = xPos - impactX;
+                double edz = zPos - impactZ;
+                if ((edx * edx + edz * edz) < 6.0 * 6.0) { // 6 block hit radius
+                    isDeadOn = true;
+                }
             }
 
             double ratio = MathHelper.clamp((distance - MIN_DISTANCE) / (maxDist - MIN_DISTANCE), 0.0, 1.0);
@@ -110,7 +125,7 @@ public class HudMortarRadar implements DirectDrawable {
             double markerY = sy - renderRadius * Math.cos(rad);
 
             drawMortarTarget(markerX, markerY, sc);
-             HudRWR.RWRResult rwrResult = getTargetTypeOnRadar(entity, ac);
+            HudRWR.RWRResult rwrResult = getTargetTypeOnRadar(entity, ac);
             String text = rwrResult.name + "[" + (int) distance + "]";
             int color = rwrResult.color;
             int fw = mc.fontRenderer.getStringWidth(text);
@@ -119,12 +134,14 @@ public class HudMortarRadar implements DirectDrawable {
         GlStateManager.popMatrix();
 
         GlStateManager.pushMatrix();
-        if (interpDist >= MIN_DISTANCE) {
+        if (hasImpact && interpDist >= MIN_DISTANCE) {
             double ratio = MathHelper.clamp((interpDist - MIN_DISTANCE) / (maxDist - MIN_DISTANCE), 0.0, 1.0);
             double circleR = sc.getScaledHeight_double() * (RWR_SIZE / SCREEN_HEIGHT_ADAPT_CONSTANT) / 2.0;
             double renderR = MIN_RADIUS + (circleR - MIN_RADIUS) * ratio;
-            double markerX = sx;
-            double markerY = sy - renderR;
+
+            double radI = Math.toRadians(angleImpact);
+            double markerX = sx + renderR * Math.sin(-radI);
+            double markerY = sy - renderR * Math.cos(radI);
 
             float r = isDeadOn ? 1.0F : 1.0F;
             float g = isDeadOn ? 0.0F : 1.0F;
@@ -133,7 +150,6 @@ public class HudMortarRadar implements DirectDrawable {
         }
         GlStateManager.popMatrix();
     }
-
 
     private boolean isValidEntity(EntityInfo entity, MCH_EntityAircraft ac) {
         if (entity.entityClassName.contains("MCH_EntityChaff") || entity.entityClassName.contains("MCH_EntityFlare"))

@@ -258,6 +258,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     private double lastCalcLandInDistanceCount;
     private double lastLandInDistance = -1.0;
     public double prevLandInDistance = -1.0;
+    public Vec3d impactPos = null;
+    public Vec3d prevImpactPos = null;
     private boolean switchSeat = false;
 
     public MCH_EntityAircraft(World world) {
@@ -4939,6 +4941,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         if (this.lastCalcLandInDistanceCount != this.getCountOnUpdate() && (this.world.isRemote || this.getCountOnUpdate() % 5 == 0)) {
             this.lastCalcLandInDistanceCount = this.getCountOnUpdate();
             this.prevLandInDistance = this.lastLandInDistance;
+            this.prevImpactPos = this.impactPos;
             MCH_WeaponParam prm = new MCH_WeaponParam();
             prm.setPosition(this.posX, this.posY, this.posZ);
             prm.entity = this;
@@ -4955,21 +4958,21 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
                     Vec3d shotPos = currentWs.getFirstWeapon().getShotPos(this);
                     prm.setPosition(this.posX + shotPos.x, this.posY + shotPos.y, this.posZ + shotPos.z);
+                    prm.rotYaw = MathHelper.wrapDegrees(this.getCurrentWeaponShotYaw(prm.user));
+                    prm.rotPitch = MathHelper.wrapDegrees(this.getCurrentWeaponShotPitch(prm.user));
 
-                    double distFromMuzzle = currentWs.getImpactDistance(prm);
-                    // distFromMuzzle is horizontal distance from muzzle to impact point.
-                    // We need distance from aircraft center to impact point.
-                    // Since it's horizontal:
-                    // ImpactWorldPos = MuzzleWorldPos + HorizontalDirection * distFromMuzzle
-                    float radYaw = (float) Math.toRadians(prm.rotYaw);
-                    double impactX = prm.posX + MathHelper.sin(-radYaw) * distFromMuzzle;
-                    double impactZ = prm.posZ + MathHelper.cos(radYaw) * distFromMuzzle;
-                    
-                    double dx = impactX - this.posX;
-                    double dz = impactZ - this.posZ;
-                    this.lastLandInDistance = Math.sqrt(dx * dx + dz * dz);
-                    
+                    this.impactPos = currentWs.getCurrentWeapon().getImpactPos(prm);
+
+                    if (this.impactPos != null) {
+                        double dx = this.impactPos.x - this.posX;
+                        double dz = this.impactPos.z - this.posZ;
+                        this.lastLandInDistance = Math.sqrt(dx * dx + dz * dz);
+                    } else {
+                        this.lastLandInDistance = -1.0;
+                    }
+
                     if (this.prevLandInDistance < 0) this.prevLandInDistance = this.lastLandInDistance;
+                    if (this.prevImpactPos == null) this.prevImpactPos = this.impactPos;
                 }
             }
         }

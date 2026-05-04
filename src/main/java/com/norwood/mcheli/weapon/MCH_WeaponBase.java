@@ -7,8 +7,10 @@ import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.wrapper.W_McClient;
 import lombok.Setter;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -17,6 +19,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public abstract class MCH_WeaponBase {
@@ -253,56 +256,84 @@ public abstract class MCH_WeaponBase {
     }
 
     public double getLandInDistance(MCH_WeaponParam prm) {
-        if (this.weaponInfo == null) {
-            return -1.0;
-        } else if (this.weaponInfo.gravity >= 0.0F) {
-            return -1.0;
-        } else {
-            Vec3d v = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -prm.rotYaw, -prm.rotPitch, -prm.rotRoll);
-            double s = Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-            double acc = this.acceleration < 4.0F ? this.acceleration : 4.0;
-            double accFac = this.acceleration / acc;
-            double my = v.y * this.acceleration / s;
-            if (!(my <= 0.0)) {
-                double mx = v.x * this.acceleration / s;
-                double mz = v.z * this.acceleration / s;
-                double ls = my / this.weaponInfo.gravity;
-                double gravity = this.weaponInfo.gravity * accFac;
-                if (ls < -12.0) {
-                    double f = ls / -12.0;
-                    mx *= f;
-                    my *= f;
-                    mz *= f;
-                    gravity *= f * f * 0.95;
-                }
+        Vec3d impact = getImpactPos(prm);
+        if (impact == null) return -1.0;
+        double dx = impact.x - prm.posX;
+        double dz = impact.z - prm.posZ;
+        return Math.sqrt(dx * dx + dz * dz);
+    }
 
-                double spx = prm.posX;
-                double spy = prm.posY;
-                double spz = prm.posZ;
+    @Nullable
+    public Vec3d getImpactPos(MCH_WeaponParam prm) {
+        if (this.weaponInfo == null) return null;
 
-                for (int i = 0; i < 50; i++) {
-                    Vec3d vs = new Vec3d(spx, spy, spz);
-                    Vec3d ve = new Vec3d(spx + mx, spy + my, spz + mz);
-                    RayTraceResult mop = this.world.rayTraceBlocks(vs, ve);
-                    if (mop != null && mop.typeOfHit == Type.BLOCK) {
-                        double dx = mop.hitVec.x - prm.posX;
-                        double dz = mop.hitVec.z - prm.posZ;
-                        return Math.sqrt(dx * dx + dz * dz);
-                    }
-
-                    my += gravity;
-                    spx += mx;
-                    spy += my;
-                    spz += mz;
-                    if (spy < prm.posY - 100.0) {
-                        double dx = spx - prm.posX;
-                        double dz = spz - prm.posZ;
-                        return Math.sqrt(dx * dx + dz * dz);
-                    }
-                }
-
-            }
-            return -1.0;
+        double accelFactor = 1.0;
+        if ((this instanceof MCH_WeaponMachineGun1 || this instanceof MCH_WeaponMachineGun2 ||
+                this instanceof MCH_WeaponRocket) && this.weaponInfo.acceleration > 4.0F) {
+            accelFactor = this.weaponInfo.acceleration / 4.0F;
         }
+
+        Vec3d look = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -prm.rotYaw, -prm.rotPitch, -prm.rotRoll).normalize();
+
+        Vec3d motion;
+        if (this instanceof MCH_WeaponBomb) {
+            motion = new Vec3d(prm.entity.motionX, prm.entity.motionY, prm.entity.motionZ);
+        } else if (this instanceof MCH_WeaponTorpedo) {
+            motion = new Vec3d(
+                    look.x * this.weaponInfo.acceleration + prm.entity.motionX,
+                    look.y * this.weaponInfo.acceleration + prm.entity.motionY,
+                    look.z * this.weaponInfo.acceleration + prm.entity.motionZ);
+        } else {
+            double accel = Math.min(this.acceleration, 3.9F);
+            motion = new Vec3d(look.x * accel, look.y * accel, look.z * accel);
+        }
+
+        double spx = prm.posX;
+        double spy = prm.posY;
+        double spz = prm.posZ;
+
+        if (this instanceof MCH_WeaponMachineGun1 || this instanceof MCH_WeaponMachineGun2) {
+            spx += motion.x * 0.5;
+            spy += motion.y * 0.5;
+            spz += motion.z * 0.5;
+        }
+
+        double mx = motion.x;
+        double my = motion.y;
+        double mz = motion.z;
+
+        int maxSteps = this.weaponInfo.timeFuse > 0 ? Math.min(512, this.weaponInfo.timeFuse) : 512;
+
+        for (int i = 0; i < maxSteps; i++) {
+            Vec3d start = new Vec3d(spx, spy, spz);
+
+            if (this.world.isBlockLoaded(new BlockPos(spx, spy, spz))) {
+                if (this.world.getBlockState(new BlockPos(spx, spy, spz)).getMaterial() != Material.WATER) {
+                    my += this.weaponInfo.gravity;
+                } else {
+                    my += this.weaponInfo.gravityInWater;
+                    if (this.weaponInfo.velocityInWater > 0.0F) {
+                        mx *= this.weaponInfo.velocityInWater;
+                        my *= this.weaponInfo.velocityInWater;
+                        mz *= this.weaponInfo.velocityInWater;
+                    }
+                }
+            } else {
+                my += this.weaponInfo.gravity;
+            }
+
+            Vec3d end = start.add(mx * accelFactor, my * accelFactor, mz * accelFactor);
+            RayTraceResult hit = this.world.rayTraceBlocks(start, end, false, true, false);
+            if (hit != null && hit.typeOfHit == Type.BLOCK) {
+                return hit.hitVec;
+            }
+
+            spx = end.x;
+            spy = end.y;
+            spz = end.z;
+
+            if (spy < prm.posY - 100) return null;
+        }
+        return null;
     }
 }
