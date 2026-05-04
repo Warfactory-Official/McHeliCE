@@ -38,6 +38,7 @@ public class MCH_Config {
     public static List<Material> tankBreakableMaterials;
     public static MCH_ConfigPrm KeyUp;
     public static MCH_ConfigPrm waitForModels;
+    public static MCH_ConfigPrm ExtractDefaultContentPack;
     public static MCH_ConfigPrm KeyDown;
     public static MCH_ConfigPrm KeyRight;
     public static MCH_ConfigPrm KeyLeft;
@@ -193,6 +194,7 @@ public class MCH_Config {
         configFilePath = mcPath + cfgFile;
         DebugLog = false;
         waitForModels = new MCH_ConfigPrm("WaitForModels", true);
+        ExtractDefaultContentPack = new MCH_ConfigPrm("ExtractDefaultContentPack", false);
         configVer = "0.0.0";
         bulletBreakableBlocks = new ArrayList<>();
         carBreakableBlocks = new ArrayList<>();
@@ -380,6 +382,7 @@ public class MCH_Config {
                 TestMode,
                 __TextureAlpha,
                 EnableCommand,
+                ExtractDefaultContentPack,
                 null,
                 PlaceableOnSpongeOnly,
                 ItemDamage,

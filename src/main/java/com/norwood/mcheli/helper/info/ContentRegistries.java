@@ -10,7 +10,6 @@ import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.addon.AddonManager;
 import com.norwood.mcheli.helper.addon.AddonPack;
-import com.norwood.mcheli.helper.addon.BuiltinAddonPack;
 import com.norwood.mcheli.hud.MCH_Hud;
 import com.norwood.mcheli.plane.MCH_PlaneInfo;
 import com.norwood.mcheli.ship.MCH_ShipInfo;
@@ -113,7 +112,6 @@ public class ContentRegistries {
         MCH_Logger.log(format);
 
         MCH_MOD.proxy.onLoadStartAddons(addons.size());
-        contents.putAll(loadAddonContents(BuiltinAddonPack.instance()));
 
         for (AddonPack pack : addons) {
             contents.putAll(loadAddonContents(pack));

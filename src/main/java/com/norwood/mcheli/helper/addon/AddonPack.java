@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 
 public class AddonPack {
 
@@ -52,17 +53,41 @@ public class AddonPack {
         JsonObject packMetaJson = loadPackMeta(addonFile);
         JsonObject packJson = JsonUtils.getJsonObject(packMetaJson, "pack", new JsonObject());
         JsonObject addonJson = JsonUtils.getJsonObject(packMetaJson, "addon", new JsonObject());
-        String addonDomain = JsonUtils.getString(addonJson, "domain", null);
-        String packName = JsonUtils.getString(packJson, "description", addonFile.getName());
+        boolean hasPackMeta = !packMetaJson.entrySet().isEmpty();
+        String addonDomain = getAddonDomain(addonJson, addonFile);
+        String packName = JsonUtils.getString(packJson, "description", stripExtension(addonFile.getName()));
         String version = JsonUtils.getString(addonJson, "version", "0.0");
 
         String credits = JsonUtils.getString(addonJson, "credits", "");
         String description = JsonUtils.getString(addonJson, "description", "");
-        String loaderVersion = JsonUtils.getString(addonJson, "loader_version", "1");
+        String loaderVersion = JsonUtils.getString(addonJson, "loader_version", hasPackMeta ? "1" : "2");
         List<String> authors = getAuthors(addonJson);
         return new AddonPack(
                 addonDomain, packName, version, addonFile, credits, authors, description, loaderVersion,
                 ImmutableMap.copyOf(packMetaJson.entrySet()));
+    }
+
+    private static String getAddonDomain(JsonObject addonJson, File addonFile) {
+        String configured = JsonUtils.getString(addonJson, "domain", "");
+        if (!configured.isEmpty()) {
+            return configured.toLowerCase(Locale.ROOT);
+        }
+
+        String fallback = stripExtension(addonFile.getName()).toLowerCase(Locale.ROOT)
+                .replaceAll("[^a-z0-9._-]+", "_")
+                .replaceAll("^_+|_+$", "");
+        if (fallback.isEmpty()) {
+            fallback = "addon_" + Integer.toHexString(addonFile.getName().hashCode());
+        }
+
+        MCH_Logger.get().warn("Addon '{}' has no domain metadata, using fallback domain '{}'",
+                addonFile.getName(), fallback);
+        return fallback;
+    }
+
+    private static String stripExtension(String name) {
+        int dot = name.lastIndexOf('.');
+        return dot > 0 ? name.substring(0, dot) : name;
     }
 
     private static List<String> getAuthors(JsonObject jsonObject) {

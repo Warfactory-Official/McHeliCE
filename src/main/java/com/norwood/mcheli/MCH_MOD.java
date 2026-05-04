@@ -20,6 +20,7 @@ import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_ItemHeli;
 import com.norwood.mcheli.helper.*;
+import com.norwood.mcheli.helper.addon.BuiltinAddonPack;
 import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.item.MCH_Item;
 import com.norwood.mcheli.item.MCH_ItemInfo;
@@ -330,6 +331,9 @@ public class MCH_MOD {
         creativeTabsItem = new MCH_CreativeTabs("MCHeli CE Recipe Items");
         proxy.loadConfig("config/mcheli.cfg");
         config = proxy.config;
+        if (BuiltinAddonPack.instance().ensureExtracted(config)) {
+            proxy.save();
+        }
         MCH_Fluids.register();
         MCHGuiFactories.init();
         ContentRegistries.loadContents(addonDir);
