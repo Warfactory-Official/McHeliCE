@@ -160,7 +160,8 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
     }
 
     @SideOnly(Side.CLIENT)
-    public void performHurtAnimation() {}
+    public void performHurtAnimation() {
+    }
 
     public boolean canBeCollidedWith() {
         return !this.isDead;
@@ -404,12 +405,14 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
         }
     }
 
-    public void switchWeapon(int id) {}
+    public void switchWeapon(int id) {
+    }
 
     public boolean useCurrentWeapon(int option1, int option2) {
         Entity riddenByEntity = this.getRiddenByEntity();
-        if (this.countWait == 0 && riddenByEntity != null && this.weaponCAS.shot(riddenByEntity, this.camera.posX,
-                this.camera.posY, this.camera.posZ, option1, option2)) {
+        if (this.countWait == 0 && riddenByEntity != null && this.weaponCAS.performStrikeInquiry(riddenByEntity, this.camera.posX,
+
+                this.camera.posY, this.camera.posZ)) {
             this.countWait = this.weaponCAS.interval;
             if (this.world.isRemote) {
                 this.countWait = this.countWait + (this.countWait > 0 ? 10 : -10);
@@ -423,9 +426,11 @@ public class MCH_EntityGLTD extends W_Entity implements IEntitySinglePassenger {
         }
     }
 
-    protected void writeEntityToNBT(@NotNull NBTTagCompound par1NBTTagCompound) {}
+    protected void writeEntityToNBT(@NotNull NBTTagCompound par1NBTTagCompound) {
+    }
 
-    protected void readEntityFromNBT(@NotNull NBTTagCompound par1NBTTagCompound) {}
+    protected void readEntityFromNBT(@NotNull NBTTagCompound par1NBTTagCompound) {
+    }
 
     @SideOnly(Side.CLIENT)
     public float getShadowSize() {

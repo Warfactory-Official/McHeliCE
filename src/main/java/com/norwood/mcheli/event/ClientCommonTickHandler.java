@@ -1,9 +1,6 @@
 package com.norwood.mcheli.event;
 
-import com.norwood.mcheli.MCH_ClientEventHook;
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_ServerSettings;
-import com.norwood.mcheli.MCH_ViewEntityDummy;
+import com.norwood.mcheli.*;
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.gltd.MCH_ClientGLTDTickHandler;
 import com.norwood.mcheli.gui.MCH_Gui;
@@ -89,12 +86,13 @@ public class ClientCommonTickHandler extends W_TickHandler {
         }
     }
 
-    @Override
     public void onTickPost() {
-        if (this.mc.player != null && this.mc.world != null) {
+        if(super.mc.player != null && super.mc.world != null) {
             MCH_GuiTargetMarker.onClientTick();
         }
+        MCH_PlayerViewHandler.onUpdate();
     }
+
 
     public void onTick() {
         MCH_ClientTickHandlerBase.initRotLimit();

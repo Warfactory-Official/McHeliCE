@@ -121,6 +121,11 @@ public class MCH_EntityBullet extends MCH_EntityBaseBullet {
             }
         }
     }
+    public void setAirburstDist(int airburstDist) {
+        this.airburstDist = airburstDist;
+    }
+
+
 
     @Override
     public MCH_BulletModel getDefaultBulletModel() {

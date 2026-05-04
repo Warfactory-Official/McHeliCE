@@ -244,7 +244,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
                 playSoundNG();
             }
         }
-        if (ac.getSeatIdByEntity(player) <= 1) {
+        if (KeyChaff.isKeyDown() && ac.getSeatIdByEntity(player) <= 1) {
             if (ac.canUseChaff() && ac.useChaff()) {
                 pc.setUseChaff(true);
                 send = true;

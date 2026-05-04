@@ -1,13 +1,14 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_PlayerViewHandler;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class MCH_WeaponMachineGun2 extends MCH_WeaponBase {
 
-    public MCH_WeaponMachineGun2(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
-        super(w, v, yaw, pitch, nm, wi);
+    public MCH_WeaponMachineGun2(World world, Vec3d pos, float yaw, float pitch, String name, MCH_WeaponInfo info) {
+        super(world, pos, yaw, pitch, name, info);
         this.power = 16;
         this.acceleration = 4.0F;
         this.explosionPower = 1;
@@ -29,25 +30,32 @@ public class MCH_WeaponMachineGun2 extends MCH_WeaponBase {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        if (!this.world.isRemote) {
-            Vec3d v = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -prm.rotYaw, -prm.rotPitch, -prm.rotRoll);
-            MCH_EntityBullet e = new MCH_EntityBullet(this.world, prm.posX, prm.posY, prm.posZ, v.x, v.y, v.z,
-                    prm.rotYaw, prm.rotPitch, this.acceleration);
-            e.setName(this.name);
-            e.setParameterFromWeapon(this, prm.entity, prm.user);
+        if (!world.isRemote) {
+            Vec2f rot = calculateShotRotation(prm, false, false);
+            Vec3d motion = Vec3d.fromPitchYaw(rot.y, rot.x);
+
+            MCH_EntityBullet bullet = new MCH_EntityBullet(world, prm.posX, prm.posY, prm.posZ,
+                    motion.x, motion.y, motion.z, rot.x, rot.y, this.acceleration);
+
+            bullet.setName(this.name);
+            bullet.setParameterFromWeapon(this, prm.entity, prm.user);
+            bullet.setAirburstDist(this.airburstDist);
+
             if (this.getInfo().modeNum < 2) {
-                e.explosionPower = this.explosionPower;
+                bullet.explosionPower = this.explosionPower;
             } else {
-                e.explosionPower = prm.option1 == 0 ? -this.explosionPower : this.explosionPower;
+                bullet.explosionPower = (prm.option1 == 0) ? -this.explosionPower : this.explosionPower;
             }
 
-            e.posX = e.posX + e.motionX * 0.5;
-            e.posY = e.posY + e.motionY * 0.5;
-            e.posZ = e.posZ + e.motionZ * 0.5;
-            this.world.spawnEntity(e);
+            bullet.posX += bullet.motionX * 0.5D;
+            bullet.posY += bullet.motionY * 0.5D;
+            bullet.posZ += bullet.motionZ * 0.5D;
+
+            world.spawnEntity(bullet);
             this.playSound(prm.entity);
         } else {
             this.optionParameter1 = this.getCurrentMode();
+            MCH_PlayerViewHandler.applyRecoil(getInfo().getRecoilPitch(), getInfo().getRecoilYaw(), getInfo().recoilRecoverFactor);
         }
 
         return true;

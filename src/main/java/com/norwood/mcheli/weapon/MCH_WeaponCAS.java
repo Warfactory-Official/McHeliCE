@@ -103,10 +103,10 @@ public class MCH_WeaponCAS extends MCH_WeaponBase {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        return performStrikeInquiry(prm.user, prm.entity, prm.entity.posX, prm.entity.posY + 2.0, prm.entity.posZ);
+        return performStrikeInquiry(prm.user, prm.entity.posX, prm.entity.posY + 2.0, prm.entity.posZ);
     }
 
-    private boolean performStrikeInquiry(Entity user, Entity shooter, double px, double py, double pz) {
+    public boolean performStrikeInquiry(Entity user, double px, double py, double pz) {
         float yaw = user.rotationYaw;
         float pitch = user.rotationPitch;
 

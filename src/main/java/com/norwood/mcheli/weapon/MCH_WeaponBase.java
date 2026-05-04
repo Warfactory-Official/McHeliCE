@@ -46,6 +46,7 @@ public abstract class MCH_WeaponBase {
     public int optionParameter1;
     public int optionParameter2;
     public boolean canPlaySound;
+    public int airburstDist = 0;
     @Setter
     private int currentMode;
 
