@@ -629,6 +629,33 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     protected void onUpdate_Particle2() {
         if (this.world.isRemote) {
+            if (this.ironCurtainRunningTick > 0 && this.getTankInfo() != null) {
+                float factor = 0.5f + 0.5f * (float) Math.sin(this.ironCurtainRunningTick * 0.15f);
+                float r = 0.5f * factor;
+                float g = 0.1f * factor;
+                float b = 0.1f * factor;
+
+                for (MCH_BoundingBox box : this.getTankInfo().extraBoundingBox) {
+                    Vec3d pos = this.getTransformedPosition(box.offsetX, box.offsetY, box.offsetZ);
+                    int count = 2 + this.rand.nextInt(3);
+                    for (int i = 0; i < count; i++) {
+                        double px = pos.x + (this.rand.nextGaussian() * 0.3);
+                        double py = pos.y + (this.rand.nextGaussian() * 0.2);
+                        double pz = pos.z + (this.rand.nextGaussian() * 0.3);
+
+                        net.minecraft.client.particle.Particle p = com.norwood.mcheli.particles.MCH_ParticlesUtil.doSpawnParticle(
+                                "cloud", px, py, pz, 0, 0, 0);
+                        if (p != null) {
+                            p.setRBGColorF(r, g, b);
+                            float spread = 0.015f * (this.ironCurtainRunningTick % 40 + 1);
+                            p.motionX = (this.rand.nextFloat() - 0.5f) * spread;
+                            p.motionY = 0.01f + this.rand.nextFloat() * 0.02f;
+                            p.motionZ = (this.rand.nextFloat() - 0.5f) * spread;
+                        }
+                    }
+                }
+            }
+
             if (!(this.getHP() >= this.getMaxHP() * 0.5)) {
                 if (this.getTankInfo() != null) {
                     int bbNum = this.getTankInfo().extraBoundingBox.size();

@@ -51,6 +51,10 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
                 this.KeyUnmount,
                 this.KeyUnmountForce,
                 this.KeyFlare,
+                this.KeyChaff,
+                this.KeyAPS,
+                this.KeyECMJammer,
+                this.KeyRadarSwitch,
                 this.KeyExtra,
                 this.KeyGUI
         };

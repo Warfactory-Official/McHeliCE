@@ -893,11 +893,14 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
     }
 
+
+
     @SideOnly(Side.CLIENT)
-    public void spawnBlockPar(RayTraceResult raytraceResult, BlockPos pos) {
+    public void spawnBlockPar(RayTraceResult raytraceResult, BlockPos blockPos) {
+
         var mc = Minecraft.getMinecraft();
         var effectRenderer = mc.effectRenderer;
-        var state = world.getBlockState(pos);
+        var state = world.getBlockState(blockPos);
 
         int crackCount = getInfo().flakParticlesCrack + rand.nextInt(3);
         for (int i = 0; i < crackCount; i++) {
@@ -925,9 +928,8 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             if (getInfo() != null) {
                 if (m.entityHit == null) {
                     spawnBlockPar(m, m.getBlockPos());
-                } else if (m.entityHit instanceof MCH_EntityAircraft ac  /*&& ac.ironCurtainRunningTick > 0*/) {
-                    //TODO:IRON CURTAIN
-//                    spawnIronCurtainParticle(m, m.getBlockPos());
+                } else if (m.entityHit instanceof MCH_EntityAircraft ac && ac.ironCurtainRunningTick > 0) {
+                    spawnIronCurtainParticle(m, m.getBlockPos());
                 }
             }
             return;

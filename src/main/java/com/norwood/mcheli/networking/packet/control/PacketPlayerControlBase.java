@@ -35,9 +35,14 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         handleGui(aircraft, data, player);
         handleHatch(aircraft, data);
         handleFreeLook(aircraft, data);
+        handleRadar(aircraft, data);
         handleGear(aircraft, data);
         handleRack(aircraft, data);
         handleGunnerStatus(aircraft, data);
+    }
+
+    protected void handleRadar(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
+        if (data.switchRadar > 0) aircraft.setRadarEnabledRuntime(data.switchRadar == 1);
     }
 
     // Heli
@@ -113,7 +118,9 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
 
     protected void handleFlare(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
         if (data.useFlareType > 0) aircraft.useFlare(data.useFlareType);
-        if(data.isUseChaff()) aircraft.useChaff();
+        if (data.isUseChaff()) aircraft.useChaff();
+        if (data.isUseAPS()) aircraft.useAPS();
+        if (data.isUseECMJammer()) aircraft.useECMJammer();
     }
 
     protected void handleGui(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {

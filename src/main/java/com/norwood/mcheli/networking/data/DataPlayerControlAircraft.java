@@ -32,6 +32,7 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
     public float detachedWeaponAimYaw = 0.0F;
     public float detachedWeaponAimPitch = 0.0F;
     public byte switchFreeLook = 0;
+    public byte switchRadar = 0;
 
     public DataPlayerControlAircraft() {
         switches = new PlayerControlSwitches();
@@ -63,6 +64,7 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         this.detachedWeaponAimPitch = buf.readFloat();
 
         this.switchFreeLook = buf.readByte();
+        this.switchRadar = buf.readByte();
     }
 
     public void serialize(ByteBuf buf) {
@@ -91,6 +93,7 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         buf.writeFloat(detachedWeaponAimPitch);
 
         buf.writeByte(switchFreeLook);
+        buf.writeByte(switchRadar);
     }
 
     public static enum UnmountAction {
@@ -156,6 +159,8 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         public boolean openGui = false;
         public boolean reload = false;
         public boolean useChaff = false;
+        public boolean useAPS = false;
+        public boolean useECMJammer = false;
 
         @SuppressWarnings("unused")
         public PlayerControlSwitches(ByteBuf buf) {
@@ -172,6 +177,8 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
             openGui = (mask & (1 << 9)) != 0;
             reload = (mask & (1 << 10)) != 0;
             useChaff = (mask & (1 << 11)) != 0;
+            useAPS = (mask & (1 << 12)) != 0;
+            useECMJammer = (mask & (1 << 13)) != 0;
         }
 
         public void serialize(ByteBuf acc) {
@@ -188,6 +195,8 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
             if (openGui) mask |= (1 << 9);
             if (reload) mask |= (1 << 10);
             if (useChaff) mask |= (1 << 11);
+            if (useAPS) mask |= (1 << 12);
+            if (useECMJammer) mask |= (1 << 13);
 
             acc.writeShort(mask);
         }

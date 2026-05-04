@@ -38,20 +38,30 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
     public MCH_Key KeyDownFromRack;
     public MCH_Key KeyBrake;
     /**
-     * 箔条按键
+     * Chaff key
      */
     public MCH_Key KeyChaff;
     /**
-     * 维修按键
+     * Maintenance key
      */
     public MCH_Key KeyMaintenance;
     /**
-     * APS按键
+     * APS key
      */
     public MCH_Key KeyAPS;
+    /**
+     * ECM Jammer key
+     */
+    public MCH_Key KeyECMJammer;
+    /**
+     * Radar switch key
+     */
+    public MCH_Key KeyRadarSwitch;
     public MCH_Key KeyAirburstDistReset;
     protected boolean isRiding = false;
     protected boolean isBeforeRiding = false;
+    private long lastRwrLockSoundTick = 0;
+    private long lastRwrScanSoundTick = 0;
 
     public MCH_AircraftClientTickHandler(Minecraft minecraft, MCH_Config config) {
         super(minecraft);
@@ -81,6 +91,9 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         this.KeyBrake = new MCH_Key(MCH_Config.KeySwitchHovering.prmInt);
         this.KeyReloadWeapon = new MCH_Key(MCH_Config.KeyReloadWeapon.prmInt);
         this.KeyChaff = new MCH_Key(MCH_Config.KeyChaff.prmInt);
+        this.KeyAPS = new MCH_Key(MCH_Config.KeyAPS.prmInt);
+        this.KeyECMJammer = new MCH_Key(MCH_Config.KeyECMJammer.prmInt);
+        this.KeyRadarSwitch = new MCH_Key(MCH_Config.KeyRadarSwitch.prmInt);
     }
 
     protected void commonPlayerControlInGUI(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot,
@@ -88,6 +101,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
     }
 
     public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, DataPlayerControlAircraft pc) {
+        updateRwr(ac);
         if (ac.supportsDetachedTurretAim() && ac.isDetachedWeaponAimActive()) {
             pc.detachedWeaponAim = true;
             pc.detachedWeaponAimYaw = ac.getDetachedWeaponAimYaw();
@@ -99,92 +113,20 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         boolean send = false;
 
         send |= handleCameraAndModes(player, ac, pc);
-
-        if (isPilot) {
-            send |= handlePilotActions(ac, pc);
-            send |= handleMovementAndBraking(ac, pc);
-        }
-
+        send |= handleFlightControls(player, ac, pc);
         send |= handleCombatSystems(player, ac, pc);
 
-        return send || player.ticksExisted % 100 == 0;
-    }
-
-    private boolean handleSeatControls() {
-        boolean isFreeLook = Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt);
-
-        // Directly evaluate the direction based on boolean logic
-        PlayerControlState switchDir = (isFreeLook && KeyGUI.isKeyDown()) ? PlayerControlState.NEXT :
-                (isFreeLook && KeyExtra.isKeyDown()) ? PlayerControlState.PREV :
-                null;
-
-        if (switchDir != null) {
-            var packet = new PacketSeatPlayerControl();
-            packet.setSwitchSeat(switchDir);
-            packet.sendToServer();
-            return true;
-        }
-        return false;
+        return send;
     }
 
     private boolean handleCameraAndModes(EntityPlayer player, MCH_EntityAircraft ac, DataPlayerControlAircraft pc) {
-        if (!KeyCameraMode.isKeyDown()) return false;
-
-        if (Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
-            pc.setSwitchGunnerStatus(true);
-            playSoundOK();
-            return true;
-        }
-
-        if (ac.haveSearchLight() && ac.canSwitchSearchLight(player)) {
-            pc.setSwitchSearchLight(true);
-            playSoundOK();
-            return true;
-        }
-
-        int beforeMode = ac.getCameraMode(player);
-        ac.switchCameraMode(player);
-        int mode = ac.getCameraMode(player);
-
-        if (mode != beforeMode) {
-            pc.switchCameraMode = DataPlayerControlAircraft.CameraMode.values()[mode];
-            playSoundOK();
-            return true;
-        }
-
-        playSoundNG();
-        return false;
-    }
-
-    private boolean handlePilotActions(MCH_EntityAircraft ac, DataPlayerControlAircraft pc) {
         boolean send = false;
-
-        // Unmount logic
-        if (KeyUnmount.isKeyDown()) {
-            pc.isUnmount = DataPlayerControlAircraft.UnmountAction.UNMOUNT_SELF;
+        if (KeyCameraMode.isKeyDown()) {
+            pc.switchCameraMode = DataPlayerControlAircraft.CameraMode.values()[(ac.camera.getMode(0) + 1) % 3];
             send = true;
         }
 
-        // Rack Logic
-        if (KeyPutToRack.isKeyDown()) {
-            ac.checkRideRack();
-            if (ac.canRideRack()) pc.putDownRack = DataPlayerControlAircraft.RackAction.RIDE;
-            else if (ac.canPutToRack()) pc.putDownRack = DataPlayerControlAircraft.RackAction.MOUNT;
-            send = true;
-        } else if (KeyDownFromRack.isKeyDown()) {
-            if (ac.getRidingEntity() != null) pc.isUnmount = DataPlayerControlAircraft.UnmountAction.UNMOUNT_AIRCRAFT;
-            else if (ac.canDownFromRack()) pc.putDownRack = DataPlayerControlAircraft.RackAction.UNMOUNT;
-            send = true;
-        }
-
-        // Gear and FreeLook
-        if (KeyGearUpDown.isKeyDown() && Objects.requireNonNull(ac.getAcInfo()).haveLandingGear()) {
-            if (ac.canFoldLandingGear()) pc.switchGear = DataPlayerControlAircraft.GearSwitch.FOLD;
-            else if (ac.canUnfoldLandingGear()) pc.switchGear = DataPlayerControlAircraft.GearSwitch.UNFOLD;
-            send = true;
-        }
-
-        if (KeyFreeLook.isKeyDown() && ac.canSwitchFreeLook()) {
+        if (KeyFreeLook.isKeyDown()) {
             pc.switchFreeLook = (byte) (ac.isFreeLookMode() ? 2 : 1);
             send = true;
         }
@@ -194,38 +136,42 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
             send = true;
         }
 
-        return send;
-    }
+        if (KeyRadarSwitch.isKeyDown()) {
+            if (ac.getAcInfo() != null && ac.getAcInfo().enableRadar) {
+                boolean nextState = !ac.isRadarEnabledRuntime();
+                pc.switchRadar = (byte) (nextState ? 1 : 2);
+                send = true;
 
-    private boolean handleMovementAndBraking(MCH_EntityAircraft ac, DataPlayerControlAircraft pc) {
-        if (ac.isRepelling()) {
-            pc.setThrottleDown(ac.throttleDown = false);
-            pc.setThrottleUp(ac.throttleUp = false);
-            pc.setMoveRight(ac.moveRight = false);
-            pc.setMoveLeft(ac.moveLeft = false);
-            return false;
-        }
-
-        if (ac.hasBrake() && KeyBrake.isKeyPress()) {
-            pc.setThrottleDown(ac.throttleDown = false);
-            pc.setThrottleUp(ac.throttleUp = false);
-
-            double distSq = ac.getDistanceSq(ac.prevPosX, ac.posY, ac.prevPosZ);
-            if (ac.getCurrentThrottle() <= 0.03 && distSq < 0.01) {
-                pc.setMoveRight(ac.moveRight = false);
-                pc.setMoveLeft(ac.moveLeft = false);
+                if (nextState) {
+                    com.norwood.mcheli.wrapper.W_McClient.playSound("radar_on", 1.0F, 1.0F);
+                    player.sendMessage(new net.minecraft.util.text.TextComponentString("Radar [ON]"));
+                } else {
+                    com.norwood.mcheli.wrapper.W_McClient.playSound("radar_off", 1.0F, 1.0F);
+                    player.sendMessage(new net.minecraft.util.text.TextComponentString("Radar [OFF]"));
+                }
             }
-            pc.setUseBrake(true);
-            return KeyBrake.isKeyDown();
+        }
+        return send;
         }
 
-        boolean inputChanged = Stream.of(KeyUp, KeyDown, KeyRight, KeyLeft)
-                .anyMatch(k -> k.isKeyDown() || k.isKeyUp());
 
-        pc.setThrottleDown(ac.throttleDown = KeyDown.isKeyPress());
-        pc.setThrottleUp(ac.throttleUp = KeyUp.isKeyPress());
-        pc.setMoveRight(ac.moveRight = KeyRight.isKeyPress());
-        pc.setMoveLeft(ac.moveLeft = KeyLeft.isKeyPress());
+    private boolean handleFlightControls(EntityPlayer player, MCH_EntityAircraft ac, DataPlayerControlAircraft pc) {
+        if (!ac.isPilot(player)) return false;
+
+        boolean inputChanged = false;
+
+        if (KeyUp.isKeyPress()) pc.setThrottleUp(true);
+        if (KeyDown.isKeyPress()) pc.setThrottleDown(true);
+        if (KeyRight.isKeyPress()) pc.setMoveRight(true);
+        if (KeyLeft.isKeyPress()) pc.setMoveLeft(true);
+
+        inputChanged |= Stream.of(KeyUp, KeyDown, KeyRight, KeyLeft).anyMatch(MCH_Key::isKeyDown);
+        inputChanged |= Stream.of(KeyUp, KeyDown, KeyRight, KeyLeft).anyMatch(MCH_Key::isKeyUp);
+
+        if (KeyBrake.isKeyDown()) {
+            pc.switchMode = ac.isHoveringMode() ? DataPlayerControlAircraft.ModeSwitch.HOVERING_OFF : DataPlayerControlAircraft.ModeSwitch.HOVERING_ON;
+            inputChanged = true;
+        }
 
         return inputChanged || KeyBrake.isKeyUp();
     }
@@ -244,6 +190,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
                 playSoundNG();
             }
         }
+
         if (KeyChaff.isKeyDown() && ac.getSeatIdByEntity(player) <= 1) {
             if (ac.canUseChaff() && ac.useChaff()) {
                 pc.setUseChaff(true);
@@ -253,34 +200,65 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
             }
         }
 
-        // Weapons
-        if (!ac.isPilotReloading()) {
-            if (KeyReloadWeapon.isKeyDown()) {
-                pc.setReload(true);
+        if (KeyAPS.isKeyDown() && ac.getSeatIdByEntity(player) <= 1) {
+            if (ac.canUseAPS() && ac.useAPS()) {
+                pc.setUseAPS(true);
                 send = true;
-            }
-
-            int wheel = getMouseWheel();
-            if (wheel == 0 && !KeySwitchWeapon1.isKeyDown() && !KeySwitchWeapon2.isKeyDown()) {
-                if (KeySwWeaponMode.isKeyDown()) {
-                    ac.switchCurrentWeaponMode(player);
-                } else if (KeyUseWeapon.isKeyPress() && ac.prepareCurrentWeapon(player)) {
-                    var weapon = ac.getCurrentWeapon(player);
-                    pc.setUseWeapon(true);
-                    pc.useWeaponOption1 = weapon.getOptionParm1();
-                    pc.useWeaponOption2 = weapon.getOptionParm2();
-                    pc.useWeaponPosX = ac.prevPosX;
-                    pc.useWeaponPosY = ac.prevPosY;
-                    pc.useWeaponPosZ = ac.prevPosZ;
-                    send = true;
-                }
-            } else if (wheel != 0 || KeySwitchWeapon1.isKeyDown() || KeySwitchWeapon2.isKeyDown()) {
-                pc.switchWeapon = (byte) ac.getNextWeaponID(player, wheel > 0 ? -1 : 1);
-                setMouseWheel(0);
-                ac.switchWeapon(player, pc.switchWeapon);
-                send = true;
+            } else {
+                playSoundNG();
             }
         }
+
+        if (KeyECMJammer.isKeyDown() && ac.getSeatIdByEntity(player) <= 1) {
+            if (ac.getAcInfo() != null && ac.getAcInfo().enableECMJammer && ac.useECMJammer()) {
+                pc.setUseECMJammer(true);
+                send = true;
+            } else {
+                playSoundNG();
+            }
+        }
+
+
+        // Weapons
+        if (KeyUseWeapon.isKeyPress()) pc.setUseWeapon(true);
+        if (KeyReloadWeapon.isKeyDown()) pc.setReload(true);
+
+        send |= KeyUseWeapon.isKeyDown() || KeyUseWeapon.isKeyUp();
+        send |= KeyReloadWeapon.isKeyDown() || KeyReloadWeapon.isKeyUp();
+
         return send;
+    }
+
+    protected void updateRwr(MCH_EntityAircraft ac) {
+        if (ac == null || ac.getAcInfo() == null || !ac.getAcInfo().hasRWR) return;
+
+        java.util.List<MCH_RWRThreatEvent> events = MCH_RWRThreatClientTracker.getEvents(ac.getEntityId());
+        boolean beingLocked = false;
+        boolean beingScanned = false;
+        long now = ac.world.getTotalWorldTime();
+
+        for (MCH_RWRThreatEvent evt : events) {
+            if (evt.threatMode == MCH_RWRThreatEvent.MODE_STT || evt.threatMode == MCH_RWRThreatEvent.MODE_MSL_ACTIVE) {
+                beingLocked = true;
+            } else if (evt.threatMode == MCH_RWRThreatEvent.MODE_SEARCH) {
+                beingScanned = true;
+            }
+        }
+
+        if (beingLocked) {
+            if (now - lastRwrLockSoundTick >= 10) {
+                com.norwood.mcheli.wrapper.W_McClient.playSound("locked", 1.0F, 1.0F);
+                lastRwrLockSoundTick = now;
+            }
+        } else if (beingScanned) {
+            if (now - lastRwrScanSoundTick >= 40) {
+                com.norwood.mcheli.wrapper.W_McClient.playSound("alert_radar", 1.0F, 1.0F);
+                lastRwrScanSoundTick = now;
+            }
+        }
+    }
+
+    protected boolean handleSeatControls() {
+        return false;
     }
 }

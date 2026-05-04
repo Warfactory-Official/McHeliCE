@@ -1,9 +1,6 @@
 package com.norwood.mcheli.hud.direct_drawable;
 
-import com.norwood.mcheli.EntityInfo;
-import com.norwood.mcheli.MCH_EntityInfoClientTracker;
-import com.norwood.mcheli.RWRType;
-import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.*;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
@@ -125,7 +122,8 @@ public class HudMortarRadar implements DirectDrawable {
             double markerY = sy - renderRadius * Math.cos(rad);
 
             drawMortarTarget(markerX, markerY, sc);
-            HudRWR.RWRResult rwrResult = getTargetTypeOnRadar(entity, ac);
+
+            RWRResult rwrResult = getTargetTypeOnRadar(entity, ac);
             String text = rwrResult.name + "[" + (int) distance + "]";
             int color = rwrResult.color;
             int fw = mc.fontRenderer.getStringWidth(text);
@@ -159,16 +157,16 @@ public class HudMortarRadar implements DirectDrawable {
         return (dx * dx + dz * dz) >= MIN_DISTANCE * MIN_DISTANCE;
     }
 
-    private HudRWR.RWRResult getTargetTypeOnRadar(EntityInfo entity, MCH_EntityAircraft ac) {
+    private RWRResult getTargetTypeOnRadar(EntityInfo entity, MCH_EntityAircraft ac) {
         if (ac.getAcInfo().rwrType == RWRType.DIGITAL) {
             if (entity.entityClassName.contains("MCH_EntityHeli") ||
                     entity.entityClassName.contains("MCP_EntityPlane") ||
                     entity.entityClassName.contains("MCH_EntityTank") ||
                     entity.entityClassName.contains("MCH_EntityVehicle")) {
-                return new HudRWR.RWRResult(ac.getNameOnMyRadar(entity), 0xFFFFFF);
-            } else return new HudRWR.RWRResult("?", 0xFFFFFF);
+                return new RWRResult(ac.getNameOnMyRadar(entity), 0xFFFFFF);
+            } else return new RWRResult("?", 0xFFFFFF);
         }
-        return new HudRWR.RWRResult("?", 0xFFFFFF);
+        return new RWRResult("?", 0xFFFFFF);
     }
 
     private void drawRWRCircle(double x, double y, ScaledResolution sc, ResourceLocation rwr) {

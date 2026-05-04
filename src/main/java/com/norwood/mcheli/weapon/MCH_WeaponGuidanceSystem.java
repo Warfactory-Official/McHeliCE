@@ -35,6 +35,14 @@ public class MCH_WeaponGuidanceSystem extends MCH_EntityGuidanceSystem {
     protected Entity user;
     private Entity targetEntity;
 
+    public void setTarget(Entity target) {
+        this.targetEntity = target;
+    }
+
+    public Entity getTarget() {
+        return this.targetEntity;
+    }
+
     public MCH_WeaponGuidanceSystem() {
         this(null);
     }

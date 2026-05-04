@@ -750,7 +750,60 @@ public class YamlParser implements IParser {
                 case "ThrottleUpDownEntity" -> info.throttleUpDownOnEntity = getClamped(100_000F, entry.getValue());
                 case "Parachuting" -> parseParachuting(entry, info);
                 case "Flare" -> info.flare = parseFlare((Map<String, Object>) entry.getValue());
+                case "APS" -> parseAPS(info, (Map<String, Object>) entry.getValue());
+                case "Radar" -> parseRadar(info, (Map<String, Object>) entry.getValue());
+                case "RWR" -> parseRWR(info, (Map<String, Object>) entry.getValue());
+                case "ECM" -> parseECM(info, (Map<String, Object>) entry.getValue());
                 default -> logUnkownEntry(entry, "AircraftFeatures");
+            }
+        }
+    }
+
+    private void parseRadar(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.enableRadar = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Type" -> info.radarType = RadarType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT));
+                case "MaxTargetRange" -> info.radarMaxTargetRange = ((Number) entry.getValue()).floatValue();
+                case "ScanAzimuth" -> info.radarScanAzimuthDeg = ((Number) entry.getValue()).floatValue();
+                case "ScanElevation" -> info.radarScanElevationDeg = ((Number) entry.getValue()).floatValue();
+                case "ScanTick" -> info.radarScanTick = ((Number) entry.getValue()).intValue();
+                case "Passive" -> info.passiveRadar = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "Radar");
+            }
+        }
+    }
+
+    private void parseRWR(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.hasRWR = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Type" -> info.rwrType = RWRType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT));
+                case "Name" -> info.nameOnRWR = (String) entry.getValue();
+                default -> logUnkownEntry(entry, "RWR");
+            }
+        }
+    }
+
+    private void parseECM(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.enableECMJammer = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "WaitTime" -> info.ecmJammerWaitTime = ((Number) entry.getValue()).intValue();
+                case "UseTime" -> info.ecmJammerUseTime = ((Number) entry.getValue()).intValue();
+                default -> logUnkownEntry(entry, "ECM");
+            }
+        }
+    }
+
+    private void parseAPS(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.hasAPS = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "UseTime" -> info.apsUseTime = ((Number) entry.getValue()).intValue();
+                case "WaitTime" -> info.apsWaitTime = ((Number) entry.getValue()).intValue();
+                case "Range" -> info.apsRange = ((Number) entry.getValue()).intValue();
+                default -> logUnkownEntry(entry, "APS");
             }
         }
     }

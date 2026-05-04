@@ -85,6 +85,8 @@ public abstract class MCH_ItemAircraft extends W_Item {
                 tooltip.add(TextFormatting.AQUA + "[Repair]");
             if (info.invulnerable)
                 tooltip.add(TextFormatting.WHITE + "[Invulnerable]");
+            if (info.haveAPS())
+                tooltip.add(TextFormatting.GOLD + "[APS]");
             tooltip.add(TextFormatting.GRAY + "Health: " + TextFormatting.GREEN + info.maxHp);
             tooltip.add(TextFormatting.GRAY + "Trunk size: " + TextFormatting.WHITE + info.inventorySize);
             tooltip.add(TextFormatting.GRAY + "Fuel tank storage: " + TextFormatting.WHITE + info.maxFuel);

@@ -10,6 +10,7 @@ import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.command.MCH_Command;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.factories.MCHGuiFactories;
+import com.norwood.mcheli.flare.MCH_APS;
 import com.norwood.mcheli.flare.MCH_Chaff;
 import com.norwood.mcheli.flare.MCH_Flare;
 import com.norwood.mcheli.gui.AircraftGui;
@@ -90,6 +91,11 @@ import static com.norwood.mcheli.RadarType.EARLY_AS;
 public abstract class MCH_EntityAircraft extends W_EntityContainer implements IGuiHolder<AircraftGuiData>, MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler {
 
 
+    public static final int CMN_ID_GUNNER_STATUS = 12;
+    public static final int CMN_ID_RADAR_ENABLED = 13;
+    public static final int CMN_ID_MORTAR_RADAR_ENABLED = 14;
+    public static final int CMN_ID_ECM_JAMMER_ENABLED = 15;
+
     protected static final DataParameter<Integer> PART_STAT = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DAMAGE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
     private static final DataParameter<String> ID_TYPE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
@@ -119,6 +125,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     private final MCH_EntityHitBox pilotSeat;
     private final MCH_Radar entityRadar;
     private final MCH_Flare flareDv;
+    private final MCH_APS apsDv;
     private final MCH_Queue<Vec3d> prevPosition;
     public boolean isRequestedSyncStatus;
     public boolean keepOnRideRotation;
@@ -148,6 +155,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     public float rotDestroyedPitch;
     public float rotDestroyedRoll;
     public int damageSinceDestroyed;
+    public int ironCurtainRunningTick = 0;
+    public float ironCurtainLastFactor = 0.5f;
+    public float ironCurtainCurrentFactor = 0.5f;
+    public int ironCurtainWaveTimer = 0;
     public boolean isFirstDamageSmoke = true;
     public Vec3d[] prevDamageSmokePos = new Vec3d[0];
     public boolean cs_dismountAll;
@@ -271,6 +282,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.ignoreFrustumCheck = true;
         this.flareDv = new MCH_Flare(world, this);
         this.chaff = new MCH_Chaff(world, this);
+        this.apsDv = new MCH_APS(world, this);
         this.currentFlareIndex = 0;
         this.entityRadar = new MCH_Radar(world);
         this.radarRotate = 0;
@@ -977,6 +989,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     @Override
     public boolean attackEntityFrom(@NotNull DamageSource damageSource, float originalDamage) {
+        if (this.ironCurtainRunningTick > 0) {
+            return false;
+        }
         if (shouldIgnoreDamage(damageSource)) {
             return false;
         }
@@ -1462,6 +1477,46 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.setCommonStatus(6, onoff);
     }
 
+    public boolean isRadarEnabledRuntime() {
+        return this.getCommonStatus(CMN_ID_RADAR_ENABLED);
+    }
+
+    public void setRadarEnabledRuntime(boolean enabled) {
+        this.setRadarEnabledRuntime(enabled, false);
+    }
+
+    public int ecmJammerRunningTick = 0;
+    public int ecmJammerWaitTick = 0;
+    public int jammingTick = 0;
+
+    public void setRadarEnabledRuntime(boolean enabled, boolean writeClient) {
+        this.setCommonStatus(CMN_ID_RADAR_ENABLED, enabled, writeClient);
+    }
+
+    public boolean isECMJammerUsing() {
+        return this.getCommonStatus(CMN_ID_ECM_JAMMER_ENABLED);
+    }
+
+    public void setECMJammerUsing(boolean enabled) {
+        this.setCommonStatus(CMN_ID_ECM_JAMMER_ENABLED, enabled, true);
+    }
+
+    public boolean useECMJammer() {
+        if (this.getAcInfo() != null && this.getAcInfo().enableECMJammer && this.ecmJammerWaitTick <= 0) {
+            this.ecmJammerRunningTick = this.getAcInfo().ecmJammerUseTime;
+            this.ecmJammerWaitTick = this.getAcInfo().ecmJammerWaitTime;
+            if (!this.world.isRemote) {
+                this.setECMJammerUsing(true);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void setMortarRadarEnabledRuntime(boolean enabled) {
+        this.setCommonStatus(CMN_ID_MORTAR_RADAR_ENABLED, enabled, true);
+    }
+
     public boolean haveSearchLight() {
         return this.getAcInfo() != null && !this.getAcInfo().searchLights.isEmpty();
     }
@@ -1662,6 +1717,38 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             this.chaff.chaffUseTime = getAcInfo().chaffUseTime;
             this.chaff.chaffWaitTime = getAcInfo().chaffWaitTime;
             this.chaff.onUpdate();
+        }
+
+        if (this.apsDv != null) {
+            this.apsDv.useTime = getAcInfo().apsUseTime;
+            this.apsDv.waitTime = getAcInfo().apsWaitTime;
+            this.apsDv.range = getAcInfo().apsRange;
+            this.apsDv.onUpdate();
+        }
+
+        if (ironCurtainRunningTick > 0) {
+            ironCurtainRunningTick--;
+            ironCurtainWaveTimer++;
+            ironCurtainLastFactor = ironCurtainCurrentFactor;
+            double waveSpeed = 0.15;
+            ironCurtainCurrentFactor = 0.75f + 0.25f * (float) Math.sin(ironCurtainWaveTimer * waveSpeed);
+        } else {
+            ironCurtainWaveTimer = 0;
+            ironCurtainCurrentFactor = 0.5f;
+            ironCurtainLastFactor = 0.5f;
+        }
+
+        if (this.ecmJammerRunningTick > 0) {
+            this.ecmJammerRunningTick--;
+            if (this.ecmJammerRunningTick <= 0 && !this.world.isRemote) {
+                this.setECMJammerUsing(false);
+            }
+        }
+        if (this.ecmJammerWaitTick > 0) {
+            this.ecmJammerWaitTick--;
+        }
+        if (this.jammingTick > 0) {
+            this.jammingTick--;
         }
 
         if (!this.world.isRemote && this.getFlareTick() == 0 && ft != 0) {
@@ -6080,6 +6167,22 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
     public boolean useChaff() {
         return this.getAcInfo() != null && this.getAcInfo().haveChaff() && this.chaff.onUse();
+    }
+
+    public boolean isChaffUsing() {
+        return this.chaff != null && this.chaff.isUsing();
+    }
+
+    public boolean useAPS() {
+        return this.getAcInfo() != null && this.getAcInfo().haveAPS() && this.apsDv.onUse();
+    }
+
+    public boolean canUseAPS() {
+        return this.getAcInfo() != null && this.getAcInfo().haveAPS() && this.apsDv.tick == 0;
+    }
+
+    public boolean haveAPS() {
+        return this.getAcInfo() != null && this.getAcInfo().haveAPS();
     }
 
     public ModularPanel buildUI(AircraftGuiData data, PanelSyncManager syncManager, UISettings settings) {

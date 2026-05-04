@@ -121,6 +121,7 @@ public class MCH_MOD {
     public static MCH_CreativeTabs creativeTabsVehicle;
     public static MCH_DraftingTableBlock blockDraftingTable;
     public static MCH_DraftingTableBlock blockDraftingTableLit;
+    public static final MCH_RWRThreatManager rwrThreatManager = new MCH_RWRThreatManager();
     private static File sourceFile;
     private static File addonDir;
 

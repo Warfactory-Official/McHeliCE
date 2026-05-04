@@ -853,6 +853,11 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 this.setCommonRenderParam(info.smoothShading, entity.getBrightnessForRender());
                 if (entity.isDestroyed()) {
                     GlStateManager.color(0.15F, 0.15F, 0.15F, 1.0F);
+                } else if (entity.ironCurtainRunningTick > 0) {
+                    float actualFactor = entity.ironCurtainLastFactor +
+                            (entity.ironCurtainCurrentFactor - entity.ironCurtainLastFactor) *
+                                    (float) Math.sin(tickTime * Math.PI / 2);
+                    GlStateManager.color(0.8F * actualFactor, 0.4F * actualFactor, 0.4F * actualFactor, 1.0F);
                 } else {
                     GlStateManager.color(0.75F, 0.75F, 0.75F, (float) MCH_Config.__TextureAlpha.prmDouble);
                 }

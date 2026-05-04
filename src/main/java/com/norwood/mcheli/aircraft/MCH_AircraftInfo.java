@@ -218,9 +218,26 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      */
     public int apsRange = 8;
     /**
+     * Whether the vehicle has APS
+     */
+    public boolean hasAPS = false;
+    /**
      * Whether the vehicle has RWR
      */
     public boolean hasRWR = false;
+
+    public boolean enableRadar = false;
+    public boolean passiveRadar = false;
+    public float radarMaxTargetRange = 3000.0F;
+    public float radarScanAzimuthDeg = 120.0F;
+    public float radarScanElevationDeg = 40.0F;
+    public int radarScanTick = 12;
+    public String nameOnRWR = "?";
+
+    public boolean enableECMJammer = false;
+    public int ecmJammerWaitTime = 400;
+    public int ecmJammerUseTime = 100;
+
     /**
      * HUD custom field for vehicle HUD type
      */
@@ -289,6 +306,7 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         list.add(HudGPS.INSTANCE);
         list.add(HudMortarRadar.INSTANCE);
         list.add(HudBVRLock.INSTANCE);
+        list.add(HudRWR.INSTANCE);
         return list;
     }
 
@@ -322,6 +340,10 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
 
     public boolean haveFlare() {
         return this.flare.types.length > 0;
+    }
+
+    public boolean haveAPS() {
+        return this.hasAPS;
     }
 
     public boolean haveCanopy() {

@@ -51,7 +51,8 @@ public class MCH_WeaponAAMissile extends MCH_WeaponEntitySeeker {
     private boolean handleServerShot(MCH_WeaponParam prm) {
         final var info = getInfo();
         boolean isRadar = info.passiveRadar || info.activeRadar;
-        Entity target = isRadar ? null : this.world.getEntityByID(prm.option1);
+        Entity target = this.guidanceSystem.getTarget();
+        if (target == null) target = this.world.getEntityByID(prm.option1);
 
         if (!isRadar && (target == null || target.isDead)) return false;
 

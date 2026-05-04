@@ -54,9 +54,9 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
 
         // Iterate through each component's bounding box
         for (MCH_BoundingBox bb : this.ac.extraBoundingBox) {
-            // 先用部件的轴对齐外包围盒做快速过滤
+            // Quick filter using the part's AABB
             if (bb.boundingBox.intersects(aabb)) {
-                // 用完整的 OBB-AABB 判定代替原来的 corners 判定
+                // Use full OBB-AABB intersection check
                 if (bb.intersectsAABB(aabb)) {
                     double dist2 = this.getDistanceSquareBetween(aabb, this);
                     if (dist2 < dist) {
