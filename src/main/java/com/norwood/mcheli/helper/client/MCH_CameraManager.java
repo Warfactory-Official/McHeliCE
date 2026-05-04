@@ -3,9 +3,9 @@ package com.norwood.mcheli.helper.client;
 import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.hud.direct_drawable.DirectDrawable;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
 import com.norwood.mcheli.uav.IUavStation;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -14,12 +14,13 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.EntityViewRenderEvent.CameraSetup;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nullable;
+
+import static net.minecraftforge.client.event.RenderGameOverlayEvent.*;
 
 @EventBusSubscriber(
         modid = "mcheli",
@@ -129,7 +130,7 @@ public class MCH_CameraManager {
     }
 
     @SubscribeEvent
-    public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {
+    public void onRenderOverlay(Pre event) {
         EntityPlayer player = mc.player;
         if (player == null) {
             return;
@@ -142,18 +143,25 @@ public class MCH_CameraManager {
             return;
         }
 
-        RenderGameOverlayEvent.ElementType type = event.getType();
-        if (type != RenderGameOverlayEvent.ElementType.CHAT &&
-                type != RenderGameOverlayEvent.ElementType.DEBUG &&
-                type != RenderGameOverlayEvent.ElementType.HEALTH &&
-                type != RenderGameOverlayEvent.ElementType.BOSSINFO) {
+        ElementType type = event.getType();
+        if (type == ElementType.BOSSHEALTH ||
+                type == ElementType.HEALTH ||
+                type == ElementType.ARMOR ||
+                type == ElementType.CROSSHAIRS ||
+                type == ElementType.FOOD ||
+                type == ElementType.BOSSINFO ||
+                type == ElementType.VIGNETTE ||
+                type == ElementType.AIR ||
+                type == ElementType.HOTBAR
+
+        ) {
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
-    public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+    public void onRenderOverlay(Post event) {
+        if (!DirectDrawable.shouldRender(event)) return;
         Tuple<EntityPlayer, MCH_EntityAircraft> ctx = getActivePilotContext();
         if (ctx == null) return;
         if (ctx.getSecond().getAcInfo() == null) return;

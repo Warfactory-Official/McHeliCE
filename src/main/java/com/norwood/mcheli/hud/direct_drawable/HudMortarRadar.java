@@ -28,9 +28,9 @@ import java.util.List;
 public class HudMortarRadar implements DirectDrawable {
 
     public static final HudMortarRadar INSTANCE = new HudMortarRadar();
-    public static final ResourceLocation RADAR = new ResourceLocation(Tags.MODID, "textures/mortar_radar");
-    public static final ResourceLocation CROSS = new ResourceLocation(Tags.MODID, "textures/mortar_cross");
-    public static final ResourceLocation TARGET = new ResourceLocation(Tags.MODID, "textures/mortar_target");
+    public static final ResourceLocation RADAR = new ResourceLocation(Tags.MODID, "textures/gui/mortar_radar.png");
+    public static final ResourceLocation CROSS = new ResourceLocation(Tags.MODID, "textures/gui/mortar_cross.png");
+    public static final ResourceLocation TARGET = new ResourceLocation(Tags.MODID, "textures/gui/mortar_target.png");
     private static final int RWR_SIZE = 250;
     private static final int RWR_CENTER_X = 150;
     private static final int RWR_CENTER_Y = 280;
@@ -41,7 +41,7 @@ public class HudMortarRadar implements DirectDrawable {
     private static final int RWR_CROSS_SIZE = 21;
 
     public void renderHud(RenderGameOverlayEvent.Post event, Tuple<EntityPlayer, MCH_EntityAircraft> ctx) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+        if (!DirectDrawable.shouldRender(event)) return;
         var player = ctx.getFirst();
         var ac = ctx.getSecond();
         var mc = Minecraft.getMinecraft();
@@ -54,7 +54,7 @@ public class HudMortarRadar implements DirectDrawable {
         MCH_WeaponSet ws = ac.getCurrentWeapon(player);
         if (ws != null) {
             MCH_WeaponInfo wi = ws.getInfo();
-            if (wi == null || !wi.hasMortarRadar) return;
+//            if (wi == null || !wi.hasMortarRadar) return;
             if (wi.mortarRadarMaxDist > 0) maxDist = wi.mortarRadarMaxDist;
             if (wi.displayMortarDistance) currentDist = ac.getLandInDistance(player);
         }

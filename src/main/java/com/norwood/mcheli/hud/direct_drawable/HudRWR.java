@@ -44,7 +44,7 @@ public class HudRWR implements DirectDrawable {
     private static final int _MIN_RADIUS = 30;
 
     public void renderHud(RenderGameOverlayEvent.Post event, Tuple<EntityPlayer, MCH_EntityAircraft> ctx) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+        if (!DirectDrawable.shouldRender(event)) return;
 
         Minecraft mc = Minecraft.getMinecraft();
         MCH_EntityAircraft ac = ctx.getSecond();
@@ -110,11 +110,11 @@ public class HudRWR implements DirectDrawable {
                 Vec3d lookHorizontal = new Vec3d(lookVec.x, 0, lookVec.z).normalize();
 
                 double dot = lookHorizontal.dotProduct(deltaHorizontal);
-                double angle = Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, dot))));
+                double angle = Math.toDegrees(Math.acos(Math.clamp(dot, -1.0, 1.0)));
                 if (lookHorizontal.crossProduct(deltaHorizontal).y < 0) angle = -angle;
 
                 double distance = Math.sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
-                double radiusRatio = Math.min(Math.max((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE), 0.0),
+                double radiusRatio = Math.clamp((distance - MIN_DISTANCE) / (MAX_DISTANCE - MIN_DISTANCE), 0.0,
                         1.0);
                 double renderRadius = MIN_RADIUS + (circleRadius - MIN_RADIUS) * radiusRatio;
 

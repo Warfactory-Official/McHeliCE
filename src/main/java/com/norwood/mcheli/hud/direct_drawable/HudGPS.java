@@ -47,7 +47,7 @@ public class HudGPS implements DirectDrawable {
         Vec3d dir = toTarget.normalize();
 
         Vec3d look = player.getLook(event.getPartialTicks());
-        double dot = Math.max(-1.0, Math.min(1.0, dir.x * look.x + dir.y * look.y + dir.z * look.z));
+        double dot = Math.clamp(dir.x * look.x + dir.y * look.y + dir.z * look.z, -1.0, 1.0);
         double angleDeg = Math.toDegrees(Math.acos(dot));
 
         float alpha;

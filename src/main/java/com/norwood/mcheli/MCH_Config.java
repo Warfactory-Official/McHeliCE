@@ -209,7 +209,7 @@ public class MCH_Config {
         KeySwitchHovering = new MCH_ConfigPrm("KeySwitchHovering", Keyboard.KEY_SPACE);
         KeyAttack = new MCH_ConfigPrm("KeyAttack", -100);
         KeyReloadWeapon = new MCH_ConfigPrm("KeyReloadWeapon", Keyboard.KEY_R);
-        KeyUseWeapon = new MCH_ConfigPrm("KeyUseWeapon", -99);
+        KeyUseWeapon = new MCH_ConfigPrm("KeyUseWeapon", -100);
         KeySwitchWeapon1 = new MCH_ConfigPrm("KeySwitchWeapon1", -98);
         KeySwitchWeapon2 = new MCH_ConfigPrm("KeySwitchWeapon2", Keyboard.KEY_G);
         KeySwWeaponMode = new MCH_ConfigPrm("KeySwitchWeaponMode", Keyboard.KEY_X);

@@ -64,7 +64,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         this.KeyDown = new MCH_Key(MCH_Config.KeyDown.prmInt);
         this.KeyRight = new MCH_Key(MCH_Config.KeyRight.prmInt);
         this.KeyLeft = new MCH_Key(MCH_Config.KeyLeft.prmInt);
-        this.KeyUseWeapon = new MCH_Key(MCH_Config.KeyUseWeapon.prmInt);
+        this.KeyUseWeapon = new MCH_Key(-100);
         this.KeySwitchWeapon1 = new MCH_Key(MCH_Config.KeySwitchWeapon1.prmInt);
         this.KeySwitchWeapon2 = new MCH_Key(MCH_Config.KeySwitchWeapon2.prmInt);
         this.KeySwWeaponMode = new MCH_Key(MCH_Config.KeySwWeaponMode.prmInt);

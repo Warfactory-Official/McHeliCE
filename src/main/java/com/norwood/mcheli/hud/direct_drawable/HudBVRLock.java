@@ -33,7 +33,7 @@ public class HudBVRLock implements DirectDrawable {
     public static final HudBVRLock INSTANCE = new HudBVRLock();
 
     public void renderHud(RenderGameOverlayEvent.Post event, Tuple<EntityPlayer, MCH_EntityAircraft> ctx) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+        if (!DirectDrawable.shouldRender(event)) return;
         Minecraft mc = Minecraft.getMinecraft();
         EntityPlayerSP player = (EntityPlayerSP) ctx.getFirst();
         var ac = ctx.getSecond();
