@@ -61,6 +61,10 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
     public MCH_Key KeyAirburstDistReset;
     protected boolean isRiding = false;
     protected boolean isBeforeRiding = false;
+    private int lastDetachedAimSyncEntityId = Integer.MIN_VALUE;
+    private boolean lastDetachedAimSyncActive = false;
+    private float lastDetachedAimSyncYaw = 0.0F;
+    private float lastDetachedAimSyncPitch = 0.0F;
     private long lastRwrLockSoundTick = 0;
     private long lastRwrScanSoundTick = 0;
 
@@ -110,11 +114,16 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
             pc.detachedWeaponAimPitch = ac.getDetachedWeaponAimPitch();
         }
 
-        if (handleSeatControls()) return false;
-
         boolean send = false;
+        if (shouldSendDetachedAimSync(ac)) {
+            pc.detachedWeaponAim = ac.isDetachedWeaponAimActive();
+            pc.detachedWeaponAimYaw = ac.getDetachedWeaponAimYaw();
+            pc.detachedWeaponAimPitch = ac.getDetachedWeaponAimPitch();
+            send = true;
+        }
 
         send |= handleCameraAndModes(player, ac, pc);
+        send |= handleSeatControls();
 
         if (isPilot) {
             send |= handlePilotActions(player, ac, pc);
@@ -124,6 +133,28 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         send |= handleCombatSystems(player, ac, pc);
 
         return send || player.ticksExisted % 100 == 0;
+    }
+
+    protected boolean shouldSendDetachedAimSync(MCH_EntityAircraft ac) {
+        if (!ac.supportsDetachedTurretAim()) {
+            return false;
+        }
+
+        int entityId = ac.getEntityId();
+        boolean active = ac.isDetachedWeaponAimActive();
+        float yaw = ac.getDetachedWeaponAimYaw();
+        float pitch = ac.getDetachedWeaponAimPitch();
+        return entityId != lastDetachedAimSyncEntityId ||
+                active != lastDetachedAimSyncActive ||
+                Float.compare(yaw, lastDetachedAimSyncYaw) != 0 ||
+                Float.compare(pitch, lastDetachedAimSyncPitch) != 0;
+    }
+
+    protected void recordDetachedAimSync(MCH_EntityAircraft ac) {
+        lastDetachedAimSyncEntityId = ac.getEntityId();
+        lastDetachedAimSyncActive = ac.isDetachedWeaponAimActive();
+        lastDetachedAimSyncYaw = ac.getDetachedWeaponAimYaw();
+        lastDetachedAimSyncPitch = ac.getDetachedWeaponAimPitch();
     }
 
     private boolean handleCameraAndModes(EntityPlayer player, MCH_EntityAircraft ac, DataPlayerControlAircraft pc) {

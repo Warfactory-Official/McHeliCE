@@ -89,190 +89,185 @@ import static com.norwood.mcheli.RadarType.EARLY_AS;
 public abstract class MCH_EntityAircraft extends W_EntityContainer implements IGuiHolder<AircraftGuiData>, MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler {
 
 
-    public static final int CMN_ID_GUNNER_STATUS = 12;
-    public static final int CMN_ID_RADAR_ENABLED = 13;
-    public static final int CMN_ID_MORTAR_RADAR_ENABLED = 14;
-    public static final int CMN_ID_ECM_JAMMER_ENABLED = 15;
-
+    /* --- Data Parameters (Networking & Sync) --- */
     protected static final DataParameter<Integer> PART_STAT = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DAMAGE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
-    private static final DataParameter<String> ID_TYPE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
-    private static final DataParameter<String> TEXTURE_NAME = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
     private static final DataParameter<Integer> UAV_STATION = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> STATUS = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> USE_WEAPON = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> FUEL = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
-    private static final DataParameter<String> FUEL_FF = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
     private static final DataParameter<Integer> ROT_ROLL = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
-    private static final DataParameter<String> COMMAND = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
     private static final DataParameter<Integer> THROTTLE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
-    private static final MCH_EntitySeat[] seatsDummy = new MCH_EntitySeat[0];
-    public final MCH_MissileDetector missileDetector;
-    public final HashMap<Entity, Integer> noCollisionEntities = new HashMap<>();
-    public final MCH_LowPassFilterFloat lowPassPartialTicks;
-    public final List<MCH_EntityAircraft.UnmountReserve> listUnmountReserve = new ArrayList<>();
-    public final MCH_Camera camera;
-    public final float[] rotCrawlerTrack = new float[2];
-    public final float[] prevRotCrawlerTrack = new float[2];
-    public final float[] throttleCrawlerTrack = new float[2];
-    public final float[] rotTrackRoller = new float[2];
-    public final float[] prevRotTrackRoller = new float[2];
-    protected final MCH_SoundUpdater soundUpdater;
-    protected final MCH_WeaponSet dummyWeapon;
-    private final MCH_AircraftInventory inventory;
-    private final MCH_EntityHitBox pilotSeat;
-    private final MCH_Radar entityRadar;
-    private final MCH_Flare flareDv;
-    private final MCH_APS apsDv;
-    private final MCH_Queue<Vec3d> prevPosition;
+    private static final DataParameter<String> ID_TYPE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+    private static final DataParameter<String> TEXTURE_NAME = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+    private static final DataParameter<String> FUEL_FF = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+    private static final DataParameter<String> COMMAND = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+
+    public static final int CMN_ID_GUNNER_STATUS = 12;
+    public static final int CMN_ID_RADAR_ENABLED = 13;
+    public static final int CMN_ID_MORTAR_RADAR_ENABLED = 14;
+    public static final int CMN_ID_ECM_JAMMER_ENABLED = 15;
+    private int commonStatus;
     public boolean isRequestedSyncStatus;
-    public boolean keepOnRideRotation;
-    public boolean aircraftRollRev;
-    public boolean aircraftRotChanged;
+
+    /* --- Physics & Movement --- */
+    public double currentSpeed;
+    protected double velocityX, velocityY, velocityZ;
+    protected double aircraftX, aircraftY, aircraftZ;
+    protected double aircraftYaw, aircraftPitch;
+    protected int aircraftPosRotInc;
+
     public float rotationRoll;
     public float prevRotationRoll;
-    public double currentSpeed;
+    public boolean aircraftRollRev;
+    public boolean aircraftRotChanged;
+
+    @Setter @Getter private double currentThrottle;
+    @Getter private double prevCurrentThrottle;
     public float throttleBack = 0.0F;
     public double beforeHoverThrottle;
-    public int waitMountEntity = 0;
-    public boolean throttleUp = false;
-    public boolean throttleDown = false;
-    public boolean moveLeft = false;
-    public boolean moveRight = false;
-    @Getter
-    public float lastRiderYaw;
-    public float prevLastRiderYaw;
-    @Getter
-    public float lastRiderPitch;
-    public float prevLastRiderPitch;
-    public int serverNoMoveCount = 0;
-    public int repairCount;
-    public int beforeDamageTaken;
-    public int timeSinceHit;
-    public float rotDestroyedYaw;
-    public float rotDestroyedPitch;
-    public float rotDestroyedRoll;
-    public int damageSinceDestroyed;
-    public int ironCurtainRunningTick = 0;
-    public float ironCurtainLastFactor = 0.5f;
-    public float ironCurtainCurrentFactor = 0.5f;
-    public int ironCurtainWaveTimer = 0;
-    public boolean isFirstDamageSmoke = true;
-    public Vec3d[] prevDamageSmokePos = new Vec3d[0];
-    public boolean cs_dismountAll;
-    public boolean cs_heliAutoThrottleDown;
-    public boolean cs_planeAutoThrottleDown;
-    public boolean cs_tankAutoThrottleDown;
-    public MCH_Parts partHatch;
-    public MCH_Parts partCanopy;
-    public MCH_Parts partLandingGear;
-    public boolean canRideRackStatus;
-    public MCH_BoundingBox[] extraBoundingBox;
-    @Nullable
-    public String lastBBName;
-    public float lastBBDamageFactor;
-    public MCH_EntityAircraft.WeaponBay[] weaponBays;
-    public float[] rotPartRotation;
-    public float[] prevRotPartRotation;
+    public boolean throttleUp, throttleDown, moveLeft, moveRight;
+
+    public float[] rotCrawlerTrack = new float[2];
+    public float[] prevRotCrawlerTrack = new float[2];
+    public float[] throttleCrawlerTrack = new float[2];
+    public float[] rotTrackRoller = new float[2];
+    public float[] prevRotTrackRoller = new float[2];
+
     public float rotWheel = 0.0F;
     public float prevRotWheel = 0.0F;
     public float rotYawWheel = 0.0F;
     public float prevRotYawWheel = 0.0F;
-    public float ropesLength = 0.0F;
-    public float lastSearchLightYaw;
-    public float lastSearchLightPitch;
-    public float rotLightHatch = 0.0F;
-    public float prevRotLightHatch = 0.0F;
+
+    private final MCH_Queue<Vec3d> prevPosition;
+    public final MCH_LowPassFilterFloat lowPassPartialTicks;
+
+    /* --- Combat & Weapons --- */
+    @Getter protected MCH_WeaponSet[] weapons;
+    protected int[] currentWeaponID;
+    protected int useWeaponStat;
+    protected final MCH_WeaponSet dummyWeapon;
+    public final MCH_MissileDetector missileDetector;
+    private final MCH_Flare flareDv;
+    private final MCH_APS apsDv;
+    public MCH_Chaff chaff;
+    public int chaffUseTime = 0;
+    private int currentFlareIndex;
+    private MCH_EntityTvMissile TVmissile;
+
     public int recoilCount = 0;
     public float recoilYaw = 0.0F;
     public float recoilValue = 0.0F;
+
+    public int ironCurtainRunningTick = 0;
+    public float ironCurtainLastFactor = 0.5f;
+    public float ironCurtainCurrentFactor = 0.5f;
+    public int ironCurtainWaveTimer = 0;
+
+    /* --- Radar & Systems --- */
+    private final MCH_Radar entityRadar;
+    @Getter private int radarRotate;
+    public final MCH_Camera camera;
+    @Getter private int cameraId;
+    protected final MCH_SoundUpdater soundUpdater;
     public int brightness = 240;
-    public float thirdPersonDist = 4.0F;
-    public Entity lastAttackedEntity = null;
-    public MCH_Chaff chaff;
-    public int chaffUseTime = 0;
-    protected double velocityX;
-    protected double velocityY;
-    protected double velocityZ;
-    protected int aircraftPosRotInc;
-    protected double aircraftX;
-    protected double aircraftY;
-    protected double aircraftZ;
-    protected double aircraftYaw;
-    protected double aircraftPitch;
-    @Getter
-    protected MCH_WeaponSet[] weapons;
-    protected int[] currentWeaponID;
-    protected int useWeaponStat;
-    @Getter
-    protected int hitStatus;
+
+    /* --- Seats & Riders --- */
+    private MCH_EntitySeat[] seats;
+    private MCH_SeatInfo[] seatsInfo;
+    private static final MCH_EntitySeat[] seatsDummy = new MCH_EntitySeat[0];
+    private final MCH_EntityHitBox pilotSeat;
     protected Entity lastRiddenByEntity;
     protected Entity lastRidingEntity;
+    public int waitMountEntity = 0;
+    public boolean keepOnRideRotation;
+    private boolean switchSeat = false;
+    private int seatSearchCount;
+
+    @Getter public float lastRiderYaw, prevLastRiderYaw;
+    @Getter public float lastRiderPitch, prevLastRiderPitch;
+
     protected boolean isGunnerMode = false;
     protected boolean isGunnerModeOtherSeat = false;
     protected boolean isGunnerFreeLookMode = false;
-    @Getter
-    private boolean detachedWeaponAimActive;
-    @Getter
-    private float detachedWeaponAimYaw;
-    @Getter
-    private float prevDetachedWeaponAimYaw;
-    @Getter
-    private float detachedWeaponAimPitch;
-    @Getter
-    private float prevDetachedWeaponAimPitch;
+
+    /* --- Aiming & Interaction --- */
+    @Getter private boolean detachedWeaponAimActive;
+    @Getter private float detachedWeaponAimYaw, prevDetachedWeaponAimYaw;
+    @Getter private float detachedWeaponAimPitch, prevDetachedWeaponAimPitch;
     private boolean packetWeaponUserAimActive;
-    private float packetWeaponUserYaw;
-    private float packetWeaponUserPitch;
-    private MCH_AircraftInfo acInfo;
-    private int commonStatus;
+    private float packetWeaponUserYaw, packetWeaponUserPitch;
+
+    /* --- Damage & State --- */
+    @Getter protected int hitStatus;
+    public int repairCount;
+    public int beforeDamageTaken;
+    public int timeSinceHit;
+    public int serverNoMoveCount = 0;
+    public Entity lastAttackedEntity = null;
+
+    public float rotDestroyedYaw, rotDestroyedPitch, rotDestroyedRoll;
+    public int damageSinceDestroyed;
+    public boolean isFirstDamageSmoke = true;
+    public Vec3d[] prevDamageSmokePos = new Vec3d[0];
+
+    /* --- Parts & Animations --- */
     private Entity[] partEntities;
-    private MCH_EntitySeat[] seats;
-    private MCH_SeatInfo[] seatsInfo;
-    @Setter
-    @Getter
-    private String commonUniqueId;
-    private int seatSearchCount;
-    @Setter
-    @Getter
-    private double currentThrottle;
-    @Getter
-    private double prevCurrentThrottle;
-    @Getter
-    private int radarRotate;
-    private int currentFlareIndex;
-    @Getter
-    private int countOnUpdate;
-    @Setter
-    private MCH_EntityChain towChainEntity;
-    @Setter
-    private MCH_EntityChain towedChainEntity;
-    @Getter
-    private int cameraId;
-    @Getter
-    private boolean isHoveringMode = false;
-    private MCH_EntityTvMissile TVmissile;
-    @Setter
-    @Getter
-    private int despawnCount;
+    public MCH_Parts partHatch;
+    public MCH_Parts partCanopy;
+    public MCH_Parts partLandingGear;
+    public MCH_EntityAircraft.WeaponBay[] weaponBays;
+    public float[] rotPartRotation;
+    public float[] prevRotPartRotation;
+    public float lastSearchLightYaw, lastSearchLightPitch;
+    public float rotLightHatch = 0.0F;
+    public float prevRotLightHatch = 0.0F;
+
+    /* --- Collision & Bounds --- */
+    public MCH_BoundingBox[] extraBoundingBox;
+    @Nullable public String lastBBName;
+    public float lastBBDamageFactor;
+    public final HashMap<Entity, Integer> noCollisionEntities = new HashMap<>();
+
+    /* --- Specialized Equipment (UAV, Towed, Parachute) --- */
     private IUavStation uavStation;
-    @Setter
-    @Getter
-    private int modeSwitchCooldown;
+    @Setter private MCH_EntityChain towChainEntity;
+    @Setter private MCH_EntityChain towedChainEntity;
+    public float ropesLength = 0.0F;
+    private int tickRepelling;
+    private int lastUsedRopeIndex;
+    private boolean isParachuting;
+    @Getter private boolean isHoveringMode = false;
+
+    /* --- Inventory & Logistics --- */
+    private final MCH_AircraftInventory inventory;
     private double fuelConsumption;
     private int fuelSuppliedCount;
     private int supplyAmmoWait;
     private boolean beforeSupplyAmmo;
-    private boolean isParachuting;
-    private int tickRepelling;
-    private int lastUsedRopeIndex;
-    private boolean dismountedUserCtrl;
-    private double lastCalcLandInDistanceCount;
-    private double lastLandInDistance = -1.0;
+    public final List<MCH_EntityAircraft.UnmountReserve> listUnmountReserve = new ArrayList<>();
+
+    /* --- Landing & UI --- */
     public double prevLandInDistance = -1.0;
+    private double lastLandInDistance = -1.0;
+    private double lastCalcLandInDistanceCount;
     public Vec3d impactPos = null;
     public Vec3d prevImpactPos = null;
-    private boolean switchSeat = false;
+    public float thirdPersonDist = 4.0F;
+
+    /* --- Metadata & Lifecycle --- */
+    private MCH_AircraftInfo acInfo;
+    @Setter @Getter private String commonUniqueId;
+    @Setter @Getter private int modeSwitchCooldown;
+    @Setter @Getter private int despawnCount;
+    @Getter private int countOnUpdate;
+
+    public boolean cs_dismountAll;
+    public boolean cs_heliAutoThrottleDown;
+    public boolean cs_planeAutoThrottleDown;
+    public boolean cs_tankAutoThrottleDown;
+    public boolean canRideRackStatus;
+    private boolean dismountedUserCtrl;
 
     public MCH_EntityAircraft(World world) {
         super(world);

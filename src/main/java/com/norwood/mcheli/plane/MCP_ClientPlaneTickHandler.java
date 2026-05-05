@@ -228,6 +228,7 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
 
         if (send) {
             new PacketPlayerControlPlane(pc).sendToServer();
+            this.recordDetachedAimSync(plane);
         }
     }
 }

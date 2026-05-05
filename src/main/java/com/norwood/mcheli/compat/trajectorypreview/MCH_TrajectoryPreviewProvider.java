@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 
 @PreviewPlugin(mod = "mcheli")
+@SuppressWarnings("unused")
 public class MCH_TrajectoryPreviewProvider implements PreviewProvider {
 
     @Override

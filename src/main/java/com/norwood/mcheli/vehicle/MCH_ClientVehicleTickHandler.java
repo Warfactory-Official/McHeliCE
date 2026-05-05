@@ -160,6 +160,7 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
 
         if (send) {
             new PacketPlayerControlVehicle(pc).sendToServer();
+            this.recordDetachedAimSync(vehicle);
         }
     }
 }

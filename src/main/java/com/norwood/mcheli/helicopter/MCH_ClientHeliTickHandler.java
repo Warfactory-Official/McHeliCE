@@ -222,6 +222,7 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
 
         if (send) {
             new PacketPlayerControlHeli(pc).sendToServer();
+            this.recordDetachedAimSync(heli);
         }
     }
 }

@@ -204,6 +204,7 @@ public class MCH_ClientTankTickHandler extends MCH_AircraftClientTickHandler {
 
         if (send) {
             new PacketPlayerControlTank(pc).sendToServer();
+            this.recordDetachedAimSync(tank);
         }
     }
 }

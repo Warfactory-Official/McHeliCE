@@ -43,6 +43,8 @@ public class HudMortarRadar implements DirectDrawable {
         var mc = Minecraft.getMinecraft();
         var sc = new ScaledResolution(mc);
 
+        if (!ac.isRadarEnabledRuntime()) return;
+
         double maxDist = MAX_DISTANCE;
         MCH_WeaponSet ws = ac.getCurrentWeapon(player);
         if (ws != null) {
