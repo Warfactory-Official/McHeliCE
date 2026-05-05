@@ -325,6 +325,8 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
                     pc.useWeaponPosX = ac.prevPosX;
                     pc.useWeaponPosY = ac.prevPosY;
                     pc.useWeaponPosZ = ac.prevPosZ;
+                    pc.useWeaponUserYaw = ac.getWeaponUserYaw(player);
+                    pc.useWeaponUserPitch = ac.getWeaponUserPitch(player);
                     send = true;
                 }
             } else if (wheel != 0 || KeySwitchWeapon1.isKeyDown() || KeySwitchWeapon2.isKeyDown()) {

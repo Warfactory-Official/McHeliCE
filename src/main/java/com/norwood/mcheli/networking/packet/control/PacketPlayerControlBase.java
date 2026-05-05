@@ -99,10 +99,13 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         prm.setPosAndRot(data.useWeaponPosX, data.useWeaponPosY, data.useWeaponPosZ, 0.0F, 0.0F);
         prm.option1 = data.useWeaponOption1;
         prm.option2 = data.useWeaponOption2;
-        if (aircraft.supportsDetachedTurretAim()) {
+        aircraft.setPacketWeaponUserAim(data.useWeaponUserYaw, data.useWeaponUserPitch);
+        try {
             aircraft.updateWeaponsRotation();
+            aircraft.useCurrentWeapon(prm);
+        } finally {
+            aircraft.clearPacketWeaponUserAim();
         }
-        aircraft.useCurrentWeapon(prm);
     }
 
     // TODO: integrate br

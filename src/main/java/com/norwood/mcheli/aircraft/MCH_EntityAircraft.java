@@ -27,12 +27,10 @@ import com.norwood.mcheli.parachute.MCH_EntityParachute;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
-import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.UAVTracker;
-import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import io.netty.buffer.ByteBuf;
@@ -223,6 +221,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     private float detachedWeaponAimPitch;
     @Getter
     private float prevDetachedWeaponAimPitch;
+    private boolean packetWeaponUserAimActive;
+    private float packetWeaponUserYaw;
+    private float packetWeaponUserPitch;
     private MCH_AircraftInfo acInfo;
     private int commonStatus;
     private Entity[] partEntities;
@@ -339,6 +340,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.prevDetachedWeaponAimYaw = 0.0F;
         this.detachedWeaponAimPitch = 0.0F;
         this.prevDetachedWeaponAimPitch = 0.0F;
+        this.packetWeaponUserAimActive = false;
+        this.packetWeaponUserYaw = 0.0F;
+        this.packetWeaponUserPitch = 0.0F;
         this.rotationRoll = 0.0F;
         this.prevRotationRoll = 0.0F;
         this.lowPassPartialTicks = new MCH_LowPassFilterFloat(10);
@@ -3559,7 +3563,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public boolean supportsDetachedTurretAim() {
-        return this instanceof MCH_EntityTank || this instanceof MCH_EntityVehicle;
+        return this.hasAnyIndependentMountedWeapon();
     }
 
     public void setDetachedWeaponAim(float yaw, float pitch) {
@@ -3582,6 +3586,16 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.detachedWeaponAimActive = false;
     }
 
+    public void setPacketWeaponUserAim(float yaw, float pitch) {
+        this.packetWeaponUserAimActive = true;
+        this.packetWeaponUserYaw = yaw;
+        this.packetWeaponUserPitch = pitch;
+    }
+
+    public void clearPacketWeaponUserAim() {
+        this.packetWeaponUserAimActive = false;
+    }
+
     public float getPrevDetachedWeaponAimYaw() {
         return this.prevDetachedWeaponAimYaw;
     }
@@ -3591,6 +3605,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public float getWeaponUserYaw(@Nullable Entity entity) {
+        if (this.packetWeaponUserAimActive) {
+            return this.packetWeaponUserYaw;
+        }
         if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
             return this.detachedWeaponAimYaw;
         }
@@ -3601,6 +3618,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public float getWeaponUserYaw(@Nullable Entity entity, float partialTicks) {
+        if (this.packetWeaponUserAimActive) {
+            return this.packetWeaponUserYaw;
+        }
         if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
             float prev = this.prevDetachedWeaponAimYaw;
             float curr = this.detachedWeaponAimYaw;
@@ -3623,6 +3643,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public float getWeaponUserPitch(@Nullable Entity entity) {
+        if (this.packetWeaponUserAimActive) {
+            return this.packetWeaponUserPitch;
+        }
         if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
             return this.detachedWeaponAimPitch;
         }
@@ -3633,6 +3656,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public float getWeaponUserPitch(@Nullable Entity entity, float partialTicks) {
+        if (this.packetWeaponUserAimActive) {
+            return this.packetWeaponUserPitch;
+        }
         if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
             return this.prevDetachedWeaponAimPitch + (this.detachedWeaponAimPitch - this.prevDetachedWeaponAimPitch) * partialTicks;
         }
@@ -3683,6 +3709,106 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         float wsPitch = weaponSet.getPrevPitch() + (weaponSet.getPitch() - weaponSet.getPrevPitch()) * partialTicks;
         float wsFixedPitch = weaponSet.getCurrentWeapon().fixRotationPitch;
         return MathHelper.wrapDegrees(pitch + wsPitch + wsFixedPitch);
+    }
+
+    @Nullable
+    public MCH_AircraftInfo.Weapon getCurrentMountedWeapon(@Nullable Entity entity) {
+        if (this.getAcInfo() == null) {
+            return null;
+        }
+        int weaponId = this.getCurrentWeaponID(entity);
+        if (weaponId < 0) {
+            return null;
+        }
+        return this.getAcInfo().getWeaponById(weaponId);
+    }
+
+    public boolean hasIndependentMountedAim(@Nullable Entity entity) {
+        MCH_AircraftInfo.Weapon weapon = this.getCurrentMountedWeapon(entity);
+        return weapon != null && hasIndependentMountedAim(weapon);
+    }
+
+    public boolean hasAnyIndependentMountedWeapon() {
+        if (this.getAcInfo() == null) {
+            return false;
+        }
+        for (MCH_AircraftInfo.WeaponSet weaponSet : this.getAcInfo().weaponSetList) {
+            for (MCH_AircraftInfo.Weapon weapon : weaponSet.weapons) {
+                if (hasIndependentMountedAim(weapon)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public float getCurrentWeaponRotationSpeed(@Nullable Entity entity) {
+        return this.getWeaponRotationSpeed(entity != null ? this.getCurrentWeapon(entity) : null);
+    }
+
+    public Vec3d getCurrentWeaponShotPos(Vec3d localPos, @Nullable Entity user) {
+        MCH_AircraftInfo.Weapon weapon = this.getCurrentMountedWeapon(user);
+        if (weapon != null && weapon.turret && this.getAcInfo() != null) {
+            Vec3d turretPos = this.getAcInfo().turretPosition;
+            Vec3d relative = localPos.subtract(turretPos);
+            Vec3d rotatedRelative = MCH_Lib.RotVec3(relative, this.getYaw() - this.getCurrentWeaponShotYaw(user), 0.0F, 0.0F);
+            return MCH_Lib.RotVec3(rotatedRelative.add(turretPos), -this.getYaw(), -this.getPitch(), -this.getRoll());
+        }
+        return MCH_Lib.RotVec3(
+                localPos,
+                -this.getCurrentWeaponShotYaw(user),
+                -this.getCurrentWeaponShotPitch(user),
+                -this.getRoll());
+    }
+
+    public Vec3d getCurrentWeaponShotPos(Vec3d localPos, @Nullable Entity user, float partialTicks) {
+        MCH_AircraftInfo.Weapon weapon = this.getCurrentMountedWeapon(user);
+        if (weapon != null && weapon.turret && this.getAcInfo() != null) {
+            float yaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * partialTicks;
+            float pitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
+            float roll = this.prevRotationRoll + (this.rotationRoll - this.prevRotationRoll) * partialTicks;
+            Vec3d turretPos = this.getAcInfo().turretPosition;
+            Vec3d relative = localPos.subtract(turretPos);
+            Vec3d rotatedRelative = MCH_Lib.RotVec3(relative, yaw - this.getCurrentWeaponShotYaw(user, partialTicks), 0.0F, 0.0F);
+            return MCH_Lib.RotVec3(rotatedRelative.add(turretPos), -yaw, -pitch, -roll);
+        }
+        float roll = this.prevRotationRoll + (this.rotationRoll - this.prevRotationRoll) * partialTicks;
+        return MCH_Lib.RotVec3(
+                localPos,
+                -this.getCurrentWeaponShotYaw(user, partialTicks),
+                -this.getCurrentWeaponShotPitch(user, partialTicks),
+                -roll);
+    }
+
+    private static boolean hasIndependentMountedAim(MCH_AircraftInfo.Weapon weapon) {
+        return weapon.turret ||
+                Math.abs(weapon.minYaw) > 0.001F ||
+                Math.abs(weapon.maxYaw) > 0.001F ||
+                Math.abs(weapon.minPitch) > 0.001F ||
+                Math.abs(weapon.maxPitch) > 0.001F;
+    }
+
+    private float getWeaponRotationSpeed(@Nullable MCH_WeaponSet weaponSet) {
+        if (this.getAcInfo() == null) {
+            return 0.0F;
+        }
+        float speed = Math.max(0.0F, this.getAcInfo().cameraRotationSpeed);
+        if (weaponSet != null && weaponSet.getInfo() != null) {
+            speed *= Math.max(0.0F, weaponSet.getInfo().cameraRotationSpeedPitch);
+        }
+        return speed;
+    }
+
+    private float getWeaponRotationStep(@Nullable MCH_WeaponSet weaponSet) {
+        return this.getWeaponRotationSpeed(weaponSet) / 20.0F;
+    }
+
+    private static float stepWrappedAngle(float current, float target, float maxStep) {
+        return MathHelper.wrapDegrees(current + MathHelper.clamp(MathHelper.wrapDegrees(target - current), -maxStep, maxStep));
+    }
+
+    private static float stepLinearAngle(float current, float target, float maxStep) {
+        return current + MathHelper.clamp(target - current, -maxStep, maxStep);
     }
 
     @SideOnly(Side.CLIENT)
@@ -5331,6 +5457,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                             entity = this.getEntityBySeatId(0);
                         }
 
+                        float weaponTurnStep = this.getWeaponRotationStep(w);
                         float entityPitch = this.getWeaponUserPitch(entity);
                         if (!(entity instanceof EntityPlayer) && !(entity instanceof MCH_EntityGunner)) {
                             w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
@@ -5345,28 +5472,16 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                                 if (Math.abs((int) wi.minYaw) < 360 && Math.abs((int) wi.maxYaw) < 360) {
                                     float targetYaw = MCH_Lib.RNG(ey, wi.minYaw, wi.maxYaw);
                                     float wy = w.getYaw() - wi.defaultYaw - ty;
-                                    if (targetYaw < wy) {
-                                        if (wy - targetYaw > 15.0F) {
-                                            wy -= 15.0F;
-                                        } else {
-                                            wy = targetYaw;
-                                        }
-                                    } else if (targetYaw > wy) {
-                                        if (targetYaw - wy > 15.0F) {
-                                            wy += 15.0F;
-                                        } else {
-                                            wy = targetYaw;
-                                        }
-                                    }
-
+                                    wy = stepWrappedAngle(wy, targetYaw, weaponTurnStep);
                                     w.setYaw(wy + wi.defaultYaw + ty);
                                 } else {
-                                    w.setYaw(ey + ty);
+                                    w.setYaw(stepWrappedAngle(w.getYaw(), ey + ty, weaponTurnStep));
                                 }
                             }
 
                             float ep = MathHelper.wrapDegrees(entityPitch - pitch);
-                            w.setPitch(MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch));
+                            float targetPitch = MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch);
+                            w.setPitch(stepLinearAngle(w.getPitch(), targetPitch, weaponTurnStep));
                             w.setTurretYaw(0.0F);
                         }
                     }
@@ -5408,6 +5523,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             if (!isHuman) {
                 w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
             } else {
+                float weaponTurnStep = this.getWeaponRotationStep(w);
                 if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
                     float entityYaw = this.getWeaponUserYaw(entity);
                     float ty = wi.turret ? MathHelper.wrapDegrees(this.getLastRiderYaw()) - yaw : 0.0F;
@@ -5416,19 +5532,17 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                     if (Math.abs((int) wi.minYaw) < 360 && Math.abs((int) wi.maxYaw) < 360) {
                         float targetYaw = Math.clamp(ey, wi.minYaw, wi.maxYaw);
                         float wy = w.getYaw() - wi.defaultYaw - ty;
-
-                        wy += Math.clamp(targetYaw - wy, -15.0F, 15.0F);
-
+                        wy = stepWrappedAngle(wy, targetYaw, weaponTurnStep);
                         w.setYaw(wy + wi.defaultYaw + ty);
                     } else {
-                        w.setYaw(ey + ty);
+                        w.setYaw(stepWrappedAngle(w.getYaw(), ey + ty, weaponTurnStep));
                     }
                 }
 
                 float entityPitch = this.getWeaponUserPitch(entity);
                 float ep = MathHelper.wrapDegrees(entityPitch - pitch);
-
-                w.setPitch(Math.clamp(ep, wi.minPitch, wi.maxPitch));
+                float targetPitch = Math.clamp(ep, wi.minPitch, wi.maxPitch);
+                w.setPitch(stepLinearAngle(w.getPitch(), targetPitch, weaponTurnStep));
                 w.setTurretYaw(0.0F);
             }
 

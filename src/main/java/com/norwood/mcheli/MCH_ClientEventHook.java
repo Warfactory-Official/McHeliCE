@@ -25,10 +25,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Specials.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -108,6 +110,17 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
     @Override
     public void mouseEvent(MouseEvent event) {
         if (MCH_ClientTickHandlerBase.updateMouseWheel(event.getDwheel())) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderHand(RenderHandEvent event) {
+        var mc = Minecraft.getMinecraft();
+        if (mc.world == null || mc.player == null) return;
+        if (
+                (mc.player.getRidingEntity() instanceof MCH_EntitySeat ||  mc.player.getRidingEntity() instanceof MCH_EntityAircraft)
+        ) {
             event.setCanceled(true);
         }
     }

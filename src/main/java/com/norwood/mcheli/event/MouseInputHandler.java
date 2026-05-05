@@ -356,30 +356,12 @@ public class MouseInputHandler {
         updateCameraRoll(aircraft, player);
     }
 
-    private boolean isLimitedMountedLookAircraft(MCH_EntityAircraft aircraft) {
-        return aircraft instanceof MCH_EntityTank || aircraft instanceof MCH_EntityVehicle;
-    }
-
     private boolean shouldUseDetachedMountedAim(MCH_EntityAircraft aircraft, EntityPlayer player) {
-        if (!isLimitedMountedLookAircraft(aircraft) || aircraft.getAcInfo() == null) {
-            return false;
-        }
-
-        int weaponId = aircraft.getCurrentWeaponID(player);
-        if (weaponId < 0) {
-            return false;
-        }
-
-        if (aircraft instanceof MCH_EntityVehicle) {
-            return true;
-        }
-
-        MCH_AircraftInfo.Weapon weapon = aircraft.getAcInfo().getWeaponById(weaponId);
-        return weapon != null && hasIndependentMountedAim(weapon);
+        return aircraft.getAcInfo() != null && aircraft.hasIndependentMountedAim(player);
     }
 
     private boolean shouldLockMountedView(MCH_EntityAircraft aircraft, EntityPlayer player) {
-        if (!isLimitedMountedLookAircraft(aircraft) ||
+        if (!(aircraft instanceof MCH_EntityTank) && !(aircraft instanceof MCH_EntityVehicle) ||
                 aircraft.canSwitchFreeLook() ||
                 aircraft.getIsGunnerMode(player)) {
             return false;
@@ -392,18 +374,6 @@ public class MouseInputHandler {
         return !shouldUseDetachedMountedAim(aircraft, player);
     }
 
-    private boolean hasIndependentMountedAim(MCH_AircraftInfo.Weapon weapon) {
-        return weapon.turret ||
-                hasIndependentAimAxis(weapon.minYaw) ||
-                hasIndependentAimAxis(weapon.maxYaw) ||
-                hasIndependentAimAxis(weapon.minPitch) ||
-                hasIndependentAimAxis(weapon.maxPitch);
-    }
-
-    private boolean hasIndependentAimAxis(float value) {
-        return Math.abs(value) > 0.001F;
-    }
-
     private void resetLimitedMountedLook() {
         limitedMountedLookActive = false;
         limitedMountedLookEntityId = Integer.MIN_VALUE;
@@ -413,8 +383,8 @@ public class MouseInputHandler {
     }
 
     private void updateDetachedMountedAim(MCH_EntityAircraft aircraft, EntityPlayer player, float deltaSeconds) {
-        float yawSpeed = getMountedLookYawSpeed(aircraft);
-        float pitchSpeed = getMountedLookPitchSpeed(aircraft, player, yawSpeed);
+        float yawSpeed = getMountedLookYawSpeed(aircraft, player);
+        float pitchSpeed = getMountedLookPitchSpeed(yawSpeed);
         if (yawSpeed <= 0.0F || pitchSpeed < 0.0F) {
             clearDetachedMountedAim(aircraft);
             return;
@@ -452,15 +422,11 @@ public class MouseInputHandler {
         }
     }
 
-    private float getMountedLookYawSpeed(MCH_EntityAircraft aircraft) {
-        return aircraft.getAcInfo() != null ? Math.max(0.0F, aircraft.getAcInfo().cameraRotationSpeed) : 0.0F;
+    private float getMountedLookYawSpeed(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        return Math.max(0.0F, aircraft.getCurrentWeaponRotationSpeed(player));
     }
 
-    private float getMountedLookPitchSpeed(MCH_EntityAircraft aircraft, EntityPlayer player, float yawSpeed) {
-        MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
-        if (weaponSet != null && weaponSet.getInfo() != null) {
-            return yawSpeed * weaponSet.getInfo().cameraRotationSpeedPitch;
-        }
+    private float getMountedLookPitchSpeed(float yawSpeed) {
         return yawSpeed;
     }
 
