@@ -113,10 +113,10 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
                                        EntityPlayer player) {
         if (!aircraft.isPilot(player)) return;
 
-        aircraft.throttleUp = data.isThrottleUp();
-        aircraft.throttleDown = data.isThrottleDown();
-        aircraft.moveLeft = data.isMoveLeft();
-        aircraft.moveRight = data.isMoveRight();
+        aircraft.setThrottleUp(data.isThrottleUp());
+        aircraft.setThrottleDown(data.isThrottleDown());
+        aircraft.setMoveLeft(data.isMoveLeft());
+        aircraft.setMoveRight(data.isMoveRight());
     }
 
     protected void handleFlare(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {

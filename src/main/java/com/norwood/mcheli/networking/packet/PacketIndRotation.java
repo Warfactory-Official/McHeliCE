@@ -24,7 +24,7 @@ public class PacketIndRotation extends PacketBase implements ClientToServerPacke
             packet.yaw = ac.getYaw();
             packet.pitch = ac.getPitch();
             packet.roll = ac.getRoll();
-            packet.rollRev = ac.aircraftRollRev;
+            packet.rollRev = ac.isAircraftRollRev();
             packet.sendToServer();
         }
     }

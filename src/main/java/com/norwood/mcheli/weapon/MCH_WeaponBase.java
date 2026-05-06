@@ -122,6 +122,10 @@ public abstract class MCH_WeaponBase {
         return this.getInfo().maxAmmo;
     }
 
+    public void setCurrentMode(int currentMode) {
+        this.currentMode = currentMode;
+    }
+
     public final int getReloadCount() {
         return this.getInfo().reloadTime;
     }
@@ -225,7 +229,7 @@ public abstract class MCH_WeaponBase {
     }
 
     public Vec3d getShotPos(Entity entity) {
-        if (entity instanceof MCH_EntityVehicle vehicle && vehicle.isDetachedWeaponAimActive()) {
+        if (entity instanceof MCH_EntityVehicle vehicle && vehicle.weaponSystem.isDetachedWeaponAimActive()) {
             return vehicle.getCurrentWeaponShotPos(this.position, null);
         }
         if (entity instanceof MCH_EntityAircraft && this.onTurret) {

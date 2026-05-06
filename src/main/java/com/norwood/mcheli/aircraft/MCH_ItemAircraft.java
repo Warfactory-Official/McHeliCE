@@ -58,9 +58,9 @@ public abstract class MCH_ItemAircraft extends W_Item {
             tooltip.add(TextFormatting.YELLOW + "Category: " + info.category);
             StringBuilder weaponNames = new StringBuilder();
             int count = 0;
-            for (MCH_WeaponSet ws : ac.weapons) {
+            for (MCH_WeaponSet ws : ac.weaponSystem.getWeapons()) {
                 weaponNames.append(ws.getDisplayName());
-                if (++count < ac.weapons.length) {
+                if (++count < ac.weaponSystem.getWeapons().length) {
                     weaponNames.append(", ");
                 }
                 if (count % 4 == 0) {

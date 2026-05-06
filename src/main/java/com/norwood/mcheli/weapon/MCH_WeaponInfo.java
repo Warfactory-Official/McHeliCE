@@ -516,6 +516,30 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         int Age;
         int Count;
         String Color; // ARGB
+
+        public float getDistance() {
+            return Distance;
+        }
+
+        public float getSize() {
+            return Size;
+        }
+
+        public float getRange() {
+            return Range;
+        }
+
+        public int getAge() {
+            return Age;
+        }
+
+        public int getCount() {
+            return Count;
+        }
+
+        public String getColor() {
+            return Color;
+        }
     }
 
     public static class MuzzleFlash {

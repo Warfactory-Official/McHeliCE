@@ -48,7 +48,7 @@ public class MCH_APS {
         if (world.isRemote) {
             if (range == 100) {
                 MCH_SoundEvents.playSound(world, aircraft.posX, aircraft.posY, aircraft.posZ, "iron_curtain", 3.0F, 1.0F);
-                aircraft.ironCurtainRunningTick = useTick;
+                aircraft.weaponSystem.startIronCurtain(useTick);
             } else {
                 MCH_SoundEvents.playSound(world, aircraft.posX, aircraft.posY, aircraft.posZ, "aps_activate", 3.0F, 1.0F);
             }
@@ -56,7 +56,7 @@ public class MCH_APS {
             aircraft.getEntityData().setBoolean("APSUsing", true);
             if (range == 100) {
                 MCH_SoundEvents.playSound(world, aircraft.posX, aircraft.posY, aircraft.posZ, "iron_curtain", 10.0F, 1.0F);
-                aircraft.ironCurtainRunningTick = useTick;
+                aircraft.weaponSystem.startIronCurtain(useTick);
                 new PacketIronCurtainUse(aircraft.getEntityId(), useTick).sendToDimension(world);
             } else {
                 MCH_SoundEvents.playSound(world, aircraft.posX, aircraft.posY, aircraft.posZ, "aps_activate", 3.0F, 1.0F);
@@ -139,10 +139,7 @@ public class MCH_APS {
 
     private void onEnd() {
         if (range == 100) {
-            aircraft.ironCurtainRunningTick = 0;
-            aircraft.ironCurtainWaveTimer = 0;
-            aircraft.ironCurtainCurrentFactor = 0.5f;
-            aircraft.ironCurtainLastFactor = 0.5f;
+            aircraft.weaponSystem.resetIronCurtainVisuals();
         }
     }
 

@@ -36,14 +36,16 @@ public class PacketPlayerControlTank extends PacketPlayerControlBase {
 
     protected void handlePilotControls(MCH_EntityAircraft tank, DataPlayerControlAircraft data, EntityPlayer player) {
         if (!tank.isPilot(player)) return;
-        tank.throttleUp = data.isThrottleUp();
-        tank.throttleDown = data.isThrottleDown();
+        tank.setThrottleUp(data.isThrottleUp());
+        tank.setThrottleDown(data.isThrottleDown());
+        tank.setMoveLeft(data.isMoveLeft());
+        tank.setMoveRight(data.isMoveRight());
         double dx = tank.posX - tank.prevPosX;
         double dz = tank.posZ - tank.prevPosZ;
         double dist = dx * dx + dz * dz;
         if (data.isUseBrake() && tank.getCurrentThrottle() <= 0.03 && dist < 0.01) {
-            tank.moveLeft = false;
-            tank.moveRight = false;
+            tank.setMoveLeft(false);
+            tank.setMoveRight(false);
         }
 
         tank.setBrake(data.isUseBrake());

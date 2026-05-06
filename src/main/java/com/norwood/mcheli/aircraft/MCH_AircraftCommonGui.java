@@ -125,7 +125,7 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
     }
 
     public void drawHitMarker(MCH_EntityAircraft ac, int color, int seatID) {
-        this.drawHitMarker(ac.getHitStatus(), ac.getMaxHitStatus(), color);
+        this.drawHitMarker(ac.weaponSystem.getHitStatus(), ac.getMaxHitStatus(), color);
     }
 
     protected void drawTvMissileNoise(MCH_EntityAircraft ac, MCH_EntityTvMissile tvmissile) {
@@ -249,7 +249,7 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         double interZ = aircraft.lastTickPosZ + (aircraft.posZ - aircraft.lastTickPosZ) * partialTicks;
 
         Vec3d currentPos;
-        if (aircraft instanceof com.norwood.mcheli.vehicle.MCH_EntityVehicle vehicle && aircraft.isDetachedWeaponAimActive()) {
+        if (aircraft instanceof com.norwood.mcheli.vehicle.MCH_EntityVehicle vehicle && aircraft.weaponSystem.isDetachedWeaponAimActive()) {
             currentPos = vehicle.getCurrentWeaponShotPos(weapon.position, player, partialTicks).add(interX, interY, interZ);
         } else {
             currentPos = weapon.getShotPos(aircraft).add(interX, interY, interZ);

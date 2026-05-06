@@ -331,6 +331,10 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
         return fluidType.getOrDefault(fluidName, 1f);
     }
 
+    public Map<String, Float> getFluidType() {
+        return fluidType;
+    }
+
     public List<DirectDrawable> getHudCache() {
         if (hudCache == null) {
             hudCache = buildHudCache();
