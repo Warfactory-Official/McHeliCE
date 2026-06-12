@@ -4786,6 +4786,15 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         if (this.getAcInfo() == null) return false;
         if (this.notOnSameTeam(player)) return false;
 
+        if (world.isRemote) {
+            double reach = player.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue();
+            double distanceSq = player.getDistanceSq(this);
+
+            if (distanceSq > reach * reach) {
+                return false;
+            }
+        }
+
         ItemStack stack = player.getHeldItem(hand);
 
         // Item interactions
@@ -4828,6 +4837,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.closeCanopy();
         this.lastRiddenByEntity = null;
         this.initRadar();
+
+
 
         if (!world.isRemote) {
             player.startRiding(this);
