@@ -4,12 +4,11 @@ import com.norwood.mcheli.parachute.MCH_ItemParachute;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.Random;
 
-public class MCH_AircraftInventory implements IItemHandlerModifiable {
+public class MCH_AircraftInventory {
 
     public static final int SLOT_FUEL_IN = 0;
     public static final int SLOT_FUEL_OUT = 1;
@@ -129,39 +128,5 @@ public class MCH_AircraftInventory implements IItemHandlerModifiable {
         assert aircraft.getAcInfo() != null;
         return aircraft.getAcInfo().name;
     }
-
-    @Override
-    public int getSlots() {
-        return items.getSlots();
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int slot) {
-        return items.getStackInSlot(slot);
-    }
-
-    @Override
-    public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-        return items.insertItem(slot, stack, simulate);
-    }
-
-    @Override
-    public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        return items.extractItem(slot, amount, simulate);
-    }
-
-    @Override
-    public int getSlotLimit(int slot) {
-        return items.getSlotLimit(slot);
-    }
-
-    @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
-        return items.isItemValid(slot, stack);
-    }
-
-    @Override
-    public void setStackInSlot(int slot, ItemStack stack) {
-        items.setStackInSlot(slot, stack);
-    }
 }
+

@@ -33,7 +33,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
     public MCH_EntityVehicle(World world) {
         super(world);
-        this.setCurrentSpeed(0.07);
+        this.currentSpeed = 0.07;
         this.preventEntitySpawning = true;
         this.setSize(2.0F, 0.7F);
         this.motionX = 0.0;
@@ -42,7 +42,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         this.isUsedPlayer = false;
         this.lastRiderYaw = 0.0F;
         this.lastRiderPitch = 0.0F;
-        this.weaponSystem.setWeapons(this.createWeapon(0));
+        this.weapons = this.createWeapon(0);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         } else {
             this.setAcInfo(this.vehicleInfo);
             this.newSeats(Objects.requireNonNull(this.getAcInfo()).getNumSeatAndRack());
-            this.weaponSystem.setWeapons(this.createWeapon(1 + this.getSeatNum()));
+            this.weapons = this.createWeapon(1 + this.getSeatNum());
             this.initPartRotation(this.rotationYaw, this.rotationPitch);
         }
     }
@@ -210,7 +210,7 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                 localPos,
                 -this.getWeaponUserYaw(user, partialTicks),
                 -this.getWeaponUserPitch(user, partialTicks),
-                -this.calcRotRoll(partialTicks));
+                -(this.prevRotationRoll + (this.rotationRoll - this.prevRotationRoll) * partialTicks));
     }
 
     @Override
@@ -245,7 +245,8 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
                 this.fixPosZ = this.posZ;
             }
 
-            if (this.networkSync.markSyncStatusRequested()) {
+            if (!this.isRequestedSyncStatus) {
+                this.isRequestedSyncStatus = true;
                 if (this.world.isRemote) {
                     PacketStatusRequest.requestStatus(this);
                 }
@@ -313,14 +314,14 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             double x = 0.0;
             double z = 0.0;
             if (Objects.requireNonNull(this.getVehicleInfo()).isEnableMove) {
-                if (this.isThrottleUp()) {
+                if (this.throttleUp) {
                     yaw = this.rotationYaw;
                     x += Math.sin(yaw * Math.PI / 180.0);
                     z += Math.cos(yaw * Math.PI / 180.0);
                     move = true;
                 }
 
-                if (this.isThrottleDown()) {
+                if (this.throttleDown) {
                     yaw = this.rotationYaw - 180.0F;
                     x += Math.sin(yaw * Math.PI / 180.0);
                     z += Math.cos(yaw * Math.PI / 180.0);
@@ -330,16 +331,16 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
             if (this.getVehicleInfo().isEnableRot) {
                 float steerInput = 0.0F;
-                if (this.isMoveLeft() && !this.isMoveRight()) {
+                if (this.moveLeft && !this.moveRight) {
                     steerInput = -1.0F;
-                } else if (this.isMoveRight() && !this.isMoveLeft()) {
+                } else if (this.moveRight && !this.moveLeft) {
                     steerInput = 1.0F;
                 }
 
                 if (steerInput != 0.0F) {
                     double signedSpeed = getSignedForwardSpeed();
                     if (Math.abs(signedSpeed) < 0.02D) {
-                        signedSpeed = (this.isThrottleUp() ? 0.02D : 0.0D) - (this.isThrottleDown() ? 0.02D : 0.0D);
+                        signedSpeed = (this.throttleUp ? 0.02D : 0.0D) - (this.throttleDown ? 0.02D : 0.0D);
                     }
                     if (Math.abs(signedSpeed) > 0.001D) {
                         float steerRate = (float) Math.min(60.0D, 16.0D + Math.abs(signedSpeed) * 140.0D);
@@ -364,17 +365,17 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             this.getRiddenByEntity().rotationPitch = this.getRiddenByEntity().prevRotationPitch;
         }
 
-        if (this.getAircraftPosRotInc() > 0) {
-            double rpinc = this.getAircraftPosRotInc();
-            double yaw = MathHelper.wrapDegrees(this.getAircraftYaw() - this.rotationYaw);
+        if (this.aircraftPosRotInc > 0) {
+            double rpinc = this.aircraftPosRotInc;
+            double yaw = MathHelper.wrapDegrees(this.aircraftYaw - this.rotationYaw);
             this.rotationYaw = (float) (this.rotationYaw + yaw / rpinc);
-            this.rotationPitch = (float) (this.rotationPitch + (this.getAircraftPitch() - this.rotationPitch) / rpinc);
+            this.rotationPitch = (float) (this.rotationPitch + (this.aircraftPitch - this.rotationPitch) / rpinc);
             this.setPosition(
-                    this.posX + (this.getAircraftX() - this.posX) / rpinc,
-                    this.posY + (this.getAircraftY() - this.posY) / rpinc,
-                    this.posZ + (this.getAircraftZ() - this.posZ) / rpinc);
+                    this.posX + (this.aircraftX - this.posX) / rpinc,
+                    this.posY + (this.aircraftY - this.posY) / rpinc,
+                    this.posZ + (this.aircraftZ - this.posZ) / rpinc);
             this.setRotation(this.rotationYaw, this.rotationPitch);
-            this.setAircraftPosRotInc(this.getAircraftPosRotInc() - 1);
+            this.aircraftPosRotInc--;
         } else {
             boolean localPilot = W_Lib.isClientPlayer(this.getRiddenByEntity());
             this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
@@ -458,7 +459,15 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         if (W_Lib.isClientPlayer(this.getRiddenByEntity())) {
             delay = Math.max(1, delay - 1);
         }
-        this.captureClientPositionAndRotation(par1, par3, par5, par7, par8, delay);
+        this.aircraftPosRotInc = delay;
+        this.aircraftX = par1;
+        this.aircraftY = par3;
+        this.aircraftZ = par5;
+        this.aircraftYaw = par7;
+        this.aircraftPitch = par8;
+        this.motionX = this.velocityX;
+        this.motionY = this.velocityY;
+        this.motionZ = this.velocityZ;
     }
 
     @Override

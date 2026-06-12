@@ -252,7 +252,7 @@ public class MCH_EntityHide extends W_Entity implements IEntitySinglePassenger {
             int id = this.getRopeIndex();
             if (this.ac != null && id >= 0) {
                 Vec3d v = this.ac.getRopePos(id);
-                if (Math.abs(this.posY - v.y) > Math.abs(this.ac.seatManager.getRopesLength()) + 5.0F) {
+                if (Math.abs(this.posY - v.y) > Math.abs(this.ac.ropesLength) + 5.0F) {
                     this.onGroundAndDead();
                 }
             }

@@ -114,7 +114,7 @@ public class HudGPS implements DirectDrawable {
     }
 
     private float getViewRollDeg(Minecraft mc, MCH_EntityAircraft ac, float partialTicks) {
-        return -ac.getRoll();
+        return -ac.rotationRoll;
     }
 
     @Override

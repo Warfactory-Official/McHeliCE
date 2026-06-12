@@ -32,9 +32,9 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
         if (entity instanceof MCH_EntityVehicle vehicle) {
             vehicleInfo = vehicle.getVehicleInfo();
             if (vehicleInfo != null) {
-                if (vehicle.weaponSystem.isDetachedWeaponAimActive()) {
-                    vehicle.lastRiderYaw = vehicle.weaponSystem.getDetachedWeaponAimYaw();
-                    vehicle.lastRiderPitch = vehicle.weaponSystem.getDetachedWeaponAimPitch();
+                if (vehicle.isDetachedWeaponAimActive()) {
+                    vehicle.lastRiderYaw = vehicle.getDetachedWeaponAimYaw();
+                    vehicle.lastRiderPitch = vehicle.getDetachedWeaponAimPitch();
                 } else if (vehicle.getRiddenByEntity() != null && !vehicle.isDestroyed()) {
                     vehicle.isUsedPlayer = true;
                     vehicle.lastRiderYaw = vehicle.getRiddenByEntity().rotationYaw;

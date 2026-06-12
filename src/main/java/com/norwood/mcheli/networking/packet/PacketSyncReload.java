@@ -4,16 +4,14 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helper.MCH_Logger;
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 
 @ElegantPacket
+@RequiredArgsConstructor
 public class PacketSyncReload implements ServerToClientPacket {
     public final int acID;
-
-    public PacketSyncReload(int acID) {
-        this.acID = acID;
-    }
 
     @Override
     public void onReceive(Minecraft mc) {

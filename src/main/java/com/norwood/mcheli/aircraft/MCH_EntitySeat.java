@@ -51,7 +51,6 @@ public class MCH_EntitySeat extends W_Entity implements IEntitySinglePassenger {
         this.prevPosZ = z;
     }
 
-
     protected boolean canTriggerWalking() {
         return false;
     }

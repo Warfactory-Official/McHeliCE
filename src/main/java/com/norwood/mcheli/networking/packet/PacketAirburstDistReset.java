@@ -5,19 +5,16 @@ import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ClientToServerPacket;
+import lombok.AllArgsConstructor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 @ElegantPacket
+@AllArgsConstructor
 public class PacketAirburstDistReset implements ClientToServerPacket {
 
     public final int acId;
     public final int dist;
-
-    public PacketAirburstDistReset(int acId, int dist) {
-        this.acId = acId;
-        this.dist = dist;
-    }
 
     @Override
     public void onReceive(EntityPlayerMP player) {

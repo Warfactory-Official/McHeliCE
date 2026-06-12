@@ -526,11 +526,11 @@ public class MouseInputHandler {
 
     private void updateRiderLastPositions(MCH_EntityAircraft aircraft, EntityPlayer player) {
         if (aircraft.getSeatIdByEntity(player) == 0 && !aircraft.isDestroyed()) {
-            if (aircraft.weaponSystem.isDetachedWeaponAimActive()) {
-                aircraft.lastRiderYaw = aircraft.weaponSystem.getDetachedWeaponAimYaw();
-                aircraft.prevLastRiderYaw = aircraft.weaponSystem.getPrevDetachedWeaponAimYaw();
-                aircraft.lastRiderPitch = aircraft.weaponSystem.getDetachedWeaponAimPitch();
-                aircraft.prevLastRiderPitch = aircraft.weaponSystem.getPrevDetachedWeaponAimPitch();
+            if (aircraft.isDetachedWeaponAimActive()) {
+                aircraft.lastRiderYaw = aircraft.getDetachedWeaponAimYaw();
+                aircraft.prevLastRiderYaw = aircraft.getPrevDetachedWeaponAimYaw();
+                aircraft.lastRiderPitch = aircraft.getDetachedWeaponAimPitch();
+                aircraft.prevLastRiderPitch = aircraft.getPrevDetachedWeaponAimPitch();
             } else {
                 aircraft.lastRiderYaw = player.rotationYaw;
                 aircraft.prevLastRiderYaw = player.prevRotationYaw;

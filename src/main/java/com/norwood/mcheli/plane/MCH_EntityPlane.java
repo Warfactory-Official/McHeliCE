@@ -5,7 +5,6 @@ import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_Parts;
-import com.norwood.mcheli.aircraft.components.NetworkSyncComponent;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketStatusRequest;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
@@ -51,13 +50,13 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
 
     public MCH_EntityPlane(World world) {
         super(world);
-        this.setCurrentSpeed(0.07);
+        this.currentSpeed = 0.07;
         this.preventEntitySpawning = true;
         this.setSize(2.0F, 0.7F);
         this.motionX = 0.0;
         this.motionY = 0.0;
         this.motionZ = 0.0;
-        this.weaponSystem.setWeapons(this.createWeapon(0));
+        this.weapons = this.createWeapon(0);
         this.soundVolume = 0.0F;
         this.partNozzle = null;
         this.partWing = null;
@@ -91,7 +90,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             this.newSeats(this.getAcInfo().getNumSeatAndRack());
             this.partNozzle = this.createNozzle(this.planeInfo);
             this.partWing = this.createWing(this.planeInfo);
-            this.weaponSystem.setWeapons(this.createWeapon(1 + this.getSeatNum()));
+            this.weapons = this.createWeapon(1 + this.getSeatNum());
             this.initPartRotation(this.getYaw(), this.getPitch());
         }
     }
@@ -176,7 +175,8 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                 this.addKeyFlag = false;
             }
 
-            if (this.networkSync.markSyncStatusRequested()) {
+            if (!this.isRequestedSyncStatus) {
+                this.isRequestedSyncStatus = true;
                 if (this.world.isRemote) {
                     PacketStatusRequest.requestStatus(this);
                 }
@@ -307,11 +307,11 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
 
         if (!this.addKeyFlag) {
             this.addKeyFlag = true;
-            if (this.isMoveLeft() && !this.isMoveRight()) {
+            if (this.moveLeft && !this.moveRight) {
                 this.addkeyRotValue -= rot * deltaSeconds;
             }
 
-            if (this.isMoveRight() && !this.isMoveLeft()) {
+            if (this.moveRight && !this.moveLeft) {
                 this.addkeyRotValue += rot * deltaSeconds;
             }
         }
@@ -320,7 +320,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     @Override
     public void onUpdateAngles(float deltaSeconds) {
         if (!this.isDestroyed()) {
-            if (this.isGunnerMode()) {
+            if (this.isGunnerMode) {
                 this.setRotPitch(this.getPitch() * (float) Math.pow(0.95, deltaSeconds * 20.0F));
                 this.setRotYaw(this.getYaw() + this.getAcInfo().autoPilotRot * 4.0F * deltaSeconds);
                 if (MathHelper.abs(this.getRoll()) > 20.0F) {
@@ -329,7 +329,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             }
 
             boolean isFly = MCH_Lib.getBlockIdY(this, 3, -3) == 0;
-            if (!isFly || this.isFreeLookMode() || this.isGunnerMode() ||
+            if (!isFly || this.isFreeLookMode() || this.isGunnerMode ||
                     this.getAcInfo().isFloat && this.getWaterDepth() > 0.0) {
                 float gmy = 1.0F;
                 if (!isFly) {
@@ -342,11 +342,11 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                     }
                 }
 
-                if (this.isMoveLeft() && !this.isMoveRight()) {
+                if (this.moveLeft && !this.moveRight) {
                     this.setRotYaw(this.getYaw() - 12.0F * gmy * deltaSeconds);
                 }
 
-                if (this.isMoveRight() && !this.isMoveLeft()) {
+                if (this.moveRight && !this.moveLeft) {
                     this.setRotYaw(this.getYaw() + 12.0F * gmy * deltaSeconds);
                 }
             } else if (!MCH_Config.MouseControlFlightSimMode.prmBool) {
@@ -371,16 +371,16 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     }
 
     protected void onUpdate_Control() {
-        if (this.isGunnerMode() && !this.fuelComponent.canUseFuel()) {
+        if (this.isGunnerMode && !this.canUseFuel()) {
             this.switchGunnerMode(false);
         }
 
-        this.setThrottleBack((float) (this.getThrottleBack() * 0.8));
+        this.throttleBack = (float) (this.throttleBack * 0.8);
         if (this.getRiddenByEntity() != null && !this.getRiddenByEntity().isDead && this.isCanopyClose() &&
-                this.canUseWing() && this.fuelComponent.canUseFuel() && !this.isDestroyed()) {
+                this.canUseWing() && this.canUseFuel() && !this.isDestroyed()) {
             this.onUpdate_ControlNotHovering();
-        } else if (this.isTargetDrone() && this.fuelComponent.canUseFuel() && !this.isDestroyed()) {
-            this.setThrottleUp(true);
+        } else if (this.isTargetDrone() && this.canUseFuel() && !this.isDestroyed()) {
+            this.throttleUp = true;
             this.onUpdate_ControlNotHovering();
         } else if (this.getCurrentThrottle() > 0.0) {
             this.addCurrentThrottle(-0.0025 * this.getAcInfo().throttleUpDown);
@@ -409,12 +409,12 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     }
 
     protected void onUpdate_ControlNotHovering() {
-        if (!this.isGunnerMode()) {
+        if (!this.isGunnerMode) {
             float throttleUpDown = this.getAcInfo().throttleUpDown;
-            boolean turn = this.isMoveLeft() && !this.isMoveRight() || !this.isMoveLeft() && this.isMoveRight();
-            boolean localThrottleUp = this.isThrottleUp();
+            boolean turn = this.moveLeft && !this.moveRight || !this.moveLeft && this.moveRight;
+            boolean localThrottleUp = this.throttleUp;
             if (turn && this.getCurrentThrottle() < this.getAcInfo().pivotTurnThrottle && !localThrottleUp &&
-                    !this.isThrottleDown()) {
+                    !this.throttleDown) {
                 localThrottleUp = true;
                 throttleUpDown *= 2.0F;
             }
@@ -427,25 +427,25 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
                     f = throttleUpDown * (MathHelper.sqrt(mx * mx + mz * mz) * this.getAcInfo().throttleUpDownOnEntity);
                 }
 
-                if (this.getAcInfo().enableBack && this.getThrottleBack() > 0.0F) {
-                    this.setThrottleBack((float) (this.getThrottleBack() - 0.01 * f));
+                if (this.getAcInfo().enableBack && this.throttleBack > 0.0F) {
+                    this.throttleBack = (float) (this.throttleBack - 0.01 * f);
                 } else {
-                    this.setThrottleBack(0.0F);
+                    this.throttleBack = 0.0F;
                     if (this.getCurrentThrottle() < 1.0) {
                         this.addCurrentThrottle(0.01 * f);
                     } else {
                         this.setCurrentThrottle(1.0);
                     }
                 }
-            } else if (this.isThrottleDown()) {
+            } else if (this.throttleDown) {
                 if (this.getCurrentThrottle() > 0.0) {
                     this.addCurrentThrottle(-0.01 * throttleUpDown);
                 } else {
                     this.setCurrentThrottle(0.0);
                     if (this.getAcInfo().enableBack) {
-                        this.setThrottleBack((float) (this.getThrottleBack() + 0.0025 * throttleUpDown));
-                        if (this.getThrottleBack() > 0.6F) {
-                            this.setThrottleBack(0.6F);
+                        this.throttleBack = (float) (this.throttleBack + 0.0025 * throttleUpDown);
+                        if (this.throttleBack > 0.6F) {
+                            this.throttleBack = 0.6F;
                         }
                     }
                 }
@@ -668,7 +668,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             this.getRiddenByEntity().rotationPitch = this.getRiddenByEntity().prevRotationPitch;
         }
 
-        if (this.getAircraftPosRotInc() > 0) {
+        if (this.aircraftPosRotInc > 0) {
             this.applyServerPositionAndRotation();
         } else {
             this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
@@ -716,9 +716,9 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             dp = this.getWaterDepth();
         }
 
-        boolean levelOff = this.isGunnerMode();
+        boolean levelOff = this.isGunnerMode;
         if (dp == 0.0) {
-            if (this.isTargetDrone() && this.fuelComponent.canUseFuel() && !this.isDestroyed()) {
+            if (this.isTargetDrone() && this.canUseFuel() && !this.isDestroyed()) {
                 Block block = MCH_Lib.getBlockY(this, 3, -40, true);
                 if (block != null && !W_Block.isEqual(block, Blocks.AIR)) {
                     block = MCH_Lib.getBlockY(this, 3, -5, true);
@@ -794,9 +794,9 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
         }
 
         if (canMove) {
-            if (this.getAcInfo().enableBack && this.getThrottleBack() > 0.0F) {
-                this.motionX = this.motionX - v.x * this.getThrottleBack();
-                this.motionZ = this.motionZ - v.z * this.getThrottleBack();
+            if (this.getAcInfo().enableBack && this.throttleBack > 0.0F) {
+                this.motionX = this.motionX - v.x * this.throttleBack;
+                this.motionZ = this.motionZ - v.z * this.throttleBack;
             } else {
                 this.motionX = this.motionX + v.x * throttle;
                 this.motionZ = this.motionZ + v.z * throttle;
@@ -811,15 +811,15 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
             motion = speedLimit;
         }
 
-        if (motion > prevMotion && this.getCurrentSpeed() < speedLimit) {
-            this.setCurrentSpeed(this.getCurrentSpeed() + (speedLimit - this.getCurrentSpeed()) / 35.0);
-            if (this.getCurrentSpeed() > speedLimit) {
-                this.setCurrentSpeed(speedLimit);
+        if (motion > prevMotion && this.currentSpeed < speedLimit) {
+            this.currentSpeed = this.currentSpeed + (speedLimit - this.currentSpeed) / 35.0;
+            if (this.currentSpeed > speedLimit) {
+                this.currentSpeed = speedLimit;
             }
         } else {
-            this.setCurrentSpeed(this.getCurrentSpeed() - (this.getCurrentSpeed() - 0.07) / 35.0);
-            if (this.getCurrentSpeed() < 0.07) {
-                this.setCurrentSpeed(0.07);
+            this.currentSpeed = this.currentSpeed - (this.currentSpeed - 0.07) / 35.0;
+            if (this.currentSpeed < 0.07) {
+                this.currentSpeed = 0.07;
             }
         }
 
@@ -970,7 +970,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     protected MCH_Parts createNozzle(MCH_PlaneInfo info) {
         MCH_Parts nozzle = null;
         if (info.haveNozzle() || info.haveRotor() || info.isEnableVtol) {
-            nozzle = new MCH_Parts(this, 1, NetworkSyncComponent.PART_STAT, "Nozzle");
+            nozzle = new MCH_Parts(this, 1, PART_STAT, "Nozzle");
             nozzle.rotationMax = 90.0F;
             nozzle.rotationInv = 1.5F;
             nozzle.soundStartSwichOn.setPrm("plane_cc", 1.0F, 0.5F);
@@ -989,7 +989,7 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     protected MCH_Parts createWing(MCH_PlaneInfo info) {
         MCH_Parts wing = null;
         if (this.planeInfo.haveWing()) {
-            wing = new MCH_Parts(this, 3, NetworkSyncComponent.PART_STAT, "Wing");
+            wing = new MCH_Parts(this, 3, PART_STAT, "Wing");
             wing.rotationMax = 90.0F;
             wing.rotationInv = 2.5F;
             wing.soundStartSwichOn.setPrm("plane_cc", 1.0F, 0.5F);
@@ -1059,11 +1059,11 @@ public class MCH_EntityPlane extends MCH_EntityAircraft {
     private void updateExhaustFlameRotation(float deltaSeconds) {
         this.prevRotationExhaustFlameY = this.rotationExhaustFlameY;
         float key = 0.0F;
-        if (this.isMoveLeft() && !this.isMoveRight()) {
+        if (this.moveLeft && !this.moveRight) {
             key = -1.0F;
         }
 
-        if (this.isMoveRight() && !this.isMoveLeft()) {
+        if (this.moveRight && !this.moveLeft) {
             key = 1.0F;
         }
 

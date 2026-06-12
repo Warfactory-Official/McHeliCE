@@ -5,9 +5,11 @@ import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.wrapper.W_Lib;
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;
+import lombok.RequiredArgsConstructor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 
+@RequiredArgsConstructor
 @ElegantPacket
 public class PacketSyncWeapon extends PacketBase implements ServerToClientPacket {
 
@@ -16,14 +18,6 @@ public class PacketSyncWeapon extends PacketBase implements ServerToClientPacket
     final public int weaponID;
     final public short ammo;
     final public short reserveAmmo;
-
-    public PacketSyncWeapon(int entityID_Ac, int seatID, int weaponID, short ammo, short reserveAmmo) {
-        this.entityID_Ac = entityID_Ac;
-        this.seatID = seatID;
-        this.weaponID = weaponID;
-        this.ammo = ammo;
-        this.reserveAmmo = reserveAmmo;
-    }
 
     @Override
     public void onReceive(Minecraft mc) {

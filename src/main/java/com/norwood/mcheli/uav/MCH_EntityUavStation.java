@@ -557,7 +557,7 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         if (world.getCollisionBoxes(ac, ac.getEntityBoundingBox().grow(-0.1)).isEmpty()) {
             stack.shrink(1);
             if (ac.isTargetDrone()) {
-                ac.fuelComponent.setFuel(ac.fuelComponent.getMaxFuel());
+                ac.setFuel(ac.getMaxFuel());
             } else {
                 ac.setUavStation(this);
                 setControlled(ac);

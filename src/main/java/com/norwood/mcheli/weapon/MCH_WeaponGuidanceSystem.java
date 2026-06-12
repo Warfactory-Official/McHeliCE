@@ -29,6 +29,7 @@ import java.util.Objects;
 public class MCH_WeaponGuidanceSystem extends MCH_EntityGuidanceSystem {
 
 
+    @Setter
     public World world;
     public Entity lastLockEntity;
     protected Entity user;
@@ -229,7 +230,7 @@ public class MCH_WeaponGuidanceSystem extends MCH_EntityGuidanceSystem {
     }
 
     private boolean canContinueLocking(Entity user) {
-        if (targetEntity instanceof MCH_EntityAircraft ac && isRadarMissile && ac.getChaffUseTime() > 0) return false;
+        if (targetEntity instanceof MCH_EntityAircraft ac && isRadarMissile && ac.chaffUseTime > 0) return false;
         if (!this.canLockInWater && this.targetEntity.isInWater()) return false;
 
         boolean onGround = isEntityOnGround(this.targetEntity, lockMinHeight);
@@ -338,7 +339,7 @@ public class MCH_WeaponGuidanceSystem extends MCH_EntityGuidanceSystem {
             case MCH_EntityChaff _ -> isRadarMissile ? true : null;
 
             case MCH_EntityAircraft ac -> {
-                if (isRadarMissile && ac.getChaffUseTime() > 0) yield false;
+                if (isRadarMissile && ac.chaffUseTime > 0) yield false;
                 if (ac.isFlareUsing()) yield false;
                 yield null;
             }
@@ -381,3 +382,4 @@ public class MCH_WeaponGuidanceSystem extends MCH_EntityGuidanceSystem {
         return targetEntity.posZ;
     }
 }
+

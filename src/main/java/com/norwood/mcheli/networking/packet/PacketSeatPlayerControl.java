@@ -47,10 +47,6 @@ public class PacketSeatPlayerControl extends PacketBase implements ClientToServe
         }
     }
 
-    public void setSwitchSeat(PlayerControlState switchSeat) {
-        this.switchSeat = switchSeat;
-    }
-
     public static enum PlayerControlState {
         IDLE,
         NEXT,

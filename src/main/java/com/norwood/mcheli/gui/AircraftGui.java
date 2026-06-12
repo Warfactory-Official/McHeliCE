@@ -184,11 +184,10 @@ public class AircraftGui {
         syncManager.bindPlayerInventory(data.getPlayer());
         var containerGuiHandler = aircraft.getInventory();
         var aircraftGuiInv = aircraft.getGuiInventory().getItemHandler();
-        var fuelComponent = aircraft.fuelComponent;
-        syncManager.registerServerSyncedAction("dumpFuel", (_) -> aircraft.fuelComponent.dumpFuel());
+        syncManager.registerServerSyncedAction("dumpFuel", (_) -> aircraft.dumpFuel());
         boolean showParachuteSlot = data.getInfo().isEnableParachuting || data.getInfo().isEnableEjectionSeat;
         boolean hasTrunk = data.getInfo().inventorySize > 0;
-        List<WeaponEntry> weaponEntries = IntStream.range(0, aircraft.weaponSystem.getWeapons().length)
+        List<WeaponEntry> weaponEntries = IntStream.range(0, aircraft.getWeapons().length)
                 .mapToObj(i -> new WeaponEntry(i, aircraft.getWeapon(i)))
                 .filter(entry -> entry.set().getMagSize() > 0)
                 .toList();
@@ -221,14 +220,14 @@ public class AircraftGui {
             tooltop
                     .addLine(IKey.str("Fuel").style(TextFormatting.GREEN))
                     .addLine(IKey.dynamic(() -> String.format("Current fuel: %s (%.2f)",
-                            fuelComponent.getFuel() > 0
-                                    && fuelComponent.getFuelFluid() != null
-                                    && FluidRegistry.isFluidRegistered(fuelComponent.getFuelType()) ?
-                                    new FluidStack(fuelComponent.getFuelFluid(), 1).getLocalizedName()
+                            aircraft.getFuel() > 0
+                                    && aircraft.getFuelFluid() != null
+                                    && FluidRegistry.isFluidRegistered(aircraft.getFuelType()) ?
+                                    new FluidStack(aircraft.getFuelFluid(), 1).getLocalizedName()
                                     : "Empty",
-                            data.getInfo().getFuelConsumption(fuelComponent.getFuelType())
+                            data.getInfo().getFuelConsumption(aircraft.getFuelType())
                     )))
-                    .addLine(IKey.dynamic(() -> String.format("%d / %dmB", fuelComponent.getFuel(), fuelComponent.getMaxFuel())))
+                    .addLine(IKey.dynamic(() -> String.format("%d / %dmB", aircraft.getFuel(), aircraft.getMaxFuel())))
                     .addLine("Accepted Fuels and consumption factor:");
 
             data.getInfo().getFluidType().forEach((fuel, eff) ->
@@ -250,13 +249,11 @@ public class AircraftGui {
 
         };
 
-        var gauge = WidgetGauge.make(0.4f);
-        gauge.value(new FloatSyncValue(fuelComponent::getFuelPercentage));
-        gauge.marginBottom(2);
-        gauge.tooltip(fuelTooltip);
+        var gauge = WidgetGauge.make(0.4f)
+                .value(new FloatSyncValue(aircraft::getFuelPercentage)).marginBottom(2).tooltip(fuelTooltip);
 
         var fuelMb = IKey.dynamic(() ->
-                        String.format("%d mB", fuelComponent.getFuel())
+                        String.format("%d mB", aircraft.getFuel())
                 )
                 .asWidget()
                 .padding(6, 2)
@@ -264,7 +261,7 @@ public class AircraftGui {
                 .alignX(Alignment.Center)
                 .tooltip(fuelTooltip)
                 .color(() -> {
-                    var fuelPercent = fuelComponent.getFuelPercentage();
+                    var fuelPercent = aircraft.getFuelPercentage();
                     if (fuelPercent >= 1.0f) return 0xFFB2FF59;
                     if (fuelPercent <= 0.0f) return 0xFFFF5252;
                     return 0xFFFFFFFF;

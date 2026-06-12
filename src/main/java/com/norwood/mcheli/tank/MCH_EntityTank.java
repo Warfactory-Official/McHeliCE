@@ -61,13 +61,13 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     public MCH_EntityTank(World world) {
         super(world);
-        this.setCurrentSpeed(0.07);
+        this.currentSpeed = 0.07;
         this.preventEntitySpawning = true;
         this.setSize(2.0F, 0.7F);
         this.motionX = 0.0;
         this.motionY = 0.0;
         this.motionZ = 0.0;
-        this.weaponSystem.setWeapons(this.createWeapon(0));
+        this.weapons = this.createWeapon(0);
         this.soundVolume = 0.0F;
         this.stepHeight = 0.6F;
         this.rotationRotor = 0.0F;
@@ -104,7 +104,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.setAcInfo(this.tankInfo);
             this.newSeats(Objects.requireNonNull(this.getAcInfo()).getNumSeatAndRack());
             this.switchFreeLookModeClient(this.getAcInfo().defaultFreelook);
-            this.weaponSystem.setWeapons(this.createWeapon(1 + this.getSeatNum()));
+            this.weapons = this.createWeapon(1 + this.getSeatNum());
             this.initPartRotation(this.getYaw(), this.getPitch());
             this.WheelMng.createWheels(this.world, this.getAcInfo().wheels,
                     new Vec3d(0.0, -GLOBAL_Y_OFFSET, Objects.requireNonNull(this.getTankInfo()).weightedCenterZ));
@@ -177,7 +177,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
         } else {
-            if (this.networkSync.markSyncStatusRequested()) {
+            if (!this.isRequestedSyncStatus) {
+                this.isRequestedSyncStatus = true;
                 if (this.world.isRemote) {
                     PacketStatusRequest.requestStatus(this);
                 }
@@ -412,7 +413,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     public void onUpdateAngles(float deltaSeconds) {
         if (this.isDestroyed()) return;
 
-        if (this.isGunnerMode()) {
+        if (this.isGunnerMode) {
             this.setRotPitch(this.getPitch() * (float) Math.pow(0.95, deltaSeconds * 20)); // scale to per-second
             if (MathHelper.abs(this.getRoll()) > 20.0F) {
                 this.setRotRoll(this.getRoll() * (float) Math.pow(0.95, deltaSeconds * 20));
@@ -469,9 +470,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         if (Objects.requireNonNull(this.getTankInfo()).weightType == 1 && groundLike) {
             float steerInput = 0.0F;
-            if (this.isMoveLeft() && !this.isMoveRight()) {
+            if (this.moveLeft && !this.moveRight) {
                 steerInput = -1.0F;
-            } else if (this.isMoveRight() && !this.isMoveLeft()) {
+            } else if (this.moveRight && !this.moveLeft) {
                 steerInput = 1.0F;
             }
 
@@ -479,7 +480,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                 Vec3d forward = getFlatForwardVector(this.getYaw());
                 double signedSpeed = this.motionX * forward.x + this.motionZ * forward.z;
                 if (Math.abs(signedSpeed) < 0.02D) {
-                    signedSpeed = (this.isThrottleUp() ? 0.02D : 0.0D) - (this.isThrottleDown() ? 0.02D : 0.0D);
+                    signedSpeed = (this.throttleUp ? 0.02D : 0.0D) - (this.throttleDown ? 0.02D : 0.0D);
                 }
                 if (Math.abs(signedSpeed) > 0.001D) {
                     float steerRate = (float) Math.min(55.0D, 18.0D + Math.abs(signedSpeed) * 90.0D);
@@ -492,18 +493,18 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
 
         if (pivotTurnThrottle <= 0.0F || this.getCurrentThrottle() >= pivotTurnThrottle ||
-                this.getThrottleBack() >= pivotTurnThrottle / 10.0F || dist > this.getThrottleBack() * 0.01) {
+                this.throttleBack >= pivotTurnThrottle / 10.0F || dist > this.throttleBack * 0.01) {
 
             float sf = (float) Math.sqrt(Math.min(dist, 1.0));
             if (pivotTurnThrottle <= 0.0F) sf = 1.0F;
 
-            float flag = (!this.isThrottleUp() && this.isThrottleDown() && this.getCurrentThrottle() < pivotTurnThrottle + 0.05) ? -1.0F : 1.0F;
+            float flag = (!this.throttleUp && this.throttleDown && this.getCurrentThrottle() < pivotTurnThrottle + 0.05) ? -1.0F : 1.0F;
 
             float yawSpeed = 12.0F; // 0.6 deg/tick * 20 ticks/sec
-            if (this.isMoveLeft() && !this.isMoveRight()) {
+            if (this.moveLeft && !this.moveRight) {
                 this.setRotYaw(this.getYaw() - yawSpeed * gmy * deltaSeconds * flag * sf);
             }
-            if (this.isMoveRight() && !this.isMoveLeft()) {
+            if (this.moveRight && !this.moveLeft) {
                 this.setRotYaw(this.getYaw() + yawSpeed * gmy * deltaSeconds * flag * sf);
             }
         }
@@ -512,13 +513,13 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     }
 
     protected void onUpdate_Control() {
-        if (this.isGunnerMode() && !this.fuelComponent.canUseFuel()) {
+        if (this.isGunnerMode && !this.canUseFuel()) {
             this.switchGunnerMode(false);
         }
 
-        this.setThrottleBack((float) (this.getThrottleBack() * 0.8));
+        this.throttleBack = (float) (this.throttleBack * 0.8);
         if (this.getBrake()) {
-            this.setThrottleBack((float) (this.getThrottleBack() * 0.5));
+            this.throttleBack = (float) (this.throttleBack * 0.5);
             if (this.getCurrentThrottle() > 0.0) {
                 this.addCurrentThrottle(-0.02 * Objects.requireNonNull(this.getAcInfo()).throttleUpDown);
             } else {
@@ -527,10 +528,10 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
 
         if (this.getRiddenByEntity() != null && !this.getRiddenByEntity().isDead && this.isCanopyClose() &&
-                this.fuelComponent.canUseFuel() && !this.isDestroyed()) {
+                this.canUseFuel() && !this.isDestroyed()) {
             this.onUpdate_ControlSub();
-        } else if (this.isTargetDrone() && this.fuelComponent.canUseFuel() && !this.isDestroyed()) {
-            this.setThrottleUp(true);
+        } else if (this.isTargetDrone() && this.canUseFuel() && !this.isDestroyed()) {
+            this.throttleUp = true;
             this.onUpdate_ControlSub();
         } else if (this.getCurrentThrottle() > 0.0) {
             this.addCurrentThrottle(-0.0025 * Objects.requireNonNull(this.getAcInfo()).throttleUpDown);
@@ -559,10 +560,10 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     }
 
     protected void onUpdate_ControlSub() {
-        if (!super.isGunnerMode()) {
+        if (!super.isGunnerMode) {
             assert this.getAcInfo() != null;
             float throttleUpDown = this.getAcInfo().throttleUpDown;
-            if (super.isThrottleUp()) {
+            if (super.throttleUp) {
                 float f = throttleUpDown;
                 if (this.getRidingEntity() != null) {
                     double mx = this.getRidingEntity().motionX;
@@ -570,10 +571,10 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                     f = throttleUpDown * MathHelper.sqrt(mx * mx + mz * mz) * this.getAcInfo().throttleUpDownOnEntity;
                 }
 
-                if (this.getAcInfo().enableBack && super.getThrottleBack() > 0.0F) {
-                    super.setThrottleBack((float) (super.getThrottleBack() - 0.01D * (double) f));
+                if (this.getAcInfo().enableBack && super.throttleBack > 0.0F) {
+                    super.throttleBack = (float) ((double) super.throttleBack - 0.01D * (double) f);
                 } else {
-                    super.setThrottleBack(0.0F);
+                    super.throttleBack = 0.0F;
                     if (this.getCurrentThrottle() < 1.0D) {
                         this.addCurrentThrottle(0.01D * (double) f);
                         // here as well?
@@ -583,7 +584,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                     }
                 }
 
-            } else if (super.isThrottleDown()) {
+            } else if (super.throttleDown) {
 
                 if (this.getCurrentThrottle() > 0.0D) {
                     this.addCurrentThrottle(-0.01D * (double) throttleUpDown);
@@ -591,14 +592,14 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                     this.setCurrentThrottle(0.0D);
                     if (this.getAcInfo().enableBack) {
                         // super.throttleBack = (float)((double)super.throttleBack + 0.0025D * (double)throttleUpDown);
-                        super.setThrottleBack((float) (super.getThrottleBack() +
-                                0.0025D * (double) throttleUpDown * getAcInfo().throttleDownFactor));
+                        super.throttleBack = (float) ((double) super.throttleBack +
+                                0.0025D * (double) throttleUpDown * getAcInfo().throttleDownFactor);
                         // if(super.throttleBack > 0.6F) { //todno: add a new variable here for reversespeed
                         // super.throttleBack = 0.6F;
                         // }
                         float pivotTurnThrottle1 = this.getAcInfo().pivotTurnThrottle;
                         if (pivotTurnThrottle1 > 0 && Objects.requireNonNull(this.getTankInfo()).weightType != 1) {
-                            if (super.getThrottleBack() > 0) {
+                            if (super.throttleBack > 0) {
                                 double dx = super.posX - super.prevPosX;
                                 double dz = super.posZ - super.prevPosZ;
                                 double dist = dx * dx + dz * dz;
@@ -618,13 +619,13 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                                     }
                                 }
 
-                                float flag = !super.isThrottleUp() && super.isThrottleDown() &&
+                                float flag = !super.throttleUp && super.throttleDown &&
                                         this.getCurrentThrottle() < (double) pivotTurnThrottle1 + 0.05D ? -1.0F : 1.0F;
-                                if (super.isMoveLeft() && !super.isMoveRight()) {
+                                if (super.moveLeft && !super.moveRight) {
                                     this.setRotYaw(this.getYaw() + 0.6F * rotonground * flag * sf);
                                 }
 
-                                if (super.isMoveRight() && !super.isMoveLeft()) {
+                                if (super.moveRight && !super.moveLeft) {
                                     this.setRotYaw(this.getYaw() - 0.6F * rotonground * flag * sf);
                                 }
                             }
@@ -642,8 +643,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     protected void onUpdate_Particle2() {
         if (this.world.isRemote) {
-            if (this.weaponSystem.isIronCurtainActive() && this.getTankInfo() != null) {
-                float factor = 0.5f + 0.5f * (float) Math.sin(this.weaponSystem.getIronCurtainRunningTick() * 0.15f);
+            if (this.ironCurtainRunningTick > 0 && this.getTankInfo() != null) {
+                float factor = 0.5f + 0.5f * (float) Math.sin(this.ironCurtainRunningTick * 0.15f);
                 float r = 0.5f * factor;
                 float g = 0.1f * factor;
                 float b = 0.1f * factor;
@@ -660,7 +661,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                                 "cloud", px, py, pz, 0, 0, 0);
                         if (p != null) {
                             p.setRBGColorF(r, g, b);
-                            float spread = 0.015f * (this.weaponSystem.getIronCurtainRunningTick() % 40 + 1);
+                            float spread = 0.015f * (this.ironCurtainRunningTick % 40 + 1);
                             p.motionX = (this.rand.nextFloat() - 0.5f) * spread;
                             p.motionY = 0.01f + this.rand.nextFloat() * 0.02f;
                             p.motionZ = (this.rand.nextFloat() - 0.5f) * spread;
@@ -813,7 +814,15 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         if (W_Lib.isClientPlayer(this.getRiddenByEntity())) {
             delay = Math.max(1, delay - 1);
         }
-        this.captureClientPositionAndRotation(par1, par3, par5, par7, par8, delay);
+        this.aircraftPosRotInc = delay;
+        this.aircraftX = par1;
+        this.aircraftY = par3;
+        this.aircraftZ = par5;
+        this.aircraftYaw = par7;
+        this.aircraftPitch = par8;
+        this.motionX = this.velocityX;
+        this.motionY = this.velocityY;
+        this.motionZ = this.velocityZ;
     }
 
     protected void onUpdate_Client() {
@@ -821,7 +830,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.getRiddenByEntity().rotationPitch = this.getRiddenByEntity().prevRotationPitch;
         }
 
-        if (this.getAircraftPosRotInc() > 0) {
+        if (this.aircraftPosRotInc > 0) {
             this.applyServerPositionAndRotation();
         } else {
             this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
@@ -867,7 +876,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             dp = this.getWaterDepth();
         }
 
-        boolean levelOff = this.isGunnerMode();
+        boolean levelOff = this.isGunnerMode;
         if (dp == 0.0) {
             if (!levelOff) {
                 this.motionY = this.motionY +
@@ -927,9 +936,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
 
         if (canMove) {
-            if (this.getAcInfo().enableBack && this.getThrottleBack() > 0.0F) {
-                this.motionX = this.motionX - v.x * this.getThrottleBack();
-                this.motionZ = this.motionZ - v.z * this.getThrottleBack();
+            if (this.getAcInfo().enableBack && this.throttleBack > 0.0F) {
+                this.motionX = this.motionX - v.x * this.throttleBack;
+                this.motionZ = this.motionZ - v.z * this.throttleBack;
             } else {
                 this.motionX = this.motionX + v.x * throttle;
                 this.motionZ = this.motionZ + v.z * throttle;
@@ -944,15 +953,15 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             motion = speedLimit;
         }
 
-        if (motion > prevMotion && this.getCurrentSpeed() < speedLimit) {
-            this.setCurrentSpeed(this.getCurrentSpeed() + (speedLimit - this.getCurrentSpeed()) / 35.0);
-            if (this.getCurrentSpeed() > speedLimit) {
-                this.setCurrentSpeed(speedLimit);
+        if (motion > prevMotion && this.currentSpeed < speedLimit) {
+            this.currentSpeed = this.currentSpeed + (speedLimit - this.currentSpeed) / 35.0;
+            if (this.currentSpeed > speedLimit) {
+                this.currentSpeed = speedLimit;
             }
         } else {
-            this.setCurrentSpeed(this.getCurrentSpeed() - (this.getCurrentSpeed() - 0.07) / 35.0);
-            if (this.getCurrentSpeed() < 0.07) {
-                this.setCurrentSpeed(0.07);
+            this.currentSpeed = this.currentSpeed - (this.currentSpeed - 0.07) / 35.0;
+            if (this.currentSpeed < 0.07) {
+                this.currentSpeed = 0.07;
             }
         }
 
@@ -1225,8 +1234,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     public void updateAircraftOrientation(float deltaSeconds) {
         deltaSeconds = MathHelper.clamp(deltaSeconds, 0.0F, 0.1F);
-        this.getLowPassPartialTicks().put(deltaSeconds);
-        deltaSeconds = this.getLowPassPartialTicks().getAvg();
+        this.lowPassPartialTicks.put(deltaSeconds);
+        deltaSeconds = this.lowPassPartialTicks.getAvg();
 
         float ac_pitch = this.getPitch();
         float ac_yaw = this.getYaw();
@@ -1264,7 +1273,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         if (this.getRoll() > 180.0F) this.setRotRoll(this.getRoll() - 360.0F);
         if (this.getRoll() < -180.0F) this.setRotRoll(this.getRoll() + 360.0F);
 
-        this.setPrevRotationRoll(this.getRoll());
+        this.prevRotationRoll = this.getRoll();
         this.prevRotationPitch = this.getPitch();
         if (this.getRidingEntity() == null) {
             this.prevRotationYaw = this.getYaw();
@@ -1272,7 +1281,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         if ((this.getRidingEntity() == null && ac_yaw != this.getYaw()) ||
                 ac_pitch != this.getPitch() || ac_roll != this.getRoll()) {
-            this.setAircraftRotChanged(true);
+            this.aircraftRotChanged = true;
         }
     }
 
@@ -1332,7 +1341,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             target += 0.1F;
         }
 
-        if (!this.isMoveLeft() && !this.isMoveRight() && !this.isThrottleDown()) {
+        if (!this.moveLeft && !this.moveRight && !this.throttleDown) {
             this.soundVolumeTarget *= 0.8F;
         } else {
             this.soundVolumeTarget += 0.1F;

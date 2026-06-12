@@ -108,17 +108,17 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
 
     public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, DataPlayerControlAircraft pc) {
         updateRwr(ac);
-        if (ac.supportsDetachedTurretAim() && ac.weaponSystem.isDetachedWeaponAimActive()) {
+        if (ac.supportsDetachedTurretAim() && ac.isDetachedWeaponAimActive()) {
             pc.detachedWeaponAim = true;
-            pc.detachedWeaponAimYaw = ac.weaponSystem.getDetachedWeaponAimYaw();
-            pc.detachedWeaponAimPitch = ac.weaponSystem.getDetachedWeaponAimPitch();
+            pc.detachedWeaponAimYaw = ac.getDetachedWeaponAimYaw();
+            pc.detachedWeaponAimPitch = ac.getDetachedWeaponAimPitch();
         }
 
         boolean send = false;
         if (shouldSendDetachedAimSync(ac)) {
-            pc.detachedWeaponAim = ac.weaponSystem.isDetachedWeaponAimActive();
-            pc.detachedWeaponAimYaw = ac.weaponSystem.getDetachedWeaponAimYaw();
-            pc.detachedWeaponAimPitch = ac.weaponSystem.getDetachedWeaponAimPitch();
+            pc.detachedWeaponAim = ac.isDetachedWeaponAimActive();
+            pc.detachedWeaponAimYaw = ac.getDetachedWeaponAimYaw();
+            pc.detachedWeaponAimPitch = ac.getDetachedWeaponAimPitch();
             send = true;
         }
 
@@ -141,9 +141,9 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         }
 
         int entityId = ac.getEntityId();
-        boolean active = ac.weaponSystem.isDetachedWeaponAimActive();
-        float yaw = ac.weaponSystem.getDetachedWeaponAimYaw();
-        float pitch = ac.weaponSystem.getDetachedWeaponAimPitch();
+        boolean active = ac.isDetachedWeaponAimActive();
+        float yaw = ac.getDetachedWeaponAimYaw();
+        float pitch = ac.getDetachedWeaponAimPitch();
         return entityId != lastDetachedAimSyncEntityId ||
                 active != lastDetachedAimSyncActive ||
                 Float.compare(yaw, lastDetachedAimSyncYaw) != 0 ||
@@ -152,9 +152,9 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
 
     protected void recordDetachedAimSync(MCH_EntityAircraft ac) {
         lastDetachedAimSyncEntityId = ac.getEntityId();
-        lastDetachedAimSyncActive = ac.weaponSystem.isDetachedWeaponAimActive();
-        lastDetachedAimSyncYaw = ac.weaponSystem.getDetachedWeaponAimYaw();
-        lastDetachedAimSyncPitch = ac.weaponSystem.getDetachedWeaponAimPitch();
+        lastDetachedAimSyncActive = ac.isDetachedWeaponAimActive();
+        lastDetachedAimSyncYaw = ac.getDetachedWeaponAimYaw();
+        lastDetachedAimSyncPitch = ac.getDetachedWeaponAimPitch();
     }
 
     private boolean handleCameraAndModes(EntityPlayer player, MCH_EntityAircraft ac, DataPlayerControlAircraft pc) {
@@ -263,54 +263,33 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
 
     private boolean handleMovementAndBraking(MCH_EntityAircraft ac, DataPlayerControlAircraft pc) {
         if (ac.isRepelling()) {
-            ac.setBrake(false);
-            ac.setThrottleDown(false);
-            ac.setThrottleUp(false);
-            ac.setMoveRight(false);
-            ac.setMoveLeft(false);
-            pc.setUseBrake(false);
-            pc.setThrottleDown(false);
-            pc.setThrottleUp(false);
-            pc.setMoveRight(false);
-            pc.setMoveLeft(false);
+            pc.setThrottleDown(ac.throttleDown = false);
+            pc.setThrottleUp(ac.throttleUp = false);
+            pc.setMoveRight(ac.moveRight = false);
+            pc.setMoveLeft(ac.moveLeft = false);
             return false;
         }
 
-        if (ac.hasBrake()) {
-            ac.setBrake(KeyBrake.isKeyPress());
-        }
-
         if (ac.hasBrake() && KeyBrake.isKeyPress()) {
-            ac.setThrottleDown(false);
-            ac.setThrottleUp(false);
-            pc.setThrottleDown(false);
-            pc.setThrottleUp(false);
+            pc.setThrottleDown(ac.throttleDown = false);
+            pc.setThrottleUp(ac.throttleUp = false);
 
             double distSq = ac.getDistanceSq(ac.prevPosX, ac.posY, ac.prevPosZ);
             if (ac.getCurrentThrottle() <= 0.03 && distSq < 0.01) {
-                ac.setMoveRight(false);
-                ac.setMoveLeft(false);
-                pc.setMoveRight(false);
-                pc.setMoveLeft(false);
-            } else {
-                pc.setMoveRight(ac.isMoveRight());
-                pc.setMoveLeft(ac.isMoveLeft());
+                pc.setMoveRight(ac.moveRight = false);
+                pc.setMoveLeft(ac.moveLeft = false);
             }
             pc.setUseBrake(true);
-            return true;
+            return KeyBrake.isKeyDown();
         }
 
         boolean inputChanged = Stream.of(KeyUp, KeyDown, KeyRight, KeyLeft)
                 .anyMatch(k -> k.isKeyDown() || k.isKeyUp());
 
-        ac.setThrottleDown(KeyDown.isKeyPress());
-        ac.setThrottleUp(KeyUp.isKeyPress());
-        ac.setMoveRight(KeyRight.isKeyPress());
-        ac.setMoveLeft(KeyLeft.isKeyPress());
-        pc.setThrottleDown(ac.isThrottleDown());
-        pc.setThrottleUp(ac.isThrottleUp());
-        pc.setMoveRight(ac.isMoveRight());
-        pc.setMoveLeft(ac.isMoveLeft());
+        pc.setThrottleDown(ac.throttleDown = KeyDown.isKeyPress());
+        pc.setThrottleUp(ac.throttleUp = KeyUp.isKeyPress());
+        pc.setMoveRight(ac.moveRight = KeyRight.isKeyPress());
+        pc.setMoveLeft(ac.moveLeft = KeyLeft.isKeyPress());
 
         return inputChanged || KeyBrake.isKeyUp();
     }

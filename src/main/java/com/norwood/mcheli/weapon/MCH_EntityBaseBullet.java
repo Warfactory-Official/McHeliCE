@@ -158,18 +158,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
     }
 
-    public int getCountOnUpdate() {
-        return countOnUpdate;
-    }
-
-    public int getPower() {
-        return power;
-    }
-
-    public void setPower(int power) {
-        this.power = power;
-    }
-
     public void checkAndLoadChunks() {
         int currentChunkX = MathHelper.floor(posX) >> 4;
         int currentChunkZ = MathHelper.floor(posZ) >> 4;
@@ -946,7 +934,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             if (getInfo() != null) {
                 if (m.entityHit == null) {
                     spawnBlockPar(m, m.getBlockPos());
-                } else if (m.entityHit instanceof MCH_EntityAircraft ac && ac.weaponSystem.isIronCurtainActive()) {
+                } else if (m.entityHit instanceof MCH_EntityAircraft ac && ac.ironCurtainRunningTick > 0) {
                     spawnIronCurtainParticle(m, m.getBlockPos());
                 }
             }
@@ -1264,7 +1252,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
     private boolean isValidAATarget(Entity entity, Vec3d missileDir, double maxAngle) {
         if (!(entity instanceof MCH_EntityAircraft ac)) return false;
-        if (ac.getChaffUseTime() > 0) return false;
+        if (ac.chaffUseTime > 0) return false;
         if (MCH_WeaponGuidanceSystem.isEntityOnGround(entity, getInfo().lockMinHeight)) return false;
 
         return calculateAngle(entity, missileDir) <= maxAngle;

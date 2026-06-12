@@ -41,13 +41,13 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
     public MCH_EntityHeli(World world) {
         super(world);
         this.heliInfo = null;
-        this.setCurrentSpeed(0.07);
+        this.currentSpeed = 0.07;
         this.preventEntitySpawning = true;
         this.setSize(2.0F, 0.7F);
         this.motionX = 0.0;
         this.motionY = 0.0;
         this.motionZ = 0.0;
-        this.weaponSystem.setWeapons(this.createWeapon(0));
+        this.weapons = this.createWeapon(0);
         this.rotors = new MCH_Rotor[0];
         this.lastFoldBladeStat = -1;
         if (this.world.isRemote) {
@@ -83,7 +83,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             this.setAcInfo(this.heliInfo);
             this.newSeats(this.getAcInfo().getNumSeatAndRack());
             this.createRotors();
-            this.weaponSystem.setWeapons(this.createWeapon(1 + this.getSeatNum()));
+            this.weapons = this.createWeapon(1 + this.getSeatNum());
             this.initPartRotation(this.getYaw(), this.getPitch());
         }
     }
@@ -309,7 +309,8 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             this.prevPosY = this.posY;
             this.prevPosZ = this.posZ;
         } else {
-            if (this.networkSync.markSyncStatusRequested()) {
+            if (!this.isRequestedSyncStatus) {
+                this.isRequestedSyncStatus = true;
                 if (this.world.isRemote) {
                     int stat = this.getFoldBladeStat();
                     if (stat == 1 || stat == 0) {
@@ -441,11 +442,11 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             }
 
             if (MCH_Lib.getBlockIdY(this, 3, -3) == 0) {
-                if (this.isMoveLeft() && !this.isMoveRight()) {
+                if (this.moveLeft && !this.moveRight) {
                     this.setRotRoll(this.getRoll() - 24.0F * deltaSeconds);
                 }
 
-                if (this.isMoveRight() && !this.isMoveLeft()) {
+                if (this.moveRight && !this.moveLeft) {
                     this.setRotRoll(this.getRoll() + 24.0F * deltaSeconds);
                 }
             } else {
@@ -455,11 +456,11 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
 
                 if (this.heliInfo.isEnableFoldBlade && this.rotors.length > 0 && this.getFoldBladeStat() == 0 &&
                         !this.isDestroyed()) {
-                    if (this.isMoveLeft() && !this.isMoveRight()) {
+                    if (this.moveLeft && !this.moveRight) {
                         this.setRotYaw(this.getYaw() - 10.0F * deltaSeconds);
                     }
 
-                    if (this.isMoveRight() && !this.isMoveLeft()) {
+                    if (this.moveRight && !this.moveLeft) {
                         this.setRotYaw(this.getYaw() + 10.0F * deltaSeconds);
                     }
                 }
@@ -503,16 +504,16 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
     }
 
     protected void onUpdate_Control() {
-        if (this.isHoveringMode() && !this.fuelComponent.canUseFuel(true)) {
+        if (this.isHoveringMode() && !this.canUseFuel(true)) {
             this.switchHoveringMode(false);
         }
 
-        if (this.isGunnerMode() && !this.fuelComponent.canUseFuel()) {
+        if (this.isGunnerMode && !this.canUseFuel()) {
             this.switchGunnerMode(false);
         }
 
         if (!this.isDestroyed() && (this.getRiddenByEntity() != null || this.isHoveringMode()) && this.canUseBlades() &&
-                this.isCanopyClose() && this.fuelComponent.canUseFuel(true)) {
+                this.isCanopyClose() && this.canUseFuel(true)) {
             if (!this.isHovering()) {
                 this.onUpdate_ControlNotHovering();
             } else {
@@ -556,13 +557,13 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
 
     protected void onUpdate_ControlNotHovering() {
         float throttleUpDown = this.getAcInfo().throttleUpDown;
-        if (this.isThrottleUp()) {
+        if (this.throttleUp) {
             if (this.getCurrentThrottle() < 1.0) {
                 this.addCurrentThrottle(0.02 * throttleUpDown);
             } else {
                 this.setCurrentThrottle(1.0);
             }
-        } else if (this.isThrottleDown()) {
+        } else if (this.throttleDown) {
             if (this.getCurrentThrottle() > 0.0) {
                 this.addCurrentThrottle(-0.014285714285714285 * throttleUpDown);
             } else {
@@ -582,14 +583,14 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             float yaw;
             double x = 0.0;
             double z = 0.0;
-            if (this.isMoveLeft() && !this.isMoveRight()) {
+            if (this.moveLeft && !this.moveRight) {
                 yaw = this.getYaw() - 90.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
-            if (this.isMoveRight() && !this.isMoveLeft()) {
+            if (this.moveRight && !this.moveLeft) {
                 yaw = this.getYaw() + 90.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
@@ -617,28 +618,28 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             float yaw;
             double x = 0.0;
             double z = 0.0;
-            if (this.isThrottleUp()) {
+            if (this.throttleUp) {
                 yaw = this.getYaw();
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
-            if (this.isThrottleDown()) {
+            if (this.throttleDown) {
                 yaw = this.getYaw() - 180.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
-            if (this.isMoveLeft() && !this.isMoveRight()) {
+            if (this.moveLeft && !this.moveRight) {
                 yaw = this.getYaw() - 90.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
-            if (this.isMoveRight() && !this.isMoveLeft()) {
+            if (this.moveRight && !this.moveLeft) {
                 yaw = this.getYaw() + 90.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
@@ -659,14 +660,14 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             float yaw;
             double x = 0.0;
             double z = 0.0;
-            if (this.isThrottleUp()) {
+            if (this.throttleUp) {
                 yaw = this.getYaw();
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
                 move = true;
             }
 
-            if (this.isThrottleDown()) {
+            if (this.throttleDown) {
                 yaw = this.getYaw() - 180.0F;
                 x += Math.sin(yaw * Math.PI / 180.0);
                 z += Math.cos(yaw * Math.PI / 180.0);
@@ -751,7 +752,7 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
             this.getRiddenByEntity().rotationPitch = this.getRiddenByEntity().prevRotationPitch;
         }
 
-        if (this.getAircraftPosRotInc() > 0) {
+        if (this.aircraftPosRotInc > 0) {
             this.applyServerPositionAndRotation();
         } else {
             this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
@@ -807,9 +808,9 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
                     pitch -= ogp;
                 }
 
-                this.motionX = this.motionX + 0.1 * MathHelper.sin(yaw) * this.getCurrentSpeed() *
+                this.motionX = this.motionX + 0.1 * MathHelper.sin(yaw) * this.currentSpeed *
                         -(pitch * pitch * pitch / 20000.0F) * this.getCurrentThrottle();
-                this.motionZ = this.motionZ + 0.1 * MathHelper.cos(yaw) * this.getCurrentSpeed() *
+                this.motionZ = this.motionZ + 0.1 * MathHelper.cos(yaw) * this.currentSpeed *
                         (pitch * pitch * pitch / 20000.0F) * this.getCurrentThrottle();
                 double y = 0.0;
                 if (MathHelper.abs(this.getPitch()) + MathHelper.abs(this.getRoll() * 0.9F) <= 40.0F) {
@@ -871,18 +872,18 @@ public class MCH_EntityHeli extends MCH_EntityAircraft {
         if (this.isDestroyed()) {
             this.motionX *= 0.0;
             this.motionZ *= 0.0;
-            this.setCurrentSpeed(0.0);
+            this.currentSpeed = 0.0;
         }
 
-        if (motion > prevMotion && this.getCurrentSpeed() < speedLimit) {
-            this.setCurrentSpeed(this.getCurrentSpeed() + (speedLimit - this.getCurrentSpeed()) / 35.0);
-            if (this.getCurrentSpeed() > speedLimit) {
-                this.setCurrentSpeed(speedLimit);
+        if (motion > prevMotion && this.currentSpeed < speedLimit) {
+            this.currentSpeed = this.currentSpeed + (speedLimit - this.currentSpeed) / 35.0;
+            if (this.currentSpeed > speedLimit) {
+                this.currentSpeed = speedLimit;
             }
         } else {
-            this.setCurrentSpeed(this.getCurrentSpeed() - (this.getCurrentSpeed() - 0.07) / 35.0);
-            if (this.getCurrentSpeed() < 0.07) {
-                this.setCurrentSpeed(0.07);
+            this.currentSpeed = this.currentSpeed - (this.currentSpeed - 0.07) / 35.0;
+            if (this.currentSpeed < 0.07) {
+                this.currentSpeed = 0.07;
             }
         }
 

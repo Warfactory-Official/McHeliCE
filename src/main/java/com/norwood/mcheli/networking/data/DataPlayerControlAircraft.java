@@ -102,38 +102,6 @@ public class DataPlayerControlAircraft implements IByteBufSerializable {
         buf.writeByte(switchRadar);
     }
 
-    public void setSwitchGunnerStatus(boolean value) {
-        this.switches.switchGunnerStatus = value;
-    }
-
-    public void setSwitchSearchLight(boolean value) {
-        this.switches.switchSearchLight = value;
-    }
-
-    public void setOpenGui(boolean value) {
-        this.switches.openGui = value;
-    }
-
-    public void setThrottleDown(boolean value) {
-        this.switches.throttleDown = value;
-    }
-
-    public void setThrottleUp(boolean value) {
-        this.switches.throttleUp = value;
-    }
-
-    public void setMoveRight(boolean value) {
-        this.switches.moveRight = value;
-    }
-
-    public void setMoveLeft(boolean value) {
-        this.switches.moveLeft = value;
-    }
-
-    public void setUseBrake(boolean value) {
-        this.switches.useBrake = value;
-    }
-
     public static enum UnmountAction {
         NONE,           // 0
         UNMOUNT_SELF,   // 1
