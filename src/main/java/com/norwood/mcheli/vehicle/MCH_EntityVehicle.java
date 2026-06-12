@@ -24,8 +24,6 @@ import java.util.Objects;
 public class MCH_EntityVehicle extends MCH_EntityAircraft {
 
     public boolean isUsedPlayer;
-    public float lastRiderYaw;
-    public float lastRiderPitch;
     public double fixPosX;
     public double fixPosY;
     public double fixPosZ;
@@ -40,8 +38,6 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         this.motionY = 0.0;
         this.motionZ = 0.0;
         this.isUsedPlayer = false;
-        this.lastRiderYaw = 0.0F;
-        this.lastRiderPitch = 0.0F;
         this.weapons = this.createWeapon(0);
     }
 

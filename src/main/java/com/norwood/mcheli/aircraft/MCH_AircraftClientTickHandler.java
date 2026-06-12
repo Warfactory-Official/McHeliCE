@@ -108,14 +108,14 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
 
     public boolean commonPlayerControl(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot, DataPlayerControlAircraft pc) {
         updateRwr(ac);
-        if (ac.supportsDetachedTurretAim() && ac.isDetachedWeaponAimActive()) {
+        if (isPilot && ac.supportsDetachedTurretAim() && ac.isDetachedWeaponAimActive()) {
             pc.detachedWeaponAim = true;
             pc.detachedWeaponAimYaw = ac.getDetachedWeaponAimYaw();
             pc.detachedWeaponAimPitch = ac.getDetachedWeaponAimPitch();
         }
 
         boolean send = false;
-        if (shouldSendDetachedAimSync(ac)) {
+        if (isPilot && shouldSendDetachedAimSync(ac)) {
             pc.detachedWeaponAim = ac.isDetachedWeaponAimActive();
             pc.detachedWeaponAimYaw = ac.getDetachedWeaponAimYaw();
             pc.detachedWeaponAimPitch = ac.getDetachedWeaponAimPitch();

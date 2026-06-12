@@ -105,7 +105,7 @@ public class MouseInputHandler {
             if (vehicle != null) {
                 vehicle.setupAllRiderRenderPosition(partialTicks, player);
             }
-            handleSeatOrIdle(player, stickMode, partialTicks, deltaSeconds);
+            handleSeatOrIdle(player, stickMode, partialTicks);
         }
 
         if (aircraft != null) {
@@ -283,11 +283,11 @@ public class MouseInputHandler {
         W_Reflection.setCameraRoll(0.0F);
     }
 
-    private void handleSeatOrIdle(EntityPlayer player, boolean stickMode, float partialTicks, float deltaSeconds) {
+    private void handleSeatOrIdle(EntityPlayer player, boolean stickMode, float partialTicks) {
         MCH_EntitySeat seat = player.getRidingEntity() instanceof MCH_EntitySeat ?
                 (MCH_EntitySeat) player.getRidingEntity() : null;
         if (seat != null && seat.getParent() != null) {
-            handleSeatMouseControl(seat, player, stickMode, partialTicks, deltaSeconds);
+            handleSeatMouseControl(seat, player, stickMode, partialTicks);
         } else if (isRideAircraft) {
             W_Reflection.setCameraRoll(0.0F);
             isRideAircraft = false;
@@ -298,7 +298,7 @@ public class MouseInputHandler {
     }
 
     private void handleSeatMouseControl(MCH_EntitySeat seat, EntityPlayer player, boolean stickMode,
-                                        float partialTicks, float deltaSeconds) {
+                                        float partialTicks) {
         updateMouseDelta(stickMode, partialTicks);
         MCH_EntityAircraft aircraft = seat.getParent();
 
@@ -309,35 +309,29 @@ public class MouseInputHandler {
                 aircraft.isGunnerLookMode(player)) {
             fixRot = true;
             zeroMouseDeltas();
-            clearDetachedMountedAim(aircraft);
         }
 
         MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
         if (shouldLockMountedView(aircraft, player)) {
-            clearDetachedMountedAim(aircraft);
             lockPlayerToAircraftView(aircraft, player);
             aircraft.setupAllRiderRenderPosition(partialTicks, player);
             MCH_CameraManager.setCameraRoll(0.0F);
             return;
         }
 
-        boolean limitedMountedLook = shouldUseDetachedMountedAim(aircraft, player);
-        if (!limitedMountedLook) {
-            clearDetachedMountedAim(aircraft);
+        // Seat gunners never write the aircraft-global detached turret aim; that state
+        // belongs to the pilot. Their gun lags behind the free camera through the
+        // rate-limited weapon stepping in updateWeaponsRotation instead.
+        if (!shouldUseDetachedMountedAim(aircraft, player)) {
             mouseDeltaY *= weaponSet != null && weaponSet.getInfo() != null ?
                     weaponSet.getInfo().cameraRotationSpeedPitch : 1.0;
-        } else {
-            player.turn((float) mouseDeltaX, (float) mouseDeltaY);
-            updateDetachedMountedAim(aircraft, player, deltaSeconds);
         }
 
         float yaw = aircraft.getYaw();
         float pitch = aircraft.getPitch();
         float roll = aircraft.getRoll();
 
-        if (!limitedMountedLook) {
-            player.turn((float) mouseDeltaX, (float) mouseDeltaY);
-        }
+        player.turn((float) mouseDeltaX, (float) mouseDeltaY);
         aircraft.setRotYaw(aircraft.calcRotYaw(partialTicks));
         aircraft.setRotPitch(aircraft.calcRotPitch(partialTicks));
         aircraft.setRotRoll(aircraft.calcRotRoll(partialTicks));
@@ -413,12 +407,15 @@ public class MouseInputHandler {
             limitedMountedLookActive = true;
             limitedMountedLookEntityId = entityId;
             limitedMountedLookSeatId = seatId;
-            limitedMountedCurrentYaw = player.rotationYaw;
-            limitedMountedCurrentPitch = player.rotationPitch;
+            // Start from the turret's actual orientation so taking over slews it
+            // toward the view at its rotation speed instead of snapping.
+            float turretYaw = MathHelper.wrapDegrees(aircraft.getLastRiderYaw());
+            float turretPitch = MathHelper.clamp(aircraft.getLastRiderPitch(), -90.0F, 90.0F);
+            limitedMountedCurrentYaw = turretYaw;
+            limitedMountedCurrentPitch = turretPitch;
             limitedMountedTargetYaw = player.rotationYaw;
             limitedMountedTargetPitch = player.rotationPitch;
-            aircraft.setDetachedWeaponAim(player.prevRotationYaw, player.rotationYaw, player.prevRotationPitch,
-                    player.rotationPitch);
+            aircraft.setDetachedWeaponAim(turretYaw, turretYaw, turretPitch, turretPitch);
         }
     }
 

@@ -196,6 +196,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     @Getter private float detachedWeaponAimYaw, prevDetachedWeaponAimYaw;
     @Getter private float detachedWeaponAimPitch, prevDetachedWeaponAimPitch;
     private boolean packetWeaponUserAimActive;
+    @Nullable
+    private Entity packetWeaponUserAimUser;
     private float packetWeaponUserYaw, packetWeaponUserPitch;
 
     /* --- Damage & State --- */
@@ -1756,11 +1758,19 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
         Entity ex = this.getRiddenByEntity();
         if (ex != null && !ex.isDead && !this.isDestroyed()) {
-            this.lastRiderYaw = ex.rotationYaw;
-            this.prevLastRiderYaw = ex.prevRotationYaw;
-            this.lastRiderPitch = ex.rotationPitch;
-            this.prevLastRiderPitch = ex.prevRotationPitch;
+            // Only a player pilot can own the detached turret aim; while it is active,
+            // setDetachedWeaponAim mirrors the rate-limited aim into lastRider*.
+            if (!(ex instanceof EntityPlayer)) {
+                this.clearDetachedWeaponAim();
+            }
+            if (!this.detachedWeaponAimActive) {
+                this.lastRiderYaw = ex.rotationYaw;
+                this.prevLastRiderYaw = ex.prevRotationYaw;
+                this.lastRiderPitch = ex.rotationPitch;
+                this.prevLastRiderPitch = ex.prevRotationPitch;
+            }
         } else if (this.getTowedChainEntity() != null || this.getRidingEntity() != null) {
+            this.clearDetachedWeaponAim();
             this.lastRiderYaw = this.rotationYaw;
             this.prevLastRiderYaw = this.prevRotationYaw;
             this.lastRiderPitch = this.rotationPitch;
@@ -3581,14 +3591,16 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.detachedWeaponAimActive = false;
     }
 
-    public void setPacketWeaponUserAim(float yaw, float pitch) {
+    public void setPacketWeaponUserAim(Entity user, float yaw, float pitch) {
         this.packetWeaponUserAimActive = true;
+        this.packetWeaponUserAimUser = user;
         this.packetWeaponUserYaw = yaw;
         this.packetWeaponUserPitch = pitch;
     }
 
     public void clearPacketWeaponUserAim() {
         this.packetWeaponUserAimActive = false;
+        this.packetWeaponUserAimUser = null;
     }
 
     public float getPrevDetachedWeaponAimYaw() {
@@ -3599,11 +3611,21 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return this.prevDetachedWeaponAimPitch;
     }
 
+    // Both aim overrides are scoped to the entity that produced them; other crew
+    // members' weapons must keep aiming from their own rider rotation.
+    private boolean usesPacketWeaponUserAim(@Nullable Entity entity) {
+        return this.packetWeaponUserAimActive && W_Entity.isEqual(entity, this.packetWeaponUserAimUser);
+    }
+
+    private boolean usesDetachedWeaponAim(@Nullable Entity entity) {
+        return this.detachedWeaponAimActive && this.supportsDetachedTurretAim() && this.isPilot(entity);
+    }
+
     public float getWeaponUserYaw(@Nullable Entity entity) {
-        if (this.packetWeaponUserAimActive) {
+        if (this.usesPacketWeaponUserAim(entity)) {
             return this.packetWeaponUserYaw;
         }
-        if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
+        if (this.usesDetachedWeaponAim(entity)) {
             return this.detachedWeaponAimYaw;
         }
         if (entity != null) {
@@ -3613,10 +3635,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public float getWeaponUserYaw(@Nullable Entity entity, float partialTicks) {
-        if (this.packetWeaponUserAimActive) {
+        if (this.usesPacketWeaponUserAim(entity)) {
             return this.packetWeaponUserYaw;
         }
-        if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
+        if (this.usesDetachedWeaponAim(entity)) {
             float prev = this.prevDetachedWeaponAimYaw;
             float curr = this.detachedWeaponAimYaw;
             if (curr - prev > 180.0F) prev += 360.0F;
@@ -3638,10 +3660,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public float getWeaponUserPitch(@Nullable Entity entity) {
-        if (this.packetWeaponUserAimActive) {
+        if (this.usesPacketWeaponUserAim(entity)) {
             return this.packetWeaponUserPitch;
         }
-        if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
+        if (this.usesDetachedWeaponAim(entity)) {
             return this.detachedWeaponAimPitch;
         }
         if (entity != null) {
@@ -3651,10 +3673,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public float getWeaponUserPitch(@Nullable Entity entity, float partialTicks) {
-        if (this.packetWeaponUserAimActive) {
+        if (this.usesPacketWeaponUserAim(entity)) {
             return this.packetWeaponUserPitch;
         }
-        if (this.detachedWeaponAimActive && this.supportsDetachedTurretAim()) {
+        if (this.usesDetachedWeaponAim(entity)) {
             return this.prevDetachedWeaponAimPitch + (this.detachedWeaponAimPitch - this.prevDetachedWeaponAimPitch) * partialTicks;
         }
         if (entity != null) {

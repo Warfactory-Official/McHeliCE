@@ -15,12 +15,7 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
     protected void process(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
         if (aircraft == null) return;
 
-        if (data.detachedWeaponAim && aircraft.supportsDetachedTurretAim()) {
-            aircraft.setDetachedWeaponAim(data.detachedWeaponAimYaw, data.detachedWeaponAimPitch);
-        } else {
-            aircraft.clearDetachedWeaponAim();
-        }
-
+        handleDetachedAim(aircraft, data, player);
         handleUnmount(aircraft, data);
         handleEjectSeat(aircraft, data, player);
         handleVtolSwitch(aircraft, data);
@@ -43,6 +38,18 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
 
     protected void handleRadar(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data) {
         if (data.switchRadar > 0) aircraft.setRadarEnabledRuntime(data.switchRadar == 1);
+    }
+
+    // Detached turret aim is owned by the pilot; packets from other crew seats must
+    // not apply or clear it.
+    protected void handleDetachedAim(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
+        if (!aircraft.isPilot(player)) return;
+
+        if (data.detachedWeaponAim && aircraft.supportsDetachedTurretAim()) {
+            aircraft.setDetachedWeaponAim(data.detachedWeaponAimYaw, data.detachedWeaponAimPitch);
+        } else {
+            aircraft.clearDetachedWeaponAim();
+        }
     }
 
     // Heli
@@ -99,7 +106,7 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         prm.setPosAndRot(data.useWeaponPosX, data.useWeaponPosY, data.useWeaponPosZ, 0.0F, 0.0F);
         prm.option1 = data.useWeaponOption1;
         prm.option2 = data.useWeaponOption2;
-        aircraft.setPacketWeaponUserAim(data.useWeaponUserYaw, data.useWeaponUserPitch);
+        aircraft.setPacketWeaponUserAim(player, data.useWeaponUserYaw, data.useWeaponUserPitch);
         try {
             aircraft.updateWeaponsRotation();
             aircraft.useCurrentWeapon(prm);
