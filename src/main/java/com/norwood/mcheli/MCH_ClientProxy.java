@@ -65,7 +65,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -720,7 +724,112 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
                 I18n.format("item.mcheli:" + info.name + ".name") : info.displayName;
 
     }
-}
+    public static MCH_EntityAircraft getMouseOverAircraft(EntityLivingBase entity) {
+        RayTraceResult result = getMouseOver(entity, 1.0F);
+        if (result == null || result.entityHit == null) {
+            return null;
+        }
 
+        if (result.entityHit instanceof MCH_EntityAircraft) {
+            return (MCH_EntityAircraft) result.entityHit;
+        }
+
+        if (result.entityHit instanceof MCH_EntitySeat seat) {
+            return seat.getParent();
+        }
+
+        return null;
+    }
+
+    public static W_Entity getMouseOverMCHEntity(EntityLivingBase entity) {
+        RayTraceResult result = getMouseOver(entity, 1.0F);
+        if (result == null || result.entityHit == null) {
+            return null;
+        }
+
+        if (result.entityHit instanceof W_Entity) {
+            return (W_Entity) result.entityHit;
+        }
+        return null;
+    }
+
+
+
+    private static RayTraceResult getMouseOver(EntityLivingBase user, float partialTicks) {
+        double maxDistance = 4.0;
+        RayTraceResult blockTrace = rayTrace(user, maxDistance, partialTicks);
+        double closestDistance = maxDistance;
+
+        Vec3d eyePos = new Vec3d(user.posX, user.posY + user.getEyeHeight(), user.posZ);
+        if (blockTrace != null) {
+            closestDistance = blockTrace.hitVec.distanceTo(eyePos);
+        }
+
+        Vec3d lookVec = user.getLook(partialTicks);
+        Vec3d traceEnd = eyePos.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
+
+        AxisAlignedBB searchBox = user.getEntityBoundingBox()
+                .expand(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance)
+                .grow(1.0, 1.0, 1.0);
+
+        List<Entity> targets = user.world.getEntitiesWithinAABBExcludingEntity(user, searchBox);
+
+        Entity pointedEntity = null;
+        Vec3d hitVector = null;
+        double currentMinDist = closestDistance;
+
+        for (Entity entity : targets) {
+            if (!entity.canBeCollidedWith()) {
+                continue;
+            }
+
+            float borderSize = entity.getCollisionBorderSize();
+            AxisAlignedBB entityBox = entity.getEntityBoundingBox().grow(borderSize, borderSize, borderSize);
+            RayTraceResult intercept = entityBox.calculateIntercept(eyePos, traceEnd);
+
+            if (entityBox.contains(eyePos)) {
+                pointedEntity = entity;
+                hitVector = (intercept == null) ? eyePos : intercept.hitVec;
+                currentMinDist = 0.0;
+                continue;
+            }
+
+            if (intercept == null) {
+                continue;
+            }
+
+            double distanceToHit = eyePos.distanceTo(intercept.hitVec);
+            if (distanceToHit >= currentMinDist && currentMinDist != 0.0) {
+                continue;
+            }
+
+            if (entity == user.getRidingEntity() && !entity.canRiderInteract()) {
+                if (currentMinDist == 0.0) {
+                    pointedEntity = entity;
+                    hitVector = intercept.hitVec;
+                }
+                continue;
+            }
+
+            pointedEntity = entity;
+            hitVector = intercept.hitVec;
+            currentMinDist = distanceToHit;
+        }
+
+        if (pointedEntity != null && (currentMinDist < closestDistance || blockTrace == null)) {
+            return new RayTraceResult(pointedEntity, hitVector);
+        }
+
+        return blockTrace;
+    }
+
+    private static RayTraceResult rayTrace(EntityLivingBase entity, double dist, float tick) {
+        Vec3d vec3 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+        Vec3d vec31 = entity.getLook(tick);
+        Vec3d vec32 = vec3.add(vec31.x * dist, vec31.y * dist, vec31.z * dist);
+        return entity.world.rayTraceBlocks(vec3, vec32, false, false, true);
+    }
+
+}
 
 

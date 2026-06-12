@@ -3,6 +3,7 @@ package com.norwood.mcheli.event;
 import com.norwood.mcheli.MCH_GuiCommon;
 import com.norwood.mcheli.command.MCH_GuiTitle;
 import com.norwood.mcheli.gltd.MCH_GuiGLTD;
+import com.norwood.mcheli.gui.GuiInteractSeat;
 import com.norwood.mcheli.gui.MCH_Gui;
 import com.norwood.mcheli.helicopter.MCH_GuiHeli;
 import com.norwood.mcheli.lweapon.MCH_GuiLightWeapon;
@@ -41,6 +42,7 @@ public class GuiTickHandler {
     public final MCH_Gui gui_SwnGnr;
     public final MCH_Gui gui_RngFndr;
     public final MCH_Gui gui_Title;
+    public final MCH_Gui gui_InteractSeat;
     public final MCH_Gui[] guis;
     public final MCH_Gui[] guiTicks;
 
@@ -60,8 +62,9 @@ public class GuiTickHandler {
         this.gui_RngFndr = new MCH_GuiRangeFinder(minecraft);
         this.gui_EMarker = new MCH_GuiTargetMarker(minecraft);
         this.gui_Title = new MCH_GuiTitle(minecraft);
+        this.gui_InteractSeat = new GuiInteractSeat(minecraft);
         this.guis = new MCH_Gui[]{this.gui_RngFndr, this.gui_LWeapon, this.gui_Heli, this.gui_Plane, this.gui_Ship, this.gui_Tank, this.gui_GLTD, this.gui_Vehicle};
-        this.guiTicks = new MCH_Gui[]{this.gui_Common, this.gui_Heli, this.gui_Plane, this.gui_Ship, this.gui_Tank, this.gui_GLTD, this.gui_Vehicle, this.gui_LWeapon, this.gui_Wrench, this.gui_SwnGnr, this.gui_RngFndr, this.gui_EMarker, this.gui_Title};
+        this.guiTicks = new MCH_Gui[]{this.gui_Common, this.gui_Heli, this.gui_Plane, this.gui_Ship, this.gui_Tank, this.gui_GLTD, this.gui_Vehicle, this.gui_LWeapon, this.gui_Wrench, this.gui_SwnGnr, this.gui_RngFndr, this.gui_EMarker, this.gui_Title, this.gui_InteractSeat};
     }
 
     public boolean drawGui(MCH_Gui gui, float partialTicks) {
@@ -93,6 +96,7 @@ public class GuiTickHandler {
 
             this.drawGui(this.gui_Common, partialTicks);
             this.drawGui(this.gui_Wrench, partialTicks);
+            this.drawGui(this.gui_InteractSeat, partialTicks);
             this.drawGui(this.gui_SwnGnr, partialTicks);
             this.drawGui(this.gui_EMarker, partialTicks);
             if (isDrawScoreboard) {

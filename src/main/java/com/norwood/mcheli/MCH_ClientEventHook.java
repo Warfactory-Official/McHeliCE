@@ -180,7 +180,6 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
             if (event.getEntity().getRidingEntity() instanceof MCH_EntityAircraft riding) {
                 if (riding.getAcInfo() != null && riding.getAcInfo().hideEntity) {
                     event.setCanceled(true);
-                    return;
                 }
             }
 
