@@ -232,11 +232,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     @Override
     public void updateExtraBoundingBox() {
-        if (this.world.isRemote) {
-            super.updateExtraBoundingBox();
-        } else if (this.getCountOnUpdate() <= 1) {
-            super.updateExtraBoundingBox();
-        }
+        super.updateExtraBoundingBox();
     }
 
     public ClacAxisBB calculateXOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double x) {

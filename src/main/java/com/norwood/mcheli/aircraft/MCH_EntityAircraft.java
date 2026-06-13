@@ -1798,10 +1798,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             this.unmountEntity();
         }
 
-        this.updateExtraBoundingBox();
         boolean prevOnGround = this.onGround;
         double prevMotionY = this.motionY;
         this.onUpdateAircraft();
+        this.updateExtraBoundingBox();
         if (this.getAcInfo() != null) {
             this.updateParts(this.getPartStatus());
         }
@@ -1931,6 +1931,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         for (MCH_BoundingBox bb : this.extraBoundingBox) {
             bb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(), this.getRoll());
         }
+        this.carryPlayersOnExtraBoundingBoxes();
 
         double minX = this.posX;
         double minY = this.posY;
@@ -1984,6 +1985,78 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         if (!hasPassengers && !hasPlayersInside && this.extraBoundingBoxStationaryTicks >= EXTRA_BOUNDING_BOX_CACHE_TICKS) {
             this.cacheExtraBoundingBoxPhysicsState(globalSweepBox);
         }
+    }
+
+    private void carryPlayersOnExtraBoundingBoxes() {
+        Set<EntityPlayer> carriedPlayers = Collections.newSetFromMap(new IdentityHashMap<>());
+
+        for (MCH_BoundingBox bb : this.extraBoundingBox) {
+            AxisAlignedBB previousBox = bb.backupBoundingBox;
+            AxisAlignedBB currentBox = bb.getBoundingBox();
+            if (previousBox == null || currentBox == null) continue;
+
+            AxisAlignedBB searchBox = previousBox.union(currentBox).grow(0.25D, 0.75D, 0.25D);
+            List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, searchBox);
+            for (EntityPlayer player : players) {
+                if (carriedPlayers.contains(player) || player.isRiding() || this.isMountedEntity(player)) continue;
+                if (!this.isPlayerStandingOnExtraCollisionBox(player, previousBox)) continue;
+
+                Vec3d carryDelta = this.getExtraBoundingBoxCarryDelta(player, bb);
+                if (this.movePlayerByPlatformDelta(player, carryDelta)) {
+                    carriedPlayers.add(player);
+                }
+            }
+        }
+    }
+
+    private boolean isPlayerStandingOnExtraCollisionBox(EntityPlayer player, AxisAlignedBB previousBox) {
+        AxisAlignedBB playerBox = player.getEntityBoundingBox();
+        double horizontalEpsilon = 0.05D;
+        boolean horizontalOverlap = playerBox.maxX > previousBox.minX + horizontalEpsilon &&
+                playerBox.minX < previousBox.maxX - horizontalEpsilon &&
+                playerBox.maxZ > previousBox.minZ + horizontalEpsilon &&
+                playerBox.minZ < previousBox.maxZ - horizontalEpsilon;
+        boolean nearTop = playerBox.minY >= previousBox.maxY - 0.35D &&
+                playerBox.minY <= previousBox.maxY + 0.25D;
+        if (horizontalOverlap && nearTop) return true;
+
+        AxisAlignedBB feetBox = new AxisAlignedBB(
+                playerBox.minX + horizontalEpsilon, playerBox.minY - 0.20D, playerBox.minZ + horizontalEpsilon,
+                playerBox.maxX - horizontalEpsilon, playerBox.minY + 0.05D, playerBox.maxZ - horizontalEpsilon);
+        return previousBox.intersects(feetBox);
+    }
+
+    private Vec3d getExtraBoundingBoxCarryDelta(EntityPlayer player, MCH_BoundingBox bb) {
+        Vec3d previousCenter = bb.prevPos != null ? bb.prevPos : bb.nowPos;
+        Vec3d currentCenter = bb.nowPos != null ? bb.nowPos : previousCenter;
+        Vec3d playerRelativeToBox = new Vec3d(
+                player.posX - previousCenter.x,
+                player.posY - previousCenter.y,
+                player.posZ - previousCenter.z);
+
+        Vec3d previousAxisX = bb.prevAxisX != null ? bb.prevAxisX : bb.axisX;
+        Vec3d previousAxisY = bb.prevAxisY != null ? bb.prevAxisY : bb.axisY;
+        Vec3d previousAxisZ = bb.prevAxisZ != null ? bb.prevAxisZ : bb.axisZ;
+        double localX = playerRelativeToBox.dotProduct(previousAxisX);
+        double localY = playerRelativeToBox.dotProduct(previousAxisY);
+        double localZ = playerRelativeToBox.dotProduct(previousAxisZ);
+        Vec3d movedRelative = bb.axisX.scale(localX).add(bb.axisY.scale(localY)).add(bb.axisZ.scale(localZ));
+
+        return new Vec3d(
+                currentCenter.x + movedRelative.x - player.posX,
+                currentCenter.y + movedRelative.y - player.posY,
+                currentCenter.z + movedRelative.z - player.posZ);
+    }
+
+    private boolean movePlayerByPlatformDelta(EntityPlayer player, Vec3d delta) {
+        if (Math.abs(delta.x) < 1.0E-5D && Math.abs(delta.y) < 1.0E-5D && Math.abs(delta.z) < 1.0E-5D) {
+            return false;
+        }
+
+        player.setEntityBoundingBox(player.getEntityBoundingBox().offset(delta.x, delta.y, delta.z));
+        player.resetPositionToBB();
+        player.fallDistance = 0.0F;
+        return true;
     }
 
     private boolean hasMountedEntities() {

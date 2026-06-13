@@ -77,49 +77,17 @@ public class MCH_CameraManager {
         MCH_EntityAircraft ridingEntity = ridingAircraft;
         if (ridingEntity != null && ridingEntity.canSwitchFreeLook() && ridingEntity.isPilot(mc.player)) {
             GlStateManager.translate(0.0F, -f, 0.0F);
+            GlStateManager.rotate(cameraRoll, 0.0F, 0.0F, 1.0F);
             if (ridingEntity.isOverridePlayerPitch()) {
                 GlStateManager.rotate(ridingEntity.rotationPitch, 1.0F, 0.0F, 0.0F);
                 GlStateManager.rotate(ridingEntity.rotationYaw, 0.0F, 1.0F, 0.0F);
                 event.setPitch(event.getPitch() - ridingEntity.rotationPitch);
                 event.setYaw(event.getYaw() - ridingEntity.rotationYaw);
-            } else {
-                float partialTicks = (float) event.getRenderPartialTicks();
-                            float roll = computeFreeLookCameraRoll(
-                                    event.getYaw(),
-                                    event.getPitch(),
-                                    ridingEntity.calcRotYaw(partialTicks),
-                                    ridingEntity.calcRotPitch(partialTicks),
-                                     ridingEntity.calcRotRoll(partialTicks));
-                     GlStateManager.rotate(roll, 0.0F, 0.0F, 1.0F);
             }
 
             GlStateManager.translate(0.0F, f, 0.0F);
         }
     }
-
-
-    private static float computeFreeLookCameraRoll(float camYaw, float camPitch,
-                                                       float acYaw, float acPitch, float acRoll) {
-           double psi = Math.toRadians(camYaw);
-           double pit = Math.toRadians(camPitch);
-           double sinPsi = Math.sin(psi), cosPsi = Math.cos(psi);
-           double sinPit = Math.sin(pit), cosPit = Math.cos(pit);
-
-           double ax = sinPit * sinPsi, ay = cosPit, az = -sinPit * cosPsi;
-           double bx = cosPsi, bz = sinPsi;
-
-              double yr = Math.toRadians(acYaw), pr = Math.toRadians(acPitch), rr = Math.toRadians(acRoll);
-           double sinR = Math.sin(rr), cosR = Math.cos(rr);
-           double sinP = Math.sin(pr), cosP = Math.cos(pr);
-           double sinY = Math.sin(yr), cosY = Math.cos(yr);
-           double ux = -sinR * cosY - cosR * sinP * sinY;
-           double uy = cosR * cosP;
-           double uz = -sinR * sinY + cosR * sinP * cosY;
-
-           double dotA = ax * ux + ay * uy + az * uz;
-           double dotB = bx * ux + bz * uz;
-           return (float) Math.toDegrees(Math.atan2(dotB, dotA));
-       }
 
     @SubscribeEvent
     static void onFOVModifierEvent(FOVModifier event) {
