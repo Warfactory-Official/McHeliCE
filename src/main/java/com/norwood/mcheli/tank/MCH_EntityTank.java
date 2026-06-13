@@ -236,7 +236,6 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             super.updateExtraBoundingBox();
         } else if (this.getCountOnUpdate() <= 1) {
             super.updateExtraBoundingBox();
-            super.updateExtraBoundingBox();
         }
     }
 

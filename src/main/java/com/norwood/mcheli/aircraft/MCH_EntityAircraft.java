@@ -1900,8 +1900,57 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public void updateExtraBoundingBox() {
+        if (this.extraBoundingBox == null) {
+            return;
+        }
+        double minX = this.posX;
+        double minY = this.posY;
+        double minZ = this.posZ;
+        double maxX = this.posX;
+        double maxY = this.posY;
+        double maxZ = this.posZ;
+
+        for (MCH_BoundingBox bb : this.extraBoundingBox) {
+            AxisAlignedBB box = bb.getBoundingBox();
+            if (box != null) {
+                if (box.minX < minX) minX = box.minX;
+                if (box.minY < minY) minY = box.minY;
+                if (box.minZ < minZ) minZ = box.minZ;
+                if (box.maxX > maxX) maxX = box.maxX;
+                if (box.maxY > maxY) maxY = box.maxY;
+                if (box.maxZ > maxZ) maxZ = box.maxZ;
+            }
+        }
+
+        AxisAlignedBB globalSweepBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ).grow(2.0D);
+
+        List<Entity> nearbyEntities = this.world.getEntitiesWithinAABBExcludingEntity(this, globalSweepBox);
+        boolean hasNearbyPlayers = false;
+
+        if (!nearbyEntities.isEmpty()) {
+            for (Entity entity : nearbyEntities) {
+                if (entity instanceof EntityPlayer) {
+                    hasNearbyPlayers = true;
+                    break;
+                }
+            }
+        }
+
         for (MCH_BoundingBox bb : this.extraBoundingBox) {
             bb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(), this.getRoll());
+
+            if (hasNearbyPlayers) {
+                for (Entity entity : nearbyEntities) {
+                    if (entity instanceof EntityPlayer) {
+                        EntityPlayer player = (EntityPlayer) entity;
+
+                        if (bb.intersectsAABB(player.getEntityBoundingBox())) {
+                            player.fallDistance = 0.0F;
+                            player.onGround = true;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -5493,7 +5542,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                                 w.setYaw(0.0F);
                             }
                         } else {
-                            if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
+                            if (hasWeaponYawControl(wi)) {
                                 float entityYaw = this.getWeaponUserYaw(entity);
                                 float ty = wi.turret ? MathHelper.wrapDegrees(this.getLastRiderYaw()) - yaw : 0.0F;
                                 float ey = MathHelper.wrapDegrees(entityYaw - yaw - wi.defaultYaw - ty);
@@ -5508,7 +5557,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                             }
 
                             float ep = MathHelper.wrapDegrees(entityPitch - pitch);
-                            float targetPitch = MCH_Lib.RNG(ep, wi.minPitch, wi.maxPitch);
+                            float targetPitch = MCH_Lib.RNG(ep, this.getWeaponMinPitch(wi), this.getWeaponMaxPitch(wi));
                             w.setPitch(stepLinearAngle(w.getPitch(), targetPitch, weaponTurnStep));
                             w.setTurretYaw(0.0F);
                         }
@@ -5552,7 +5601,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                 w.setTurretYaw(this.getLastRiderYaw() - this.getYaw());
             } else {
                 float weaponTurnStep = this.getWeaponRotationStep(w);
-                if ((int) wi.minYaw != 0 || (int) wi.maxYaw != 0) {
+                if (hasWeaponYawControl(wi)) {
                     float entityYaw = this.getWeaponUserYaw(entity);
                     float ty = wi.turret ? MathHelper.wrapDegrees(this.getLastRiderYaw()) - yaw : 0.0F;
                     float ey = MathHelper.wrapDegrees(entityYaw - yaw - wi.defaultYaw - ty);
@@ -5569,13 +5618,31 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
                 float entityPitch = this.getWeaponUserPitch(entity);
                 float ep = MathHelper.wrapDegrees(entityPitch - pitch);
-                float targetPitch = Math.clamp(ep, wi.minPitch, wi.maxPitch);
+                float targetPitch = Math.clamp(ep, this.getWeaponMinPitch(wi), this.getWeaponMaxPitch(wi));
                 w.setPitch(stepLinearAngle(w.getPitch(), targetPitch, weaponTurnStep));
                 w.setTurretYaw(0.0F);
             }
 
             w.setPrevYaw(w.getYaw());
         }
+    }
+
+    private static boolean hasWeaponYawControl(MCH_AircraftInfo.Weapon weapon) {
+        return weapon.turret || Math.abs(weapon.minYaw) > 0.001F || Math.abs(weapon.maxYaw) > 0.001F;
+    }
+
+    private static boolean hasExplicitWeaponPitchLimit(MCH_AircraftInfo.Weapon weapon) {
+        return Math.abs(weapon.minPitch) > 0.001F || Math.abs(weapon.maxPitch) > 0.001F;
+    }
+
+    private float getWeaponMinPitch(MCH_AircraftInfo.Weapon weapon) {
+        return weapon.turret && !hasExplicitWeaponPitchLimit(weapon) && this.getAcInfo() != null ?
+                this.getAcInfo().minRotationPitch : weapon.minPitch;
+    }
+
+    private float getWeaponMaxPitch(MCH_AircraftInfo.Weapon weapon) {
+        return weapon.turret && !hasExplicitWeaponPitchLimit(weapon) && this.getAcInfo() != null ?
+                this.getAcInfo().maxRotationPitch : weapon.maxPitch;
     }
 
 
