@@ -19,8 +19,8 @@ public class MCH_HudItemCameraRot extends MCH_HudItem {
 
     @Override
     public void execute() {
-        this.drawCommonGunnerCamera(ac, ac.camera, colorSetting, centerX + calc(this.drawPosX),
-                centerY + calc(this.drawPosY));
+        this.drawCommonGunnerCamera(ac, ac.camera, colorSetting, resolveHudX(calc(this.drawPosX)),
+                resolveHudY(calc(this.drawPosY)));
     }
 
     private void drawCommonGunnerCamera(Entity ac, MCH_Camera camera, int color, double posX, double posY) {

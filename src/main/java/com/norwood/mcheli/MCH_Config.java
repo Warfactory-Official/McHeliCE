@@ -148,6 +148,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm AllTankSpeed;
     public static MCH_ConfigPrm HurtResistantTime;
     public static MCH_ConfigPrm DisplayHUDThirdPerson;
+    public static MCH_ConfigPrm AutoScaleAircraftGui;
     public static MCH_ConfigPrm DisableCameraDistChange;
     public static MCH_ConfigPrm EnableReplaceTextureManager;
     public static MCH_ConfigPrm DisplayEntityMarker;
@@ -346,6 +347,8 @@ public class MCH_Config {
         AllTankSpeed = new MCH_ConfigPrm("AllTankSpeed", 1.0);
         HurtResistantTime = new MCH_ConfigPrm("HurtResistantTime", 0.0);
         DisplayHUDThirdPerson = new MCH_ConfigPrm("DisplayHUDThirdPerson", false);
+        AutoScaleAircraftGui = new MCH_ConfigPrm("ExperimentalAutoScaleAircraftGui", false);
+        AutoScaleAircraftGui.desc = ";ExperimentalAutoScaleAircraftGui = true maps hardcoded aircraft HUD coordinates from the default 427x240 canvas to the current GUI resolution.";
         DisableCameraDistChange = new MCH_ConfigPrm("DisableThirdPersonCameraDistChange", false);
         EnableReplaceTextureManager = new MCH_ConfigPrm("EnableReplaceTextureManager", true);
         DisplayEntityMarker = new MCH_ConfigPrm("DisplayEntityMarker", true);
@@ -472,6 +475,7 @@ public class MCH_Config {
                 EnableModEntityRender,
                 DisableRenderLivingSpecials,
                 DisplayHUDThirdPerson,
+                AutoScaleAircraftGui,
                 DisableCameraDistChange,
                 EnableReplaceTextureManager,
                 DisplayEntityMarker,

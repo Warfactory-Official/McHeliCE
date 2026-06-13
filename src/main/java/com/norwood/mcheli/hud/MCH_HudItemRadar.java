@@ -31,11 +31,11 @@ public class MCH_HudItemRadar extends MCH_HudItem {
     public void execute() {
         if (this.isEntityRadar) {
             if (EntityList != null && !EntityList.isEmpty()) {
-                this.drawEntityList(EntityList, (float) calc(this.rot), centerX + calc(this.left),
-                        centerY + calc(this.top), calc(this.width), calc(this.height));
+                this.drawEntityList(EntityList, (float) calc(this.rot), resolveHudX(calc(this.left)),
+                        resolveHudY(calc(this.top)), calc(this.width), calc(this.height));
             }
         } else if (EnemyList != null && !EnemyList.isEmpty()) {
-            this.drawEntityList(EnemyList, (float) calc(this.rot), centerX + calc(this.left), centerY + calc(this.top),
+            this.drawEntityList(EnemyList, (float) calc(this.rot), resolveHudX(calc(this.left)), resolveHudY(calc(this.top)),
                     calc(this.width), calc(this.height));
         }
     }

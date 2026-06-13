@@ -42,16 +42,20 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         if (info == null) return;
 
         if (aircraft.isMissileCameraMode(player) && aircraft.getTVMissile() != null && info.hudTvMissile != null) {
-            info.hudTvMissile.draw(aircraft, player, this.smoothCamPartialTicks);
+            info.hudTvMissile.draw(aircraft, player, this.smoothCamPartialTicks, isExperimentalAutoScaleAircraftGui());
             return;
         }
 
         if (seatId >= 0 && seatId < info.hudList.size()) {
             MCH_Hud hud = info.hudList.get(seatId);
             if (hud != null) {
-                hud.draw(aircraft, player, this.smoothCamPartialTicks);
+                hud.draw(aircraft, player, this.smoothCamPartialTicks, isExperimentalAutoScaleAircraftGui());
             }
         }
+    }
+
+    protected boolean isExperimentalAutoScaleAircraftGui() {
+        return MCH_Config.AutoScaleAircraftGui != null && MCH_Config.AutoScaleAircraftGui.prmBool;
     }
 
     public void drawDebugtInfo(MCH_EntityAircraft ac) {

@@ -32,6 +32,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class MCH_HudItem extends Gui {
 
+    private static final double DEFAULT_CANVAS_WIDTH = 427.0;
+    private static final double DEFAULT_CANVAS_HEIGHT = 240.0;
     public static final AviatorEvaluatorInstance AVIATOR = AviatorEvaluator.newInstance();
     public static final Map<String, Expression> EXPR_CACHE = new ConcurrentHashMap();
     protected static final MCH_LowPassFilterFloat StickX_LPF = new MCH_LowPassFilterFloat(4);
@@ -46,6 +48,10 @@ public abstract class MCH_HudItem extends Gui {
     public static int colorSetting = -16777216;
     protected static double centerX = 0.0;
     protected static double centerY = 0.0;
+    protected static double hudScaleX = 1.0;
+    protected static double hudScaleY = 1.0;
+    protected static boolean hudAutoScaled = false;
+    protected static boolean hudAutoScaleRequested = false;
     protected static Random rand = new Random();
     protected static int altitudeUpdateCount = 0;
     protected static int Altitude = 0;
@@ -76,6 +82,27 @@ public abstract class MCH_HudItem extends Gui {
     public MCH_HudItem(int fileLine) {
         this.fileLine = fileLine;
         this.zLevel = -110.0F;
+    }
+
+    public static void configureCanvas(boolean automaticallyScaled) {
+        configureCanvas(automaticallyScaled, automaticallyScaled);
+    }
+
+    public static void configureCanvas(boolean automaticallyScaled, boolean autoScaleRequested) {
+        centerX = width / 2.0;
+        centerY = height / 2.0;
+        hudAutoScaled = automaticallyScaled;
+        hudAutoScaleRequested = autoScaleRequested;
+        hudScaleX = automaticallyScaled ? width / DEFAULT_CANVAS_WIDTH : 1.0;
+        hudScaleY = automaticallyScaled ? height / DEFAULT_CANVAS_HEIGHT : 1.0;
+    }
+
+    protected static double resolveHudX(double offsetFromCenter) {
+        return centerX + offsetFromCenter * hudScaleX;
+    }
+
+    protected static double resolveHudY(double offsetFromCenter) {
+        return centerY + offsetFromCenter * hudScaleY;
     }
 
     public static void update() {

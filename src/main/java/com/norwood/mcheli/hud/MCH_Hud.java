@@ -19,6 +19,7 @@ public class MCH_Hud extends MCH_BaseInfo {
     public final String fileName;
     public boolean isWaitEndif;
     public boolean isIfFalse;
+    public boolean ignoreAutoScale;
     public boolean exit;
     public final List<MCH_HudItem> list;
     private boolean isDrawing;
@@ -29,6 +30,7 @@ public class MCH_Hud extends MCH_BaseInfo {
         this.fileName = filePath;
         this.list = new ArrayList<>();
         this.isDrawing = false;
+        this.ignoreAutoScale = false;
         this.isIfFalse = false;
         this.exit = false;
     }
@@ -50,6 +52,10 @@ public class MCH_Hud extends MCH_BaseInfo {
     public void onPostReload() {}
 
     public void draw(MCH_EntityAircraft ac, EntityPlayer player, float partialTicks) {
+        draw(ac, player, partialTicks, false);
+    }
+
+    public void draw(MCH_EntityAircraft ac, EntityPlayer player, float partialTicks, boolean automaticallyScaled) {
         if (MCH_HudItem.mc == null) {
             MCH_HudItem.mc = Minecraft.getMinecraft();
         }
@@ -65,8 +71,7 @@ public class MCH_Hud extends MCH_BaseInfo {
 
         MCH_HudItem.width = (double) MCH_HudItem.mc.displayWidth / MCH_HudItem.scaleFactor;
         MCH_HudItem.height = (double) MCH_HudItem.mc.displayHeight / MCH_HudItem.scaleFactor;
-        MCH_HudItem.centerX = MCH_HudItem.width / 2.0;
-        MCH_HudItem.centerY = MCH_HudItem.height / 2.0;
+        MCH_HudItem.configureCanvas(automaticallyScaled && !this.ignoreAutoScale, automaticallyScaled);
         this.isIfFalse = false;
         this.isDrawing = false;
         this.exit = false;

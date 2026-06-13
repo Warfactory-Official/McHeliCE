@@ -20,8 +20,8 @@ public class MCH_HudItemRect extends MCH_HudItem {
 
     @Override
     public void execute() {
-        double x2 = centerX + calc(this.left);
-        double y2 = centerY + calc(this.top);
+        double x2 = resolveHudX(calc(this.left));
+        double y2 = resolveHudY(calc(this.top));
         double x1 = x2 + (int) calc(this.width);
         double y1 = y2 + (int) calc(this.height);
         drawRect(x1, y1, x2, y2, colorSetting);

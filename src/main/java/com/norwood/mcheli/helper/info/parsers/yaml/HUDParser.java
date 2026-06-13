@@ -351,12 +351,27 @@ public class HUDParser {
                 parseConditional(info, (LinkedHashMap<String, Object>) map);
             } else {
                 Map.Entry<String, Object> entry = ((Map<String, Object>) map).entrySet().iterator().next();
+                if (parseHudSetting(info, entry)) {
+                    return;
+                }
                 var element = parseHUDCommands(entry);
                 if (element == null) logUnkownEntry(entry, "Hud");
                 else info.list.add(element);
             }
         } else {
             throw new IllegalArgumentException("Each HUD item must be a Map");
+        }
+    }
+
+    private static boolean parseHudSetting(MCH_Hud info, Map.Entry<String, Object> entry) {
+        switch (entry.getKey()) {
+            case "IgnoreAutoScale", "IgnoreAutoScaleGui", "IgnoreScaledGui", "IgnoreAutomaticScale" -> {
+                info.ignoreAutoScale = (Boolean) entry.getValue();
+                return true;
+            }
+            default -> {
+                return false;
+            }
         }
     }
 

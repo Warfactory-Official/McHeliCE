@@ -138,18 +138,15 @@ public class GuiInteractSeat extends MCH_Gui {
 
     private void drawPrompt(String text) {
         int posX = this.centerX;
-        int posY = this.centerY + OFFSET_Y_BASE + OFFSET_Y_TEXT;
+        int textY = this.centerY + OFFSET_Y_BASE + OFFSET_Y_TEXT;
         int textWidth = this.mc.fontRenderer.getStringWidth(text);
-        int textY = posY + BAR_HEIGHT + 2;
 
         int left = posX - (textWidth / 2) - PROMPT_PADDING_X;
-        int top = posY - PROMPT_PADDING_Y;
+        int top = textY - PROMPT_PADDING_Y;
         int right = posX + (textWidth / 2) + PROMPT_PADDING_X;
         int bottom = textY + this.mc.fontRenderer.FONT_HEIGHT + PROMPT_PADDING_Y;
 
         drawRect(left, top, right, bottom, COLOR_BACKGROUND);
-        drawRect(left + BAR_PADDING, top + BAR_PADDING, right - BAR_PADDING, top + BAR_PADDING + BAR_HEIGHT,
-                COLOR_HP_HEALTHY);
         this.drawCenteredString(text, posX, textY, COLOR_HP_HEALTHY);
     }
 

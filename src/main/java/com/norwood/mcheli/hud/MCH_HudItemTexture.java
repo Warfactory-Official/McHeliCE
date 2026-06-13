@@ -55,8 +55,8 @@ public class MCH_HudItemTexture extends MCH_HudItem {
 
         this.drawTexture(
                 this.name,
-                centerX + calc(this.left),
-                centerY + calc(this.top),
+                resolveHudX(calc(this.left)),
+                resolveHudY(calc(this.top)),
                 calc(this.width),
                 calc(this.height),
                 calc(this.uLeft),

@@ -37,8 +37,8 @@ public class MCH_HudItemString extends MCH_HudItem {
 
     @Override
     public void execute() {
-        int x = (int) (centerX + calc(this.posX));
-        int y = (int) (centerY + calc(this.posY));
+        int x = (int) resolveHudX(calc(this.posX));
+        int y = (int) resolveHudY(calc(this.posY));
         int worldTime = (int) ((ac.world.getWorldTime() + 6000L) % 24000L);
         Date date = new Date();
         double hp_per = ac.getMaxHP() > 0 ? (double) ac.getHP() / ac.getMaxHP() : 0.0;

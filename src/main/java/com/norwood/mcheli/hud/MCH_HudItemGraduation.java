@@ -25,8 +25,8 @@ public class MCH_HudItemGraduation extends MCH_HudItem {
     @Override
     public void execute() {
         GlStateManager.pushMatrix();
-        int x = (int) (centerX + calc(this.drawPosX));
-        int y = (int) (centerY + calc(this.drawPosY));
+        int x = (int) resolveHudX(calc(this.drawPosX));
+        int y = (int) resolveHudY(calc(this.drawPosY));
         GlStateManager.translate(x, y, 0.0);
         GlStateManager.rotate((float) calc(this.drawRoll), 0.0F, 0.0F, 1.0F);
         GlStateManager.translate(-x, -y, 0.0);
