@@ -227,6 +227,17 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     /* --- Collision & Bounds --- */
     public MCH_BoundingBox[] extraBoundingBox;
+    private static final int EXTRA_BOUNDING_BOX_CACHE_TICKS = 5;
+    private AxisAlignedBB[] cachedExtraCollisionBoxes;
+    private AxisAlignedBB cachedExtraCollisionSweepBox;
+    private int extraBoundingBoxStationaryTicks;
+    private boolean sampledExtraBoundingBoxTransform;
+    private double lastExtraBoundingBoxPosX;
+    private double lastExtraBoundingBoxPosY;
+    private double lastExtraBoundingBoxPosZ;
+    private float lastExtraBoundingBoxYaw;
+    private float lastExtraBoundingBoxPitch;
+    private float lastExtraBoundingBoxRoll;
     @Nullable public String lastBBName;
     public float lastBBDamageFactor;
     public final HashMap<Entity, Integer> noCollisionEntities = new HashMap<>();
@@ -344,6 +355,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.prevRotationRoll = 0.0F;
         this.lowPassPartialTicks = new MCH_LowPassFilterFloat(10);
         this.extraBoundingBox = new MCH_BoundingBox[0];
+        this.invalidateExtraBoundingBoxPhysicsCache();
         this.setEntityBoundingBox(new MCH_AircraftBoundingBox(this));
         this.lastBBDamageFactor = 1.0F;
         this.lastBBName = null;
@@ -1900,9 +1912,26 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public void updateExtraBoundingBox() {
-        if (this.extraBoundingBox == null) {
+        if (this.extraBoundingBox == null || this.extraBoundingBox.length == 0) {
+            this.invalidateExtraBoundingBoxPhysicsCache();
             return;
         }
+
+        boolean hasPassengers = this.hasMountedEntities();
+        boolean transformChanged = this.hasExtraBoundingBoxTransformChanged();
+        if (hasPassengers || transformChanged) {
+            this.invalidateExtraBoundingBoxPhysicsCache();
+        } else if (this.cachedExtraCollisionBoxes != null && !this.hasPlayersInsideCachedExtraCollisionBoxes()) {
+            this.extraBoundingBoxStationaryTicks++;
+            return;
+        } else if (this.cachedExtraCollisionBoxes != null) {
+            this.invalidateExtraBoundingBoxPhysicsCache();
+        }
+
+        for (MCH_BoundingBox bb : this.extraBoundingBox) {
+            bb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(), this.getRoll());
+        }
+
         double minX = this.posX;
         double minY = this.posY;
         double minZ = this.posZ;
@@ -1923,9 +1952,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
 
         AxisAlignedBB globalSweepBox = new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ).grow(2.0D);
-
         List<Entity> nearbyEntities = this.world.getEntitiesWithinAABBExcludingEntity(this, globalSweepBox);
         boolean hasNearbyPlayers = false;
+        boolean hasPlayersInside = false;
 
         if (!nearbyEntities.isEmpty()) {
             for (Entity entity : nearbyEntities) {
@@ -1937,8 +1966,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
 
         for (MCH_BoundingBox bb : this.extraBoundingBox) {
-            bb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(), this.getRoll());
-
             if (hasNearbyPlayers) {
                 for (Entity entity : nearbyEntities) {
                     if (entity instanceof EntityPlayer) {
@@ -1946,12 +1973,97 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
                         if (bb.intersectsAABB(player.getEntityBoundingBox())) {
                             player.fallDistance = 0.0F;
-                            player.onGround = true;
+                            hasPlayersInside = true;
                         }
                     }
                 }
             }
         }
+
+        this.updateExtraBoundingBoxStationaryState(transformChanged || hasPassengers || hasPlayersInside);
+        if (!hasPassengers && !hasPlayersInside && this.extraBoundingBoxStationaryTicks >= EXTRA_BOUNDING_BOX_CACHE_TICKS) {
+            this.cacheExtraBoundingBoxPhysicsState(globalSweepBox);
+        }
+    }
+
+    private boolean hasMountedEntities() {
+        if (this.getRiddenByEntity() != null) return true;
+        for (MCH_EntitySeat seat : this.getSeats()) {
+            if (seat != null && seat.getRiddenByEntity() != null) return true;
+        }
+        return false;
+    }
+
+    private boolean hasExtraBoundingBoxTransformChanged() {
+        if (!this.sampledExtraBoundingBoxTransform) return true;
+        return Math.abs(this.posX - this.lastExtraBoundingBoxPosX) > 1.0E-4D ||
+                Math.abs(this.posY - this.lastExtraBoundingBoxPosY) > 1.0E-4D ||
+                Math.abs(this.posZ - this.lastExtraBoundingBoxPosZ) > 1.0E-4D ||
+                Math.abs(this.getYaw() - this.lastExtraBoundingBoxYaw) > 1.0E-4F ||
+                Math.abs(this.getPitch() - this.lastExtraBoundingBoxPitch) > 1.0E-4F ||
+                Math.abs(this.getRoll() - this.lastExtraBoundingBoxRoll) > 1.0E-4F;
+    }
+
+    private void updateExtraBoundingBoxStationaryState(boolean unstable) {
+        if (unstable || !this.sampledExtraBoundingBoxTransform) {
+            this.extraBoundingBoxStationaryTicks = 0;
+        } else {
+            this.extraBoundingBoxStationaryTicks++;
+        }
+
+        this.sampledExtraBoundingBoxTransform = true;
+        this.lastExtraBoundingBoxPosX = this.posX;
+        this.lastExtraBoundingBoxPosY = this.posY;
+        this.lastExtraBoundingBoxPosZ = this.posZ;
+        this.lastExtraBoundingBoxYaw = this.getYaw();
+        this.lastExtraBoundingBoxPitch = this.getPitch();
+        this.lastExtraBoundingBoxRoll = this.getRoll();
+    }
+
+    private boolean hasPlayersInsideCachedExtraCollisionBoxes() {
+        if (this.cachedExtraCollisionSweepBox == null || this.cachedExtraCollisionBoxes == null) return false;
+
+        List<EntityPlayer> players = this.world.getEntitiesWithinAABB(EntityPlayer.class, this.cachedExtraCollisionSweepBox);
+        for (EntityPlayer player : players) {
+            AxisAlignedBB playerBox = player.getEntityBoundingBox();
+            for (AxisAlignedBB collisionBox : this.cachedExtraCollisionBoxes) {
+                if (collisionBox != null && collisionBox.intersects(playerBox)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void cacheExtraBoundingBoxPhysicsState(AxisAlignedBB sweepBox) {
+        AxisAlignedBB[] collisionBoxes = new AxisAlignedBB[this.extraBoundingBox.length];
+        for (int i = 0; i < this.extraBoundingBox.length; i++) {
+            AxisAlignedBB box = this.extraBoundingBox[i].getBoundingBox();
+            collisionBoxes[i] = box == null ? null : MCH_BoundingBox.copyAABB(box);
+        }
+
+        this.cachedExtraCollisionBoxes = collisionBoxes;
+        this.cachedExtraCollisionSweepBox = MCH_BoundingBox.copyAABB(sweepBox);
+    }
+
+    private void invalidateExtraBoundingBoxPhysicsCache() {
+        this.cachedExtraCollisionBoxes = null;
+        this.cachedExtraCollisionSweepBox = null;
+        this.extraBoundingBoxStationaryTicks = 0;
+        this.sampledExtraBoundingBoxTransform = false;
+    }
+
+    public AxisAlignedBB[] getExtraCollisionBoxesForPhysics() {
+        if (this.cachedExtraCollisionBoxes != null) return this.cachedExtraCollisionBoxes;
+        if (this.extraBoundingBox == null || this.extraBoundingBox.length == 0) return new AxisAlignedBB[0];
+
+        AxisAlignedBB[] collisionBoxes = new AxisAlignedBB[this.extraBoundingBox.length];
+        for (int i = 0; i < this.extraBoundingBox.length; i++) {
+            collisionBoxes[i] = this.extraBoundingBox[i].getBoundingBox();
+        }
+
+        return collisionBoxes;
     }
 
     public void updatePartWheel() {
@@ -3336,7 +3448,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public @NotNull AxisAlignedBB getCollisionBoundingBox() {
-        return this.getEntityBoundingBox();
+        AxisAlignedBB bb = this.getEntityBoundingBox();
+        return new AxisAlignedBB(bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ);
     }
 
     public double getMountedYOffset() {
@@ -5754,6 +5867,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             this.rotPartRotation = new float[info.partRotPart.size()];
             this.prevRotPartRotation = new float[info.partRotPart.size()];
             this.extraBoundingBox = this.createExtraBoundingBox();
+            this.invalidateExtraBoundingBoxPhysicsCache();
             this.partEntities = this.createParts();
             this.stepHeight = info.stepHeight;
             this.setInventorySize((short) info.inventorySize);

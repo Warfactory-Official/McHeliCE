@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.EntityEvent.CanUpdate;
@@ -27,6 +28,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.minecraftforge.event.world.GetCollisionBoxesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -194,6 +196,26 @@ public class MCH_EventHook extends W_EventHook {
                 event.setCanceled(true);
             } else if (item.getItem() instanceof MCH_ItemAircraft) {
                 ((MCH_ItemAircraft) item.getItem()).rideEntity(item, event.getTarget(), event.getEntityPlayer());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void addAircraftExtraBoundingBoxes(GetCollisionBoxesEvent event) {
+        Entity movingEntity = event.getEntity();
+        if (movingEntity == null) return;
+
+        AxisAlignedBB queryBox = event.getAabb();
+        List<MCH_EntityAircraft> aircraftList = event.getWorld().getEntitiesWithinAABB(
+                MCH_EntityAircraft.class, queryBox.grow(0.25D));
+
+        for (MCH_EntityAircraft aircraft : aircraftList) {
+            if (aircraft == movingEntity || aircraft.isDead || aircraft.isMountedEntity(movingEntity)) continue;
+
+            for (AxisAlignedBB collisionBox : aircraft.getExtraCollisionBoxesForPhysics()) {
+                if (collisionBox != null && collisionBox.intersects(queryBox)) {
+                    event.getCollisionBoxesList().add(collisionBox);
+                }
             }
         }
     }
