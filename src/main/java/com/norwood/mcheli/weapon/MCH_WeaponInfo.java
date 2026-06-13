@@ -282,7 +282,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public int canisterType = 0; // Reforged field
     public double dragInAir = 0.0D; // Reforged field
     public int buckshotCount = 6; // Reforged field
-    public BuckshotPayload buckshotPayload = BuckshotPayload.BULLET; // Reforged field
+    public BuckshotPayload buckshotPayload = BuckshotPayload.BULLET; // MCHCE
     public boolean lockEntity = false; // Reforged field
     public boolean cameraFollowLockEntity = false; // Reforged field
     public float cameraFollowStrength = 0.3f; // Reforged field
@@ -439,6 +439,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             case "torpedo" -> "Torpedo";
             case "cas" -> "CAS";
             case "rocket" -> "Rocket";
+            case "buckshot" -> "Buckshot";
             case "asmissile" -> "AS Missile";
             case "aamissile" -> "AA Missile";
             case "tvmissile" -> "TV Missile";

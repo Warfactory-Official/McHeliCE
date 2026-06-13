@@ -25,8 +25,19 @@ public class ContentRegistry<T extends MCH_BaseInfo> {
         this.registry = Maps.newHashMap(table);
     }
 
-    private static <TYPE extends IContentData> void putTable(Map<String, TYPE> table, TYPE content) {
-        table.put(content.getLocation().getPath(), content);
+    private static <TYPE extends MCH_BaseInfo> void putTable(Map<String, TYPE> table, TYPE content) {
+        String key = content.getLocation().getPath();
+        inheritMissingOverrideMetadata(table.get(key), content);
+        table.put(key, content);
+    }
+
+    private static void inheritMissingOverrideMetadata(@Nullable MCH_BaseInfo previous, MCH_BaseInfo content) {
+        if (previous == null) return;
+        if (previous.getLocation().getAddonDomain().equals(content.getLocation().getAddonDomain())) return;
+
+        if (content.author.isBlank() && !previous.author.isBlank()) {
+            content.author = previous.author;
+        }
     }
 
     public static <TYPE extends MCH_BaseInfo> ContentRegistry.Builder<TYPE> builder(Class<TYPE> type, String dir) {
@@ -50,6 +61,7 @@ public class ContentRegistry<T extends MCH_BaseInfo> {
             if (this.contentClass.isInstance(newContent)) {
                 T castedContent = this.contentClass.cast(newContent);
 
+                inheritMissingOverrideMetadata(content, castedContent);
                 this.registry.replace(key, castedContent);
                 return true;
             }
@@ -63,7 +75,9 @@ public class ContentRegistry<T extends MCH_BaseInfo> {
 
     public void reloadAll() {
         for (T content : ContentRegistries.reloadAllAddonContents(this)) {
-            this.registry.replace(content.getLocation().getPath(), content);
+            String key = content.getLocation().getPath();
+            inheritMissingOverrideMetadata(this.registry.get(key), content);
+            this.registry.replace(key, content);
         }
     }
 
