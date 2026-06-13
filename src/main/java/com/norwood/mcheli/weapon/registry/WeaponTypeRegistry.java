@@ -13,6 +13,7 @@ public class WeaponTypeRegistry {
     static {
         WEAPON_TYPES.put("machinegun1", MCH_WeaponMachineGun1::new);
         WEAPON_TYPES.put("machinegun2", MCH_WeaponMachineGun2::new);
+        WEAPON_TYPES.put("buckshot", MCH_WeaponBuckshot::new);
         WEAPON_TYPES.put("tvmissile", MCH_WeaponTvMissile::new);
         WEAPON_TYPES.put("torpedo", MCH_WeaponTorpedo::new);
         WEAPON_TYPES.put("cas", MCH_WeaponCAS::new);

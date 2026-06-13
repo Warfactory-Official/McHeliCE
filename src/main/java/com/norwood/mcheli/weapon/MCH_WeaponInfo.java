@@ -281,6 +281,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public int canister = -1; // Reforged field
     public int canisterType = 0; // Reforged field
     public double dragInAir = 0.0D; // Reforged field
+    public int buckshotCount = 6; // Reforged field
+    public BuckshotPayload buckshotPayload = BuckshotPayload.BULLET; // Reforged field
     public boolean lockEntity = false; // Reforged field
     public boolean cameraFollowLockEntity = false; // Reforged field
     public float cameraFollowStrength = 0.3f; // Reforged field
@@ -490,6 +492,12 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         NTM_NUKE,
         NTM_CHEMICAL,
         NTM_MIST
+    }
+
+    // Reforged field - selects which entity each buckshot pellet spawns as
+    public static enum BuckshotPayload {
+        BULLET,
+        ROCKET
     }
 
     public static class RoundItem {

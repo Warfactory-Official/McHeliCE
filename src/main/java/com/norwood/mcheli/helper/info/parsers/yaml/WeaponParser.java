@@ -73,6 +73,7 @@ public class WeaponParser {
                 case "Type" -> info.type = ((String) entry.getValue()).trim().toLowerCase(Locale.ROOT);
                 case "Recoil" -> parseRecoil(info, (Map<String, Object>) entry.getValue());
                 case "Submunition", "Bomblet" -> parseBomblet(info, (Map<String, Object>) entry.getValue());
+                case "Buckshot" -> parseBuckshot(info, (Map<String, Object>) entry.getValue());
                 case "Damage" -> parseDamage(info, (Map<String, Object>) entry.getValue());
                 case "Ammo" -> parseAmmo(info, (Map<String, Object>) entry.getValue());
                 case "Render" -> parseRender(info, (Map<String, Object>) entry.getValue());
@@ -248,6 +249,26 @@ public class WeaponParser {
                 case "AheadSolveIntervalTick" -> info.aheadSolveIntervalTick = ((Number) entry.getValue()).intValue();
             }
         }
+    }
+
+    private static void parseBuckshot(MCH_WeaponInfo info, Map<String, Object> value) {
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Count" -> info.buckshotCount = getClamped(1, 1000, entry.getValue());
+                case "PayloadType", "Payload" -> info.buckshotPayload = parseBuckshotPayload((String) entry.getValue());
+                default -> logUnkownEntry(entry, "Buckshot");
+            }
+        }
+    }
+
+    private static MCH_WeaponInfo.BuckshotPayload parseBuckshotPayload(String s) {
+        if (s == null || s.isEmpty())
+            return MCH_WeaponInfo.BuckshotPayload.BULLET;
+
+        return switch (s.trim().toUpperCase(Locale.ROOT)) {
+            case "ROCKET" -> MCH_WeaponInfo.BuckshotPayload.ROCKET;
+            default -> MCH_WeaponInfo.BuckshotPayload.BULLET;
+        };
     }
 
     private static void parseCam(MCH_WeaponInfo info, Map<String, Object> value) {

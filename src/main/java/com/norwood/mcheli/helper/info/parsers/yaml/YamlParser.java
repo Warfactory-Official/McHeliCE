@@ -105,6 +105,18 @@ public class YamlParser implements IParser {
         throw new IllegalArgumentException("Vector component must be numeric, got: " + o.getClass());
     }
 
+    private static String parseAuthor(Object value) {
+        if (value instanceof String author) return author.trim();
+        if (value instanceof List<?> authors) {
+            return authors.stream()
+                    .map(String::valueOf)
+                    .map(String::trim)
+                    .filter(author -> !author.isEmpty())
+                    .collect(Collectors.joining(", "));
+        }
+        return String.valueOf(value).trim();
+    }
+
     @Override
     public @NotNull String getIdentifier() {
         return "yml";
@@ -335,7 +347,8 @@ public class YamlParser implements IParser {
             final Object value = entry.getValue();
             switch (entry.getKey()) {
                 case "ItemID" -> info.itemID = (int) value;
-                case "Author" -> info.author = (String) value;
+                case "Author", "Authors" -> info.author = parseAuthor(value);
+
                 case "Regeneration" -> info.regeneration = (Boolean) value;
                 case "CanRide" -> info.canRide = (Boolean) value;
                 case "CreativeOnly" -> info.creativeOnly = (Boolean) value;
