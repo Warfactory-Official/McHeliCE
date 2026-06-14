@@ -31,6 +31,7 @@ import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.UAVTracker;
+import com.norwood.mcheli.wingman.config.WingmanConfig;
 import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import io.netty.buffer.ByteBuf;
@@ -6012,7 +6013,16 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             return;
         }
 
-        double rangeSq = this.uavStation.getType() == IUavStation.StationType.SMALL ? 2500.0 : 15129.0;
+        // Wingman: the legacy hard-coded comm range (SMALL=2500, default=15129 blocks²) is now
+        // configurable. A negative range — or any value at/above the search cap — disables the
+        // distance cut-off entirely so a UAV can be flown arbitrarily far from its station.
+        int cfgRange = WingmanConfig.uavControllerRange;
+        if (cfgRange < 0) {
+            return;
+        }
+        double rangeSq = cfgRange >= WingmanConfig.UAV_UNLIMITED_THRESHOLD
+                ? Double.MAX_VALUE
+                : (double) cfgRange * cfgRange;
         Vec3d stationPos = this.uavStation.getPos();
         double udx = this.posX - stationPos.x;
         double udz = this.posZ - stationPos.z;

@@ -32,3 +32,5 @@ achievement.McHeliAintWarHell.desc=?
 achievement.McHeliReliefSupplies=物资支援
 achievement.McHeliReliefSupplies.desc=物资箱下投
 gui.mcheli.interact_seat.enter=按 %s 进入座位 %d
+
+tile.wingman_marker.name=Marker Block
