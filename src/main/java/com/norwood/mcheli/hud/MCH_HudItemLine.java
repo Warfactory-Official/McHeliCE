@@ -19,12 +19,19 @@ public class MCH_HudItemLine extends MCH_HudItem {
     @Override
     public void execute() {
         double[] lines = new double[this.pos.length];
+        int pairLength = lines.length - (lines.length % 2);
 
-        for (int i = 0; i < lines.length; i += 2) {
+        for (int i = 0; i < pairLength; i += 2) {
             lines[i] = resolveHudX(calc(this.pos[i]));
             lines[i + 1] = resolveHudY(calc(this.pos[i + 1]));
         }
 
-        this.drawLine(lines, colorSetting, 3);
+        if (pairLength == lines.length) {
+            this.drawLine(lines, colorSetting, 3);
+        } else {
+            double[] safeLines = new double[pairLength];
+            System.arraycopy(lines, 0, safeLines, 0, pairLength);
+            this.drawLine(safeLines, colorSetting, 3);
+        }
     }
 }
