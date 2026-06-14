@@ -15,6 +15,14 @@ public class MCH_Color {
         return String.format("#%02X%02X%02X%02X", ia, ir, ig, ib);
     }
 
+    public int toARGB() {
+        int ia = Math.round(this.a * 255.0F);
+        int ir = Math.round(this.r * 255.0F);
+        int ig = Math.round(this.g * 255.0F);
+        int ib = Math.round(this.b * 255.0F);
+        return (ia << 24) | (ir << 16) | (ig << 8) | ib;
+    }
+
     public MCH_Color(float aa, float rr, float gg, float bb) {
         this.a = this.round(aa);
         this.r = this.round(rr);

@@ -101,6 +101,8 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     private ForgeChunkManager.Ticket chunkLoaderTicket;
     private double airburstTravelled = 0.0D;
     private boolean airburstTriggered = false;
+    private boolean aheadTriggered = false;
+    private int spawnedBulletNum = 0;
 
     public MCH_EntityBaseBullet(World par1World) {
         super(par1World);
@@ -617,6 +619,7 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         if (!this.isDead) {
             this.onUpdateCollided();
             this.onUpdateAirburst();
+            this.onUpdateProximityFuse();
         }
 
         this.posX += this.motionX * this.accelerationFactor;
@@ -631,6 +634,8 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
 
         this.setPosition(this.posX, this.posY, this.posZ);
+
+        this.onUpdateSpreader();
     }
 
     private void onUpdateAirburst() {
@@ -652,7 +657,18 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             double ez = this.posZ + dz * t;
 
             if (!this.world.isRemote) {
-                if (Objects.requireNonNull(this.getInfo()).explosion > 0) {
+                // AHEAD rounds don't detonate at the airburst point: they arm and then stream
+                // sub-projectiles forward (see onUpdateSpreader). The proximityFuseTick gate
+                // keeps them from arming before the configured flight time.
+                if (Objects.requireNonNull(this.getInfo()).ahead) {
+                    if (this.getInfo().proximityFuseTick < 0 || this.ticksExisted > this.getInfo().proximityFuseTick) {
+                        this.aheadTriggered = true;
+                    }
+                    this.airburstTriggered = true;
+                    this.airburstTravelled = 0.0D;
+                    return;
+                }
+                if (this.getInfo().explosion > 0) {
                     this.newExplosion(ex, ey, ez, this.getInfo().explosionAirburst, (float) this.getInfo().explosionBlock, false);
                 } else if (this.explosionPower < 0) {
                     this.playExplosionSound();
@@ -669,6 +685,152 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             this.airburstTravelled = 0.0D;
         } else {
             this.airburstTravelled = newTravel;
+        }
+    }
+
+    /**
+     * Proximity ("near-burst") fuse: detonates near aircraft (and locked-on missile targets) using a
+     * predictive intercept along this frame's travel segment. Ported from Reforged. AHEAD-capable
+     * rounds only proximity-trigger once a (radar or manual) airburst solution exists.
+     */
+    private void onUpdateProximityFuse() {
+        if (this.isDead || this.getInfo() == null) return;
+        if (this.getInfo().proximityFuseTick < 0 || this.ticksExisted <= this.getInfo().proximityFuseTick) return;
+        if (this.getInfo().proximityFuseDist <= 0.0F) return;
+
+        if (this.getInfo().ahead) {
+            int abDist = this.airburstDist;
+            if (abDist <= 5 || abDist >= 3000) return;
+        }
+
+        float searchRange = this.getInfo().proximityFuseDist * 5.0F;
+        List<Entity> nearby = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(searchRange));
+        if (nearby.isEmpty()) return;
+
+        double dx = this.motionX * this.accelerationFactor;
+        double dy = this.motionY * this.accelerationFactor;
+        double dz = this.motionZ * this.accelerationFactor;
+        double segLen = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (segLen <= 0.0D) return;
+
+        double dirX = dx / segLen;
+        double dirY = dy / segLen;
+        double dirZ = dz / segLen;
+
+        for (Entity entity : nearby) {
+            if (!this.canBeCollidedEntity(entity)) continue;
+
+            boolean isAircraftTarget = entity instanceof MCH_EntityAircraft;
+            boolean isLockedTarget = entity instanceof MCH_EntityBaseBullet
+                    && this.targetEntity != null && !this.targetEntity.isDead
+                    && W_Entity.isEqual(entity, this.targetEntity);
+            if (!isAircraftTarget && !isLockedTarget) continue;
+            if (isAircraftTarget && MCH_WeaponGuidanceSystem.isEntityOnGround(entity, this.getInfo().proximityFuseHeight)) continue;
+
+            // Lead the target by its velocity over the (rough) time-to-intercept.
+            double currentDistance = Math.sqrt(this.getDistanceSq(entity.posX, entity.posY, entity.posZ));
+            double timeToPos = currentDistance / segLen;
+            double predX = entity.posX + entity.motionX * timeToPos;
+            double predY = entity.posY + entity.motionY * timeToPos;
+            double predZ = entity.posZ + entity.motionZ * timeToPos;
+
+            double toPredX = predX - this.posX;
+            double toPredY = predY - this.posY;
+            double toPredZ = predZ - this.posZ;
+            double dot = toPredX * dirX + toPredY * dirY + toPredZ * dirZ;
+            if (dot <= 0.0D) continue;
+
+            double projX = this.posX + dirX * dot;
+            double projY = this.posY + dirY * dot;
+            double projZ = this.posZ + dirZ * dot;
+            double perpX = predX - projX;
+            double perpY = predY - projY;
+            double perpZ = predZ - projZ;
+            double predictedDistance = Math.sqrt(perpX * perpX + perpY * perpY + perpZ * perpZ);
+            if (predictedDistance > this.getInfo().proximityFuseDist) continue;
+
+            double distToProj = Math.sqrt((projX - this.posX) * (projX - this.posX)
+                    + (projY - this.posY) * (projY - this.posY) + (projZ - this.posZ) * (projZ - this.posZ));
+            if (distToProj > segLen + 0.1D) continue;
+
+            double t = Math.max(0.0D, Math.min(1.0D, distToProj / segLen));
+            double ex = this.posX + dx * t;
+            double ey = this.posY + dy * t;
+            double ez = this.posZ + dz * t;
+
+            if (!this.world.isRemote) {
+                if (this.getInfo().explosion > 0) {
+                    this.newExplosion(ex, ey, ez, this.getInfo().explosionAirburst, (float) this.getInfo().explosionBlock, false);
+                } else if (this.explosionPower < 0) {
+                    this.playExplosionSound();
+                }
+                if (this.getInfo().enableChunkLoader) this.clearChunkLoaders();
+                PacketClientSound.sendSoundPacket(ex, ey, ez, this.getInfo().hitSoundRange, this.world, this.getInfo().hitSound != null ? this.getInfo().hitSound.toString() : null, true);
+
+                if (!entity.isDead) {
+                    MCH_Lib.applyEntityHurtResistantTimeConfig(entity);
+                    // CE's newExplosion is void (no ExplosionResult), so the direct proximity-fuse
+                    // damage uses the standard thrown-damage source rather than an explosion source.
+                    DamageSource ds = DamageSource.causeThrownDamage(this, this.shootingEntity);
+                    float damage = MCH_Config.applyDamageVsEntity(entity, ds, this.getInfo().proximityFuseDamage);
+                    damage *= this.getInfo().getDamageFactor(entity);
+                    entity.attackEntityFrom(ds, damage);
+                    if (isLockedTarget) ((MCH_EntityBaseBullet) entity).setDead();
+                    if (damage > 0.0F) this.notifyHitBullet();
+                }
+                this.setDead();
+            }
+            return;
+        }
+    }
+
+    /**
+     * Streams sub-projectiles forward, either as a generic in-air spawner ({@code spawnBulletInAir})
+     * or as AHEAD cluster-burst slugs after {@link #aheadTriggered} arms. Each child is a plain
+     * {@link MCH_EntityBullet} carrying the configured {@code bombletModelName} weapon. Ported from
+     * Reforged's onUpdateSpreader (CE has no MCH_WeaponCreator.createEntity, so children are bullets).
+     */
+    private void onUpdateSpreader() {
+        if (this.world.isRemote || this.getInfo() == null) return;
+
+        boolean canSpawnInAir = this.getInfo().spawnBulletInAir;
+        boolean canSpawnAhead = this.getInfo().ahead && this.aheadTriggered;
+        if ((canSpawnInAir || canSpawnAhead) && this.spawnedBulletNum < this.getInfo().spawnBulletMaxNum && !this.isDead) {
+            if (this.ticksExisted > 5 && this.ticksExisted % this.getInfo().spawnBulletIntervalTick == 0) {
+                this.spawnedBulletNum++;
+                MCH_WeaponInfo info = MCH_WeaponInfoManager.get(this.getInfo().bombletModelName);
+                if (info != null) {
+                    for (int i = 0; i < this.getInfo().spawnBulletPerNum; i++) {
+                        double mX = 1.0E-6D;
+                        double mY = 1.0E-6D;
+                        double mZ = 1.0E-6D;
+                        double speed = 0.001D;
+                        if (this.getInfo().spawnBulletInheritSpeed) {
+                            mX = this.motionX;
+                            mY = this.motionY;
+                            mZ = this.motionZ;
+                            speed = this.acceleration;
+                        }
+                        MCH_EntityBullet e = new MCH_EntityBullet(this.world, this.posX, this.posY, this.posZ, mX, mY, mZ, this.rotationYaw, this.rotationPitch, speed);
+                        e.setName(this.getInfo().bombletModelName);
+                        e.setParameterFromWeapon(this, this.shootingAircraft, this.shootingEntity);
+                        // Use the bomblet's own warhead stats; never re-airburst.
+                        e.setPower(info.power);
+                        e.explosionPower = info.explosion;
+                        e.explosionPowerInWater = info.explosionInWater;
+                        e.airburstDist = 0;
+                        float spread = this.getInfo().bombletDiff;
+                        e.motionX += (this.rand.nextFloat() - 0.5D) * spread;
+                        e.motionY += (this.rand.nextFloat() - 0.5D) * spread;
+                        e.motionZ += (this.rand.nextFloat() - 0.5D) * spread;
+                        this.world.spawnEntity(e);
+                    }
+                }
+            }
+        }
+
+        if (this.getInfo().destructAfterSpawnBullet && this.spawnedBulletNum >= this.getInfo().spawnBulletMaxNum) {
+            this.setDead();
         }
     }
 

@@ -27,11 +27,8 @@ public class WeaponTypeRegistry {
         WEAPON_TYPES.put("smoke", MCH_WeaponSmoke::new);
         WEAPON_TYPES.put("dispenser", MCH_WeaponDispenser::new);
         WEAPON_TYPES.put("targetingpod", MCH_WeaponTargetingPod::new);
-
-        //TODO
-//        WEAPON_TYPES.put("railgun", MCH_WeaponRailgun::new);
-//        WEAPON_TYPES.put("laser", MCH_WeaponLaser::new);
-
+        WEAPON_TYPES.put("railgun", MCH_WeaponRailgun::new);
+        WEAPON_TYPES.put("laser", MCH_WeaponLaser::new);
     }
 
     @FunctionalInterface

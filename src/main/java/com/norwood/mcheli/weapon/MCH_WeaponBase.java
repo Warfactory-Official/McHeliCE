@@ -81,6 +81,10 @@ public abstract class MCH_WeaponBase {
         return this.weaponInfo;
     }
 
+    public void setAirburstDist(int dist) {
+        this.airburstDist = dist;
+    }
+
     public boolean lock(MCH_WeaponParam prm) {
         return false;
     }
