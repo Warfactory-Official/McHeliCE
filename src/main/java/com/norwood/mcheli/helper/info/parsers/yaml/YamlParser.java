@@ -569,6 +569,7 @@ public class YamlParser implements IParser {
                 case "IsSmallUav" -> info.isSmallUAV = (Boolean) entry.getValue();
                 case "IsNewUav" -> info.isNewUAV = (Boolean) entry.getValue();
                 case "IsTargetDrone" -> info.isTargetDrone = (Boolean) entry.getValue();
+                case "Range", "ControlRange" -> info.uavRange = ((Number) entry.getValue()).intValue();
                 default -> logUnkownEntry(entry, "Uav");
             }
 

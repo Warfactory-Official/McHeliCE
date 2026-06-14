@@ -6156,10 +6156,14 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
 
         //WINGMAN Start
-        // Wingman: the legacy hard-coded comm range (SMALL=2500, default=15129 blocks²) is now
-        // configurable. A negative range — or any value at/above the search cap — disables the
-        // distance cut-off entirely so a UAV can be flown arbitrarily far from its station.
-        int cfgRange = WingmanConfig.uavControllerRange;
+        // Comm-range resolution: a per-aircraft YAML limit (UAV.Range, MCH_AircraftInfo#uavRange)
+        // takes priority over the global Wingman controller range. A negative effective range — or
+        // any value at/above the unlimited threshold — disables the distance cut-off entirely so a
+        // UAV can be flown arbitrarily far from its station.
+        MCH_AircraftInfo acInfo = this.getAcInfo();
+        int cfgRange = (acInfo != null && acInfo.uavRange >= 0)
+                ? acInfo.uavRange
+                : WingmanConfig.uavControllerRange;
         if (cfgRange < 0) {
             return;
         }
@@ -6172,9 +6176,13 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         double udz = this.posZ - stationPos.z;
 
         if (udx * udx + udz * udz > rangeSq) {
+            // Signal lost: drop the control link instead of self-destructing. The UAV is cut loose
+            // from its station and its throttle/hover are killed, so it falls to the ground
+            // (aircraft) or coasts to a stop (ground vehicles) rather than exploding.
             this.uavStation.setControlled(null);
             this.setUavStation(null);
-            this.attackEntityFrom(DamageSource.OUT_OF_WORLD, this.getMaxHP() + 10);
+            this.isHoveringMode = false;
+            this.setCurrentThrottle(0.0);
         }
     }
 

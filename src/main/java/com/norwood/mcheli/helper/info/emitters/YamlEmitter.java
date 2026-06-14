@@ -1573,6 +1573,7 @@ public class YamlEmitter implements IEmitter {
         if (info.isSmallUAV != dummyInfo.isSmallUAV) uav.put("IsSmallUav", info.isSmallUAV);
         if (info.isNewUAV != dummyInfo.isNewUAV) uav.put("IsNewUav", info.isNewUAV);
         if (info.isTargetDrone != dummyInfo.isTargetDrone) uav.put("IsTargetDrone", info.isTargetDrone);
+        if (info.uavRange != dummyInfo.uavRange) uav.put("Range", info.uavRange);
         if (!uav.isEmpty()) root.put("Uav", uav);
 
         // Aircraft features

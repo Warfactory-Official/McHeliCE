@@ -90,6 +90,14 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
     public boolean isSmallUAV = false;
     public boolean isNewUAV;
     public boolean isTargetDrone = false;
+    /**
+     * UAV control (comm) range in blocks. If the UAV travels beyond this distance from its
+     * station the control link is dropped — the UAV is cut loose and falls / coasts to a stop
+     * rather than being destroyed. {@code -1} (default) inherits the global Wingman controller
+     * range; a value at/above {@link com.norwood.mcheli.wingman.config.WingmanConfig#UAV_UNLIMITED_THRESHOLD}
+     * disables the cut-off (unlimited range).
+     */
+    public int uavRange = -1;
     public float autoPilotRot = -0.6F;
     public float onGroundPitch = 0.0F;
     public boolean canMoveOnGround = true;
