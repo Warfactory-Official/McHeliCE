@@ -32,8 +32,8 @@ public class MCH_HudItemLineStipple extends MCH_HudItem {
         double[] lines = new double[this.pos.length];
 
         for (int i = 0; i < lines.length; i += 2) {
-            lines[i] = centerX + calc(this.pos[i]);
-            lines[i + 1] = centerY + calc(this.pos[i + 1]);
+            lines[i] = resolveHudX(calc(this.pos[i]));
+            lines[i + 1] = resolveHudY(calc(this.pos[i + 1]));
         }
 
         this.drawLineStipple(lines, colorSetting, (int) calc(this.fac), (int) calc(this.pat));

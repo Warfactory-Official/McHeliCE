@@ -11,6 +11,7 @@ import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
 import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
+import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.wrapper.W_ClientEventHook;
 import com.norwood.mcheli.wrapper.W_Reflection;
 import net.minecraft.client.Minecraft;
@@ -20,14 +21,18 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Specials.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -109,6 +114,51 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
         if (MCH_ClientTickHandlerBase.updateMouseWheel(event.getDwheel())) {
             event.setCanceled(true);
         }
+
+        Minecraft mc = Minecraft.getMinecraft();
+        if (isClientPlayerMountedInAircraft(mc) && isVanillaAttackMouseEvent(mc, event)) {
+            clearVanillaAttackInput(mc);
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.START || event.player != Minecraft.getMinecraft().player) return;
+
+        Minecraft mc = Minecraft.getMinecraft();
+        if (isClientPlayerMountedInAircraft(mc)) {
+            clearVanillaAttackInput(mc);
+        }
+    }
+
+    private boolean isClientPlayerMountedInAircraft(Minecraft mc) {
+        if (mc.player == null) return false;
+        return mc.player.getRidingEntity() instanceof MCH_EntityAircraft ||
+                mc.player.getRidingEntity() instanceof MCH_EntitySeat;
+    }
+
+    private boolean isVanillaAttackMouseEvent(Minecraft mc, MouseEvent event) {
+        int button = event.getButton();
+        return button >= 0 && button - 100 == mc.gameSettings.keyBindAttack.getKeyCode();
+    }
+
+    private void clearVanillaAttackInput(Minecraft mc) {
+        KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
+        if (mc.playerController != null) {
+            mc.playerController.resetBlockRemoving();
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderHand(RenderHandEvent event) {
+        var mc = Minecraft.getMinecraft();
+        if (mc.world == null || mc.player == null) return;
+        if (
+                (mc.player.getRidingEntity() instanceof MCH_EntitySeat ||  mc.player.getRidingEntity() instanceof MCH_EntityAircraft)
+        ) {
+            event.setCanceled(true);
+        }
     }
 
     @Override
@@ -157,10 +207,15 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
     public void renderPlayerPre(net.minecraftforge.client.event.RenderPlayerEvent.Pre event) {
         this.event = event;
         if (event.getEntity() != null) {
+            if (event.getEntity().getRidingEntity() instanceof MCH_EntityVehicle ||
+                    event.getEntity().getRidingEntity() instanceof MCH_EntitySeat seat &&
+                            seat.getParent() instanceof MCH_EntityVehicle) {
+                return;
+            }
+
             if (event.getEntity().getRidingEntity() instanceof MCH_EntityAircraft riding) {
                 if (riding.getAcInfo() != null && riding.getAcInfo().hideEntity) {
                     event.setCanceled(true);
-                    return;
                 }
             }
 

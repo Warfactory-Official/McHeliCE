@@ -1,6 +1,7 @@
 package com.norwood.mcheli.tool;
 
 import com.google.common.collect.Multimap;
+import com.norwood.mcheli.MCH_ClientProxy;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
@@ -99,12 +100,6 @@ public class MCH_ItemWrench extends W_Item {
         stack.getTagCompound().setInteger(name, n);
     }
 
-    private static RayTraceResult rayTrace(EntityLivingBase entity, double dist, float tick) {
-        Vec3d vec3 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
-        Vec3d vec31 = entity.getLook(tick);
-        Vec3d vec32 = vec3.add(vec31.x * dist, vec31.y * dist, vec31.z * dist);
-        return entity.world.rayTraceBlocks(vec3, vec32, false, false, true);
-    }
 
     public boolean canHarvestBlock(IBlockState blockIn) {
         Material material = blockIn.getMaterial();
@@ -140,7 +135,7 @@ public class MCH_ItemWrench extends W_Item {
 
     public void onUsingTick(@NotNull ItemStack stack, EntityLivingBase player, int count) {
         if (player.world.isRemote) {
-            MCH_EntityAircraft ac = this.getMouseOverAircraft(player);
+            MCH_EntityAircraft ac = MCH_ClientProxy.getMouseOverAircraft(player);
             if (ac != null) {
                 int cnt = getUseAnimCount(stack);
                 int prev = cnt;
@@ -155,7 +150,7 @@ public class MCH_ItemWrench extends W_Item {
         }
 
         if (!player.world.isRemote && count < this.getMaxItemUseDuration(stack) && count % 20 == 0) {
-            MCH_EntityAircraft ac = this.getMouseOverAircraft(player);
+            MCH_EntityAircraft ac = MCH_ClientProxy.getMouseOverAircraft(player);
             if (ac != null && ac.getHP() > 0 && ac.repair(10)) {
                 stack.damageItem(1, player);
                 float pitch = 0.9F + rand.nextFloat() * 0.2F;
@@ -173,75 +168,6 @@ public class MCH_ItemWrench extends W_Item {
         }
     }
 
-    public MCH_EntityAircraft getMouseOverAircraft(EntityLivingBase entity) {
-        RayTraceResult m = this.getMouseOver(entity, 1.0F);
-        MCH_EntityAircraft ac = null;
-        if (m != null) {
-            if (m.entityHit instanceof MCH_EntityAircraft) {
-                ac = (MCH_EntityAircraft) m.entityHit;
-            } else if (m.entityHit instanceof MCH_EntitySeat seat) {
-                if (seat.getParent() != null) {
-                    ac = seat.getParent();
-                }
-            }
-        }
-
-        return ac;
-    }
-
-    private RayTraceResult getMouseOver(EntityLivingBase user, float tick) {
-        Entity pointedEntity;
-        double d0 = 4.0;
-        RayTraceResult objectMouseOver = rayTrace(user, d0, tick);
-        double d1 = d0;
-        Vec3d vec3 = new Vec3d(user.posX, user.posY + user.getEyeHeight(), user.posZ);
-        if (objectMouseOver != null) {
-            d1 = objectMouseOver.hitVec.distanceTo(vec3);
-        }
-
-        Vec3d vec31 = user.getLook(tick);
-        Vec3d vec32 = vec3.add(vec31.x * d0, vec31.y * d0, vec31.z * d0);
-        pointedEntity = null;
-        Vec3d vec33 = null;
-        float f1 = 1.0F;
-        List<Entity> list = user.world
-                .getEntitiesWithinAABBExcludingEntity(user,
-                        user.getEntityBoundingBox().expand(vec31.x * d0, vec31.y * d0, vec31.z * d0).grow(f1, f1, f1));
-        double d2 = d1;
-
-        for (Entity entity : list) {
-            if (entity.canBeCollidedWith()) {
-                float f2 = entity.getCollisionBorderSize();
-                AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().grow(f2, f2, f2);
-                RayTraceResult movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
-                if (axisalignedbb.contains(vec3)) {
-                    if (0.0 < d2 || d2 == 0.0) {
-                        pointedEntity = entity;
-                        vec33 = movingobjectposition == null ? vec3 : movingobjectposition.hitVec;
-                        d2 = 0.0;
-                    }
-                } else if (movingobjectposition != null) {
-                    double d3 = vec3.distanceTo(movingobjectposition.hitVec);
-                    if (d3 < d2 || d2 == 0.0) {
-                        if (entity != user.getRidingEntity() || entity.canRiderInteract()) {
-                            pointedEntity = entity;
-                            vec33 = movingobjectposition.hitVec;
-                            d2 = d3;
-                        } else if (d2 == 0.0) {
-                            pointedEntity = entity;
-                            vec33 = movingobjectposition.hitVec;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (pointedEntity != null && (d2 < d1 || objectMouseOver == null)) {
-            objectMouseOver = new RayTraceResult(pointedEntity, vec33);
-        }
-
-        return objectMouseOver;
-    }
 
     public boolean onBlockDestroyed(@NotNull ItemStack itemStack, @NotNull World world, IBlockState state,
                                     @NotNull BlockPos pos, @NotNull EntityLivingBase entity) {

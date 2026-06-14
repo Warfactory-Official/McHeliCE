@@ -32,6 +32,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class MCH_HudItem extends Gui {
 
+    private static final double DEFAULT_CANVAS_WIDTH = 427.0;
+    private static final double DEFAULT_CANVAS_HEIGHT = 240.0;
     public static final AviatorEvaluatorInstance AVIATOR = AviatorEvaluator.newInstance();
     public static final Map<String, Expression> EXPR_CACHE = new ConcurrentHashMap();
     protected static final MCH_LowPassFilterFloat StickX_LPF = new MCH_LowPassFilterFloat(4);
@@ -46,6 +48,10 @@ public abstract class MCH_HudItem extends Gui {
     public static int colorSetting = -16777216;
     protected static double centerX = 0.0;
     protected static double centerY = 0.0;
+    protected static double hudScaleX = 1.0;
+    protected static double hudScaleY = 1.0;
+    protected static boolean hudAutoScaled = false;
+    protected static boolean hudAutoScaleRequested = false;
     protected static Random rand = new Random();
     protected static int altitudeUpdateCount = 0;
     protected static int Altitude = 0;
@@ -57,6 +63,7 @@ public abstract class MCH_HudItem extends Gui {
     protected static float ReloadPer = 0.0F;
     protected static float ReloadSec = 0.0F;
     protected static float MortarDist = 0.0F;
+    protected static String airburstDist = "";
     protected static double StickX;
     protected static double StickY;
     protected static double TVM_PosX;
@@ -75,6 +82,27 @@ public abstract class MCH_HudItem extends Gui {
     public MCH_HudItem(int fileLine) {
         this.fileLine = fileLine;
         this.zLevel = -110.0F;
+    }
+
+    public static void configureCanvas(boolean automaticallyScaled) {
+        configureCanvas(automaticallyScaled, automaticallyScaled);
+    }
+
+    public static void configureCanvas(boolean automaticallyScaled, boolean autoScaleRequested) {
+        centerX = width / 2.0;
+        centerY = height / 2.0;
+        hudAutoScaled = automaticallyScaled;
+        hudAutoScaleRequested = autoScaleRequested;
+        hudScaleX = automaticallyScaled ? width / DEFAULT_CANVAS_WIDTH : 1.0;
+        hudScaleY = automaticallyScaled ? height / DEFAULT_CANVAS_HEIGHT : 1.0;
+    }
+
+    protected static double resolveHudX(double offsetFromCenter) {
+        return centerX + offsetFromCenter * hudScaleX;
+    }
+
+    protected static double resolveHudY(double offsetFromCenter) {
+        return centerY + offsetFromCenter * hudScaleY;
     }
 
     public static void update() {
@@ -195,6 +223,10 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("test_mode", MCH_Config.TestMode.prmBool);
         updateVarMapItem("plyr_yaw", MathHelper.wrapDegrees(player.rotationYaw));
         updateVarMapItem("plyr_pitch", player.rotationPitch);
+
+        updateVarMapItem("brl_yaw", ac.getCurrentWeaponShotYaw(player) );
+        updateVarMapItem("brl_pitch", ac.getCurrentWeaponShotPitch(player));
+
         updateVarMapItem("yaw", MathHelper.wrapDegrees(ac.getYaw()));
         updateVarMapItem("pitch", ac.getPitch());
         updateVarMapItem("roll", MathHelper.wrapDegrees(ac.getRoll()));
@@ -238,46 +270,46 @@ public abstract class MCH_HudItem extends Gui {
     }
 
     public static void drawVarMap() {
-        if (!MCH_Config.TestMode.prmBool) {
-            return;
-        }
+        if (!MCH_Config.TestMode.prmBool || varMap.isEmpty()) return;
 
-        int i = 0;
-        int x = (int) (-350.0 + centerX);
-        int y = (int) (-110.0 + centerY);
+        var screenWidth = centerX * 2;
+        var screenHeight = centerY * 2;
 
-        for (String key : varMap.keySet()) {
-            dummy.drawString(key, x, y, 52992);
+        var leftColX = Math.max(10, (int) (screenWidth * 0.10));
+        var rightColX = Math.min(screenWidth - 150, (int) (screenWidth * 0.80));
+        var startY = Math.max(10, (int) (screenHeight * 0.35));
+        var valOffsetX = Math.max(80, (int) (screenWidth * 0.01));
 
-            Object val = varMap.get(key);
+        var x = leftColX;
+        var y = startY;
+        var halfSize = varMap.size() / 2;
+        var i = 0;
+
+        for (var entry : varMap.entrySet()) {
+            var key = entry.getKey();
+            var val = entry.getValue();
             String fmt;
 
             if (key.equalsIgnoreCase("color")) {
-                int color = 0;
-                if (val instanceof Number) {
-                    color = ((Number) val).intValue();
-                }
-                fmt = String.format(": 0x%08X", color);
-            }
-            else if (val instanceof Boolean) {
-                boolean b = (Boolean) val;
-                fmt = String.format(": %s (%.2f)", b, b ? 1.0 : 0.0);
-            }
-            else if (val instanceof Number) {
-                double d = ((Number) val).doubleValue();
-                fmt = String.format(": %.2f", d);
-            }
-            else {
-                fmt = ": " + String.valueOf(val);
+                var color = val instanceof Number n ? n.intValue() : 0;
+                fmt = ": 0x%08X".formatted(color);
+            } else if (val instanceof Boolean b) {
+                fmt = ": %s (%.2f)".formatted(b, b ? 1.0 : 0.0);
+            } else if (val instanceof Number n) {
+                fmt = ": %.2f".formatted(n.doubleValue());
+            } else {
+                fmt = ": " + val;
             }
 
-            dummy.drawString(fmt, x + 50, y, 52992);
+            dummy.drawString(key, x, y, 52992);
+            dummy.drawString(fmt, x + valOffsetX, y, 52992);
 
             i++;
-            y += 8;
-            if (i == varMap.size() / 2) {
-                x = (int) (200.0 + centerX);
-                y = (int) (-100.0 + centerY);
+            y += 10;
+
+            if (i == halfSize) {
+                x = (int) rightColX;
+                y = startY;
             }
         }
     }
@@ -305,6 +337,7 @@ public abstract class MCH_HudItem extends Gui {
         float rel_time = 0.0F;
         double lock = 0.0;
         int sight_type = 0;
+        int has_airburst = 0;
 
         boolean reloading = false;
         boolean is_heat_wpn = false;
@@ -347,6 +380,8 @@ public abstract class MCH_HudItem extends Gui {
             if (sight == MCH_SightType.ROCKET) {
                 sight_type = 1;
             }
+
+            has_airburst = wb.airburstDist == 0 ? 0 : 1;
         }
 
         updateVarMapItem("reloading", reloading);
@@ -357,6 +392,7 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("lock", lock);
         updateVarMapItem("dsp_mt_dist", display_mortar_dist);
         updateVarMapItem("mt_dist", MortarDist);
+        updateVarMapItem("has_airburst", has_airburst);
     }
 
 
@@ -479,6 +515,12 @@ public abstract class MCH_HudItem extends Gui {
                 } else {
                     ReloadSec = ws.reloadCooldown;
                     ReloadPer = (float) ws.reloadCooldown / (wi.reloadTime > 0 ? wi.reloadTime : 1);
+                }
+
+                if (ws.getCurrentWeapon().airburstDist <= 5 || ws.getCurrentWeapon().airburstDist >= 3000) {
+                    airburstDist = "---";
+                } else {
+                    airburstDist = ws.getCurrentWeapon().airburstDist + "m + 3";
                 }
 
                 ReloadSec /= 20.0F;

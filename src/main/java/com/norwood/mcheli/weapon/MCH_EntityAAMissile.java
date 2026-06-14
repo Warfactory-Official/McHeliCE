@@ -1,10 +1,18 @@
 package com.norwood.mcheli.weapon;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class MCH_EntityAAMissile extends MCH_EntityBaseBullet {
+public class MCH_EntityAAMissile extends MCH_EntityBaseBullet implements MCH_IEntityLockChecker{
 
+
+    public boolean passiveRadarBVRLocking = false;
+    public int passiveRadarBVRLockingPosX = 0;
+    public int passiveRadarBVRLockingPosY = 0;
+    public int passiveRadarBVRLockingPosZ = 0;
+
+    @SuppressWarnings("unused")
     public MCH_EntityAAMissile(World par1World) {
         super(par1World);
         this.targetEntity = null;
@@ -53,6 +61,10 @@ public class MCH_EntityAAMissile extends MCH_EntityBaseBullet {
         }
     }
 
+    @Override
+    public boolean canLockEntity(Entity var1) {
+        return false;
+    }
     @Override
     public MCH_BulletModel getDefaultBulletModel() {
         return MCH_DefaultBulletModels.AAMissile;

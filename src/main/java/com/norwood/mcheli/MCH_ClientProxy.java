@@ -6,13 +6,13 @@ import com.norwood.mcheli.block.MCH_DraftingTableTileEntity;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.chain.MCH_RenderChain;
 import com.norwood.mcheli.command.MCH_GuiTitle;
-import com.norwood.mcheli.compat.ModCompatManager;
-import com.norwood.mcheli.compat.oneprobe.AircraftInfoProvider;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_RenderContainer;
 import com.norwood.mcheli.event.CameraHandler;
 import com.norwood.mcheli.event.ClientCommonTickHandler;
+import com.norwood.mcheli.flare.MCH_EntityChaff;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
+import com.norwood.mcheli.flare.MCH_RenderChaff;
 import com.norwood.mcheli.flare.MCH_RenderFlare;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
 import com.norwood.mcheli.gltd.MCH_RenderGLTD;
@@ -25,9 +25,10 @@ import com.norwood.mcheli.helper.addon.AddonManager;
 import com.norwood.mcheli.helper.addon.AddonPack;
 import com.norwood.mcheli.helper.client.MCH_CameraManager;
 import com.norwood.mcheli.helper.client.MCH_ItemModelRenderers;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.client.model.LegacyModelLoader;
 import com.norwood.mcheli.helper.client.renderer.item.*;
+import com.norwood.mcheli.helper.debug.MCH_RenderTest;
 import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.helper.info.ShaderRegistry;
 import com.norwood.mcheli.hud.direct_drawable.HudGPS;
@@ -64,6 +65,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -122,7 +128,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     public static void registerModels_Bullet() {
         for (MCH_WeaponInfo wi : ContentRegistries.weapon().values()) {
-            _IModelCustom m;
+            IModelCustom m;
             if (!wi.bulletModelName.isEmpty()) {
                 m = MCH_ModelManager.load("bullets", wi.bulletModelName);
                 if (m != null) {
@@ -226,7 +232,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void registerRenderer() {
-        RenderingRegistry.registerEntityRenderingHandler(MCH_EntitySeat.class, com.norwood.mcheli.helper.debug.MCH_RenderTest.factory(0.0F, 0.3125F, 0.0F, "seat"));
+        RenderingRegistry.registerEntityRenderingHandler(MCH_EntitySeat.class, MCH_RenderTest.factory(0.0F, 0.3125F, 0.0F, "seat"));
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityHeli.class, MCH_RenderHeli.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityPlane.class, MCP_RenderPlane.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityShip.class, MCH_RenderShip.FACTORY);
@@ -250,10 +256,10 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityTorpedo.class, MCH_RenderBullet.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityBomb.class, MCH_RenderBomb.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityMarkerRocket.class, MCH_RenderBullet.FACTORY);
-        RenderingRegistry.registerEntityRenderingHandler(MCH_EntityDispensedItem.class, MCH_RenderNone.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityFlare.class, MCH_RenderFlare.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityThrowable.class, MCH_RenderThrowable.FACTORY);
         RenderingRegistry.registerEntityRenderingHandler(MCH_EntityGunner.class, MCH_RenderGunner.FACTORY);
+        RenderingRegistry.registerEntityRenderingHandler(MCH_EntityChaff.class, MCH_RenderChaff.FACTORY);
         MCH_ItemModelRenderers.registerRenderer(MCH_MOD.itemJavelin, new BuiltInLightWeaponItemRenderer());
         MCH_ItemModelRenderers.registerRenderer(MCH_MOD.itemStinger, new BuiltInLightWeaponItemRenderer());
         MCH_ItemModelRenderers.registerRenderer(MCH_MOD.invisibleItem, new BuiltInInvisibleItemRenderer());
@@ -402,10 +408,41 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         MCH_ModelManager.setForceReloadMode(false);
     }
 
+    private boolean resourceExists(String texturePath) {
+        try {
+            ResourceLocation resource = new ResourceLocation(MCH_MOD.MOD_ID, texturePath);
+            Minecraft.getMinecraft().getResourceManager().getResource(resource);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     @Override
     public void registerModelsPlane(MCH_PlaneInfo info, boolean reload) {
         MCH_ModelManager.setForceReloadMode(reload);
         uploadModel(info, "planes");
+
+        for (MCH_PlaneInfo.ExhaustFlame exhaustFlame : info.exhaustFlames) {
+            MCH_ModelManager.load("exhaustflames", exhaustFlame.modelName);
+            if (!MCH_PlaneInfo.exhaustFlameTextureMap.containsKey(exhaustFlame.texturePrefix)) {
+                String texturePrefix = exhaustFlame.texturePrefix;
+                int count = 0;
+                try {
+                    for (int i = 0; i < 100; i++) {
+                        String texturePath = "textures/exhaustflames/" + texturePrefix + i + ".png";
+                        if (resourceExists(texturePath)) {
+                            count++;
+                        } else {
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                MCH_PlaneInfo.exhaustFlameTextureMap.put(texturePrefix, count);
+            }
+        }
 
         for (MCH_AircraftInfo.DrawnPart n : info.nozzles) {
             n.model = this.loadPartModel("planes", info.name, info.model, n.modelName);
@@ -486,11 +523,11 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     }
 
     private MCH_BulletModel loadBulletModel(String name) {
-        _IModelCustom m = MCH_ModelManager.load("bullets", name);
+        IModelCustom m = MCH_ModelManager.load("bullets", name);
         return m != null ? new MCH_BulletModel(name, m) : null;
     }
 
-    private _IModelCustom loadPartModel(String path, String name, _IModelCustom body, String part) {
+    private IModelCustom loadPartModel(String path, String name, IModelCustom body, String part) {
         return body instanceof W_ModelCustom && ((W_ModelCustom) body).containsPart("$" + part) ? null : MCH_ModelManager.load(path, name + "_" + part, true);
     }
 
@@ -588,6 +625,8 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void init() {
         MinecraftForge.EVENT_BUS.register(new MCH_CameraManager());
         MinecraftForge.EVENT_BUS.register(new MCH_ClientEventHook());
+        MinecraftForge.EVENT_BUS.register(new com.norwood.mcheli.weapon.MCH_RenderLaser());
+        MinecraftForge.EVENT_BUS.register(new com.norwood.mcheli.weapon.MCH_RenderCCIP());
         super.init();
     }
 
@@ -687,7 +726,112 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
                 I18n.format("item.mcheli:" + info.name + ".name") : info.displayName;
 
     }
-}
+    public static MCH_EntityAircraft getMouseOverAircraft(EntityLivingBase entity) {
+        RayTraceResult result = getMouseOver(entity, 1.0F);
+        if (result == null || result.entityHit == null) {
+            return null;
+        }
 
+        if (result.entityHit instanceof MCH_EntityAircraft) {
+            return (MCH_EntityAircraft) result.entityHit;
+        }
+
+        if (result.entityHit instanceof MCH_EntitySeat seat) {
+            return seat.getParent();
+        }
+
+        return null;
+    }
+
+    public static W_Entity getMouseOverMCHEntity(EntityLivingBase entity) {
+        RayTraceResult result = getMouseOver(entity, 1.0F);
+        if (result == null || result.entityHit == null) {
+            return null;
+        }
+
+        if (result.entityHit instanceof W_Entity) {
+            return (W_Entity) result.entityHit;
+        }
+        return null;
+    }
+
+
+
+    private static RayTraceResult getMouseOver(EntityLivingBase user, float partialTicks) {
+        double maxDistance = 4.0;
+        RayTraceResult blockTrace = rayTrace(user, maxDistance, partialTicks);
+        double closestDistance = maxDistance;
+
+        Vec3d eyePos = new Vec3d(user.posX, user.posY + user.getEyeHeight(), user.posZ);
+        if (blockTrace != null) {
+            closestDistance = blockTrace.hitVec.distanceTo(eyePos);
+        }
+
+        Vec3d lookVec = user.getLook(partialTicks);
+        Vec3d traceEnd = eyePos.add(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance);
+
+        AxisAlignedBB searchBox = user.getEntityBoundingBox()
+                .expand(lookVec.x * maxDistance, lookVec.y * maxDistance, lookVec.z * maxDistance)
+                .grow(1.0, 1.0, 1.0);
+
+        List<Entity> targets = user.world.getEntitiesWithinAABBExcludingEntity(user, searchBox);
+
+        Entity pointedEntity = null;
+        Vec3d hitVector = null;
+        double currentMinDist = closestDistance;
+
+        for (Entity entity : targets) {
+            if (!entity.canBeCollidedWith()) {
+                continue;
+            }
+
+            float borderSize = entity.getCollisionBorderSize();
+            AxisAlignedBB entityBox = entity.getEntityBoundingBox().grow(borderSize, borderSize, borderSize);
+            RayTraceResult intercept = entityBox.calculateIntercept(eyePos, traceEnd);
+
+            if (entityBox.contains(eyePos)) {
+                pointedEntity = entity;
+                hitVector = (intercept == null) ? eyePos : intercept.hitVec;
+                currentMinDist = 0.0;
+                continue;
+            }
+
+            if (intercept == null) {
+                continue;
+            }
+
+            double distanceToHit = eyePos.distanceTo(intercept.hitVec);
+            if (distanceToHit >= currentMinDist && currentMinDist != 0.0) {
+                continue;
+            }
+
+            if (entity == user.getRidingEntity() && !entity.canRiderInteract()) {
+                if (currentMinDist == 0.0) {
+                    pointedEntity = entity;
+                    hitVector = intercept.hitVec;
+                }
+                continue;
+            }
+
+            pointedEntity = entity;
+            hitVector = intercept.hitVec;
+            currentMinDist = distanceToHit;
+        }
+
+        if (pointedEntity != null && (currentMinDist < closestDistance || blockTrace == null)) {
+            return new RayTraceResult(pointedEntity, hitVector);
+        }
+
+        return blockTrace;
+    }
+
+    private static RayTraceResult rayTrace(EntityLivingBase entity, double dist, float tick) {
+        Vec3d vec3 = new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+        Vec3d vec31 = entity.getLook(tick);
+        Vec3d vec32 = vec3.add(vec31.x * dist, vec31.y * dist, vec31.z * dist);
+        return entity.world.rayTraceBlocks(vec3, vec32, false, false, true);
+    }
+
+}
 
 

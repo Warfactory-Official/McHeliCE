@@ -3,7 +3,6 @@ package com.norwood.mcheli.vehicle;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_KeyName;
 import com.norwood.mcheli.aircraft.MCH_AircraftCommonGui;
-import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,8 +12,6 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class MCH_GuiVehicle extends MCH_AircraftCommonGui {
 
-    static final int COLOR1 = -14066;
-    static final int COLOR2 = -2161656;
 
     public MCH_GuiVehicle(Minecraft minecraft) {
         super(minecraft);
@@ -39,9 +36,9 @@ public class MCH_GuiVehicle extends MCH_AircraftCommonGui {
                     this.drawTvMissileNoise(vehicle, vehicle.getTVMissile());
                 }
 
-                this.drawDebugtInfo(vehicle);
                 if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
                     this.drawHud(vehicle, player, seatID);
+                    this.drawTurretBallistics(vehicle, player);
                     this.drawKeyBind(vehicle, player);
                 }
 
@@ -51,57 +48,55 @@ public class MCH_GuiVehicle extends MCH_AircraftCommonGui {
     }
 
     public void drawKeyBind(MCH_EntityVehicle vehicle, EntityPlayer player) {
-        if (!MCH_Config.HideKeybind.prmBool) {
-            MCH_VehicleInfo info = vehicle.getVehicleInfo();
-            if (info != null) {
-                int colorActive = -1342177281;
-                int colorInactive = -1349546097;
-                int RX = this.centerX + 120;
-                int LX = this.centerX - 200;
-                if (vehicle.haveFlare()) {
-                    int c = vehicle.isFlarePreparation() ? colorInactive : colorActive;
-                    String msg = "Flare : " + MCH_KeyName.getDescOrName(MCH_Config.KeyFlare.prmInt);
-                    this.drawString(msg, RX, this.centerY - 50, c);
-                }
+        var info = vehicle.getVehicleInfo();
+        if (MCH_Config.HideKeybind.prmBool || info == null) return;
 
-                String msg = "Gunner " + (vehicle.getGunnerStatus() ? "ON" : "OFF") + " : " +
-                        MCH_KeyName.getDescOrName(MCH_Config.KeyFreeLook.prmInt) + " + " +
-                        MCH_KeyName.getDescOrName(MCH_Config.KeyCameraMode.prmInt);
-                this.drawString(msg, LX, this.centerY - 40, colorActive);
-                if (vehicle.getSizeInventory() <= 0 ||
-                        vehicle.getTowChainEntity() != null && !vehicle.getTowChainEntity().isDead) {
-                    msg = "Drop  : " + MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
-                    this.drawString(msg, RX, this.centerY - 30, colorActive);
-                }
+        var colorActive = -1342177281;
+        var colorInactive = -1349546097;
 
-                if (vehicle.camera.getCameraZoom() > 1.0F) {
-                    msg = "Zoom : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
-                    this.drawString(msg, LX, this.centerY - 80, colorActive);
-                }
+        var screenWidth = this.centerX * 2;
+        var leftX = Math.max(10, (int) (screenWidth * 0.05));
+        var rightX = Math.min(screenWidth - 100, (int) (screenWidth * 0.80));
 
-                MCH_WeaponSet ws = vehicle.getCurrentWeapon(player);
-                if (vehicle.getWeaponNum() > 1) {
-                    msg = "Weapon : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchWeapon2.prmInt);
-                    this.drawString(msg, LX, this.centerY - 70, colorActive);
-                }
+        this.currentLeftY = this.centerY - 80;
+        this.currentRightY = this.centerY - 80;
 
-                if (ws.getCurrentWeapon().numMode > 0) {
-                    msg = "WeaponMode : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwWeaponMode.prmInt);
-                    this.drawString(msg, LX, this.centerY - 60, colorActive);
-                }
+        var theme = new LayoutTheme(leftX, rightX, colorActive, colorInactive);
 
-                if (info.isEnableNightVision) {
-                    msg = "CameraMode : " + MCH_KeyName.getDescOrName(MCH_Config.KeyCameraMode.prmInt);
-                    this.drawString(msg, LX, this.centerY - 50, colorActive);
-                }
-
-                msg = "Dismount all : LShift";
-                this.drawString(msg, LX, this.centerY - 30, colorActive);
-                if (vehicle.getSeatNum() >= 2) {
-                    msg = "Dismount : " + MCH_KeyName.getDescOrName(MCH_Config.KeyUnmount.prmInt);
-                    this.drawString(msg, LX, this.centerY - 40, colorActive);
-                }
-            }
+        if (vehicle.haveFlare()) {
+            var color = vehicle.isFlarePreparation() ? theme.inactive() : theme.active();
+            drawRightKey("Flare", MCH_Config.KeyFlare.prmInt, theme.rightX(), color);
         }
+        var gunnerStatus = vehicle.getGunnerStatus() ? "ON" : "OFF";
+        var gunnerMsg = "Gunner %s : %s + %s".formatted(
+                gunnerStatus,
+                MCH_KeyName.getDescOrName(MCH_Config.KeyFreeLook.prmInt),
+                MCH_KeyName.getDescOrName(MCH_Config.KeyCameraMode.prmInt)
+        );
+        drawString(gunnerMsg, theme.leftX(), currentLeftY, theme.active());
+        currentLeftY += 10;
+        var towChain = vehicle.getTowChainEntity();
+        if (vehicle.getSizeInventory() <= 0 || (towChain != null && !towChain.isDead)) {
+            drawRightKey("Drop", MCH_Config.KeyExtra.prmInt, theme.rightX(), theme.active());
+        }
+        if (vehicle.camera.getCameraZoom() > 1.0F) {
+            drawLeftKey("Zoom", MCH_Config.KeyZoom.prmInt, theme.leftX(), theme.active());
+        }
+        var ws = vehicle.getCurrentWeapon(player);
+        if (vehicle.getWeaponNum() > 1) {
+            drawLeftKey("Weapon", MCH_Config.KeySwitchWeapon2.prmInt, theme.leftX(), theme.active());
+        }
+
+        if (ws != null && ws.getCurrentWeapon() != null && ws.getCurrentWeapon().numMode > 0) {
+            drawLeftKey("WeaponMode", MCH_Config.KeySwWeaponMode.prmInt, theme.leftX(), theme.active());
+        }
+        if (info.isEnableNightVision) {
+            drawLeftKey("CameraMode", MCH_Config.KeyCameraMode.prmInt, theme.leftX(), theme.active());
+        }
+        if (vehicle.getSeatNum() >= 2) {
+            drawLeftKey("Dismount", MCH_Config.KeyUnmount.prmInt, theme.leftX(), theme.active());
+        }
+        drawString("Dismount all : LShift", theme.leftX(), currentLeftY, theme.active());
+        currentLeftY += 10;
     }
 }

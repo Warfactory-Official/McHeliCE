@@ -13,10 +13,6 @@ public class MCH_WeaponDummy extends MCH_WeaponBase {
         super(w, v, yaw, pitch, !nm.isEmpty() ? nm : "none", wi != null ? wi : dummy);
     }
 
-    public int getUseInterval() {
-        return 0;
-    }
-
     @Override
     public boolean shot(MCH_WeaponParam prm) {
         return false;

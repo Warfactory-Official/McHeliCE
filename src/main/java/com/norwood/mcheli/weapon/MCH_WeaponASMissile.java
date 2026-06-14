@@ -1,22 +1,19 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.MCH_Lib;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class MCH_WeaponASMissile extends MCH_WeaponBase {
 
-    public MCH_WeaponASMissile(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
-        super(w, v, yaw, pitch, nm, wi);
+    public MCH_WeaponASMissile(World world, Vec3d position, float yaw, float pitch, String name, MCH_WeaponInfo weaponInfo) {
+        super(world, position, yaw, pitch, name, weaponInfo);
         this.acceleration = 3.0F;
         this.explosionPower = 9;
         this.power = 40;
-        this.interval = 65186;
-        if (w.isRemote) {
+        this.interval = -350;
+
+        if (world.isRemote) {
             this.interval -= 10;
         }
     }
@@ -33,42 +30,40 @@ public class MCH_WeaponASMissile extends MCH_WeaponBase {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        float yaw = prm.user.rotationYaw;
-        float pitch = prm.user.rotationPitch;
-        double tX = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-        double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-        double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
-        double dist = MathHelper.sqrt(tX * tX + tY * tY + tZ * tZ);
-        if (this.world.isRemote) {
-            tX = tX * 200.0 / dist;
-            tY = tY * 200.0 / dist;
-            tZ = tZ * 200.0 / dist;
-        } else {
-            tX = tX * 250.0 / dist;
-            tY = tY * 250.0 / dist;
-            tZ = tZ * 250.0 / dist;
+        if (!this.world.isRemote) {
+            float yaw = prm.user.rotationYaw;
+            float pitch = prm.user.rotationPitch;
+
+            Vec3d lookDir = Vec3d.fromPitchYaw(pitch, yaw);
+
+            double maxDist = 1500.0;
+            Vec3d src = new Vec3d(prm.entity.posX, prm.entity.posY + prm.entity.getEyeHeight(), prm.entity.posZ);
+            Vec3d dst = src.add(lookDir.scale(maxDist));
+
+            RayTraceResult hitResult = this.world.rayTraceBlocks(src, dst, false, true, true);
+
+            Vec3d hitVec = (hitResult != null && hitResult.typeOfHit != RayTraceResult.Type.MISS)
+                    ? hitResult.hitVec
+                    : dst;
+
+            MCH_EntityASMissile missile = new MCH_EntityASMissile(
+                    this.world,
+                    prm.posX, prm.posY, prm.posZ,
+                    lookDir.x, lookDir.y, lookDir.z,
+                    yaw, pitch, this.acceleration
+            );
+
+            missile.setName(this.name);
+            missile.setParameterFromWeapon(this, prm.entity, prm.user);
+
+            missile.targetPosX = hitVec.x;
+            missile.targetPosY = hitVec.y;
+            missile.targetPosZ = hitVec.z;
+
+            this.world.spawnEntity(missile);
+            this.playSound(prm.entity);
         }
 
-        Vec3d src = new Vec3d(prm.entity.posX, prm.entity.posY + 1.62, prm.entity.posZ);
-        Vec3d dst = new Vec3d(prm.entity.posX + tX, prm.entity.posY + 1.62 + tY, prm.entity.posZ + tZ);
-        RayTraceResult m = W_WorldFunc.clip(this.world, src, dst);
-        if (W_MovingObjectPosition.isHitTypeTile(m) && !MCH_Lib.isBlockInWater(this.world, m.getBlockPos().getX(),
-                m.getBlockPos().getY(), m.getBlockPos().getZ())) {
-            if (!this.world.isRemote) {
-                MCH_EntityASMissile e = new MCH_EntityASMissile(this.world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
-                        yaw, pitch, this.acceleration);
-                e.setName(this.name);
-                e.setParameterFromWeapon(this, prm.entity, prm.user);
-                e.targetPosX = m.hitVec.x;
-                e.targetPosY = m.hitVec.y;
-                e.targetPosZ = m.hitVec.z;
-                this.world.spawnEntity(e);
-                this.playSound(prm.entity);
-            }
-
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     }
 }

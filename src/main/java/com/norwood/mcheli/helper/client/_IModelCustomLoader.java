@@ -12,8 +12,8 @@ public interface _IModelCustomLoader {
     String[] getSuffixes();
 
     @Deprecated
-    _IModelCustom loadInstance(ResourceLocation var1) throws _ModelFormatException;
+    IModelCustom loadInstance(ResourceLocation var1) throws _ModelFormatException;
 
     @Deprecated
-    _IModelCustom loadInstance(String var1, URL var2) throws _ModelFormatException;
+    IModelCustom loadInstance(String var1, URL var2) throws _ModelFormatException;
 }

@@ -2,9 +2,11 @@ package com.norwood.mcheli.flare;
 
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.weapon.MCH_IEntityLockChecker;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
-public class MCH_EntityFlare extends W_Entity implements IEntityAdditionalSpawnData {
+public class MCH_EntityFlare extends W_Entity implements IEntityAdditionalSpawnData, MCH_IEntityLockChecker {
 
     public double gravity = -0.013;
     public double airResistance = 0.992;
@@ -191,5 +193,9 @@ public class MCH_EntityFlare extends W_Entity implements IEntityAdditionalSpawnD
     @SideOnly(Side.CLIENT)
     public float getShadowSize() {
         return 0.0F;
+    }
+    @Override
+    public boolean canLockEntity(Entity var1) {
+        return false;
     }
 }

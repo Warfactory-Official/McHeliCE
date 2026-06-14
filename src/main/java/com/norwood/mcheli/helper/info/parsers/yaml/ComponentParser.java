@@ -100,6 +100,17 @@ public class ComponentParser {
                             info.partWeaponBay, new HashSet<>(Arrays.asList("MaxRotation", "IsSliding", "WeaponName")));
                 }).forEachOrdered(info.partWeaponBay::add);
 
+                case "TurretWeaponBay" -> componentList.stream().map(component -> {
+                    String weaponName = ((String) component.get("WeaponName")).trim();
+                    if (weaponName == null) throw new IllegalArgumentException("WeaponName is required!");
+                    return parseDrawnPart("turret_wb", component,
+                            drawnPart -> new MCH_AircraftInfo.WeaponBay(drawnPart,
+                                    getClamped(-180F, 180F, component.getOrDefault("MaxRotation", 90F)),
+                                    (Boolean) component.getOrDefault("IsSliding", false), weaponName),
+                            info.partTurretWeaponBay,
+                            new HashSet<>(Arrays.asList("MaxRotation", "IsSliding", "WeaponName")));
+                }).forEachOrdered(info.partTurretWeaponBay::add);
+
                 case "RepelHook" -> componentList.stream().map(ComponentParser::parseHook)
                         .forEachOrdered(info.repellingHooks::add);
 
@@ -110,6 +121,13 @@ public class ComponentParser {
                                         ((Boolean) component.getOrDefault("AlwaysRotate", false))),
                                 info.partRotPart, new HashSet<>(Arrays.asList("Speed", "AlwaysRotate"))))
                         .forEachOrdered(info.partRotPart::add);
+
+                case "TurretRotation" -> componentList.stream()
+                        .map(component -> parseDrawnPart(MCH_AircraftInfo.TurretRotPart.class, component,
+                                drawnPart -> new MCH_AircraftInfo.TurretRotPart(drawnPart,
+                                        ((Boolean) component.getOrDefault("AlwaysRotate", false))),
+                                info.partTurretRotPart, new HashSet<>(Collections.singletonList("AlwaysRotate"))))
+                        .forEachOrdered(info.partTurretRotPart::add);
 
                 case "SteeringWheel" -> componentList.stream().map(component -> parseDrawnPart("steering_wheel",
                         component,

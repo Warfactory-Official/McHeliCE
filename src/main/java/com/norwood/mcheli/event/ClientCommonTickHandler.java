@@ -1,9 +1,6 @@
 package com.norwood.mcheli.event;
 
-import com.norwood.mcheli.MCH_ClientEventHook;
-import com.norwood.mcheli.MCH_Config;
-import com.norwood.mcheli.MCH_ServerSettings;
-import com.norwood.mcheli.MCH_ViewEntityDummy;
+import com.norwood.mcheli.*;
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.gltd.MCH_ClientGLTDTickHandler;
 import com.norwood.mcheli.gui.MCH_Gui;
@@ -40,6 +37,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
     public static ClientCommonTickHandler instance;
     public static MCH_EntityAircraft ridingAircraft = null;
     public static boolean isDrawScoreboard = false;
+    public static boolean enableNew3rdCamera = true;
     public final MCH_ClientTickHandlerBase[] ticks;
     public final KeyboardInputHandler kbInput;
     public final MouseInputHandler mouseInput;
@@ -89,12 +87,14 @@ public class ClientCommonTickHandler extends W_TickHandler {
         }
     }
 
-    @Override
     public void onTickPost() {
-        if (this.mc.player != null && this.mc.world != null) {
+        if(super.mc.player != null && super.mc.world != null) {
             MCH_GuiTargetMarker.onClientTick();
+            clearMountedArmSwing(super.mc.player);
         }
+        MCH_PlayerViewHandler.onUpdate();
     }
+
 
     public void onTick() {
         MCH_ClientTickHandlerBase.initRotLimit();
@@ -105,7 +105,28 @@ public class ClientCommonTickHandler extends W_TickHandler {
         handleImageDataSending();
         handleTickHandlers(inGui);
         cameraHandler.handleAircraftCamera(player);
+        handleThirdPersonCamera(player);
         handleGps(player);
+    }
+
+    private void handleThirdPersonCamera(EntityPlayer player) {
+        if (!(player instanceof net.minecraft.client.entity.EntityPlayerSP playerSP) || mc.world == null) {
+            MCH_3rdCamera.clear();
+            return;
+        }
+
+        if (enableNew3rdCamera && player.getRidingEntity() instanceof MCH_EntityAircraft aircraft &&
+                mc.gameSettings.thirdPersonView != 0 && !aircraft.isDestroyed()) {
+            MCH_3rdCamera thirdCamera = MCH_3rdCamera.getInstance(mc.world, aircraft);
+            thirdCamera.update(aircraft, playerSP);
+            MCH_Lib.setRenderViewEntity(thirdCamera);
+            return;
+        }
+
+        if (mc.getRenderViewEntity() instanceof MCH_3rdCamera) {
+            MCH_Lib.setRenderViewEntity(playerSP);
+        }
+        MCH_3rdCamera.clear();
     }
 
     @Override
@@ -156,6 +177,7 @@ public class ClientCommonTickHandler extends W_TickHandler {
     @Override
     public void onRenderTickPost(float partialTicks) {
         if (this.mc.player != null) {
+            clearMountedArmSwing(this.mc.player);
             MCH_ClientTickHandlerBase.applyRotLimit(this.mc.player);
             if (ridingAircraft != null) {
                 Entity e = MCH_ViewEntityDummy.getInstance(this.mc.player.world);
@@ -168,6 +190,16 @@ public class ClientCommonTickHandler extends W_TickHandler {
             }
         }
         guiTickHandler.handleGui(partialTicks);
+    }
+
+    private void clearMountedArmSwing(EntityPlayer player) {
+        if (MCH_EntityAircraft.getAircraft_RiddenOrControl(player) == null) {
+            return;
+        }
+
+        player.swingProgress = 0.0F;
+        player.prevSwingProgress = 0.0F;
+        player.swingProgressInt = 0;
     }
 
 }

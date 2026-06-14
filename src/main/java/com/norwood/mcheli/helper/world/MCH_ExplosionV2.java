@@ -9,6 +9,7 @@ import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.wrapper.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -57,6 +58,10 @@ public class MCH_ExplosionV2 extends Explosion {
     public final EntityPlayer explodedPlayer;
     public float explosionSizeBlock;
     public MCH_DamageFactor damageFactor = null;
+    // Reforged: explosion-through-wall. When true, blast damage ignores block occlusion
+    // (full density), but is scaled by explosionThroughWallFactor when the target is occluded.
+    public boolean explosionThroughWall = false;
+    public float explosionThroughWallFactor = 1.0F;
     private final MCH_Explosion.ExplosionResult result;
 
     @SideOnly(Side.CLIENT)
@@ -85,6 +90,14 @@ public class MCH_ExplosionV2 extends Explosion {
         this.isPlaySound = true;
         this.isInWater = false;
         this.result = new MCH_Explosion.ExplosionResult();
+        // Reforged: inherit through-wall blast settings from the exploding bullet's weapon info.
+        if (exploderIn instanceof MCH_EntityBaseBullet) {
+            MCH_WeaponInfo wi = ((MCH_EntityBaseBullet) exploderIn).getInfo();
+            if (wi != null) {
+                this.explosionThroughWall = wi.explosionThroughWall;
+                this.explosionThroughWallFactor = wi.explosionThroughWallFactor;
+            }
+        }
     }
 
     public static void playExplosionSound(World world, double x, double y, double z) {
@@ -230,9 +243,16 @@ public class MCH_ExplosionV2 extends Explosion {
                     d0 /= d8;
                     d1 /= d8;
                     d2 /= d8;
-                    double d9 = this.getBlockDensity(vec3, entity.getEntityBoundingBox());
+                    double blockDensity = this.getBlockDensity(vec3, entity.getEntityBoundingBox());
+                    // Reforged through-wall: blast reaches the target at full density even when
+                    // walls would normally occlude it.
+                    double d9 = this.explosionThroughWall ? 1.0 : blockDensity;
                     double d10 = (1.0 - d7) * d9;
                     float damage = (int) ((d10 * d10 + d10) / 2.0 * 8.0 * f + 1.0);
+                    // ...but occluded targets take reduced through-wall damage.
+                    if (this.explosionThroughWall && blockDensity < 1.0) {
+                        damage *= Math.max(0.0F, Math.min(1.0F, this.explosionThroughWallFactor));
+                    }
                     if (damage > 0.0F && !(entity instanceof EntityItem) && !(entity instanceof EntityExpBottle) &&
                             !(entity instanceof EntityXPOrb) && !W_Entity.isEntityFallingBlock(entity)) {
                         if (!(entity instanceof MCH_EntityBaseBullet) ||

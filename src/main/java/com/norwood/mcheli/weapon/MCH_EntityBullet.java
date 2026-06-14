@@ -2,10 +2,10 @@ package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.helper.MCH_Logger;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
@@ -40,9 +40,8 @@ public class MCH_EntityBullet extends MCH_EntityBaseBullet {
                         this.posX = (entity1.posX + this.posX) / 2.0;
                         this.posY = (entity1.posY + this.posY) / 2.0;
                         this.posZ = (entity1.posZ + this.posZ) / 2.0;
-                        RayTraceResult mop = W_MovingObjectPosition.newMOP(
-                                (int) this.posX, (int) this.posY, (int) this.posZ, 0, entity1.getPositionVector(),
-                                false);
+                        Vec3d p5 = entity1.getPositionVector();
+                        RayTraceResult mop = new RayTraceResult(p5, EnumFacing.byIndex(0), new BlockPos((int) this.posX, (int) this.posY, (int) this.posZ));
                         this.onImpact(mop, 1.0F);
                         break;
                     }
@@ -64,7 +63,7 @@ public class MCH_EntityBullet extends MCH_EntityBaseBullet {
             Vec3d vec31 = new Vec3d(this.posX + mx, this.posY + my, this.posZ + mz);
             m = W_WorldFunc.clip(this.world, vec3, vec31);
             boolean continueClip = false;
-            if (this.shootingEntity != null && W_MovingObjectPosition.isHitTypeTile(m)) {
+            if (this.shootingEntity != null && m != null && m.typeOfHit == RayTraceResult.Type.BLOCK) {
                 BlockPos blockpos1 = m.getBlockPos();
                 Block block = this.world.getBlockState(blockpos1).getBlock();
                 if (MCH_Config.bulletBreakableBlocks.contains(block)) {
@@ -122,7 +121,6 @@ public class MCH_EntityBullet extends MCH_EntityBaseBullet {
             }
         }
     }
-
     @Override
     public MCH_BulletModel getDefaultBulletModel() {
         return MCH_DefaultBulletModels.Bullet;

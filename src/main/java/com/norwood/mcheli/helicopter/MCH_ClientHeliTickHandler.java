@@ -51,6 +51,10 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
                 this.KeyUnmount,
                 this.KeyUnmountForce,
                 this.KeyFlare,
+                this.KeyChaff,
+                this.KeyAPS,
+                this.KeyECMJammer,
+                this.KeyRadarSwitch,
                 this.KeyExtra,
                 this.KeyFreeLook,
                 this.KeyGUI,
@@ -110,7 +114,7 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
             }
 
             boolean hideHand = true;
-            if ((!isPilot || !heli.isAlwaysCameraView()) && !heli.getIsGunnerMode(player)) {
+            if ((!isPilot || heli.isAlwaysCameraView()) && !heli.getIsGunnerMode(player)) {
                 MCH_Lib.setRenderViewEntity(player);
                 if (!isPilot && heli.getCurrentWeaponID(player) < 0) {
                     hideHand = false;
@@ -218,6 +222,7 @@ public class MCH_ClientHeliTickHandler extends MCH_AircraftClientTickHandler {
 
         if (send) {
             new PacketPlayerControlHeli(pc).sendToServer();
+            this.recordDetachedAimSync(heli);
         }
     }
 }

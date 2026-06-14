@@ -2,33 +2,57 @@ package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.networking.packet.PacketNotifyTVMissileEntity;
+import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.wrapper.W_Entity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Objects;
 
 public class MCH_WeaponTvMissile extends MCH_WeaponBase {
 
     protected MCH_EntityTvMissile lastShotTvMissile;
     protected Entity lastShotEntity;
     protected boolean isTVGuided;
+    public MCH_LaserGuidanceSystem guidanceSystem;
 
     public MCH_WeaponTvMissile(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
         super(w, v, yaw, pitch, nm, wi);
-        this.power = 32;
-        this.acceleration = 2.0F;
-        this.explosionPower = 4;
-        this.interval = -100;
-        if (w.isRemote) {
-            this.interval -= 10;
+        super.power = 32;
+        super.acceleration = 2.0F;
+        super.explosionPower = 4;
+        super.interval = -100;
+        if(w.isRemote) {
+            super.interval -= 10;
         }
 
-        this.numMode = 2;
+        super.numMode = 2;
         this.lastShotEntity = null;
         this.lastShotTvMissile = null;
         this.isTVGuided = false;
+
+        if (getInfo().laserGuidance) {
+            this.guidanceSystem = new MCH_LaserGuidanceSystem();
+            guidanceSystem.worldObj = w;
+            guidanceSystem.hasLaserGuidancePod = wi.hasLaserGuidancePod;
+            if (w.isRemote) {
+                initGuidanceSystemClient();
+            }
+        }
     }
+
+    @SideOnly(Side.CLIENT)
+    public void initGuidanceSystemClient() {
+        guidanceSystem.user = Minecraft.getMinecraft().player;
+    }
+
+
 
     @Override
     public String getName() {
@@ -81,25 +105,25 @@ public class MCH_WeaponTvMissile extends MCH_WeaponBase {
     }
 
     protected boolean shotServer(MCH_WeaponParam prm) {
-        float yaw = prm.user.rotationYaw + this.fixRotationYaw;
-        float pitch = prm.user.rotationPitch + this.fixRotationPitch;
-        double tX = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-        double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-        double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
-        this.isTVGuided = prm.option1 == 0;
-        float acr = this.acceleration;
-        if (!this.isTVGuided) {
-            acr = (float) (acr * 1.5);
-        }
-
-        MCH_EntityTvMissile e = new MCH_EntityTvMissile(this.world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ, yaw,
-                pitch, acr);
-        e.setName(this.name);
-        e.setParameterFromWeapon(this, prm.entity, prm.user);
-        this.lastShotEntity = prm.entity;
-        this.lastShotTvMissile = e;
-        this.world.spawnEntity(e);
         this.playSound(prm.entity);
+
+        Vec2f rot = calculateShotRotation(prm, true, false);
+        Vec3d motion = Vec3d.fromPitchYaw(rot.y, rot.x);
+
+        this.isTVGuided = prm.option1 == 0;
+        float finalAcceleration = isTVGuided ? acceleration : acceleration * 1.5F;
+
+        var missile = new MCH_EntityTvMissile(world, prm.posX, prm.posY, prm.posZ,
+                motion.x, motion.y, motion.z, rot.x, rot.y, finalAcceleration);
+
+        missile.setName(this.name);
+        missile.setParameterFromWeapon(this, prm.entity, prm.user);
+
+        this.lastShotEntity = prm.entity;
+        this.lastShotTvMissile = missile;
+
+        world.spawnEntity(missile);
         return true;
     }
+
 }

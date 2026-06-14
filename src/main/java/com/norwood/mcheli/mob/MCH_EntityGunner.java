@@ -8,8 +8,14 @@ import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
+import com.norwood.mcheli.weapon.MCH_EntityAAMissile;
+import com.norwood.mcheli.weapon.MCH_EntityASMissile;
+import com.norwood.mcheli.weapon.MCH_EntityATMissile;
+import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
+import com.norwood.mcheli.weapon.MCH_EntityTvMissile;
 import com.norwood.mcheli.weapon.MCH_WeaponBase;
 import com.norwood.mcheli.weapon.MCH_WeaponEntitySeeker;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponParam;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
@@ -57,6 +63,8 @@ public class MCH_EntityGunner extends EntityLivingBase {
     public boolean waitCooldown = false;
     public int idleCount = 0;
     public int idleRotation = 0;
+    /** Reforged: cooldown between automatic countermeasure deployments by an onboard AI gunner. */
+    public int autoCountermeasureCooldown = 0;
 
     public MCH_EntityGunner(World world) {
         super(world);
@@ -155,17 +163,25 @@ public class MCH_EntityGunner extends EntityLivingBase {
                 this.dismountRidingEntity();
             }
 
+            MCH_EntityAircraft hostAircraft = null;
             if (this.getRidingEntity() instanceof MCH_EntityAircraft) {
-                this.shotTarget((MCH_EntityAircraft) this.getRidingEntity());
+                hostAircraft = (MCH_EntityAircraft) this.getRidingEntity();
+                this.shotTarget(hostAircraft);
             } else if (this.getRidingEntity() instanceof MCH_EntitySeat &&
                     ((MCH_EntitySeat) this.getRidingEntity()).getParent() != null) {
-                        this.shotTarget(((MCH_EntitySeat) this.getRidingEntity()).getParent());
+                        hostAircraft = ((MCH_EntitySeat) this.getRidingEntity()).getParent();
+                        this.shotTarget(hostAircraft);
                     } else
                 if (this.despawnCount < 20) {
                     this.despawnCount++;
                 } else if (this.getRidingEntity() == null || this.ticksExisted > 100) {
                     this.setDead();
                 }
+
+            // Reforged: an onboard AI gunner auto-deploys countermeasures against incoming guided threats.
+            if (hostAircraft != null) {
+                this.autoUseCountermeasures(hostAircraft);
+            }
 
             if (this.targetEntity == null) {
                 if (this.idleCount == 0) {
@@ -179,6 +195,10 @@ public class MCH_EntityGunner extends EntityLivingBase {
             }
         }
 
+        if (this.autoCountermeasureCooldown > 0) {
+            this.autoCountermeasureCooldown--;
+        }
+
         if (this.switchTargetCount > 0) {
             this.switchTargetCount--;
         }
@@ -186,6 +206,86 @@ public class MCH_EntityGunner extends EntityLivingBase {
         if (this.idleCount > 0) {
             this.idleCount--;
         }
+    }
+
+    // ===== Reforged: automatic countermeasure deployment by an onboard AI gunner =====
+
+    /**
+     * When an incoming guided munition is homing on the host aircraft, deploy whatever
+     * countermeasures it carries (flare / chaff / ECM jammer / APS), then enter a short cooldown.
+     * Server-side, throttled to every 5 ticks.
+     */
+    private void autoUseCountermeasures(MCH_EntityAircraft ac) {
+        if (ac == null || this.world.isRemote || ac.isDestroyed()) {
+            return;
+        }
+        if (this.autoCountermeasureCooldown > 0 || this.ticksExisted % 5 != 0) {
+            return;
+        }
+        if (!this.hasIncomingGuidedThreat(ac)) {
+            return;
+        }
+        boolean used = false;
+        int flareType = this.getAutoCountermeasureFlareType(ac);
+        if (flareType > 0 && ac.canUseFlare() && ac.useFlare(flareType)) {
+            used = true;
+        }
+        if (ac.canUseChaff() && ac.useChaff()) {
+            used = true;
+        }
+        if (ac.getAcInfo() != null && ac.getAcInfo().enableECMJammer && ac.useECMJammer()) {
+            used = true;
+        }
+        if (ac.canUseAPS() && ac.useAPS()) {
+            used = true;
+        }
+        if (used) {
+            this.autoCountermeasureCooldown = 30;
+        }
+    }
+
+    /** Pick a sensible flare type to release: prefer decoy type 10, else the current/first type. */
+    private int getAutoCountermeasureFlareType(MCH_EntityAircraft ac) {
+        if (ac == null || !ac.haveFlare() || ac.getAcInfo() == null || ac.getAcInfo().flare == null
+                || ac.getAcInfo().flare.types == null) {
+            return 0;
+        }
+        int[] types = ac.getAcInfo().flare.types;
+        for (int type : types) {
+            if (type == 10) {
+                return 10;
+            }
+        }
+        int current = ac.getCurrentFlareType();
+        if (current > 0) {
+            return current;
+        }
+        return types.length > 0 ? types[0] : 0;
+    }
+
+    /** True if any guided munition within ~220 blocks is currently homing on the host aircraft. */
+    private boolean hasIncomingGuidedThreat(MCH_EntityAircraft ac) {
+        List<MCH_EntityBaseBullet> list = this.world.getEntitiesWithinAABB(MCH_EntityBaseBullet.class,
+                ac.getEntityBoundingBox().grow(220.0, 220.0, 220.0));
+        if (list == null || list.isEmpty()) {
+            return false;
+        }
+        for (MCH_EntityBaseBullet bullet : list) {
+            if (bullet == null || bullet.isDead || bullet.getInfo() == null || bullet.targetEntity == null) {
+                continue;
+            }
+            if (!ac.isMountedEntity(bullet.targetEntity) && !bullet.targetEntity.equals(ac)) {
+                continue;
+            }
+            MCH_WeaponInfo info = bullet.getInfo();
+            if (info.isHeatSeekerMissile || info.isRadarMissile || info.passiveRadar || info.activeRadar
+                    || info.laserGuidance || info.isGPSMissile
+                    || bullet instanceof MCH_EntityAAMissile || bullet instanceof MCH_EntityATMissile
+                    || bullet instanceof MCH_EntityASMissile || bullet instanceof MCH_EntityTvMissile) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean canAttackEntity(EntityLivingBase entity, MCH_EntityAircraft ac, MCH_WeaponSet ws) {

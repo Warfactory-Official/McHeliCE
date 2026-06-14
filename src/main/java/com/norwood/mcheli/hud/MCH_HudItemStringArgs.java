@@ -40,7 +40,8 @@ public enum MCH_HudItemStringArgs {
     CAM_ZOOM,
     UAV_DIST,
     KEY_GUI,
-    THROTTLE;
+    THROTTLE,
+    AIRBURST_DIST;
 
     public static MCH_HudItemStringArgs toArgs(String name) {
         MCH_HudItemStringArgs a = NONE;

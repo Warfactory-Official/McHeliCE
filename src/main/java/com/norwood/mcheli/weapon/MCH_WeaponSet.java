@@ -346,17 +346,44 @@ public class MCH_WeaponSet {
         return false;
     }
 
+    public boolean prepareUse(MCH_WeaponParam prm) {
+        MCH_WeaponBase current = this.getCurrentWeapon();
+        if (current == null || current.getInfo() == null) return false;
+
+        MCH_WeaponInfo info = current.getInfo();
+        boolean hasAmmo = this.getMagSize() <= 0 || this.getAmmo() > 0;
+        boolean notOverheated = info.maxHeatCount <= 0 || this.currentHeat < info.maxHeatCount;
+
+        if (!hasAmmo || !notOverheated || !this.canFire()) {
+            return false;
+        }
+
+        setupWeaponParam(prm, current, info);
+        if (current.shot(prm)) {
+            handlePostFire(prm, current, info);
+            return true;
+        }
+
+        return false;
+    }
+
     private void setupWeaponParam(MCH_WeaponParam prm, MCH_WeaponBase current, MCH_WeaponInfo info) {
         current.canPlaySound = (this.soundWait == 0);
-        float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
-        float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
-
-        prm.rotYaw = baseYaw + this.yaw + current.fixRotationYaw;
-        prm.rotPitch = basePitch + this.pitch + current.fixRotationPitch;
+        if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
+            prm.rotYaw = aircraft.getCurrentWeaponShotYaw(prm.user);
+            prm.rotPitch = aircraft.getCurrentWeaponShotPitch(prm.user);
+        } else {
+            float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
+            float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
+            prm.rotYaw = baseYaw + this.yaw + current.fixRotationYaw;
+            prm.rotPitch = basePitch + this.pitch + current.fixRotationPitch;
+        }
 
         if (info.accuracy > 0.0F) {
-            prm.rotYaw += (rand.nextFloat() - 0.5F) * info.accuracy;
-            prm.rotPitch += (rand.nextFloat() - 0.5F) * info.accuracy;
+            double r = Math.sqrt(rand.nextDouble()) * (info.accuracy * 0.5);
+            double theta = rand.nextDouble() * 2 * Math.PI;
+            prm.rotYaw += (float) (r * Math.cos(theta));
+            prm.rotPitch += (float) (r * Math.sin(theta));
         }
 
         prm.rotYaw = MathHelper.wrapDegrees(prm.rotYaw);
@@ -440,13 +467,41 @@ public class MCH_WeaponSet {
         MCH_WeaponBase current = this.getCurrentWeapon();
         if (current == null || current.getInfo() == null) return -1.0;
 
-        float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
-        float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
-
-        prm.rotYaw = MathHelper.wrapDegrees(baseYaw + this.yaw + current.fixRotationYaw);
-        prm.rotPitch = MathHelper.wrapDegrees(basePitch + this.pitch + current.fixRotationPitch);
+        if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
+            prm.rotYaw = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotYaw(prm.user));
+            prm.rotPitch = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotPitch(prm.user));
+        } else {
+            float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
+            float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
+            prm.rotYaw = MathHelper.wrapDegrees(baseYaw + this.yaw + current.fixRotationYaw);
+            prm.rotPitch = MathHelper.wrapDegrees(basePitch + this.pitch + current.fixRotationPitch);
+        }
 
         return current.getLandInDistance(prm);
+    }
+
+    /**
+     * CCIP fire-control: simulate the current weapon's trajectory and return the predicted
+     * world-space impact point (or null). Mirrors {@link #getImpactDistance} but returns the
+     * full point and also resolves roll for aircraft.
+     */
+    public Vec3d getPredictedImpactPoint(MCH_WeaponParam prm) {
+        MCH_WeaponBase current = this.getCurrentWeapon();
+        if (current == null || current.getInfo() == null) return null;
+
+        if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
+            prm.rotYaw = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotYaw(prm.user));
+            prm.rotPitch = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotPitch(prm.user));
+            prm.rotRoll = aircraft.getRoll();
+        } else {
+            float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
+            float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
+            prm.rotYaw = MathHelper.wrapDegrees(baseYaw + this.yaw + current.fixRotationYaw);
+            prm.rotPitch = MathHelper.wrapDegrees(basePitch + this.pitch + current.fixRotationPitch);
+            prm.rotRoll = 0.0F;
+        }
+
+        return current.getImpactPos(prm);
     }
 
     public static class Recoil {

@@ -10,6 +10,7 @@ import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_HeliInfoManager;
 import com.norwood.mcheli.helicopter.MCH_ItemHeli;
 import com.norwood.mcheli.helper.MCH_Logger;
+import com.norwood.mcheli.wingman.config.WingmanConfig; //WINGMAN
 import com.norwood.mcheli.helper.entity.IEntitySinglePassenger;
 import com.norwood.mcheli.helper.network.PooledGuiParameter;
 import com.norwood.mcheli.multiplay.MCH_Multiplay;
@@ -363,9 +364,14 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        if (this.getControlled() instanceof MCH_EntityAircraft ac && ac.isDead) {
+        //WINGMAN Start
+        // Wingman: only the SERVER severs the link when the controlled aircraft dies. On the client
+        // a UAV is often flagged dead merely because its chunk unloaded at long range; keeping the
+        // reference stops the camera from snapping back to the operator while it is re-streamed.
+        if (!this.world.isRemote && this.getControlled() instanceof MCH_EntityAircraft ac && ac.isDead) {
             this.setControlled(null);
         }
+        //WINGMAN End
 
         if (this.getLastControlAircraft() instanceof MCH_EntityAircraft lastAc && lastAc.isDead) {
             this.setLastControlAircraft(null);
@@ -418,8 +424,13 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
 
     public void searchLastControlAircraft() {
         if (!this.loadedLastControlAircraftGuid.isEmpty()) {
+            //WINGMAN Start
+            // Wingman: widen the post-load re-link search from the legacy 120-block box to the
+            // configured UAV range so a far-flung UAV can still be reattached to its station.
+            double sr = WingmanConfig.uavSearchRange();
             List<MCH_EntityAircraft> list = this.world.getEntitiesWithinAABB(MCH_EntityAircraft.class,
-                    this.getCollisionBoundingBox().grow(120.0, 120.0, 120.0));
+                    this.getCollisionBoundingBox().grow(sr, sr, sr));
+            //WINGMAN End
             for (MCH_EntityAircraft ac : list) {
                 if (ac.getCommonUniqueId().equals(this.loadedLastControlAircraftGuid)) {
                     String n = "no info : " + ac;

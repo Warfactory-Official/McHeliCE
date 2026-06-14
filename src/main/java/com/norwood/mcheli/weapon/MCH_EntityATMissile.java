@@ -18,78 +18,74 @@ public class MCH_EntityATMissile extends MCH_EntityBaseBullet {
         super(par1World, posX, posY, posZ, targetX, targetY, targetZ, yaw, pitch, acceleration);
     }
 
-    @Override
     public void onUpdate() {
         super.onUpdate();
-        if (this.getInfo() != null && !this.getInfo().disableSmoke &&
-                this.ticksExisted >= this.getInfo().trajectoryParticleStartTick) {
-            this.spawnParticle(this.getInfo().trajectoryParticleName, 3, 5.0F * this.getInfo().smokeSize * 0.5F);
+
+        final var info = this.getInfo();
+        if (info == null) return;
+
+        if (this.getCountOnUpdate() > 4 && !info.disableSmoke) {
+            this.spawnParticle(info.trajectoryParticleName, 3, 7.0F * info.smokeSize * 0.5F);
         }
 
-        if (!this.world.isRemote) {
-            if (this.shootingEntity != null && this.targetEntity != null && !this.targetEntity.isDead) {
-                if (this.usingFlareOfTarget(this.targetEntity)) {
-                    this.setDead();
-                    return;
-                }
+        if (world.isRemote) return;
 
-                this.onUpdateMotion();
-            } else {
-                this.setDead();
-            }
+        if (shootingEntity != null && targetEntity != null && !targetEntity.isDead) {
+            processGuidance(info);
+        } else if (info.activeRadar && ticksExisted % info.scanInterval == 0) {
+            scanForTargets();
         }
-
-        double a = (float) Math.atan2(this.motionZ, this.motionX);
-        this.rotationYaw = (float) (a * 180.0 / Math.PI) - 90.0F;
-        double r = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationPitch = -((float) (Math.atan2(this.motionY, r) * 180.0 / Math.PI));
     }
 
-    public void onUpdateMotion() {
-        double x = this.targetEntity.posX - this.posX;
-        double y = this.targetEntity.posY - this.posY;
-        double z = this.targetEntity.posZ - this.posZ;
-        double d = x * x + y * y + z * z;
-        if (d > 2250000.0 || this.targetEntity.isDead) {
+    private void processGuidance(MCH_WeaponInfo info) {
+        double distSq = this.getDistanceSq(targetEntity);
+
+        if (distSq > 3422500.0D) {
             this.setDead();
-        } else if (this.getInfo().proximityFuseDist >= 0.1F && d < this.getInfo().proximityFuseDist) {
-            RayTraceResult mop = new RayTraceResult(this.targetEntity);
-            mop.entityHit = null;
-            this.onImpact(mop, 1.0F);
-        } else {
-            int rigidityTime = this.getInfo().rigidityTime;
-            float af = this.getCountOnUpdate() < rigidityTime + this.getInfo().trajectoryParticleStartTick ? 0.5F :
-                    1.0F;
-            if (this.getCountOnUpdate() > rigidityTime) {
-                if (this.guidanceType == 1) {
-                    if (this.getCountOnUpdate() <= rigidityTime + 20) {
-                        this.guidanceToTarget(this.targetEntity.posX, this.shootingEntity.posY + 150.0,
-                                this.targetEntity.posZ, af);
-                    } else if (this.getCountOnUpdate() <= rigidityTime + 30) {
-                        this.guidanceToTarget(this.targetEntity.posX, this.shootingEntity.posY, this.targetEntity.posZ,
-                                af);
-                    } else {
-                        if (this.getCountOnUpdate() == rigidityTime + 35) {
-                            this.setPower((int) (this.getPower() * 1.2F));
-                            if (this.explosionPower > 0) {
-                                this.explosionPower++;
-                            }
-                        }
+            return;
+        }
 
-                        this.guidanceToTarget(this.targetEntity.posX, this.targetEntity.posY, this.targetEntity.posZ,
-                                af);
-                    }
-                } else {
-                    d = MathHelper.sqrt(d);
-                    this.motionX = x * this.acceleration / d * af;
-                    this.motionY = y * this.acceleration / d * af;
-                    this.motionZ = z * this.acceleration / d * af;
-                }
-            }
+        if (this.getCountOnUpdate() <= info.rigidityTime) return;
+
+        if (this.guidanceType == 1) {
+            handleTopAttack(info);
+        } else {
+            handleDirectGuidance(info, distSq);
         }
     }
 
-    @Override
+    private void handleTopAttack(MCH_WeaponInfo info) {
+        int age = this.getCountOnUpdate();
+        int startTime = info.rigidityTime;
+        float acceleration = age < startTime + info.trajectoryParticleStartTick ? 0.5F : 1.0F;
+
+        if (age <= startTime + 20) {
+            doingTopAttack = true;
+            this.guidanceToTarget(targetEntity.posX, shootingEntity.posY + 100.0D, targetEntity.posZ, acceleration);
+        } else if (age <= startTime + 30) {
+            this.guidanceToTarget(targetEntity.posX, shootingEntity.posY, targetEntity.posZ, acceleration);
+        } else {
+            if (age == startTime + 35) {
+                this.setPower((int) (this.getPower() * 1.2F));
+                if (this.explosionPower > 0) this.explosionPower++;
+            }
+            doingTopAttack = false;
+            this.guidanceToTarget(targetEntity.posX, targetEntity.posY, targetEntity.posZ, acceleration);
+        }
+    }
+
+    private void handleDirectGuidance(MCH_WeaponInfo info, double distSq) {
+        if (info.proximityFuseDist >= 0.1F && distSq < Math.pow(info.proximityFuseDist, 2)) {
+            this.posX = (targetEntity.posX + this.posX) / 2.0D;
+            this.posY = (targetEntity.posY + this.posY) / 2.0D;
+            this.posZ = (targetEntity.posZ + this.posZ) / 2.0D;
+
+            this.onImpact(new RayTraceResult(targetEntity), 1.0F);
+        } else {
+            this.guidanceToTarget(targetEntity.posX, targetEntity.posY, targetEntity.posZ);
+        }
+    }
+
     public MCH_BulletModel getDefaultBulletModel() {
         return MCH_DefaultBulletModels.ATMissile;
     }

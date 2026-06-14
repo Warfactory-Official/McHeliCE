@@ -1,8 +1,8 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 
-public abstract class W_ModelCustom implements _IModelCustom {
+public abstract class W_ModelCustom implements IModelCustom {
 
     public float min = 100000.0F;
     public float minX = 100000.0F;

@@ -2,10 +2,11 @@ package com.norwood.mcheli;
 
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.client.MCH_Models;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.wrapper.W_ModelBase;
 import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
+import lombok.Setter;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,8 +20,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MCH_ModelManager extends W_ModelBase {
 
     private static final MCH_ModelManager instance = new MCH_ModelManager();
-    private static final ConcurrentHashMap<String, _IModelCustom> map = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, IModelCustom> map = new ConcurrentHashMap<>();
     private static final ModelRenderer defaultModel;
+    @Setter
     private static boolean forceReloadMode = false;
 
     static {
@@ -37,27 +39,23 @@ public class MCH_ModelManager extends W_ModelBase {
         });
     }
 
-    public static void setForceReloadMode(boolean b) {
-        forceReloadMode = b;
-    }
-
-    public static _IModelCustom load(@NotNull String path, @NotNull String name, boolean noThrow) {
+    public static IModelCustom load(@NotNull String path, @NotNull String name, boolean noThrow) {
         Objects.requireNonNull(path);
         Objects.requireNonNull(name);
         if (path.isEmpty() || name.isEmpty()) throw new IllegalArgumentException();
         return load(path + "/" + name, noThrow);
     }
 
-    public static _IModelCustom load(@NotNull String path, @NotNull String name) {
+    public static IModelCustom load(@NotNull String path, @NotNull String name) {
         return load(path,name,false);
     }
 
 
 
     @Nullable
-    public static _IModelCustom load(String name, boolean noThrow) {
+    public static IModelCustom load(String name, boolean noThrow) {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException();
-        _IModelCustom obj = map.get(name);
+        IModelCustom obj = map.get(name);
         if (obj != null) {
             if (!forceReloadMode) {
                 return obj;
@@ -68,7 +66,7 @@ public class MCH_ModelManager extends W_ModelBase {
             map.remove(name);
         }
 
-        _IModelCustom model;
+        IModelCustom model;
 
         try {
             model = MCH_Models.loadModel(name);
@@ -80,7 +78,7 @@ public class MCH_ModelManager extends W_ModelBase {
         if (model != null) map.put(name, model);
         return model;
     }
-    public static _IModelCustom load(String name) {
+    public static IModelCustom load(String name) {
         return load(name, false);
     }
 
@@ -89,7 +87,7 @@ public class MCH_ModelManager extends W_ModelBase {
     }
 
     public static void render(String name) {
-        _IModelCustom model = map.get(name);
+        IModelCustom model = map.get(name);
         if (model != null) {
             model.renderAll();
         } else if (defaultModel == null) {
@@ -97,21 +95,21 @@ public class MCH_ModelManager extends W_ModelBase {
     }
 
     public static void renderPart(String name, String partName) {
-        _IModelCustom model = map.get(name);
+        IModelCustom model = map.get(name);
         if (model != null) {
             model.renderPart(partName);
         }
     }
 
     public static void render(String path, String name, int startFace, int maxFace) {
-        _IModelCustom model = map.get(path + "/" + name);
+        IModelCustom model = map.get(path + "/" + name);
         if (model instanceof W_ModelCustom) {
             ((W_ModelCustom) model).renderAll(startFace, maxFace);
         }
     }
 
     public static W_ModelCustom get(String path, String name) {
-        _IModelCustom model = map.get(path + "/" + name);
+        IModelCustom model = map.get(path + "/" + name);
         return model instanceof W_ModelCustom ? (W_ModelCustom) model : null;
     }
 }

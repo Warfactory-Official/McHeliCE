@@ -1,8 +1,10 @@
 package com.norwood.mcheli.helper.client;
 
+import com.norwood.mcheli.MCH_3rdCamera;
 import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
+import com.norwood.mcheli.hud.direct_drawable.DirectDrawable;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
 import com.norwood.mcheli.uav.IUavStation;
 import net.minecraft.client.Minecraft;
@@ -13,12 +15,13 @@ import net.minecraft.util.Tuple;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.EntityViewRenderEvent.CameraSetup;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nullable;
+
+import static net.minecraftforge.client.event.RenderGameOverlayEvent.*;
 
 @EventBusSubscriber(
         modid = "mcheli",
@@ -75,7 +78,19 @@ public class MCH_CameraManager {
         if (ridingEntity != null && ridingEntity.canSwitchFreeLook() && ridingEntity.isPilot(mc.player)) {
             GlStateManager.translate(0.0F, -f, 0.0F);
             GlStateManager.rotate(cameraRoll, 0.0F, 0.0F, 1.0F);
-            if (ridingEntity.isOverridePlayerPitch()) {
+            // Compose the airframe pitch/yaw with the player's view as
+            // Rx(hullPitch)*Ry(hullYaw)*Rx(viewPitch-hullPitch)*Ry(viewYaw-hullYaw), i.e. the
+            // airframe orientation followed by the view offset relative to it. This is what tilts
+            // the camera with the airframe (e.g. a plane diving/ascending, where the relative view
+            // pitch is held near zero so only the hull pitch tilts the view).
+            //
+            // It is only valid while the view is an airframe-relative offset. When an independent
+            // mounted weapon is being aimed (MouseInputHandler drives it as an absolute world aim
+            // via player.turn), the view pitch is large and unrelated to the hull; composing it
+            // here sandwiches the pitch between the two yaw rotations and gimbal-locks it relative
+            // to the hull heading (correct facing south, rolls east/west, inverts north). In that
+            // case let vanilla render the absolute view directly, matching the freelook path.
+            if (ridingEntity.isOverridePlayerPitch() && !ridingEntity.hasIndependentMountedAim(mc.player)) {
                 GlStateManager.rotate(ridingEntity.rotationPitch, 1.0F, 0.0F, 0.0F);
                 GlStateManager.rotate(ridingEntity.rotationYaw, 0.0F, 1.0F, 0.0F);
                 event.setPitch(event.getPitch() - ridingEntity.rotationPitch);
@@ -94,7 +109,7 @@ public class MCH_CameraManager {
         }
         if (ridingAircraft != null) {
             MCH_ViewEntityDummy viewer = MCH_ViewEntityDummy.getInstance(mc.world);
-            if (viewer == event.getEntity()) {
+            if (viewer == event.getEntity() || event.getEntity() instanceof MCH_3rdCamera) {
                 event.setFOV(event.getFOV() * (1.0F / cameraZoom));
             }
         }
@@ -109,7 +124,7 @@ public class MCH_CameraManager {
         cameraZoom = zoom;
     }
 
-    public static float getThirdPeasonCameraDistance() {
+    public static float getThirdPersonCameraDistance() {
         return cameraDistance;
     }
 
@@ -127,14 +142,39 @@ public class MCH_CameraManager {
         ridingAircraft = aircraft;
     }
 
-    // For hud canceling
     @SubscribeEvent
-    public void onRenderOverlay(RenderGameOverlayEvent.Pre event) {
+    public void onRenderOverlay(Pre event) {
+        EntityPlayer player = mc.player;
+        if (player == null) {
+            return;
+        }
+
+        Entity riding = player.getRidingEntity();
+        boolean inVehicle = riding instanceof MCH_EntityAircraft ||
+                riding instanceof MCH_EntitySeat seat && seat.getParent() instanceof MCH_EntityAircraft;
+        if (!inVehicle) {
+            return;
+        }
+
+        ElementType type = event.getType();
+        if (type == ElementType.BOSSHEALTH ||
+                type == ElementType.HEALTH ||
+                type == ElementType.ARMOR ||
+                type == ElementType.CROSSHAIRS ||
+                type == ElementType.FOOD ||
+                type == ElementType.BOSSINFO ||
+                type == ElementType.VIGNETTE ||
+                type == ElementType.AIR ||
+                type == ElementType.HOTBAR
+
+        ) {
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent
-    public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+    public void onRenderOverlay(Post event) {
+        if (!DirectDrawable.shouldRender(event)) return;
         Tuple<EntityPlayer, MCH_EntityAircraft> ctx = getActivePilotContext();
         if (ctx == null) return;
         if (ctx.getSecond().getAcInfo() == null) return;

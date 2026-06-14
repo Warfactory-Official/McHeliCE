@@ -19,29 +19,38 @@ public class MCH_RenderCartridge extends W_Render<MCH_EntityCartridge> {
         this.shadowSize = 0.0F;
     }
 
-    public void doRender(MCH_EntityCartridge entity, double posX, double posY, double posZ, float par8,
-                         float tickTime) {
-        MCH_EntityCartridge cartridge = null;
-        if (entity.model != null && !entity.texture_name.isEmpty()) {
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(posX, posY, posZ);
-            GlStateManager.scale(entity.getScale(), entity.getScale(), entity.getScale());
-            float prevYaw = entity.prevRotationYaw;
-            if (entity.rotationYaw - prevYaw < -180.0F) {
-                prevYaw -= 360.0F;
-            } else if (prevYaw - entity.rotationYaw < -180.0F) {
-                prevYaw += 360.0F;
-            }
+    @Override
+    public void doRender(MCH_EntityCartridge entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        if (entity.model == null || entity.texture_name.isEmpty()) return;
 
-            float yaw = -(prevYaw + (entity.rotationYaw - prevYaw) * tickTime);
-            float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * tickTime;
-            GlStateManager.rotate(yaw, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(pitch, 1.0F, 0.0F, 0.0F);
-            this.bindTexture("textures/bullets/" + entity.texture_name + ".png");
-            entity.model.renderAll();
-            GlStateManager.popMatrix();
-        }
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, z);
+
+        float scale = entity.getScale();
+        GlStateManager.scale(scale, scale, scale);
+
+        float yaw = interpolateRotation(entity.prevRotationYaw, entity.rotationYaw, partialTicks);
+        float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
+
+        GlStateManager.rotate(-yaw, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(pitch, 1.0F, 0.0F, 0.0F);
+
+        this.bindTexture("textures/bullets/" + entity.texture_name + ".png");
+        entity.model.renderAll();
+
+        GlStateManager.popMatrix();
     }
+
+
+    private float interpolateRotation(float prev, float current, float partialTicks) {
+        float delta = current - prev;
+
+        while (delta < -180.0F) delta += 360.0F;
+        while (delta >= 180.0F) delta -= 360.0F;
+
+        return prev + partialTicks * delta;
+    }
+
 
     protected ResourceLocation getEntityTexture(@NotNull MCH_EntityCartridge entity) {
         return TEX_DEFAULT;

@@ -27,7 +27,7 @@ public class MCH_RenderContainer extends W_Render<MCH_EntityContainer> {
 
     public void doRender(@NotNull MCH_EntityContainer entity, double posX, double posY, double posZ, float par8,
                          float tickTime) {
-        if (!MCH_RenderAircraft.shouldSkipRender(entity)) {
+        if (MCH_RenderAircraft.shouldRender(entity)) {
             GlStateManager.pushMatrix();
             GlStateManager.enableCull();
             GlStateManager.translate(posX, posY - 0.2 + 0.5, posZ);

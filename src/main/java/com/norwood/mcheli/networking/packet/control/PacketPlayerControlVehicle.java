@@ -29,6 +29,7 @@ public class PacketPlayerControlVehicle extends PacketPlayerControlBase {
 
     protected void process(MCH_EntityAircraft aircraft, DataPlayerControlAircraft data, EntityPlayer player) {
         if (aircraft == null) return;
+        handleDetachedAim(aircraft, data, player);
         handleUnmount(aircraft, data);
         handleEjectSeat(aircraft, data, player);
         handleFold(aircraft, data);

@@ -51,6 +51,10 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
                 this.KeyUnmount,
                 this.KeyUnmountForce,
                 this.KeyFlare,
+                this.KeyChaff,
+                this.KeyAPS,
+                this.KeyECMJammer,
+                this.KeyRadarSwitch,
                 this.KeyExtra,
                 this.KeyGUI
         };
@@ -156,6 +160,7 @@ public class MCH_ClientVehicleTickHandler extends MCH_AircraftClientTickHandler 
 
         if (send) {
             new PacketPlayerControlVehicle(pc).sendToServer();
+            this.recordDetachedAimSync(vehicle);
         }
     }
 }

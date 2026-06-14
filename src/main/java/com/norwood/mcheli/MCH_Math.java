@@ -26,14 +26,6 @@ public class MCH_Math {
         return instance.privateNewMatrix();
     }
 
-    public static MCH_Math.FQuat EulerToQuatTestNG(float yaw, float pitch, float roll) {
-        MCH_Math.FVector3D axis = newVec3D();
-        float rot = VecNormalize(axis);
-        MCH_Math.FQuat dqtn = newQuat();
-        QuatRotation(dqtn, rot, axis.x, axis.y, axis.z);
-        return dqtn;
-    }
-
     public static MCH_Math.FMatrix EulerToMatrix(float yaw, float pitch, float roll) {
         MCH_Math.FMatrix m = newMatrix();
         MatTurnZ(m, roll / 180.0F * PI);

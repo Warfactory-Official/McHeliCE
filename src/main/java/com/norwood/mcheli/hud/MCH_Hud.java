@@ -5,7 +5,6 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.MCH_Utils;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
-import com.norwood.mcheli.wrapper.W_ScaledResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +19,7 @@ public class MCH_Hud extends MCH_BaseInfo {
     public final String fileName;
     public boolean isWaitEndif;
     public boolean isIfFalse;
+    public boolean ignoreAutoScale;
     public boolean exit;
     public final List<MCH_HudItem> list;
     private boolean isDrawing;
@@ -30,6 +30,7 @@ public class MCH_Hud extends MCH_BaseInfo {
         this.fileName = filePath;
         this.list = new ArrayList<>();
         this.isDrawing = false;
+        this.ignoreAutoScale = false;
         this.isIfFalse = false;
         this.exit = false;
     }
@@ -51,6 +52,10 @@ public class MCH_Hud extends MCH_BaseInfo {
     public void onPostReload() {}
 
     public void draw(MCH_EntityAircraft ac, EntityPlayer player, float partialTicks) {
+        draw(ac, player, partialTicks, false);
+    }
+
+    public void draw(MCH_EntityAircraft ac, EntityPlayer player, float partialTicks, boolean automaticallyScaled) {
         if (MCH_HudItem.mc == null) {
             MCH_HudItem.mc = Minecraft.getMinecraft();
         }
@@ -58,8 +63,7 @@ public class MCH_Hud extends MCH_BaseInfo {
         MCH_HudItem.ac = ac;
         MCH_HudItem.player = player;
         MCH_HudItem.partialTicks = partialTicks;
-        ScaledResolution scaledresolution = new W_ScaledResolution(MCH_HudItem.mc, MCH_HudItem.mc.displayWidth,
-                MCH_HudItem.mc.displayHeight);
+        ScaledResolution scaledresolution = new ScaledResolution(MCH_HudItem.mc);
         MCH_HudItem.scaleFactor = scaledresolution.getScaleFactor();
         if (MCH_HudItem.scaleFactor <= 0) {
             MCH_HudItem.scaleFactor = 1;
@@ -67,8 +71,7 @@ public class MCH_Hud extends MCH_BaseInfo {
 
         MCH_HudItem.width = (double) MCH_HudItem.mc.displayWidth / MCH_HudItem.scaleFactor;
         MCH_HudItem.height = (double) MCH_HudItem.mc.displayHeight / MCH_HudItem.scaleFactor;
-        MCH_HudItem.centerX = MCH_HudItem.width / 2.0;
-        MCH_HudItem.centerY = MCH_HudItem.height / 2.0;
+        MCH_HudItem.configureCanvas(automaticallyScaled && !this.ignoreAutoScale, automaticallyScaled);
         this.isIfFalse = false;
         this.isDrawing = false;
         this.exit = false;

@@ -1,6 +1,6 @@
 package com.norwood.mcheli.wrapper.modelloader;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.client._ModelFormatException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -339,7 +339,7 @@ public class W_MetasequoiaObject extends W_ModelCustom {
     }
 
     @Override
-    public _IModelCustom toVBO() {
+    public IModelCustom toVBO() {
         return this.asVBO();
     }
 

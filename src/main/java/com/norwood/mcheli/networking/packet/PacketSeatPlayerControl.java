@@ -4,12 +4,15 @@ import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
+import lombok.Setter;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumHand;
 
 @ElegantPacket
 public class PacketSeatPlayerControl extends PacketBase implements ClientToServerPacket {
 
+
+    @Setter
     public PlayerControlState switchSeat = PlayerControlState.IDLE;
     public boolean parachuting;
 

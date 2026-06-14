@@ -38,6 +38,7 @@ public class MCH_Config {
     public static List<Material> tankBreakableMaterials;
     public static MCH_ConfigPrm KeyUp;
     public static MCH_ConfigPrm waitForModels;
+    public static MCH_ConfigPrm ExtractDefaultContentPack;
     public static MCH_ConfigPrm KeyDown;
     public static MCH_ConfigPrm KeyRight;
     public static MCH_ConfigPrm KeyLeft;
@@ -53,6 +54,12 @@ public class MCH_Config {
     public static MCH_ConfigPrm KeyCameraMode;
     public static MCH_ConfigPrm KeyUnmount;
     public static MCH_ConfigPrm KeyFlare;
+    public static MCH_ConfigPrm KeyChaff;
+    public static MCH_ConfigPrm KeyAPS;
+    public static MCH_ConfigPrm KeyECMJammer;
+    public static MCH_ConfigPrm KeyAirburstDistReset;
+    public static MCH_ConfigPrm KeyRadarSwitch;
+    public static MCH_ConfigPrm KeyOpenGPSPanel; // Reforged: open GPS manual-input panel
     public static MCH_ConfigPrm KeyExtra;
     public static MCH_ConfigPrm KeyCameraDistUp;
     public static MCH_ConfigPrm KeyCameraDistDown;
@@ -142,6 +149,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm AllTankSpeed;
     public static MCH_ConfigPrm HurtResistantTime;
     public static MCH_ConfigPrm DisplayHUDThirdPerson;
+    public static MCH_ConfigPrm AutoScaleAircraftGui;
     public static MCH_ConfigPrm DisableCameraDistChange;
     public static MCH_ConfigPrm EnableReplaceTextureManager;
     public static MCH_ConfigPrm DisplayEntityMarker;
@@ -184,6 +192,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm BlockID_DraftingTableON;
     public static MCH_ConfigPrm[] KeyConfig;
     public static MCH_ConfigPrm[] General;
+
     public final String destroyBlockNames = "glass_pane, stained_glass_pane, tallgrass, double_plant, yellow_flower, red_flower, vine, wheat, reeds, waterlily";
 
     public MCH_Config(String minecraftPath, String cfgFile) {
@@ -191,6 +200,7 @@ public class MCH_Config {
         configFilePath = mcPath + cfgFile;
         DebugLog = false;
         waitForModels = new MCH_ConfigPrm("WaitForModels", true);
+        ExtractDefaultContentPack = new MCH_ConfigPrm("ExtractDefaultContentPack", false);
         configVer = "0.0.0";
         bulletBreakableBlocks = new ArrayList<>();
         carBreakableBlocks = new ArrayList<>();
@@ -207,7 +217,7 @@ public class MCH_Config {
         KeySwitchHovering = new MCH_ConfigPrm("KeySwitchHovering", Keyboard.KEY_SPACE);
         KeyAttack = new MCH_ConfigPrm("KeyAttack", -100);
         KeyReloadWeapon = new MCH_ConfigPrm("KeyReloadWeapon", Keyboard.KEY_R);
-        KeyUseWeapon = new MCH_ConfigPrm("KeyUseWeapon", -99);
+        KeyUseWeapon = new MCH_ConfigPrm("KeyUseWeapon", -100);
         KeySwitchWeapon1 = new MCH_ConfigPrm("KeySwitchWeapon1", -98);
         KeySwitchWeapon2 = new MCH_ConfigPrm("KeySwitchWeapon2", Keyboard.KEY_G);
         KeySwWeaponMode = new MCH_ConfigPrm("KeySwitchWeaponMode", Keyboard.KEY_X);
@@ -215,6 +225,12 @@ public class MCH_Config {
         KeyCameraMode = new MCH_ConfigPrm("KeyCameraMode", Keyboard.KEY_C);
         KeyUnmount = new MCH_ConfigPrm("KeyUnmountMob", Keyboard.KEY_Y);
         KeyFlare = new MCH_ConfigPrm("KeyFlare", Keyboard.KEY_V);
+        KeyChaff = new MCH_ConfigPrm("KeyChaff", Keyboard.KEY_V);
+        KeyAPS = new MCH_ConfigPrm("KeyAPS", Keyboard.KEY_V);
+        KeyECMJammer = new MCH_ConfigPrm("KeyECMJammer", Keyboard.KEY_V);
+        KeyAirburstDistReset = new MCH_ConfigPrm("KeyAirburstDistReset", -99);
+        KeyRadarSwitch = new MCH_ConfigPrm("KeyRadarSwitch", Keyboard.KEY_GRAVE);
+        KeyOpenGPSPanel = new MCH_ConfigPrm("KeyOpenGPSPanel", Keyboard.KEY_K);
         KeyExtra = new MCH_ConfigPrm("KeyExtra", Keyboard.KEY_F);
         KeyCameraDistUp = new MCH_ConfigPrm("KeyCameraDistanceUp", Keyboard.KEY_PRIOR);
         KeyCameraDistDown = new MCH_ConfigPrm("KeyCameraDistanceDown", Keyboard.KEY_NEXT);
@@ -240,6 +256,12 @@ public class MCH_Config {
                 KeyCameraMode,
                 KeyUnmount,
                 KeyFlare,
+                KeyChaff,
+                KeyAPS,
+                KeyECMJammer,
+                KeyAirburstDistReset,
+                KeyRadarSwitch,
+                KeyOpenGPSPanel,
                 KeyExtra,
                 KeyCameraDistUp,
                 KeyCameraDistDown,
@@ -328,6 +350,8 @@ public class MCH_Config {
         AllTankSpeed = new MCH_ConfigPrm("AllTankSpeed", 1.0);
         HurtResistantTime = new MCH_ConfigPrm("HurtResistantTime", 0.0);
         DisplayHUDThirdPerson = new MCH_ConfigPrm("DisplayHUDThirdPerson", false);
+        AutoScaleAircraftGui = new MCH_ConfigPrm("ExperimentalAutoScaleAircraftGui", false);
+        AutoScaleAircraftGui.desc = ";ExperimentalAutoScaleAircraftGui = true maps hardcoded aircraft HUD coordinates from the default 427x240 canvas to the current GUI resolution.";
         DisableCameraDistChange = new MCH_ConfigPrm("DisableThirdPersonCameraDistChange", false);
         EnableReplaceTextureManager = new MCH_ConfigPrm("EnableReplaceTextureManager", true);
         DisplayEntityMarker = new MCH_ConfigPrm("DisplayEntityMarker", true);
@@ -376,6 +400,7 @@ public class MCH_Config {
                 TestMode,
                 __TextureAlpha,
                 EnableCommand,
+                ExtractDefaultContentPack,
                 null,
                 PlaceableOnSpongeOnly,
                 ItemDamage,
@@ -453,6 +478,7 @@ public class MCH_Config {
                 EnableModEntityRender,
                 DisableRenderLivingSpecials,
                 DisplayHUDThirdPerson,
+                AutoScaleAircraftGui,
                 DisableCameraDistChange,
                 EnableReplaceTextureManager,
                 DisplayEntityMarker,

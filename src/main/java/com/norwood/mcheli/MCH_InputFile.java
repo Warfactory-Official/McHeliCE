@@ -26,10 +26,6 @@ public class MCH_InputFile {
         }
     }
 
-    public boolean openUTF8(File file) {
-        return this.openUTF8(file.getPath());
-    }
-
     public boolean openUTF8(String path) {
         this.close();
         this.file = new File(path);

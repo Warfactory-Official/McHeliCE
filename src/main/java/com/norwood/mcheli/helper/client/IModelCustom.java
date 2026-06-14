@@ -3,7 +3,7 @@ package com.norwood.mcheli.helper.client;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public interface _IModelCustom {
+public interface IModelCustom {
 
     String getType();
 
@@ -20,5 +20,5 @@ public interface _IModelCustom {
     void renderAllExcept(String... var1);
 
     @SideOnly(Side.CLIENT)
-    _IModelCustom toVBO();
+    IModelCustom toVBO();
 }

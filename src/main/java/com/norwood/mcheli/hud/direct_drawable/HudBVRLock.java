@@ -33,7 +33,7 @@ public class HudBVRLock implements DirectDrawable {
     public static final HudBVRLock INSTANCE = new HudBVRLock();
 
     public void renderHud(RenderGameOverlayEvent.Post event, Tuple<EntityPlayer, MCH_EntityAircraft> ctx) {
-        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) return;
+        if (!DirectDrawable.shouldRender(event)) return;
         Minecraft mc = Minecraft.getMinecraft();
         EntityPlayerSP player = (EntityPlayerSP) ctx.getFirst();
         var ac = ctx.getSecond();
@@ -72,6 +72,10 @@ public class HudBVRLock implements DirectDrawable {
                     alpha = 1f;
                     currentLockedEntities.put(entity.entityId, entity);
                     lock = true;
+                    // BVR Lock!
+                    if (mc.world.getTotalWorldTime() % 10 == 0) {
+                        new com.norwood.mcheli.networking.packet.PacketLockTargetBVR(entity.entityId).sendToServer();
+                    }
                 } else if (distScreen < Math.pow(0.076 * sc.getScaledHeight(), 2)) {
                     alpha = 1f;
                 } else if (distScreen < Math.pow(0.152 * sc.getScaledHeight(), 2)) {

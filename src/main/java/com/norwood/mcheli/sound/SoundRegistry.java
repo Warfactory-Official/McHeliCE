@@ -85,6 +85,9 @@ public class SoundRegistry {
         add(rl("xm301_snd"));
         add(rl("zoom"));
         add(rl("wrench"));
+        add(rl("iron_curtain"));
+        add(rl("aps_activate"));
+        add(rl("aps_deactivate"));
     }
     private static ResourceLocation rl(String path) {
         return new ResourceLocation(Tags.MODID, path);

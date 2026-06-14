@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "type=base":      { "model": "mcheli:marker_base" },
+    "type=parking":   { "model": "mcheli:marker_parking" },
+    "type=runway_a":  { "model": "mcheli:marker_runway_a" },
+    "type=runway_b":  { "model": "mcheli:marker_runway_b" },
+    "type=waypoint":  { "model": "mcheli:marker_waypoint" },
+    "type=helipad":   { "model": "mcheli:marker_helipad" },
+    "type=helipad_b": { "model": "mcheli:marker_helipad_b" }
+  }
+}

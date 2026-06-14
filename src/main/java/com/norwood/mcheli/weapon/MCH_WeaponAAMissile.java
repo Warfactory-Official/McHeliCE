@@ -1,25 +1,32 @@
 package com.norwood.mcheli.weapon;
 
+import com.norwood.mcheli.tank.MCH_EntityTank;
 import com.norwood.mcheli.wrapper.W_Entity;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 
 public class MCH_WeaponAAMissile extends MCH_WeaponEntitySeeker {
 
-    public MCH_WeaponAAMissile(World w, Vec3d v, float yaw, float pitch, String nm, MCH_WeaponInfo wi) {
-        super(w, v, yaw, pitch, nm, wi);
+    public MCH_WeaponAAMissile(World world, Vec3d v, float yaw, float pitch, String name, MCH_WeaponInfo info) {
+        super(world, v, yaw, pitch, name, info);
         this.power = 12;
         this.acceleration = 2.5F;
         this.explosionPower = 4;
-        this.interval = 5;
-        if (w.isRemote) {
-            this.interval += 5;
-        }
+        this.interval = world.isRemote ? 10 : 5;
 
         this.guidanceSystem.canLockInAir = true;
-        this.guidanceSystem.ridableOnly = wi.ridableOnly;
+        this.guidanceSystem.ridableOnly = info.ridableOnly;
     }
 
     @Override
@@ -34,31 +41,85 @@ public class MCH_WeaponAAMissile extends MCH_WeaponEntitySeeker {
 
     @Override
     public boolean shot(MCH_WeaponParam prm) {
-        boolean result = false;
-        if (!this.world.isRemote) {
-            Entity tgtEnt = prm.user.world.getEntityByID(prm.option1);
-            if (tgtEnt != null && !tgtEnt.isDead) {
-                this.playSound(prm.entity);
-                float yaw = prm.entity.rotationYaw + this.fixRotationYaw;
-                float pitch = prm.entity.rotationPitch + this.fixRotationPitch;
-                double tX = -MathHelper.sin(yaw / 180.0F * (float) Math.PI) *
-                        MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-                double tZ = MathHelper.cos(yaw / 180.0F * (float) Math.PI) *
-                        MathHelper.cos(pitch / 180.0F * (float) Math.PI);
-                double tY = -MathHelper.sin(pitch / 180.0F * (float) Math.PI);
-                MCH_EntityAAMissile e = new MCH_EntityAAMissile(this.world, prm.posX, prm.posY, prm.posZ, tX, tY, tZ,
-                        yaw, pitch, this.acceleration);
-                e.setName(this.name);
-                e.setParameterFromWeapon(this, prm.entity, prm.user);
-                e.setTargetEntity(tgtEnt);
-                this.world.spawnEntity(e);
-                result = true;
-            }
-        } else if (this.guidanceSystem.lock(prm.user) && this.guidanceSystem.lastLockEntity != null) {
-            result = true;
-            this.optionParameter1 = W_Entity.getEntityId(this.guidanceSystem.lastLockEntity);
+        if (this.world.isRemote) {
+            return handleClientShot(prm);
+        } else {
+            return handleServerShot(prm);
         }
-
-        return result;
     }
+
+    private boolean handleServerShot(MCH_WeaponParam prm) {
+        final var info = getInfo();
+        boolean isRadar = info.passiveRadar || info.activeRadar;
+        Entity target = this.guidanceSystem.getTarget();
+        if (target == null) target = this.world.getEntityByID(prm.option1);
+
+        if (!isRadar && (target == null || target.isDead)) return false;
+
+        this.playSound(prm.entity);
+
+        Vec2f rot = calculateShotRotation(prm, isRadar, !isRadar);
+        Vec3d motion = Vec3d.fromPitchYaw(rot.y, rot.x);
+
+        MCH_EntityAAMissile missile = new MCH_EntityAAMissile(this.world, prm.posX, prm.posY, prm.posZ,
+                motion.x, motion.y, motion.z, rot.x, rot.y, this.acceleration);
+
+        missile.setName(this.name);
+        missile.setParameterFromWeapon(this, prm.entity, prm.user);
+        if (target != null) missile.setTargetEntity(target);
+
+        this.world.spawnEntity(missile);
+        return true;
+    }
+
+    private boolean handleClientShot(MCH_WeaponParam prm) {
+        final var info = getInfo();
+        if (info.passiveRadar || info.activeRadar) {
+            return true;
+        } else if (this.guidanceSystem.lock(prm.user) && this.guidanceSystem.lastLockEntity != null) {
+            this.optionParameter1 = W_Entity.getEntityId(this.guidanceSystem.lastLockEntity);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean lock(MCH_WeaponParam prm) {
+        if (!this.world.isRemote) return false;
+
+        final var info = getInfo();
+        if (info != null && info.passiveRadar) {
+            this.guidanceSystem.lock(prm.user);
+
+            if (this.guidanceSystem.isLockComplete()) {
+                updateActiveBullets(prm.user, this.guidanceSystem.lastLockEntity);
+            } else {
+                updateActiveBullets(prm.user, null);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onUnlock(MCH_WeaponParam prm) {
+        if (!this.world.isRemote || this.guidanceSystem == null || prm.user == null) return;
+
+        if (!this.guidanceSystem.isLockComplete()) {
+            updateActiveBullets(prm.user, null);
+        }
+    }
+
+
+    private void updateActiveBullets(Entity user, @Nullable Entity target) {
+        double range = getInfo().maxLockOnRange;
+        int targetId = (target != null) ? W_Entity.getEntityId(target) : 0;
+
+        for (MCH_EntityBaseBullet bullet : getShootBullets(this.world, user, range)) {
+            bullet.clientSetTargetEntity(target);
+            this.optionParameter1 = targetId;
+        }
+    }
+
+
 }
+

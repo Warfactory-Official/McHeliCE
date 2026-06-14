@@ -23,11 +23,11 @@ public class MCH_EntityInfoClientTracker {
     /**
      * Adjustable: timeout threshold in milliseconds for missing heartbeats (e.g., 5s)
      */
-    public static long EXPIRATION_MS = 1_000L;
+    public static long EXPIRATION_MS = 5_000L;
     /**
      * Adjustable: missing heartbeat threshold in sequence numbers (based on server ticks, at 20 TPS, 100 ≈ 5s)
      */
-    public static long MISSING_SEQ_THRESHOLD = 20L;
+    public static long MISSING_SEQ_THRESHOLD = 100L;
     /**
      * Adjustable: tick interval for cleanup scans (e.g., scan every 10 client ticks)
      */
@@ -38,7 +38,7 @@ public class MCH_EntityInfoClientTracker {
     private static int clientTickCounter = 0;
 
     static {
-        FMLCommonHandler.instance().bus().register(new ClientTicker());
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(new ClientTicker());
     }
 
     /**
@@ -51,7 +51,6 @@ public class MCH_EntityInfoClientTracker {
         }
 
         long now = System.currentTimeMillis();
-        latestSeqObserved = Math.max(latestSeqObserved, snapshotSeq);
 
         for (EntityInfo info : infos) {
             Tracked t = tracked.get(info.entityId);
@@ -64,6 +63,7 @@ public class MCH_EntityInfoClientTracker {
             }
         }
 
+        latestSeqObserved = Math.max(latestSeqObserved, snapshotSeq);
         lastAppliedSeq = snapshotSeq;
     }
 
@@ -103,11 +103,11 @@ public class MCH_EntityInfoClientTracker {
         }
     }
 
-    private static final class Tracked {
+    public static final class Tracked {
 
-        EntityInfo info;
-        long lastSeenMillis;
-        long lastSeenSeq;
+        volatile EntityInfo info;
+        volatile long lastSeenMillis;
+        volatile long lastSeenSeq;
 
         Tracked(EntityInfo info, long now, long seq) {
             this.info = info;

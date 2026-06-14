@@ -561,3 +561,4 @@ achievement.McHeliAintWarHell=Ain't war hell?
 achievement.McHeliAintWarHell.desc=?
 achievement.McHeliReliefSupplies=Relief supplies
 achievement.McHeliReliefSupplies.desc=Drop a container
+gui.mcheli.interact_seat.enter=Press %s to enter seat %d

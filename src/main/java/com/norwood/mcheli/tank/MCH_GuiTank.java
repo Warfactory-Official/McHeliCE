@@ -34,6 +34,7 @@ public class MCH_GuiTank extends MCH_AircraftCommonGui {
 
             if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
                 this.drawHud(ac, player, seatID);
+                this.drawTurretBallistics(tank, player);
             }
 
             this.drawDebugtInfo(tank);
@@ -51,38 +52,40 @@ public class MCH_GuiTank extends MCH_AircraftCommonGui {
 
     public void drawDebugtInfo(MCH_EntityTank ac) {
         if (MCH_Config.DebugLog) {
-            super.drawDebugtInfo(ac);
         }
     }
 
     public void drawKeybind(MCH_EntityTank tank, EntityPlayer player, int seatID) {
-        if (!MCH_Config.HideKeybind.prmBool) {
-            MCH_TankInfo info = tank.getTankInfo();
-            if (info != null) {
-                int colorActive = -1342177281;
-                int colorInactive = -1349546097;
-                int RX = this.centerX + 120;
-                int LX = this.centerX - 200;
-                this.drawKeyBind(tank, info, player, seatID, RX, LX, colorActive, colorInactive);
-                if (seatID == 0 && tank.hasBrake()) {
-                    String msg = "Brake : " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchHovering.prmInt);
-                    this.drawString(msg, RX, this.centerY - 30, colorActive);
-                }
+        var info = tank.getTankInfo();
+        if (MCH_Config.HideKeybind.prmBool || info == null) return;
 
-                if (seatID > 0 && tank.canSwitchGunnerModeOtherSeat(player)) {
-                    String msg = (tank.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " +
-                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
-                    this.drawString(msg, RX, this.centerY - 40, colorActive);
-                }
+        var colorActive = -1342177281;
+        var colorInactive = -1349546097;
 
-                if (tank.getIsGunnerMode(player) && info.cameraZoom > 1) {
-                    String msg = "Zoom : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
-                    this.drawString(msg, LX, this.centerY - 80, colorActive);
-                } else if (seatID == 0 && (tank.canUnfoldHatch() || tank.canFoldHatch())) {
-                    String msg = "OpenHatch : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
-                    this.drawString(msg, LX, this.centerY - 80, colorActive);
-                }
-            }
+        var screenWidth = this.centerX * 2;
+        var leftX = Math.max(10, (int) (screenWidth * 0.05));
+        var rightX = Math.min(screenWidth - 100, (int) (screenWidth * 0.80));
+
+        this.currentLeftY = this.centerY - 80;
+        this.currentRightY = this.centerY - 80;
+
+        var theme = new LayoutTheme(leftX, rightX, colorActive, colorInactive);
+
+        drawAircraftKeyBinds(tank, info, player, seatID, theme);
+
+        if (seatID == 0 && tank.hasBrake()) {
+            drawRightKey("Brake", MCH_Config.KeySwitchHovering.prmInt, theme.rightX(), theme.active());
+        }
+
+        if (seatID > 0 && tank.canSwitchGunnerModeOtherSeat(player)) {
+            var mode = tank.getIsGunnerMode(player) ? "Normal" : "Camera";
+            drawRightKey(mode, MCH_Config.KeySwitchMode.prmInt, theme.rightX(), theme.active());
+        }
+
+        if (tank.getIsGunnerMode(player) && info.cameraZoom > 1) {
+            drawLeftKey("Zoom", MCH_Config.KeyZoom.prmInt, theme.leftX(), theme.active());
+        } else if (seatID == 0 && (tank.canUnfoldHatch() || tank.canFoldHatch())) {
+            drawLeftKey("OpenHatch", MCH_Config.KeyZoom.prmInt, theme.leftX(), theme.active());
         }
     }
 }

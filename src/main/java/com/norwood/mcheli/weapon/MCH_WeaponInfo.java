@@ -3,6 +3,7 @@ package com.norwood.mcheli.weapon;
 import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
+import com.norwood.mcheli.MCH_PotionEffect;
 import com.norwood.mcheli.Tags;
 import com.norwood.mcheli.compat.hbm.*;
 import com.norwood.mcheli.helper.MCH_Logger;
@@ -88,11 +89,11 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public boolean destruct = false;
     public String trajectoryParticleName = "explode";
     public int trajectoryParticleStartTick = 0;
+    public int trajectoryParticleEndTick = -1; // Reforged field
     public boolean disableSmoke = false;
     public MCH_Cartridge cartridge = null;
     public MCH_Color color = new MCH_Color();
     public MCH_Color colorInWater = new MCH_Color();
-    //    public String soundFileName;
     public float smokeSize = 2.0F;
     public int smokeNum = 1;
     public int smokeMaxAge = 100;
@@ -113,25 +114,15 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public float recoil = 0.0F;
     public String bulletModelName = "";
     public MCH_BulletModel bulletModel = null;
+    public int bulletModelEndTick = -1; // Reforged field
+    public String bulletModelNameEnd = ""; // Reforged field
+    public MCH_BulletModel bulletModelEnd = null; // Reforged field
     public String bombletModelName = "";
     public MCH_BulletModel bombletModel = null;
     public MCH_DamageFactor damageFactor = null;
     public String group = "";
     public List<MuzzleFlash> listMuzzleFlash = null;
     public List<MuzzleFlash> listMuzzleFlashSmoke = null;
-
-    /**
-     * Number of block-breaking particles generated
-     */
-    public int flakParticlesCrack = 10;
-    /**
-     * Number of white smoke particles generated
-     */
-    public int numParticlesFlak = 3;
-    /**
-     * Spread of block-breaking particles. Recommended values: 0.1 (rifle bullet) ~ 0.6 (anti-tank rifle)
-     */
-    public float flakParticlesDiff = 0.3F;
     @NotNull
     public ResourceLocation fireSound;
     @Nullable
@@ -139,176 +130,182 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
 
     public ResourceLocation hitSoundIron = new ResourceLocation(Tags.MODID, "hit_metal");
     public ResourceLocation railgunSound = new ResourceLocation(Tags.MODID, "railgun");
-    public float hitSoundRange = 100;
-    /**
-     * Whether this is an infrared missile (affected by flares)
-     */
-    public boolean isHeatSeekerMissile = true;
-    /**
-     * Whether this is a radar-guided missile (affected by chaff)
-     */
-    public boolean isRadarMissile = false;
-    // Maximum homing angle of the missile seeker
-    public int maxDegreeOfMissile = 60;
-    // Unlock delay; -1 means permanent lock
-    public int tickEndHoming = -1;
-    /**
-     * Maximum lock-on range
-     */
-    public int maxLockOnRange = 300;
-    /**
-     * Maximum lock-on angle for aircraft radar
-     */
-    public int maxLockOnAngle = 10;
-    /**
-     * Maximum angle for pulse-Doppler radar; beyond this, the missile will lose lock (can be used for IR missile rear
-     * attacks)
-     */
-    public float pdHDNMaxDegree = 1000f;
-    /**
-     * Unlock interval for pulse-Doppler radar; after exceeding max angle, missile unlocks after this many ticks
-     */
-    public int pdHDNMaxDegreeLockOutCount = 10;
-    /**
-     * Duration of flare resistance; -1 means no resistance
-     */
-    public int antiFlareCount = -1;
-    /**
-     * Radar missile multipath clutter detection height — aircraft below this height will cause radar lock loss
-     */
-    public int lockMinHeight = 25;
-    /**
-     * Semi-active radar missile requires continuous guidance
-     */
-    public boolean passiveRadar = false;
-
-    /**
-     * Unlock countdown after semi-active radar missile loses guidance
-     */
-    public int passiveRadarLockOutCount = 20;
-
-    /**
-     * Enable laser guidance for TV missiles
-     */
-    public boolean laserGuidance = false;
-
-    /**
-     * Whether the aircraft has a laser targeting pod
-     */
-    public boolean hasLaserGuidancePod = true;
-
-    /// Allow off-boresight firing (for AA missiles)
-    public boolean enableOffAxis = true;
-
-    /// Missile maneuverability factor — smaller = smoother. 1 means vanilla missile movement. Recommended: 0.1
-    public double turningFactor = 0.5;
-
-    /// Enable chunk loader (experimental feature)
-    public boolean enableChunkLoader = false;
-
-    /// Active radar missile (BVR) will automatically track target after launch
-    public boolean activeRadar = false;
-
-    /// Scan interval for active radar missile
-    public int scanInterval = 20;
-
-    /// Weapon switch cooldown
-    public int weaponSwitchCount = 0;
-
-    /// Weapon switch sound effect
     @Nullable
     public ResourceLocation weaponSwitchSound = null;
 
-    /// Vertical weapon recoil
+    /** Reforged field: block break particle count. */
+    public int flakParticlesCrack = 10;
+    /** Reforged field: white smoke particle count. */
+    public int numParticlesFlak = 3;
+    /** Reforged field: block break particle spread (0.1 rifle ~ 0.6 anti-tank). */
+    public float flakParticlesDiff = 0.3F;
+    /** Reforged field: infrared missile; affected by flares. */
+    public boolean isHeatSeekerMissile = true;
+    /** Reforged field: radar missile; affected by chaff. */
+    public boolean isRadarMissile = false;
+    /** Reforged field: maximum seeker tracking angle. */
+    public int maxDegreeOfMissile = 60;
+    /** Reforged field: initial seeker-angle phase duration. */
+    public int initMaxDegreeTick = 0;
+    /** Reforged field: seeker angle used during the initial phase. */
+    public int initMaxDegreeOfMissile = 60;
+    /** Reforged field: lost-lock delay; -1 for infinite lock. */
+    public int tickEndHoming = -1;
+    /** Reforged field: maximum lock-on range. */
+    public int maxLockOnRange = 300;
+    /** Reforged field: maximum aircraft radar lock angle. */
+    public int maxLockOnAngle = 10;
+    /** Reforged field: pulse-Doppler/rear-aspect max angle. */
+    public float pdHDNMaxDegree = 1000f;
+    /** Reforged field: delay ticks before lock break after exceeding max angle. */
+    public int pdHDNMaxDegreeLockOutCount = 10;
+    /** Reforged field: missile jamming resistance duration; -1 to disable. */
+    public int antiFlareCount = -1;
+    /** Reforged field: multipath clutter detection height. */
+    public int lockMinHeight = 25;
+    /** Reforged field: semi-active radar missile. */
+    public boolean passiveRadar = false;
+    /** Reforged field: semi-active radar missile that can data-link without self-search. */
+    public boolean semiActiveRadar = false;
+    /** Reforged field: lock-out timer after semi-active guidance is lost. */
+    public int passiveRadarLockOutCount = 20;
+    /** Reforged field: enables laser guidance for TV missiles. */
+    public boolean laserGuidance = false;
+    /** Reforged field: presence of a laser guidance pod. */
+    public boolean hasLaserGuidancePod = true;
+    /** Reforged field: allows off-boresight firing for AA missiles. */
+    public boolean enableOffAxis = true;
+    /** Reforged field: maneuverability factor; 1.0 is vanilla, 0.1 recommended. */
+    public double turningFactor = 0.5;
+    /** Reforged field: initial turning-factor phase duration. */
+    public int initTurningFactorTick = 0;
+    /** Reforged field: turning factor used during the initial phase. */
+    public double initTurningFactor = 0.5;
+    /** Reforged field: enables chunk loader. */
+    public boolean enableChunkLoader = false;
+    /** Reforged field: active radar missile (BVR); autonomous tracking after launch. */
+    public boolean activeRadar = false;
+    /** Reforged field: active radar scan interval. */
+    public int scanInterval = 20;
+    /** Reforged field: weapon switch cooldown. */
+    public int weaponSwitchCount = 0;
+    /** Weapon switch sound effect */
+    /** Reforged field: vertical recoil. */
     public float recoilPitch = 0.0F;
-    /**
-     * Horizontal weapon recoil (fixed direction)
-     */
+    /** Reforged field: horizontal recoil (fixed direction). */
     public float recoilYaw = 0.0F;
-    /**
-     * Random vertical recoil (Recoil 2 + rndRecoil 0.5 == 1.5–2.5 recoil range)
-     */
+    /** Reforged field: random vertical recoil range. */
     public float recoilPitchRange = 0.0F;
-    /**
-     * Random horizontal recoil
-     */
+    /** Reforged field: random horizontal recoil range. */
     public float recoilYawRange = 0.0F;
-    /**
-     * Weapon recoil recovery speed
-     */
+    /** Reforged field: recoil recovery speed. */
     public float recoilRecoverFactor = 0.8F;
-
-    /**
-     * Per-tick speed increment. Negative = deceleration, positive = acceleration
-     */
+    /** Reforged field: velocity change per tick; positive to accelerate, negative to decelerate. */
     public float speedFactor = 0F;
-    /**
-     * Start tick for per-tick speed multiplier
-     */
+    /** Reforged field: start tick for velocity multiplier. */
     public int speedFactorStartTick = 0;
-    /**
-     * End tick for per-tick speed multiplier
-     */
+    /** Reforged field: end tick for velocity multiplier. */
     public int speedFactorEndTick = 0;
-    /**
-     * Whether missile speed depends on aircraft velocity (final speed = aircraft speed + projectile speed)
-     */
+    /** Reforged field: inherit aircraft velocity (Final speed = Aircraft + Bullet). */
     public boolean speedDependsAircraft = false;
-    /**
-     * Whether missile can lock onto other missile entities
-     */
+    /** Reforged field: allows locking onto missile entities. */
     public boolean canLockMissile = false;
-    /**
-     * Allow beyond visual range (BVR) target acquisition
-     */
+    /** Reforged: allow guidance to lock targets sitting in water (e.g. ships/boats). */
+    public boolean canLockInWater = false;
+    /** Reforged field: enables Beyond Visual Range (BVR) targeting. */
     public boolean enableBVR = false;
-    /**
-     * Minimum activation distance for BVR functionality
-     */
+    /** Reforged field: minimum distance to enable BVR. */
     public int minRangeBVR = 300;
-    /**
-     * Predict target position
-     */
+    /** Reforged field: enables target position prediction. */
     public boolean predictTargetPos = true;
-
-    /**
-     * Maximum number of chaff locks — beyond this, the missile will fly straight
-     */
+    /** Reforged field: max chaff locks before missile reverts to unguided flight. */
     public int numLockedChaffMax = 2;
-
-    /**
-     * Explosion damage multipliers for different entity types
-     */
+    /** Reforged field: explosion damage multipliers by entity type. */
     public float explosionDamageVsLiving = 1f;
     public float explosionDamageVsPlayer = 1f;
     public float explosionDamageVsPlane = 1f;
     public float explosionDamageVsVehicle = 1f;
     public float explosionDamageVsTank = 1f;
     public float explosionDamageVsHeli = 1f;
-    public boolean disableDestroyBlock = true;
-    public boolean canBeIntercepted = false;
-    public boolean canAirburst = false;
-    public int explosionAirburst;
-    /**
-     * HUD custom field, used to indicate reticle type
-     */
+    public float explosionDamageVsShip = 1f; // Reforged field
+    public boolean explosionThroughWall = false; // Reforged field
+    public float explosionThroughWallFactor = 1.0f; // Reforged field
+    public boolean isNewExplosionBreak = true; // Reforged field
+    public boolean disableDestroyBlock = true; // Reforged field
+    public boolean canBeIntercepted = false; // Reforged field
+    public boolean canAirburst = false; // Reforged field
+    public int explosionAirburst = 0; // Reforged field
+    /** Reforged field: CCIP support flag. */
+    public boolean ccip = false;
+    /** Reforged field: CCIP texture name. */
+    public String ccipTexture = "CCIP";
+    /** Reforged field: CCIP render scale factor. */
+    public float ccipFactor = 1.0F;
+    /** Reforged field: HUD custom field for crosshair indicators. */
     public int crossType = 0;
-    /**
-     * Whether the weapon has a mortar radar
-     */
+    /** Reforged field: presence of mortar radar. */
     public boolean hasMortarRadar = false;
-    /**
-     * Maximum display distance for mortar radar — should be greater than the indirect-fire weapon’s max range
-     */
+    /** Reforged field: mortar radar range; should exceed weapon range. */
     public double mortarRadarMaxDist = -1;
-
-    /**
-     * Marker rocket parameters
-     */
+    /** Reforged field: marker rocket parameters. */
     public int markerRocketSpawnNum = 5;
     public int markerRocketSpawnDiff = 15;
     public int markerRocketSpawnHeight = 200;
     public int markerRocketSpawnSpeed = 5;
+    /** Reforged field: hit sound broadcast range. */
+    public int hitSoundRange = 100;
+    public boolean enableExhaustFlare = false; // Reforged field
+    public boolean spawnBulletInAir = false; // Reforged field
+    public int spawnBulletMaxNum = 1; // Reforged field
+    public int spawnBulletIntervalTick = 20; // Reforged field
+    public int spawnBulletPerNum = 1; // Reforged field
+    public boolean spawnBulletInheritSpeed = false; // Reforged field
+    public boolean destructAfterSpawnBullet = false; // Reforged field
+    public boolean ahead = false; // Reforged field
+    public int aheadSolveIntervalTick = 2; // Reforged field
+    public List<MCH_IBulletDecay> bulletDecay = new ArrayList<>(); // Reforged field
+    public boolean enableBulletDecay = false; // Reforged field
+    public List<MCH_PotionEffect> potionEffect = new ArrayList<>(); // Reforged field
+    public boolean isGPSMissile = false; // Reforged field
+    public boolean ballisticMissile = false; // Reforged field
+    public double ballisticArcFactor = 0.20D; // Reforged field
+    public double ballisticArcMinHeight = 20.0D; // Reforged field
+    public double ballisticArcMaxHeight = 400.0D; // Reforged field
+    public double ballisticMinDistance = 80.0D; // Reforged field
+    public boolean ballisticLateralSine = false; // Reforged field
+    public double ballisticLateralAmplitude = 12.0D; // Reforged field
+    public double ballisticLateralWaves = 1.5D; // Reforged field
+    public double ballisticLateralPhaseDeg = 0.0D; // Reforged field
+    public double ballisticLateralStartRatio = 0.20D; // Reforged field
+    public double ballisticLateralEndRatio = 0.85D; // Reforged field
+    public double ballisticTerminalNoWeaveDist = 80.0D; // Reforged field
+    public double ballisticTerminalCylinderRadius = 40.0D; // Reforged field
+    public int canister = -1; // Reforged field
+    public int canisterType = 0; // Reforged field
+    public double dragInAir = 0.0D; // Reforged field
+    public int buckshotCount = 6; // Reforged field
+    public BuckshotPayload buckshotPayload = BuckshotPayload.BULLET; // MCHCE
+    public boolean lockEntity = false; // Reforged field
+    public boolean cameraFollowLockEntity = false; // Reforged field
+    public float cameraFollowStrength = 0.3f; // Reforged field
+    public boolean antiRadiationMissile = false; // Reforged field
+    public int armEmitterLostGraceTick = 10; // Reforged field
+    public int armMemoryTimeTick = 100; // Reforged field
+    public boolean armCruiseEnable = false; // Reforged field
+    public double armCruiseStartDistance = 150.0D; // Reforged field
+    public double armCruiseTerminalRadius = 50.0D; // Reforged field
+    public double armCruiseTerminalHeight = 1024.0D; // Reforged field
+    public boolean enableDataLink = false; // Reforged field
+    public boolean onlyDataLink = false; // Reforged field
+    public boolean enableHMS = true; // Reforged field
+    public String nameOnRWR = "MSL"; // Reforged field
+    public float rcsFrontFactor = 1.0F; // Reforged field
+    public float rcsSideFactor = 1.0F; // Reforged field
+    public float rcsRearFactor = 1.0F; // Reforged field
+    public float rcsTimeFactor = 1.0F; // Reforged field
+    public int proximityFuseTick = -1; // Reforged field
+    public float proximityFuseDamage = 0.0F; // Reforged field
+    public int proximityFuseHeight = 20; // Reforged field
 
     public MCH_WeaponInfo(AddonResourceLocation location, String path, String parser) {
         super(location, path, parser);
@@ -347,6 +344,10 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             this.explosionBlock = this.explosion;
         }
 
+        if (this.explosionAirburst <= 0) {
+            this.explosionAirburst = this.explosion;
+        }
+
         if (this.fixMode >= this.modeNum) {
             this.fixMode = 0;
         }
@@ -379,12 +380,54 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             this.delay = 1000000;
         }
 
+        if (this.spawnBulletIntervalTick < 1) {
+            this.spawnBulletIntervalTick = 1;
+        }
+
+        if (this.aheadSolveIntervalTick < 1) {
+            this.aheadSolveIntervalTick = 1;
+        }
+
+        if (this.trajectoryParticleEndTick >= 0 && this.trajectoryParticleEndTick < this.trajectoryParticleStartTick) {
+            this.trajectoryParticleEndTick = this.trajectoryParticleStartTick;
+        }
+
+        if (this.bulletModelEndTick < -1) {
+            this.bulletModelEndTick = -1;
+        }
+
+        this.ballisticArcFactor = Math.max(0.0D, this.ballisticArcFactor);
+        this.ballisticArcMinHeight = Math.max(0.0D, this.ballisticArcMinHeight);
+        this.ballisticArcMaxHeight = Math.max(this.ballisticArcMinHeight, this.ballisticArcMaxHeight);
+        this.ballisticMinDistance = Math.max(0.0D, this.ballisticMinDistance);
+        this.ballisticLateralAmplitude = Math.max(0.0D, this.ballisticLateralAmplitude);
+        this.ballisticLateralWaves = Math.max(0.0D, this.ballisticLateralWaves);
+        this.ballisticLateralStartRatio = Math.max(0.0D, Math.min(1.0D, this.ballisticLateralStartRatio));
+        this.ballisticLateralEndRatio = Math.max(this.ballisticLateralStartRatio,
+                Math.min(1.0D, this.ballisticLateralEndRatio));
+        this.ballisticTerminalNoWeaveDist = Math.max(0.0D, this.ballisticTerminalNoWeaveDist);
+        this.ballisticTerminalCylinderRadius = Math.max(0.0D, this.ballisticTerminalCylinderRadius);
+        this.armCruiseStartDistance = Math.max(0.0D, this.armCruiseStartDistance);
+        this.armCruiseTerminalRadius = Math.max(0.0D, this.armCruiseTerminalRadius);
+        this.armCruiseTerminalHeight = Math.max(0.0D, this.armCruiseTerminalHeight);
+
+        if (!this.enableDataLink) {
+            this.onlyDataLink = false;
+        }
+
+        if (!isCCIPSupportedType(this.type)) {
+            this.ccip = false;
+        }
+
         this.angle = (float) (Math.atan2(this.radius, this.length) * 180.0D / 3.141592653589793D);
 
-        if (new ResourceLocation(Tags.MODID, this.name + "_snd").equals(hitSound))
-            SoundRegistry.INSTANCE.parseSound(hitSound.getPath());
+        SoundRegistry.INSTANCE.parseSound(this.fireSound.getPath());
+        if (this.hitSound != null) SoundRegistry.INSTANCE.parseSound(this.hitSound.getPath());
+        SoundRegistry.INSTANCE.parseSound(this.hitSoundIron.getPath());
+        SoundRegistry.INSTANCE.parseSound(this.railgunSound.getPath());
+        if (this.weaponSwitchSound != null) SoundRegistry.INSTANCE.parseSound(this.weaponSwitchSound.getPath());
 
-            return true;
+        return true;
     }
 
     public float getDamageFactor(Entity e) {
@@ -398,6 +441,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             case "torpedo" -> "Torpedo";
             case "cas" -> "CAS";
             case "rocket" -> "Rocket";
+            case "buckshot" -> "Buckshot";
             case "asmissile" -> "AS Missile";
             case "aamissile" -> "AA Missile";
             case "tvmissile" -> "TV Missile";
@@ -420,6 +464,29 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         return this.recoilYaw + ((rand.nextFloat() - 0.5F) * this.recoilYawRange);
     }
 
+    public int getCurrentMaxDegree(int missileTick) {
+        if (this.initMaxDegreeTick > 0 && missileTick >= 0 && missileTick <= this.initMaxDegreeTick) {
+            return this.initMaxDegreeOfMissile;
+        }
+        return this.maxDegreeOfMissile;
+    }
+
+    public double getCurrentTurningFactor(int missileTick) {
+        if (this.initTurningFactorTick > 0 && missileTick >= 0 && missileTick <= this.initTurningFactorTick) {
+            return this.initTurningFactor;
+        }
+        return this.turningFactor;
+    }
+
+    public static boolean isCCIPSupportedType(String type) {
+        if (type == null) {
+            return false;
+        }
+        return type.equalsIgnoreCase("rocket")
+                || type.equalsIgnoreCase("atmissile")
+                || type.equalsIgnoreCase("tvmissile");
+    }
+
     public static enum Payload {
         NONE,
         NTM_VNT,
@@ -428,6 +495,12 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         NTM_NUKE,
         NTM_CHEMICAL,
         NTM_MIST
+    }
+
+    // Reforged field - selects which entity each buckshot pellet spawns as
+    public static enum BuckshotPayload {
+        BULLET,
+        ROCKET
     }
 
     public static class RoundItem {

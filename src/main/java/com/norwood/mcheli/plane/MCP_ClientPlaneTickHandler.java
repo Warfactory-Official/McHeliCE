@@ -49,6 +49,10 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
                 this.KeyUnmount,
                 this.KeyUnmountForce,
                 this.KeyFlare,
+                this.KeyChaff,
+                this.KeyAPS,
+                this.KeyECMJammer,
+                this.KeyRadarSwitch,
                 this.KeyExtra,
                 this.KeyFreeLook,
                 this.KeyGUI,
@@ -108,7 +112,7 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
             }
 
             boolean hideHand = true;
-            if ((!isPilot || !plane.isAlwaysCameraView()) && !plane.getIsGunnerMode(player) &&
+            if ((!isPilot || plane.isAlwaysCameraView()) && !plane.getIsGunnerMode(player) &&
                     plane.getCameraId() <= 0) {
                 MCH_Lib.setRenderViewEntity(player);
                 if (!isPilot && plane.getCurrentWeaponID(player) < 0) {
@@ -224,6 +228,7 @@ public class MCP_ClientPlaneTickHandler extends MCH_AircraftClientTickHandler {
 
         if (send) {
             new PacketPlayerControlPlane(pc).sendToServer();
+            this.recordDetachedAimSync(plane);
         }
     }
 }

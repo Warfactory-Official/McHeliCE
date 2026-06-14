@@ -11,6 +11,7 @@ import com.norwood.mcheli.compat.oneprobe.AircraftInfoProvider;
 import com.norwood.mcheli.container.MCH_EntityContainer;
 import com.norwood.mcheli.container.MCH_ItemContainer;
 import com.norwood.mcheli.factories.MCHGuiFactories;
+import com.norwood.mcheli.flare.MCH_EntityChaff;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
 import com.norwood.mcheli.gltd.MCH_ItemGLTD;
@@ -19,6 +20,7 @@ import com.norwood.mcheli.helicopter.MCH_EntityHeli;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
 import com.norwood.mcheli.helicopter.MCH_ItemHeli;
 import com.norwood.mcheli.helper.*;
+import com.norwood.mcheli.helper.addon.BuiltinAddonPack;
 import com.norwood.mcheli.helper.info.ContentRegistries;
 import com.norwood.mcheli.item.MCH_Item;
 import com.norwood.mcheli.item.MCH_ItemInfo;
@@ -119,6 +121,7 @@ public class MCH_MOD {
     public static MCH_CreativeTabs creativeTabsVehicle;
     public static MCH_DraftingTableBlock blockDraftingTable;
     public static MCH_DraftingTableBlock blockDraftingTableLit;
+    public static final MCH_RWRThreatManager rwrThreatManager = new MCH_RWRThreatManager();
     private static File sourceFile;
     private static File addonDir;
 
@@ -329,6 +332,9 @@ public class MCH_MOD {
         creativeTabsItem = new MCH_CreativeTabs("MCHeli CE Recipe Items");
         proxy.loadConfig("config/mcheli.cfg");
         config = proxy.config;
+        if (BuiltinAddonPack.instance().ensureExtracted(config)) {
+            proxy.save();
+        }
         MCH_Fluids.register();
         MCHGuiFactories.init();
         ContentRegistries.loadContents(addonDir);
@@ -358,10 +364,12 @@ public class MCH_MOD {
         MCH_Items.registerBlock(blockDraftingTable);
         W_LanguageRegistry.addName(blockDraftingTable, "Drafting Table");
         W_LanguageRegistry.addNameForObject(blockDraftingTable, "ja_jp", "製図台");
+        com.norwood.mcheli.wingman.McHeliWingman.preInit(evt, this, creativeTabs); //WINGMAN
         MCH_CriteriaTriggers.registerTriggers();
         MCH_Logger.log("Register system");
         MinecraftForge.EVENT_BUS.register(new MCH_EventHook());
         proxy.registerClientTick();
+        proxy.registerServerTick();
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new MCH_GuiCommonHandler());
         MCH_Logger.log("Register entity");
         this.registerEntity();
@@ -378,6 +386,7 @@ public class MCH_MOD {
         GameRegistry.registerTileEntity(MCH_DraftingTableTileEntity.class, MCH_Utils.suffix("drafting_table"));
         if (World.MAX_ENTITY_RADIUS < 5)
             World.MAX_ENTITY_RADIUS = 5;
+        com.norwood.mcheli.wingman.McHeliWingman.init(); //WINGMAN
         proxy.registerBlockRenderer();
     }
 
@@ -434,6 +443,7 @@ public class MCH_MOD {
         MCH_Entities.register(MCH_EntityFlare.class, "MCH.E.Flare", 300, this, 330, 10, true);
         MCH_Entities.register(MCH_EntityThrowable.class, "MCH.E.Throwable", 400, this, 330, 10, true);
         MCH_Entities.register(MCH_EntityGunner.class, "MCH.E.Gunner", 500, this, 530, 5, true);
+        MCH_Entities.register(MCH_EntityChaff.class, "MCH.E.Chaff", 402, this, 330, 10, true);
     }
 
     @EventHandler
@@ -441,6 +451,7 @@ public class MCH_MOD {
         CommandHandler handler = (CommandHandler) FMLCommonHandler.instance().getSidedDelegate().getServer()
                 .getCommandManager();
         handler.registerCommand(new MCH_Command());
+        com.norwood.mcheli.wingman.McHeliWingman.registerCommand(handler); //WINGMAN
     }
 
     private void registerItemSpawnGunner() {

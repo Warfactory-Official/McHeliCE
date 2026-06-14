@@ -45,6 +45,7 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
         double dist = 1.0E7D;
         this.ac.lastBBDamageFactor = 1.0F;
         this.ac.lastBBName = null;
+        this.ac.lastBBHit = null;
 
         // Still use the overall bounding box for a quick preliminary check
         if (super.intersects(aabb)) {
@@ -54,15 +55,20 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
 
         // Iterate through each component's bounding box
         for (MCH_BoundingBox bb : this.ac.extraBoundingBox) {
-            // 先用部件的轴对齐外包围盒做快速过滤
+            // Reforged ERA: a popped reactive-armor tile no longer exists for collision/hits.
+            if (bb.isERA && !bb.eraActive) {
+                continue;
+            }
+            // Quick filter using the part's AABB
             if (bb.boundingBox.intersects(aabb)) {
-                // 用完整的 OBB-AABB 判定代替原来的 corners 判定
+                // Use full OBB-AABB intersection check
                 if (bb.intersectsAABB(aabb)) {
                     double dist2 = this.getDistanceSquareBetween(aabb, this);
                     if (dist2 < dist) {
                         dist = dist2;
                         this.ac.lastBBDamageFactor = bb.damageFactor;
                         this.ac.lastBBName = bb.name;
+                        this.ac.lastBBHit = bb;
                     }
                     ret = true;
                 }
@@ -128,6 +134,7 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
     public RayTraceResult calculateIntercept(Vec3d start, Vec3d end) {
         this.ac.lastBBDamageFactor = 1.0F;
         this.ac.lastBBName = null;
+        this.ac.lastBBHit = null;
 
         // First check intersection with the main aircraft bounding box
         RayTraceResult bestResult = super.calculateIntercept(start, end);
@@ -135,6 +142,10 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
 
         // Iterate through the rotated component bounding boxes and perform OBB ray tracing
         for (MCH_BoundingBox bb : this.ac.extraBoundingBox) {
+            // Reforged ERA: a popped reactive-armor tile no longer exists for collision/hits.
+            if (bb.isERA && !bb.eraActive) {
+                continue;
+            }
             // Transform the ray into the local coordinate system of the component box
             Vec3d dir = end.subtract(start);
 
@@ -226,6 +237,7 @@ public class MCH_AircraftBoundingBox extends AxisAlignedBB {
                                                                                                     // good idea
                     this.ac.lastBBDamageFactor = bb.damageFactor;
                     this.ac.lastBBName = bb.name;
+                    this.ac.lastBBHit = bb;
                 }
             }
         }

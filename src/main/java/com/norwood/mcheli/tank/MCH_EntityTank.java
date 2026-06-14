@@ -47,6 +47,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class MCH_EntityTank extends MCH_EntityAircraft {
 
@@ -101,12 +102,12 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.setDead();
         } else {
             this.setAcInfo(this.tankInfo);
-            this.newSeats(this.getAcInfo().getNumSeatAndRack());
+            this.newSeats(Objects.requireNonNull(this.getAcInfo()).getNumSeatAndRack());
             this.switchFreeLookModeClient(this.getAcInfo().defaultFreelook);
             this.weapons = this.createWeapon(1 + this.getSeatNum());
             this.initPartRotation(this.getYaw(), this.getPitch());
             this.WheelMng.createWheels(this.world, this.getAcInfo().wheels,
-                    new Vec3d(0.0, -GLOBAL_Y_OFFSET, this.getTankInfo().weightedCenterZ));
+                    new Vec3d(0.0, -GLOBAL_Y_OFFSET, Objects.requireNonNull(this.getTankInfo()).weightedCenterZ));
         }
     }
 
@@ -191,7 +192,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.onUpdate_Seats();
             this.onUpdate_Control();
             this.prevRotationRotor = this.rotationRotor;
-            this.rotationRotor = (float) (this.rotationRotor + this.getCurrentThrottle() * this.getAcInfo().rotorSpeed);
+            this.rotationRotor = (float) (this.rotationRotor + this.getCurrentThrottle() * Objects.requireNonNull(this.getAcInfo()).rotorSpeed);
             if (this.rotationRotor > 360.0F) {
                 this.rotationRotor -= 360.0F;
                 this.prevRotationRotor -= 360.0F;
@@ -231,41 +232,36 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     @Override
     public void updateExtraBoundingBox() {
-        if (this.world.isRemote) {
-            super.updateExtraBoundingBox();
-        } else if (this.getCountOnUpdate() <= 1) {
-            super.updateExtraBoundingBox();
-            super.updateExtraBoundingBox();
-        }
+        super.updateExtraBoundingBox();
     }
 
-    public MCH_EntityTank.ClacAxisBB calculateXOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double x) {
+    public ClacAxisBB calculateXOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double x) {
         for (AxisAlignedBB axisAlignedBB : list) {
             x = axisAlignedBB.calculateXOffset(bb, x);
         }
 
-        return new MCH_EntityTank.ClacAxisBB(x, bb.offset(x, 0.0, 0.0));
+        return new ClacAxisBB(x, bb.offset(x, 0.0, 0.0));
     }
 
-    public MCH_EntityTank.ClacAxisBB calculateYOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double y) {
+    public ClacAxisBB calculateYOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double y) {
         return this.calculateYOffset(list, bb, bb, y);
     }
 
-    public MCH_EntityTank.ClacAxisBB calculateYOffset(List<AxisAlignedBB> list, AxisAlignedBB calcBB,
-                                                      AxisAlignedBB offsetBB, double y) {
+    public ClacAxisBB calculateYOffset(List<AxisAlignedBB> list, AxisAlignedBB calcBB,
+                                       AxisAlignedBB offsetBB, double y) {
         for (AxisAlignedBB axisAlignedBB : list) {
             y = axisAlignedBB.calculateYOffset(calcBB, y);
         }
 
-        return new MCH_EntityTank.ClacAxisBB(y, offsetBB.offset(0.0, y, 0.0));
+        return new ClacAxisBB(y, offsetBB.offset(0.0, y, 0.0));
     }
 
-    public MCH_EntityTank.ClacAxisBB calculateZOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double z) {
+    public ClacAxisBB calculateZOffset(List<AxisAlignedBB> list, AxisAlignedBB bb, double z) {
         for (AxisAlignedBB axisAlignedBB : list) {
             z = axisAlignedBB.calculateZOffset(bb, z);
         }
 
-        return new MCH_EntityTank.ClacAxisBB(z, bb.offset(0.0, 0.0, z));
+        return new ClacAxisBB(z, bb.offset(0.0, 0.0, z));
     }
 
     @Override
@@ -277,7 +273,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         List<AxisAlignedBB> list1 = getCollisionBoxes(this, this.getEntityBoundingBox().expand(x, y, z));
         AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
         if (y != 0.0) {
-            MCH_EntityTank.ClacAxisBB v = this.calculateYOffset(list1, this.getEntityBoundingBox(), y);
+            ClacAxisBB v = this.calculateYOffset(list1, this.getEntityBoundingBox(), y);
             y = v.value;
             this.setEntityBoundingBox(v.bb);
         }
@@ -290,7 +286,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
 
         if (x != 0.0) {
-            MCH_EntityTank.ClacAxisBB v = this.calculateXOffset(list1, this.getEntityBoundingBox(), x);
+            ClacAxisBB v = this.calculateXOffset(list1, this.getEntityBoundingBox(), x);
             x = v.value;
             if (x != 0.0) {
                 this.setEntityBoundingBox(v.bb);
@@ -298,7 +294,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
 
         if (z != 0.0) {
-            MCH_EntityTank.ClacAxisBB v = this.calculateZOffset(list1, this.getEntityBoundingBox(), z);
+            ClacAxisBB v = this.calculateZOffset(list1, this.getEntityBoundingBox(), z);
             z = v.value;
             if (z != 0.0) {
                 this.setEntityBoundingBox(v.bb);
@@ -315,7 +311,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             List<AxisAlignedBB> list = getCollisionBoxes(this, this.getEntityBoundingBox().expand(d2, y, d4));
             AxisAlignedBB axisalignedbb2 = this.getEntityBoundingBox();
             AxisAlignedBB axisalignedbb3 = axisalignedbb2.expand(d2, 0.0, d4);
-            MCH_EntityTank.ClacAxisBB v = this.calculateYOffset(list, axisalignedbb3, axisalignedbb2, y);
+            ClacAxisBB v = this.calculateYOffset(list, axisalignedbb3, axisalignedbb2, y);
             double d8 = v.value;
             axisalignedbb2 = v.bb;
             v = this.calculateXOffset(list, axisalignedbb2, d2);
@@ -417,39 +413,27 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             if (MathHelper.abs(this.getRoll()) > 20.0F) {
                 this.setRotRoll(this.getRoll() * (float) Math.pow(0.95, deltaSeconds * 20));
             }
-            this.setRotYaw(this.getYaw() + this.getAcInfo().autoPilotRot * 0.2F * deltaSeconds * 20);
+            this.setRotYaw(this.getYaw() + Objects.requireNonNull(this.getAcInfo()).autoPilotRot * 0.2F * deltaSeconds * 20);
         }
 
         this.updateRecoil(deltaSeconds);
 
         float currentPitch = this.getPitch();
         float targetPitch = this.WheelMng.targetPitch;
-        float interp = deltaSeconds;
 
         boolean isFly = MCH_Lib.getBlockIdY(this, 3, -3) == 0;
-        boolean nearWaterFloat = this.getAcInfo().isFloat && this.getWaterDepth() > 0.0;
-        if (!isFly || nearWaterFloat) {
-            float gmy = 1.0F;
-            if (!isFly) {
-                gmy = this.getAcInfo().mobilityYawOnGround;
-                if (!this.getAcInfo().canRotOnGround) {
-                    Block block = MCH_Lib.getBlockY(this, 3, -2, false);
-                    if (!W_Block.isEqual(block, W_Block.getWater()) && !W_Block.isEqual(block, Blocks.AIR)) {
-                        gmy = 0.0F;
-                    }
-                }
-            }
-            interp *= Math.max(0.12F, 0.35F * gmy);
+        boolean groundLike = !isFly;
+        boolean nearWaterFloat = Objects.requireNonNull(this.getAcInfo()).isFloat && this.getWaterDepth() > 0.0;
+        if (nearWaterFloat) {
+            groundLike = true;
         }
 
-        double throttle = this.getCurrentThrottle();
-        if (throttle > 0.05D) {
-            float throttleFactor = 1.0F - Math.min(0.8F, (float) throttle) * 0.35F;
-            interp *= throttleFactor;
-        }
+        double horizSpeed = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        float interp = groundLike ? Math.min(1.0F, deltaSeconds * (horizSpeed > 0.08D ? 10.0F : 7.0F)) :
+                Math.min(1.0F, deltaSeconds * 4.0F);
 
         float desiredPitch = currentPitch + (targetPitch - currentPitch) * interp;
-        final float MAX_PITCH_DELTA_PER_SECOND = 18.0F; // 0.9 deg/tick * 20 ticks/sec
+        final float MAX_PITCH_DELTA_PER_SECOND = groundLike ? 90.0F : 24.0F;
         float pitchDelta = desiredPitch - currentPitch;
         pitchDelta = MathHelper.clamp(pitchDelta, -MAX_PITCH_DELTA_PER_SECOND * deltaSeconds,
                 MAX_PITCH_DELTA_PER_SECOND * deltaSeconds);
@@ -457,9 +441,11 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         float currentRoll = this.getRoll();
         float targetRoll = this.WheelMng.targetRoll;
-        float rollInterp = deltaSeconds;
-        if (!isFly || nearWaterFloat) rollInterp *= 0.5F;
-        this.setRotRoll(currentRoll + (targetRoll - currentRoll) * rollInterp);
+        float rollInterp = groundLike ? Math.min(1.0F, deltaSeconds * (horizSpeed > 0.08D ? 9.0F : 6.0F)) :
+                Math.min(1.0F, deltaSeconds * 3.5F);
+        float desiredRoll = currentRoll + (targetRoll - currentRoll) * rollInterp;
+        float maxRollDelta = (groundLike ? 90.0F : 20.0F) * deltaSeconds;
+        this.setRotRoll(currentRoll + MathHelper.clamp(desiredRoll - currentRoll, -maxRollDelta, maxRollDelta));
 
         float gmy = 1.0F;
         if (!isFly) {
@@ -476,6 +462,30 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         double dx = this.posX - this.prevPosX;
         double dz = this.posZ - this.prevPosZ;
         double dist = dx * dx + dz * dz;
+
+        if (Objects.requireNonNull(this.getTankInfo()).weightType == 1 && groundLike) {
+            float steerInput = 0.0F;
+            if (this.moveLeft && !this.moveRight) {
+                steerInput = -1.0F;
+            } else if (this.moveRight && !this.moveLeft) {
+                steerInput = 1.0F;
+            }
+
+            if (steerInput != 0.0F) {
+                Vec3d forward = getFlatForwardVector(this.getYaw());
+                double signedSpeed = this.motionX * forward.x + this.motionZ * forward.z;
+                if (Math.abs(signedSpeed) < 0.02D) {
+                    signedSpeed = (this.throttleUp ? 0.02D : 0.0D) - (this.throttleDown ? 0.02D : 0.0D);
+                }
+                if (Math.abs(signedSpeed) > 0.001D) {
+                    float steerRate = (float) Math.min(55.0D, 18.0D + Math.abs(signedSpeed) * 90.0D);
+                    this.setRotYaw(this.getYaw() + steerInput * steerRate * deltaSeconds *
+                            (signedSpeed >= 0.0D ? 1.0F : -1.0F) * gmy);
+                }
+            }
+            this.addkeyRotValue *= (1.0F - 0.1F * deltaSeconds * 20);
+            return;
+        }
 
         if (pivotTurnThrottle <= 0.0F || this.getCurrentThrottle() >= pivotTurnThrottle ||
                 this.throttleBack >= pivotTurnThrottle / 10.0F || dist > this.throttleBack * 0.01) {
@@ -506,7 +516,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         if (this.getBrake()) {
             this.throttleBack = (float) (this.throttleBack * 0.5);
             if (this.getCurrentThrottle() > 0.0) {
-                this.addCurrentThrottle(-0.02 * this.getAcInfo().throttleUpDown);
+                this.addCurrentThrottle(-0.02 * Objects.requireNonNull(this.getAcInfo()).throttleUpDown);
             } else {
                 this.setCurrentThrottle(0.0);
             }
@@ -519,7 +529,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.throttleUp = true;
             this.onUpdate_ControlSub();
         } else if (this.getCurrentThrottle() > 0.0) {
-            this.addCurrentThrottle(-0.0025 * this.getAcInfo().throttleUpDown);
+            this.addCurrentThrottle(-0.0025 * Objects.requireNonNull(this.getAcInfo()).throttleUpDown);
         } else {
             this.setCurrentThrottle(0.0);
         }
@@ -546,6 +556,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     protected void onUpdate_ControlSub() {
         if (!super.isGunnerMode) {
+            assert this.getAcInfo() != null;
             float throttleUpDown = this.getAcInfo().throttleUpDown;
             if (super.throttleUp) {
                 float f = throttleUpDown;
@@ -582,15 +593,12 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                         // super.throttleBack = 0.6F;
                         // }
                         float pivotTurnThrottle1 = this.getAcInfo().pivotTurnThrottle;
-                        if (pivotTurnThrottle1 > 0) {
+                        if (pivotTurnThrottle1 > 0 && Objects.requireNonNull(this.getTankInfo()).weightType != 1) {
                             if (super.throttleBack > 0) {
                                 double dx = super.posX - super.prevPosX;
                                 double dz = super.posZ - super.prevPosZ;
                                 double dist = dx * dx + dz * dz;
-                                float sf = (float) Math.sqrt(dist <= 1.0D ? dist : 1.0D);
-                                if (pivotTurnThrottle1 <= 0.0F) {
-                                    sf = 1.0F;
-                                }
+                                float sf = (float) Math.sqrt(Math.min(dist, 1.0D));
 
                                 float rotonground = 1.0F;
                                 boolean isFly = MCH_Lib.getBlockIdY(this, 3, -3) == 0;
@@ -630,6 +638,33 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     protected void onUpdate_Particle2() {
         if (this.world.isRemote) {
+            if (this.ironCurtainRunningTick > 0 && this.getTankInfo() != null) {
+                float factor = 0.5f + 0.5f * (float) Math.sin(this.ironCurtainRunningTick * 0.15f);
+                float r = 0.5f * factor;
+                float g = 0.1f * factor;
+                float b = 0.1f * factor;
+
+                for (MCH_BoundingBox box : this.getTankInfo().extraBoundingBox) {
+                    Vec3d pos = this.getTransformedPosition(box.offsetX, box.offsetY, box.offsetZ);
+                    int count = 2 + this.rand.nextInt(3);
+                    for (int i = 0; i < count; i++) {
+                        double px = pos.x + (this.rand.nextGaussian() * 0.3);
+                        double py = pos.y + (this.rand.nextGaussian() * 0.2);
+                        double pz = pos.z + (this.rand.nextGaussian() * 0.3);
+
+                        net.minecraft.client.particle.Particle p = com.norwood.mcheli.particles.MCH_ParticlesUtil.doSpawnParticle(
+                                "cloud", px, py, pz, 0, 0, 0);
+                        if (p != null) {
+                            p.setRBGColorF(r, g, b);
+                            float spread = 0.015f * (this.ironCurtainRunningTick % 40 + 1);
+                            p.motionX = (this.rand.nextFloat() - 0.5f) * spread;
+                            p.motionY = 0.01f + this.rand.nextFloat() * 0.02f;
+                            p.motionZ = (this.rand.nextFloat() - 0.5f) * spread;
+                        }
+                    }
+                }
+            }
+
             if (!(this.getHP() >= this.getMaxHP() * 0.5)) {
                 if (this.getTankInfo() != null) {
                     int bbNum = this.getTankInfo().extraBoundingBox.size();
@@ -645,7 +680,9 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                     for (int ri = 0; ri < bbNum; ri++) {
                         if (this.getHP() >= this.getMaxHP() * 0.2 && this.getMaxHP() > 0) {
                             int d = (int) (((double) this.getHP() / this.getMaxHP() - 0.2) / 0.3 * 15.0);
-                            if (d > 0 && this.rand.nextInt(d) > 0) {}
+                            if (d > 0) {
+                                this.rand.nextInt(d);
+                            }
                         } else {
                             MCH_BoundingBox bb = this.getTankInfo().extraBoundingBox.get(ri);
                             Vec3d pos = this.getTransformedPosition(bb.offsetX, bb.offsetY, bb.offsetZ);
@@ -668,8 +705,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                         double px = this.posX;
                         double py = this.posY;
                         double pz = this.posZ;
-                        if (this.getSeatInfo(0) != null && this.getSeatInfo(0).pos != null) {
-                            Vec3d pos = MCH_Lib.RotVec3(0.0, this.getSeatInfo(0).pos.y, -2.0, -yaw, -pitch, -roll);
+                        if (this.getSeatInfo(0) != null && Objects.requireNonNull(this.getSeatInfo(0)).pos != null) {
+                            Vec3d pos = MCH_Lib.RotVec3(0.0, Objects.requireNonNull(this.getSeatInfo(0)).pos.y, -2.0, -yaw, -pitch, -roll);
                             px += pos.x;
                             py += pos.y;
                             pz += pos.z;
@@ -761,7 +798,26 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     @Override
     public int getClientPositionDelayCorrection() {
-        return this.getTankInfo().weightType == 1 ? 2 : (7);
+        return Objects.requireNonNull(this.getTankInfo()).weightType == 1 ? 2 : 5;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9,
+                                             boolean teleport) {
+        int delay = par9 + this.getClientPositionDelayCorrection();
+        if (W_Lib.isClientPlayer(this.getRiddenByEntity())) {
+            delay = Math.max(1, delay - 1);
+        }
+        this.aircraftPosRotInc = delay;
+        this.aircraftX = par1;
+        this.aircraftY = par3;
+        this.aircraftZ = par5;
+        this.aircraftYaw = par7;
+        this.aircraftPitch = par8;
+        this.motionX = this.velocityX;
+        this.motionY = this.velocityY;
+        this.motionZ = this.velocityZ;
     }
 
     protected void onUpdate_Client() {
@@ -774,8 +830,11 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         } else {
             this.setPosition(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
             if (!this.isDestroyed() && (this.onGround || MCH_Lib.getBlockIdY(this, 1, -2) > 0)) {
-                this.motionX *= 0.95;
-                this.motionZ *= 0.95;
+                if (Objects.requireNonNull(this.getTankInfo()).weightType == 1) {
+                    applyGroundGrip(0.14D, 0.99D);
+                } else {
+                    applyGroundGrip(0.25D, 0.97D);
+                }
                 this.applyOnGroundPitch(0.95F);
                 // todo marker
             }
@@ -799,8 +858,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     }
 
     @Override
-    public void applyOnGroundPitch(float factor) {}
-
+    public void applyOnGroundPitch(float factor) {
+    }
 
 
     private void onUpdate_Server() {
@@ -816,7 +875,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         if (dp == 0.0) {
             if (!levelOff) {
                 this.motionY = this.motionY +
-                        (0.04 + (!this.isInWater() ? this.getAcInfo().gravity : this.getAcInfo().gravityInWater));
+                        (0.04 + (!this.isInWater() ? this.getAcInfo() != null ? this.getAcInfo().gravity : 0 : this.getAcInfo() != null ? this.getAcInfo().gravityInWater : 0));
                 this.motionY = this.motionY + -0.047 * (1.0 - this.getCurrentThrottle());
             } else {
                 this.motionY *= 0.8;
@@ -831,9 +890,11 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             this.motionY = this.motionY + 0.007 * this.getCurrentThrottle();
         }
 
+        boolean groundLike = this.onGround || MCH_Lib.getBlockIdY(this, 1, -2) > 0;
+
         // compute throttle & direction vector
         float throttle = (float) (this.getCurrentThrottle() / 10.0);
-        Vec3d v = MCH_Lib.Rot2Vec3(this.getYaw(), this.getPitch() - 10.0F);
+        Vec3d v = groundLike ? getFlatForwardVector(this.getYaw()) : MCH_Lib.Rot2Vec3(this.getYaw(), this.getPitch() - 10.0F);
 
         // normalize vector (ensure consistent magnitude like 1.7 behaviour)
         double vx = v.x;
@@ -855,17 +916,14 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         // apply vertical thrust: only meaningful vertical lift while airborne and moving
         if (!levelOff) {
             double horizSpeed = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-            if (!this.onGround && horizSpeed > AIRBORNE_SPEED_MIN) {
+            if (!this.onGround && horizSpeed > AIRBORNE_SPEED_MIN)
                 this.motionY += v.y * throttle / 8.0;
-            } else {
-                // intentionally skip tiny vertical kicks while grounded to avoid pitch wobble
-                // If you want a tiny bump for climbing small obstacles, change the line below:
-                // this.motionY += v.y * throttle / 32.0;
-            }
+
+
         }
 
         boolean canMove = true;
-        if (!this.getAcInfo().canMoveOnGround) {
+        if (!Objects.requireNonNull(this.getAcInfo()).canMoveOnGround) {
             Block block = MCH_Lib.getBlockY(this, 3, -2, false);
             if (!W_Block.isEqual(block, W_Block.getWater()) && !W_Block.isEqual(block, Blocks.AIR)) {
                 canMove = false;
@@ -902,9 +960,12 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
             }
         }
 
-        if (this.onGround || MCH_Lib.getBlockIdY(this, 1, -2) > 0) {
-            this.motionX = this.motionX * this.getAcInfo().motionFactor;
-            this.motionZ = this.motionZ * this.getAcInfo().motionFactor;
+        if (groundLike) {
+            if (Objects.requireNonNull(this.getTankInfo()).weightType == 1) {
+                applyGroundGrip(0.18D, 0.985D);
+            } else {
+                applyGroundGrip(0.35D, this.getAcInfo().motionFactor);
+            }
 
             // zero very small vertical movement before pitch adjustments so applyOnGroundPitch isn't triggered by
             // micro-spikes
@@ -931,8 +992,16 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         this.updateWheels();
         this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
         this.motionY *= 0.95;
-        this.motionX = this.motionX * this.getAcInfo().motionFactor;
-        this.motionZ = this.motionZ * this.getAcInfo().motionFactor;
+        if (groundLike) {
+            if (Objects.requireNonNull(this.getTankInfo()).weightType == 1) {
+                applyGroundGrip(0.10D, 0.992D);
+            } else {
+                applyGroundGrip(0.20D, this.getAcInfo().motionFactor);
+            }
+        } else {
+            this.motionX = this.motionX * this.getAcInfo().motionFactor;
+            this.motionZ = this.motionZ * this.getAcInfo().motionFactor;
+        }
         this.setRotation(this.getYaw(), this.getPitch());
         this.onUpdate_updateBlock();
         this.updateCollisionBox();
@@ -951,7 +1020,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                 MCH_EntityAircraft rideAc = this.getRidingEntity() instanceof MCH_EntitySeat ?
                         ((MCH_EntitySeat) this.getRidingEntity()).getParent() :
                         (this.getRidingEntity() instanceof MCH_EntityAircraft ?
-                                (MCH_EntityAircraft) this.getRidingEntity() : null);
+                         (MCH_EntityAircraft) this.getRidingEntity() : null);
                 List<Entity> list = this.world
                         .getEntitiesInAABBexcluding(
                                 this,
@@ -1001,7 +1070,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                             e.motionZ = e.motionZ + this.motionZ * 1.5;
                         }
 
-                        if (this.getTankInfo().weightType != 2 && (e.width >= 1.0F || e.height >= 1.5)) {
+                        if (Objects.requireNonNull(this.getTankInfo()).weightType != 2 && (e.width >= 1.0F || e.height >= 1.5)) {
                             if (e instanceof EntityLivingBase) {
                                 ds = DamageSource.causeMobDamage((EntityLivingBase) e);
                             } else {
@@ -1066,7 +1135,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
     public void destoryBlockRange(Vec3d v, double w, double h) {
         if (this.getAcInfo() != null) {
-            List<Block> destroyBlocks = MCH_Config.getBreakableBlockListFromType(this.getTankInfo().weightType);
+            List<Block> destroyBlocks = MCH_Config.getBreakableBlockListFromType(Objects.requireNonNull(this.getTankInfo()).weightType);
             List<Block> noDestroyBlocks = MCH_Config.getNoBreakableBlockListFromType(this.getTankInfo().weightType);
             List<Material> destroyMaterials = MCH_Config
                     .getBreakableMaterialListFromType(this.getTankInfo().weightType);
@@ -1132,15 +1201,30 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         this.WheelMng.move(this.motionX, this.motionY, this.motionZ);
     }
 
+    private static Vec3d getFlatForwardVector(float yawDeg) {
+        double yawRad = Math.toRadians(yawDeg);
+        return new Vec3d(-Math.sin(yawRad), 0.0D, Math.cos(yawRad));
+    }
+
+    private void applyGroundGrip(double lateralGrip, double rollingFriction) {
+        Vec3d forward = getFlatForwardVector(this.getYaw());
+        double forwardSpeed = this.motionX * forward.x + this.motionZ * forward.z;
+        double lateralSpeed = this.motionX * -forward.z + this.motionZ * forward.x;
+        lateralSpeed *= lateralGrip;
+        forwardSpeed *= rollingFriction;
+        this.motionX = forward.x * forwardSpeed - forward.z * lateralSpeed;
+        this.motionZ = forward.z * forwardSpeed + forward.x * lateralSpeed;
+    }
+
     public float getMaxSpeed() {
-        return this.getTankInfo().speed;
+        return Objects.requireNonNull(this.getTankInfo()).speed;
     }
 
     @Override
     public void setAngles(Entity player, boolean fixRot, float fixYaw, float fixPitch, float deltaX, float deltaY,
                           float x, float y, float deltaSeconds) {
         updateAircraftOrientation(deltaSeconds);
-        handlePlayerInput(player, fixRot, fixYaw, fixPitch, deltaX, deltaY);
+        handleTurret(player, fixRot, fixYaw, fixPitch, deltaX, deltaY);
     }
 
     public void updateAircraftOrientation(float deltaSeconds) {
@@ -1171,7 +1255,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         this.onUpdateAngles(deltaSeconds);
 
-        if (this.getAcInfo().limitRotation) {
+        if (Objects.requireNonNull(this.getAcInfo()).limitRotation) {
             this.setRotPitch(MCH_Lib.RNG(this.getPitch(), -90.0F, 90.0F));
             this.setRotRoll(MCH_Lib.RNG(this.getRoll(), -90.0F, 90.0F));
         }
@@ -1196,8 +1280,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         }
     }
 
-    public void handlePlayerInput(Entity player, boolean fixRot, float fixYaw, float fixPitch, float deltaX, float deltaY) {
-        float deltaLimit = (this.getAcInfo().cameraRotationSpeed * 5);
+    public void handleTurret(Entity player, boolean fixRot, float fixYaw, float fixPitch, float deltaX, float deltaY) {
+        float deltaLimit = (Objects.requireNonNull(this.getAcInfo()).cameraRotationSpeed * 5);
 
         MCH_WeaponSet ws = this.getCurrentWeapon(player);
         if (ws != null && ws.getInfo() != null) {
@@ -1298,17 +1382,8 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
     @Override
     public void updateParts(int stat) {
         super.updateParts(stat);
-        if (!this.isDestroyed()) {
-            MCH_Parts[] parts = new MCH_Parts[0];
-
-            for (MCH_Parts p : parts) {
-                if (p != null) {
-                    p.updateStatusClient(stat);
-                    p.update();
-                }
-            }
-        }
     }
+
     @Override
     public double getCurrentSpeed() {
         double tickDistance = Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -1320,14 +1395,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         return 0.7F;
     }
 
-    public static class ClacAxisBB {
+    public record ClacAxisBB(double value, AxisAlignedBB bb) {
 
-        public final double value;
-        public final AxisAlignedBB bb;
-
-        public ClacAxisBB(double value, AxisAlignedBB bb) {
-            this.value = value;
-            this.bb = bb;
-        }
     }
 }

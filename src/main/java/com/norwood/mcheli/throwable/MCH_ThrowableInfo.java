@@ -4,7 +4,7 @@ import com.norwood.mcheli.MCH_BaseInfo;
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.helper.addon.AddonResourceLocation;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.info.IItemContent;
 import com.norwood.mcheli.wrapper.W_Item;
 import net.minecraft.item.Item;
@@ -43,7 +43,7 @@ public class MCH_ThrowableInfo extends MCH_BaseInfo implements IItemContent {
     public int aliveTime = 10;
     public int bomblet = 0;
     public float bombletDiff = 0.3F;
-    public _IModelCustom model = null;
+    public IModelCustom model = null;
     public float smokeSize = 10.0F;
     public int smokeNum = 0;
     public float smokeVelocityVertical = 1.0F;

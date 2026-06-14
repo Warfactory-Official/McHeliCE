@@ -5,15 +5,18 @@ import com.norwood.mcheli.event.ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_ClientEventHook;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.flare.MCH_EntityChaff;
+import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.gui.MCH_Gui;
 import com.norwood.mcheli.helper.MCH_ColorInt;
 import com.norwood.mcheli.helper.MCH_Utils;
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.client.renderer.MCH_Verts;
 import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
 import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
-import com.norwood.mcheli.weapon.MCH_WeaponGuidanceSystem;
+import com.norwood.mcheli.weapon.MCH_EntityGuidanceSystem;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import com.norwood.mcheli.wrapper.*;
 import com.norwood.mcheli.wrapper.modelloader.W_ModelCustom;
@@ -37,24 +40,24 @@ import javax.annotation.Nullable;
 public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W_Render<T> {
 
     public static boolean renderingEntity = false;
-    public static _IModelCustom debugModel = null;
+    public static IModelCustom debugModel = null;
 
     protected MCH_RenderAircraft(RenderManager renderManager) {
         super(renderManager);
     }
 
-    public static boolean shouldSkipRender(Entity entity) {
+    public static boolean shouldRender(Entity entity) {
         if (entity instanceof MCH_IEntityCanRideAircraft e) {
             if (e.isSkipNormalRender()) {
-                return !renderingEntity;
+                return renderingEntity;
             }
         } else if ((entity.getClass().toString().indexOf("flansmod.common.driveables.EntityPlane") > 0 ||
                 entity.getClass().toString().indexOf("flansmod.common.driveables.EntityVehicle") > 0) &&
                 entity.getRidingEntity() instanceof MCH_EntitySeat) {
-            return !renderingEntity;
+            return renderingEntity;
         }
 
-        return false;
+        return true;
     }
 
     public static void renderLight(double x, double y, double z, float tickTime, MCH_EntityAircraft ac,
@@ -130,7 +133,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
     }
 
-    public static void renderBody(@Nullable _IModelCustom model) {
+    public static void renderBody(@Nullable IModelCustom model) {
         if (model != null) {
             if (model instanceof W_ModelCustom) {
                 if (((W_ModelCustom) model).containsPart("$body")) {
@@ -144,11 +147,36 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
     }
 
-    public static void renderPart(@Nullable _IModelCustom model, @Nullable _IModelCustom modelBody, String partName) {
+    public static void renderPart(@Nullable IModelCustom model, @Nullable IModelCustom modelBody, String partName) {
         if (model != null) {
             model.renderAll();
         } else if (modelBody instanceof W_ModelCustom && ((W_ModelCustom) modelBody).containsPart("$" + partName)) {
             modelBody.renderPart("$" + partName);
+        }
+    }
+
+    /**
+     * Reforged ERA: render each intact reactive-armor tile as its own body model group ({@code $ERA0},
+     * {@code $ERA1}, ...). A popped tile's part is skipped, so the armor visibly disappears once consumed.
+     * ERA tile order matches {@code extraBoundingBox} iteration, identical to the state bitstring.
+     */
+    public static void renderERA(MCH_EntityAircraft ac, MCH_AircraftInfo info) {
+        if (!(info.model instanceof W_ModelCustom)) {
+            return;
+        }
+        W_ModelCustom bodyModel = (W_ModelCustom) info.model;
+        int eraIndex = 0;
+        for (MCH_BoundingBox bb : ac.extraBoundingBox) {
+            if (!bb.isERA) {
+                continue;
+            }
+            if (bb.eraActive) {
+                String partName = "$ERA" + eraIndex;
+                if (bodyModel.containsPart(partName)) {
+                    bodyModel.renderPart(partName);
+                }
+            }
+            eraIndex++;
         }
     }
 
@@ -339,7 +367,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
 
             GlStateManager.translate(-part.pos.x, -part.pos.y, -part.pos.z);
 
-            if (!part.isMissile || !aircraft.isWeaponNotCooldown(weaponSet, weaponIndex)) {
+            if (!part.isMissile || aircraft.isWeaponOnCooldown(weaponSet, weaponIndex)) {
                 renderPart(part.model, info.model, part.modelName);
 
                 for (MCH_AircraftInfo.PartWeaponChild child : part.child) {
@@ -486,8 +514,8 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 GlStateManager.enableBlend();
 
                 int pointCount = track.lp.size() - 1;
-                double currentProgress = aircraft != null ? aircraft.rotCrawlerTrack[track.side] : 0.0;
-                double prevProgress = aircraft != null ? aircraft.prevRotCrawlerTrack[track.side] : 0.0;
+                double currentProgress = aircraft.rotCrawlerTrack[track.side];
+                double prevProgress = aircraft.prevRotCrawlerTrack[track.side];
 
                 double interpolatedProgress = prevProgress + (currentProgress - prevProgress) * tickTime;
 
@@ -684,101 +712,129 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     }
 
     public static void renderEntityMarker(Entity entity) {
-        Entity player = Minecraft.getMinecraft().player;
-        if (player != null) {
-            if (!W_Entity.isEqual(player, entity)) {
-                MCH_EntityAircraft ac = null;
-                if (player.getRidingEntity() instanceof MCH_EntityAircraft) {
-                    ac = (MCH_EntityAircraft) player.getRidingEntity();
-                } else if (player.getRidingEntity() instanceof MCH_EntitySeat) {
-                    ac = ((MCH_EntitySeat) player.getRidingEntity()).getParent();
-                } else if (player.getRidingEntity() instanceof MCH_EntityUavStation) {
-                    ac = ((MCH_EntityUavStation) player.getRidingEntity()).getControlled();
-                }
+        Minecraft mc = Minecraft.getMinecraft();
+        Entity player = mc.player;
+        RenderManager rm = mc.getRenderManager();
 
-                if (ac != null) {
-                    if (!W_Entity.isEqual(ac, entity)) {
-                        MCH_WeaponGuidanceSystem gs = ac.getCurrentWeapon(player).getCurrentWeapon()
-                                .getGuidanceSystem();
-                        if (gs != null && gs.canLockEntity(entity)) {
-                            RenderManager rm = Minecraft.getMinecraft().getRenderManager();
-                            double dist = entity.getDistanceSq(rm.renderViewEntity);
-                            double x = entity.posX - TileEntityRendererDispatcher.staticPlayerX;
-                            double y = entity.posY - TileEntityRendererDispatcher.staticPlayerY;
-                            double z = entity.posZ - TileEntityRendererDispatcher.staticPlayerZ;
-                            if (dist < 10000.0) {
-                                GlStateManager.pushMatrix();
-                                GlStateManager.translate((float) x, (float) y + entity.height + 0.5F, (float) z);
-                                GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-                                GlStateManager.rotate(-rm.playerViewY, 0.0F, 1.0F, 0.0F);
-                                GlStateManager.rotate(rm.playerViewX, 1.0F, 0.0F, 0.0F);
-                                GlStateManager.scale(-0.02666667F, -0.02666667F, 0.02666667F);
-                                GlStateManager.disableLighting();
-                                GlStateManager.translate(0.0F, 9.374999F, 0.0F);
-                                GlStateManager.depthMask(false);
-                                GlStateManager.enableBlend();
-                                GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                                GlStateManager.disableTexture2D();
-                                float size = Math.max(entity.width, entity.height) * 20.0F;
-                                if (entity instanceof MCH_EntityAircraft) {
-                                    size *= 2.0F;
-                                }
+        if (player == null || W_Entity.isEqual(player, entity) || rm.renderViewEntity == null) return;
 
-                                Tessellator tessellator = Tessellator.getInstance();
-                                BufferBuilder builder = tessellator.getBuffer();
-                                builder.begin(2, MCH_Verts.POS_COLOR_LMAP);
-                                boolean isLockEntity = gs.isLockingEntity(entity);
-                                if (isLockEntity) {
-                                    GLStateManagerExt.setPointSize(MCH_Gui.scaleFactor * 1.5F);
-                                    builder.pos(-size - 1.0F, 0.0, 0.0).color(1.0F, 0.0F, 0.0F, 1.0F).lightmap(0, 240)
-                                            .endVertex();
-                                    builder.pos(-size - 1.0F, size * 2.0F, 0.0).color(1.0F, 0.0F, 0.0F, 1.0F)
-                                            .lightmap(0, 240).endVertex();
-                                    builder.pos(size + 1.0F, size * 2.0F, 0.0).color(1.0F, 0.0F, 0.0F, 1.0F)
-                                            .lightmap(0, 240).endVertex();
-                                    builder.pos(size + 1.0F, 0.0, 0.0).color(1.0F, 0.0F, 0.0F, 1.0F).lightmap(0, 240)
-                                            .endVertex();
-                                } else {
-                                    GLStateManagerExt.setPointSize(MCH_Gui.scaleFactor);
-                                    builder.pos(-size - 1.0F, 0.0, 0.0).color(1.0F, 0.3F, 0.0F, 8.0F).lightmap(0, 240)
-                                            .endVertex();
-                                    builder.pos(-size - 1.0F, size * 2.0F, 0.0).color(1.0F, 0.3F, 0.0F, 8.0F)
-                                            .lightmap(0, 240).endVertex();
-                                    builder.pos(size + 1.0F, size * 2.0F, 0.0).color(1.0F, 0.3F, 0.0F, 8.0F)
-                                            .lightmap(0, 240).endVertex();
-                                    builder.pos(size + 1.0F, 0.0, 0.0).color(1.0F, 0.3F, 0.0F, 8.0F).lightmap(0, 240)
-                                            .endVertex();
-                                }
+        MCH_EntityAircraft ac = switch (player.getRidingEntity()) {
+            case MCH_EntityAircraft a -> a;
+            case MCH_EntitySeat seat -> seat.getParent();
+            case MCH_EntityUavStation uav -> uav.getControlled();
+            case null, default -> null;
+        };
 
-                                tessellator.draw();
-                                GlStateManager.popMatrix();
-                                if (!ac.isUAV() && isLockEntity &&
-                                        Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
-                                    GlStateManager.pushMatrix();
-                                    builder.begin(1, MCH_Verts.POS_COLOR_LMAP);
-                                    GL11.glLineWidth(1.0F);
-                                    builder.pos(x, y + entity.height / 2.0F, z).color(1.0F, 0.0F, 0.0F, 1.0F)
-                                            .lightmap(0, 240).endVertex();
-                                    builder.pos(ac.lastTickPosX - TileEntityRendererDispatcher.staticPlayerX,
-                                                    ac.lastTickPosY - TileEntityRendererDispatcher.staticPlayerY - 1.0,
-                                                    ac.lastTickPosZ - TileEntityRendererDispatcher.staticPlayerZ)
-                                            .color(1.0F, 0.0F, 0.0F, 1.0F).lightmap(0, 240).endVertex();
-                                    tessellator.draw();
-                                    GlStateManager.popMatrix();
-                                }
+        if (ac == null || W_Entity.isEqual(ac, entity)) return;
 
-                                GLStateManagerExt.restorePointSize();
-                                GlStateManager.enableTexture2D();
-                                GlStateManager.depthMask(true);
-                                GlStateManager.enableLighting();
-                                GlStateManager.disableBlend();
-                                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                            }
-                        }
-                    }
-                }
-            }
+        var currentWeapon = ac.getCurrentWeapon(player).getCurrentWeapon();
+        if (!(currentWeapon.getGuidanceSystem() instanceof MCH_EntityGuidanceSystem gs) || !gs.canLockEntity(entity)) return;
+
+        MCH_WeaponInfo wi = currentWeapon.getInfo();
+        double distSq = entity.getDistanceSq(rm.renderViewEntity);
+        if (distSq >= 1_000_000.0) return;
+
+        double distance = Math.sqrt(distSq);
+        if (wi != null && wi.enableBVR && distance > wi.minRangeBVR) return;
+
+        var src = new Vec3d(rm.viewerPosX, rm.viewerPosY, rm.viewerPosZ);
+        var dst = new Vec3d(entity.posX, entity.posY, entity.posZ);
+        if (player.world.rayTraceBlocks(src, dst, true) != null) return;
+
+        double x = entity.posX - TileEntityRendererDispatcher.staticPlayerX;
+        double y = entity.posY - TileEntityRendererDispatcher.staticPlayerY;
+        double z = entity.posZ - TileEntityRendererDispatcher.staticPlayerZ;
+
+        var pVel = new org.joml.Vector3f((float) ac.motionX, (float) ac.motionY, (float) ac.motionZ);
+        var tVel = new org.joml.Vector3f((float) entity.motionX, (float) entity.motionY, (float) entity.motionZ);
+        float angleDeg = 0;
+
+        if (pVel.length() > 0.001f && tVel.length() > 0.001f) {
+            // Clamp angle to acute
+            float angleRad = pVel.angle(tVel);
+            angleDeg = (float) Math.toDegrees(angleRad > Math.PI / 2 ? Math.PI - angleRad : angleRad);
         }
+
+        boolean isLockEntity = gs.isLockingEntity(entity);
+        float alpha = (wi != null && (angleDeg > wi.pdHDNMaxDegree || distance > wi.maxLockOnRange)) ? 0.2F : 1.0F;
+
+        float baseSize = entity instanceof MCH_EntityAircraft || entity instanceof MCH_EntityFlare || entity instanceof MCH_EntityChaff
+                ? Math.max(entity.width, entity.height) * 40.0F
+                : Math.max(entity.width, entity.height) * 20.0F;
+
+        float size = Math.clamp(baseSize + (float) ((distance - 10.0D) / 290.0D) * (300.0F - baseSize), baseSize, 300.0F);
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float) x, (float) y + entity.height + 2.0F, (float) z);
+        GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-rm.playerViewY, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(rm.playerViewX, 1.0F, 0.0F, 0.0F);
+        GlStateManager.scale(-0.02666667F, -0.02666667F, 0.02666667F);
+
+        GlStateManager.disableLighting();
+        GlStateManager.translate(0.0F, 9.374999F, 0.0F);
+        GlStateManager.depthMask(false);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableTexture2D();
+        GlStateManager.disableDepth();
+
+        GlStateManager.glLineWidth(isLockEntity ? MCH_Gui.scaleFactor * 2.5F : MCH_Gui.scaleFactor * 1.5F);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder builder = tessellator.getBuffer();
+        builder.begin(2, MCH_Verts.POS_COLOR_LMAP);
+
+        float colorR = isLockEntity ? 1.0F : 0.0F;
+        float colorG = isLockEntity ? 0.0F : 1.0F;
+
+        builder.pos(-size - 1.0F, 0.0, 0.0).color(colorR, colorG, 0.0F, alpha).lightmap(0, 240).endVertex();
+        builder.pos(-size - 1.0F, size * 2.0F, 0.0).color(colorR, colorG, 0.0F, alpha).lightmap(0, 240).endVertex();
+        builder.pos(size + 1.0F, size * 2.0F, 0.0).color(colorR, colorG, 0.0F, alpha).lightmap(0, 240).endVertex();
+        builder.pos(size + 1.0F, 0.0, 0.0).color(colorR, colorG, 0.0F, alpha).lightmap(0, 240).endVertex();
+        tessellator.draw();
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.0F, size * 2.0F + 1.0F, 0.0F);
+        float fontSize = Math.clamp(5.0F + (float) ((distance - 10.0D) / 290.0D) * 35.0F, 5.0F, 40.0F);
+        GlStateManager.scale(fontSize, fontSize, fontSize);
+
+        String targetName = "";
+        if (gs.isRadarMissile) {
+            targetName = (entity instanceof MCH_EntityAircraft targetAc) ? targetAc.getNameOnOtherRadar(ac) : "?";
+        }
+        String text = targetName.isEmpty() ? String.valueOf((int) distance) : targetName + " " + (int) distance;
+
+        GlStateManager.enableTexture2D();
+        FontRenderer fontRenderer = mc.fontRenderer;
+        fontRenderer.drawString(text, -fontRenderer.getStringWidth(text) / 2, 0, 0x00ff00);
+        GlStateManager.disableTexture2D();
+        GlStateManager.popMatrix();
+
+        GlStateManager.popMatrix();
+
+        if (!ac.isUAV() && isLockEntity && mc.gameSettings.thirdPersonView == 0) {
+            GlStateManager.pushMatrix();
+            GlStateManager.glLineWidth(1.0F);
+            builder.begin(1, MCH_Verts.POS_COLOR_LMAP);
+
+            builder.pos(x, y + entity.height / 2.0F, z).color(1.0F, 0.0F, 0.0F, 1.0F).lightmap(0, 240).endVertex();
+            builder.pos(ac.lastTickPosX - TileEntityRendererDispatcher.staticPlayerX,
+                            ac.lastTickPosY - TileEntityRendererDispatcher.staticPlayerY - 1.0D,
+                            ac.lastTickPosZ - TileEntityRendererDispatcher.staticPlayerZ)
+                    .color(1.0F, 0.0F, 0.0F, 1.0F).lightmap(0, 240).endVertex();
+
+            tessellator.draw();
+            GlStateManager.popMatrix();
+        }
+
+        GlStateManager.glLineWidth(1.0F);
+        GlStateManager.enableTexture2D();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableLighting();
+        GlStateManager.disableBlend();
+        GlStateManager.enableDepth();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public static void renderRope(MCH_EntityAircraft ac, MCH_AircraftInfo info, double x, double y, double z,
@@ -818,10 +874,15 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                         info.entityWidth, info.entityHeight);
             }
 
-            if (!shouldSkipRender(entity)) {
+            if (shouldRender(entity)) {
                 this.setCommonRenderParam(info.smoothShading, entity.getBrightnessForRender());
                 if (entity.isDestroyed()) {
                     GlStateManager.color(0.15F, 0.15F, 0.15F, 1.0F);
+                } else if (entity.ironCurtainRunningTick > 0) {
+                    float actualFactor = entity.ironCurtainLastFactor +
+                            (entity.ironCurtainCurrentFactor - entity.ironCurtainLastFactor) *
+                                    (float) Math.sin(tickTime * Math.PI / 2);
+                    GlStateManager.color(0.8F * actualFactor, 0.4F * actualFactor, 0.4F * actualFactor, 1.0F);
                 } else {
                     GlStateManager.color(0.75F, 0.75F, 0.75F, (float) MCH_Config.__TextureAlpha.prmDouble);
                 }
@@ -1121,6 +1182,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     public void renderCommonPart(MCH_EntityAircraft ac, MCH_AircraftInfo info, double x, double y, double z,
                                  float tickTime) {
         renderRope(ac, info, x, y, z, tickTime);
+        renderERA(ac, info); // Reforged: hide popped reactive-armor tiles
         renderWeapon(ac, info, tickTime);
         renderRotPart(ac, info, tickTime);
         renderHatch(ac, info, tickTime);

@@ -1,7 +1,6 @@
 package com.norwood.mcheli.container;
 
 import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -67,7 +66,7 @@ public class MCH_ItemContainer extends W_Item {
             if (flag) {
                 return ActionResult.newResult(EnumActionResult.FAIL, itemstack);
             } else {
-                if (W_MovingObjectPosition.isHitTypeTile(movingobjectposition)) {
+                if (movingobjectposition != null && movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK) {
                     int ix = movingobjectposition.getBlockPos().getX();
                     int j = movingobjectposition.getBlockPos().getY();
                     int k = movingobjectposition.getBlockPos().getZ();

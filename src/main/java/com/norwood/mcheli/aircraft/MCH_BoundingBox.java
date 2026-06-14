@@ -53,6 +53,16 @@ public class MCH_BoundingBox {
     @Setter
     public String name = "";
 
+    // ===== Reforged: Explosive Reactive Armor (ERA) tile =====
+    /** When true, this box is a reactive-armor tile that pops (deactivates) on a qualifying hit. */
+    public boolean isERA = false;
+    /** Explosion size produced when the tile pops (0 = none). */
+    public float eraExplosion = 0.0F;
+    /** Minimum incoming damage required to pop the tile. */
+    public float eraMinDamage = 0.0F;
+    /** Whether the tile is currently intact. A popped tile is skipped for collision/hits. */
+    public boolean eraActive = true;
+
     // === Orientation data ===
     /** Current rotation angles (in degrees) */
     public float rotationYaw = 0.0F;
@@ -63,6 +73,11 @@ public class MCH_BoundingBox {
     public Vec3d axisX = new Vec3d(1.0D, 0.0D, 0.0D);
     public Vec3d axisY = new Vec3d(0.0D, 1.0D, 0.0D);
     public Vec3d axisZ = new Vec3d(0.0D, 0.0D, 1.0D);
+
+    /** Previous local axis vectors in world space */
+    public Vec3d prevAxisX = new Vec3d(1.0D, 0.0D, 0.0D);
+    public Vec3d prevAxisY = new Vec3d(0.0D, 1.0D, 0.0D);
+    public Vec3d prevAxisZ = new Vec3d(0.0D, 0.0D, 1.0D);
 
     /** Center position in world coordinates */
     public Vec3d center;
@@ -117,6 +132,10 @@ public class MCH_BoundingBox {
         bb.axisY = new Vec3d(this.axisY.x, this.axisY.y, this.axisY.z);
         bb.axisZ = new Vec3d(this.axisZ.x, this.axisZ.y, this.axisZ.z);
 
+        bb.prevAxisX = new Vec3d(this.prevAxisX.x, this.prevAxisX.y, this.prevAxisX.z);
+        bb.prevAxisY = new Vec3d(this.prevAxisY.x, this.prevAxisY.y, this.prevAxisY.z);
+        bb.prevAxisZ = new Vec3d(this.prevAxisZ.x, this.prevAxisZ.y, this.prevAxisZ.z);
+
         bb.center = new Vec3d(this.center.x, this.center.y, this.center.z);
 
         bb.halfWidth = this.halfWidth;
@@ -138,6 +157,10 @@ public class MCH_BoundingBox {
 
         bb.boundingBoxType = this.boundingBoxType;
         bb.name = this.name;
+        bb.isERA = this.isERA;
+        bb.eraExplosion = this.eraExplosion;
+        bb.eraMinDamage = this.eraMinDamage;
+        bb.eraActive = this.eraActive;
         return bb;
     }
 
@@ -147,6 +170,10 @@ public class MCH_BoundingBox {
      */
     public void updatePosition(double posX, double posY, double posZ,
                                float yaw, float pitch, float roll) {
+        prevAxisX = axisX;
+        prevAxisY = axisY;
+        prevAxisZ = axisZ;
+
         this.rotationYaw = yaw;
         this.rotationPitch = pitch;
         this.rotationRoll = roll;

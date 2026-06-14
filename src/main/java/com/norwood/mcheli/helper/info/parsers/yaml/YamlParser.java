@@ -36,7 +36,6 @@ import java.util.stream.Collectors;
 
 import static com.norwood.mcheli.aircraft.MCH_AircraftInfo.*;
 
-// TODO:Reforged Fields
 @SuppressWarnings({"unchecked", "unboxing"})
 public class YamlParser implements IParser {
 
@@ -104,6 +103,18 @@ public class YamlParser implements IParser {
         if (o instanceof Number n) return n.doubleValue();
         if (o instanceof String s) return Double.parseDouble(s.trim());
         throw new IllegalArgumentException("Vector component must be numeric, got: " + o.getClass());
+    }
+
+    private static String parseAuthor(Object value) {
+        if (value instanceof String author) return author.trim();
+        if (value instanceof List<?> authors) {
+            return authors.stream()
+                    .map(String::valueOf)
+                    .map(String::trim)
+                    .filter(author -> !author.isEmpty())
+                    .collect(Collectors.joining(", "));
+        }
+        return String.valueOf(value).trim();
     }
 
     @Override
@@ -336,7 +347,8 @@ public class YamlParser implements IParser {
             final Object value = entry.getValue();
             switch (entry.getKey()) {
                 case "ItemID" -> info.itemID = (int) value;
-                case "Author" -> info.author = (String) value;
+                case "Author", "Authors" -> info.author = parseAuthor(value);
+
                 case "Regeneration" -> info.regeneration = (Boolean) value;
                 case "CanRide" -> info.canRide = (Boolean) value;
                 case "CreativeOnly" -> info.creativeOnly = (Boolean) value;
@@ -437,11 +449,13 @@ public class YamlParser implements IParser {
                     }
                 }
                 case "NameOnModernAARadar" -> info.nameOnModernAARadar = ((String) value).trim();
+                case "NameOnAdvancedAARadar" -> info.nameOnAdvancedAARadar = ((String) value).trim();
                 case "NameOnEarlyAARadar" -> info.nameOnEarlyAARadar = ((String) value).trim();
                 case "NameOnModernASRadar" -> info.nameOnModernASRadar = ((String) value).trim();
                 case "NameOnEarlyASRadar" -> info.nameOnEarlyASRadar = ((String) value).trim();
                 case "ExplosionSizeByCrash" -> info.explosionSizeByCrash = getClamped(100, value);
                 case "ThrottleDownFactor" -> info.throttleDownFactor = getClamped(10F, value);
+//                case "DestroyRewards" -> parseDestroyRewards((Map<String, Object>) value, info);
 
                 case "Weapons" -> {
                     List<Map<String, Object>> weapons = (List<Map<String, Object>>) value;
@@ -522,8 +536,9 @@ public class YamlParser implements IParser {
                     info.bbZmin = zMin;
                     info.bbZmax = zMax;
                 }
-                case "HUDType", "WeaponGroupType", "PlaneFeatures", "TankFeatures", "HeliFeatures",
-                     "VehicleFeatures" -> {
+                case "HUDType" -> info.hudType = ((Number) value).intValue();
+                case "WeaponGroupType" -> info.weaponGroupType = ((Number) value).intValue();
+                case "PlaneFeatures", "TankFeatures", "HeliFeatures", "VehicleFeatures" -> {
                 }
                 default -> logUnkownEntry(entry, "AircraftInfo");
             }
@@ -565,13 +580,20 @@ public class YamlParser implements IParser {
         Vec3d size = null;
         float damageFact = 1f;
         String name = "";
+        // Reforged ERA: a bounding box may be flagged as a reactive-armor tile.
+        boolean isERA = false;
+        float eraExplosion = 0.0F;
+        float eraMinDamage = 0.0F;
         MCH_BoundingBox.EnumBoundingBoxType type = MCH_BoundingBox.EnumBoundingBoxType.DEFAULT;
         for (Map.Entry<String, Object> entry : box.entrySet()) {
             switch (entry.getKey()) {
                 case "Pos", "Position" -> pos = parseVector(entry.getValue());
                 case "Size" -> size = parseVector(entry.getValue());
                 case "DamageFactor", "DmgFact" -> damageFact = ((Number) entry.getValue()).floatValue();
-                case "Name" -> name = name.trim();
+                case "Name" -> name = ((String) entry.getValue()).trim();
+                case "IsERA", "ERA" -> isERA = (Boolean) entry.getValue();
+                case "EraExplosion" -> eraExplosion = ((Number) entry.getValue()).floatValue();
+                case "EraMinDamage" -> eraMinDamage = ((Number) entry.getValue()).floatValue();
                 case "Type" -> {
                     try {
                         type = MCH_BoundingBox.EnumBoundingBoxType
@@ -593,6 +615,11 @@ public class YamlParser implements IParser {
         var parsedBox = new MCH_BoundingBox(pos.x, pos.y, pos.z, (float) size.x, (float) size.y, (float) size.z,
                 damageFact);
         parsedBox.setBoundingBoxType(type);
+        parsedBox.name = name;
+        parsedBox.isERA = isERA;
+        parsedBox.eraExplosion = eraExplosion;
+        parsedBox.eraMinDamage = eraMinDamage;
+        parsedBox.eraActive = true;
         info.extraBoundingBox.add(parsedBox);
     }
 
@@ -637,10 +664,32 @@ public class YamlParser implements IParser {
                     List<Map<String, Object>> splashParticles = (List<Map<String, Object>>) entry.getValue();
                     splashParticles.stream().map((this::parseParticleSplash)).forEach(info.particleSplashs::add);
                 }
+                case "SignMarkers" -> {
+                    List<Map<String, Object>> signMarkerList = (List<Map<String, Object>>) entry.getValue();
+                    signMarkerList.stream().map(this::parseSignMarker).forEach(info.signMarkers::add);
+                }
                 default -> logUnkownEntry(entry, "Render");
             }
 
         }
+    }
+
+    private MCH_AircraftInfo.SignMarker parseSignMarker(Map<String, Object> value) {
+        Vec3d pos = Vec3d.ZERO;
+        String signName = "";
+        float signSize = 1.0F;
+        boolean perspectiveScale = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Pos", "Position" -> pos = parseVector(entry.getValue());
+                case "Name", "SignName" -> signName = ((String) entry.getValue()).trim();
+                case "Size", "SignSize" -> signSize = ((Number) entry.getValue()).floatValue();
+                case "PerspectiveScale" -> perspectiveScale = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "SignMarker");
+            }
+        }
+        return new MCH_AircraftInfo.SignMarker((float) pos.x, (float) pos.y, (float) pos.z, signName, signSize,
+                perspectiveScale);
     }
 
     private void parsePhisProperties(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
@@ -749,8 +798,130 @@ public class YamlParser implements IParser {
                 case "ThrottleUpDown" -> info.throttleUpDown = getClamped(3F, entry.getValue());
                 case "ThrottleUpDownEntity" -> info.throttleUpDownOnEntity = getClamped(100_000F, entry.getValue());
                 case "Parachuting" -> parseParachuting(entry, info);
-                case "Flare" -> info.flare = parseFlare((Map<String, Object>) entry.getValue());
+                case "Maintenance" -> parseMaintenance(entry, info);
+                case "Flare" -> info.flare = parseFlare(info, (Map<String, Object>) entry.getValue());
+                case "APS" -> parseAPS(info, (Map<String, Object>) entry.getValue());
+                case "Radar" -> parseRadar(info, (Map<String, Object>) entry.getValue());
+                case "RWR" -> parseRWR(info, (Map<String, Object>) entry.getValue());
+                case "ECM" -> parseECM(info, (Map<String, Object>) entry.getValue());
+                case "ImpactAngles" -> parseImpactAngles(info, (Map<String, Object>) entry.getValue());
+                case "ArmorExplosionDamageMultiplier", "ArmorExplosionDamage" ->
+                        info.armorExplosionDamageMultiplier = ((Number) entry.getValue()).floatValue();
                 default -> logUnkownEntry(entry, "AircraftFeatures");
+            }
+        }
+    }
+
+    private void parseMaintenance(Map.Entry<String, Object> entry, MCH_AircraftInfo info) {
+        Object value = entry.getValue();
+        if (value instanceof Boolean bool) {
+            info.enableMaintenance = bool;
+            return;
+        }
+        if (value instanceof Map<?, ?> maintenanceMapRaw) {
+            info.enableMaintenance = true;
+            for (Map.Entry<String, Object> string : ((Map<String, Object>) maintenanceMapRaw).entrySet()) {
+                switch (string.getKey()) {
+                    case "UseTime" -> info.maintenanceUseTime = ((Number) string.getValue()).intValue();
+                    case "Cooldown" -> info.maintenanceWaitTime = ((Number) string.getValue()).intValue();
+                    case "EngineShutdownThreshold", "EngineShutdown" ->
+                            info.engineShutdownThreshold = ((Number) string.getValue()).intValue();
+                    default -> logUnkownEntry(string, "Maintenance");
+                }
+            }
+            return;
+        }
+        throw new IllegalArgumentException("Maintenance type must be a boolean or map, got: " + value.getClass());
+    }
+
+    private void parseImpactAngles(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.impactAngleThresholds.clear();
+        info.impactAngleCoefficients.clear();
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "RicochetStartAngle" -> info.impactRicochetStartAngle = ((Number) entry.getValue()).floatValue();
+                case "Entries" -> {
+                    List<List<Number>> entries = (List<List<Number>>) entry.getValue();
+                    for (List<Number> row : entries) {
+                        if (row.size() < 2) continue;
+                        info.impactAngleThresholds.add(row.get(0).floatValue());
+                        info.impactAngleCoefficients.add(row.get(1).floatValue());
+                    }
+                }
+                default -> logUnkownEntry(entry, "ImpactAngles");
+            }
+        }
+    }
+
+    private void parseRadar(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.enableRadar = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Type" -> info.radarType = RadarType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT));
+                case "MaxTargetRange" -> info.radarMaxTargetRange = ((Number) entry.getValue()).floatValue();
+                case "ScanAzimuth" -> info.radarScanAzimuthDeg = ((Number) entry.getValue()).floatValue();
+                case "PanelFillAlpha" -> info.radarPanelFillAlpha = ((Number) entry.getValue()).floatValue();
+                case "FollowTurretYaw" -> info.radarFollowTurretYaw = (Boolean) entry.getValue();
+                case "ScanElevation" -> info.radarScanElevationDeg = ((Number) entry.getValue()).floatValue();
+                case "ScanTick" -> info.radarScanTick = ((Number) entry.getValue()).intValue();
+                case "DetectChanceBase" -> info.radarDetectChanceBase = ((Number) entry.getValue()).floatValue();
+                case "GainNearFactor" -> info.radarGainNearFactor = ((Number) entry.getValue()).floatValue();
+                case "GainFarFactor" -> info.radarGainFarFactor = ((Number) entry.getValue()).floatValue();
+                case "RcsFrontFactor" -> info.radarRcsFrontFactor = ((Number) entry.getValue()).floatValue();
+                case "RcsSideFactor" -> info.radarRcsSideFactor = ((Number) entry.getValue()).floatValue();
+                case "RcsRearFactor" -> info.radarRcsRearFactor = ((Number) entry.getValue()).floatValue();
+                case "RcsTimeFactor" -> info.radarRcsTimeFactor = ((Number) entry.getValue()).floatValue();
+                case "ContactHoldTick" -> info.radarContactHoldTick = ((Number) entry.getValue()).intValue();
+                case "ElevationReference" -> info.radarElevationReference = ((String) entry.getValue()).trim();
+                case "ElevationCoverage" -> info.radarElevationCoverage = ((String) entry.getValue()).trim();
+                case "EnableBVR" -> info.enableBVR = (Boolean) entry.getValue();
+                case "MinScanAltitude" -> info.radarMinScanAltitude = ((Number) entry.getValue()).floatValue();
+                case "MaxScanAltitude" -> info.radarMaxScanAltitude = ((Number) entry.getValue()).floatValue();
+                case "SearchType" -> info.radarSearchType = ((String) entry.getValue()).trim();
+                case "TrackAzimuth" -> info.radarTrackAzimuthDeg = ((Number) entry.getValue()).floatValue();
+                case "TrackElevation" -> info.radarTrackElevationDeg = ((Number) entry.getValue()).floatValue();
+                case "RetargetCooldownTick" -> info.radarRetargetCooldownTick = ((Number) entry.getValue()).intValue();
+                case "Passive" -> info.passiveRadar = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "Radar");
+            }
+        }
+    }
+
+    private void parseRWR(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.hasRWR = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Enabled" -> info.hasRWR = (Boolean) entry.getValue();
+                case "Type" -> info.rwrType = RWRType.valueOf(((String) entry.getValue()).toUpperCase(Locale.ROOT));
+                case "Name" -> info.nameOnRWR = (String) entry.getValue();
+                default -> logUnkownEntry(entry, "RWR");
+            }
+        }
+    }
+
+    private void parseECM(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.enableECMJammer = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Enabled" -> info.enableECMJammer = (Boolean) entry.getValue();
+                case "WaitTime" -> info.ecmJammerWaitTime = ((Number) entry.getValue()).intValue();
+                case "UseTime" -> info.ecmJammerUseTime = ((Number) entry.getValue()).intValue();
+                case "Type" -> info.ecmJammerType = ((Number) entry.getValue()).intValue();
+                case "PhotoelectricJammer" -> info.hasPhotoelectricJammer = (Boolean) entry.getValue();
+                case "DIRCM" -> info.hasDIRCM = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "ECM");
+            }
+        }
+    }
+
+    private void parseAPS(MCH_AircraftInfo info, Map<String, Object> value) {
+        info.hasAPS = true;
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "UseTime" -> info.apsUseTime = ((Number) entry.getValue()).intValue();
+                case "WaitTime" -> info.apsWaitTime = ((Number) entry.getValue()).intValue();
+                case "Range" -> info.apsRange = ((Number) entry.getValue()).intValue();
+                default -> logUnkownEntry(entry, "APS");
             }
         }
     }
@@ -776,13 +947,21 @@ public class YamlParser implements IParser {
         throw new IllegalArgumentException("Parachuting type must be a boolean or map, got: " + value.getClass());
     }
 
-    private Flare parseFlare(Map<String, Object> value) {
+    private Flare parseFlare(MCH_AircraftInfo info, Map<String, Object> value) {
         Vec3d pos = Vec3d.ZERO;
         List<FlareType> flareTypes = new ArrayList<>();
 
         for (Map.Entry<String, Object> entry : value.entrySet()) {
             switch (entry.getKey()) {
                 case "Pos", "Positions" -> pos = parseVector(entry.getValue());
+                // Reforged chaff countermeasure shares the flare section (radar analogue of flares).
+                case "Chaff", "HasChaff" -> {
+                    if (!(entry.getValue() instanceof Boolean b) || b) {
+                        info.chaff = info.new Chaff();
+                    }
+                }
+                case "ChaffUseTime" -> info.chaffUseTime = ((Number) entry.getValue()).intValue();
+                case "ChaffWaitTime", "ChaffCooldown" -> info.chaffWaitTime = ((Number) entry.getValue()).intValue();
                 case "Type", "Types" -> {
                     List<String> typeStrings = new ArrayList<>();
                     if (entry.getValue() instanceof String singleType) {
@@ -993,6 +1172,7 @@ public class YamlParser implements IParser {
     private void parseWeapon(Map<String, Object> map, MCH_AircraftInfo info) {
         String type = null;
         Vec3d pos = Vec3d.ZERO;
+        Vec3d muzzleFlashPos = null;
         float yaw = 0.0F;
         float pitch = 0.0F;
         boolean canUsePilot = true;
@@ -1008,6 +1188,7 @@ public class YamlParser implements IParser {
             switch (entry.getKey()) {
                 case "Type", "WeaponType" -> type = ((String) entry.getValue()).toLowerCase();
                 case "Pos", "Position" -> pos = parseVector(entry.getValue());
+                case "MuzzleFlashPos" -> muzzleFlashPos = parseVector(entry.getValue());
                 case "Yaw" -> yaw = ((Number) entry.getValue()).floatValue();
                 case "Pitch" -> pitch = ((Number) entry.getValue()).floatValue();
                 case "CanUsePilot" -> canUsePilot = (Boolean) entry.getValue();
@@ -1032,13 +1213,31 @@ public class YamlParser implements IParser {
 
         dfy = MathHelper.wrapDegrees(dfy);
         seatID = Math.max(0, seatID - 1);
+        if (muzzleFlashPos == null) {
+            muzzleFlashPos = pos;
+        }
 
         MCH_AircraftInfo.Weapon weapon = new MCH_AircraftInfo.Weapon(info, (float) pos.x, (float) pos.y, (float) pos.z,
-                yaw, pitch, canUsePilot, seatID, dfy, mny, mxy, mnp, mxp, turret);
+                (float) muzzleFlashPos.x, (float) muzzleFlashPos.y, (float) muzzleFlashPos.z, yaw, pitch, canUsePilot,
+                seatID, dfy, mny, mxy, mnp, mxp, turret);
 
         WeaponSet set = info.getOrCreateWeaponSet(type);
         set.weapons.add(weapon);
     }
+
+//    private void parseDestroyRewards(Map<String, Object> value, MCH_AircraftInfo info) {
+//        for (Map.Entry<String, Object> entry : value.entrySet()) {
+//            switch (entry.getKey()) {
+//                case "SLMin" -> info.destroyRewardSLMin = ((Number) entry.getValue()).intValue();
+//                case "SLMax" -> info.destroyRewardSLMax = ((Number) entry.getValue()).intValue();
+//                case "GEMin" -> info.destroyRewardGEMin = ((Number) entry.getValue()).intValue();
+//                case "GEMax" -> info.destroyRewardGEMax = ((Number) entry.getValue()).intValue();
+//                case "RPMin" -> info.destroyRewardRPMin = ((Number) entry.getValue()).intValue();
+//                case "RPMax" -> info.destroyRewardRPMax = ((Number) entry.getValue()).intValue();
+//                default -> logUnkownEntry(entry, "DestroyRewards");
+//            }
+//        }
+//    }
 
     @SuppressWarnings("unboxing")
     private void parseSeatInfo(Map<String, Object> map, MCH_AircraftInfo info, int seatCount) {

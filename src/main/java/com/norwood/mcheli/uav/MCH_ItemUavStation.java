@@ -2,9 +2,6 @@ package com.norwood.mcheli.uav;
 
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.wrapper.W_Item;
-import com.norwood.mcheli.wrapper.W_MovingObjectPosition;
-import com.norwood.mcheli.wrapper.W_WorldFunc;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -13,8 +10,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class MCH_ItemUavStation extends W_Item {
     public final IUavStation.StationType type;
@@ -30,7 +25,7 @@ public class MCH_ItemUavStation extends W_Item {
         ItemStack stack = player.getHeldItem(hand);
 
         RayTraceResult raytraceresult = this.rayTrace(world, player, true);
-        if (!W_MovingObjectPosition.isHitTypeTile(raytraceresult)) {
+        if (!(raytraceresult != null && raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK)) {
             return ActionResult.newResult(EnumActionResult.PASS, stack);
         }
 

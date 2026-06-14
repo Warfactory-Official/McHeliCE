@@ -11,14 +11,15 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class MCH_ViewEntityDummy extends EntityPlayerSP {
 
     private static final AxisAlignedBB ZERO_AABB = new AxisAlignedBB(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
     private static MCH_ViewEntityDummy instance = null;
-    private float zoom = 1.0F;
 
     private MCH_ViewEntityDummy(World world) {
-        super(Minecraft.getMinecraft(), world, Minecraft.getMinecraft().getConnection(),
+        super(Minecraft.getMinecraft(), world, Objects.requireNonNull(Minecraft.getMinecraft().getConnection()),
                 new StatisticsManager(), new RecipeBook());
         this.noClip = true;
         this.setSize(0.0F, 0.0F);
@@ -49,7 +50,7 @@ public class MCH_ViewEntityDummy extends EntityPlayerSP {
     public void update(MCH_Camera camera) {
         if (camera == null) return;
 
-        this.zoom = camera.getCameraZoom();
+        float zoom = camera.getCameraZoom();
 
         this.prevRotationYaw = this.rotationYaw;
         this.prevRotationPitch = this.rotationPitch;
@@ -67,7 +68,7 @@ public class MCH_ViewEntityDummy extends EntityPlayerSP {
         this.lastTickPosY = this.prevPosY;
         this.lastTickPosZ = this.prevPosZ;
 
-        MCH_CameraManager.setCameraZoom(this.zoom);
+        MCH_CameraManager.setCameraZoom(zoom);
     }
 
     @Override

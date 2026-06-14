@@ -1,6 +1,6 @@
 package com.norwood.mcheli.helper.client.model.loader;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 import com.norwood.mcheli.helper.client._ModelFormatException;
 import com.norwood.mcheli.wrapper.modelloader.W_WavefrontObject;
 import net.minecraft.client.resources.IResource;
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class WavefrontModelLoader implements IVertexModelLoader {
 
     @Override
-    public _IModelCustom load(IResourceManager resourceManager, ResourceLocation location) throws IOException,
+    public IModelCustom load(IResourceManager resourceManager, ResourceLocation location) throws IOException,
                                                                                            _ModelFormatException {
         ResourceLocation modelLocation = this.withExtension(location);
         IResource resource = resourceManager.getResource(modelLocation);

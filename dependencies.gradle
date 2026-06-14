@@ -48,6 +48,7 @@ dependencies {
 
     shadowImplementation("org.yaml:snakeyaml:2.5")
     shadowImplementation("org.joml:joml:1.10.8")
+    implementation rfg.deobf("curse.maven:trajectory-preview-289141:2580608")
 
     shadowImplementation("com.googlecode.aviator:aviator:5.4.3")
 

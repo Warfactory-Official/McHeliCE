@@ -27,7 +27,7 @@ public class MCH_ClientGLTDTickHandler extends MCH_ClientTickHandlerBase {
 
     @Override
     public void updateKeybind(MCH_Config config) {
-        this.KeyUseWeapon = new MCH_Key(MCH_Config.KeyUseWeapon.prmInt);
+        this.KeyUseWeapon = new MCH_Key(-100);
         this.KeySwitchWeapon1 = new MCH_Key(MCH_Config.KeySwitchWeapon1.prmInt);
         this.KeySwitchWeapon2 = new MCH_Key(MCH_Config.KeySwitchWeapon2.prmInt);
         this.KeySwWeaponMode = new MCH_Key(MCH_Config.KeySwWeaponMode.prmInt);

@@ -1,14 +1,26 @@
 package com.norwood.mcheli.wrapper;
 
+import com.norwood.mcheli.aircraft.MCH_BoundingBox;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.EntityEvent.CanUpdate;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class W_EventHook {
+
+    @SubscribeEvent
+    public void livingUpdateEvent(LivingEvent.LivingUpdateEvent event){
+        this.livingEvent(event);
+    }
+
+    public void livingEvent(LivingEvent.LivingUpdateEvent event) {
+
+    }
+
 
     @SubscribeEvent
     public void onEvent_entitySpawn(EntityJoinWorldEvent event) {

@@ -25,6 +25,11 @@ public class MCH_MissileDetector {
     }
 
     public void update() {
+        // Reforged ECM (type 2): continuously decoy incoming radar / anti-radiation missiles,
+        // independent of the flare countermeasure path below.
+        if (this.ac.isECMJammerUsing()) {
+            this.destroyMissileECM();
+        }
         if (this.ac.haveFlare()) {
             if (this.alertCount > 0) {
                 this.alertCount--;
@@ -89,6 +94,30 @@ public class MCH_MissileDetector {
         }
 
         return false;
+    }
+
+    /**
+     * Reforged ECM soft-kill: for a type-2 ECM jammer, strip the lock from any radar-guided or
+     * anti-radiation missile homing on this aircraft within 80 blocks (the missile then flies
+     * ballistically instead of tracking). Server-side only.
+     */
+    public void destroyMissileECM() {
+        if (this.world.isRemote) {
+            return;
+        }
+        if (this.ac.getAcInfo() == null || this.ac.getAcInfo().ecmJammerType != 2) {
+            return;
+        }
+        List<MCH_EntityBaseBullet> list = this.world.getEntitiesWithinAABB(MCH_EntityBaseBullet.class,
+                this.ac.getEntityBoundingBox().grow(80.0, 80.0, 80.0));
+        for (MCH_EntityBaseBullet msl : list) {
+            if (msl.targetEntity != null &&
+                    (this.ac.isMountedEntity(msl.targetEntity) || msl.targetEntity.equals(this.ac))) {
+                if (msl.getInfo() != null && (msl.getInfo().isRadarMissile || msl.getInfo().antiRadiationMissile)) {
+                    msl.setTargetEntity(null);
+                }
+            }
+        }
     }
 
     public boolean isLockedByMissile() {

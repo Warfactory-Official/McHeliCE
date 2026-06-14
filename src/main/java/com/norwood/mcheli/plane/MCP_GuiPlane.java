@@ -39,9 +39,10 @@ public class MCP_GuiPlane extends MCH_AircraftCommonGui {
                 } else {
                     this.drawHud(ac, player, seatID);
                 }
+
+                this.drawTurretBallistics(plane, player);
             }
 
-            this.drawDebugtInfo(plane);
             if (!isThirdPersonView || MCH_Config.DisplayHUDThirdPerson.prmBool) {
                 if (plane.getTVMissile() == null || !plane.getIsGunnerMode(player) && !plane.isUAV()) {
                     this.drawKeybind(plane, player, seatID);
@@ -55,53 +56,55 @@ public class MCP_GuiPlane extends MCH_AircraftCommonGui {
     }
 
     public void drawKeybind(MCH_EntityPlane plane, EntityPlayer player, int seatID) {
-        if (!MCH_Config.HideKeybind.prmBool) {
-            MCH_PlaneInfo info = plane.getPlaneInfo();
-            if (info != null) {
-                int colorActive = -1342177281;
-                int colorInactive = -1349546097;
-                int RX = this.centerX + 120;
-                int LX = this.centerX - 200;
-                this.drawKeyBind(plane, info, player, seatID, RX, LX, colorActive, colorInactive);
-                if (seatID == 0 && info.isEnableGunnerMode && !Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
-                    int c = plane.isHoveringMode() ? colorInactive : colorActive;
-                    String msg = (plane.getIsGunnerMode(player) ? "Normal" : "Gunner") + " : " +
-                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
-                    this.drawString(msg, RX, this.centerY - 70, c);
-                }
+        var info = plane.getPlaneInfo();
+        if (MCH_Config.HideKeybind.prmBool || info == null) return;
 
-                if (seatID > 0 && plane.canSwitchGunnerModeOtherSeat(player)) {
-                    String msg = (plane.getIsGunnerMode(player) ? "Normal" : "Camera") + " : " +
-                            MCH_KeyName.getDescOrName(MCH_Config.KeySwitchMode.prmInt);
-                    this.drawString(msg, RX, this.centerY - 40, colorActive);
-                }
+        var colorActive = -1342177281;
+        var colorInactive = -1349546097;
 
-                if (seatID == 0 && info.isEnableVtol && !Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt)) {
-                    int stat = plane.getVtolMode();
-                    if (stat != 1) {
-                        String msg = (stat == 0 ? "VTOL : " : "Normal : ") +
-                                MCH_KeyName.getDescOrName(MCH_Config.KeyExtra.prmInt);
-                        this.drawString(msg, RX, this.centerY - 60, colorActive);
-                    }
-                }
+        var screenWidth = this.centerX * 2;
+        var leftX = Math.max(10, (int) (screenWidth * 0.05));
+        var rightX = Math.min(screenWidth - 100, (int) (screenWidth * 0.80));
 
-                if (plane.canEjectSeat(player)) {
-                    String msg = "Eject seat: " + MCH_KeyName.getDescOrName(MCH_Config.KeySwitchHovering.prmInt);
-                    this.drawString(msg, RX, this.centerY - 30, colorActive);
-                }
+        this.currentLeftY = this.centerY - 80;
+        this.currentRightY = this.centerY - 80;
 
-                if (plane.getIsGunnerMode(player) && info.cameraZoom > 1) {
-                    String msg = "Zoom : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
-                    this.drawString(msg, LX, this.centerY - 80, colorActive);
-                } else if (seatID == 0) {
-                    if (plane.canFoldWing() || plane.canUnfoldWing()) {
-                        String msg = "FoldWing : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
-                        this.drawString(msg, LX, this.centerY - 80, colorActive);
-                    } else if (plane.canUnfoldHatch() || plane.canFoldHatch()) {
-                        String msg = "OpenHatch : " + MCH_KeyName.getDescOrName(MCH_Config.KeyZoom.prmInt);
-                        this.drawString(msg, LX, this.centerY - 80, colorActive);
-                    }
-                }
+        var theme = new LayoutTheme(leftX, rightX, colorActive, colorInactive);
+
+        drawAircraftKeyBinds(plane, info, player, seatID, theme);
+
+        var freeLookPressed = Keyboard.isKeyDown(MCH_Config.KeyFreeLook.prmInt);
+
+        if (seatID == 0 && info.isEnableGunnerMode && !freeLookPressed) {
+            var color = plane.isHoveringMode() ? theme.inactive() : theme.active();
+            var mode = plane.getIsGunnerMode(player) ? "Normal" : "Gunner";
+            drawRightKey(mode, MCH_Config.KeySwitchMode.prmInt, theme.rightX(), color);
+        }
+
+        if (seatID > 0 && plane.canSwitchGunnerModeOtherSeat(player)) {
+            var mode = plane.getIsGunnerMode(player) ? "Normal" : "Camera";
+            drawRightKey(mode, MCH_Config.KeySwitchMode.prmInt, theme.rightX(), theme.active());
+        }
+
+        if (seatID == 0 && info.isEnableVtol && !freeLookPressed) {
+            var stat = plane.getVtolMode();
+            if (stat != 1) {
+                var prefix = stat == 0 ? "VTOL" : "Normal";
+                drawRightKey(prefix, MCH_Config.KeyExtra.prmInt, theme.rightX(), theme.active());
+            }
+        }
+
+        if (plane.canEjectSeat(player)) {
+            drawRightKey("Eject seat", MCH_Config.KeySwitchHovering.prmInt, theme.rightX(), theme.active());
+        }
+
+        if (plane.getIsGunnerMode(player) && info.cameraZoom > 1) {
+            drawLeftKey("Zoom", MCH_Config.KeyZoom.prmInt, theme.leftX(), theme.active());
+        } else if (seatID == 0) {
+            if (plane.canFoldWing() || plane.canUnfoldWing()) {
+                drawLeftKey("FoldWing", MCH_Config.KeyZoom.prmInt, theme.leftX(), theme.active());
+            } else if (plane.canUnfoldHatch() || plane.canFoldHatch()) {
+                drawLeftKey("OpenHatch", MCH_Config.KeyZoom.prmInt, theme.leftX(), theme.active());
             }
         }
     }

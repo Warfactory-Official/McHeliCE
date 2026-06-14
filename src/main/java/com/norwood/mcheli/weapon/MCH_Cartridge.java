@@ -1,6 +1,6 @@
 package com.norwood.mcheli.weapon;
 
-import com.norwood.mcheli.helper.client._IModelCustom;
+import com.norwood.mcheli.helper.client.IModelCustom;
 
 public class MCH_Cartridge {
 
@@ -11,7 +11,7 @@ public class MCH_Cartridge {
     public final float bound;
     public final float gravity;
     public final float scale;
-    public _IModelCustom model;
+    public IModelCustom model;
 
     public MCH_Cartridge(String nm, float a, float y, float p, float b, float g, float s) {
         this.name = nm;
