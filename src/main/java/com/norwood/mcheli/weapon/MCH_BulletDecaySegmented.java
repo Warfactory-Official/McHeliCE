@@ -10,6 +10,10 @@ public class MCH_BulletDecaySegmented implements MCH_IBulletDecay {
         this.segments = segments;
     }
 
+    public List<DecaySegment> getSegments() {
+        return this.segments;
+    }
+
     @Override
     public float calculateDecayFactor(float distanceTraveled) {
         float decayFactor = 1.0F;

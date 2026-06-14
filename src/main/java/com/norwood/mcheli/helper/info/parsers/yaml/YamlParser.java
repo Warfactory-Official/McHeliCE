@@ -536,8 +536,9 @@ public class YamlParser implements IParser {
                     info.bbZmin = zMin;
                     info.bbZmax = zMax;
                 }
-                case "HUDType", "WeaponGroupType", "PlaneFeatures", "TankFeatures", "HeliFeatures",
-                     "VehicleFeatures" -> {
+                case "HUDType" -> info.hudType = ((Number) value).intValue();
+                case "WeaponGroupType" -> info.weaponGroupType = ((Number) value).intValue();
+                case "PlaneFeatures", "TankFeatures", "HeliFeatures", "VehicleFeatures" -> {
                 }
                 default -> logUnkownEntry(entry, "AircraftInfo");
             }
@@ -798,12 +799,14 @@ public class YamlParser implements IParser {
                 case "ThrottleUpDownEntity" -> info.throttleUpDownOnEntity = getClamped(100_000F, entry.getValue());
                 case "Parachuting" -> parseParachuting(entry, info);
                 case "Maintenance" -> parseMaintenance(entry, info);
-                case "Flare" -> info.flare = parseFlare((Map<String, Object>) entry.getValue());
+                case "Flare" -> info.flare = parseFlare(info, (Map<String, Object>) entry.getValue());
                 case "APS" -> parseAPS(info, (Map<String, Object>) entry.getValue());
                 case "Radar" -> parseRadar(info, (Map<String, Object>) entry.getValue());
                 case "RWR" -> parseRWR(info, (Map<String, Object>) entry.getValue());
                 case "ECM" -> parseECM(info, (Map<String, Object>) entry.getValue());
                 case "ImpactAngles" -> parseImpactAngles(info, (Map<String, Object>) entry.getValue());
+                case "ArmorExplosionDamageMultiplier", "ArmorExplosionDamage" ->
+                        info.armorExplosionDamageMultiplier = ((Number) entry.getValue()).floatValue();
                 default -> logUnkownEntry(entry, "AircraftFeatures");
             }
         }
@@ -816,17 +819,19 @@ public class YamlParser implements IParser {
             return;
         }
         if (value instanceof Map<?, ?> maintenanceMapRaw) {
-            info.isEnableParachuting = true;
+            info.enableMaintenance = true;
             for (Map.Entry<String, Object> string : ((Map<String, Object>) maintenanceMapRaw).entrySet()) {
                 switch (string.getKey()) {
                     case "UseTime" -> info.maintenanceUseTime = ((Number) string.getValue()).intValue();
                     case "Cooldown" -> info.maintenanceWaitTime = ((Number) string.getValue()).intValue();
+                    case "EngineShutdownThreshold", "EngineShutdown" ->
+                            info.engineShutdownThreshold = ((Number) string.getValue()).intValue();
                     default -> logUnkownEntry(string, "Maintenance");
                 }
             }
             return;
         }
-        throw new IllegalArgumentException("Parachuting type must be a boolean or map, got: " + value.getClass());
+        throw new IllegalArgumentException("Maintenance type must be a boolean or map, got: " + value.getClass());
     }
 
     private void parseImpactAngles(MCH_AircraftInfo info, Map<String, Object> value) {
@@ -942,13 +947,21 @@ public class YamlParser implements IParser {
         throw new IllegalArgumentException("Parachuting type must be a boolean or map, got: " + value.getClass());
     }
 
-    private Flare parseFlare(Map<String, Object> value) {
+    private Flare parseFlare(MCH_AircraftInfo info, Map<String, Object> value) {
         Vec3d pos = Vec3d.ZERO;
         List<FlareType> flareTypes = new ArrayList<>();
 
         for (Map.Entry<String, Object> entry : value.entrySet()) {
             switch (entry.getKey()) {
                 case "Pos", "Positions" -> pos = parseVector(entry.getValue());
+                // Reforged chaff countermeasure shares the flare section (radar analogue of flares).
+                case "Chaff", "HasChaff" -> {
+                    if (!(entry.getValue() instanceof Boolean b) || b) {
+                        info.chaff = info.new Chaff();
+                    }
+                }
+                case "ChaffUseTime" -> info.chaffUseTime = ((Number) entry.getValue()).intValue();
+                case "ChaffWaitTime", "ChaffCooldown" -> info.chaffWaitTime = ((Number) entry.getValue()).intValue();
                 case "Type", "Types" -> {
                     List<String> typeStrings = new ArrayList<>();
                     if (entry.getValue() instanceof String singleType) {

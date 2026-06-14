@@ -853,6 +853,17 @@ public class YamlEmitter implements IEmitter {
             }
             effects.put("PotionEffects", potionEffects);
         }
+        if (!info.bulletDecay.isEmpty()
+                && info.bulletDecay.get(0) instanceof com.norwood.mcheli.weapon.MCH_BulletDecaySegmented seg) {
+            Map<String, Object> decay = new LinkedHashMap<>();
+            decay.put("Type", "Segmented");
+            List<List<Float>> segs = new ArrayList<>();
+            for (var s : seg.getSegments()) {
+                segs.add(Arrays.asList(s.startDistance, s.damageMultiplier));
+            }
+            decay.put("Segments", segs);
+            effects.put("BulletDecay", decay);
+        }
         if (!effects.isEmpty()) root.put("Effects", effects);
         } catch (Exception e) {
             throw new EmissionException("Unexpected error during throwable emission", info, e);
@@ -1191,9 +1202,12 @@ public class YamlEmitter implements IEmitter {
         if (notBlank(info.nameOnEarlyASRadar) && !info.nameOnEarlyASRadar.equals(dummyInfo.nameOnEarlyASRadar))
             root.put("NameOnEarlyASRadar", info.nameOnEarlyASRadar);
 
+        if (info.hudType != dummyInfo.hudType) root.put("HUDType", info.hudType);
+        if (info.weaponGroupType != dummyInfo.weaponGroupType) root.put("WeaponGroupType", info.weaponGroupType);
+
         if (info.explosionSizeByCrash != dummyInfo.explosionSizeByCrash)
             root.put("ExplosionSizeByCrash", (int) info.explosionSizeByCrash);
-        if (info.throttleDownFactor != dummyInfo.explosionSizeByCrash)
+        if (info.throttleDownFactor != dummyInfo.throttleDownFactor)
             root.put("ThrottleDownFactor", info.throttleDownFactor);
 //        if (info.destroyRewardSLMin != dummyInfo.destroyRewardSLMin || info.destroyRewardSLMax != dummyInfo.destroyRewardSLMax
 //                || info.destroyRewardGEMin != dummyInfo.destroyRewardGEMin || info.destroyRewardGEMax != dummyInfo.destroyRewardGEMax
@@ -1527,6 +1541,11 @@ public class YamlEmitter implements IEmitter {
                 bm.put("Size", inline(bb.width, bb.height, bb.widthZ));
                 if (bb.getDamageFactor() != 1.0f) bm.put("DamageFactor", bb.getDamageFactor());
                 if (bb.name != null && !bb.name.isEmpty()) bm.put("Name", bb.name);
+                if (bb.isERA) {
+                    bm.put("IsERA", true);
+                    bm.put("EraExplosion", bb.eraExplosion);
+                    bm.put("EraMinDamage", bb.eraMinDamage);
+                }
                 boxes.add(bm);
             }
             root.put("BoundingBoxes", boxes);
@@ -1582,9 +1601,9 @@ public class YamlEmitter implements IEmitter {
             feats.put("Parachuting", parachute.isEmpty() ? true : parachute);
         }
 
-        // Flare
+        // Flare (+ chaff countermeasure, which shares this section)
+        Map<String, Object> flare = new LinkedHashMap<>();
         if (info.flare.types.length != 0) {
-            Map<String, Object> flare = new LinkedHashMap<>();
             flare.put("Pos", vec(info.flare.pos));
 
             if (info.flare.types != null && info.flare.types.length > 0) {
@@ -1595,8 +1614,40 @@ public class YamlEmitter implements IEmitter {
                 }
                 if (!types.isEmpty()) flare.put("Types", types);
             }
-            feats.put("Flare", flare);
         }
+        if (info.chaff != null) {
+            flare.put("Chaff", true);
+            if (info.chaffUseTime != dummyInfo.chaffUseTime) flare.put("ChaffUseTime", info.chaffUseTime);
+            if (info.chaffWaitTime != dummyInfo.chaffWaitTime) flare.put("ChaffWaitTime", info.chaffWaitTime);
+        }
+        if (!flare.isEmpty()) feats.put("Flare", flare);
+
+        // Maintenance / repair system
+        if (info.enableMaintenance
+                || info.maintenanceUseTime != dummyInfo.maintenanceUseTime
+                || info.maintenanceWaitTime != dummyInfo.maintenanceWaitTime
+                || info.engineShutdownThreshold != dummyInfo.engineShutdownThreshold) {
+            Map<String, Object> maintenance = new LinkedHashMap<>();
+            if (info.maintenanceUseTime != dummyInfo.maintenanceUseTime)
+                maintenance.put("UseTime", info.maintenanceUseTime);
+            if (info.maintenanceWaitTime != dummyInfo.maintenanceWaitTime)
+                maintenance.put("Cooldown", info.maintenanceWaitTime);
+            if (info.engineShutdownThreshold != dummyInfo.engineShutdownThreshold)
+                maintenance.put("EngineShutdownThreshold", info.engineShutdownThreshold);
+            feats.put("Maintenance", maintenance.isEmpty() ? Boolean.TRUE : maintenance);
+        }
+
+        // APS (active protection system)
+        if (info.hasAPS) {
+            Map<String, Object> aps = new LinkedHashMap<>();
+            if (info.apsUseTime != dummyInfo.apsUseTime) aps.put("UseTime", info.apsUseTime);
+            if (info.apsWaitTime != dummyInfo.apsWaitTime) aps.put("WaitTime", info.apsWaitTime);
+            if (info.apsRange != dummyInfo.apsRange) aps.put("Range", info.apsRange);
+            feats.put("APS", aps);
+        }
+
+        if (info.armorExplosionDamageMultiplier != dummyInfo.armorExplosionDamageMultiplier)
+            feats.put("ArmorExplosionDamageMultiplier", info.armorExplosionDamageMultiplier);
 
         Map<String, Object> radar = new LinkedHashMap<>();
         if (info.radarType != dummyInfo.radarType) radar.put("Type", info.radarType.name());
