@@ -27,9 +27,11 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
-import net.minecraftforge.event.world.GetCollisionBoxesEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.world.GetCollisionBoxesEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -197,6 +199,20 @@ public class MCH_EventHook extends W_EventHook {
             } else if (item.getItem() instanceof MCH_ItemAircraft) {
                 ((MCH_ItemAircraft) item.getItem()).rideEntity(item, event.getTarget(), event.getEntityPlayer());
             }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onMountedPlayerAttackEntity(AttackEntityEvent event) {
+        if (this.getRiddenAircraft(event.getEntityPlayer()) != null) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onMountedPlayerLeftClickBlock(LeftClickBlock event) {
+        if (this.getRiddenAircraft(event.getEntityPlayer()) != null) {
+            event.setCanceled(true);
         }
     }
 

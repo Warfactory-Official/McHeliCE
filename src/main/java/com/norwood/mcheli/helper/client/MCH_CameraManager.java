@@ -112,7 +112,7 @@ public class MCH_CameraManager {
         cameraZoom = zoom;
     }
 
-    public static float getThirdPeasonCameraDistance() {
+    public static float getThirdPersonCameraDistance() {
         return cameraDistance;
     }
 

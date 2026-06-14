@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -31,6 +32,7 @@ import net.minecraftforge.client.event.RenderLivingEvent.Specials.Pre;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -111,6 +113,40 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
     public void mouseEvent(MouseEvent event) {
         if (MCH_ClientTickHandlerBase.updateMouseWheel(event.getDwheel())) {
             event.setCanceled(true);
+        }
+
+        Minecraft mc = Minecraft.getMinecraft();
+        if (isClientPlayerMountedInAircraft(mc) && isVanillaAttackMouseEvent(mc, event)) {
+            clearVanillaAttackInput(mc);
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.START || event.player != Minecraft.getMinecraft().player) return;
+
+        Minecraft mc = Minecraft.getMinecraft();
+        if (isClientPlayerMountedInAircraft(mc)) {
+            clearVanillaAttackInput(mc);
+        }
+    }
+
+    private boolean isClientPlayerMountedInAircraft(Minecraft mc) {
+        if (mc.player == null) return false;
+        return mc.player.getRidingEntity() instanceof MCH_EntityAircraft ||
+                mc.player.getRidingEntity() instanceof MCH_EntitySeat;
+    }
+
+    private boolean isVanillaAttackMouseEvent(Minecraft mc, MouseEvent event) {
+        int button = event.getButton();
+        return button >= 0 && button - 100 == mc.gameSettings.keyBindAttack.getKeyCode();
+    }
+
+    private void clearVanillaAttackInput(Minecraft mc) {
+        KeyBinding.setKeyBindState(mc.gameSettings.keyBindAttack.getKeyCode(), false);
+        if (mc.playerController != null) {
+            mc.playerController.resetBlockRemoving();
         }
     }
 

@@ -23,7 +23,7 @@ public class W_Reflection {
     }
 
     public static float getThirdPersonDistance() {
-        return MCH_CameraManager.getThirdPeasonCameraDistance();
+        return MCH_CameraManager.getThirdPersonCameraDistance();
     }
 
     // Why is this here?
