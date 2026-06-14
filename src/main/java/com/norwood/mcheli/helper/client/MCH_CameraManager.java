@@ -76,15 +76,18 @@ public class MCH_CameraManager {
 
         MCH_EntityAircraft ridingEntity = ridingAircraft;
         if (ridingEntity != null && ridingEntity.canSwitchFreeLook() && ridingEntity.isPilot(mc.player)) {
+            // Apply only the airframe roll around the view axis. The view pitch/yaw are left to
+            // vanilla orientCamera (event pitch/yaw), which composes them as Rx(pitch)*Ry(yaw).
+            //
+            // The previous code re-applied the hull pitch/yaw here and subtracted them from the
+            // event. When the player's view pitch differed from the hull (i.e. while aiming a
+            // weapon), that left the weapon pitch in event.pitch to be applied by vanilla AFTER
+            // this hull-yaw rotation, sandwiching the pitch between two yaws: Ry(hullYaw) *
+            // Rx(weaponPitch) * Ry(viewYaw - hullYaw). That wraps the pitch by the hull heading and
+            // gimbal-locks it (correct facing south, rolls east/west, inverts north). Letting
+            // vanilla handle the view rotation matches the known-good freelook path.
             GlStateManager.translate(0.0F, -f, 0.0F);
             GlStateManager.rotate(cameraRoll, 0.0F, 0.0F, 1.0F);
-            if (ridingEntity.isOverridePlayerPitch()) {
-                GlStateManager.rotate(ridingEntity.rotationPitch, 1.0F, 0.0F, 0.0F);
-                GlStateManager.rotate(ridingEntity.rotationYaw, 0.0F, 1.0F, 0.0F);
-                event.setPitch(event.getPitch() - ridingEntity.rotationPitch);
-                event.setYaw(event.getYaw() - ridingEntity.rotationYaw);
-            }
-
             GlStateManager.translate(0.0F, f, 0.0F);
         }
     }
