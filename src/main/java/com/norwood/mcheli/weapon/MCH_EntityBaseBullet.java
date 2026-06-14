@@ -612,6 +612,15 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                 }
             }
             this.motionY += this.getGravity();
+            // Reforged: horizontal air drag (slows the projectile along its travel direction).
+            double dragInAir = this.getInfo().dragInAir;
+            if (dragInAir != 0.0) {
+                double speed = Math.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+                if (speed > 0.0) {
+                    this.motionX -= (this.motionX / speed) * dragInAir;
+                    this.motionZ -= (this.motionZ / speed) * dragInAir;
+                }
+            }
         } else {
             this.motionY += this.getGravityInWater();
         }

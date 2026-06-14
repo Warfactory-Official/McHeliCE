@@ -564,4 +564,5 @@ achievement.McHeliReliefSupplies.desc=Drop a container
 gui.mcheli.interact_seat.enter=Press %s to enter seat %d
 fluid.mch_fuel=Fuel
 
+#WINGMAN
 tile.wingman_marker.name=Marker Block

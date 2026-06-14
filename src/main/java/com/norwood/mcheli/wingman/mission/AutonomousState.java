@@ -1,4 +1,5 @@
 package com.norwood.mcheli.wingman.mission;
+//WINGMAN — file introduced for the McHeli Wingman feature merge
 
 /** 自律飛行の状態機械ステート。 */
 public enum AutonomousState {

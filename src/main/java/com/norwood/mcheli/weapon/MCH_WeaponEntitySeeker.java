@@ -31,6 +31,7 @@ public abstract class MCH_WeaponEntitySeeker extends MCH_WeaponBase {
         this.guidanceSystem.passiveRadar = wi.passiveRadar;
         this.guidanceSystem.passiveRadarLockOutCount = wi.passiveRadarLockOutCount;
         this.guidanceSystem.canLockMissile = wi.canLockMissile;
+        this.guidanceSystem.canLockInWater = wi.canLockInWater; // Reforged: ship/water target lock-on
     }
 
     @Override

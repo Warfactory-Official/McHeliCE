@@ -31,7 +31,7 @@ import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.UAVTracker;
-import com.norwood.mcheli.wingman.config.WingmanConfig;
+import com.norwood.mcheli.wingman.config.WingmanConfig; //WINGMAN
 import com.norwood.mcheli.weapon.*;
 import com.norwood.mcheli.wrapper.*;
 import io.netty.buffer.ByteBuf;
@@ -103,6 +103,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     private static final DataParameter<String> TEXTURE_NAME = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
     private static final DataParameter<String> FUEL_FF = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
     private static final DataParameter<String> COMMAND = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
+    // Reforged ERA: per-tile active-state bitstring synced to clients (replaces the 1.7 DataWatcher id 28).
+    private static final DataParameter<String> ERA_STATE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
 
     public static final int CMN_ID_GUNNER_STATUS = 12;
     public static final int CMN_ID_RADAR_ENABLED = 13;
@@ -241,6 +243,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     private float lastExtraBoundingBoxRoll;
     @Nullable public String lastBBName;
     public float lastBBDamageFactor;
+    /** Reforged ERA: the bounding box hit by the most recent damage/raytrace (may be a reactive-armor tile). */
+    @Nullable public MCH_BoundingBox lastBBHit;
+    /** Reforged ERA: last-synced active-state bitstring, to avoid redundant DataParameter writes. */
+    private String eraStateForSync = "";
     public final HashMap<Entity, Integer> noCollisionEntities = new HashMap<>();
 
     /* --- Specialized Equipment (UAV, Towed, Parachute) --- */
@@ -500,6 +506,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.dataManager.register(COMMAND, "");
         this.dataManager.register(THROTTLE, 0);
         this.dataManager.register(PART_STAT, 0);
+        this.dataManager.register(ERA_STATE, "");
         if (!this.world.isRemote) {
             this.setCommonStatus(3, MCH_Config.InfinityAmmo.prmBool);
             this.setCommonStatus(4, MCH_Config.InfinityFuel.prmBool);
@@ -966,6 +973,12 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             this.setSearchLight(nbt.getBoolean("SearchLight"));
         }
 
+        // Reforged ERA: restore popped/intact tile state.
+        if (nbt.hasKey("AcERAState")) {
+            this.applyERAStateString(nbt.getString("AcERAState"));
+            this.syncERAStateWatcher(true);
+        }
+
         this.dismountedUserCtrl = nbt.getBoolean("AcDismounted");
     }
 
@@ -988,6 +1001,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
 
         nbt.setBoolean("AcGunnerStatus", this.getGunnerStatus());
+        nbt.setString("AcERAState", this.buildERAStateString()); // Reforged ERA tile state
         super.writeEntityToNBT(nbt);
         this.getGuiInventory().writeToNBT(nbt);
         int[] wa_list = new int[this.getWeaponNum()];
@@ -1040,6 +1054,20 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
         if (damage <= 0.0F) {
             return false;
+        }
+
+        // Reforged ERA: a hit on an intact reactive-armor tile pops it (and may detonate).
+        MCH_BoundingBox eraBox = this.lastBBHit;
+        this.lastBBHit = null;
+        if (eraBox != null && eraBox.isERA && eraBox.eraActive && damage > eraBox.eraMinDamage) {
+            eraBox.eraActive = false;
+            this.syncERAStateWatcher(false);
+            if (eraBox.eraExplosion > 0.0F && eraBox.center != null) {
+                Entity exploder = attacker instanceof EntityPlayer ? attacker : null;
+                MCH_Explosion.newExplosion(this.world, null, exploder,
+                        eraBox.center.x, eraBox.center.y, eraBox.center.z,
+                        eraBox.eraExplosion, 0.0F, true, true, false, false, 0);
+            }
         }
 
         if (!this.isDestroyed()) {
@@ -3964,6 +3992,35 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return MathHelper.wrapDegrees(pitch + wsPitch + wsFixedPitch);
     }
 
+    // Reforged CCIP: cached predicted impact point of the current weapon, recomputed once per tick.
+    private int lastCalcPredictedImpactPointCount = -1;
+    private Vec3d lastPredictedImpactPoint = null;
+
+    /**
+     * Predicted world-space impact point of the seat-operator's current weapon, used by the CCIP
+     * overlay. Only computed for CCIP-enabled, CCIP-supported weapon types; null otherwise.
+     * Cached per update tick to avoid running the trajectory simulation multiple times per frame.
+     */
+    @Nullable
+    public Vec3d getPredictedImpactPoint(@Nullable Entity user) {
+        if (this.lastCalcPredictedImpactPointCount != this.getCountOnUpdate()) {
+            this.lastCalcPredictedImpactPointCount = this.getCountOnUpdate();
+            this.lastPredictedImpactPoint = null;
+            if (user != null) {
+                MCH_WeaponSet currentWs = this.getCurrentWeapon(user);
+                if (currentWs != null && currentWs.getInfo() != null && currentWs.getInfo().ccip
+                        && MCH_WeaponInfo.isCCIPSupportedType(currentWs.getInfo().type)) {
+                    MCH_WeaponParam prm = new MCH_WeaponParam();
+                    prm.setPosition(this.posX, this.posY, this.posZ);
+                    prm.entity = this;
+                    prm.user = user;
+                    this.lastPredictedImpactPoint = currentWs.getPredictedImpactPoint(prm);
+                }
+            }
+        }
+        return this.lastPredictedImpactPoint;
+    }
+
     @Nullable
     public MCH_AircraftInfo.Weapon getCurrentMountedWeapon(@Nullable Entity entity) {
         if (this.getAcInfo() == null) {
@@ -5654,6 +5711,12 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     public void updateWeapons() {
         if (this.getAcInfo() != null) {
+            // Reforged ERA: keep tile state in sync each tick (server pushes, client applies).
+            if (!this.world.isRemote) {
+                this.syncERAStateWatcher(false);
+            } else {
+                this.updateERAStateFromWatcher();
+            }
             if (this.getAcInfo().getWeaponCount() > 0) {
                 int prevUseWeaponStat = this.useWeaponStat;
                 if (!this.world.isRemote) {
@@ -5972,6 +6035,85 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return ar;
     }
 
+    // ===== Reforged: Explosive Reactive Armor (ERA) state =====
+
+    /** Serialize each ERA tile's intact/popped flag to a compact '1'/'0' bitstring (in box order). */
+    private String buildERAStateString() {
+        StringBuilder sb = new StringBuilder();
+        if (this.extraBoundingBox != null) {
+            for (MCH_BoundingBox bb : this.extraBoundingBox) {
+                if (bb.isERA) {
+                    sb.append(bb.eraActive ? '1' : '0');
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    /** Restore ERA tile flags from a bitstring produced by {@link #buildERAStateString}. */
+    private void applyERAStateString(String state) {
+        if (state == null || this.extraBoundingBox == null) {
+            return;
+        }
+        int eraIndex = 0;
+        for (MCH_BoundingBox bb : this.extraBoundingBox) {
+            if (!bb.isERA) {
+                continue;
+            }
+            if (eraIndex < state.length()) {
+                bb.eraActive = state.charAt(eraIndex) != '0';
+            }
+            eraIndex++;
+        }
+    }
+
+    /** Server: push the current ERA bitstring to the {@link #ERA_STATE} DataParameter when it changes. */
+    private void syncERAStateWatcher(boolean force) {
+        if (this.world.isRemote) {
+            return;
+        }
+        String state = this.buildERAStateString();
+        if (force || !state.equals(this.eraStateForSync)) {
+            this.eraStateForSync = state;
+            this.dataManager.set(ERA_STATE, state);
+        }
+    }
+
+    /** Client: apply the synced ERA bitstring to the local box copies (for collision/render parity). */
+    private void updateERAStateFromWatcher() {
+        String watcherState = this.dataManager.get(ERA_STATE);
+        if (watcherState == null) {
+            watcherState = "";
+        }
+        if (!watcherState.equals(this.eraStateForSync)) {
+            this.eraStateForSync = watcherState;
+            this.applyERAStateString(watcherState);
+        }
+    }
+
+    /** Reforged: a maintenance activation restores roughly a quarter of the popped ERA tiles. */
+    public void recoverERAByMaintenance() {
+        if (this.world.isRemote || this.extraBoundingBox == null) {
+            return;
+        }
+        List<MCH_BoundingBox> destroyedERA = new ArrayList<>();
+        for (MCH_BoundingBox bb : this.extraBoundingBox) {
+            if (bb.isERA && !bb.eraActive) {
+                destroyedERA.add(bb);
+            }
+        }
+        if (destroyedERA.isEmpty()) {
+            return;
+        }
+        int recoverCount = Math.max(1, (destroyedERA.size() + 3) / 4);
+        Collections.shuffle(destroyedERA, this.rand);
+        int maxRecover = Math.min(recoverCount, destroyedERA.size());
+        for (int i = 0; i < maxRecover; i++) {
+            destroyedERA.get(i).eraActive = true;
+        }
+        this.syncERAStateWatcher(false);
+    }
+
     public Entity[] createParts() {
         return new Entity[]{this.partEntities[0]};
     }
@@ -6013,6 +6155,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             return;
         }
 
+        //WINGMAN Start
         // Wingman: the legacy hard-coded comm range (SMALL=2500, default=15129 blocks²) is now
         // configurable. A negative range — or any value at/above the search cap — disables the
         // distance cut-off entirely so a UAV can be flown arbitrarily far from its station.
@@ -6023,6 +6166,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         double rangeSq = cfgRange >= WingmanConfig.UAV_UNLIMITED_THRESHOLD
                 ? Double.MAX_VALUE
                 : (double) cfgRange * cfgRange;
+        //WINGMAN End
         Vec3d stationPos = this.uavStation.getPos();
         double udx = this.posX - stationPos.x;
         double udz = this.posZ - stationPos.z;

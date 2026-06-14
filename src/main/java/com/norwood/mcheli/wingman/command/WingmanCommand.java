@@ -1,4 +1,5 @@
 package com.norwood.mcheli.wingman.command;
+//WINGMAN — file introduced for the McHeli Wingman feature merge
 
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;

@@ -1,4 +1,5 @@
 package com.norwood.mcheli.wingman.block;
+//WINGMAN — file introduced for the McHeli Wingman feature merge
 
 /** WingmanMarkerBlock のモード。NBTに文字列で保存。 */
 public enum MarkerType implements net.minecraft.util.IStringSerializable {

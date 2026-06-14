@@ -173,6 +173,7 @@ public class WeaponParser {
         for (var entry : map.entrySet()) {
             switch (entry.getKey()) {
                 case "CanLockMissile" -> info.canLockMissile = (Boolean) entry.getValue();
+                case "LockInWater" -> info.canLockInWater = (Boolean) entry.getValue();
                 case "Time" -> info.lockTime = getClamped(0, 1000, entry.getValue());
                 case "Delay" -> info.rigidityTime = getClamped(0, 1_000_000, entry.getValue());
                 case "MaxRange" -> info.maxLockOnRange = getClamped(2000, entry.getValue());

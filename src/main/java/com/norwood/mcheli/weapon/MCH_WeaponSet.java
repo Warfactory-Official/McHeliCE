@@ -480,6 +480,30 @@ public class MCH_WeaponSet {
         return current.getLandInDistance(prm);
     }
 
+    /**
+     * CCIP fire-control: simulate the current weapon's trajectory and return the predicted
+     * world-space impact point (or null). Mirrors {@link #getImpactDistance} but returns the
+     * full point and also resolves roll for aircraft.
+     */
+    public Vec3d getPredictedImpactPoint(MCH_WeaponParam prm) {
+        MCH_WeaponBase current = this.getCurrentWeapon();
+        if (current == null || current.getInfo() == null) return null;
+
+        if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
+            prm.rotYaw = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotYaw(prm.user));
+            prm.rotPitch = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotPitch(prm.user));
+            prm.rotRoll = aircraft.getRoll();
+        } else {
+            float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
+            float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
+            prm.rotYaw = MathHelper.wrapDegrees(baseYaw + this.yaw + current.fixRotationYaw);
+            prm.rotPitch = MathHelper.wrapDegrees(basePitch + this.pitch + current.fixRotationPitch);
+            prm.rotRoll = 0.0F;
+        }
+
+        return current.getImpactPos(prm);
+    }
+
     public static class Recoil {
         public final int recoilBufCountMax;
         public final int recoilBufCountSpeed;

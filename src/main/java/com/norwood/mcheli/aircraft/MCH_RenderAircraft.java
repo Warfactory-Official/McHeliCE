@@ -155,6 +155,31 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
         }
     }
 
+    /**
+     * Reforged ERA: render each intact reactive-armor tile as its own body model group ({@code $ERA0},
+     * {@code $ERA1}, ...). A popped tile's part is skipped, so the armor visibly disappears once consumed.
+     * ERA tile order matches {@code extraBoundingBox} iteration, identical to the state bitstring.
+     */
+    public static void renderERA(MCH_EntityAircraft ac, MCH_AircraftInfo info) {
+        if (!(info.model instanceof W_ModelCustom)) {
+            return;
+        }
+        W_ModelCustom bodyModel = (W_ModelCustom) info.model;
+        int eraIndex = 0;
+        for (MCH_BoundingBox bb : ac.extraBoundingBox) {
+            if (!bb.isERA) {
+                continue;
+            }
+            if (bb.eraActive) {
+                String partName = "$ERA" + eraIndex;
+                if (bodyModel.containsPart(partName)) {
+                    bodyModel.renderPart(partName);
+                }
+            }
+            eraIndex++;
+        }
+    }
+
     public static void renderLightHatch(MCH_EntityAircraft ac, MCH_AircraftInfo info, float tickTime) {
         if (!info.lightHatchList.isEmpty()) {
             float rot = ac.prevRotLightHatch + (ac.rotLightHatch - ac.prevRotLightHatch) * tickTime;
@@ -1157,6 +1182,7 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     public void renderCommonPart(MCH_EntityAircraft ac, MCH_AircraftInfo info, double x, double y, double z,
                                  float tickTime) {
         renderRope(ac, info, x, y, z, tickTime);
+        renderERA(ac, info); // Reforged: hide popped reactive-armor tiles
         renderWeapon(ac, info, tickTime);
         renderRotPart(ac, info, tickTime);
         renderHatch(ac, info, tickTime);

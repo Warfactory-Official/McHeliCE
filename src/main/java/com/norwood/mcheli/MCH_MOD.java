@@ -364,7 +364,7 @@ public class MCH_MOD {
         MCH_Items.registerBlock(blockDraftingTable);
         W_LanguageRegistry.addName(blockDraftingTable, "Drafting Table");
         W_LanguageRegistry.addNameForObject(blockDraftingTable, "ja_jp", "製図台");
-        com.norwood.mcheli.wingman.McHeliWingman.preInit(evt, this, creativeTabs);
+        com.norwood.mcheli.wingman.McHeliWingman.preInit(evt, this, creativeTabs); //WINGMAN
         MCH_CriteriaTriggers.registerTriggers();
         MCH_Logger.log("Register system");
         MinecraftForge.EVENT_BUS.register(new MCH_EventHook());
@@ -386,7 +386,7 @@ public class MCH_MOD {
         GameRegistry.registerTileEntity(MCH_DraftingTableTileEntity.class, MCH_Utils.suffix("drafting_table"));
         if (World.MAX_ENTITY_RADIUS < 5)
             World.MAX_ENTITY_RADIUS = 5;
-        com.norwood.mcheli.wingman.McHeliWingman.init();
+        com.norwood.mcheli.wingman.McHeliWingman.init(); //WINGMAN
         proxy.registerBlockRenderer();
     }
 
@@ -451,7 +451,7 @@ public class MCH_MOD {
         CommandHandler handler = (CommandHandler) FMLCommonHandler.instance().getSidedDelegate().getServer()
                 .getCommandManager();
         handler.registerCommand(new MCH_Command());
-        com.norwood.mcheli.wingman.McHeliWingman.registerCommand(handler);
+        com.norwood.mcheli.wingman.McHeliWingman.registerCommand(handler); //WINGMAN
     }
 
     private void registerItemSpawnGunner() {

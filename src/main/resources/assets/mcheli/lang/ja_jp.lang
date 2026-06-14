@@ -143,4 +143,5 @@ achievement.McHeliReliefSupplies=支援物資
 achievement.McHeliReliefSupplies.desc=コンテナを投下
 gui.mcheli.interact_seat.enter=%s で座席 %d に搭乗
 
+#WINGMAN
 tile.wingman_marker.name=マーカーブロック

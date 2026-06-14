@@ -53,6 +53,16 @@ public class MCH_BoundingBox {
     @Setter
     public String name = "";
 
+    // ===== Reforged: Explosive Reactive Armor (ERA) tile =====
+    /** When true, this box is a reactive-armor tile that pops (deactivates) on a qualifying hit. */
+    public boolean isERA = false;
+    /** Explosion size produced when the tile pops (0 = none). */
+    public float eraExplosion = 0.0F;
+    /** Minimum incoming damage required to pop the tile. */
+    public float eraMinDamage = 0.0F;
+    /** Whether the tile is currently intact. A popped tile is skipped for collision/hits. */
+    public boolean eraActive = true;
+
     // === Orientation data ===
     /** Current rotation angles (in degrees) */
     public float rotationYaw = 0.0F;
@@ -147,6 +157,10 @@ public class MCH_BoundingBox {
 
         bb.boundingBoxType = this.boundingBoxType;
         bb.name = this.name;
+        bb.isERA = this.isERA;
+        bb.eraExplosion = this.eraExplosion;
+        bb.eraMinDamage = this.eraMinDamage;
+        bb.eraActive = this.eraActive;
         return bb;
     }
 

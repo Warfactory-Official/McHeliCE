@@ -340,6 +340,8 @@ public class MCH_WeaponGuidanceSystem extends MCH_EntityGuidanceSystem {
 
             case MCH_EntityAircraft ac -> {
                 if (isRadarMissile && ac.chaffUseTime > 0) yield false;
+                // Reforged ECM: a type-2 (lock-breaking) jammer denies radar-missile locks.
+                if (isRadarMissile && ac.getAcInfo() != null && ac.getAcInfo().ecmJammerType == 2 && ac.isECMJammerUsing()) yield false;
                 if (ac.isFlareUsing()) yield false;
                 yield null;
             }

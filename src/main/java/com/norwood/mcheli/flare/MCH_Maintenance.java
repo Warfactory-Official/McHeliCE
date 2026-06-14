@@ -32,6 +32,7 @@ public class MCH_Maintenance {
             W_McClient.playSound("wrench", 10.0F, 1.0F);
         } else {
             this.aircraft.getEntityData().setBoolean("MaintenanceUsing", true);
+            this.aircraft.recoverERAByMaintenance(); // Reforged: maintenance restores some ERA tiles
         }
 
         return true;

@@ -1,4 +1,5 @@
 package com.norwood.mcheli.networking.packet;
+//WINGMAN — file introduced for the McHeli Wingman feature merge
 
 import hohserg.elegant.networking.api.ElegantPacket;
 import hohserg.elegant.networking.api.ServerToClientPacket;

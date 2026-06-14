@@ -59,6 +59,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
      */
     public MCH_Key KeyRadarSwitch;
     public MCH_Key KeyAirburstDistReset;
+    public MCH_Key KeyOpenGPSPanel; // Reforged: open GPS manual-input panel
     protected boolean isRiding = false;
     protected boolean isBeforeRiding = false;
     private int lastDetachedAimSyncEntityId = Integer.MIN_VALUE;
@@ -100,6 +101,7 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
         this.KeyECMJammer = new MCH_Key(MCH_Config.KeyECMJammer.prmInt);
         this.KeyRadarSwitch = new MCH_Key(MCH_Config.KeyRadarSwitch.prmInt);
         this.KeyAirburstDistReset = new MCH_Key(MCH_Config.KeyAirburstDistReset.prmInt);
+        this.KeyOpenGPSPanel = new MCH_Key(MCH_Config.KeyOpenGPSPanel.prmInt);
     }
 
     protected void commonPlayerControlInGUI(EntityPlayer player, MCH_EntityAircraft ac, boolean isPilot,
@@ -373,6 +375,11 @@ public abstract class MCH_AircraftClientTickHandler extends MCH_ClientTickHandle
             if (ws != null && ws.getInfo() != null && ws.getInfo().canAirburst) {
                 ac.resetAirburstDistance(player, ws.getCurrentWeapon());
             }
+        }
+
+        // Reforged: open the GPS manual coordinate-entry panel.
+        if (KeyOpenGPSPanel.isKeyDown() && this.mc.currentScreen == null) {
+            this.mc.displayGuiScreen(new com.norwood.mcheli.gui.MCH_GuiGPSInput(player));
         }
 
         return send;

@@ -579,13 +579,20 @@ public class YamlParser implements IParser {
         Vec3d size = null;
         float damageFact = 1f;
         String name = "";
+        // Reforged ERA: a bounding box may be flagged as a reactive-armor tile.
+        boolean isERA = false;
+        float eraExplosion = 0.0F;
+        float eraMinDamage = 0.0F;
         MCH_BoundingBox.EnumBoundingBoxType type = MCH_BoundingBox.EnumBoundingBoxType.DEFAULT;
         for (Map.Entry<String, Object> entry : box.entrySet()) {
             switch (entry.getKey()) {
                 case "Pos", "Position" -> pos = parseVector(entry.getValue());
                 case "Size" -> size = parseVector(entry.getValue());
                 case "DamageFactor", "DmgFact" -> damageFact = ((Number) entry.getValue()).floatValue();
-                case "Name" -> name = name.trim();
+                case "Name" -> name = ((String) entry.getValue()).trim();
+                case "IsERA", "ERA" -> isERA = (Boolean) entry.getValue();
+                case "EraExplosion" -> eraExplosion = ((Number) entry.getValue()).floatValue();
+                case "EraMinDamage" -> eraMinDamage = ((Number) entry.getValue()).floatValue();
                 case "Type" -> {
                     try {
                         type = MCH_BoundingBox.EnumBoundingBoxType
@@ -607,6 +614,11 @@ public class YamlParser implements IParser {
         var parsedBox = new MCH_BoundingBox(pos.x, pos.y, pos.z, (float) size.x, (float) size.y, (float) size.z,
                 damageFact);
         parsedBox.setBoundingBoxType(type);
+        parsedBox.name = name;
+        parsedBox.isERA = isERA;
+        parsedBox.eraExplosion = eraExplosion;
+        parsedBox.eraMinDamage = eraMinDamage;
+        parsedBox.eraActive = true;
         info.extraBoundingBox.add(parsedBox);
     }
 

@@ -270,8 +270,12 @@ public class MCH_RWRThreatManager {
     }
 
     private boolean isTargetCountermeasureActive(MCH_EntityAircraft target) {
-//        return target.isChaffUsing(); // Simplified for now
-        return false;
+        // Reforged: an aircraft running chaff or an ECM jammer (or being jammed) is hidden from
+        // enemy search-mode radar (STT/lock-on is unaffected).
+        if (target == null || target.getAcInfo() == null) {
+            return false;
+        }
+        return target.isChaffUsing() || target.isECMJammerUsing() || target.jammingTick > 0;
     }
 
     private boolean isTargetInsideScanCone(MCH_EntityAircraft emitter, MCH_EntityAircraft target, double maxRange, float scanAzDeg, float scanElDeg) {

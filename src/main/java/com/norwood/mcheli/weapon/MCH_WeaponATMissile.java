@@ -19,6 +19,8 @@ public class MCH_WeaponATMissile extends MCH_WeaponEntitySeeker {
         this.numMode = 2;
 
         this.guidanceSystem.canLockOnGround = true;
+        // Reforged: anti-surface missiles engage watercraft (ships sit in water) by default.
+        this.guidanceSystem.canLockInWater = true;
         this.guidanceSystem.ridableOnly = info.ridableOnly;
     }
 

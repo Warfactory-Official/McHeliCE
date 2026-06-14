@@ -1,4 +1,5 @@
 package com.norwood.mcheli.wingman.config;
+//WINGMAN — file introduced for the McHeli Wingman feature merge
 
 import net.minecraftforge.common.config.Configuration;
 

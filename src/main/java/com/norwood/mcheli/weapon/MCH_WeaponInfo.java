@@ -210,6 +210,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public boolean speedDependsAircraft = false;
     /** Reforged field: allows locking onto missile entities. */
     public boolean canLockMissile = false;
+    /** Reforged: allow guidance to lock targets sitting in water (e.g. ships/boats). */
+    public boolean canLockInWater = false;
     /** Reforged field: enables Beyond Visual Range (BVR) targeting. */
     public boolean enableBVR = false;
     /** Reforged field: minimum distance to enable BVR. */
@@ -476,7 +478,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         return this.turningFactor;
     }
 
-    private boolean isCCIPSupportedType(String type) {
+    public static boolean isCCIPSupportedType(String type) {
         if (type == null) {
             return false;
         }

@@ -59,6 +59,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm KeyECMJammer;
     public static MCH_ConfigPrm KeyAirburstDistReset;
     public static MCH_ConfigPrm KeyRadarSwitch;
+    public static MCH_ConfigPrm KeyOpenGPSPanel; // Reforged: open GPS manual-input panel
     public static MCH_ConfigPrm KeyExtra;
     public static MCH_ConfigPrm KeyCameraDistUp;
     public static MCH_ConfigPrm KeyCameraDistDown;
@@ -229,6 +230,7 @@ public class MCH_Config {
         KeyECMJammer = new MCH_ConfigPrm("KeyECMJammer", Keyboard.KEY_V);
         KeyAirburstDistReset = new MCH_ConfigPrm("KeyAirburstDistReset", -99);
         KeyRadarSwitch = new MCH_ConfigPrm("KeyRadarSwitch", Keyboard.KEY_GRAVE);
+        KeyOpenGPSPanel = new MCH_ConfigPrm("KeyOpenGPSPanel", Keyboard.KEY_K);
         KeyExtra = new MCH_ConfigPrm("KeyExtra", Keyboard.KEY_F);
         KeyCameraDistUp = new MCH_ConfigPrm("KeyCameraDistanceUp", Keyboard.KEY_PRIOR);
         KeyCameraDistDown = new MCH_ConfigPrm("KeyCameraDistanceDown", Keyboard.KEY_NEXT);
@@ -259,6 +261,7 @@ public class MCH_Config {
                 KeyECMJammer,
                 KeyAirburstDistReset,
                 KeyRadarSwitch,
+                KeyOpenGPSPanel,
                 KeyExtra,
                 KeyCameraDistUp,
                 KeyCameraDistDown,
