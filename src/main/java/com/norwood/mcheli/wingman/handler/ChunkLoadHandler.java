@@ -10,6 +10,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -126,16 +127,11 @@ public class ChunkLoadHandler implements ForgeChunkManager.LoadingCallback {
                     desired.size(), entity.getClass().getSimpleName(), cx, cz);
         }
 
-        // ─── 自律飛行中の機体: loadedEntityList に存在しなくても最終位置のチャンクを維持 ──────
-        // McHeli の物理更新でエンティティが未ロードチャンクへ移動すると、loadedEntityList から
-        // 消えても entitiesByUuid には残る。チケットを解放すると強制ロードが解除されてチャンクが
-        // アンロードされ、その後 WTH/AFH が getEntityFromUuid() で取得できなくなる。
-        // → WingmanEntry に active なオーダーがある間はチケットを保持し、
-        //   lastPos（最終既知チャンク）周囲を強制ロードし続ける。
+
         for (Map.Entry<UUID, WingmanEntry> we : WingmanRegistry.snapshot().entrySet()) {
             if (!we.getValue().isAutonomous()) continue;
             UUID uid = we.getKey();
-            if (alive.contains(uid)) continue; // loadedEntityList にあるので通常処理で OK
+            if (alive.contains(uid)) continue;
             ChunkPos lastKnown = lastPos.get(uid);
             Ticket ticket = tickets.get(uid);
             if (lastKnown == null || ticket == null) continue;
@@ -151,10 +147,7 @@ public class ChunkLoadHandler implements ForgeChunkManager.LoadingCallback {
                     uid, lastKnown.x, lastKnown.z);
         }
 
-        // Release tickets for entities in THIS dimension that are no longer present.
-        // We must guard by dimension ID: other worlds (nether, end) also fire
-        // WorldTickEvent, and their 'alive' sets would otherwise incorrectly
-        // trigger cleanup of tickets issued for a different dimension.
+
         int currentDim = world.provider.getDimension();
         Iterator<Map.Entry<UUID, Ticket>> it = tickets.entrySet().iterator();
         while (it.hasNext()) {
@@ -162,21 +155,55 @@ public class ChunkLoadHandler implements ForgeChunkManager.LoadingCallback {
             UUID uid = entry.getKey();
             if (ticketDim.getOrDefault(uid, Integer.MIN_VALUE) != currentDim) continue;
             if (!alive.contains(uid)) {
-                // アクティブなオーダーがある機体はチケットを解放しない（上記ブロックで維持済み）
                 WingmanEntry we = WingmanRegistry.get(uid);
                 if (we != null && we.isAutonomous()) continue;
-                ForgeChunkManager.releaseTicket(entry.getValue());
+                Ticket ticket = entry.getValue();
+                // Only release a ticket that still belongs to THIS live world. A ticket whose world
+                // was unloaded is stale (same dimension id, different World object): Forge has already
+                // discarded it, so releaseTicket would NPE on tickets.get(ticket.world). In that case
+                // just forget our dangling reference.
+                if (ticket.world == world) {
+                    ForgeChunkManager.releaseTicket(ticket);
+                    McHeliWingman.logger.info("[ChunkLoad] Released ticket for departed aircraft {}", uid);
+                }
                 lastPos.remove(uid);
                 ticketDim.remove(uid);
                 it.remove();
-                McHeliWingman.logger.info("[ChunkLoad] Released ticket for departed aircraft {}", uid);
             }
         }
     }
 
-    // -------------------------------------------------------------------------
-    // ForgeChunkManager.LoadingCallback
-    // -------------------------------------------------------------------------
+    /**
+     * When a server world unloads, drop every cached ticket reference for that dimension. Forge
+     * discards its own ticket bookkeeping (and unforces the chunks) for an unloading world, leaving
+     * our cached {@link Ticket} objects stale; a later {@code releaseTicket} on one NPEs inside
+     * {@code ForgeChunkManager.releaseTicket} ({@code tickets.get(ticket.world)} is null). This must
+     * not rely on {@link #ticketsLoaded}: Forge only calls that when it restores SAVED tickets, so it
+     * never runs for worlds/sessions that had none — which is the crash this fixes. Fresh tickets are
+     * reacquired when aircraft are seen again. No release is needed here: the unloading world tears
+     * down its own forced chunks.
+     */
+    @SubscribeEvent
+    public void onWorldUnload(WorldEvent.Unload event) {
+        if (event.getWorld().isRemote) return;
+        int dim = event.getWorld().provider.getDimension();
+        int dropped = 0;
+        Iterator<Map.Entry<UUID, Integer>> it = ticketDim.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<UUID, Integer> e = it.next();
+            if (e.getValue() == dim) {
+                UUID uid = e.getKey();
+                tickets.remove(uid);
+                lastPos.remove(uid);
+                it.remove();
+                dropped++;
+            }
+        }
+        if (dropped > 0) {
+            McHeliWingman.logger.info("[ChunkLoad] Dropped {} stale ticket reference(s) for unloading dim {}.",
+                    dropped, dim);
+        }
+    }
 
     /**
      * Called on world load for any tickets saved from a previous session.
@@ -198,7 +225,6 @@ public class ChunkLoadHandler implements ForgeChunkManager.LoadingCallback {
                     savedTickets.size());
         }
 
-        // Drop all stale references so onWorldTick doesn't try to re-release them.
         int staleCount = tickets.size();
         tickets.clear();
         ticketDim.clear();
@@ -208,10 +234,6 @@ public class ChunkLoadHandler implements ForgeChunkManager.LoadingCallback {
                     staleCount);
         }
     }
-
-    // -------------------------------------------------------------------------
-    // Helper: snapshot of ImmutableSet to avoid ConcurrentModificationException
-    // -------------------------------------------------------------------------
 
     /** Thin wrapper so we can call contains() on the ticket's ImmutableSet snapshot. */
     private static final class ImmutableSetSnapshot {

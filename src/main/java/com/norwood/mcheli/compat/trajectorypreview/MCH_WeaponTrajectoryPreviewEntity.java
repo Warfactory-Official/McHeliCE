@@ -37,6 +37,11 @@ public class MCH_WeaponTrajectoryPreviewEntity extends Entity implements Preview
     }
 
     @Override
+    public void onUpdate() {
+        this.setDead();
+    }
+
+    @Override
     public Entity initializeEntity(EntityPlayer player, ItemStack itemStack) {
         MCH_EntityAircraft aircraft = MCH_EntityAircraft.getAircraft_RiddenOrControl(player);
         if (aircraft == null || aircraft.isDestroyed()) {
@@ -116,6 +121,14 @@ public class MCH_WeaponTrajectoryPreviewEntity extends Entity implements Preview
         }
 
         if (++this.ticksSimulated > getMaxLifetime()) {
+            this.setDead();
+            return;
+        }
+
+        // Stop simulating a shot that has sailed off into the void (e.g. a flat/edge world where the
+        // ray never hits a block). Otherwise it falls for the full MAX_STEPS, emitting a long ribbon
+        // of PathParticles every frame for no useful preview.
+        if (this.posY < -16.0) {
             this.setDead();
             return;
         }

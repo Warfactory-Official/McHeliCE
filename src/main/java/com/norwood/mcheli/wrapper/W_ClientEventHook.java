@@ -1,10 +1,8 @@
 package com.norwood.mcheli.wrapper;
 
-import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import com.norwood.mcheli.core.MCHCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -95,7 +93,7 @@ public class W_ClientEventHook {
 
     @SubscribeEvent
     public void onChunkLoad(ChunkEvent.Load event) {
-        if(!MCH_MOD.DEBUG_LD) return;
+        if(!MCHCore.isRemoveClientTrackingRestrictions()) return;
         World world = event.getWorld();
         if (!world.isRemote) return;
         //Fix entities on clientside not being interactable if player enters previously unloaded chunk on which a far-rendered vehicle resides

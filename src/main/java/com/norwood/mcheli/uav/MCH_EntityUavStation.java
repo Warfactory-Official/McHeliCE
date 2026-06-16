@@ -3,7 +3,16 @@ package com.norwood.mcheli.uav;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Explosion;
 import com.norwood.mcheli.MCH_Lib;
+import com.cleanroommc.modularui.api.IGuiHolder;
+import com.cleanroommc.modularui.screen.ModularPanel;
+import com.cleanroommc.modularui.screen.ModularScreen;
+import com.cleanroommc.modularui.screen.UISettings;
+import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.Tags;
+import com.norwood.mcheli.factories.UavStationGuiData;
+import com.norwood.mcheli.factories.UavStationGuiFactory;
+import com.norwood.mcheli.gui.UavStationGui;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helicopter.MCH_HeliInfo;
@@ -34,6 +43,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -44,14 +54,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
-public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySinglePassenger, IUavStation {
+public class MCH_EntityUavStation extends W_EntityContainer
+        implements IEntitySinglePassenger, IUavStation, IUavPairingHolder, IGuiHolder<UavStationGuiData> {
 
     private static final DataParameter<Byte> STATUS = EntityDataManager.createKey(MCH_EntityUavStation.class,
             DataSerializers.BYTE);
@@ -72,6 +87,8 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
     private MCH_EntityAircraft controlAircraft;
     private MCH_EntityAircraft lastControlAircraft;
     private String loadedLastControlAircraftGuid;
+    /** UUIDs of the UAVs paired to this station (stable insertion order for the GUI list). */
+    private final java.util.Set<UUID> pairedUavs = new java.util.LinkedHashSet<>();
 
     public MCH_EntityUavStation(World world) {
         super(world);
@@ -196,6 +213,14 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
                 : this.loadedLastControlAircraftGuid;
 
         nbt.setString("LastCtrlAc", guid);
+
+        NBTTagList paired = new NBTTagList();
+        for (UUID id : this.pairedUavs) {
+            NBTTagCompound e = new NBTTagCompound();
+            e.setUniqueId("ID", id);
+            paired.appendTag(e);
+        }
+        nbt.setTag("PairedUavs", paired);
     }
 
     @Override
@@ -215,6 +240,55 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         }
 
         this.loadedLastControlAircraftGuid = nbt.getString("LastCtrlAc");
+
+        this.pairedUavs.clear();
+        NBTTagList paired = nbt.getTagList("PairedUavs", Constants.NBT.TAG_COMPOUND);
+        for (int i = 0; i < paired.tagCount(); i++) {
+            this.pairedUavs.add(paired.getCompoundTagAt(i).getUniqueId("ID"));
+        }
+    }
+
+    // ===== IUavPairingHolder =====
+
+    @Override
+    public List<UUID> getPairedUavs() {
+        return Collections.unmodifiableList(new ArrayList<>(this.pairedUavs));
+    }
+
+    @Override
+    public boolean isPaired(UUID uav) {
+        return uav != null && this.pairedUavs.contains(uav);
+    }
+
+    @Override
+    public boolean pairUav(UUID uav) {
+        if (uav == null) {
+            return false;
+        }
+        if (this.pairedUavs.contains(uav)) {
+            return true;
+        }
+        if (!this.canPairMore()) {
+            return false;
+        }
+        this.pairedUavs.add(uav);
+        return true;
+    }
+
+    @Override
+    public boolean unpairUav(UUID uav) {
+        boolean removed = this.pairedUavs.remove(uav);
+        // If the dropped UAV is the one currently controlled, sever the live link too.
+        if (removed && this.getControlled() instanceof MCH_EntityAircraft ac && ac.getUniqueID().equals(uav)) {
+            ac.setUavStation(null);
+            this.setControlled(null);
+        }
+        return removed;
+    }
+
+    @Override
+    public int getMaxPairedUavs() {
+        return Math.max(0, MCH_Config.MaxPairedUavPerStation.prmInt);
     }
 
     public void initUavPostion() {
@@ -597,15 +671,26 @@ public class MCH_EntityUavStation extends W_EntityContainer implements IEntitySi
         }
 
         this.lastRiddenByEntity = null;
-        PooledGuiParameter.setEntity(player, this);
         if (!this.world.isRemote) {
+            // Ride the station to act as its operator (required for the UAV camera/control link),
+            // then open the ModularUI pairing/control screen.
             player.startRiding(this);
-            player.openGui(MCH_MOD.instance, 0, player.world, (int) this.posX, (int) this.posY,
-                    (int) this.posZ);
+            UavStationGuiFactory.INSTANCE.openGui(player, this);
         }
 
         return true;
 
+    }
+
+    @Override
+    public ModularPanel buildUI(UavStationGuiData data, PanelSyncManager syncManager, UISettings settings) {
+        return UavStationGui.buildUI(data, syncManager, settings, this);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ModularScreen createScreen(UavStationGuiData data, ModularPanel mainPanel) {
+        return new ModularScreen(Tags.MODID, mainPanel);
     }
 
     @Override

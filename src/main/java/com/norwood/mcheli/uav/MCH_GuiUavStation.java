@@ -19,6 +19,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated
 public class MCH_GuiUavStation extends W_GuiContainer {
 
     static final int BX = 20;

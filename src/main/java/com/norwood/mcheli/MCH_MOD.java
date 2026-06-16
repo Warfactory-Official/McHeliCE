@@ -48,6 +48,7 @@ import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
 import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.MCH_ItemUavPairingDevice;
 import com.norwood.mcheli.uav.MCH_ItemUavStation;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.vehicle.MCH_ItemVehicle;
@@ -105,6 +106,7 @@ public class MCH_MOD {
     public static MCH_ItemLightWeaponBase itemJavelin;
     public static MCH_ItemUavStation[] itemUavStation;
     public static MCH_ItemParachute itemParachute;
+    public static MCH_ItemUavPairingDevice itemUavPairingDevice;
     public static MCH_ItemContainer itemContainer;
     public static MCH_ItemChain itemChain;
     public static MCH_ItemFuel itemFuel;
@@ -348,6 +350,7 @@ public class MCH_MOD {
         this.registerItemParachute();
         this.registerItemContainer();
         this.registerItemUavStation();
+        this.registerItemUavPairingDevice();
         this.registerItemInvisible();
         registerItemThrowable();
         registerItemCustom();
@@ -540,6 +543,14 @@ public class MCH_MOD {
         registerItem(item, name, creativeTabs);
         W_LanguageRegistry.addName(item, "Parachute");
         W_LanguageRegistry.addNameForObject(item, "ja_jp", "パラシュート");
+    }
+
+    public void registerItemUavPairingDevice() {
+        String name = "uav_pairing_device";
+        MCH_ItemUavPairingDevice item = new MCH_ItemUavPairingDevice();
+        itemUavPairingDevice = item;
+        registerItem(item, name, creativeTabs);
+        W_LanguageRegistry.addName(item, "UAV Pairing Device");
     }
 
     public void registerItemContainer() {

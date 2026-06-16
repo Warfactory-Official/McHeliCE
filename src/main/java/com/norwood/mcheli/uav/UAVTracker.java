@@ -1,6 +1,7 @@
 package com.norwood.mcheli.uav;
 
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.ChunkPos;
@@ -31,6 +32,31 @@ public class UAVTracker {
     private static ChunkPos getChunkPosForUAV(@NotNull World world, @NotNull UUID id) {
         if (world.isRemote) return null;
         return MCH_GlobalUAVData.get(world).entityLocations.get(id);
+    }
+
+    /**
+     * Resolves a UAV entity by UUID. If it is not currently loaded, force-loads a 3x3 chunk area
+     * around its last-known position (from {@link MCH_GlobalUAVData}) and retries once. Returns
+     * {@code null} if the UAV cannot be located (no saved position, or still absent after loading).
+     */
+    @Nullable
+    public static MCH_EntityAircraft locateUAV(@NotNull World world, @NotNull UUID id) {
+        if (world.isRemote || !(world instanceof WorldServer serverWorld)) return null;
+
+        Entity found = serverWorld.getEntityFromUuid(id);
+        if (found instanceof MCH_EntityAircraft loadedAc) return loadedAc;
+
+        ChunkPos cp = getChunkPosForUAV(world, id);
+        if (cp == null) return null;
+
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                serverWorld.getChunkProvider().provideChunk(cp.x + dx, cp.z + dz);
+            }
+        }
+
+        found = serverWorld.getEntityFromUuid(id);
+        return found instanceof MCH_EntityAircraft relocatedAc ? relocatedAc : null;
     }
 
     public static void saveUAVPos(@NotNull World world, @NotNull MCH_EntityAircraft aircraft) {

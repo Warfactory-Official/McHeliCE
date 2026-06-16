@@ -30,6 +30,7 @@ import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
 import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.IPairableUav;
 import com.norwood.mcheli.uav.UAVTracker;
 import com.norwood.mcheli.wingman.config.WingmanConfig; //WINGMAN
 import com.norwood.mcheli.weapon.*;
@@ -87,7 +88,7 @@ import java.util.*;
 
 import static com.norwood.mcheli.RadarType.EARLY_AS;
 
-public abstract class MCH_EntityAircraft extends W_EntityContainer implements IGuiHolder<AircraftGuiData>, MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler {
+public abstract class MCH_EntityAircraft extends W_EntityContainer implements IGuiHolder<AircraftGuiData>, MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler, IPairableUav {
 
 
     /* --- Data Parameters (Networking & Sync) --- */
@@ -251,6 +252,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     /* --- Specialized Equipment (UAV, Towed, Parachute) --- */
     private IUavStation uavStation;
+    /** Entity UUID of the station this UAV is paired to (one station per UAV), or null if unpaired. */
+    private UUID pairedStationId = null;
     @Setter private MCH_EntityChain towChainEntity;
     @Setter private MCH_EntityChain towedChainEntity;
     public float ropesLength = 0.0F;
@@ -674,6 +677,17 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return this.isUAV() ? this.uavStation : null;
     }
 
+    @Override
+    @Nullable
+    public UUID getPairedStation() {
+        return this.pairedStationId;
+    }
+
+    @Override
+    public void setPairedStation(@Nullable UUID stationId) {
+        this.pairedStationId = stationId;
+    }
+
     public void setUavStation(MCH_EntityUavStation uavSt) {
         this.uavStation = uavSt;
         if (!this.world.isRemote) {
@@ -980,6 +994,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
 
         this.dismountedUserCtrl = nbt.getBoolean("AcDismounted");
+
+        this.pairedStationId = nbt.hasUniqueId("PairedStation") ? nbt.getUniqueId("PairedStation") : null;
     }
 
     @Override
@@ -1013,6 +1029,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         nbt.setTag("AcWeaponsAmmo", W_NBTTag.newTagIntArray("AcWeaponsAmmo", wa_list));
         nbt.setInteger("AcDamage", this.getDamageTaken());
         nbt.setBoolean("AcDismounted", this.dismountedUserCtrl);
+        if (this.pairedStationId != null) {
+            nbt.setUniqueId("PairedStation", this.pairedStationId);
+        }
     }
 
     @Override
@@ -6126,6 +6145,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         if (this.world.isRemote) {
             updateClientUavStation();
         } else {
+            // Keep the tracker's last-known position fresh so an unloaded UAV can be relocated.
+            if (this.ticksExisted % 100 == 0) {
+                UAVTracker.saveUAVPos(this.world, this);
+            }
             updateServerUavStation();
         }
 

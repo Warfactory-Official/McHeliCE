@@ -11,8 +11,13 @@ public class MCHGuiFactories {
         return AircraftGuiFactory.INSTANCE;
     }
 
+    public static UavStationGuiFactory uavStation() {
+        return UavStationGuiFactory.INSTANCE;
+    }
+
 
     public static void init() {
         GuiManager.registerFactory(aircraft());
+        GuiManager.registerFactory(uavStation());
     }
 }

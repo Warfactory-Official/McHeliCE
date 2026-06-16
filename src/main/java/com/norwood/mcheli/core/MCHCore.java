@@ -7,20 +7,40 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import zone.rong.mixinbooter.IEarlyMixinLoader;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.TransformerExclusions({ "com.norwood.mcheli.core" })
 @IFMLLoadingPlugin.SortingIndex(2088)
-public class MCHCore implements IFMLLoadingPlugin {
+public class MCHCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
     static final Logger coreLogger = LogManager.getLogger("MCH CoreMod");
     @Getter
     private static final MCHCore.Brand brand;
     private static boolean runtimeDeobfEnabled = false;
     private static boolean hardCrash = true;
+
+
+    private static Boolean removeClientTrackingRestrictions = null;
+
+    /** Effective value of the "remove client tracking restrictions" toggle for this session. */
+    public static boolean isRemoveClientTrackingRestrictions() {
+        if (removeClientTrackingRestrictions == null) {
+            removeClientTrackingRestrictions = MCH_MOD.DEBUG_LD || readClientTrackingSetting(Launch.minecraftHome);
+            coreLogger.info("Experimental: remove client tracking restrictions = {}", removeClientTrackingRestrictions);
+        }
+        return removeClientTrackingRestrictions;
+    }
 
     static {
         if (Launch.classLoader.getResource("catserver/server/CatServer.class") != null) {
@@ -52,10 +72,20 @@ public class MCHCore implements IFMLLoadingPlugin {
 
     @Override
     public String[] getASMTransformerClass() {
-        String[] defaultAsm = {RenderGlobalTransformer.class.getName(), EntityRenderHooks.class.getName(),AviatorCodeGeneratorTransformer.class.getName()};
-        String[] longDistance = {EntityTrackerEntryTransformer.class.getName(),  EntityUnloadTransformer.class.getName(), EntityRendererTransformer.class.getName()};
-        return MCH_MOD.DEBUG_LD? Stream.concat(Arrays.stream(defaultAsm), Arrays.stream(longDistance))
-                .toArray(String[]::new) : defaultAsm;
+        return new String[]{ AviatorCodeGeneratorTransformer.class.getName() };
+    }
+
+    @Override
+    public List<String> getMixinConfigs() {
+        return Arrays.asList("mixins.mcheli.json", "mixins.mcheli.longdistance.json");
+    }
+
+    @Override
+    public boolean shouldMixinConfigQueue(String mixinConfig) {
+        if ("mixins.mcheli.longdistance.json".equals(mixinConfig)) {
+            return isRemoveClientTrackingRestrictions();
+        }
+        return true;
     }
 
     @Override
@@ -76,6 +106,35 @@ public class MCHCore implements IFMLLoadingPlugin {
             hardCrash = false;
             coreLogger.info("Crash suppressed with -Dmch.core.disablecrash");
         }
+    }
+
+    /**
+     * Reads the {@code ExperimentalRemoveClientTrackingRestrictions} boolean directly out of
+     * {@code config/mcheli.cfg}. Hand-parsed (the file is a simple {@code key = value} list)
+     * because the Forge/MCHeli config machinery is not available this early. Missing file or key
+     * means the feature is off.
+     */
+    private static boolean readClientTrackingSetting(File gameDir) {
+        File cfg = new File(gameDir != null ? gameDir : new File("."), "config/mcheli.cfg");
+        if (!cfg.isFile()) {
+            return false;
+        }
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(new FileInputStream(cfg), StandardCharsets.UTF_8))) {
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                int eq = line.indexOf('=');
+                if (eq <= 0) {
+                    continue;
+                }
+                if (line.substring(0, eq).trim().equalsIgnoreCase("ExperimentalRemoveClientTrackingRestrictions")) {
+                    return line.substring(eq + 1).trim().equalsIgnoreCase("true");
+                }
+            }
+        } catch (IOException e) {
+            coreLogger.warn("Could not read {} for ExperimentalRemoveClientTrackingRestrictions: {}",
+                    cfg.getAbsolutePath(), e.toString());
+        }
+        return false;
     }
 
     @Override

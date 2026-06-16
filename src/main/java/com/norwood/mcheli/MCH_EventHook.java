@@ -7,6 +7,8 @@ import com.norwood.mcheli.chain.MCH_ItemChain;
 import com.norwood.mcheli.command.MCH_Command;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
+import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.MCH_ItemUavPairingDevice;
 import com.norwood.mcheli.uav.UAVTracker;
 import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
 import com.norwood.mcheli.wrapper.W_Entity;
@@ -18,7 +20,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ClassInheritanceMultiMap;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.CommandEvent;
@@ -275,5 +279,75 @@ public class MCH_EventHook extends W_EventHook {
                 }
             }
         }
+    }
+
+    /**
+     * Handles the UAV pairing device. UAV/station entities are not {@code EntityLivingBase}, so
+     * {@code Item#itemInteractionForEntity} never fires for them — we intercept the interaction here:
+     * right-clicking a UAV stores its UUID on the device; right-clicking a station pairs that UAV.
+     */
+    @SubscribeEvent
+    public void onUavPairingInteract(EntityInteract event) {
+        if (event.getHand() != EnumHand.MAIN_HAND) {
+            return;
+        }
+        ItemStack stack = event.getItemStack();
+        if (!(stack.getItem() instanceof MCH_ItemUavPairingDevice)) {
+            return;
+        }
+
+        Entity target = event.getTarget();
+        boolean isUav = target instanceof MCH_EntityAircraft ac && ac.isUAV();
+        boolean isStation = target instanceof MCH_EntityUavStation;
+        if (!isUav && !isStation) {
+            return;
+        }
+
+        // Suppress the default interaction (mount UAV / open station GUI) while the device is held.
+        event.setCanceled(true);
+        event.setCancellationResult(EnumActionResult.SUCCESS);
+
+        EntityPlayer player = event.getEntityPlayer();
+        if (event.getWorld().isRemote) {
+            return; // mutate state + notify on the server only
+        }
+
+        if (isUav) {
+            MCH_EntityAircraft uav = (MCH_EntityAircraft) target;
+            MCH_ItemUavPairingDevice.setBoundUav(stack, uav.getUniqueID());
+            player.sendMessage(new TextComponentString("Bound UAV to pairing device."));
+            return;
+        }
+
+        MCH_EntityUavStation station = (MCH_EntityUavStation) target;
+        UUID boundId = MCH_ItemUavPairingDevice.getBoundUav(stack);
+        if (boundId == null) {
+            player.sendMessage(new TextComponentString("No UAV bound. Right-click a UAV first."));
+            return;
+        }
+
+        // Resolve the UAV (it is usually loaded; relocate via the tracker as a fallback) so the
+        // single-station constraint can be enforced and its owning station recorded.
+        MCH_EntityAircraft uav = UAVTracker.locateUAV(event.getWorld(), boundId);
+        if (uav == null) {
+            player.sendMessage(new TextComponentString("Bound UAV could not be located."));
+            return;
+        }
+
+        UUID currentStation = uav.getPairedStation();
+        if (currentStation != null && !currentStation.equals(station.getUniqueID())) {
+            player.sendMessage(new TextComponentString("That UAV is already paired to another station."));
+            return;
+        }
+
+        if (!station.pairUav(boundId)) {
+            player.sendMessage(new TextComponentString(
+                    "Station is full (max " + station.getMaxPairedUavs() + " UAVs)."));
+            return;
+        }
+
+        uav.setPairedStation(station.getUniqueID());
+        MCH_ItemUavPairingDevice.setBoundUav(stack, null);
+        player.sendMessage(new TextComponentString("Paired UAV to station."));
     }
 }

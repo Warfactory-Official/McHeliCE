@@ -150,6 +150,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm HurtResistantTime;
     public static MCH_ConfigPrm DisplayHUDThirdPerson;
     public static MCH_ConfigPrm AutoScaleAircraftGui;
+    public static MCH_ConfigPrm ExperimentalRemoveClientTrackingRestrictions;
     public static MCH_ConfigPrm DisableCameraDistChange;
     public static MCH_ConfigPrm EnableReplaceTextureManager;
     public static MCH_ConfigPrm DisplayEntityMarker;
@@ -165,6 +166,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm EnablePutRackInFlying;
     public static MCH_ConfigPrm EnableDebugBoundingBox;
     public static MCH_ConfigPrm DespawnCount;
+    public static MCH_ConfigPrm MaxPairedUavPerStation;
     public static MCH_ConfigPrm HitBoxDelayTick;
     public static MCH_ConfigPrm EnableRotationLimit;
     public static MCH_ConfigPrm PitchLimitMax;
@@ -352,6 +354,8 @@ public class MCH_Config {
         DisplayHUDThirdPerson = new MCH_ConfigPrm("DisplayHUDThirdPerson", false);
         AutoScaleAircraftGui = new MCH_ConfigPrm("ExperimentalAutoScaleAircraftGui", false);
         AutoScaleAircraftGui.desc = ";ExperimentalAutoScaleAircraftGui = true maps hardcoded aircraft HUD coordinates from the default 427x240 canvas to the current GUI resolution.";
+        ExperimentalRemoveClientTrackingRestrictions = new MCH_ConfigPrm("ExperimentalRemoveClientTrackingRestrictions", false);
+        ExperimentalRemoveClientTrackingRestrictions.desc = ";Experimental: remove client tracking restrictions - keeps MCHeli entities (e.g. UAVs) tracked, loaded and rendered far beyond the normal view distance by enabling the long-distance ASM patches. Read at startup by the coremod; CHANGING THIS REQUIRES A GAME RESTART.";
         DisableCameraDistChange = new MCH_ConfigPrm("DisableThirdPersonCameraDistChange", false);
         EnableReplaceTextureManager = new MCH_ConfigPrm("EnableReplaceTextureManager", true);
         DisplayEntityMarker = new MCH_ConfigPrm("DisplayEntityMarker", true);
@@ -368,6 +372,8 @@ public class MCH_Config {
         EnablePutRackInFlying = new MCH_ConfigPrm("EnablePutRackInFlying", true);
         EnableDebugBoundingBox = new MCH_ConfigPrm("EnableDebugBoundingBox", true);
         DespawnCount = new MCH_ConfigPrm("DespawnCount", 25);
+        MaxPairedUavPerStation = new MCH_ConfigPrm("MaxPairedUavPerStation", 5);
+        MaxPairedUavPerStation.desc = ";MaxPairedUavPerStation = maximum number of UAVs that can be paired to a single UAV station";
         HitBoxDelayTick = new MCH_ConfigPrm("HitBoxDelayTick", 0);
         EnableRotationLimit = new MCH_ConfigPrm("EnableRotationLimit", false);
         PitchLimitMax = new MCH_ConfigPrm("PitchLimitMax", 10);
@@ -479,12 +485,14 @@ public class MCH_Config {
                 DisableRenderLivingSpecials,
                 DisplayHUDThirdPerson,
                 AutoScaleAircraftGui,
+                ExperimentalRemoveClientTrackingRestrictions,
                 DisableCameraDistChange,
                 EnableReplaceTextureManager,
                 DisplayEntityMarker,
                 EntityMarkerSize,
                 BlockMarkerSize,
                 ReplaceRenderViewEntity,
+                MaxPairedUavPerStation,
                 null
         };
         DamageVsEntity = new DamageFactor(this, "DamageVsEntity");

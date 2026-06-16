@@ -625,6 +625,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
     public void init() {
         MinecraftForge.EVENT_BUS.register(new MCH_CameraManager());
         MinecraftForge.EVENT_BUS.register(new MCH_ClientEventHook());
+        MinecraftForge.EVENT_BUS.register(new com.norwood.mcheli.event.MCH_DetachedViewRefresh());
         MinecraftForge.EVENT_BUS.register(new com.norwood.mcheli.weapon.MCH_RenderLaser());
         MinecraftForge.EVENT_BUS.register(new com.norwood.mcheli.weapon.MCH_RenderCCIP());
         super.init();

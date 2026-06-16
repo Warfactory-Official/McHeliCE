@@ -22,6 +22,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+
 /**
  * Bootstrap + shared state for the Wingman subsystem (formerly the standalone
  * McHeli-Wingman addon). It is no longer a separate {@code @Mod}; CE's
@@ -51,8 +53,12 @@ public final class McHeliWingman {
      */
     public static void preInit(FMLPreInitializationEvent evt, Object modInstance, CreativeTabs tab) {
         instance = modInstance;
-        WingmanConfig.load(evt.getSuggestedConfigurationFile());
-        MissionPlan.init(evt.getSuggestedConfigurationFile().getParentFile());
+        // Wingman MUST use its own file, NOT evt.getSuggestedConfigurationFile(): Wingman is no longer
+        // a separate @Mod, so the suggested file is config/mcheli.cfg — the same file MCH_Config owns.
+        // WingmanConfig uses Forge's Configuration, whose save() rewrites the whole file in Forge format
+        // and would clobber MCHeli's custom-format config (which loads just before this in MCH_MOD).
+        WingmanConfig.load(new File(evt.getModConfigurationDirectory(), "mcheli_wingman.cfg"));
+        MissionPlan.init(evt.getModConfigurationDirectory());
 
         MARKER_BLOCK = new WingmanMarkerBlock();
         if (tab != null) {
@@ -61,6 +67,14 @@ public final class McHeliWingman {
         MCH_Blocks.register(MARKER_BLOCK, "wingman_marker");
         MCH_Items.registerBlock(MARKER_BLOCK);
 
+        ChunkLoadHandler chunkLoadHandler = new ChunkLoadHandler();
+        ForgeChunkManager.setForcedChunkLoadingCallback(instance, chunkLoadHandler);
+
+        MinecraftForge.EVENT_BUS.register(chunkLoadHandler);
+        MinecraftForge.EVENT_BUS.register(new UavChunkStreamer());
+        MinecraftForge.EVENT_BUS.register(new WingmanTickHandler());
+        MinecraftForge.EVENT_BUS.register(new AutonomousFlightHandler());
+
         logger.info("McHeli Wingman pre-init complete (uavControllerRange={})", WingmanConfig.uavControllerRange);
     }
 
@@ -68,12 +82,7 @@ public final class McHeliWingman {
     public static void init() {
         GameRegistry.registerTileEntity(WingmanMarkerTileEntity.class, MCH_Utils.suffix("wingman_marker_te"));
 
-        ChunkLoadHandler chunkLoadHandler = new ChunkLoadHandler();
-        ForgeChunkManager.setForcedChunkLoadingCallback(instance, chunkLoadHandler);
-        MinecraftForge.EVENT_BUS.register(chunkLoadHandler);
-        MinecraftForge.EVENT_BUS.register(new UavChunkStreamer());
-        MinecraftForge.EVENT_BUS.register(new WingmanTickHandler());
-        MinecraftForge.EVENT_BUS.register(new AutonomousFlightHandler());
+
 
         logger.info("McHeli Wingman initialized");
     }
