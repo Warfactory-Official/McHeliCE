@@ -52,8 +52,9 @@ public class MCH_RenderVehicle extends MCH_RenderAircraft<MCH_EntityVehicle> {
                 GlStateManager.rotate(pitch, 1.0F, 0.0F, 0.0F);
                 this.bindTexture("textures/vehicles/" + vehicle.getTextureName() + ".png", vehicle);
                 renderBody(vehicleInfo.model);
-                if (!vehicleInfo.partCrawlerTrack.isEmpty() && isNotMoving(vehicle))
-                    ((ModelVBO) vehicleInfo.model).renderTracksBuffer(vehicleInfo);
+                if (vehicleInfo.model instanceof ModelVBO mv && !vehicleInfo.partCrawlerTrack.isEmpty()
+                        && (isNotMoving(vehicle) || isTrackLod(vehicle)))
+                    mv.renderTracksBuffer(vehicleInfo);
                 MCH_WeaponSet ws = vehicle.getFirstSeatWeapon();
                 this.drawPart(vehicle, vehicleInfo, yaw, pitch, ws, tickTime);
             }

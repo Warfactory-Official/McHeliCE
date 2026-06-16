@@ -149,10 +149,7 @@ public class MCH_CameraManager {
             return;
         }
 
-        Entity riding = player.getRidingEntity();
-        boolean inVehicle = riding instanceof MCH_EntityAircraft ||
-                riding instanceof MCH_EntitySeat seat && seat.getParent() instanceof MCH_EntityAircraft;
-        if (!inVehicle) {
+        if (getRiddenAircraft(mc, player) == null) {
             return;
         }
 

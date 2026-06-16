@@ -44,9 +44,9 @@ public class MCH_RenderTank extends MCH_RenderAircraft<MCH_EntityTank> {
                 GlStateManager.rotate(roll, 0.0F, 0.0F, 1.0F);
                 this.bindTexture("textures/tanks/" + tank.getTextureName() + ".png", tank);
                 renderBody(tankInfo.model);
-                if (tankInfo.model != null && !tankInfo.partCrawlerTrack.isEmpty()
+                if (tankInfo.model instanceof ModelVBO mv && !tankInfo.partCrawlerTrack.isEmpty()
                         && (isNotMoving(tank) || isTrackLod(tank)))
-                    ((ModelVBO) tankInfo.model).renderTracksBuffer(tankInfo);
+                    mv.renderTracksBuffer(tankInfo);
 
             }
         }

@@ -151,6 +151,9 @@ public class MCH_Config {
     public static MCH_ConfigPrm DisplayHUDThirdPerson;
     public static MCH_ConfigPrm AutoScaleAircraftGui;
     public static MCH_ConfigPrm ExperimentalRemoveClientTrackingRestrictions;
+    public static MCH_ConfigPrm ExperimentalAsyncOnDemandModelLoading;
+    public static MCH_ConfigPrm ExperimentalOnDemandModelLifetimeSeconds;
+    public static MCH_ConfigPrm ExperimentalOnDemandModelLoaderThreads;
     public static MCH_ConfigPrm DisableCameraDistChange;
     public static MCH_ConfigPrm EnableReplaceTextureManager;
     public static MCH_ConfigPrm DisplayEntityMarker;
@@ -356,6 +359,12 @@ public class MCH_Config {
         AutoScaleAircraftGui.desc = ";ExperimentalAutoScaleAircraftGui = true maps hardcoded aircraft HUD coordinates from the default 427x240 canvas to the current GUI resolution.";
         ExperimentalRemoveClientTrackingRestrictions = new MCH_ConfigPrm("ExperimentalRemoveClientTrackingRestrictions", false);
         ExperimentalRemoveClientTrackingRestrictions.desc = ";Experimental: remove client tracking restrictions - keeps MCHeli entities (e.g. UAVs) tracked, loaded and rendered far beyond the normal view distance by enabling the long-distance ASM patches. Read at startup by the coremod; CHANGING THIS REQUIRES A GAME RESTART.";
+        ExperimentalAsyncOnDemandModelLoading = new MCH_ConfigPrm("ExperimentalAsyncOnDemandModelLoading", false);
+        ExperimentalAsyncOnDemandModelLoading.desc = ";Experimental: parse vehicle models + upload their VBOs on demand (when first rendered) on a background thread, instead of parsing/uploading every model at startup. Rendering is skipped for a model until its buffer is ready (no main-thread stall). Models unused for ExperimentalOnDemandModelLifetimeSeconds are deleted to reclaim VRAM and reloaded on demand.";
+        ExperimentalOnDemandModelLifetimeSeconds = new MCH_ConfigPrm("ExperimentalOnDemandModelLifetimeSeconds", 720);
+        ExperimentalOnDemandModelLifetimeSeconds.desc = ";Seconds an on-demand model stays resident after it was last rendered before its VBO is deleted; -1 disables eviction (load once, keep). Only used when ExperimentalAsyncOnDemandModelLoading = true.";
+        ExperimentalOnDemandModelLoaderThreads = new MCH_ConfigPrm("ExperimentalOnDemandModelLoaderThreads", 0);
+        ExperimentalOnDemandModelLoaderThreads.desc = ";Worker threads for on-demand model parsing. On a JDK with virtual threads (21+) this is ignored and one virtual thread is used per load. On Java 8 it sizes the fallback fixed thread pool; 0 = auto (CPU cores - 1, min 2).";
         DisableCameraDistChange = new MCH_ConfigPrm("DisableThirdPersonCameraDistChange", false);
         EnableReplaceTextureManager = new MCH_ConfigPrm("EnableReplaceTextureManager", true);
         DisplayEntityMarker = new MCH_ConfigPrm("DisplayEntityMarker", true);
@@ -486,6 +495,9 @@ public class MCH_Config {
                 DisplayHUDThirdPerson,
                 AutoScaleAircraftGui,
                 ExperimentalRemoveClientTrackingRestrictions,
+                ExperimentalAsyncOnDemandModelLoading,
+                ExperimentalOnDemandModelLifetimeSeconds,
+                ExperimentalOnDemandModelLoaderThreads,
                 DisableCameraDistChange,
                 EnableReplaceTextureManager,
                 DisplayEntityMarker,

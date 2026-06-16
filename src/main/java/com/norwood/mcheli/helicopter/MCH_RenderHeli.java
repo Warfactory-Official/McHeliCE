@@ -39,9 +39,9 @@ public class MCH_RenderHeli extends MCH_RenderAircraft<MCH_EntityHeli> {
                 GlStateManager.rotate(roll, 0.0F, 0.0F, 1.0F);
                 this.bindTexture("textures/helicopters/" + heli.getTextureName() + ".png", heli);
                 renderBody(heliInfo.model);
-                if (!heliInfo.partCrawlerTrack.isEmpty()
+                if (heliInfo.model instanceof ModelVBO mv && !heliInfo.partCrawlerTrack.isEmpty()
                         && (entity.getCurrentThrottle() == 0 || isTrackLod(entity)))
-                    ((ModelVBO) heliInfo.model).renderTracksBuffer(heliInfo);
+                    mv.renderTracksBuffer(heliInfo);
                 this.drawModelBlade(heli, heliInfo, tickTime);
             }
         }

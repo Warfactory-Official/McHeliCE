@@ -277,6 +277,10 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
 
     @Override
     public void registerModels() {
+        if (MCH_OnDemandModels.isEnabled()) {
+            registerModelsOnDemand();
+            return;
+        }
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         MCH_ModelManager.setForceReloadMode(true);
 
@@ -393,6 +397,66 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         pauseSplash();
         MCH_ModelManager.makeVBO();
         resumeSplash();
+    }
+
+
+    private void registerModelsOnDemand() {
+        MCH_ModelManager.setForceReloadMode(true);
+
+        MCH_RenderAircraft.debugModel = MCH_ModelManager.load("box");
+        MCH_ModelManager.load("a-10");
+        MCH_RenderGLTD.model = MCH_ModelManager.load("gltd");
+        MCH_ModelManager.load("chain");
+        MCH_ModelManager.load("container");
+        MCH_ModelManager.load("parachute1");
+        MCH_ModelManager.load("parachute2");
+        MCH_ModelManager.load("wrench");
+        MCH_ModelManager.load("rangefinder");
+        MCH_ModelManager.load("lweapons", "fim92");
+        MCH_ModelManager.load("lweapons", "fgm148");
+
+        MCH_DefaultBulletModels.Bullet = this.loadBulletModel("bullet");
+        MCH_DefaultBulletModels.AAMissile = this.loadBulletModel("aamissile");
+        MCH_DefaultBulletModels.ATMissile = this.loadBulletModel("asmissile");
+        MCH_DefaultBulletModels.ASMissile = this.loadBulletModel("asmissile");
+        MCH_DefaultBulletModels.Bomb = this.loadBulletModel("bomb");
+        MCH_DefaultBulletModels.Rocket = this.loadBulletModel("rocket");
+        MCH_DefaultBulletModels.Torpedo = this.loadBulletModel("torpedo");
+        registerModels_Bullet();
+
+        for (String s : MCH_RenderUavStation.MODELS) {
+            MCH_ModelManager.load(s);
+        }
+        for (MCH_ThrowableInfo wi : ContentRegistries.throwable().values()) {
+            wi.model = MCH_ModelManager.load("throwable", wi.name);
+        }
+        MCH_ModelManager.load("blocks", "drafting_table");
+
+        MCH_ModelManager.setForceReloadMode(false);
+
+        installLazyVehicleModels();
+
+        pauseSplash();
+        MCH_ModelManager.makeVBO(); // upload only the eager small models loaded above
+        resumeSplash();
+        System.out.println("[MCH-LOADER] On-demand model loading enabled — vehicle models load when first rendered.");
+    }
+
+    /**
+     * Install (or re-install, on reload) a lazy placeholder for every vehicle model. The placeholder's
+     * loader is the existing type-specific register method, run on the on-demand background worker.
+     */
+    public void installLazyVehicleModels() {
+        ContentRegistries.heli().forEachValue(info ->
+                MCH_OnDemandModels.install(info, "helicopters/" + info.name, r -> this.registerModelsHeli(info, r)));
+        ContentRegistries.plane().forEachValue(info ->
+                MCH_OnDemandModels.install(info, "planes/" + info.name, r -> this.registerModelsPlane(info, r)));
+        ContentRegistries.ship().forEachValue(info ->
+                MCH_OnDemandModels.install(info, "ships/" + info.name, r -> this.registerModelsShip(info, r)));
+        ContentRegistries.tank().forEachValue(info ->
+                MCH_OnDemandModels.install(info, "tanks/" + info.name, r -> this.registerModelsTank(info, r)));
+        ContentRegistries.vehicle().forEachValue(info ->
+                MCH_OnDemandModels.install(info, "vehicles/" + info.name, r -> this.registerModelsVehicle(info, r)));
     }
 
     @Override
@@ -628,6 +692,7 @@ public class MCH_ClientProxy extends MCH_CommonProxy {
         MinecraftForge.EVENT_BUS.register(new com.norwood.mcheli.event.MCH_DetachedViewRefresh());
         MinecraftForge.EVENT_BUS.register(new com.norwood.mcheli.weapon.MCH_RenderLaser());
         MinecraftForge.EVENT_BUS.register(new com.norwood.mcheli.weapon.MCH_RenderCCIP());
+        MinecraftForge.EVENT_BUS.register(new MCH_OnDemandModels()); // experimental on-demand model eviction sweep
         super.init();
     }
 

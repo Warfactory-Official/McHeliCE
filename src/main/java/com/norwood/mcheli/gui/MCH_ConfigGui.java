@@ -3,7 +3,9 @@ package com.norwood.mcheli.gui;
 import com.google.common.collect.Sets;
 import com.norwood.mcheli.event.ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_ClientProxy;
 import com.norwood.mcheli.MCH_MOD;
+import com.norwood.mcheli.MCH_OnDemandModels;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.helper.MCH_Logger;
@@ -487,6 +489,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
                             }
                         }
                     }
+                    reloadOnDemandModels();
                     this.mc.player.closeScreen();
                 }
                 case BUTTON_DEV_RELOAD_HUD, BUTTON_DEV_RELOAD_AC -> {
@@ -510,6 +513,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
                         }
                         new PacketContentReload(PacketContentReload.ReloadType.VEHICLE).sendToServer();
                     }
+                    reloadOnDemandModels();
                     this.mc.player.closeScreen();
                 }
                 default -> throw new IllegalStateException("Unexpected value: " + button.id);
@@ -518,6 +522,18 @@ public class MCH_ConfigGui extends W_GuiContainer {
         } catch (Exception var7) {
             var7.printStackTrace();
         }
+    }
+
+    /**
+     * After a dev model/content reload, free all model VBOs and re-arm the on-demand placeholders so
+     * each vehicle re-parses and re-uploads on its next render. No-op unless on-demand loading is on.
+     */
+    private void reloadOnDemandModels() {
+        MCH_OnDemandModels.onReloadAircraft(() -> {
+            if (MCH_MOD.proxy instanceof MCH_ClientProxy cp) {
+                cp.installLazyVehicleModels();
+            }
+        });
     }
 
     public boolean doesGuiPauseGame() {

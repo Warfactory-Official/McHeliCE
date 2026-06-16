@@ -120,7 +120,11 @@ public class AircraftInfoProvider implements IEntityDisplayOverride {
         private void renderAircraft(IEntityStyle style, int x, int y, MCH_EntityAircraft entity) {
             var info = entity.getAcInfo();
             assert entity.getAcInfo() != null;
-            var model = (ModelVBO) entity.getAcInfo().model;
+
+            if (!(info.model instanceof ModelVBO model)) {
+                com.norwood.mcheli.MCH_OnDemandModels.notifyRendered(info);
+                return;
+            }
             var location = getTexturePath(entity);
 
 

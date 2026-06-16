@@ -369,7 +369,9 @@ public class AircraftGui {
 
         var viewport = new Column().name("viewport")
                 .size(110, 100)
-                .child(new WidgetAircraftViewport((ModelVBO) data.getInfo().model, getTexturePath(aircraft), aircraft.getAcInfo())
+                .child(new WidgetAircraftViewport(
+                        data.getInfo().model instanceof ModelVBO mv ? mv : null,
+                        getTexturePath(aircraft), aircraft.getAcInfo())
                         .size(110, showParachuteSlot ? 70 : 90)
                         .background(GuiTextures.SLOT_ITEM)
                 )

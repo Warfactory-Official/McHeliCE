@@ -5,6 +5,7 @@ import com.norwood.mcheli.event.ClientCommonTickHandler;
 import com.norwood.mcheli.MCH_ClientEventHook;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.MCH_OnDemandModels;
 import com.norwood.mcheli.flare.MCH_EntityChaff;
 import com.norwood.mcheli.flare.MCH_EntityFlare;
 import com.norwood.mcheli.gui.MCH_Gui;
@@ -873,6 +874,11 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     public void doRender(T entity, double posX, double posY, double posZ, float par8, float tickTime) {
         MCH_AircraftInfo info = entity.getAcInfo();
         if (info != null) {
+            // On-demand mode: mark this vehicle used (keeps it resident / triggers its async load). The
+            // model renders nothing until its VBO is ready, so this never stalls the frame.
+            if (MCH_OnDemandModels.isEnabled()) {
+                MCH_OnDemandModels.notifyRendered(info);
+            }
             GlStateManager.pushMatrix();
             float yaw = this.calcRot(entity.getYaw(), entity.prevRotationYaw, tickTime);
             float pitch = entity.calcRotPitch(tickTime);

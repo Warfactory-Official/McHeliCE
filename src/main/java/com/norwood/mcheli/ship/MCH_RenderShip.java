@@ -51,9 +51,9 @@ public class MCH_RenderShip extends MCH_RenderAircraft<MCH_EntityShip> {
                 }
 
                 renderBody(planeInfo.model);
-                if (!planeInfo.partCrawlerTrack.isEmpty()
+                if (planeInfo.model instanceof ModelVBO mv && !planeInfo.partCrawlerTrack.isEmpty()
                         && (entity.getCurrentThrottle() == 0 || isTrackLod(entity)))
-                    ((ModelVBO) planeInfo.model).renderTracksBuffer(planeInfo);
+                    mv.renderTracksBuffer(planeInfo);
 
             }
         }

@@ -3,6 +3,7 @@ package com.norwood.mcheli.aircraft;
 import com.cleanroommc.modularui.screen.viewport.ModularGuiContext;
 import com.cleanroommc.modularui.theme.WidgetThemeEntry;
 import com.cleanroommc.modularui.widget.Widget;
+import com.norwood.mcheli.MCH_OnDemandModels;
 import com.norwood.mcheli.wrapper.modelloader.ModelVBO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,6 +24,14 @@ public class WidgetAircraftViewport extends Widget<WidgetAircraftViewport> {
 
     @Override
     public void draw(ModularGuiContext context, WidgetThemeEntry<?> widgetTheme) {
+
+        ModelVBO modelVBO = (this.info != null && this.info.model instanceof ModelVBO mv) ? mv : this.modelVBO;
+        if (modelVBO == null) {
+            if (this.info != null) {
+                MCH_OnDemandModels.notifyRendered(this.info);
+            }
+            return;
+        }
         double safeWidth = Math.max(Math.max(modelVBO.sizeX, modelVBO.sizeZ), 0.001);
         double safeHeight = Math.max(modelVBO.sizeY, 0.001);
 

@@ -316,20 +316,8 @@ public abstract class MCH_HudItem extends Gui {
 
 
     private static double getUAV_Fs(MCH_EntityAircraft ac) {
-        double uav_fs = 0.0;
-        if (ac.isUAV() && ac.getUavStation() != null) {
-            var pos = ac.getUavStation().getPos();
-            double dx = ac.posX - pos.x;
-            double dz = ac.posZ - pos.z;
-            float dist = (float) Math.sqrt(dx * dx + dz * dz);
-            if (dist > 120.0F) {
-                dist = 120.0F;
-            }
 
-            uav_fs = 1.0F - dist / 120.0F;
-        }
-
-        return uav_fs;
+        return ac.getUavSignalStrength();
     }
 
     private static void updateVarMap_Weapon(MCH_WeaponSet ws) {

@@ -22,6 +22,10 @@ public class ModelVBO extends W_ModelCustom implements IModelCustom {
     private static final int FLOAT_SIZE = 4;
     private static final int STRIDE = 9 * FLOAT_SIZE;
     static int VERTEX_SIZE = 3;
+
+    private static final java.util.Set<ModelVBO> LIVE =
+            java.util.Collections.newSetFromMap(new java.util.concurrent.ConcurrentHashMap<>());
+
     List<ModelVBO.VBOBufferData> groups = new ArrayList<>();
 
     private int staticVAO = -1;
@@ -32,6 +36,7 @@ public class ModelVBO extends W_ModelCustom implements IModelCustom {
     private int staticVerts = -1;
     private float[] treadBuffer;
     private int trackVerts;
+    private boolean deleted = false;
 
     public ModelVBO(W_WavefrontObject obj) {
         uploadVBO(obj.groupObjects);
@@ -129,7 +134,7 @@ public class ModelVBO extends W_ModelCustom implements IModelCustom {
             groups.add(data);
         }
 
-
+        LIVE.add(this);
     }
 
     public void uploadStatic(MCH_AircraftInfo info) {
@@ -245,20 +250,55 @@ public class ModelVBO extends W_ModelCustom implements IModelCustom {
     }
 
     public void delete() {
-        var vaoIDBuffer = BufferUtils.createIntBuffer(groups.size());
-        var vboIDBuffer = BufferUtils.createIntBuffer(groups.size());
-        for (VBOBufferData data : groups) {
-            vaoIDBuffer.put(data.vaoHandle);
-            vboIDBuffer.put(data.vboHandle);
+        if (deleted) {
+            return;
         }
-        vaoIDBuffer.flip();
-        vboIDBuffer.flip();
+        deleted = true;
+        LIVE.remove(this);
 
-        VertexArraySupport.glDeleteVertexArrays(vaoIDBuffer);
-        GL15.glDeleteBuffers(vboIDBuffer);
+        if (!groups.isEmpty()) {
+            var vaoIDBuffer = BufferUtils.createIntBuffer(groups.size());
+            var vboIDBuffer = BufferUtils.createIntBuffer(groups.size());
+            for (VBOBufferData data : groups) {
+                vaoIDBuffer.put(data.vaoHandle);
+                vboIDBuffer.put(data.vboHandle);
+            }
+            vaoIDBuffer.flip();
+            vboIDBuffer.flip();
+
+            VertexArraySupport.glDeleteVertexArrays(vaoIDBuffer);
+            GL15.glDeleteBuffers(vboIDBuffer);
+        }
+
+
+        if (staticVAO != -1) {
+            deleteVaoAndVbo(staticVAO, staticVBO);
+            staticVAO = staticVBO = -1;
+        }
+        if (bakedTracksVAO != -1) {
+            deleteVaoAndVbo(bakedTracksVAO, bakedTracksVBO);
+            bakedTracksVAO = bakedTracksVBO = -1;
+        }
+    }
+
+
+    private static void deleteVaoAndVbo(int vao, int vbo) {
+        var vaoBuf = BufferUtils.createIntBuffer(1);
+        vaoBuf.put(vao).flip();
+        VertexArraySupport.glDeleteVertexArrays(vaoBuf);
+        var vboBuf = BufferUtils.createIntBuffer(1);
+        vboBuf.put(vbo).flip();
+        GL15.glDeleteBuffers(vboBuf);
+    }
+
+    public static void deleteAll() {
+        for (ModelVBO m : new java.util.ArrayList<>(LIVE)) {
+            m.delete();
+        }
     }
 
     private void renderVBO(ModelVBO.VBOBufferData data) {
+        if (deleted) return;
         VertexArraySupport.glBindVertexArray(data.vaoHandle);
         GlStateManager.glDrawArrays(GL11.GL_TRIANGLES, 0, data.vertices);
         VertexArraySupport.glBindVertexArray(0);
@@ -288,6 +328,7 @@ public class ModelVBO extends W_ModelCustom implements IModelCustom {
     }
 
     public void renderStatic(MCH_AircraftInfo info) {
+        if (deleted) return;
         if (staticVAO == -1)
             uploadStatic(info);
         VertexArraySupport.glBindVertexArray(this.staticVAO);
@@ -301,6 +342,7 @@ public class ModelVBO extends W_ModelCustom implements IModelCustom {
     }
 
     public void renderTracksBuffer(MCH_AircraftInfo info) {
+        if (deleted) return;
         if (treadBuffer == null || info.partCrawlerTrack.isEmpty()) {
             MCH_Logger.error("Attempted to render tracks for a vehicle that does not have them!");
             return;

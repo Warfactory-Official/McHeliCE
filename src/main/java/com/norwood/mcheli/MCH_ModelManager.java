@@ -82,6 +82,14 @@ public class MCH_ModelManager extends W_ModelBase {
         return load(name, false);
     }
 
+
+    public static void remove(String name) {
+        IModelCustom m = map.remove(name);
+        if (m instanceof ModelVBO mv) {
+            mv.delete();
+        }
+    }
+
     public static void render(String path, String name) {
         render(path + "/" + name);
     }

@@ -6173,6 +6173,29 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
     }
 
+
+    public int getUavControlRange() {
+        MCH_AircraftInfo acInfo = this.getAcInfo();
+        return (acInfo != null && acInfo.uavRange >= 0) ? acInfo.uavRange : WingmanConfig.uavControllerRange;
+    }
+
+    public double getUavSignalStrength() {
+        IUavStation station = this.getUavStation();
+        if (!this.isUAV() || station == null) {
+            return 0.0;
+        }
+        int range = this.getUavControlRange();
+        if (range < 0 || range >= WingmanConfig.UAV_UNLIMITED_THRESHOLD) {
+            return 1.0;
+        }
+        Vec3d pos = station.getPos();
+        double dx = this.posX - pos.x;
+        double dz = this.posZ - pos.z;
+        double dist = Math.sqrt(dx * dx + dz * dz);
+        double fs = 1.0 - dist / range;
+        return Math.max(0.0, Math.min(1.0, fs));
+    }
+
     private void updateServerUavStation() {
         if (this.uavStation == null) {
             return;
@@ -6183,10 +6206,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         // takes priority over the global Wingman controller range. A negative effective range — or
         // any value at/above the unlimited threshold — disables the distance cut-off entirely so a
         // UAV can be flown arbitrarily far from its station.
-        MCH_AircraftInfo acInfo = this.getAcInfo();
-        int cfgRange = (acInfo != null && acInfo.uavRange >= 0)
-                ? acInfo.uavRange
-                : WingmanConfig.uavControllerRange;
+        int cfgRange = this.getUavControlRange();
         if (cfgRange < 0) {
             return;
         }

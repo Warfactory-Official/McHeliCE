@@ -47,7 +47,11 @@ public class WingmanConfig {
         );
         forceChunkload = cfg.getBoolean(
             "forceChunkload", "uav", false,
-            "Force chunk loading around UAVs. Warning: may increase server load."
+            "Force-keep chunks loaded around EVERY aircraft (including dormant, idle vehicles), so they "
+            + "keep simulating far from any player. Off (default): dormant aircraft let their chunks "
+            + "unload normally. UAVs are discovered/loaded on demand regardless of this setting — when a "
+            + "player connects to one or requests its FBO camera feed. Warning: ON can greatly increase "
+            + "server load (one forced 5x5 chunk area per aircraft)."
         );
         formationSideDist = cfg.getFloat(
             "formationSideDist", "formation", 20.0f, 1.0f, 500.0f,

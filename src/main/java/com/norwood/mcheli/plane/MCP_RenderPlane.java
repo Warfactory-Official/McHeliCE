@@ -57,8 +57,9 @@ public class MCP_RenderPlane extends MCH_RenderAircraft<MCH_EntityPlane> {
                 }
 
                 renderBody(planeInfo.model);
-                if (!planeInfo.partCrawlerTrack.isEmpty() && (isNotMoving(plane) || isTrackLod(plane)))
-                    ((ModelVBO) planeInfo.model).renderTracksBuffer(planeInfo);
+                if (planeInfo.model instanceof ModelVBO mv && !planeInfo.partCrawlerTrack.isEmpty()
+                        && (isNotMoving(plane) || isTrackLod(plane)))
+                    mv.renderTracksBuffer(planeInfo);
             }
         }
     }

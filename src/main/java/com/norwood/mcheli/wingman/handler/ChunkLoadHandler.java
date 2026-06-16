@@ -2,6 +2,7 @@ package com.norwood.mcheli.wingman.handler;
 //WINGMAN — file introduced for the McHeli Wingman feature merge
 
 import com.norwood.mcheli.wingman.McHeliWingman;
+import com.norwood.mcheli.wingman.config.WingmanConfig;
 import com.norwood.mcheli.wingman.util.McheliReflect;
 import com.norwood.mcheli.wingman.wingman.WingmanEntry;
 import com.norwood.mcheli.wingman.wingman.WingmanRegistry;
@@ -58,6 +59,7 @@ public class ChunkLoadHandler implements ForgeChunkManager.LoadingCallback {
     public void onWorldTick(TickEvent.WorldTickEvent event) {
         if (event.phase != TickEvent.Phase.START) return; // BEFORE entity movement
         if (event.world.isRemote) return;
+        if (!WingmanConfig.forceChunkload) return;
 
         World world = event.world;
 
