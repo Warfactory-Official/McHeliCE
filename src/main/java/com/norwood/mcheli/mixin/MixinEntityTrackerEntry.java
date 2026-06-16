@@ -19,7 +19,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  *
  * <ul>
  *   <li>{@code isVisibleTo}: replaces the vanilla {@code Math.min(range, maxRange)} radius clamp with
- *       {@link TrackerHook#getRenderDistance(Entity, int, int)}.</li>
+ *       {@link TrackerHook#getRenderDistance(Entity, int, int, EntityPlayerMP)} — the watching player
+ *       is captured from {@code isVisibleTo}'s argument so the extended UAV range is granted only to
+ *       that UAV's own operator/previewer, never to bystanders.</li>
  *   <li>{@code isPlayerWatchingThisChunk}: returns true early for force-watched entities
  *       ({@link TrackerHook#shouldForceWatch(Entity)}), bypassing the chunk-loaded precondition.</li>
  * </ul>
@@ -32,8 +34,8 @@ public class MixinEntityTrackerEntry {
     @Redirect(
             method = "isVisibleTo(Lnet/minecraft/entity/player/EntityPlayerMP;)Z",
             at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(II)I"))
-    private int mcheli$forceTrackRange(int range, int maxRange) {
-        return TrackerHook.getRenderDistance(this.trackedEntity, range, maxRange);
+    private int mcheli$forceTrackRange(int range, int maxRange, EntityPlayerMP playerMP) {
+        return TrackerHook.getRenderDistance(this.trackedEntity, range, maxRange, playerMP);
     }
 
     /**

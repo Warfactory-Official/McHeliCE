@@ -3,6 +3,7 @@ package com.norwood.mcheli.wrapper;
 import com.norwood.mcheli.core.MCHCore;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -13,8 +14,6 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent.Unload;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.List;
 
 public class W_ClientEventHook {
 
@@ -93,42 +92,64 @@ public class W_ClientEventHook {
 
     @SubscribeEvent
     public void onChunkLoad(ChunkEvent.Load event) {
-        if(!MCHCore.isRemoveClientTrackingRestrictions()) return;
+        if (!MCHCore.isRemoveClientTrackingRestrictions()) return;
         World world = event.getWorld();
         if (!world.isRemote) return;
-        //Fix entities on clientside not being interactable if player enters previously unloaded chunk on which a far-rendered vehicle resides
+        // A force-tracked W_Entity can be kept alive in loadedEntityList while its chunk is unloaded
+        // (the client-unload filter, see MixinWorld). When that chunk loads, the entity must be put
+        // into the chunk's entity list or it has no working hitbox / can't be interacted with.
+        //
+        // CRITICAL: only re-home entities whose ACTUAL position falls in THIS chunk. The old code
+        // matched every entity not already tagged for this chunk and shoved them all in here (and
+        // rewrote their chunkCoordX/Z), so a single entity ended up referenced by many chunks' entity
+        // lists at once while chunkCoordX/Z pointed at just one. On destroy, World.removeEntity only
+        // cleans the one chunk it points at, leaving the entity (and its AABB) stuck in all the
+        // others — a ghost hitbox that survives destruction. Homing each entity into exactly its own
+        // chunk (and clearing any stale membership) keeps removeEntity able to fully clean it.
         Chunk chunk = event.getChunk();
-
-        int chunkX = chunk.x;
-        int chunkZ = chunk.z;
-
-        int minX = chunkX << 4;
-        int minZ = chunkZ << 4;
-        int maxX = minX + 15;
-        int maxZ = minZ + 15;
-
-
-        List<W_Entity> entities = world.getEntities(W_Entity.class,  e -> (e != null) && (e.chunkCoordX != chunkX || e.chunkCoordZ != chunkZ));
-
-        for (W_Entity e : entities) {
-                reinsertEntityIntoChunk(chunk, e);
+        for (W_Entity e : world.getEntities(W_Entity.class, e -> belongsToChunk(e, chunk.x, chunk.z))) {
+            homeEntityInChunk(world, chunk, e);
         }
-
     }
 
-    private void reinsertEntityIntoChunk(Chunk chunk, Entity entity) {
-        entity.chunkCoordX = chunk.x;
-        entity.chunkCoordZ = chunk.z;
+    /** True when the entity's real position maps to chunk (chunkX, chunkZ). */
+    private static boolean belongsToChunk(Entity e, int chunkX, int chunkZ) {
+        return e != null && !e.isDead
+                && MathHelper.floor(e.posX / 16.0) == chunkX
+                && MathHelper.floor(e.posZ / 16.0) == chunkZ;
+    }
 
-        int slice = MathHelper.clamp(
-                (int) (entity.posY / 16),
-                0,
-                chunk.getEntityLists().length - 1
-        );
+    /**
+     * Ensure {@code entity} is a member of {@code chunk} (its real chunk) and of no other, using the
+     * vanilla {@link Chunk#addEntity} so {@code addedToChunk} and {@code chunkCoordX/Y/Z} are set
+     * consistently — the exact invariant {@code World.removeEntity} relies on to clean up later.
+     */
+    private static void homeEntityInChunk(World world, Chunk chunk, Entity entity) {
+        // Decide on ACTUAL list membership, not the addedToChunk/chunkCoord flags. A freshly (re)loaded
+        // chunk is a brand-new object with an empty entity list, yet a force-tracked entity kept alive
+        // across the unload still carries stale flags pointing at these very coords. Trusting the flags
+        // would skip the add and leave the entity flagged-as-homed but absent from the list — it renders
+        // from far (hitbox visible) but has no collision and goes uninteractable the moment you approach
+        // and its chunk reloads. So only skip when it is genuinely in this chunk's list already.
+        if (inChunkList(chunk, entity)) {
+            return;
+        }
+        // Drop a stale membership in a different, still-loaded chunk so we never leave a dangling ref.
+        if (entity.addedToChunk
+                && (entity.chunkCoordX != chunk.x || entity.chunkCoordZ != chunk.z)
+                && world.isBlockLoaded(new BlockPos(entity.chunkCoordX << 4, 0, entity.chunkCoordZ << 4))) {
+            world.getChunk(entity.chunkCoordX, entity.chunkCoordZ).removeEntity(entity);
+        }
+        chunk.addEntity(entity); // sets addedToChunk + chunkCoordX/Y/Z and inserts into the right slice
+    }
 
-        var subchunk = chunk.getEntityLists()[slice];
-
-        if (!subchunk.contains(entity))
-            subchunk.add(entity);
+    /** True only if the entity is physically present in one of this chunk's sub-lists (not just flagged). */
+    private static boolean inChunkList(Chunk chunk, Entity entity) {
+        for (var list : chunk.getEntityLists()) {
+            if (list.contains(entity)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -484,12 +484,20 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
     }
 
 
+    private static final double LOD_TRACK_DIST_SQ = 256D * 256D;
+
+    public static boolean isTrackLod(MCH_EntityAircraft aircraft) {
+        Entity view = Minecraft.getMinecraft().getRenderViewEntity();
+        return view != null && aircraft.getDistanceSq(view) > LOD_TRACK_DIST_SQ;
+    }
+
+
     public static void renderCrawlerTrack(MCH_EntityAircraft aircraft, MCH_AircraftInfo info,  float tickTime) {
         if (info.partCrawlerTrack.isEmpty()) return;
 
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.getBuffer();
-        if(isNotMoving(aircraft)) {
+        if(isNotMoving(aircraft) || isTrackLod(aircraft)) {
          return;
         }
         else {

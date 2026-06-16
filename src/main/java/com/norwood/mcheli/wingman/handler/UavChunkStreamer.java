@@ -107,17 +107,15 @@ public class UavChunkStreamer {
         return set != null && set.contains(new ChunkPos(chunkX, chunkZ));
     }
 
-    /** @return true if any player is currently previewing the given UAV (used to force entity tracking). */
-    public static boolean isPreviewed(UUID uavId) {
-        if (uavId == null) {
+    /**
+     * @return true if <b>this specific player</b> is previewing the given UAV.
+     */
+    public static boolean isPreviewedBy(UUID uavId, UUID playerId) {
+        if (uavId == null || playerId == null) {
             return false;
         }
-        for (PreviewReq req : PREVIEW.values()) {
-            if (uavId.equals(req.uavId())) {
-                return true;
-            }
-        }
-        return false;
+        PreviewReq req = PREVIEW.get(playerId);
+        return req != null && uavId.equals(req.uavId());
     }
 
     @SubscribeEvent

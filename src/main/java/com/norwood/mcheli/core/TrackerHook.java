@@ -19,9 +19,9 @@ public class TrackerHook {
      */
     private static final int UAV_FORCE_TRACK_RANGE = 1_000_000;
 
-    public static int getRenderDistance(Entity entity, int range, int maxRange) {
+    public static int getRenderDistance(Entity entity, int range, int maxRange, EntityPlayerMP player) {
         if (entity instanceof W_Entity) {
-            if (entity instanceof MCH_EntityAircraft uav && uav.isUAV() && isUavForceTracked(uav)) {
+            if (entity instanceof MCH_EntityAircraft uav && uav.isUAV() && isUavForceTrackedFor(uav, player)) {
                 return UAV_FORCE_TRACK_RANGE;
             }
             return range;
@@ -48,12 +48,21 @@ public class TrackerHook {
         return UavChunkStreamer.isChunkStreamedTo(player.getUniqueID(), entity.chunkCoordX, entity.chunkCoordZ);
     }
 
-    /** A UAV is force-tracked while it is actively controlled, or previewed in a station screen. */
-    private static boolean isUavForceTracked(MCH_EntityAircraft uav) {
+    /**
+     * @return true if this UAV is force-tracked <b>for the given player specifically</b> — i.e. the
+     * player is the station operator currently flying it, or is previewing it in their own station
+     * screen. Deliberately not a global, the extended range must
+     * apply only to the viewer whose camera is detached onto the UAV (see {@link #getRenderDistance}).
+     */
+    private static boolean isUavForceTrackedFor(MCH_EntityAircraft uav, EntityPlayerMP player) {
+        if (player == null) {
+            return false;
+        }
         IUavStation station = uav.getUavStation();
-        if (station != null && station.getOperator() != null) {
+        Entity operator = station != null ? station.getOperator() : null;
+        if (operator != null && operator.getUniqueID().equals(player.getUniqueID())) {
             return true;
         }
-        return UavChunkStreamer.isPreviewed(uav.getUniqueID());
+        return UavChunkStreamer.isPreviewedBy(uav.getUniqueID(), player.getUniqueID());
     }
 }
