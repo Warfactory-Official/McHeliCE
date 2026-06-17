@@ -170,6 +170,9 @@ public class MCH_Config {
     public static MCH_ConfigPrm EnableDebugBoundingBox;
     public static MCH_ConfigPrm DespawnCount;
     public static MCH_ConfigPrm MaxPairedUavPerStation;
+    public static MCH_ConfigPrm UavTabletControlNormalUav;
+    public static MCH_ConfigPrm ProjectileChunkLoad;
+    public static MCH_ConfigPrm ProjectileChunkLeaseTicks;
     public static MCH_ConfigPrm HitBoxDelayTick;
     public static MCH_ConfigPrm EnableRotationLimit;
     public static MCH_ConfigPrm PitchLimitMax;
@@ -383,6 +386,12 @@ public class MCH_Config {
         DespawnCount = new MCH_ConfigPrm("DespawnCount", 25);
         MaxPairedUavPerStation = new MCH_ConfigPrm("MaxPairedUavPerStation", 5);
         MaxPairedUavPerStation.desc = ";MaxPairedUavPerStation = maximum number of UAVs that can be paired to a single UAV station";
+        UavTabletControlNormalUav = new MCH_ConfigPrm("UavTabletControlNormalUav", false);
+        UavTabletControlNormalUav.desc = ";UavTabletControlNormalUav = true lets the handheld UAV tablet bind and control full-size UAVs; false (default) restricts the tablet to small UAVs only.";
+        ProjectileChunkLoad = new MCH_ConfigPrm("ProjectileChunkLoad", false);
+        ProjectileChunkLoad.desc = ";ProjectileChunkLoad = force-load chunks along the flight path of EVERY projectile so bullets/rockets/missiles keep simulating and can hit targets in terrain no player is loading. false (default) = only weapons whose definition sets CanLoadChunks force chunks. Chunks are leased (see ProjectileChunkLeaseTicks) and shared between projectiles. Can increase server load when many projectiles are in flight.";
+        ProjectileChunkLeaseTicks = new MCH_ConfigPrm("ProjectileChunkLeaseTicks", 40);
+        ProjectileChunkLeaseTicks.desc = ";ProjectileChunkLeaseTicks = extra ticks a chunk stays force-loaded after the last projectile left it, bridging the gap between consecutive shots in a burst so the same chunks are not unloaded and reloaded repeatedly (20 ticks = 1 second).";
         HitBoxDelayTick = new MCH_ConfigPrm("HitBoxDelayTick", 0);
         EnableRotationLimit = new MCH_ConfigPrm("EnableRotationLimit", false);
         PitchLimitMax = new MCH_ConfigPrm("PitchLimitMax", 10);
@@ -505,6 +514,9 @@ public class MCH_Config {
                 BlockMarkerSize,
                 ReplaceRenderViewEntity,
                 MaxPairedUavPerStation,
+                UavTabletControlNormalUav,
+                ProjectileChunkLoad,
+                ProjectileChunkLeaseTicks,
                 null
         };
         DamageVsEntity = new DamageFactor(this, "DamageVsEntity");

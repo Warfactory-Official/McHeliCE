@@ -28,12 +28,12 @@ import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.sound.MCH_SoundEvents;
 import com.norwood.mcheli.tool.MCH_ItemWrench;
+import com.norwood.mcheli.uav.IPairableUav;
 import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
-import com.norwood.mcheli.uav.IPairableUav;
 import com.norwood.mcheli.uav.UAVTracker;
-import com.norwood.mcheli.wingman.config.WingmanConfig; //WINGMAN
 import com.norwood.mcheli.weapon.*;
+import com.norwood.mcheli.wingman.config.WingmanConfig; //WINGMAN
 import com.norwood.mcheli.wrapper.*;
 import io.netty.buffer.ByteBuf;
 import lombok.Getter;
@@ -86,11 +86,13 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-import static com.norwood.mcheli.RadarType.EARLY_AS;
-
 public abstract class MCH_EntityAircraft extends W_EntityContainer implements IGuiHolder<AircraftGuiData>, MCH_IEntityLockChecker, MCH_IEntityCanRideAircraft, IEntityAdditionalSpawnData, IEntitySinglePassenger, ITargetMarkerObject, IFluidHandler, IPairableUav {
 
 
+    public static final int CMN_ID_GUNNER_STATUS = 12;
+    public static final int CMN_ID_RADAR_ENABLED = 13;
+    public static final int CMN_ID_MORTAR_RADAR_ENABLED = 14;
+    public static final int CMN_ID_ECM_JAMMER_ENABLED = 15;
     /* --- Data Parameters (Networking & Sync) --- */
     protected static final DataParameter<Integer> PART_STAT = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DAMAGE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.VARINT);
@@ -106,119 +108,67 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     private static final DataParameter<String> COMMAND = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
     // Reforged ERA: per-tile active-state bitstring synced to clients (replaces the 1.7 DataWatcher id 28).
     private static final DataParameter<String> ERA_STATE = EntityDataManager.createKey(MCH_EntityAircraft.class, DataSerializers.STRING);
-
-    public static final int CMN_ID_GUNNER_STATUS = 12;
-    public static final int CMN_ID_RADAR_ENABLED = 13;
-    public static final int CMN_ID_MORTAR_RADAR_ENABLED = 14;
-    public static final int CMN_ID_ECM_JAMMER_ENABLED = 15;
-    private int commonStatus;
+    private static final MCH_EntitySeat[] seatsDummy = new MCH_EntitySeat[0];
+    private static final int EXTRA_BOUNDING_BOX_CACHE_TICKS = 5;
+    public final MCH_LowPassFilterFloat lowPassPartialTicks;
+    public final MCH_MissileDetector missileDetector;
+    public final MCH_Camera camera;
+    public final HashMap<Entity, Integer> noCollisionEntities = new HashMap<>();
+    public final List<MCH_EntityAircraft.UnmountReserve> listUnmountReserve = new ArrayList<>();
+    protected final MCH_WeaponSet dummyWeapon;
+    protected final MCH_SoundUpdater soundUpdater;
+    private final MCH_Queue<Vec3d> prevPosition;
+    private final MCH_Flare flareDv;
+    private final MCH_APS apsDv;
+    /* --- Radar & Systems --- */
+    private final MCH_Radar entityRadar;
+    private final MCH_EntityHitBox pilotSeat;
+    /* --- Inventory & Logistics --- */
+    private final MCH_AircraftInventory inventory;
     public boolean isRequestedSyncStatus;
-
     /* --- Physics & Movement --- */
     public double currentSpeed;
-    protected double velocityX, velocityY, velocityZ;
-    protected double aircraftX, aircraftY, aircraftZ;
-    protected double aircraftYaw, aircraftPitch;
-    protected int aircraftPosRotInc;
-
     public float rotationRoll;
     public float prevRotationRoll;
     public boolean aircraftRollRev;
     public boolean aircraftRotChanged;
-
-    @Setter @Getter private double currentThrottle;
-    @Getter private double prevCurrentThrottle;
     public float throttleBack = 0.0F;
     public double beforeHoverThrottle;
     public boolean throttleUp, throttleDown, moveLeft, moveRight;
-
     public float[] rotCrawlerTrack = new float[2];
     public float[] prevRotCrawlerTrack = new float[2];
     public float[] throttleCrawlerTrack = new float[2];
     public float[] rotTrackRoller = new float[2];
     public float[] prevRotTrackRoller = new float[2];
-
     public float rotWheel = 0.0F;
     public float prevRotWheel = 0.0F;
     public float rotYawWheel = 0.0F;
     public float prevRotYawWheel = 0.0F;
-
-    private final MCH_Queue<Vec3d> prevPosition;
-    public final MCH_LowPassFilterFloat lowPassPartialTicks;
-
-    /* --- Combat & Weapons --- */
-    @Getter protected MCH_WeaponSet[] weapons;
-    protected int[] currentWeaponID;
-    protected int useWeaponStat;
-    protected final MCH_WeaponSet dummyWeapon;
-    public final MCH_MissileDetector missileDetector;
-    private final MCH_Flare flareDv;
-    private final MCH_APS apsDv;
     public MCH_Chaff chaff;
     public int chaffUseTime = 0;
-    private int currentFlareIndex;
-    private MCH_EntityTvMissile TVmissile;
-
     public int recoilCount = 0;
     public float recoilYaw = 0.0F;
     public float recoilValue = 0.0F;
-
     public int ironCurtainRunningTick = 0;
     public float ironCurtainLastFactor = 0.5f;
     public float ironCurtainCurrentFactor = 0.5f;
     public int ironCurtainWaveTimer = 0;
-
-    /* --- Radar & Systems --- */
-    private final MCH_Radar entityRadar;
-    @Getter private int radarRotate;
-    public final MCH_Camera camera;
-    @Getter private int cameraId;
-    protected final MCH_SoundUpdater soundUpdater;
     public int brightness = 240;
-
-    /* --- Seats & Riders --- */
-    private MCH_EntitySeat[] seats;
-    private MCH_SeatInfo[] seatsInfo;
-    private static final MCH_EntitySeat[] seatsDummy = new MCH_EntitySeat[0];
-    private final MCH_EntityHitBox pilotSeat;
-    protected Entity lastRiddenByEntity;
-    protected Entity lastRidingEntity;
     public int waitMountEntity = 0;
     public boolean keepOnRideRotation;
-    private boolean switchSeat = false;
-    private int seatSearchCount;
-
-    @Getter public float lastRiderYaw, prevLastRiderYaw;
-    @Getter public float lastRiderPitch, prevLastRiderPitch;
-
-    protected boolean isGunnerMode = false;
-    protected boolean isGunnerModeOtherSeat = false;
-    protected boolean isGunnerFreeLookMode = false;
-
-    /* --- Aiming & Interaction --- */
-    @Getter private boolean detachedWeaponAimActive;
-    @Getter private float detachedWeaponAimYaw, prevDetachedWeaponAimYaw;
-    @Getter private float detachedWeaponAimPitch, prevDetachedWeaponAimPitch;
-    private boolean packetWeaponUserAimActive;
-    @Nullable
-    private Entity packetWeaponUserAimUser;
-    private float packetWeaponUserYaw, packetWeaponUserPitch;
-
-    /* --- Damage & State --- */
-    @Getter protected int hitStatus;
+    @Getter
+    public float lastRiderYaw, prevLastRiderYaw;
+    @Getter
+    public float lastRiderPitch, prevLastRiderPitch;
     public int repairCount;
     public int beforeDamageTaken;
     public int timeSinceHit;
     public int serverNoMoveCount = 0;
     public Entity lastAttackedEntity = null;
-
     public float rotDestroyedYaw, rotDestroyedPitch, rotDestroyedRoll;
     public int damageSinceDestroyed;
     public boolean isFirstDamageSmoke = true;
     public Vec3d[] prevDamageSmokePos = new Vec3d[0];
-
-    /* --- Parts & Animations --- */
-    private Entity[] partEntities;
     public MCH_Parts partHatch;
     public MCH_Parts partCanopy;
     public MCH_Parts partLandingGear;
@@ -228,10 +178,77 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     public float lastSearchLightYaw, lastSearchLightPitch;
     public float rotLightHatch = 0.0F;
     public float prevRotLightHatch = 0.0F;
-
     /* --- Collision & Bounds --- */
     public MCH_BoundingBox[] extraBoundingBox;
-    private static final int EXTRA_BOUNDING_BOX_CACHE_TICKS = 5;
+    @Nullable
+    public String lastBBName;
+    public float lastBBDamageFactor;
+    /**
+     * Reforged ERA: the bounding box hit by the most recent damage/raytrace (may be a reactive-armor tile).
+     */
+    @Nullable
+    public MCH_BoundingBox lastBBHit;
+    public float ropesLength = 0.0F;
+    /* --- Landing & UI --- */
+    public double prevLandInDistance = -1.0;
+    public Vec3d impactPos = null;
+    public Vec3d prevImpactPos = null;
+    public float thirdPersonDist = 4.0F;
+    public boolean cs_dismountAll;
+    public boolean cs_heliAutoThrottleDown;
+    public boolean cs_planeAutoThrottleDown;
+    public boolean cs_tankAutoThrottleDown;
+    public boolean canRideRackStatus;
+    public int ecmJammerRunningTick = 0;
+    public int ecmJammerWaitTick = 0;
+    public int jammingTick = 0;
+    protected double velocityX, velocityY, velocityZ;
+    protected double aircraftX, aircraftY, aircraftZ;
+    protected double aircraftYaw, aircraftPitch;
+    protected int aircraftPosRotInc;
+    /* --- Combat & Weapons --- */
+    @Getter
+    protected MCH_WeaponSet[] weapons;
+    protected int[] currentWeaponID;
+    protected int useWeaponStat;
+    protected Entity lastRiddenByEntity;
+    protected Entity lastRidingEntity;
+    protected boolean isGunnerMode = false;
+    protected boolean isGunnerModeOtherSeat = false;
+    protected boolean isGunnerFreeLookMode = false;
+    /* --- Damage & State --- */
+    @Getter
+    protected int hitStatus;
+    private int commonStatus;
+    @Setter
+    @Getter
+    private double currentThrottle;
+    @Getter
+    private double prevCurrentThrottle;
+    private int currentFlareIndex;
+    private MCH_EntityTvMissile TVmissile;
+    @Getter
+    private int radarRotate;
+    @Getter
+    private int cameraId;
+    /* --- Seats & Riders --- */
+    private MCH_EntitySeat[] seats;
+    private MCH_SeatInfo[] seatsInfo;
+    private boolean switchSeat = false;
+    private int seatSearchCount;
+    /* --- Aiming & Interaction --- */
+    @Getter
+    private boolean detachedWeaponAimActive;
+    @Getter
+    private float detachedWeaponAimYaw, prevDetachedWeaponAimYaw;
+    @Getter
+    private float detachedWeaponAimPitch, prevDetachedWeaponAimPitch;
+    private boolean packetWeaponUserAimActive;
+    @Nullable
+    private Entity packetWeaponUserAimUser;
+    private float packetWeaponUserYaw, packetWeaponUserPitch;
+    /* --- Parts & Animations --- */
+    private Entity[] partEntities;
     private AxisAlignedBB[] cachedExtraCollisionBoxes;
     private AxisAlignedBB cachedExtraCollisionSweepBox;
     private int extraBoundingBoxStationaryTicks;
@@ -242,55 +259,48 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     private float lastExtraBoundingBoxYaw;
     private float lastExtraBoundingBoxPitch;
     private float lastExtraBoundingBoxRoll;
-    @Nullable public String lastBBName;
-    public float lastBBDamageFactor;
-    /** Reforged ERA: the bounding box hit by the most recent damage/raytrace (may be a reactive-armor tile). */
-    @Nullable public MCH_BoundingBox lastBBHit;
-    /** Reforged ERA: last-synced active-state bitstring, to avoid redundant DataParameter writes. */
+    /**
+     * Reforged ERA: last-synced active-state bitstring, to avoid redundant DataParameter writes.
+     */
     private String eraStateForSync = "";
-    public final HashMap<Entity, Integer> noCollisionEntities = new HashMap<>();
-
     /* --- Specialized Equipment (UAV, Towed, Parachute) --- */
     private IUavStation uavStation;
-    /** Entity UUID of the station this UAV is paired to (one station per UAV), or null if unpaired. */
+    /**
+     * Entity UUID of the station this UAV is paired to (one station per UAV), or null if unpaired.
+     */
     private UUID pairedStationId = null;
-    @Setter private MCH_EntityChain towChainEntity;
-    @Setter private MCH_EntityChain towedChainEntity;
-    public float ropesLength = 0.0F;
+    @Setter
+    private MCH_EntityChain towChainEntity;
+    @Setter
+    private MCH_EntityChain towedChainEntity;
     private int tickRepelling;
     private int lastUsedRopeIndex;
     private boolean isParachuting;
-    @Getter private boolean isHoveringMode = false;
-
-    /* --- Inventory & Logistics --- */
-    private final MCH_AircraftInventory inventory;
+    @Getter
+    private boolean isHoveringMode = false;
     private double fuelConsumption;
     private int fuelSuppliedCount;
     private int supplyAmmoWait;
     private boolean beforeSupplyAmmo;
-    public final List<MCH_EntityAircraft.UnmountReserve> listUnmountReserve = new ArrayList<>();
-
-    /* --- Landing & UI --- */
-    public double prevLandInDistance = -1.0;
     private double lastLandInDistance = -1.0;
     private double lastCalcLandInDistanceCount;
-    public Vec3d impactPos = null;
-    public Vec3d prevImpactPos = null;
-    public float thirdPersonDist = 4.0F;
-
     /* --- Metadata & Lifecycle --- */
     private MCH_AircraftInfo acInfo;
-    @Setter @Getter private String commonUniqueId;
-    @Setter @Getter private int modeSwitchCooldown;
-    @Setter @Getter private int despawnCount;
-    @Getter private int countOnUpdate;
-
-    public boolean cs_dismountAll;
-    public boolean cs_heliAutoThrottleDown;
-    public boolean cs_planeAutoThrottleDown;
-    public boolean cs_tankAutoThrottleDown;
-    public boolean canRideRackStatus;
+    @Setter
+    @Getter
+    private String commonUniqueId;
+    @Setter
+    @Getter
+    private int modeSwitchCooldown;
+    @Setter
+    @Getter
+    private int despawnCount;
+    @Getter
+    private int countOnUpdate;
     private boolean dismountedUserCtrl;
+    // Reforged CCIP: cached predicted impact point of the current weapon, recomputed once per tick.
+    private int lastCalcPredictedImpactPointCount = -1;
+    private Vec3d lastPredictedImpactPoint = null;
 
     public MCH_EntityAircraft(World world) {
         super(world);
@@ -455,7 +465,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     }
 
-
     public static List<AxisAlignedBB> getCollisionBoxes(@Nullable Entity entityIn, AxisAlignedBB aabb) {
         List<AxisAlignedBB> list = new ArrayList<>();
         getCollisionBoxes(entityIn, aabb, list);
@@ -486,6 +495,30 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     public static double abs(double value) {
         return value >= 0.0 ? value : -value;
+    }
+
+    private static boolean hasIndependentMountedAim(MCH_AircraftInfo.Weapon weapon) {
+        return weapon.turret ||
+                Math.abs(weapon.minYaw) > 0.001F ||
+                Math.abs(weapon.maxYaw) > 0.001F ||
+                Math.abs(weapon.minPitch) > 0.001F ||
+                Math.abs(weapon.maxPitch) > 0.001F;
+    }
+
+    private static float stepWrappedAngle(float current, float target, float maxStep) {
+        return MathHelper.wrapDegrees(current + MathHelper.clamp(MathHelper.wrapDegrees(target - current), -maxStep, maxStep));
+    }
+
+    private static float stepLinearAngle(float current, float target, float maxStep) {
+        return current + MathHelper.clamp(target - current, -maxStep, maxStep);
+    }
+
+    private static boolean hasWeaponYawControl(MCH_AircraftInfo.Weapon weapon) {
+        return weapon.turret || Math.abs(weapon.minYaw) > 0.001F || Math.abs(weapon.maxYaw) > 0.001F;
+    }
+
+    private static boolean hasExplicitWeaponPitchLimit(MCH_AircraftInfo.Weapon weapon) {
+        return Math.abs(weapon.minPitch) > 0.001F || Math.abs(weapon.maxPitch) > 0.001F;
     }
 
     @Override
@@ -677,6 +710,17 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return this.isUAV() ? this.uavStation : null;
     }
 
+    public void setUavStation(IUavStation uavSt) {
+        this.uavStation = uavSt;
+        if (!this.world.isRemote) {
+            if (uavSt instanceof Entity stationEntity) {
+                this.dataManager.set(UAV_STATION, W_Entity.getEntityId(stationEntity));
+            } else {
+                this.dataManager.set(UAV_STATION, 0);
+            }
+        }
+    }
+
     @Override
     @Nullable
     public UUID getPairedStation() {
@@ -686,17 +730,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     @Override
     public void setPairedStation(@Nullable UUID stationId) {
         this.pairedStationId = stationId;
-    }
-
-    public void setUavStation(MCH_EntityUavStation uavSt) {
-        this.uavStation = uavSt;
-        if (!this.world.isRemote) {
-            if (uavSt != null) {
-                this.dataManager.set(UAV_STATION, W_Entity.getEntityId(uavSt));
-            } else {
-                this.dataManager.set(UAV_STATION, 0);
-            }
-        }
     }
 
     public boolean isCreative(@Nullable Entity entity) {
@@ -1525,7 +1558,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
     }
 
-
     public boolean canSwitchSearchLight(Entity entity) {
         return this.haveSearchLight() && this.getSeatIdByEntity(entity) <= 1;
     }
@@ -1545,10 +1577,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     public void setRadarEnabledRuntime(boolean enabled) {
         this.setRadarEnabledRuntime(enabled, false);
     }
-
-    public int ecmJammerRunningTick = 0;
-    public int ecmJammerWaitTick = 0;
-    public int jammingTick = 0;
 
     public void setRadarEnabledRuntime(boolean enabled, boolean writeClient) {
         this.setCommonStatus(CMN_ID_RADAR_ENABLED, enabled, writeClient);
@@ -1635,7 +1663,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
         return 0.0F;
     }
-
 
     public abstract void onUpdateAircraft();
 
@@ -2228,7 +2255,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
     }
 
-
     public void updatePartCrawlerTrack() {
         if (!world.isRemote) return;
 
@@ -2323,7 +2349,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             throttleCrawlerTrack[i] = t * 0.75F;
         }
     }
-
 
     public void checkServerNoMove() {
         if (!this.world.isRemote) {
@@ -2538,7 +2563,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             dropEntityParachute(entity);
         }
     }
-
 
     public boolean canParachute(Entity entity) {
         if (this.getAcInfo() == null || !this.getAcInfo().isEnableParachuting || this.getSeatIdByEntity(entity) <= 1 || MCH_Lib.getBlockIdY(this, 3, -13) != 0) {
@@ -2767,7 +2791,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
         return depth;
     }
-
 
     public boolean canSupply() {
         return this.canFloatWater() ? MCH_Lib.getBlockIdY(this, 1, -3) != 0 : MCH_Lib.getBlockIdY(this, 1, -3) != 0 && !this.isInWater();
@@ -3973,10 +3996,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         if (weaponSet == null || weaponSet.getCurrentWeapon() == null) {
             return this.getWeaponUserYaw(entity);
         }
-        var yaw  = this.getYaw();
+        var yaw = this.getYaw();
         var wsYaw = weaponSet.getYaw();
         var wsFixedYaw = weaponSet.getCurrentWeapon().fixRotationYaw;
-        return MathHelper.wrapDegrees( yaw + wsYaw  + wsFixedYaw);
+        return MathHelper.wrapDegrees(yaw + wsYaw + wsFixedYaw);
     }
 
     public float getCurrentWeaponShotYaw(@Nullable Entity entity, float partialTicks) {
@@ -4010,10 +4033,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         float wsFixedPitch = weaponSet.getCurrentWeapon().fixRotationPitch;
         return MathHelper.wrapDegrees(pitch + wsPitch + wsFixedPitch);
     }
-
-    // Reforged CCIP: cached predicted impact point of the current weapon, recomputed once per tick.
-    private int lastCalcPredictedImpactPointCount = -1;
-    private Vec3d lastPredictedImpactPoint = null;
 
     /**
      * Predicted world-space impact point of the seat-operator's current weapon, used by the CCIP
@@ -4109,14 +4128,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                 -roll);
     }
 
-    private static boolean hasIndependentMountedAim(MCH_AircraftInfo.Weapon weapon) {
-        return weapon.turret ||
-                Math.abs(weapon.minYaw) > 0.001F ||
-                Math.abs(weapon.maxYaw) > 0.001F ||
-                Math.abs(weapon.minPitch) > 0.001F ||
-                Math.abs(weapon.maxPitch) > 0.001F;
-    }
-
     private float getWeaponRotationSpeed(@Nullable MCH_WeaponSet weaponSet) {
         if (this.getAcInfo() == null) {
             return 0.0F;
@@ -4130,14 +4141,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     private float getWeaponRotationStep(@Nullable MCH_WeaponSet weaponSet) {
         return this.getWeaponRotationSpeed(weaponSet) / 20.0F;
-    }
-
-    private static float stepWrappedAngle(float current, float target, float maxStep) {
-        return MathHelper.wrapDegrees(current + MathHelper.clamp(MathHelper.wrapDegrees(target - current), -maxStep, maxStep));
-    }
-
-    private static float stepLinearAngle(float current, float target, float maxStep) {
-        return current + MathHelper.clamp(target - current, -maxStep, maxStep);
     }
 
     @SideOnly(Side.CLIENT)
@@ -4192,7 +4195,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     public Vec3d getTransformedPosition(Vec3d v, Vec3d pos) {
         return this.getTransformedPosition(v.x, v.y, v.z, pos.x, pos.y, pos.z);
     }
-
 
     public Vec3d getTransformedPosition(double x, double y, double z, double px, double py, double pz) {
         Vec3d v = MCH_Lib.RotVec3(x, y, z, -this.getYaw(), -this.getPitch(), -this.getRoll());
@@ -4656,7 +4658,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return anyUnmounted;
     }
 
-
     // returns local position in seat(rack) configs
     protected Vec3d getUnmountPos(MCH_SeatInfo seatInfo) {
         if (this.getAcInfo() == null || seatInfo == null) return Vec3d.ZERO;
@@ -5016,7 +5017,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return true;
     }
 
-
     public boolean isMountedEntity(@Nullable Entity entity) {
         return entity != null && this.isMountedEntity(W_Entity.getEntityId(entity));
     }
@@ -5149,7 +5149,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.closeCanopy();
         this.lastRiddenByEntity = null;
         this.initRadar();
-
 
 
         if (!world.isRemote) {
@@ -5614,7 +5613,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return true;
     }
 
-
     public void switchCurrentWeaponMode(Entity entity) {
         this.getCurrentWeapon(entity).switchMode();
     }
@@ -5896,14 +5894,6 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
     }
 
-    private static boolean hasWeaponYawControl(MCH_AircraftInfo.Weapon weapon) {
-        return weapon.turret || Math.abs(weapon.minYaw) > 0.001F || Math.abs(weapon.maxYaw) > 0.001F;
-    }
-
-    private static boolean hasExplicitWeaponPitchLimit(MCH_AircraftInfo.Weapon weapon) {
-        return Math.abs(weapon.minPitch) > 0.001F || Math.abs(weapon.maxPitch) > 0.001F;
-    }
-
     private float getWeaponMinPitch(MCH_AircraftInfo.Weapon weapon) {
         return weapon.turret && !hasExplicitWeaponPitchLimit(weapon) && this.getAcInfo() != null ?
                 this.getAcInfo().minRotationPitch : weapon.minPitch;
@@ -6056,7 +6046,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     // ===== Reforged: Explosive Reactive Armor (ERA) state =====
 
-    /** Serialize each ERA tile's intact/popped flag to a compact '1'/'0' bitstring (in box order). */
+    /**
+     * Serialize each ERA tile's intact/popped flag to a compact '1'/'0' bitstring (in box order).
+     */
     private String buildERAStateString() {
         StringBuilder sb = new StringBuilder();
         if (this.extraBoundingBox != null) {
@@ -6069,7 +6061,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return sb.toString();
     }
 
-    /** Restore ERA tile flags from a bitstring produced by {@link #buildERAStateString}. */
+    /**
+     * Restore ERA tile flags from a bitstring produced by {@link #buildERAStateString}.
+     */
     private void applyERAStateString(String state) {
         if (state == null || this.extraBoundingBox == null) {
             return;
@@ -6086,7 +6080,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
     }
 
-    /** Server: push the current ERA bitstring to the {@link #ERA_STATE} DataParameter when it changes. */
+    /**
+     * Server: push the current ERA bitstring to the {@link #ERA_STATE} DataParameter when it changes.
+     */
     private void syncERAStateWatcher(boolean force) {
         if (this.world.isRemote) {
             return;
@@ -6098,7 +6094,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
     }
 
-    /** Client: apply the synced ERA bitstring to the local box copies (for collision/render parity). */
+    /**
+     * Client: apply the synced ERA bitstring to the local box copies (for collision/render parity).
+     */
     private void updateERAStateFromWatcher() {
         String watcherState = this.dataManager.get(ERA_STATE);
         if (watcherState == null) {
@@ -6110,7 +6108,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
     }
 
-    /** Reforged: a maintenance activation restores roughly a quarter of the popped ERA tiles. */
+    /**
+     * Reforged: a maintenance activation restores roughly a quarter of the popped ERA tiles.
+     */
     public void recoverERAByMaintenance() {
         if (this.world.isRemote || this.extraBoundingBox == null) {
             return;
@@ -6766,6 +6766,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     public boolean canUseChaff() {
         return this.getAcInfo() != null && this.getAcInfo().haveChaff() && this.chaff.tick == 0;
     }
+
     public boolean useChaff() {
         return this.getAcInfo() != null && this.getAcInfo().haveChaff() && this.chaff.onUse();
     }
@@ -6866,7 +6867,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public String getNameOnOtherRadar(MCH_EntityAircraft other) {
-        if(other.getAcInfo() == null || this.getAcInfo() == null) return "?";
+        if (other.getAcInfo() == null || this.getAcInfo() == null) return "?";
         return switch (other.getAcInfo().radarType) {
             case MODERN_AA -> getAcInfo().nameOnModernAARadar;
             case EARLY_AA -> getAcInfo().nameOnEarlyAARadar;

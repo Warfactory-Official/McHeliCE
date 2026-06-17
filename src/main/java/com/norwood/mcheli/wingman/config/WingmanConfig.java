@@ -14,6 +14,12 @@ public class WingmanConfig {
     public static int uavMaxDistance = 99999;
     public static boolean forceChunkload = false;
 
+    // --- TV / TA missiles ---
+    /** Stream terrain + entities around a player-controlled TV missile to its operator (UAV-style camera feed). */
+    public static boolean tvMissileChunkLoad = true;
+    /** Maximum distance (blocks) a TV missile may travel from its operator before self-destructing. -1 = unlimited. */
+    public static int tvMissileMaxRange = 500;
+
     /** Search radius (blocks) for re-linking a UAV station to its last controlled aircraft after load. */
     public static double uavSearchRange() {
         if (uavControllerRange < 0) return UAV_UNLIMITED_THRESHOLD;
@@ -52,6 +58,18 @@ public class WingmanConfig {
             + "unload normally. UAVs are discovered/loaded on demand regardless of this setting — when a "
             + "player connects to one or requests its FBO camera feed. Warning: ON can greatly increase "
             + "server load (one forced 5x5 chunk area per aircraft)."
+        );
+
+        tvMissileChunkLoad = cfg.getBoolean(
+            "chunkLoad", "tvmissile", true,
+            "While a player is steering a TV/TA missile, stream the terrain and entities around the missile "
+            + "to that player (the same camera-feed mechanism UAVs use) so the missile camera shows real "
+            + "ground and targets instead of void, even far from the launcher."
+        );
+        tvMissileMaxRange = cfg.getInt(
+            "maxRange", "tvmissile", 500, -1, Integer.MAX_VALUE,
+            "Maximum distance (blocks) a TV missile may travel from its operator before self-destructing. "
+            + "-1 = unlimited."
         );
         formationSideDist = cfg.getFloat(
             "formationSideDist", "formation", 20.0f, 1.0f, 500.0f,

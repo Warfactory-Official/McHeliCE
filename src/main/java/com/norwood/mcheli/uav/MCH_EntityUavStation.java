@@ -90,6 +90,30 @@ public class MCH_EntityUavStation extends W_EntityContainer
     /** UUIDs of the UAVs paired to this station (stable insertion order for the GUI list). */
     private final java.util.Set<UUID> pairedUavs = new java.util.LinkedHashSet<>();
 
+    private boolean handheld = false;
+    private UUID tabletOwnerId = null;
+    private EnumHand tabletHand = EnumHand.MAIN_HAND;
+
+
+    public static MCH_EntityUavStation createHandheld(World world, EntityPlayer player, EnumHand hand,
+                                                      java.util.Collection<UUID> paired, boolean smallOnly) {
+        MCH_EntityUavStation s = new MCH_EntityUavStation(world);
+        s.handheld = true;
+        s.tabletOwnerId = player.getUniqueID();
+        s.tabletHand = hand;
+        s.setPosition(player.posX, player.posY, player.posZ);
+        s.rotationYaw = player.rotationYaw;
+        if (!world.isRemote) {
+            s.setType(smallOnly ? StationType.SMALL : StationType.DEFAULT);
+        }
+        s.pairedUavs.addAll(paired);
+        return s;
+    }
+
+    public boolean isHandheld() {
+        return this.handheld;
+    }
+
     public MCH_EntityUavStation(World world) {
         super(world);
         this.dropContentsWhenDead = false;
@@ -541,11 +565,19 @@ public class MCH_EntityUavStation extends W_EntityContainer
     }
 
     private void onUpdate_Server() {
-        this.motionY -= 0.03;
-        this.move(MoverType.SELF, 0.0, this.motionY, 0.0);
-        this.motionY *= 0.96;
-        this.motionX = 0.0;
-        this.motionZ = 0.0;
+        if (this.handheld) {
+            this.motionX = this.motionY = this.motionZ = 0.0;
+            if (this.getRiddenByEntity() == null && this.ticksExisted > 2) {
+                this.onHandheldDismount();
+                return;
+            }
+        } else {
+            this.motionY -= 0.03;
+            this.move(MoverType.SELF, 0.0, this.motionY, 0.0);
+            this.motionY *= 0.96;
+            this.motionX = 0.0;
+            this.motionZ = 0.0;
+        }
         this.setRotation(this.rotationYaw, this.rotationPitch);
         Entity riddenByEntity = this.getRiddenByEntity();
         if (riddenByEntity != null) {
@@ -565,6 +597,34 @@ public class MCH_EntityUavStation extends W_EntityContainer
         if (this.getLastControlAircraft() == null && this.ticksExisted % 40 == 0) {
             this.searchLastControlAircraft();
         }
+    }
+
+    /** Handheld station abandoned by its operator: persist pairings to the tablet, then despawn. */
+    private void onHandheldDismount() {
+        this.writeTabletBack();
+        this.setControlled(null);
+        this.setDead();
+    }
+
+    /** Copy this transient station's current pairings back into the operator's held tablet item. */
+    private void writeTabletBack() {
+        if (this.world.isRemote || this.tabletOwnerId == null) {
+            return;
+        }
+        EntityPlayer owner = this.world.getPlayerEntityByUUID(this.tabletOwnerId);
+        if (owner == null) {
+            return;
+        }
+        ItemStack held = owner.getHeldItem(this.tabletHand);
+        if (held.getItem() instanceof MCH_ItemUavTablet) {
+            MCH_ItemUavTablet.setPairedUavs(held, this.pairedUavs);
+        }
+    }
+
+    @Override
+    public boolean writeToNBTOptional(@NotNull NBTTagCompound compound) {
+        // Transient tablet stations must never be saved to disk; they exist only while ridden.
+        return !this.handheld && super.writeToNBTOptional(compound);
     }
 
     public void setPositionAndRotationDirect(double par1, double par3, double par5, float par7, float par8, int par9,
@@ -644,9 +704,8 @@ public class MCH_EntityUavStation extends W_EntityContainer
             if (ac.isTargetDrone()) {
                 ac.setFuel(ac.getMaxFuel());
             } else {
-                ac.setUavStation(this);
-                setControlled(ac);
-                W_EntityPlayer.closeScreen(user);
+                this.setLastControlAircraft(ac);
+                this.pairUav(ac.getUniqueID());
             }
             user.rotationYaw = yaw;
             world.spawnEntity(ac);

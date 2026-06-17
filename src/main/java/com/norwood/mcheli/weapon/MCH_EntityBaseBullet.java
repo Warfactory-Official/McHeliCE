@@ -18,11 +18,10 @@ import com.norwood.mcheli.networking.packet.PacketClientSound;
 import com.norwood.mcheli.networking.packet.PacketNotifyHit;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.wingman.handler.ProjectileChunkLoader;
 import com.norwood.mcheli.wrapper.W_Entity;
 import com.norwood.mcheli.wrapper.W_EntityPlayer;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
-import it.unimi.dsi.fastutil.longs.LongArrayList;
-import it.unimi.dsi.fastutil.longs.LongList;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.block.Block;
@@ -47,7 +46,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.NotNull;
@@ -56,7 +54,6 @@ import org.joml.Vector3f;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.LongStream;
 
 import static com.norwood.mcheli.compat.ModCompatManager.MODID_HBM;
 import static com.norwood.mcheli.compat.ModCompatManager.isLoaded;
@@ -67,7 +64,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     private static final DataParameter<String> INFO_NAME = EntityDataManager.createKey(MCH_EntityBaseBullet.class, DataSerializers.STRING);
     private static final DataParameter<String> BULLET_MODEL = EntityDataManager.createKey(MCH_EntityBaseBullet.class, DataSerializers.STRING);
     private static final DataParameter<Byte> BOMBLET_FLAG = EntityDataManager.createKey(MCH_EntityBaseBullet.class, DataSerializers.BYTE);
-    private final LongList loadedChunks = new LongArrayList();
     public Entity shootingEntity;
     public Entity shootingAircraft;
     public int explosionPower;
@@ -98,7 +94,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     private int power;
     private MCH_WeaponInfo weaponInfo;
     private MCH_BulletModel model;
-    private ForgeChunkManager.Ticket chunkLoaderTicket;
     private double airburstTravelled = 0.0D;
     private boolean airburstTriggered = false;
     private boolean aheadTriggered = false;
@@ -147,49 +142,14 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         this.acceleration = acceleration;
     }
 
-    public void init(ForgeChunkManager.Ticket ticket) {
-        if (!world.isRemote) {
-            if (ticket != null) {
-                if (chunkLoaderTicket == null) {
-                    chunkLoaderTicket = ticket;
-                    chunkLoaderTicket.bindEntity(this);
-                    chunkLoaderTicket.getModData();
-                }
-                ForgeChunkManager.forceChunk(chunkLoaderTicket, new ChunkPos(this.chunkCoordX, this.chunkCoordZ));
-            }
-        }
-    }
-
-    public void checkAndLoadChunks() {
-        int currentChunkX = MathHelper.floor(posX) >> 4;
-        int currentChunkZ = MathHelper.floor(posZ) >> 4;
-        loadChunksInBulletPath(currentChunkX, currentChunkZ, motionX, motionZ);
-    }
-
-    public void loadChunksInBulletPath(int cx, int cz, double mx, double mz) {
-        if (world.isRemote || chunkLoaderTicket == null) return;
-
-        loadedChunks.forEach(id -> {
-            var oldPos = new ChunkPos((int) (long) id, (int) (id >> 32));
-            ForgeChunkManager.unforceChunk(chunkLoaderTicket, oldPos);
-        });
-        loadedChunks.clear();
-
-        int nextX = cx + (int) Math.signum(mx);
-        int nextZ = cz + (int) Math.signum(mz);
-
-        LongStream.of(ChunkPos.asLong(cx, cz), ChunkPos.asLong(nextX, cz), ChunkPos.asLong(cx, nextZ), ChunkPos.asLong(nextX, nextZ)).distinct().forEach(id -> {
-            loadedChunks.add(id);
-            var newPos = new ChunkPos((int) id, (int) (id >> 32));
-            ForgeChunkManager.forceChunk(chunkLoaderTicket, newPos);
-        });
-    }
-
-    private void clearChunkLoaders() {
-        for (long id : loadedChunks) {
-            var chunk = new ChunkPos((int) id, (int) (id >> 32));
-            ForgeChunkManager.unforceChunk(chunkLoaderTicket, chunk);
-        }
+    /**
+     * @return true if this projectile should force-load the chunks along its path — either its weapon
+     * definition opts in ({@code CanLoadChunks} -> {@link MCH_WeaponInfo#enableChunkLoader}) or chunk
+     * loading is enabled globally for all projectiles. Off by default for both.
+     */
+    public boolean isChunkLoadingEnabled() {
+        MCH_WeaponInfo info = this.getInfo();
+        return info != null && (info.enableChunkLoader || MCH_Config.ProjectileChunkLoad.prmBool);
     }
 
     public void setLocationAndAngles(double par1, double par3, double par5, float par7, float par8) {
@@ -511,8 +471,11 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             }
         }
 
-        if (this.getInfo() != null && this.getInfo().enableChunkLoader) {
-            this.checkAndLoadChunks();
+        if (!this.world.isRemote && this.isChunkLoadingEnabled()) {
+            ProjectileChunkLoader loader = ProjectileChunkLoader.instance();
+            if (loader != null) {
+                loader.requestPath(this);
+            }
         }
 
         if (this.world.isRemote && this.countOnUpdate == 0) {
@@ -684,7 +647,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                 }
 
                 if (this.getInfo() != null) {
-                    if (this.getInfo().enableChunkLoader) this.clearChunkLoaders();
                     PacketClientSound.sendSoundPacket(ex, ey, ez, this.getInfo().hitSoundRange, this.world, this.getInfo().hitSound != null ? this.getInfo().hitSound.toString() : null, true);
                 }
                 this.setDead();
@@ -734,7 +696,8 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                     && this.targetEntity != null && !this.targetEntity.isDead
                     && W_Entity.isEqual(entity, this.targetEntity);
             if (!isAircraftTarget && !isLockedTarget) continue;
-            if (isAircraftTarget && MCH_WeaponGuidanceSystem.isEntityOnGround(entity, this.getInfo().proximityFuseHeight)) continue;
+            if (isAircraftTarget && MCH_WeaponGuidanceSystem.isEntityOnGround(entity, this.getInfo().proximityFuseHeight))
+                continue;
 
             // Lead the target by its velocity over the (rough) time-to-intercept.
             double currentDistance = Math.sqrt(this.getDistanceSq(entity.posX, entity.posY, entity.posZ));
@@ -773,7 +736,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                 } else if (this.explosionPower < 0) {
                     this.playExplosionSound();
                 }
-                if (this.getInfo().enableChunkLoader) this.clearChunkLoaders();
                 PacketClientSound.sendSoundPacket(ex, ey, ez, this.getInfo().hitSoundRange, this.world, this.getInfo().hitSound != null ? this.getInfo().hitSound.toString() : null, true);
 
                 if (!entity.isDead) {
@@ -1071,7 +1033,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     }
 
 
-
     @SideOnly(Side.CLIENT)
     public void spawnBlockPar(RayTraceResult raytraceResult, BlockPos blockPos) {
 
@@ -1164,9 +1125,6 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
             }
 
             if (getInfo() != null) {
-                if (getInfo().enableChunkLoader) {
-                    clearChunkLoaders();
-                }
                 PacketClientSound.sendSoundPacket(this.posX, this.posY, this.posZ, getInfo().hitSoundRange, this.world, getInfo().hitSound != null ? getInfo().hitSound.toString() : null, true);
             }
 

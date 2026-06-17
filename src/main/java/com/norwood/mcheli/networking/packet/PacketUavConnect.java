@@ -2,6 +2,7 @@ package com.norwood.mcheli.networking.packet;
 
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
+import com.norwood.mcheli.uav.MCH_UavControl;
 import com.norwood.mcheli.uav.UAVTracker;
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import hohserg.elegant.networking.api.ElegantPacket;
@@ -40,22 +41,19 @@ public class PacketUavConnect extends PacketBase implements ClientToServerPacket
         if (player.getDistanceSq(station) > 256.0) {
             return;
         }
+        //TODO: Abstract further
         if (!station.isPaired(uavId)) {
             return;
         }
 
         MCH_EntityAircraft uav = UAVTracker.locateUAV(player.world, uavId);
-        if (uav == null || uav.isDead) {
-            player.sendMessage(new TextComponentString("UAV is out of range or could not be located."));
-            return;
-        }
 
-        // The operator must ride the station for the camera/control link to work.
-        if (player.getRidingEntity() != station) {
-            player.startRiding(station, true);
+        // Establish the link through the public facade — it mounts the operator and wires the
+        // station<->UAV link; tracking and chunk streaming then engage automatically.
+        switch (MCH_UavControl.connect(player, station, uav)) {
+            case DESTROYED -> player.sendMessage(new TextComponentString("UAV is destroyed and cannot be connected to."));
+            case NOT_FOUND -> player.sendMessage(new TextComponentString("UAV is out of range or could not be located."));
+            case OK -> player.closeScreen();
         }
-        uav.setUavStation(station);
-        station.setControlled(uav);
-        player.closeScreen();
     }
 }

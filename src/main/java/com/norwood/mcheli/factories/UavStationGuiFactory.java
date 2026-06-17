@@ -64,14 +64,15 @@ public class UavStationGuiFactory extends AbstractUIFactory<UavStationGuiData> {
                 boolean reachable = withinReach(station, ac.posX, ac.posZ,
                         info != null ? info.uavRange : -1);
                 list.add(new UavStationGuiData.UavEntry(id, true, itemName, name,
-                        (int) ac.posX, (int) ac.posY, (int) ac.posZ, ac.getHP(), ac.getMaxHP(), reachable));
+                        (int) ac.posX, (int) ac.posY, (int) ac.posZ, ac.getHP(), ac.getMaxHP(),
+                        reachable, ac.isDestroyed()));
             } else {
                 ChunkPos cp = UAVTracker.getUAVPos(sw, id);
                 int x = cp != null ? cp.x * 16 + 8 : 0;
                 int z = cp != null ? cp.z * 16 + 8 : 0;
                 boolean reachable = cp != null && withinReach(station, x, z, -1);
                 list.add(new UavStationGuiData.UavEntry(id, false, "", "UAV (offline)",
-                        x, 0, z, 0, 0, reachable));
+                        x, 0, z, 0, 0, reachable, false));
             }
         }
         return list;
@@ -109,6 +110,7 @@ public class UavStationGuiFactory extends AbstractUIFactory<UavStationGuiData> {
             buf.writeInt(e.hp());
             buf.writeInt(e.maxHp());
             buf.writeBoolean(e.reachable());
+            buf.writeBoolean(e.destroyed());
         }
     }
 
@@ -128,7 +130,8 @@ public class UavStationGuiFactory extends AbstractUIFactory<UavStationGuiData> {
             int hp = buf.readInt();
             int maxHp = buf.readInt();
             boolean reachable = buf.readBoolean();
-            entries.add(new UavStationGuiData.UavEntry(id, loaded, itemName, displayName, x, y, z, hp, maxHp, reachable));
+            boolean destroyed = buf.readBoolean();
+            entries.add(new UavStationGuiData.UavEntry(id, loaded, itemName, displayName, x, y, z, hp, maxHp, reachable, destroyed));
         }
         return new UavStationGuiData(player, station, entries);
     }

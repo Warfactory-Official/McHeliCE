@@ -28,6 +28,6 @@ public class UavStationGuiData extends GuiData {
 
     /** One paired-UAV row in the station list. */
     public record UavEntry(UUID id, boolean loaded, String itemName, String displayName,
-                           int x, int y, int z, int hp, int maxHp, boolean reachable) {
+                           int x, int y, int z, int hp, int maxHp, boolean reachable, boolean destroyed) {
     }
 }

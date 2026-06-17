@@ -10,6 +10,7 @@ import com.norwood.mcheli.wingman.command.WingmanCommand;
 import com.norwood.mcheli.wingman.config.WingmanConfig;
 import com.norwood.mcheli.wingman.handler.AutonomousFlightHandler;
 import com.norwood.mcheli.wingman.handler.ChunkLoadHandler;
+import com.norwood.mcheli.wingman.handler.ProjectileChunkLoader;
 import com.norwood.mcheli.wingman.handler.UavChunkStreamer;
 import com.norwood.mcheli.wingman.handler.WingmanTickHandler;
 import com.norwood.mcheli.wingman.mission.MissionPlan;
@@ -71,6 +72,7 @@ public final class McHeliWingman {
         ForgeChunkManager.setForcedChunkLoadingCallback(instance, chunkLoadHandler);
 
         MinecraftForge.EVENT_BUS.register(chunkLoadHandler);
+        MinecraftForge.EVENT_BUS.register(new ProjectileChunkLoader());
         MinecraftForge.EVENT_BUS.register(new UavChunkStreamer());
         MinecraftForge.EVENT_BUS.register(new WingmanTickHandler());
         MinecraftForge.EVENT_BUS.register(new AutonomousFlightHandler());

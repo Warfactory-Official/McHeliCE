@@ -9,6 +9,7 @@ import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.networking.packet.PacketSyncServerSettings;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.MCH_ItemUavPairingDevice;
+import com.norwood.mcheli.uav.MCH_ItemUavTablet;
 import com.norwood.mcheli.uav.UAVTracker;
 import com.norwood.mcheli.weapon.MCH_EntityBaseBullet;
 import com.norwood.mcheli.wrapper.W_Entity;
@@ -349,5 +350,38 @@ public class MCH_EventHook extends W_EventHook {
         uav.setPairedStation(station.getUniqueID());
         MCH_ItemUavPairingDevice.setBoundUav(stack, null);
         player.sendMessage(new TextComponentString("Paired UAV to station."));
+    }
+
+
+    @SubscribeEvent
+    public void onUavTabletInteract(EntityInteract event) {
+        if (event.getHand() != EnumHand.MAIN_HAND) {
+            return;
+        }
+        ItemStack stack = event.getItemStack();
+        if (!(stack.getItem() instanceof MCH_ItemUavTablet)) {
+            return;
+        }
+        if (!(event.getTarget() instanceof MCH_EntityAircraft uav) || !uav.isUAV()) {
+            return;
+        }
+
+        event.setCanceled(true);
+        event.setCancellationResult(EnumActionResult.SUCCESS);
+
+        EntityPlayer player = event.getEntityPlayer();
+        if (event.getWorld().isRemote) {
+            return;
+        }
+        if (uav.isDestroyed()) {
+            player.sendMessage(new TextComponentString("Cannot bind a destroyed UAV."));
+            return;
+        }
+        if (!MCH_ItemUavTablet.allowsNormalUav() && !uav.isSmallUAV()) {
+            player.sendMessage(new TextComponentString("This tablet can only bind small UAVs."));
+            return;
+        }
+        boolean added = MCH_ItemUavTablet.addPairedUav(stack, uav.getUniqueID());
+        player.sendMessage(new TextComponentString(added ? "Bound UAV to tablet." : "UAV is already bound."));
     }
 }

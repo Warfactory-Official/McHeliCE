@@ -1,9 +1,12 @@
 package com.norwood.mcheli.wingman.handler;
 //WINGMAN — file introduced for the McHeli Wingman feature merge
 
+import com.norwood.mcheli.MCH_MOD;
 import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.UAVTracker;
+import com.norwood.mcheli.weapon.MCH_EntityTvMissile;
 import com.norwood.mcheli.wingman.McHeliWingman;
+import com.norwood.mcheli.wingman.config.WingmanConfig;
 import com.norwood.mcheli.wingman.util.McheliReflect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -133,6 +136,10 @@ public class UavChunkStreamer {
         // playerUUID -> the player (in this world) and the union of chunks they want streamed.
         Map<UUID, EntityPlayerMP> players = new HashMap<>();
         Map<UUID, Set<ChunkPos>> desired = new HashMap<>();
+        // playerUUID -> the subset of streamed chunks in which entities may be revealed to the player.
+        // UAV control/preview always reveal entities; TV missiles only when the dev debug flag is set.
+        // Terrain streaming uses `desired`; entity visibility (STREAMED_SNAPSHOT) uses this.
+        Map<UUID, Set<ChunkPos>> entityVisible = new HashMap<>();
         // playerUUID -> (body chunk, UAV chunk) for players ACTIVELY controlling a UAV this tick.
         Map<UUID, Ctl> controllers = new HashMap<>();
 
@@ -147,10 +154,30 @@ public class UavChunkStreamer {
             if (!(rider instanceof EntityPlayerMP player) || player.isDead) continue;
             // Actively controlled: stream the operator's full view radius (already clamped to the
             // server's view distance) so the UAV loads the same area a real player would.
-            addDesired(desired, players, player, entity.posX, entity.posZ, viewRadius, viewRadius);
+            addDesired(desired, entityVisible, true, players, player, entity.posX, entity.posZ, viewRadius, viewRadius);
             controllers.put(player.getUniqueID(), new Ctl(
                     new ChunkPos((int) Math.floor(player.posX / 16.0), (int) Math.floor(player.posZ / 16.0)),
                     new ChunkPos((int) Math.floor(entity.posX / 16.0), (int) Math.floor(entity.posZ / 16.0))));
+        }
+
+        // (1b) TV/TA missiles in use by a player — stream the operator's full view radius around the
+        // missile, exactly like a controlled UAV, so the missile camera renders real terrain instead of
+        // void even far from the launcher. A TV missile self-destructs the moment its shooter disconnects
+        // or dies, so any live missile with a player shooter is, by definition, in active use. (No
+        // body-suppression: the operator stays seated in their aircraft and its view square is left
+        // intact — the missile stream is purely additive.)
+        //
+        // Entities along the trajectory are NOT revealed for players — that is long-range entity ESP, a
+        // developer-only debug aid gated by MCH_MOD.DEBUG_RENDER_TRAJECTORY_ENTITIES. Terrain still
+        // streams regardless; only the entity-visibility contribution is flagged off.
+        if (WingmanConfig.tvMissileChunkLoad) {
+            for (Entity entity : new ArrayList<>(ws.loadedEntityList)) {
+                if (!(entity instanceof MCH_EntityTvMissile tv) || tv.isDead) continue;
+                if (!(tv.shootingEntity instanceof EntityPlayerMP player) || player.isDead) continue;
+                if (player.world != ws) continue;
+                addDesired(desired, entityVisible, MCH_MOD.DEBUG_RENDER_TRAJECTORY_ENTITIES,
+                        players, player, tv.posX, tv.posZ, viewRadius, viewRadius);
+            }
         }
 
         // (2) Previewed UAVs — chunks around the UAV selected in each player's open station screen.
@@ -166,7 +193,7 @@ public class UavChunkStreamer {
             double[] pos = locateUavXZ(ws, req.uavId());
             if (pos == null) continue;
             // Previewed only (nobody controlling): a small patch is enough for the camera-feed viewport.
-            addDesired(desired, players, player, pos[0], pos[1], PREVIEW_STREAM_RADIUS, viewRadius);
+            addDesired(desired, entityVisible, true, players, player, pos[0], pos[1], PREVIEW_STREAM_RADIUS, viewRadius);
         }
 
         // (3) Reconcile per player over the union of their desired chunks.
@@ -224,9 +251,22 @@ public class UavChunkStreamer {
         // remotely — so without this, entities around a moving/just-detached UAV never spawn (or never
         // despawn when control ends). updateVisibility re-runs the (now camera-aware) isVisibleTo for
         // all entities, so they appear inside the streamed region and clear out once it is released.
+        //
+        // The snapshot is the streamed chunks INTERSECTED with the player's entity-visible set: UAV
+        // control/preview chunks (always entity-visible) stay, while TV-missile-only chunks are excluded
+        // unless the dev debug flag opted them in. Terrain (subscribed) is unaffected — only what entities
+        // the player may see is narrowed.
         Map<UUID, Set<ChunkPos>> snapshot = new HashMap<>();
         for (Map.Entry<UUID, Set<ChunkPos>> e : this.subscribed.entrySet()) {
-            snapshot.put(e.getKey(), new HashSet<>(e.getValue()));
+            Set<ChunkPos> ev = entityVisible.get(e.getKey());
+            if (ev == null || ev.isEmpty()) {
+                continue; // terrain still streamed for this player, but no entities revealed
+            }
+            Set<ChunkPos> vis = new HashSet<>(e.getValue());
+            vis.retainAll(ev);
+            if (!vis.isEmpty()) {
+                snapshot.put(e.getKey(), vis);
+            }
         }
         STREAMED_SNAPSHOT = snapshot;
 
@@ -296,7 +336,8 @@ public class UavChunkStreamer {
         }
     }
 
-    private void addDesired(Map<UUID, Set<ChunkPos>> desired, Map<UUID, EntityPlayerMP> players,
+    private void addDesired(Map<UUID, Set<ChunkPos>> desired, Map<UUID, Set<ChunkPos>> entityVisible,
+                            boolean revealEntities, Map<UUID, EntityPlayerMP> players,
                             EntityPlayerMP player, double x, double z, int streamRadius, int viewRadius) {
         players.put(player.getUniqueID(), player);
         int acCX = (int) Math.floor(x / 16.0);
@@ -304,11 +345,16 @@ public class UavChunkStreamer {
         int plCX = (int) Math.floor(player.posX / 16.0);
         int plCZ = (int) Math.floor(player.posZ / 16.0);
         Set<ChunkPos> set = desired.computeIfAbsent(player.getUniqueID(), k -> new HashSet<>());
+        Set<ChunkPos> evSet = revealEntities
+                ? entityVisible.computeIfAbsent(player.getUniqueID(), k -> new HashSet<>()) : null;
         for (int dx = -streamRadius; dx <= streamRadius; dx++) {
             for (int dz = -streamRadius; dz <= streamRadius; dz++) {
                 ChunkPos pos = new ChunkPos(acCX + dx, acCZ + dz);
                 if (!isInViewRange(pos, plCX, plCZ, viewRadius)) {
                     set.add(pos);
+                    if (evSet != null) {
+                        evSet.add(pos);
+                    }
                 }
             }
         }

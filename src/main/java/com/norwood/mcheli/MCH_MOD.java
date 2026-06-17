@@ -50,6 +50,7 @@ import com.norwood.mcheli.uav.IUavStation;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.MCH_ItemUavPairingDevice;
 import com.norwood.mcheli.uav.MCH_ItemUavStation;
+import com.norwood.mcheli.uav.MCH_ItemUavTablet;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.vehicle.MCH_ItemVehicle;
 import com.norwood.mcheli.vehicle.MCH_VehicleInfo;
@@ -85,6 +86,7 @@ import java.util.Map.Entry;
 public class MCH_MOD {
     public static final boolean DEBUG_LD = false;
 
+    public static final boolean DEBUG_RENDER_TRAJECTORY_ENTITIES = false;
     public static final String MOD_ID = Tags.MODID;
     @Deprecated
     public static final String DOMAIN = MOD_ID;
@@ -107,6 +109,7 @@ public class MCH_MOD {
     public static MCH_ItemUavStation[] itemUavStation;
     public static MCH_ItemParachute itemParachute;
     public static MCH_ItemUavPairingDevice itemUavPairingDevice;
+    public static MCH_ItemUavTablet itemUavTablet;
     public static MCH_ItemContainer itemContainer;
     public static MCH_ItemChain itemChain;
     public static MCH_ItemFuel itemFuel;
@@ -351,6 +354,7 @@ public class MCH_MOD {
         this.registerItemContainer();
         this.registerItemUavStation();
         this.registerItemUavPairingDevice();
+        this.registerItemUavTablet();
         this.registerItemInvisible();
         registerItemThrowable();
         registerItemCustom();
@@ -551,6 +555,12 @@ public class MCH_MOD {
         itemUavPairingDevice = item;
         registerItem(item, name, creativeTabs);
         W_LanguageRegistry.addName(item, "UAV Pairing Device");
+    }
+
+    public void registerItemUavTablet() {
+        itemUavTablet = new MCH_ItemUavTablet();
+        registerItem(itemUavTablet, "uav_tablet", creativeTabs);
+        W_LanguageRegistry.addName(itemUavTablet, "UAV Tablet");
     }
 
     public void registerItemContainer() {

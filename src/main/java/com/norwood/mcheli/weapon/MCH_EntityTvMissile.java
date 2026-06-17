@@ -1,10 +1,7 @@
 package com.norwood.mcheli.weapon;
 
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-
+import com.norwood.mcheli.wingman.config.WingmanConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -50,8 +47,8 @@ public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
         }
 
         if (this.shootingEntity != null) {
-            double distSq = this.getDistanceSq(this.shootingEntity);
-            if (distSq > 1440000.0D) {
+            int maxRange = WingmanConfig.tvMissileMaxRange;
+            if (maxRange >= 0 && this.getDistanceSq(this.shootingEntity) > (double) maxRange * maxRange) {
                 this.setDead();
             }
 

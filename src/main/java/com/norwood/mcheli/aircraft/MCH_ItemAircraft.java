@@ -228,13 +228,9 @@ public abstract class MCH_ItemAircraft extends W_Item {
                 return null;
             }
 
-            if (ac.isUAV()) {
+            if (ac.isTargetDrone()) {
                 if (world.isRemote) {
-                    if (ac.isSmallUAV()) {
-                        W_EntityPlayer.addChatMessage(player, "Please use the UAV station OR Portable Controller");
-                    } else {
-                        W_EntityPlayer.addChatMessage(player, "Please use the UAV station");
-                    }
+                    W_EntityPlayer.addChatMessage(player, "Please use the UAV station");
                 }
 
                 ac = null;

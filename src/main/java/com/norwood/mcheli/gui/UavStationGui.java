@@ -22,6 +22,7 @@ import com.norwood.mcheli.factories.UavStationGuiData;
 import com.norwood.mcheli.factories.UavStationGuiData.UavEntry;
 import com.norwood.mcheli.networking.packet.PacketUavConnect;
 import com.norwood.mcheli.networking.packet.PacketUavDrop;
+import com.norwood.mcheli.networking.packet.PacketUavStatus;
 import com.norwood.mcheli.uav.MCH_EntityUavStation;
 import com.norwood.mcheli.uav.WidgetUavCameraFeed;
 import net.minecraft.item.Item;
@@ -40,7 +41,6 @@ public class UavStationGui {
                                        MCH_EntityUavStation station) {
         syncManager.bindPlayerInventory(data.getPlayer());
 
-        // Client-side selection holder (mutated by per-row select buttons).
         final UavEntry[] selected = {data.getEntries().isEmpty() ? null : data.getEntries().get(0)};
 
         var list = new ListWidget<>()
@@ -63,11 +63,18 @@ public class UavStationGui {
                             .widthRel(0.32f).height(8).padding(2, 0));
                     row.child(IKey.str("(%d, %d, %d)", entry.x(), entry.y(), entry.z()).asWidget().padding(2));
                     row.child(IKey.str(entry.loaded() ? entry.hp() + "/" + entry.maxHp() : "?")
-                            .style(TextFormatting.GREEN).asWidget().padding(2));
-                    row.child(IKey.str("●")
-                            .style(entry.reachable() ? TextFormatting.GREEN : TextFormatting.RED)
-                            .asWidget().padding(2)
-                            .tooltip(t -> t.addLine(entry.reachable() ? "In range" : "Out of range / offline")));
+                            .style(entry.destroyed() ? TextFormatting.DARK_RED : TextFormatting.GREEN)
+                            .asWidget().padding(2));
+                    if (entry.destroyed()) {
+                        row.child(IKey.str("✖ DESTROYED")
+                                .style(TextFormatting.DARK_RED).asWidget().padding(2)
+                                .tooltip(t -> t.addLine("Destroyed — cannot connect")));
+                    } else {
+                        row.child(IKey.str("●")
+                                .style(entry.reachable() ? TextFormatting.GREEN : TextFormatting.RED)
+                                .asWidget().padding(2)
+                                .tooltip(t -> t.addLine(entry.reachable() ? "In range" : "Out of range / offline")));
+                    }
                     return row;
                 })
                 .scrollDirection(GuiAxis.Y)
@@ -79,7 +86,7 @@ public class UavStationGui {
 
         var connectBtn = new ButtonWidget<>()
                 .onMouseTapped(_ -> {
-                    if (selected[0] != null) {
+                    if (selected[0] != null && !selected[0].destroyed()) {
                         new PacketUavConnect(station.getEntityId(), selected[0].id()).sendToServer();
                     }
                     return true;
@@ -99,11 +106,19 @@ public class UavStationGui {
                 .background(GuiTextures.MC_BUTTON)
                 .size(54, 18).marginTop(2);
 
+        // Deploy-offset adjust pad (moves where a UAV is spawned/placed relative to the station).
+        var posControls = new Column().coverChildren().marginTop(2)
+                .child(IKey.str("Deploy offset").asWidget().padding(2))
+                .child(axisRow(station, "X", 1, 0, 0))
+                .child(axisRow(station, "Y", 0, 1, 0))
+                .child(axisRow(station, "Z", 0, 0, 1));
+
         var right = new Column().coverChildren()
                 .child(viewport)
                 .child(new Row().coverChildren().marginTop(2)
                         .child(connectBtn)
-                        .child(dropBtn.marginLeft(2)));
+                        .child(dropBtn.marginLeft(2)))
+                .child(posControls);
 
         var body = new Row().coverChildren().padding(2)
                 .child(list)
@@ -126,6 +141,27 @@ public class UavStationGui {
                 .child(inventory);
 
         return new ModularPanel("uav_station").coverChildren().child(root);
+    }
+
+    private static com.cleanroommc.modularui.widgets.layout.Flow axisRow(
+            MCH_EntityUavStation station, String label, int ux, int uy, int uz) {
+        var row = new Row().coverChildren().marginTop(1);
+        row.child(IKey.str(label).asWidget().size(12, 18).alignY(Alignment.Center).padding(2));
+        row.child(new ButtonWidget<>()
+                .onMouseTapped(_ -> { sendOffset(station, -ux, -uy, -uz); return true; })
+                .overlay(IKey.str("−")).background(GuiTextures.MC_BUTTON).size(18, 18));
+        row.child(new ButtonWidget<>()
+                .onMouseTapped(_ -> { sendOffset(station, ux, uy, uz); return true; })
+                .overlay(IKey.str("+")).background(GuiTextures.MC_BUTTON).size(18, 18).marginLeft(2));
+        return row;
+    }
+
+    private static void sendOffset(MCH_EntityUavStation station, int dx, int dy, int dz) {
+        PacketUavStatus pkt = new PacketUavStatus();
+        pkt.posUavX = (byte) Math.clamp(station.offsetX + dx, -127, 127);
+        pkt.posUavY = (byte) Math.clamp(station.offsetY + dy, -127, 127);
+        pkt.posUavZ = (byte) Math.clamp(station.offsetZ + dz, -127, 127);
+        pkt.sendToServer();
     }
 
     private static ItemStack stackFor(String itemName) {

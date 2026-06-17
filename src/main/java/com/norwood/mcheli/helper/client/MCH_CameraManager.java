@@ -103,6 +103,11 @@ public class MCH_CameraManager {
 
     @SubscribeEvent
     static void onFOVModifierEvent(FOVModifier event) {
+        // The UAV camera feed widget always renders at a fixed FOV, independent of the player's FOV
+        if (com.norwood.mcheli.uav.WidgetUavCameraFeed.RENDERING_FEED) {
+            event.setFOV(com.norwood.mcheli.uav.WidgetUavCameraFeed.FEED_FOV);
+            return;
+        }
         if (MCH_ItemRangeFinder.isUsingScope(mc.player)) {
             event.setFOV(event.getFOV() * (1.0F / cameraZoom));
             return;

@@ -35,6 +35,11 @@ import java.util.function.Supplier;
  */
 public class WidgetUavCameraFeed extends Widget<WidgetUavCameraFeed> {
 
+
+    public static final float FEED_FOV = 90.0F;
+
+    public static volatile boolean RENDERING_FEED = false;
+
     /** One shared full-screen FBO — only one station screen is open at a time. */
     private static Framebuffer feedBuffer;
     private static int bufferWidth;
@@ -116,11 +121,13 @@ public class WidgetUavCameraFeed extends Widget<WidgetUavCameraFeed> {
         GlStateManager.matrixMode(GL11.GL_MODELVIEW);
         GlStateManager.pushMatrix();
         try {
+            RENDERING_FEED = true;
             mc.setRenderViewEntity(dummy);
             feedBuffer.framebufferClear();
             feedBuffer.bindFramebuffer(true);
             mc.entityRenderer.renderWorld(partialTicks, 0L);
         } finally {
+            RENDERING_FEED = false;
             mc.getFramebuffer().bindFramebuffer(true);
             mc.setRenderViewEntity(prevView);
             GlStateManager.matrixMode(GL11.GL_PROJECTION);
