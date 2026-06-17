@@ -1231,15 +1231,19 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
                 muke.explode(world, x, y, z, effectOnly);
             }
             case NTM_NUKE -> {
-                HBMUtil.EntityNukeExplosionMK5(this.world, (int) expBlock, x, y, z, effectOnly);
+                HBMUtil.nukeMK5(this.world, (int) expBlock, x, y, z, effectOnly);
             }
             case NTM_CHEMICAL -> {
-                HBMUtil.ExplosionChaos_spawnChlorine(world, x, y, z, getInfo().chemicalContainer);
+                HBMUtil.spawnChlorine(world, x, y, z, getInfo().chemicalContainer);
             }
             case NTM_MIST -> {
                 if (getInfo().mistContainer == null) break;
                 var mist = getInfo().mistContainer;
                 if (!effectOnly) mist.execute(world, x, y, z);
+            }
+            case NTM_FIRE -> {
+                if (getInfo().fireContainer == null) break;
+                getInfo().fireContainer.execute(world, x, y, z, effectOnly);
             }
         }
     }

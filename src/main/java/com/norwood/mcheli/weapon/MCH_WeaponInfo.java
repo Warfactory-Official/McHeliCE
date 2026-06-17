@@ -41,6 +41,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public MistContainer mistContainer = null;
     public MukeContainer mukeContainer = null;
     public NTSettingContainer ntSettingContainer = null;
+    public FireContainer fireContainer = null;
     public String explosionType;
     public String displayName;
     public String type = "";
@@ -494,7 +495,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
         NTM_MINI_NUKE,
         NTM_NUKE,
         NTM_CHEMICAL,
-        NTM_MIST
+        NTM_MIST,
+        NTM_FIRE
     }
 
     // Reforged field - selects which entity each buckshot pellet spawns as

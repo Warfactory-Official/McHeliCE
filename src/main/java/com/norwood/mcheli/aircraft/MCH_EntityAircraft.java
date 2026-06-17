@@ -5413,7 +5413,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                 MCH_WeaponSet ws = this.getCurrentWeapon(entity);
                 ws.onSwitchWeapon(this.world.isRemote, this.isInfinityAmmo(entity));
                 if (!this.world.isRemote) {
-                    new PacketSyncWeapon(getEntityId(this), sid, id, (short) ws.getAmmo(), (short) ws.getRestAllAmmoNum()).sendPacketToAllAround(world, posX, posY, posZ, 150);
+                    new PacketSyncWeapon(getEntityId(this), sid, id, (short) ws.getAmmo(), (short) ws.getRestAllAmmoNum(), (short) ws.cooldown, (short) ws.reloadCooldown).sendPacketToAllAround(world, posX, posY, posZ, 150);
                 }
             }
         }
@@ -5560,7 +5560,28 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             prm.isTurret = this.getAcInfo().getWeaponSetById(sid).weapons.getFirst().turret;
         }
 
-        return currentWs.prepareUse(prm);
+        if (!currentWs.prepareUse(prm)) {
+            return false;
+        }
+
+        // Mirror the server's same-group share loop (see useCurrentWeapon) here in the client's
+        // fire prediction. The server applies the inter-shot delay (and reload) to every weapon
+        // sharing this one's group, but that loop runs server-side only -- so without predicting
+        // it here, group-linked weapons (e.g. paired tank cannons) never get their cooldown set on
+        // the client and their HUD timer reads 0.0. For delay weapons the HUD shows ws.cooldown,
+        // which is identical on both sides (no -20 reload margin), so predicting it keeps those
+        // timers in lockstep; the reload portion still carries the margin and is reconciled by the
+        // reload-sync packet in useCurrentWeapon.
+        String currentGroup = currentWs.getInfo().group;
+        if (currentGroup != null && !currentGroup.isEmpty()) {
+            for (MCH_WeaponSet ws : this.weapons) {
+                if (ws != currentWs && currentGroup.equals(ws.getInfo().group)) {
+                    ws.waitAndReloadByOther(prm.reload);
+                }
+            }
+        }
+
+        return true;
     }
 
     public boolean useCurrentWeapon(MCH_WeaponParam prm) {
@@ -5607,6 +5628,20 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
             if (shift < 32) {
                 this.useWeaponStat |= (1 << shift);
+            }
+
+            if (prm.reload && prm.user instanceof EntityPlayerMP mp) {
+                int sid = this.getSeatIdByEntity(mp);
+                if (this.isValidSeatID(sid)) {
+                    for (int i = 0; i < this.weapons.length; i++) {
+                        MCH_WeaponSet ws = this.weapons[i];
+                        if (ws == currentWs || (hasGroup && currentGroup.equals(ws.getInfo().group))) {
+                            new PacketSyncWeapon(this.getEntityId(), sid, i,
+                                    (short) ws.getAmmo(), (short) ws.getRestAllAmmoNum(),
+                                    (short) ws.cooldown, (short) ws.reloadCooldown).sendToPlayer(mp);
+                        }
+                    }
+                }
             }
         }
 

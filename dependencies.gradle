@@ -42,7 +42,7 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:1.18.42", "io.gitlab.hohserg.elegant.networking:annotation-processor:3.14"
 
     implementation "io.gitlab.hohserg.elegant.networking:elegant-networking-1.12:3.14"
-    implementation ("com.cleanroommc:modularui:3.1.2") transitive false
+    implementation ("com.cleanroommc:modularui:3.1.6") transitive false
 
     testImplementation("org.assertj:assertj-core:3.25.3")
 
@@ -52,10 +52,8 @@ dependencies {
 
     shadowImplementation("com.googlecode.aviator:aviator:5.4.3")
 
-    compileOnly rfg.deobf("curse.maven:hbm-nuclear-tech-mod-community-edition-1312314:7165124")
     compileOnly("org.projectlombok:lombok:1.18.42")
-
-//    runtimeOnly rfg.deobf("curse.maven:hbm-nuclear-tech-mod-community-edition-1312314:7165124")
+    runtimeOnly "com.hbm:ntm-ce:2.5.0.3"
 
     runtimeOnly rfg.deobf("curse.maven:nofog-296468:2604160")
     runtimeOnly rfg.deobf("curse.maven:xaeros-minimap-263420:6777996")

@@ -1,25 +1,19 @@
 package com.norwood.mcheli.compat.hbm;
 
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-@Optional.Interface(iface = "com.hbm.explosion.ExplosionNT", modid = "hbm")
 public class NTSettingContainer {
 
-    public static final Set<String> POSSIBLE_ATTRIB = ImmutableSet.of(
-            "FIRE", "BALEFIRE", "DIGAMMA", "DIGAMMA_CIRCUIT", "LAVA", "LAVA_V", "ERRODE", "ALLMOD", "ALLDROP", "NODROP",
-            "NOPARTICLE", "NOSOUND", "NOHURT");
+    private static final String C_EXPLOSION_NT = "com.hbm.explosion.ExplosionNT";
+    private static final String C_EX_ATTRIB = "com.hbm.explosion.ExplosionNT$ExAttrib";
 
-    public final List<String> attributes = new ArrayList<>() {};
-    List<Object> runtimeAttribs;
-    private int resolution = 16;
+    public final List<String> attributes = new ArrayList<>();
+    private List<Object> runtimeAttribs;
+    private final int resolution;
 
     public NTSettingContainer(List<String> runtimeAttribs, int resolution) {
         if (runtimeAttribs != null)
@@ -27,17 +21,21 @@ public class NTSettingContainer {
         this.resolution = resolution;
     }
 
-    @Optional.Method(modid = "hbm")
     public void loadRuntimeInstances() {
-        runtimeAttribs = attributes.stream().map(com.hbm.explosion.ExplosionNT.ExAttrib::valueOf)
-                .collect(Collectors.toList());
+        runtimeAttribs = HBMReflect.enumList(C_EX_ATTRIB, attributes);
     }
 
-    @Optional.Method(modid = "hbm")
     public void explode(World world, Entity exploder, double x, double y, double z, int strenght) {
-        var explosionNT = new com.hbm.explosion.ExplosionNT(world, exploder, x, y, z, strenght);
-        explosionNT.addAllAttrib((List) runtimeAttribs);
-        explosionNT.overrideResolution(resolution);
-        explosionNT.explode();
+        if (!HBMReflect.available()) return;
+
+        // ExplosionNT(World, Entity, double, double, double, float strength)
+        Object explosionNT = HBMReflect.construct(C_EXPLOSION_NT, world, exploder, x, y, z, (float) strenght);
+        if (explosionNT == null) return;
+
+        if (runtimeAttribs != null && !runtimeAttribs.isEmpty()) {
+            HBMReflect.call(explosionNT, "addAllAttrib", new ArrayList<>(runtimeAttribs));
+        }
+        HBMReflect.call(explosionNT, "overrideResolution", resolution);
+        HBMReflect.call(explosionNT, "explode");
     }
 }

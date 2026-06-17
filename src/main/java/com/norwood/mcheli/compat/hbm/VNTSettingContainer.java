@@ -4,11 +4,8 @@ import com.norwood.mcheli.compat.ModCompatManager;
 import lombok.NoArgsConstructor;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +13,10 @@ import java.util.Map;
 public class VNTSettingContainer {
 
     public static final String HBM_VANILLANT_PACKAGE = "com.hbm.explosion.vanillant.standard";
+    private static final String C_EXPLOSION_VNT = "com.hbm.explosion.vanillant.ExplosionVNT";
+    private static final String C_EXPLOSION_CREATOR = "com.hbm.particle.helper.ExplosionCreator";
+    private static final String C_EXPLOSION_SMALL_CREATOR = "com.hbm.particle.helper.ExplosionSmallCreator";
+    private static final String C_IEXPLOSION_SFX = "com.hbm.explosion.vanillant.interfaces.IExplosionSFX";
     public static Map<String, Class<?>> vanillantClassSet = null; // Simple name : Class
     private final Map<String, Object> rawEntry;
     // ONLY ASSIGNABLE AT RUNTIME
@@ -23,54 +24,14 @@ public class VNTSettingContainer {
     private Object blockProcessor;
     private Object entityProcessor;
     private Object playerProcessor;
+    private Object[] sfx;
+    public String preset;
     public ExplosionEffect explosionEffect = ExplosionEffect.standard();
-    // private Object[] sfx;
 
     public VNTSettingContainer(Map<String, Object> rawEntry) {
         this.rawEntry = rawEntry;
     }
 
-    public static Constructor<?> findMatchingConstructor(Class<?> clazz, List<?> args) throws NoSuchMethodException {
-        Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-        outer:
-        for (Constructor<?> ctor : constructors) {
-            Class<?>[] paramTypes = ctor.getParameterTypes();
-            if (paramTypes.length != args.size()) continue;
-
-            for (int i = 0; i < paramTypes.length; i++) {
-                Class<?> paramType = paramTypes[i];
-                Object arg = args.get(i);
-                if (arg == null) continue; // null can go anywhere
-
-                if (!isAssignable(paramType, arg.getClass())) {
-                    continue outer;
-                }
-            }
-
-            ctor.setAccessible(true);
-            return ctor;
-        }
-
-        throw new NoSuchMethodException("No matching constructor found for " + clazz.getSimpleName());
-    }
-
-    // Fixes possible issues with boxing
-    private static boolean isAssignable(Class<?> targetType, Class<?> valueType) {
-        if (targetType.isPrimitive()) {
-            if (targetType == int.class) return valueType == Integer.class;
-            if (targetType == long.class) return valueType == Long.class;
-            if (targetType == float.class) return valueType == Float.class;
-            if (targetType == double.class) return valueType == Double.class;
-            if (targetType == boolean.class) return valueType == Boolean.class;
-            if (targetType == char.class) return valueType == Character.class;
-            if (targetType == byte.class) return valueType == Byte.class;
-            if (targetType == short.class) return valueType == Short.class;
-            return false;
-        }
-        return targetType.isAssignableFrom(valueType);
-    }
-
-    @Optional.Method(modid = "hbm")
     public void loadRuntimeInstances() {
         if (vanillantClassSet == null || vanillantClassSet.isEmpty())
             vanillantClassSet = ModCompatManager.getClassesInPackage(HBM_VANILLANT_PACKAGE);
@@ -79,23 +40,52 @@ public class VNTSettingContainer {
         blockAllocator = processMap((Map<String, Object>) rawEntry.get("BlockAllocator"));
         entityProcessor = processMap((Map<String, Object>) rawEntry.get("EntityProcessor"));
         playerProcessor = processMap((Map<String, Object>) rawEntry.get("PlayerProcessor"));
-        // sfx = ((List<Map<String, Object>>) rawEntry.get("SFX")).stream().map((x) ->
-        // processMap(x)).collect(Collectors.toList()).toArray();
+
+        Object sfxRaw = rawEntry.get("SFX");
+        if (sfxRaw instanceof List<?> sfxList) {
+            List<Object> built = new ArrayList<>();
+            for (Object e : sfxList) {
+                if (e instanceof Map<?, ?> m) {
+                    Object o = processMap((Map<String, Object>) m);
+                    if (o != null) built.add(o);
+                }
+            }
+            sfx = built.isEmpty() ? null : built.toArray();
+        }
     }
 
-    @Optional.Method(modid = "hbm")
     public void buildExplosion(World world, double x, double y, double z, float size, Entity exploder,
                                boolean effectOnly) {
-        if (!effectOnly) {
-            var vnt = new com.hbm.explosion.vanillant.ExplosionVNT(world, x, y, z, size, exploder);
-            vnt.setBlockAllocator((com.hbm.explosion.vanillant.interfaces.IBlockAllocator) blockAllocator);
-            vnt.setEntityProcessor((com.hbm.explosion.vanillant.interfaces.IEntityProcessor) entityProcessor);
-            vnt.setBlockProcessor((com.hbm.explosion.vanillant.interfaces.IBlockProcessor) blockProcessor);
-            vnt.setPlayerProcessor((com.hbm.explosion.vanillant.interfaces.IPlayerProcessor) playerProcessor);
-            // vnt.setSFX((com.hbm.explosion.vanillant.interfaces.IExplosionSFX[]) sfx);
-            vnt.explode();
+        if (!effectOnly && HBMReflect.available()) {
+            // ExplosionVNT(World, double, double, double, float size, Entity exploder)
+            Object vnt = HBMReflect.construct(C_EXPLOSION_VNT, world, x, y, z, size, exploder);
+            if (vnt != null) {
+                if (preset != null) {
+                    HBMReflect.tryCall(vnt, presetMethod(preset));
+                }
+                // Processor objects are built reflectively from config in processMap(); the
+                // setters accept HBM interface types, which the reflective matcher resolves.
+                if (blockAllocator != null) HBMReflect.call(vnt, "setBlockAllocator", blockAllocator);
+                if (entityProcessor != null) HBMReflect.call(vnt, "setEntityProcessor", entityProcessor);
+                if (blockProcessor != null) HBMReflect.call(vnt, "setBlockProcessor", blockProcessor);
+                if (playerProcessor != null) HBMReflect.call(vnt, "setPlayerProcessor", playerProcessor);
+                if (sfx != null && sfx.length > 0) {
+                    // setSFX(IExplosionSFX...) needs a typed IExplosionSFX[] for the varargs slot.
+                    Object sfxArray = HBMReflect.typedArray(C_IEXPLOSION_SFX, java.util.Arrays.asList(sfx));
+                    if (sfxArray != null) HBMReflect.call(vnt, "setSFX", sfxArray);
+                }
+                HBMReflect.call(vnt, "explode");
+            }
         }
         explosionEffect.execute(world, x, y, z);
+    }
+
+    /** Maps a preset name to the corresponding {@code ExplosionVNT} factory method. */
+    private static String presetMethod(String preset) {
+        return switch (preset.trim().toUpperCase(java.util.Locale.ROOT)) {
+            case "AMAT", "ANTIMATTER" -> "makeAmat";
+            default -> "makeStandard";
+        };
     }
 
     public Object processMap(Map<String, Object> map) {
@@ -111,19 +101,15 @@ public class VNTSettingContainer {
                 return null;
             }
 
-            // Constructor args if present
+            // Constructor args if present. Both paths go through HBMReflect, which matches by
+            // arity + assignability and guards setAccessible (safe under strict modern JVMs).
             Object ctorArgs = map.get("Constructor");
-            try {
-                if (ctorArgs instanceof List<?>argsList) {
-                    Constructor<?> ctor = findMatchingConstructor(clazz, argsList);
-                    instance = ctor.newInstance(argsList.toArray());
-                } else {
-                    instance = clazz.getDeclaredConstructor().newInstance();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+            if (ctorArgs instanceof List<?> argsList) {
+                instance = HBMReflect.constructFrom(clazz, argsList.toArray());
+            } else {
+                instance = HBMReflect.constructFrom(clazz);
             }
+            if (instance == null) return null;
         }
 
         // Process all other keys
@@ -153,23 +139,26 @@ public class VNTSettingContainer {
     private void invokeSetter(Object instance, String key, Object value) {
         if (instance == null || value == null) return;
 
-        Class<?> clazz = instance.getClass();
-        String methodName = Character.toLowerCase(key.charAt(0)) + key.substring(1); // Ideally user provides exact
-                                                                                     // method name, safety if they
-                                                                                     // decide to use the pascal case
+        // Lower-camel from PascalCase config keys; users may also give the exact method name.
+        String methodName = Character.toLowerCase(key.charAt(0)) + key.substring(1);
 
-        try {
-            Method m = clazz.getMethod(methodName, value.getClass());
-            m.invoke(instance, value);
-        } catch (NoSuchMethodException e) {
-            try {
-                Field f = clazz.getDeclaredField(key);
-                f.setAccessible(true);
-                f.set(instance, value);
-            } catch (Exception ignored) {}
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Boolean true selects a no-arg builder toggle (e.g. "NoDrop: true" -> setNoDrop(),
+        // "AllowSelfDamage: true" -> allowSelfDamage()). Boolean false is a no-op.
+        if (value instanceof Boolean flag) {
+            if (!flag) return;
+            if (HBMReflect.tryCall(instance, methodName)) return;
+            String setName = "set" + Character.toUpperCase(key.charAt(0)) + key.substring(1);
+            if (HBMReflect.tryCall(instance, setName)) return;
+            // otherwise fall through and treat it as a boolean-valued setter / field
         }
+
+        // Single-argument builder/setter matched by name + assignability. This is what makes
+        // interface-typed setters work -- e.g. withBlockEffect(IBlockMutator) fed a concrete
+        // BlockMutatorFire, or withDamageMod(ICustomDamageHandler) fed a CustomDamageHandlerAmat.
+        if (HBMReflect.tryCall(instance, methodName, value)) return;
+
+        // Last resort: assign a field of that name (public, then declared up the hierarchy).
+        HBMReflect.setField(instance, key, value);
     }
 
     @NoArgsConstructor
@@ -217,30 +206,18 @@ public class VNTSettingContainer {
             this.soundRange = soundRange;
         }
 
-        @Optional.Method(modid = "hbm")
         public void execute(World world, double x, double y, double z) {
+            if (!HBMReflect.available()) return;
             if (isSmall) {
-                com.hbm.particle.helper.ExplosionSmallCreator.composeEffect(
-                        world,
-                        x, y, z,
-                        cloudCount,
-                        cloudScale,
-                        cloudSpeedMult);
+                HBMReflect.callStatic(C_EXPLOSION_SMALL_CREATOR, "composeEffect",
+                        world, x, y, z,
+                        cloudCount, cloudScale, cloudSpeedMult);
             } else {
-                com.hbm.particle.helper.ExplosionCreator.composeEffect(
-                        world,
-                        x, y, z,
-                        cloudCount,
-                        cloudScale,
-                        cloudSpeedMult,
-                        waveScale,
-                        debrisCount,
-                        debrisSize,
-                        debrisRetry,
-                        debrisVelocity,
-                        debrisHorizontalDeviation,
-                        debrisVerticalOffset,
-                        soundRange);
+                HBMReflect.callStatic(C_EXPLOSION_CREATOR, "composeEffect",
+                        world, x, y, z,
+                        cloudCount, cloudScale, cloudSpeedMult, waveScale,
+                        debrisCount, debrisSize, debrisRetry, debrisVelocity,
+                        debrisHorizontalDeviation, debrisVerticalOffset, soundRange);
             }
         }
 

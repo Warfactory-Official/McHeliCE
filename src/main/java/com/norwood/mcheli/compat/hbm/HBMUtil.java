@@ -1,26 +1,31 @@
 package com.norwood.mcheli.compat.hbm;
 
-import com.hbm.entity.effect.EntityNukeTorex;
-import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
 
-public class HBMUtil {
 
-    @Optional.Method(modid = "hbm")
-    public static void EntityNukeExplosionMK5(World world, int radius, double x, double y, double z,
-                                              boolean effectOnly) {
+public final class HBMUtil {
+
+    private HBMUtil() {}
+
+    private static final String C_NUKE_MK5 = "com.hbm.entity.logic.EntityNukeExplosionMK5";
+    private static final String C_NUKE_TOREX = "com.hbm.entity.effect.EntityNukeTorex";
+    private static final String C_EXPLOSION_CHAOS = "com.hbm.explosion.ExplosionChaos";
+
+    public static void nukeMK5(World world, int radius, double x, double y, double z, boolean effectOnly) {
+        if (!HBMReflect.available()) return;
         if (!effectOnly) {
-            var mk5 = EntityNukeExplosionMK5.statFac(world, radius, x, y, z);
-            world.spawnEntity(mk5);
+            Object mk5 = HBMReflect.callStatic(C_NUKE_MK5, "statFac", world, radius, x, y, z);
+            if (mk5 instanceof Entity e) {
+                world.spawnEntity(e);
+            }
         }
-        EntityNukeTorex.statFac(world, x, y, z, radius);
+        HBMReflect.callStatic(C_NUKE_TOREX, "statFac", world, x, y, z, (float) radius);
     }
 
-    @Optional.Method(modid = "hbm")
-    public static void ExplosionChaos_spawnChlorine(World world, double posX, double posY, double posZ,
-                                                    ChemicalContainer container) {
-        com.hbm.explosion.ExplosionChaos.spawnChlorine(world, posX, posY, posZ, container.count, container.speed,
-                container.type.ordinal());
+    public static void spawnChlorine(World world, double x, double y, double z, ChemicalContainer container) {
+        if (container == null || !HBMReflect.available()) return;
+        HBMReflect.callStatic(C_EXPLOSION_CHAOS, "spawnChlorine",
+                world, x, y, z, container.count, container.speed, container.type.ordinal());
     }
 }

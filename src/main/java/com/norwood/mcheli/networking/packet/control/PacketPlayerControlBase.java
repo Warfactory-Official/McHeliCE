@@ -3,10 +3,13 @@ package com.norwood.mcheli.networking.packet.control;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.networking.data.DataPlayerControlAircraft;
 import com.norwood.mcheli.networking.packet.PacketBase;
+import com.norwood.mcheli.networking.packet.PacketSyncWeapon;
 import com.norwood.mcheli.weapon.MCH_WeaponParam;
+import com.norwood.mcheli.weapon.MCH_WeaponSet;
 import hohserg.elegant.networking.api.ClientToServerPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 import static com.norwood.mcheli.networking.data.DataPlayerControlAircraft.HatchSwitch.UNFOLD;
 
@@ -107,11 +110,24 @@ public abstract class PacketPlayerControlBase extends PacketBase implements Clie
         prm.option1 = data.useWeaponOption1;
         prm.option2 = data.useWeaponOption2;
         aircraft.setPacketWeaponUserAim(player, data.useWeaponUserYaw, data.useWeaponUserPitch);
+        boolean fired;
         try {
             aircraft.updateWeaponsRotation();
-            aircraft.useCurrentWeapon(prm);
+            fired = aircraft.useCurrentWeapon(prm);
         } finally {
             aircraft.clearPacketWeaponUserAim();
+        }
+
+
+        if (!fired && player instanceof EntityPlayerMP mp) {
+            int sid = aircraft.getSeatIdByEntity(player);
+            int wid = aircraft.getCurrentWeaponID(player);
+            if (aircraft.isValidSeatID(sid) && wid >= 0) {
+                MCH_WeaponSet ws = aircraft.getWeapon(wid);
+                new PacketSyncWeapon(aircraft.getEntityId(), sid, wid,
+                        (short) ws.getAmmo(), (short) ws.getRestAllAmmoNum(),
+                        (short) ws.cooldown, (short) ws.reloadCooldown).sendToPlayer(mp);
+            }
         }
     }
 

@@ -11,6 +11,8 @@ import com.norwood.mcheli.lweapon.MCH_ClientLightWeaponTickHandler;
 import com.norwood.mcheli.multiplay.MCH_GuiTargetMarker;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
 import com.norwood.mcheli.tool.rangefinder.MCH_ItemRangeFinder;
+import com.norwood.mcheli.uav.IUavStation;
+import com.norwood.mcheli.uav.WidgetUavCameraFeed;
 import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.wrapper.W_ClientEventHook;
 import com.norwood.mcheli.wrapper.W_Reflection;
@@ -154,9 +156,14 @@ public class MCH_ClientEventHook extends W_ClientEventHook {
     public void onRenderHand(RenderHandEvent event) {
         var mc = Minecraft.getMinecraft();
         if (mc.world == null || mc.player == null) return;
-        if (
-                (mc.player.getRidingEntity() instanceof MCH_EntitySeat ||  mc.player.getRidingEntity() instanceof MCH_EntityAircraft)
-        ) {
+        if (WidgetUavCameraFeed.RENDERING_FEED) {
+            event.setCanceled(true);
+            return;
+        }
+        var riding = mc.player.getRidingEntity();
+        if (riding instanceof MCH_EntitySeat
+                || riding instanceof MCH_EntityAircraft
+                || riding instanceof IUavStation) {
             event.setCanceled(true);
         }
     }

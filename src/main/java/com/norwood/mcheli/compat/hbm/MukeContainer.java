@@ -4,15 +4,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class MukeContainer {
+
+    private static final String C_NUKE_SMALL = "com.hbm.explosion.ExplosionNukeSmall";
+    private static final String C_MUKE_PARAMS = "com.hbm.explosion.ExplosionNukeSmall$MukeParams";
+    private static final String C_EX_ATTRIB = "com.hbm.explosion.ExplosionNT$ExAttrib";
+    private static final String C_EFFECT_NT = "com.hbm.particle.helper.HbmEffectNT";
+    private static final String C_AUX_PACKET = "com.hbm.packet.toclient.AuxParticlePacketNT";
+    private static final String C_PACKET_THREADING = "com.hbm.handler.threading.PacketThreading";
 
     public static MukeContainer PARAMS_SAFE = new MukeContainer() {
 
@@ -27,7 +32,7 @@ public class MukeContainer {
         {
             blastRadius = 10F;
             killRadius = 30F;
-            particle = "tinytot";
+            particle = "TinyTot";
             shrapnelCount = 0;
             resolution = 32;
             radiationLevel = 1;
@@ -62,7 +67,7 @@ public class MukeContainer {
     public float blastRadius;
     public float killRadius;
     public float radiationLevel = 1F;
-    public String particle = "muke";
+    public String particle = "Muke";
     public int shrapnelCount = 25;
     public int resolution = 64;
     public List<String> attributes = Arrays.asList(
@@ -74,45 +79,61 @@ public class MukeContainer {
     @Getter
     private List<Object> runtimeAttribs;
 
-    @Optional.Method(modid = "hbm")
+    /** Resolve attribute names to HBM {@code ExAttrib} enum constants (unknown names are skipped). */
     public void loadRuntimeInstances() {
-        runtimeAttribs = attributes.stream().map(com.hbm.explosion.ExplosionNT.ExAttrib::valueOf)
-                .collect(Collectors.toList());
+        runtimeAttribs = HBMReflect.enumList(C_EX_ATTRIB, attributes);
     }
 
-    @Optional.Method(modid = "hbm")
     public void explode(World world, double posX, double posY, double posZ, boolean effectOnly) {
+        if (!HBMReflect.available()) return;
+
         if (effectOnly) {
-            NBTTagCompound data = new NBTTagCompound();
-            data.setString("type", "muke");
-            com.hbm.handler.threading.PacketThreading.createAllAroundThreadedPacket(
-                    new com.hbm.packet.toclient.AuxParticlePacketNT(data, posX, posY + 0.5, posZ),
-                    new NetworkRegistry.TargetPoint(world.provider.getDimension(), posX, posY, posZ, 250));
+            sendEffectPacket(world, posX, posY, posZ);
             return;
         }
-        Object type = getCustomMukeConfig();
 
-        com.hbm.explosion.ExplosionNukeSmall.explode(world, posX, posY, posZ,
-                (com.hbm.explosion.ExplosionNukeSmall.MukeParams) type);
+        Object params = buildMukeParams();
+        if (params == null) return;
+        // ExplosionNukeSmall.explode(World, double, double, double, MukeParams)
+        HBMReflect.callStatic(C_NUKE_SMALL, "explode", world, posX, posY, posZ, params);
     }
 
-    @Optional.Method(modid = "hbm")
-    public Object getCustomMukeConfig() {
-        var muke = new com.hbm.explosion.ExplosionNukeSmall.MukeParams();
+    private Object buildMukeParams() {
+        Object muke = HBMReflect.construct(C_MUKE_PARAMS);
+        if (muke == null) return null;
 
-        muke.miniNuke = miniNuke;
-        muke.safe = safe;
-        muke.blastRadius = blastRadius;
-        muke.killRadius = killRadius;
-        muke.radiationLevel = radiationLevel;
-        muke.particle = particle;
-        muke.shrapnelCount = shrapnelCount;
-        muke.resolution = resolution;
+        HBMReflect.setField(muke, "miniNuke", miniNuke);
+        HBMReflect.setField(muke, "safe", safe);
+        HBMReflect.setField(muke, "blastRadius", blastRadius);
+        HBMReflect.setField(muke, "killRadius", killRadius);
+        HBMReflect.setField(muke, "radiationLevel", radiationLevel);
+        HBMReflect.setField(muke, "shrapnelCount", shrapnelCount);
+        HBMReflect.setField(muke, "resolution", resolution);
 
+        // particle: HBM field type is the HbmEffectNT enum (was a String in older versions).
+        Object particleEnum = HBMReflect.enumValueIgnoreCase(C_EFFECT_NT, particle);
+        if (particleEnum != null) {
+            HBMReflect.setField(muke, "particle", particleEnum);
+        }
+
+        // explosionAttribs: ExAttrib[]
         if (runtimeAttribs != null && !runtimeAttribs.isEmpty()) {
-            muke.explosionAttribs = runtimeAttribs.toArray(new com.hbm.explosion.ExplosionNT.ExAttrib[0]);
+            Object attribArray = HBMReflect.enumArray(C_EX_ATTRIB, runtimeAttribs);
+            if (attribArray != null) {
+                HBMReflect.setField(muke, "explosionAttribs", attribArray);
+            }
         }
 
         return muke;
+    }
+
+    private void sendEffectPacket(World world, double posX, double posY, double posZ) {
+        NBTTagCompound data = new NBTTagCompound();
+        data.setString("type", "muke");
+        Object packet = HBMReflect.construct(C_AUX_PACKET, data, posX, posY + 0.5, posZ);
+        if (packet == null) return;
+        NetworkRegistry.TargetPoint target =
+                new NetworkRegistry.TargetPoint(world.provider.getDimension(), posX, posY, posZ, 250);
+        HBMReflect.callStatic(C_PACKET_THREADING, "createAllAroundThreadedPacket", packet, target);
     }
 }

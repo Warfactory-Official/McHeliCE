@@ -3,6 +3,7 @@ package com.norwood.mcheli.helper.info.parsers.yaml;
 import com.norwood.mcheli.MCH_Color;
 import com.norwood.mcheli.MCH_DamageFactor;
 import com.norwood.mcheli.MCH_PotionEffect;
+import com.norwood.mcheli.compat.hbm.FireContainer;
 import com.norwood.mcheli.compat.hbm.MistContainer;
 import com.norwood.mcheli.compat.hbm.MukeContainer;
 import com.norwood.mcheli.compat.hbm.NTSettingContainer;
@@ -45,6 +46,7 @@ public class WeaponParser {
             case "NTM_MININUKE", "MININUKE" -> MCH_WeaponInfo.Payload.NTM_MINI_NUKE;
             case "CHEMICAL", "NTM_CHEMICAL" -> MCH_WeaponInfo.Payload.NTM_CHEMICAL;
             case "NTM_MIST", "MIST" -> MCH_WeaponInfo.Payload.NTM_MIST;
+            case "NTM_FIRE", "FIRE", "PHOSPHORUS", "PHOSPHOR", "WP", "BALEFIRE" -> MCH_WeaponInfo.Payload.NTM_FIRE;
             default -> MCH_WeaponInfo.Payload.NONE;
         };
     }
@@ -464,24 +466,33 @@ public class WeaponParser {
                 case "VNT" -> parseVNT(info, (Map<String, Object>) entry.getValue());
 
                 case "NT" -> parseNTExplosion(info, (Map<String, Object>) entry.getValue());
+                case "Fire", "Phosphorus", "Splash" -> parseFire(info, (Map<String, Object>) entry.getValue());
                 default -> logUnkownEntry(entry, "NTM");
             }
         }
     }
 
     private static void parseVNT(MCH_WeaponInfo info, Map<String, Object> map) {
+        Object attribs = map.get("Attributes");
+        Map<String, Object> processorMap = attribs instanceof Map<?, ?> m
+                ? (Map<String, Object>) m : new java.util.HashMap<>();
+        VNTSettingContainer container = new VNTSettingContainer(processorMap);
+        info.vntSettingContainer = container;
+
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             switch (entry.getKey()) {
-                case "Attributes" -> info.vntSettingContainer = new VNTSettingContainer(
-                        (Map<String, Object>) entry.getValue());
+                case "Attributes" -> { /* already consumed into the container above */ }
+                case "Preset" -> {
+                    if (entry.getValue() instanceof String s) container.preset = s;
+                }
                 case "Effect" -> {
                     if (entry.getValue() instanceof String str) {
-                        info.vntSettingContainer.explosionEffect = switch (str.toUpperCase(Locale.ROOT)) {
+                        container.explosionEffect = switch (str.toUpperCase(Locale.ROOT)) {
                             case "LARGE" -> VNTSettingContainer.ExplosionEffect.large();
                             case "STANDARD" -> VNTSettingContainer.ExplosionEffect.standard();
                             case "MEDIUM", "LOW" -> VNTSettingContainer.ExplosionEffect.medium();
                             default -> throw new IllegalArgumentException(
-                                    "Unknown Muke type string: '" + str +
+                                    "Unknown VNT Effect string: '" + str +
                                             "'. Expected one of: LARGE, STANDARD, MEDIUM, LOW.");
                         };
                     } else if (entry.getValue() instanceof Map<?, ?>vntMapRaw) {
@@ -504,15 +515,33 @@ public class WeaponParser {
                                 case "DebrisVerticalOffset" -> effect.debrisVerticalOffset = ((Number) value)
                                         .floatValue();
                                 case "SoundRange" -> effect.soundRange = ((Number) value).floatValue();
-                                default -> logUnkownEntry(entry, "VNTEffect");
+                                default -> logUnkownEntry(vntEntry, "VNTEffect");
                             }
                         }
-                        info.vntSettingContainer.explosionEffect = effect;
+                        container.explosionEffect = effect;
                     }
                 }
+                default -> logUnkownEntry(entry, "VNT");
             }
-
         }
+    }
+
+    private static void parseFire(MCH_WeaponInfo info, Map<String, Object> map) {
+        FireContainer container = new FireContainer();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            switch (entry.getKey()) {
+                case "FireType", "Type" -> container.fireType = ((String) entry.getValue()).trim();
+                case "Count" -> container.count = ((Number) entry.getValue()).intValue();
+                case "Width" -> container.width = ((Number) entry.getValue()).floatValue();
+                case "Height" -> container.height = ((Number) entry.getValue()).floatValue();
+                case "AreaSpread", "Spread" -> container.areaSpread = ((Number) entry.getValue()).intValue();
+                case "Lifetime" -> container.lifetime = ((Number) entry.getValue()).intValue();
+                case "LifetimeVariance" -> container.lifetimeVariance = ((Number) entry.getValue()).intValue();
+                case "Particles" -> container.particles = (Boolean) entry.getValue();
+                default -> logUnkownEntry(entry, "Fire");
+            }
+        }
+        info.fireContainer = container;
     }
 
     private static void parseMist(MCH_WeaponInfo info, Map<String, Object> map) {

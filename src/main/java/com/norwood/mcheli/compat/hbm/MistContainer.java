@@ -1,11 +1,18 @@
 package com.norwood.mcheli.compat.hbm;
 
 import lombok.NoArgsConstructor;
+import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
 
+/**
+ * Config + spawn logic for HBM gas/fluid {@code EntityMist} clouds. Pure config POJO; all HBM
+ * access is reflective via {@link HBMReflect} and no-ops when HBM is absent.
+ */
 @NoArgsConstructor
 public class MistContainer {
+
+    private static final String C_MIST = "com.hbm.entity.effect.EntityMist";
+    private static final String C_FLUIDS = "com.hbm.inventory.fluid.Fluids";
 
     public String fluidType = "None";
     public int cloudCount = 1;
@@ -15,18 +22,24 @@ public class MistContainer {
     public int lifetime = 80;
     public int lifetimeVariance = 0;
 
-    @Optional.Method(modid = "hbm")
     public void execute(World world, double x, double y, double z) {
-        if (fluidType.equals("None")) return;
+        if (fluidType.equals("None") || !HBMReflect.available()) return;
+
+        Object fluid = HBMReflect.callStatic(C_FLUIDS, "fromName", fluidType);
+        if (fluid == null) return; // unknown fluid name or HBM missing
+
         for (int i = 0; i < cloudCount; i++) {
-            com.hbm.entity.effect.EntityMist mist = new com.hbm.entity.effect.EntityMist(world);
-            mist.setType(com.hbm.inventory.fluid.Fluids.fromName(fluidType));
+            Object mistObj = HBMReflect.construct(C_MIST, world);
+            if (!(mistObj instanceof Entity mist)) return;
+
             double xVariance = areaSpread == 0 ? x : x + world.rand.nextInt(areaSpread * 2) - areaSpread;
             double zVariance = areaSpread == 0 ? z : z + world.rand.nextInt(areaSpread * 2) - areaSpread;
             int calculatedLifetime = lifetimeVariance == 0 ? lifetime : lifetime + world.rand.nextInt(lifetimeVariance);
+
+            HBMReflect.call(mist, "setType", fluid);
+            HBMReflect.call(mist, "setArea", width, height);
+            HBMReflect.call(mist, "setDuration", calculatedLifetime);
             mist.setPosition(xVariance, y, zVariance);
-            mist.setArea(width, height);
-            mist.setDuration(calculatedLifetime);
             world.spawnEntity(mist);
         }
     }
