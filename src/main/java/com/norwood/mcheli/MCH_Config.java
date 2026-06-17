@@ -150,6 +150,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm HurtResistantTime;
     public static MCH_ConfigPrm DisplayHUDThirdPerson;
     public static MCH_ConfigPrm AutoScaleAircraftGui;
+    public static MCH_ConfigPrm ExperimentalQuaternionRotation;
     public static MCH_ConfigPrm ExperimentalRemoveClientTrackingRestrictions;
     public static MCH_ConfigPrm ExperimentalAsyncOnDemandModelLoading;
     public static MCH_ConfigPrm ExperimentalOnDemandModelLifetimeSeconds;
@@ -360,6 +361,7 @@ public class MCH_Config {
         DisplayHUDThirdPerson = new MCH_ConfigPrm("DisplayHUDThirdPerson", false);
         AutoScaleAircraftGui = new MCH_ConfigPrm("ExperimentalAutoScaleAircraftGui", false);
         AutoScaleAircraftGui.desc = ";ExperimentalAutoScaleAircraftGui = true maps hardcoded aircraft HUD coordinates from the default 427x240 canvas to the current GUI resolution.";
+        ExperimentalQuaternionRotation = new MCH_ConfigPrm("ExperimentalQuaternionRotation", false);
         ExperimentalRemoveClientTrackingRestrictions = new MCH_ConfigPrm("ExperimentalRemoveClientTrackingRestrictions", false);
         ExperimentalRemoveClientTrackingRestrictions.desc = ";Experimental: remove client tracking restrictions - keeps MCHeli entities (e.g. UAVs) tracked, loaded and rendered far beyond the normal view distance by enabling the long-distance ASM patches. Read at startup by the coremod; CHANGING THIS REQUIRES A GAME RESTART.";
         ExperimentalAsyncOnDemandModelLoading = new MCH_ConfigPrm("ExperimentalAsyncOnDemandModelLoading", false);
@@ -503,6 +505,7 @@ public class MCH_Config {
                 DisableRenderLivingSpecials,
                 DisplayHUDThirdPerson,
                 AutoScaleAircraftGui,
+                ExperimentalQuaternionRotation,
                 ExperimentalRemoveClientTrackingRestrictions,
                 ExperimentalAsyncOnDemandModelLoading,
                 ExperimentalOnDemandModelLifetimeSeconds,

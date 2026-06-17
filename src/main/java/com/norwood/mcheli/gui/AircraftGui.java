@@ -8,7 +8,6 @@ import com.cleanroommc.modularui.drawable.UITexture;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.RichTooltip;
 import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.value.sync.FloatSyncValue;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
@@ -17,9 +16,8 @@ import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.ListWidget;
 import com.cleanroommc.modularui.widgets.ScrollingTextWidget;
 import com.cleanroommc.modularui.widgets.SlotGroupWidget;
-import com.cleanroommc.modularui.widgets.layout.Column;
+import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.layout.Grid;
-import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.norwood.mcheli.Tags;
@@ -192,7 +190,7 @@ public class AircraftGui {
                 .filter(entry -> entry.set().getMagSize() > 0)
                 .toList();
 
-        var slotRow = new Row()
+        var slotRow = Flow.row()
                 .size(SLOT_SIZE * 2 + 20, SLOT_SIZE)
                 .margin(5)
                 .child(new ItemSlot()
@@ -214,7 +212,7 @@ public class AircraftGui {
                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_FUEL_OUT)
                                 .filter(_ -> false)
 
-                        ).alignX(Alignment.CenterRight));
+                        ).leftRel(1f).anchorLeft(1f));
 
         Consumer<RichTooltip> fuelTooltip = tooltop -> {
             tooltop
@@ -258,7 +256,7 @@ public class AircraftGui {
                 .asWidget()
                 .padding(6, 2)
                 .width(SLOT_SIZE * 2 + 20)
-                .alignX(Alignment.Center)
+                .leftRel(0.5f).anchorLeft(0.5f)
                 .tooltip(fuelTooltip)
                 .color(() -> {
                     var fuelPercent = aircraft.getFuelPercentage();
@@ -268,23 +266,26 @@ public class AircraftGui {
                 })
                 .background(GuiTextures.MENU_BACKGROUND.withColorOverride(0xFF000000));
 
-        var grid = new Column().name("trunk")
+        int trunkSlotCount = containerGuiHandler.getSlots();
+        List<ItemSlot> trunkSlots = IntStream.range(0, trunkSlotCount)
+                .mapToObj(slot -> new ItemSlot()
+                        .slot(new ModularSlot(containerGuiHandler, slot))
+                        .size(SLOT_SIZE))
+                .toList();
+
+        var grid = Flow.column().name("trunk")
                 .margin(1)
                 .padding(1)
-                .child(IKey.str("Storage (%d)", containerGuiHandler.getSlots()).asWidget().alignX(Alignment.BottomLeft))
+                .child(IKey.str("Storage (%d)", trunkSlotCount).asWidget().leftRel(0f).anchorLeft(0f))
                 .child(new Grid()
                         .margin(1)
-                        .mapTo(7, containerGuiHandler.getSlots(), (slot) ->
-                                new ItemSlot()
-                                        .slot(new ModularSlot(containerGuiHandler, slot))
-                                        .size(SLOT_SIZE)
-                        )
+                        .gridOf(7, trunkSlots)
                         .size(18 * 7 + 5, 18 * 5)
                         .scrollable(new VerticalScrollData())
-                ).coverChildren().margin(1).setEnabledIf(_ -> data.getInfo().inventorySize > 0);
+                ).coverChildren().margin(1).setEnabledIf(_ -> trunkSlotCount > 0);
 
 
-        var fuelSlots = new Column()
+        var fuelSlots = Flow.column()
                 .child(gauge)
                 .child(fuelMb)
                 .child(slotRow)
@@ -301,7 +302,7 @@ public class AircraftGui {
                 .overlay(GuiTextures.GEAR)
                 .size(18);
 
-        var inventory = new Row().invisible().child(
+        var inventory = Flow.row().invisible().child(
                         new ParentWidget<>().name("inventory_wrapper")
                                 .child(
                                         SlotGroupWidget.playerInventory(false)
@@ -319,7 +320,7 @@ public class AircraftGui {
                         entry -> {
                             MCH_WeaponSet ws = entry.set();
                             int weaponId = entry.id();
-                            var row = new Row();
+                            var row = Flow.row();
                             if (name2WSIcon.computeIfAbsent(ws.getDisplayName(), AircraftGui::determineIcon) != null)
                                 row.child(name2WSIcon.get(ws.getDisplayName()).asWidget());
 
@@ -332,7 +333,7 @@ public class AircraftGui {
                                     .child(IKey.dynamic(() -> String.format("%d/%d", ws.getAmmo(), ws.getMagSize())).asWidget().padding(4).tooltip(t->t.addLine("Current Magazine")))
                                     .child(IKey.dynamic(() -> String.format("(%d)", ws.getAmmoReserve())).asWidget().padding(4).tooltip(t->t.addLine("Reserve ammo")))
                                     .child(new ListWidget<>().children(
-                                            ws.getInfo().roundItems, round -> new Row()
+                                            ws.getInfo().roundItems, round -> Flow.row()
                                                     .child(IKey.str("%dx", round.num).asWidget())
                                                     .child(new IngredientDrawable(round.itemStack).asWidget().size(12).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName())))
                                                     .coverChildrenWidth().padding(4).tooltip(tooltip -> tooltip.addLine(round.itemStack.getDisplayName()))
@@ -367,7 +368,7 @@ public class AircraftGui {
                 .setEnabledIf(_ -> !weaponEntries.isEmpty());
 
 
-        var viewport = new Column().name("viewport")
+        var viewport = Flow.column().name("viewport")
                 .size(110, 100)
                 .child(new WidgetAircraftViewport(
                         data.getInfo().model instanceof ModelVBO mv ? mv : null,
@@ -375,7 +376,7 @@ public class AircraftGui {
                         .size(110, showParachuteSlot ? 70 : 90)
                         .background(GuiTextures.SLOT_ITEM)
                 )
-                .child(new Row()
+                .child(Flow.row()
                         .child(IKey.dynamic(() -> String.format("%.0f m/s", aircraft.getCurrentSpeed()))
                                 .style(TextFormatting.WHITE).asWidget()
                                 .margin(2)
@@ -389,7 +390,7 @@ public class AircraftGui {
                         .background(GuiTextures.SLOT_ITEM.withColorOverride(0xFF000000))
                 )
                 .child(
-                        new Row()
+                        Flow.row()
                                 .child(new ItemSlot()
                                         .slot(new ModularSlot(aircraftGuiInv, MCH_AircraftInventory.SLOT_PARACHUTE0)
                                                 .filter(parachutePredicate))
@@ -405,9 +406,9 @@ public class AircraftGui {
                 )
                 .background(GuiTextures.MENU_BACKGROUND);
 
-        var gui = new Column().name("gui_column")
+        var gui = Flow.column().name("gui_column")
                 .height(getHeightGui(weaponEntries))
-                .child(new Row().name("first_row")
+                .child(Flow.row().name("first_row")
                         .child(fuelSlots)
                         .child(viewport)
                         .child(grid)
@@ -430,7 +431,7 @@ public class AircraftGui {
                 .size(C_WIDTH, C_HEIGHT)
                 .invisible()
                 .child(
-                        new Column()
+                        Flow.column()
                                 .bottom(0)
                                 .child(IKey.lang(aircraft.getTranslationKey()).asWidget().padding(4, 2).background(GuiTextures.MC_BACKGROUND))
                                 .child(vehicleGui)

@@ -130,6 +130,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     public double currentSpeed;
     public float rotationRoll;
     public float prevRotationRoll;
+    // Persistent attitude quaternion, source of truth in MCH_AircraftInfo.quaternionRotation mode
+    // (gimbal-resistant). Null until first use; rebuilt from Euler via resyncOrientationFromEuler().
+    public org.joml.Quaternionf orientation;
     public boolean aircraftRollRev;
     public boolean aircraftRotChanged;
     public float throttleBack = 0.0F;
@@ -1482,43 +1485,51 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
 
 
-        // Attitude integrated as a shadowed-JOML quaternion instead of the native MCH_Math
-        // matrix->Euler round-trip. Order matches MatTurnZ/X/Y (standard right-handed,
-        // post-multiply): orientation = Rz(roll)*Rx(pitch)*Ry(yaw), control delta applied
-        // first then the current orientation. eulerFromOrientationQuat is a faithful port of
-        // MCH_Math.QuatToEuler, so this is behaviour-identical (incl. the +/-90 gimbal fallback).
-        org.joml.Quaternionf q = new org.joml.Quaternionf()
-                .rotateZ(roll * ((float) Math.PI / 180.0F))
-                .rotateX(pitch * ((float) Math.PI / 180.0F))
-                .rotateY(yaw * ((float) Math.PI / 180.0F))
-                .rotateZ(this.getRoll() * ((float) Math.PI / 180.0F))
-                .rotateX(this.getPitch() * ((float) Math.PI / 180.0F))
-                .rotateY(this.getYaw() * ((float) Math.PI / 180.0F));
-        float[] ypr = MCH_Lib.eulerFromOrientationQuat(q); // {pitch, yaw, roll}
-        MCH_Math.FVector3D v = MCH_Math.newVec3D(ypr[0], ypr[1], ypr[2]);
+        if (this.getAcInfo() != null && MCH_Config.ExperimentalQuaternionRotation.prmBool) {
+            // Persistent-quaternion attitude (gimbal-resistant; allows vertical/inverted flight).
+            // Off by default (per-vehicle YAML "QuaternionRotation"). Server-authoritative; the
+            // derived Euler still renders/syncs, so the only artefact is a 1-frame Euler ambiguity
+            // at EXACTLY +/-90 until quaternion sync/render lands. No hard Euler pitch clamp here.
+            this.applyQuatAngles(yaw, pitch, roll, deltaSeconds);
+        } else {
+            // Attitude integrated as a shadowed-JOML quaternion instead of the native MCH_Math
+            // matrix->Euler round-trip. Order matches MatTurnZ/X/Y (standard right-handed,
+            // post-multiply): orientation = Rz(roll)*Rx(pitch)*Ry(yaw), control delta applied
+            // first then the current orientation. eulerFromOrientationQuat is a faithful port of
+            // MCH_Math.QuatToEuler, so this is behaviour-identical (incl. the +/-90 gimbal fallback).
+            org.joml.Quaternionf q = new org.joml.Quaternionf()
+                    .rotateZ(roll * ((float) Math.PI / 180.0F))
+                    .rotateX(pitch * ((float) Math.PI / 180.0F))
+                    .rotateY(yaw * ((float) Math.PI / 180.0F))
+                    .rotateZ(this.getRoll() * ((float) Math.PI / 180.0F))
+                    .rotateX(this.getPitch() * ((float) Math.PI / 180.0F))
+                    .rotateY(this.getYaw() * ((float) Math.PI / 180.0F));
+            float[] ypr = MCH_Lib.eulerFromOrientationQuat(q); // {pitch, yaw, roll}
+            MCH_Math.FVector3D v = MCH_Math.newVec3D(ypr[0], ypr[1], ypr[2]);
 
-        //LIMITS
-        assert this.getAcInfo() != null;
-        if (this.getAcInfo().limitRotation) {
-            v.x = MCH_Lib.RNG(v.x, this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch);
-            v.z = MCH_Lib.RNG(v.z, this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll);
-        }
+            //LIMITS
+            assert this.getAcInfo() != null;
+            if (this.getAcInfo().limitRotation) {
+                v.x = MCH_Lib.RNG(v.x, this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch);
+                v.z = MCH_Lib.RNG(v.z, this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll);
+            }
 
-        if (v.z > 180.0F) v.z -= 360.0F;
-        if (v.z < -180.0F) v.z += 360.0F;
+            if (v.z > 180.0F) v.z -= 360.0F;
+            if (v.z < -180.0F) v.z += 360.0F;
 
-        this.setRotYaw(v.y);
-        this.setRotPitch(v.x);
-        this.setRotRoll(v.z);
+            this.setRotYaw(v.y);
+            this.setRotPitch(v.x);
+            this.setRotRoll(v.z);
 
-        this.onUpdateAngles(deltaSeconds);
+            this.onUpdateAngles(deltaSeconds);
 
-        //POST LIM CLAMP
-        assert this.getAcInfo() != null;
-        if (this.getAcInfo().limitRotation) {
-            this.setRotPitch(MCH_Lib.RNG(this.getPitch(), this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch));
+            //POST LIM CLAMP
+            assert this.getAcInfo() != null;
+            if (this.getAcInfo().limitRotation) {
+                this.setRotPitch(MCH_Lib.RNG(this.getPitch(), this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch));
 
-            this.setRotRoll(MCH_Lib.RNG(this.getRoll(), this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll));
+                this.setRotRoll(MCH_Lib.RNG(this.getRoll(), this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll));
+            }
         }
 
         //CHECKS
@@ -1559,6 +1570,62 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         if ((this.getRidingEntity() == null && prevYaw != this.getYaw()) || prevPitch != this.getPitch() || prevRoll != this.getRoll()) {
             this.aircraftRotChanged = true;
         }
+    }
+
+    /**
+     * Persistent-quaternion attitude integration (MCH_AircraftInfo.quaternionRotation). Integrates
+     * the control delta into a continuous JOML quaternion so the aircraft can pass through/over
+     * vertical without an Euler clamp; per-type onUpdateAngles auto-levelling still runs in Euler
+     * and is folded back into the quaternion as a small delta. Euler is derived for all legacy
+     * readers/sync. Server-authoritative for now: client render/OBB/sync still consume Euler, so
+     * a 1-frame yaw/roll ambiguity remains at EXACTLY +/-90 until quaternion sync/render is added.
+     */
+    private void applyQuatAngles(float yaw, float pitch, float roll, float deltaSeconds) {
+        if (this.orientation == null) {
+            this.orientation = MCH_Lib.orientationQuatZXY(this.getYaw(), this.getPitch(), this.getRoll());
+        }
+        // Control delta applied in world frame (delta * current), matching the legacy accumulation.
+        org.joml.Quaternionf delta = new org.joml.Quaternionf()
+                .rotateZ(roll * ((float) Math.PI / 180.0F))
+                .rotateX(pitch * ((float) Math.PI / 180.0F))
+                .rotateY(yaw * ((float) Math.PI / 180.0F));
+        this.orientation = delta.mul(this.orientation, new org.joml.Quaternionf());
+        this.orientation.normalize();
+
+        float[] e = MCH_Lib.eulerFromOrientationQuat(this.orientation); // {pitch, yaw, roll}
+        this.setRotPitch(e[0]);
+        this.setRotYaw(e[1]);
+        this.setRotRoll(e[2]);
+
+        // Per-type auto-levelling/limits still run in Euler; fold their (small) change back into the
+        // quaternion so it stays the source of truth (no Euler re-derive that would gimbal).
+        float pBefore = this.getPitch();
+        float yBefore = this.getYaw();
+        float rBefore = this.getRoll();
+        this.onUpdateAngles(deltaSeconds);
+        float dP = MathHelper.wrapDegrees(this.getPitch() - pBefore);
+        float dY = MathHelper.wrapDegrees(this.getYaw() - yBefore);
+        float dR = MathHelper.wrapDegrees(this.getRoll() - rBefore);
+        if (dP != 0.0F || dY != 0.0F || dR != 0.0F) {
+            org.joml.Quaternionf corr = new org.joml.Quaternionf()
+                    .rotateZ(dR * ((float) Math.PI / 180.0F))
+                    .rotateX(dP * ((float) Math.PI / 180.0F))
+                    .rotateY(dY * ((float) Math.PI / 180.0F));
+            this.orientation = corr.mul(this.orientation, new org.joml.Quaternionf());
+            this.orientation.normalize();
+            float[] e2 = MCH_Lib.eulerFromOrientationQuat(this.orientation);
+            this.setRotPitch(e2[0]);
+            this.setRotYaw(e2[1]);
+            this.setRotRoll(e2[2]);
+        }
+    }
+
+    /**
+     * Rebuild the persistent attitude quaternion from the current Euler angles. Call after any
+     * external rotation override (teleport, network correction) so quaternionRotation mode resyncs.
+     */
+    public void resyncOrientationFromEuler() {
+        this.orientation = MCH_Lib.orientationQuatZXY(this.getYaw(), this.getPitch(), this.getRoll());
     }
 
     public boolean canSwitchSearchLight(Entity entity) {

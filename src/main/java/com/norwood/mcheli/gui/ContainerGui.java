@@ -5,17 +5,18 @@ import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.factory.GuiData;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
 import com.cleanroommc.modularui.widget.scroll.VerticalScrollData;
 import com.cleanroommc.modularui.widgets.SlotGroupWidget;
-import com.cleanroommc.modularui.widgets.layout.Column;
+import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.layout.Grid;
-import com.cleanroommc.modularui.widgets.layout.Row;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.norwood.mcheli.wrapper.W_EntityContainer;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class ContainerGui {
 
@@ -38,22 +39,24 @@ public class ContainerGui {
         int gridWidth = displayColumns * slotSize;
         int gridHeight = displayRows * slotSize;
 
-        var grid = new Column().name("trunk")
+        List<ItemSlot> slots = IntStream.range(0, totalSlots)
+                .mapToObj(slot -> new ItemSlot()
+                        .slot(new ModularSlot(containerGuiHandler, slot))
+                        .size(slotSize))
+                .toList();
+
+        var grid = Flow.column().name("trunk")
                 .margin(1)
                 .padding(5)
-                .child(IKey.str("Storage (%d)", totalSlots).asWidget().alignX(Alignment.BottomLeft))
+                .child(IKey.str("Storage (%d)", totalSlots).asWidget().leftRel(0f).anchorLeft(0f))
                 .child(new Grid()
                         .margin(1)
-                        .mapTo(displayColumns, totalSlots, (slot) ->
-                                new ItemSlot()
-                                        .slot(new ModularSlot(containerGuiHandler, slot))
-                                        .size(slotSize)
-                        )
+                        .gridOf(displayColumns, slots)
                         .size(gridWidth + 4, gridHeight)
                         .scrollable(new VerticalScrollData())
                 ).coverChildren().background(GuiTextures.MC_BACKGROUND).margin(1);
 
-        var inventory = new Row().invisible().child(
+        var inventory = Flow.row().invisible().child(
                         new ParentWidget<>().name("inventory_wrapper")
                                 .child(
                                         SlotGroupWidget.playerInventory(false)
@@ -71,9 +74,9 @@ public class ContainerGui {
                 .size(panelWidth, gridHeight + 125)
                 .invisible()
                 .child(
-                        new Column()
+                        Flow.column()
                                 .bottom(0)
-                                .alignX(Alignment.Center)
+                                .leftRel(0.5f).anchorLeft(0.5f)
                                 .child(IKey.str(container.getName()).asWidget().padding(4, 2).background(GuiTextures.MC_BACKGROUND))
                                 .child(grid)
                                 .child(inventory)

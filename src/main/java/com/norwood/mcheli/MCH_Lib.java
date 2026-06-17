@@ -230,6 +230,19 @@ public class MCH_Lib {
         return new float[] { -b, -c, -a };
     }
 
+    /**
+     * Orientation quaternion in the MCH_Math attitude-integrator convention (MatTurnZ/X/Y order):
+     * Rz(roll)*Rx(pitch)*Ry(yaw). This is the exact inverse of eulerFromOrientationQuat, so the
+     * pair round-trips losslessly (away from the +/-90 gimbal point). Use this to build/seed a
+     * persistent attitude quaternion from stored yaw/pitch/roll.
+     */
+    public static Quaternionf orientationQuatZXY(float yaw, float pitch, float roll) {
+        return new Quaternionf()
+                .rotateZ((float) Math.toRadians(roll))
+                .rotateX((float) Math.toRadians(pitch))
+                .rotateY((float) Math.toRadians(yaw));
+    }
+
     public static double getRotate360(double r) {
         r %= 360.0;
         return r >= 0.0 ? r : r + 360.0;

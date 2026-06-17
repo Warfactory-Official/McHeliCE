@@ -6,16 +6,13 @@ import com.cleanroommc.modularui.drawable.GuiTextures;
 import com.cleanroommc.modularui.drawable.IngredientDrawable;
 import com.cleanroommc.modularui.screen.ModularPanel;
 import com.cleanroommc.modularui.screen.UISettings;
-import com.cleanroommc.modularui.utils.Alignment;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.cleanroommc.modularui.widget.ParentWidget;
-import com.cleanroommc.modularui.widget.scroll.VerticalScrollData;
 import com.cleanroommc.modularui.widgets.ButtonWidget;
 import com.cleanroommc.modularui.widgets.ListWidget;
 import com.cleanroommc.modularui.widgets.ScrollingTextWidget;
 import com.cleanroommc.modularui.widgets.SlotGroupWidget;
-import com.cleanroommc.modularui.widgets.layout.Column;
-import com.cleanroommc.modularui.widgets.layout.Row;
+import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.slot.ItemSlot;
 import com.cleanroommc.modularui.widgets.slot.ModularSlot;
 import com.norwood.mcheli.factories.UavStationGuiData;
@@ -45,7 +42,7 @@ public class UavStationGui {
 
         var list = new ListWidget<>()
                 .children(data.getEntries(), entry -> {
-                    var row = new Row().height(20).marginBottom(2).padding(2)
+                    var row = Flow.row().height(20).marginBottom(2).padding(2)
                             .background(GuiTextures.MENU_BACKGROUND);
                     row.child(new ButtonWidget<>()
                             .onMouseTapped(_ -> {
@@ -107,34 +104,34 @@ public class UavStationGui {
                 .size(54, 18).marginTop(2);
 
         // Deploy-offset adjust pad (moves where a UAV is spawned/placed relative to the station).
-        var posControls = new Column().coverChildren().marginTop(2)
+        var posControls = Flow.column().coverChildren().marginTop(2)
                 .child(IKey.str("Deploy offset").asWidget().padding(2))
                 .child(axisRow(station, "X", 1, 0, 0))
                 .child(axisRow(station, "Y", 0, 1, 0))
                 .child(axisRow(station, "Z", 0, 0, 1));
 
-        var right = new Column().coverChildren()
+        var right = Flow.column().coverChildren()
                 .child(viewport)
-                .child(new Row().coverChildren().marginTop(2)
+                .child(Flow.row().coverChildren().marginTop(2)
                         .child(connectBtn)
                         .child(dropBtn.marginLeft(2)))
                 .child(posControls);
 
-        var body = new Row().coverChildren().padding(2)
+        var body = Flow.row().coverChildren().padding(2)
                 .child(list)
                 .child(right.marginLeft(4));
 
         // Legacy item-slot spawn-and-bind is kept alongside the pairing flow.
-        var legacy = new Row().coverChildren().marginTop(4)
+        var legacy = Flow.row().coverChildren().marginTop(4)
                 .child(new ItemSlot().slot(new ModularSlot(new InvWrapper(station), 0)).background(GuiTextures.SLOT_ITEM))
-                .child(IKey.str("Deploy a UAV item to spawn & bind it").asWidget().padding(4).alignY(Alignment.Center));
+                .child(IKey.str("Deploy a UAV item to spawn & bind it").asWidget().padding(4).topRel(0.5f).anchorTop(0.5f));
 
-        var inventory = new Row().invisible().marginTop(4)
+        var inventory = Flow.row().invisible().marginTop(4)
                 .child(new ParentWidget<>().name("inventory_wrapper")
                         .child(SlotGroupWidget.playerInventory(false))
                         .coverChildren().padding(5).background(GuiTextures.MC_BACKGROUND));
 
-        var root = new Column().coverChildren().padding(5).background(GuiTextures.MC_BACKGROUND)
+        var root = Flow.column().coverChildren().padding(5).background(GuiTextures.MC_BACKGROUND)
                 .child(IKey.str("UAV Station").asWidget().padding(2))
                 .child(body)
                 .child(legacy)
@@ -143,15 +140,21 @@ public class UavStationGui {
         return new ModularPanel("uav_station").coverChildren().child(root);
     }
 
-    private static com.cleanroommc.modularui.widgets.layout.Flow axisRow(
+    private static Flow axisRow(
             MCH_EntityUavStation station, String label, int ux, int uy, int uz) {
-        var row = new Row().coverChildren().marginTop(1);
-        row.child(IKey.str(label).asWidget().size(12, 18).alignY(Alignment.Center).padding(2));
+        var row = Flow.row().coverChildren().marginTop(1);
+        row.child(IKey.str(label).asWidget().size(12, 18).topRel(0.5f).anchorTop(0.5f).padding(2));
         row.child(new ButtonWidget<>()
-                .onMouseTapped(_ -> { sendOffset(station, -ux, -uy, -uz); return true; })
+                .onMouseTapped(_ -> {
+                    sendOffset(station, -ux, -uy, -uz);
+                    return true;
+                })
                 .overlay(IKey.str("−")).background(GuiTextures.MC_BUTTON).size(18, 18));
         row.child(new ButtonWidget<>()
-                .onMouseTapped(_ -> { sendOffset(station, ux, uy, uz); return true; })
+                .onMouseTapped(_ -> {
+                    sendOffset(station, ux, uy, uz);
+                    return true;
+                })
                 .overlay(IKey.str("+")).background(GuiTextures.MC_BUTTON).size(18, 18).marginLeft(2));
         return row;
     }
