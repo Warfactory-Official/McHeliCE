@@ -880,9 +880,15 @@ public abstract class MCH_RenderAircraft<T extends MCH_EntityAircraft> extends W
                 MCH_OnDemandModels.notifyRendered(info);
             }
             GlStateManager.pushMatrix();
-            float yaw = this.calcRot(entity.getYaw(), entity.prevRotationYaw, tickTime);
-            float pitch = entity.calcRotPitch(tickTime);
-            float roll = this.calcRot(entity.getRoll(), entity.prevRotationRoll, tickTime);
+            // Quaternion-slerp the body orientation (shadowed JOML) instead of per-axis Euler
+            // lerp: shortest-path, no wrap artefacts. Extracted back to yaw/pitch/roll so the
+            // rest of the render pipeline (turrets, lights, ridden entity) is unchanged.
+            float[] bodyYPR = MCH_Lib.slerpOrientationYPR(
+                    entity.prevRotationYaw, entity.prevRotationPitch, entity.prevRotationRoll,
+                    entity.getYaw(), entity.getPitch(), entity.getRoll(), tickTime);
+            float yaw = bodyYPR[0];
+            float pitch = bodyYPR[1];
+            float roll = bodyYPR[2];
             if (MCH_Config.EnableModEntityRender.prmBool) {
                 this.renderRiddenEntity(entity, tickTime, yaw, pitch + info.entityPitch, roll + info.entityRoll,
                         info.entityWidth, info.entityHeight);

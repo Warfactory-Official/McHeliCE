@@ -514,8 +514,9 @@ public class MouseInputHandler {
             player.prevRotationYaw += 180.0F;
             player.rotationYaw += 180.0F;
         } else if (player.rotationPitch < -90.0F) {
-            player.prevRotationPitch -= (player.rotationPitch - 90.0F) * 2.0F;
-            player.rotationPitch -= (player.rotationPitch - 90.0F) * 2.0F;
+            // Mirror around -90. Was a copy-paste of the +90 branch (used -90.0F): bug fix.
+            player.prevRotationPitch -= (player.rotationPitch + 90.0F) * 2.0F;
+            player.rotationPitch -= (player.rotationPitch + 90.0F) * 2.0F;
             player.prevRotationYaw += 180.0F;
             player.rotationYaw += 180.0F;
         }

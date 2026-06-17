@@ -1236,12 +1236,14 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
         float ac_yaw = this.getYaw();
         float ac_roll = this.getRoll();
 
-        MCH_Math.FMatrix m_add = MCH_Math.newMatrix();
-        MCH_Math.MatTurnZ(m_add, this.getRoll() / 180.0F * (float) Math.PI);
-        MCH_Math.MatTurnX(m_add, this.getPitch() / 180.0F * (float) Math.PI);
-        MCH_Math.MatTurnY(m_add, this.getYaw() / 180.0F * (float) Math.PI);
-
-        MCH_Math.FVector3D v = MCH_Math.MatrixToEuler(m_add);
+        // Orientation normalized via a shadowed-JOML quaternion instead of the native
+        // MCH_Math matrix->Euler round-trip (order matches MatTurnZ/X/Y; behaviour-identical).
+        org.joml.Quaternionf q = new org.joml.Quaternionf()
+                .rotateZ(this.getRoll() / 180.0F * (float) Math.PI)
+                .rotateX(this.getPitch() / 180.0F * (float) Math.PI)
+                .rotateY(this.getYaw() / 180.0F * (float) Math.PI);
+        float[] ypr = MCH_Lib.eulerFromOrientationQuat(q); // {pitch, yaw, roll}
+        MCH_Math.FVector3D v = MCH_Math.newVec3D(ypr[0], ypr[1], ypr[2]);
 
         v.x = MCH_Lib.RNG(v.x, -90.0F, 90.0F);
         v.z = MCH_Lib.RNG(v.z, -90.0F, 90.0F);

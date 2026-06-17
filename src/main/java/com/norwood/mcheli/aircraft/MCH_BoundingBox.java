@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
+import org.joml.Quaternionf;
 
 /**
  * Rotatable bounding box class that stores orientation and local axis vectors
@@ -188,9 +189,12 @@ public class MCH_BoundingBox {
             extraRoll += localRotRoll;
         }
 
+        // Orientation as a single JOML quaternion (shadowed). Equivalent to the
+        // RotVec3(-yaw,-pitch,-roll) Euler chain, but composed once and reused.
+        Quaternionf orientation = MCH_Lib.orientationQuat(-extraYaw, -extraPitch, -extraRoll);
+
         // Compute rotated offset
-        Vec3d localOffset = new Vec3d(offsetX, offsetY, offsetZ);
-        rotatedOffset = MCH_Lib.RotVec3(localOffset, -extraYaw, -extraPitch, -extraRoll);
+        rotatedOffset = MCH_Lib.applyQuat(orientation, offsetX, offsetY, offsetZ);
 
         // Update world center
         double cx = posX + rotatedOffset.x;
@@ -204,9 +208,9 @@ public class MCH_BoundingBox {
         center = new Vec3d(cx, cy, cz);
 
         // Update local axis unit vectors in world coordinates
-        axisX = MCH_Lib.RotVec3(new Vec3d(1.0D, 0.0D, 0.0D), -extraYaw, -extraPitch, -extraRoll);
-        axisY = MCH_Lib.RotVec3(new Vec3d(0.0D, 1.0D, 0.0D), -extraYaw, -extraPitch, -extraRoll);
-        axisZ = MCH_Lib.RotVec3(new Vec3d(0.0D, 0.0D, 1.0D), -extraYaw, -extraPitch, -extraRoll);
+        axisX = MCH_Lib.applyQuat(orientation, 1.0D, 0.0D, 0.0D);
+        axisY = MCH_Lib.applyQuat(orientation, 0.0D, 1.0D, 0.0D);
+        axisZ = MCH_Lib.applyQuat(orientation, 0.0D, 0.0D, 1.0D);
 
         // Compute enclosing AABB for fast checks
         double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY, minZ = Double.POSITIVE_INFINITY;
@@ -219,7 +223,7 @@ public class MCH_BoundingBox {
                             offsetX + xi * halfWidth,
                             offsetY + yi * halfHeight,
                             offsetZ + zi * halfDepth);
-                    Vec3d cornerWorld = MCH_Lib.RotVec3(cornerLocal, -extraYaw, -extraPitch, -extraRoll);
+                    Vec3d cornerWorld = MCH_Lib.applyQuat(orientation, cornerLocal.x, cornerLocal.y, cornerLocal.z);
                     double px = posX + cornerWorld.x;
                     double py = posY + cornerWorld.y;
                     double pz = posZ + cornerWorld.z;

@@ -54,6 +54,7 @@ dependencies {
 
     compileOnly("org.projectlombok:lombok:1.18.42")
     runtimeOnly "com.hbm:ntm-ce:2.5.0.3"
+    runtimeOnly rfg.deobf("curse.maven:ctm-267602:2915363")
 
     runtimeOnly rfg.deobf("curse.maven:nofog-296468:2604160")
     runtimeOnly rfg.deobf("curse.maven:xaeros-minimap-263420:6777996")

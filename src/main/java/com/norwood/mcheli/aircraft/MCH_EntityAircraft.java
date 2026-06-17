@@ -1482,17 +1482,20 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
 
 
-        MCH_Math.FMatrix m = MCH_Math.newMatrix();
-
-        MCH_Math.MatTurnZ(m, roll * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnX(m, pitch * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnY(m, yaw * ((float) Math.PI / 180.0F));
-
-        MCH_Math.MatTurnZ(m, this.getRoll() * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnX(m, this.getPitch() * ((float) Math.PI / 180.0F));
-        MCH_Math.MatTurnY(m, this.getYaw() * ((float) Math.PI / 180.0F));
-
-        MCH_Math.FVector3D v = MCH_Math.MatrixToEuler(m);
+        // Attitude integrated as a shadowed-JOML quaternion instead of the native MCH_Math
+        // matrix->Euler round-trip. Order matches MatTurnZ/X/Y (standard right-handed,
+        // post-multiply): orientation = Rz(roll)*Rx(pitch)*Ry(yaw), control delta applied
+        // first then the current orientation. eulerFromOrientationQuat is a faithful port of
+        // MCH_Math.QuatToEuler, so this is behaviour-identical (incl. the +/-90 gimbal fallback).
+        org.joml.Quaternionf q = new org.joml.Quaternionf()
+                .rotateZ(roll * ((float) Math.PI / 180.0F))
+                .rotateX(pitch * ((float) Math.PI / 180.0F))
+                .rotateY(yaw * ((float) Math.PI / 180.0F))
+                .rotateZ(this.getRoll() * ((float) Math.PI / 180.0F))
+                .rotateX(this.getPitch() * ((float) Math.PI / 180.0F))
+                .rotateY(this.getYaw() * ((float) Math.PI / 180.0F));
+        float[] ypr = MCH_Lib.eulerFromOrientationQuat(q); // {pitch, yaw, roll}
+        MCH_Math.FVector3D v = MCH_Math.newVec3D(ypr[0], ypr[1], ypr[2]);
 
         //LIMITS
         assert this.getAcInfo() != null;

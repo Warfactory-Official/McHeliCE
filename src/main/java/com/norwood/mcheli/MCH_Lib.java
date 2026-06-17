@@ -14,6 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -151,6 +153,81 @@ public class MCH_Lib {
         v = W_Vec3.rotateRoll(roll / 180.0F * (float) Math.PI, v);
         v = v.rotatePitch(pitch / 180.0F * (float) Math.PI);
         return v.rotateYaw(yaw / 180.0F * (float) Math.PI);
+    }
+
+    /** Orientation quaternion matching RotVec3(v, yaw, pitch, roll) (degrees). */
+    public static Quaternionf orientationQuat(float yaw, float pitch, float roll) {
+        return new Quaternionf()
+                .rotateY((float) Math.toRadians(yaw))
+                .rotateX((float) Math.toRadians(-pitch))
+                .rotateZ((float) Math.toRadians(-roll));
+    }
+
+    /** Rotate a point/vector by a quaternion, returning a Vec3d. */
+    public static Vec3d applyQuat(Quaternionf q, double x, double y, double z) {
+        Vector3f v = q.transform(new Vector3f((float) x, (float) y, (float) z));
+        return new Vec3d(v.x, v.y, v.z);
+    }
+
+    /**
+     * Quaternion (slerp) interpolation between two yaw/pitch/roll orientations,
+     * returned as {yaw, pitch, roll} in degrees. Shortest-path, free of the
+     * per-axis Euler wrap artefacts. Note: YXZ extraction is gimbal-ambiguous at
+     * pitch = +/-90; acceptable for a single rendered frame.
+     */
+    public static float[] slerpOrientationYPR(float yaw0, float pitch0, float roll0,
+                                              float yaw1, float pitch1, float roll1, float t) {
+        Quaternionf q = orientationQuat(yaw0, pitch0, roll0);
+        q.slerp(orientationQuat(yaw1, pitch1, roll1), t);
+        Vector3f e = q.getEulerAnglesYXZ(new Vector3f());
+        return new float[] {
+                (float) Math.toDegrees(e.y),
+                (float) -Math.toDegrees(e.x),
+                (float) -Math.toDegrees(e.z)
+        };
+    }
+
+    /**
+     * Extract {pitch, yaw, roll} (degrees) from a JOML orientation quaternion built in the
+     * MatTurnZ/X/Y order (Rz(roll)*Rx(pitch)*Ry(yaw)). This is a faithful port of
+     * MCH_Math.QuatToEuler (QuatToMatrix + MatrixToEuler), so it is bit-for-bit equivalent
+     * to the legacy native path, including its gimbal-lock fallback at pitch = +/-90. Used to
+     * replace the MCH_Math.FMatrix attitude integrator with shadowed JOML quaternions.
+     * Returns {pitch, yaw, roll} matching the old FVector3D (x, y, z).
+     */
+    public static float[] eulerFromOrientationQuat(Quaternionf q) {
+        float x = q.x, y = q.y, z = q.z, w = q.w;
+        // Rotation matrix elements (row-major), identical to MCH_Math.QuatToMatrix
+        float x2 = 2.0F * x * x, y2 = 2.0F * y * y, z2 = 2.0F * z * z;
+        float xy = 2.0F * x * y, yz = 2.0F * y * z, zx = 2.0F * z * x;
+        float wx = 2.0F * w * x, wy = 2.0F * w * y, wz = 2.0F * w * z;
+        float m00 = 1.0F - y2 - z2;
+        float m01 = xy - wz;
+        float m02 = zx + wy;
+        float m11 = 1.0F - z2 - x2;
+        float m20 = zx - wy;
+        float m21 = yz + wx;
+        float m22 = 1.0F - x2 - y2;
+        // MatrixToEuler, identical to MCH_Math
+        float b = (float) -Math.asin(m21);
+        float cosB = (float) Math.cos(b);
+        float a, c;
+        if (Math.abs(cosB) >= 1.0e-4F) {
+            c = (float) Math.atan2(m20, m22);
+            float xyc = m01 / cosB;
+            if (xyc > 1.0F) xyc = 1.0F; else if (xyc < -1.0F) xyc = -1.0F;
+            a = (float) Math.asin(xyc);
+            if (Float.isNaN(a)) a = 0.0F;
+        } else {
+            c = (float) Math.atan2(-m02, m00);
+            a = 0.0F;
+        }
+        a = (float) Math.toDegrees(a);
+        b = (float) Math.toDegrees(b);
+        c = (float) Math.toDegrees(c);
+        if (m11 < 0.0F) a = 180.0F - a;
+        // MCH_Math returns (-b, -c, -a) = (pitch, yaw, roll)
+        return new float[] { -b, -c, -a };
     }
 
     public static double getRotate360(double r) {
