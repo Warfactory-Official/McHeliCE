@@ -243,6 +243,35 @@ public class MCH_Lib {
                 .rotateY((float) Math.toRadians(yaw));
     }
 
+    /**
+     * World-orientation quaternion in the UNIFIED render/OBB convention:
+     * Ry(-yaw)*Rx(pitch)*Rz(roll) -- exactly the rotation GlStateManager applies as
+     * rotate(yaw,0,-1,0)*rotate(pitch,1,0,0)*rotate(roll,0,0,1), and the rotation
+     * MCH_BoundingBox builds via orientationQuat(-yaw,-pitch,-roll). A body-local vector v maps to
+     * world space at q.transform(v). This is the single canonical convention for quaternion-mode
+     * attitude; pair with worldEuler() (exact inverse away from the +/-90 gimbal point).
+     */
+    public static Quaternionf worldOrientationQuat(float yaw, float pitch, float roll) {
+        return new Quaternionf()
+                .rotateY((float) Math.toRadians(-yaw))
+                .rotateX((float) Math.toRadians(pitch))
+                .rotateZ((float) Math.toRadians(roll));
+    }
+
+    /**
+     * Extract {pitch, yaw, roll} (degrees) from a world-orientation quaternion -- the inverse of
+     * worldOrientationQuat. getEulerAnglesYXZ gives q = Ry(e.y)*Rx(e.x)*Rz(e.z), and our convention
+     * has e.y = -yaw, e.x = pitch, e.z = roll. Gimbal-ambiguous only at pitch = +/-90.
+     */
+    public static float[] worldEuler(Quaternionf q) {
+        Vector3f e = q.getEulerAnglesYXZ(new Vector3f());
+        return new float[] {
+                (float) Math.toDegrees(e.x),    // pitch
+                (float) -Math.toDegrees(e.y),   // yaw
+                (float) Math.toDegrees(e.z)     // roll
+        };
+    }
+
     public static double getRotate360(double r) {
         r %= 360.0;
         return r >= 0.0 ? r : r + 360.0;

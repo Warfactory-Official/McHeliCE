@@ -516,8 +516,7 @@ public class MCH_ConfigGui extends W_GuiContainer {
                     reloadOnDemandModels();
                     this.mc.player.closeScreen();
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + button.id);
-            }
+                default -> throw new IllegalStateException("Unexpected value: " + button.id);}
 
         } catch (Exception var7) {
             var7.printStackTrace();
