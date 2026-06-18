@@ -17,6 +17,7 @@ import com.norwood.mcheli.vehicle.MCH_EntityVehicle;
 import com.norwood.mcheli.weapon.MCH_BulletDecaySegmented;
 import com.norwood.mcheli.weapon.MCH_BulletDecaySegmented.DecaySegment;
 import com.norwood.mcheli.weapon.MCH_Cartridge;
+import com.norwood.mcheli.weapon.MCH_MineFuze;
 import com.norwood.mcheli.weapon.MCH_SightType;
 import com.norwood.mcheli.weapon.MCH_WeaponInfo;
 import net.minecraft.entity.Entity;
@@ -98,6 +99,7 @@ public class WeaponParser {
                 case "DamageFactor" -> parseDamageFactor(info, (Map<String, Number>) entry.getValue());
                 case "NTM" -> parseHBM(info, (Map<String, Object>) entry.getValue());
                 case "Effects" -> parseEffects(info, (Map<String, Object>) entry.getValue());
+                case "Mine" -> parseMine(info, (Map<String, Object>) entry.getValue());
 
                 default -> logUnkownEntry(entry, "Weapon");
             }
@@ -252,6 +254,38 @@ public class WeaponParser {
                 case "AheadSolveIntervalTick" -> info.aheadSolveIntervalTick = ((Number) entry.getValue()).intValue();
             }
         }
+    }
+
+    /**
+     * Mine mode for the bomb weapon type. A non-{@code None} {@code Fuze} turns the dropped bomb into
+     * a persistent proximity mine (see {@code MCH_EntityBomb}).
+     * <pre>
+     * Mine:
+     *   Fuze: ProximityPlayer   # None | ProximityPlayer | ProximityVehicle
+     *   Range: 4.0              # proximity-trigger radius in blocks
+     *   ArmDelay: 40            # ticks after landing before it can detonate
+     * </pre>
+     */
+    private static void parseMine(MCH_WeaponInfo info, Map<String, Object> value) {
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            switch (entry.getKey()) {
+                case "Fuze", "Type", "MineType" -> info.mineFuze = parseMineFuze((String) entry.getValue());
+                case "Range" -> info.mineRange = getClamped(0.0F, 256.0F, entry.getValue());
+                case "ArmDelay" -> info.mineArmDelay = getClamped(0, 1_000_000, entry.getValue());
+                default -> logUnkownEntry(entry, "Mine");
+            }
+        }
+    }
+
+    private static MCH_MineFuze parseMineFuze(String s) {
+        if (s == null || s.isEmpty())
+            return MCH_MineFuze.NONE;
+
+        return switch (s.trim().toUpperCase(Locale.ROOT)) {
+            case "PROXIMITYPLAYER", "PROXIMITY_PLAYER", "PLAYER" -> MCH_MineFuze.PROXIMITY_PLAYER;
+            case "PROXIMITYVEHICLE", "PROXIMITY_VEHICLE", "VEHICLE" -> MCH_MineFuze.PROXIMITY_VEHICLE;
+            default -> MCH_MineFuze.NONE;
+        };
     }
 
     private static void parseBuckshot(MCH_WeaponInfo info, Map<String, Object> value) {

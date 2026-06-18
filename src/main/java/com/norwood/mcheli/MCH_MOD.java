@@ -110,6 +110,7 @@ public class MCH_MOD {
     public static MCH_ItemParachute itemParachute;
     public static MCH_ItemUavPairingDevice itemUavPairingDevice;
     public static MCH_ItemUavTablet itemUavTablet;
+    public static MCH_ItemMineDefuser itemMineDefuser;
     public static MCH_ItemContainer itemContainer;
     public static MCH_ItemChain itemChain;
     public static MCH_ItemFuel itemFuel;
@@ -355,6 +356,7 @@ public class MCH_MOD {
         this.registerItemUavStation();
         this.registerItemUavPairingDevice();
         this.registerItemUavTablet();
+        this.registerItemMineDefuser();
         this.registerItemInvisible();
         registerItemThrowable();
         registerItemCustom();
@@ -561,6 +563,14 @@ public class MCH_MOD {
         itemUavTablet = new MCH_ItemUavTablet();
         registerItem(itemUavTablet, "uav_tablet", creativeTabs);
         W_LanguageRegistry.addName(itemUavTablet, "UAV Tablet");
+    }
+
+    public void registerItemMineDefuser() {
+        String name = "mine_defuser";
+        MCH_ItemMineDefuser item = new MCH_ItemMineDefuser();
+        itemMineDefuser = item;
+        registerItem(item, name, creativeTabs);
+        W_LanguageRegistry.addName(item, "Mine Defuser");
     }
 
     public void registerItemContainer() {

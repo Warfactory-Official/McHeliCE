@@ -308,6 +308,10 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public float proximityFuseDamage = 0.0F; // Reforged field
     public int proximityFuseHeight = 20; // Reforged field
 
+    public MCH_MineFuze mineFuze = MCH_MineFuze.NONE;
+    public float mineRange = 4.0F;
+    public int mineArmDelay = 40;
+
     public MCH_WeaponInfo(AddonResourceLocation location, String path, String parser) {
         super(location, path, parser);
         this.name = location.getPath();
@@ -397,6 +401,15 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
             this.bulletModelEndTick = -1;
         }
 
+        if (this.mineFuze != MCH_MineFuze.NONE) {
+            if (this.mineRange <= 0.0F) {
+                this.mineRange = 4.0F;
+            }
+            if (this.mineArmDelay < 0) {
+                this.mineArmDelay = 0;
+            }
+        }
+
         this.ballisticArcFactor = Math.max(0.0D, this.ballisticArcFactor);
         this.ballisticArcMinHeight = Math.max(0.0D, this.ballisticArcMinHeight);
         this.ballisticArcMaxHeight = Math.max(this.ballisticArcMinHeight, this.ballisticArcMaxHeight);
@@ -433,6 +446,11 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
 
     public float getDamageFactor(Entity e) {
         return this.damageFactor != null ? this.damageFactor.getDamageFactor(e) : 1.0F;
+    }
+
+    /** @return true if this bomb is configured as a persistent proximity mine. */
+    public boolean isMine() {
+        return this.mineFuze != MCH_MineFuze.NONE;
     }
 
     // TODO:Enumify
