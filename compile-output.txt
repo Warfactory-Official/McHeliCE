@@ -1,0 +1,167 @@
+﻿.\gradlew.bat : WARNING: A restricted method in java.lang.System has been 
+called
+En línea: 1 Carácter: 58
++ ... Hub\McHeliCE'; .\gradlew.bat compileJava --console=plain 2>&1 | Out-F ...
++                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: A rest...has been called 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING: java.lang.System::load has been called by 
+net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (
+file:/C:/Users/marmo/.gradle/wrapper/dists/gradle-9.2.1-bin/2t0n5ozlw9xmuyvbp7d
+nzaxug/gradle-9.2.1/lib/native-platform-0.22-milestone-29.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers 
+in this module
+WARNING: Restricted methods will be blocked in a future release unless native 
+access is enabled
+
+
+> Configure project :
+Failed to read from buildscript.properties, as it did not exist!Build script update available! Run 'gradle updateBuildScript'
+
+> Task :compileInjectedInterfacesJava NO-SOURCE
+> Task :extractDependencyATs UP-TO-DATE
+> Task :generateForgeSrgMappings SKIPPED
+> Task :downloadVanillaJars SKIPPED
+> Task :mergeVanillaSidedJars SKIPPED
+> Task :deobfuscateMergedJarToSrg SKIPPED
+> Task :downloadFernflower SKIPPED
+> Task :decompileSrgJar SKIPPED
+> Task :cleanupDecompSrgJar SKIPPED
+> Task :patchDecompiledJar SKIPPED
+> Task :applyJST SKIPPED
+> Task :remapDecompiledJar SKIPPED
+> Task :decompressDecompiledSources UP-TO-DATE
+> Task :processInjectedInterfacesResources NO-SOURCE
+> Task :injectedInterfacesClasses UP-TO-DATE
+> Task :compilePatchedMcJava UP-TO-DATE
+> Task :processPatchedMcResources UP-TO-DATE
+> Task :patchedMcClasses UP-TO-DATE
+> Task :compileApiJava NO-SOURCE
+> Task :processApiResources NO-SOURCE
+> Task :apiClasses UP-TO-DATE
+> Task :injectTags UP-TO-DATE
+> Task :compileInjectedTagsJava UP-TO-DATE
+> Task :extractNatives2 UP-TO-DATE
+> Task :createMcLauncherFiles UP-TO-DATE
+> Task :compileMcLauncherJava UP-TO-DATE
+> Task :processInjectedTagsResources NO-SOURCE
+> Task :injectedTagsClasses UP-TO-DATE
+> Task :processMcLauncherResources NO-SOURCE
+> Task :mcLauncherClasses UP-TO-DATE
+
+> Task :compileJava
+Note: SpongePowered MIXIN Annotation Processor Version=0.8.7
+Note: Supported obfuscation types: ObfuscationServiceMCP supports 
+[searge,notch]
+Note: Loading searge mappings from C:\Users\marmo\.gradle\caches\minecraft\de\o
+ceanlabs\mcp\mcp_stable\39\rfg_srgs\mcp-srg.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:228: warning: Not generating setCurrentThrottle(): 
+A method with that name already exists
+    private double currentThrottle;
+                   ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:227: warning: Not generating getCurrentThrottle(): 
+A method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:245: warning: Not generating 
+getPrevDetachedWeaponAimYaw(): A method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:247: warning: Not generating 
+getPrevDetachedWeaponAimPitch(): A method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:276: warning: Not generating setTowChainEntity(): 
+A method with that name already exists
+    private MCH_EntityChain towChainEntity;
+                            ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:294: warning: Not generating setCommonUniqueId(): 
+A method with that name already exists
+    private String commonUniqueId;
+                   ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:293: warning: Not generating getCommonUniqueId(): 
+A method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:300: warning: Not generating setDespawnCount(): A 
+method with that name already exists
+    private int despawnCount;
+                ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:299: warning: Not generating getDespawnCount(): A 
+method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:301: warning: Not generating getCountOnUpdate(): A 
+method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\weapo
+n\MCH_WeaponGuidanceSystem.java:33: warning: Not generating setWorld(): A 
+method with that name already exists
+    public World world;
+                 ^
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+11 warnings
+
+[Incubating] Problems report is available at: file:///C:/Users/marmo/Documents/GitHub/McHeliCE/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 14s
+10 actionable tasks: 1 executed, 9 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.2.1/userguide/configuration_cache_enabling.html

@@ -26,8 +26,8 @@ public class MCH_Explosion {
                                                              boolean isFlaming,
                                                              boolean isDestroyBlock,
                                                              int countSetFireEntity) {
-        return newExplosion(w, entityExploded, player, x, y, z, size, sizeBlock, playSound, isSmoking, isFlaming,
-                isDestroyBlock, countSetFireEntity, null);
+        return newExplosion(w, entityExploded, player, x, y, z, size, sizeBlock, size, sizeBlock, playSound, isSmoking,
+                isFlaming, isDestroyBlock, countSetFireEntity, null);
     }
 
     public static MCH_Explosion.ExplosionResult newExplosion(
@@ -44,6 +44,66 @@ public class MCH_Explosion {
                                                              boolean isFlaming,
                                                              boolean isDestroyBlock,
                                                              int countSetFireEntity,
+                                                             @Nullable MCH_DamageFactor df) {
+        return newExplosion(world, entityExploded, player, x, y, z, size, sizeBlock, size, sizeBlock, playSound, isSmoking,
+                isFlaming, isDestroyBlock, countSetFireEntity, df);
+    }
+
+    public static MCH_Explosion.ExplosionResult newExplosion(
+                                                             World world,
+                                                             @Nullable Entity entityExploded,
+                                                             @Nullable Entity player,
+                                                             double x,
+                                                             double y,
+                                                             double z,
+                                                             float size,
+                                                             float sizeBlock,
+                                                             float damagePower,
+                                                             float blockPower,
+                                                             boolean playSound,
+                                                             boolean isSmoking,
+                                                             boolean isFlaming,
+                                                             boolean isDestroyBlock,
+                                                             int countSetFireEntity) {
+        return newExplosion(world, entityExploded, player, x, y, z, size, sizeBlock, damagePower, blockPower,
+                playSound, isSmoking, isFlaming, isDestroyBlock, countSetFireEntity, null);
+    }
+
+    public static MCH_Explosion.ExplosionResult newExplosion(
+                                                             World world,
+                                                             @Nullable Entity entityExploded,
+                                                             @Nullable Entity player,
+                                                             double x,
+                                                             double y,
+                                                             double z,
+                                                             float size,
+                                                             float sizeBlock,
+                                                             float damagePower,
+                                                             boolean playSound,
+                                                             boolean isSmoking,
+                                                             boolean isFlaming,
+                                                             boolean isDestroyBlock,
+                                                             int countSetFireEntity) {
+        return newExplosion(world, entityExploded, player, x, y, z, size, sizeBlock, damagePower, sizeBlock,
+                playSound, isSmoking, isFlaming, isDestroyBlock, countSetFireEntity, null);
+    }
+
+    public static MCH_Explosion.ExplosionResult newExplosion(
+                                                             World world,
+                                                             @Nullable Entity entityExploded,
+                                                             @Nullable Entity player,
+                                                             double x,
+                                                             double y,
+                                                             double z,
+                                                             float size,
+                                                             float sizeBlock,
+                                                             float damagePower,
+                                                             float blockPower,
+                                                             boolean playSound,
+                                                             boolean isSmoking,
+                                                             boolean isFlaming,
+                                                             boolean isDestroyBlock,
+                                                             int countSetFireEntity,
                                                              MCH_DamageFactor df) {
         if (world.isRemote) {
             return null;
@@ -52,6 +112,8 @@ public class MCH_Explosion {
                     world.getGameRules().getBoolean("mobGriefing"));
             exp.isDestroyBlock = isDestroyBlock;
             exp.explosionSizeBlock = sizeBlock;
+            exp.explosionBlockPower = blockPower;
+            exp.explosionDamagePower = damagePower;
             exp.countSetFireEntity = countSetFireEntity;
             exp.isPlaySound = playSound;
             exp.isInWater = false;
@@ -87,6 +149,47 @@ public class MCH_Explosion {
                                                                     boolean isDestroyBlock,
                                                                     int countSetFireEntity,
                                                                     MCH_DamageFactor df) {
+        return newExplosionInWater(world, entityExploded, player, x, y, z, size, sizeBlock, size, sizeBlock, playSound,
+                isSmoking, isFlaming, isDestroyBlock, countSetFireEntity, df);
+    }
+
+    public static MCH_Explosion.ExplosionResult newExplosionInWater(
+                                                                    World world,
+                                                                    @Nullable Entity entityExploded,
+                                                                    @Nullable Entity player,
+                                                                    double x,
+                                                                    double y,
+                                                                    double z,
+                                                                    float size,
+                                                                    float sizeBlock,
+                                                                    float damagePower,
+                                                                    float blockPower,
+                                                                    boolean playSound,
+                                                                    boolean isSmoking,
+                                                                    boolean isFlaming,
+                                                                    boolean isDestroyBlock,
+                                                                    int countSetFireEntity) {
+        return newExplosionInWater(world, entityExploded, player, x, y, z, size, sizeBlock, damagePower, blockPower,
+                playSound, isSmoking, isFlaming, isDestroyBlock, countSetFireEntity, null);
+    }
+
+    public static MCH_Explosion.ExplosionResult newExplosionInWater(
+                                                                    World world,
+                                                                    @Nullable Entity entityExploded,
+                                                                    @Nullable Entity player,
+                                                                    double x,
+                                                                    double y,
+                                                                    double z,
+                                                                    float size,
+                                                                    float sizeBlock,
+                                                                    float damagePower,
+                                                                    float blockPower,
+                                                                    boolean playSound,
+                                                                    boolean isSmoking,
+                                                                    boolean isFlaming,
+                                                                    boolean isDestroyBlock,
+                                                                    int countSetFireEntity,
+                                                                    MCH_DamageFactor df) {
         if (world.isRemote) {
             return null;
         } else {
@@ -94,6 +197,8 @@ public class MCH_Explosion {
                     world.getGameRules().getBoolean("mobGriefing"));
             exp.isDestroyBlock = isDestroyBlock;
             exp.explosionSizeBlock = sizeBlock;
+            exp.explosionBlockPower = blockPower;
+            exp.explosionDamagePower = damagePower;
             exp.countSetFireEntity = countSetFireEntity;
             exp.isPlaySound = playSound;
             exp.isInWater = true;

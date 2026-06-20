@@ -1179,7 +1179,12 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
     }
 
     public void newFAExplosion(double x, double y, double z, float exp, float expBlock) {
-        MCH_Explosion.ExplosionResult result = MCH_Explosion.newExplosion(this.world, this, this.shootingEntity, x, y, z, exp, expBlock, true, true, this.getInfo().flaming, false, 15);
+        float size = exp;
+        if (this.getInfo() != null && this.getInfo().isNewExplosionBreak) {
+            size = this.getInfo().explosionRadius > 0.0F ? this.getInfo().explosionRadius : exp;
+        }
+        MCH_Explosion.ExplosionResult result = MCH_Explosion.newExplosion(this.world, this, this.shootingEntity,
+                x, y, z, size, size, exp, expBlock, true, true, this.getInfo().flaming, false, 15);
         if (result != null && result.hitEntity) {
             this.notifyHitBullet();
         }
@@ -1187,15 +1192,58 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
 
     public void newExplosion(double x, double y, double z, float exp, float expBlock, boolean inWater) {
         MCH_Explosion.ExplosionResult result;
+        MCH_WeaponInfo info = this.getInfo();
+        float size = exp;
+        float sizeBlock = expBlock;
 
-        if (isLoaded(MODID_HBM) && getInfo().useHBM) {
+        if (info != null && info.isNewExplosionBreak) {
+            size = info.explosionRadius > 0.0F ? info.explosionRadius : exp;
+            sizeBlock = size;
+            expBlock = info.explosionBlock >= 0 ? info.explosionBlock : expBlock;
+        }
+
+        if (isLoaded(MODID_HBM) && info != null && info.useHBM) {
             processHBMExplosion(x, y, z, exp, expBlock);
         }
-        if (!getInfo().effectOnly) {
+        if (info == null || !info.effectOnly) {
             if (!inWater) {
-                result = MCH_Explosion.newExplosion(this.world, this, this.shootingEntity, x, y, z, exp, expBlock, this.rand.nextInt(3) == 0, true, this.getInfo().flaming, true, 0, this.getInfo() != null ? this.getInfo().damageFactor : null);
+                result = MCH_Explosion.newExplosion(this.world, this, this.shootingEntity, x, y, z,
+                        size, sizeBlock, exp, expBlock, this.rand.nextInt(3) == 0, true, info != null && info.flaming,
+                        true, 0, info != null ? info.damageFactor : null);
             } else {
-                result = MCH_Explosion.newExplosionInWater(this.world, this, this.shootingEntity, x, y, z, exp, expBlock, this.rand.nextInt(3) == 0, true, this.getInfo().flaming, true, 0, this.getInfo() != null ? this.getInfo().damageFactor : null);
+                result = MCH_Explosion.newExplosionInWater(this.world, this, this.shootingEntity, x, y, z,
+                        size, sizeBlock, exp, expBlock, this.rand.nextInt(3) == 0, true, info != null && info.flaming,
+                        true, 0, info != null ? info.damageFactor : null);
+            }
+
+            if (result != null && result.hitEntity) {
+                this.notifyHitBullet();
+            }
+        }
+    }
+
+    public void newExplosion(double x, double y, double z, float size, float sizeBlock, float damagePower, float blockPower, boolean inWater) {
+        MCH_Explosion.ExplosionResult result;
+        MCH_WeaponInfo info = this.getInfo();
+
+        if (info != null && info.isNewExplosionBreak) {
+            size = info.explosionRadius > 0.0F ? info.explosionRadius : size;
+            sizeBlock = size;
+            blockPower = info.explosionBlock >= 0 ? info.explosionBlock : blockPower;
+        }
+
+        if (isLoaded(MODID_HBM) && info != null && info.useHBM) {
+            processHBMExplosion(x, y, z, damagePower, blockPower);
+        }
+        if (info == null || !info.effectOnly) {
+            if (!inWater) {
+                result = MCH_Explosion.newExplosion(this.world, this, this.shootingEntity, x, y, z,
+                        size, sizeBlock, damagePower, blockPower, this.rand.nextInt(3) == 0, true,
+                        info != null && info.flaming, true, 0, info != null ? info.damageFactor : null);
+            } else {
+                result = MCH_Explosion.newExplosionInWater(this.world, this, this.shootingEntity, x, y, z,
+                        size, sizeBlock, damagePower, blockPower, this.rand.nextInt(3) == 0, true,
+                        info != null && info.flaming, true, 0, info != null ? info.damageFactor : null);
             }
 
             if (result != null && result.hitEntity) {

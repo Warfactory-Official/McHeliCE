@@ -4,6 +4,8 @@ import com.norwood.mcheli.MCH_Explosion;
 import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.particles.MCH_ParticleParam;
 import com.norwood.mcheli.particles.MCH_ParticlesUtil;
+import com.norwood.mcheli.weapon.MCH_WeaponInfo;
+import com.norwood.mcheli.throwable.MCH_ThrowableInfo;
 import com.norwood.mcheli.wrapper.W_WorldFunc;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -121,6 +123,15 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
             if (!this.isDead) {
                 if (!this.world.isRemote) {
                     if (this.countOnUpdate == this.getInfo().timeFuse && this.getInfo().explosion > 0) {
+                        MCH_ThrowableInfo info = this.getInfo();
+                        float size = info.explosion;
+                        float sizeBlock = info.explosion;
+                        float blockPower = info.explosion;
+                        if (info.isNewExplosionBreak) {
+                            size = info.explosionRadius > 0.0F ? info.explosionRadius : info.explosion;
+                            sizeBlock = size;
+                            blockPower = info.explosionBlock >= 0 ? info.explosionBlock : info.explosion;
+                        }
                         MCH_Explosion.newExplosion(
                                 this.world,
                                 null,
@@ -128,8 +139,10 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
                                 this.posX,
                                 this.posY,
                                 this.posZ,
-                                this.getInfo().explosion,
-                                this.getInfo().explosion,
+                                size,
+                                sizeBlock,
+                                info.explosion,
+                                blockPower,
                                 true,
                                 true,
                                 false,
