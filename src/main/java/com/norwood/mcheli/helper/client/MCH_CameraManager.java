@@ -3,6 +3,8 @@ package com.norwood.mcheli.helper.client;
 import com.norwood.mcheli.MCH_3rdCamera;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_ViewEntityDummy;
+import com.norwood.mcheli.MCH_Lib;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.hud.direct_drawable.DirectDrawable;
@@ -34,6 +36,7 @@ public class MCH_CameraManager {
     private static final float DEF_THIRD_CAMERA_DIST = 4.0F;
     private static final Minecraft mc = Minecraft.getMinecraft();
     private static float cameraRoll = 0.0F;
+    private static int dbgFcamFrame = 0; // [DEBUG FCAM] throttle counter
     private static float cameraDistance = 4.0F;
     private static float cameraZoom = 1.0F;
     private static MCH_EntityAircraft ridingAircraft = null;
@@ -84,22 +87,56 @@ public class MCH_CameraManager {
                     && ridingEntity.isOverridePlayerPitch()
                     && !ridingEntity.hasIndependentMountedAim(mc.player);
 
-            GlStateManager.translate(0.0F, -f, 0.0F);
+            // Cockpit-relative quaternion free-look: the eye = orientation * freeLookOffset, so the
+            // view is bolted to the airframe and the mouse pans in the screen plane (no roll-skew,
+            // no gimbal over the top). Active only in free-look (where quatCam above is off, since it
+            // requires isOverridePlayerPitch()).
+            boolean freeLookQuatCam = MCH_Config.ExperimentalQuaternionRotation.prmBool
+                    && ridingEntity.isFreeLookMode()
+                    && ridingEntity.orientation != null
+                    && ridingEntity.freeLookOffset != null
+                    && !ridingEntity.hasIndependentMountedAim(mc.player);
+
+            // [DEBUG FCAM] Which camera branch is the CAMERA actually taking, and what does it see?
+            // Tells us whether free-look uses the cockpit-relative quaternion (orientation*offset) or
+            // falls through to the world-upright legacy path. Throttled; gated by the debug flag.
+            if (MCH_Config.ExperimentalQuaternionRotation.prmBool && (dbgFcamFrame++ % 15 == 0)) {
+                org.joml.Quaternionf ori = ridingEntity.orientation;
+                org.joml.Quaternionf off = ridingEntity.freeLookOffset;
+                String branch = quatCam ? "quatCam" : (freeLookQuatCam ? "freeLookQuatCam" : "legacy");
+                String viewE = "n/a";
+                if (ori != null && off != null) {
+                    float[] e = MCH_Lib.worldEuler(new Quaternionf(ori).mul(off));
+                    viewE = String.format("yaw=%.1f,pitch=%.1f,roll=%.1f", e[1], e[0], e[2]);
+                }
+                MCH_Logger.info("[FCAM] branch={} freeLook={} oriNull={} offNull={} mountedAim={} overridePitch={} camRoll={} ac(y={},p={},r={}) view({})",
+                        branch, ridingEntity.isFreeLookMode(), ori == null, off == null,
+                        ridingEntity.hasIndependentMountedAim(mc.player), ridingEntity.isOverridePlayerPitch(),
+                        cameraRoll, ridingEntity.getYaw(), ridingEntity.getPitch(), ridingEntity.getRoll(), viewE);
+            }
 
             if (quatCam) {
-
-                Quaternionf camRot = new Quaternionf()
-                        .rotateY((float) Math.toRadians(180.0))
-                        .mul(new Quaternionf(ridingEntity.orientation).conjugate());
-                AxisAngle4f aa = new AxisAngle4f().set(camRot);
-                if (aa.angle != 0.0F && !Float.isNaN(aa.angle)) {
-                    GlStateManager.rotate((float) Math.toDegrees(aa.angle), aa.x, aa.y, aa.z);
-                }
-                // vanilla camera rotation = identity; the orientation is fully expressed by camRot.
+                // Airframe-locked view. KEEP the eye-height bracket: with the airframe attitude
+                // driving camRot, T(0,-f,0)*camRot*T(0,+f,0) makes the eye orbit with the aircraft
+                // (the cockpit-attached feel). This is the original, working behavior.
+                GlStateManager.translate(0.0F, -f, 0.0F);
+                applyAirframeQuatCamera(new Quaternionf(ridingEntity.orientation));
+                event.setRoll(0.0F);
+                event.setPitch(0.0F);
+                event.setYaw(0.0F);
+                GlStateManager.translate(0.0F, f, 0.0F);
+            } else if (freeLookQuatCam) {
+                // Free-look head movement. NO bracket: vanilla applies its own translate(0,-f,0)
+                // after this handler, giving R * T(0,-f,0) * W -> the head pivots about the FIXED
+                // eye. The bracket here would orbit the eye about a point f below it (the "pivot
+                // around the seat" artifact). The eye is still carried by the airframe via the rider
+                // position, so only the head rotation is decoupled from that orbit.
+                applyAirframeQuatCamera(new Quaternionf(ridingEntity.orientation).mul(ridingEntity.freeLookOffset));
                 event.setRoll(0.0F);
                 event.setPitch(0.0F);
                 event.setYaw(0.0F);
             } else {
+                GlStateManager.translate(0.0F, -f, 0.0F);
                 GlStateManager.rotate(cameraRoll, 0.0F, 0.0F, 1.0F);
 
                 if (ridingEntity.isOverridePlayerPitch() && !ridingEntity.hasIndependentMountedAim(mc.player)) {
@@ -108,9 +145,19 @@ public class MCH_CameraManager {
                     event.setPitch(event.getPitch() - ridingEntity.rotationPitch);
                     event.setYaw(event.getYaw() - ridingEntity.rotationYaw);
                 }
+                GlStateManager.translate(0.0F, f, 0.0F);
             }
+        }
+    }
 
-            GlStateManager.translate(0.0F, f, 0.0F);
+    /** Apply the quaternion camera rotation for a body->world view orientation: camRot = Ry(180) * view^-1. */
+    private static void applyAirframeQuatCamera(Quaternionf view) {
+        Quaternionf camRot = new Quaternionf()
+                .rotateY((float) Math.toRadians(180.0))
+                .mul(view.conjugate());
+        AxisAngle4f aa = new AxisAngle4f().set(camRot);
+        if (aa.angle != 0.0F && !Float.isNaN(aa.angle)) {
+            GlStateManager.rotate((float) Math.toDegrees(aa.angle), aa.x, aa.y, aa.z);
         }
     }
 

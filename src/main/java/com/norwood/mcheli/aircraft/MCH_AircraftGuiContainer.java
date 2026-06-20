@@ -7,7 +7,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
+import com.norwood.mcheli.compat.energy.MCH_EnergyCompat;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -116,7 +116,7 @@ public class MCH_AircraftGuiContainer extends Container {
                 return ItemStack.EMPTY;
         } else {
             // Player → aircraft
-            if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY,null)) {
+            if (isFuelSlotItem(stack)) {
                 if (!mergeItemStack(stack, 0, FUEL_SLOTS, false))
                     return ItemStack.EMPTY;
             } else if (stack.getItem() instanceof MCH_ItemParachute) {
@@ -146,9 +146,13 @@ public class MCH_AircraftGuiContainer extends Container {
         super.onContainerClosed(player);
         if (player.world.isRemote) return;
 
-        // Reject invalid fuel
+        // Reject anything in the fuel slots that isn't a valid fuel/energy item.
         for (int i = 0; i < FUEL_SLOTS; i++) {
-            ejectIfInvalid(player, i, CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY);
+            ItemStack stack = inventory.getStackInSlot(i);
+            if (!stack.isEmpty() && !isFuelSlotItem(stack)) {
+                inventory.setStackInSlot(i, ItemStack.EMPTY);
+                player.dropItem(stack, false);
+            }
         }
 
         // Reject invalid parachutes
@@ -158,16 +162,20 @@ public class MCH_AircraftGuiContainer extends Container {
         }
     }
 
+    /**
+     * Items accepted by the fuel/charge slots: the MCheli fuel item, any fluid container
+     * (for fluid-fuelled aircraft), or — for electric aircraft that allow it — energy battery items.
+     */
+    private boolean isFuelSlotItem(ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        if (stack.getItem() instanceof MCH_ItemFuel) return true;
+        if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) return true;
+        return aircraft.allowBattery() && MCH_EnergyCompat.isBattery(stack);
+    }
+
     private void ejectIfInvalid(EntityPlayer player, int slot, Class<?> allowed) {
         ItemStack stack = inventory.getStackInSlot(slot);
         if (!stack.isEmpty() && !allowed.isInstance(stack.getItem())) {
-            inventory.setStackInSlot(slot, ItemStack.EMPTY);
-            player.dropItem(stack, false);
-        }
-    }
-    private void ejectIfInvalid(EntityPlayer player, int slot, Capability<?> capability) {
-        ItemStack stack = inventory.getStackInSlot(slot);
-        if (!stack.isEmpty() && stack.hasCapability(capability,null)) {
             inventory.setStackInSlot(slot, ItemStack.EMPTY);
             player.dropItem(stack, false);
         }

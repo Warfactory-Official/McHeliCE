@@ -307,6 +307,18 @@ public abstract class MCH_AircraftInfo extends MCH_BaseInfo implements IItemCont
      */
     public float oneProbeScale = 1F;
     public boolean fuelSupplyInfinite = false;
+    /**
+     * When true the aircraft runs on electricity instead of fluid fuel. The existing
+     * {@code maxFuel}/{@code fuelConsumption} fields keep their meaning (energy capacity /
+     * drain) and the {@code FUEL} data field stores a plain energy number. Charged by the
+     * MCheli charger block or by battery items in the fuel slot (see {@link #allowBattery}).
+     */
+    public boolean electric = false;
+    /**
+     * When true (and {@link #electric}) battery items left in the fuel slot act as extended
+     * power storage, continuously balancing charge with the aircraft's internal buffer.
+     */
+    public boolean allowBattery = false;
     @Setter
     @Getter
     protected Map<String, Float> fluidType = Map.of("mch_fuel",1f);

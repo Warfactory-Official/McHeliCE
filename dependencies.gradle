@@ -53,7 +53,10 @@ dependencies {
     shadowImplementation("com.googlecode.aviator:aviator:5.4.3")
 
     compileOnly("org.projectlombok:lombok:1.18.42")
-    runtimeOnly "com.hbm:ntm-ce:2.5.0.3"
+    // HBM is a SOFT dependency: available at compile + dev-runtime (not published) so the energy
+    // compat / charger can reference com.hbm.api.* behind Forge @Optional. mcheli still loads without it.
+    // transitive false: we only need HBM's own API classes, not its deps (e.g. Baubles).
+    devOnlyNonPublishable "com.hbm:ntm-ce:2.5.0.3" transitive false
     runtimeOnly rfg.deobf("curse.maven:ctm-267602:2915363")
 
     runtimeOnly rfg.deobf("curse.maven:nofog-296468:2604160")
@@ -62,7 +65,8 @@ dependencies {
     runtimeOnly rfg.deobf("curse.maven:spark-361579:3245793")
 
     runtimeOnly 'codechicken:codechickenlib:3.2.3.358' transitive false
-    runtimeOnly 'gregtech:gregtech:2.8.10-beta' transitive false
+    // GregTech is a SOFT dependency (compile + dev-runtime, not published) for the EU energy bridge.
+    devOnlyNonPublishable 'gregtech:gregtech:2.8.10-beta' transitive false
 
 
 

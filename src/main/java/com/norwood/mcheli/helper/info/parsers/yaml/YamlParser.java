@@ -422,6 +422,23 @@ public class YamlParser implements IParser {
                    }
 
                 }
+                case "Electric" -> {
+                    // Electric: true  OR  Electric: { Enabled: true, Battery: true }
+                    if (value instanceof Boolean enabled) {
+                        info.electric = enabled;
+                    } else if (value instanceof Map<?, ?>) {
+                        Map<String, Object> map = (Map<String, Object>) value;
+                        info.electric = true;
+                        for (Map.Entry<String, Object> e : map.entrySet()) {
+                            switch (e.getKey()) {
+                                case "Enabled" -> info.electric = (Boolean) e.getValue();
+                                case "Battery" -> info.allowBattery = (Boolean) e.getValue();
+                            }
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Electric must be a boolean or a Map, got: " + value.getClass());
+                    }
+                }
                 case "AmmoSupplyRange" -> info.ammoSupplyRange = getClamped(1000, value);
                 case "RepairOtherVehicles" -> {
                     Map<String, Number> repairMap = (HashMap<String, Number>) value;

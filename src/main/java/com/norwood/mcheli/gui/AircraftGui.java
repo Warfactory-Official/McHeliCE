@@ -155,6 +155,10 @@ public class AircraftGui {
 
             if(stack.getItem() instanceof MCH_ItemFuel) return true;
 
+            // Electric aircraft accept energy battery items in the fuel/charge slot.
+            if (info.electric && info.allowBattery
+                    && com.norwood.mcheli.compat.energy.MCH_EnergyCompat.isBattery(stack)) return true;
+
             if (!stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null))
                 return false;
 

@@ -127,6 +127,7 @@ public class MCH_MOD {
     public static MCH_CreativeTabs creativeTabsVehicle;
     public static MCH_DraftingTableBlock blockDraftingTable;
     public static MCH_DraftingTableBlock blockDraftingTableLit;
+    public static com.norwood.mcheli.block.MCH_BlockCharger blockCharger;
     public static final MCH_RWRThreatManager rwrThreatManager = new MCH_RWRThreatManager();
     private static File sourceFile;
     private static File addonDir;
@@ -373,6 +374,12 @@ public class MCH_MOD {
         MCH_Items.registerBlock(blockDraftingTable);
         W_LanguageRegistry.addName(blockDraftingTable, "Drafting Table");
         W_LanguageRegistry.addNameForObject(blockDraftingTable, "ja_jp", "製図台");
+        blockCharger = new com.norwood.mcheli.block.MCH_BlockCharger(MCH_Config.BlockID_Charger.prmInt);
+        blockCharger.setTranslationKey("charger");
+        blockCharger.setCreativeTab(creativeTabs);
+        MCH_Blocks.register(blockCharger, "charger");
+        MCH_Items.registerBlock(blockCharger);
+        W_LanguageRegistry.addName(blockCharger, "Aircraft Charger");
         com.norwood.mcheli.wingman.McHeliWingman.preInit(evt, this, creativeTabs); //WINGMAN
         MCH_CriteriaTriggers.registerTriggers();
         MCH_Logger.log("Register system");
@@ -393,6 +400,7 @@ public class MCH_MOD {
     @EventHandler
     public void init(FMLInitializationEvent evt) {
         GameRegistry.registerTileEntity(MCH_DraftingTableTileEntity.class, MCH_Utils.suffix("drafting_table"));
+        GameRegistry.registerTileEntity(com.norwood.mcheli.block.MCH_TileEntityCharger.class, MCH_Utils.suffix("charger"));
         if (World.MAX_ENTITY_RADIUS < 5)
             World.MAX_ENTITY_RADIUS = 5;
         com.norwood.mcheli.wingman.McHeliWingman.init(); //WINGMAN

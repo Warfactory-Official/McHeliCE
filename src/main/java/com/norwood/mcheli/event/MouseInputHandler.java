@@ -1,6 +1,7 @@
 package com.norwood.mcheli.event;
 
 import com.norwood.mcheli.MCH_Config;
+import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_AircraftInfo;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
@@ -8,6 +9,7 @@ import com.norwood.mcheli.aircraft.MCH_EntitySeat;
 import com.norwood.mcheli.aircraft.MCH_SeatInfo;
 import com.norwood.mcheli.gltd.MCH_EntityGLTD;
 import com.norwood.mcheli.helicopter.MCH_EntityHeli;
+import com.norwood.mcheli.helper.MCH_Logger;
 import com.norwood.mcheli.helper.client.MCH_CameraManager;
 import com.norwood.mcheli.plane.MCH_EntityPlane;
 import com.norwood.mcheli.ship.MCH_EntityShip;
@@ -23,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
+import org.joml.Quaternionf;
 import org.lwjgl.opengl.Display;
 
 @Mod.EventBusSubscriber(
@@ -36,6 +39,9 @@ public class MouseInputHandler {
     private static double mouseDeltaY = 0.0;
     private static double mouseRollDeltaX = 0.0;
     private static double mouseRollDeltaY = 0.0;
+    private static int freeLookLogFrame = 0; // [DEBUG FLOOK] throttle counter
+    private static float freeLookYaw = 0.0F;   // head-look yaw offset relative to the airframe (deg)
+    private static float freeLookPitch = 0.0F; // head-look pitch offset relative to the airframe (deg)
 
     private final Minecraft mc;
     private boolean isRideAircraft = false;
@@ -253,6 +259,65 @@ public class MouseInputHandler {
         applyMouseOrAircraftRotation(aircraft, player, fixRot, fixYaw, fixPitch, partialTicks, deltaSeconds);
         dampMouseRollIfNeeded(stickMode);
         updateCameraRoll(aircraft, player);
+        updateFreeLookOffset(aircraft);
+        logFreeLookTelemetry(aircraft, player);
+    }
+
+    /**
+     * Cockpit-relative quaternion free-look as a 2-DOF head-look. The mouse accumulates a yaw/pitch
+     * offset relative to the airframe; the offset quaternion is built as worldOrientationQuat(yaw,
+     * pitch, 0) -- note the ZERO roll term, so the head never rolls and the horizon cannot tumble as
+     * you pan (the failure mode of a naive eye-local 6-DOF accumulation). The camera composes it as
+     * orientation * freeLookOffset, so the airframe attitude itself is still fully quaternion and
+     * gimbal-free (you can free-look while flying a loop). Pitch is clamped just shy of the cockpit
+     * zenith to avoid that one singularity; yaw wraps for full 360 head movement.
+     * Planes/helicopters only; gated by the quaternion debug flag.
+     */
+    private void updateFreeLookOffset(MCH_EntityAircraft ac) {
+        if (!MCH_Config.ExperimentalQuaternionRotation.prmBool
+                || (!(ac instanceof MCH_EntityPlane) && !(ac instanceof MCH_EntityHeli))
+                || !ac.isFreeLookMode()) {
+            ac.freeLookOffset = null;          // re-enter free-look looking straight ahead
+            freeLookYaw = 0.0F;
+            freeLookPitch = 0.0F;
+            return;
+        }
+        // Averaged mouse delta * vanilla 0.15 turn factor (degrees), matching setAngles' free-look feel.
+        float dYaw = (float) ((mouseDeltaX + prevMouseDeltaX) / 2.0) * 0.15F;
+        float dPitch = -(float) ((mouseDeltaY + prevMouseDeltaY) / 2.0) * 0.15F;
+        freeLookYaw = MathHelper.wrapDegrees(freeLookYaw + dYaw);
+        freeLookPitch = MathHelper.clamp(freeLookPitch + dPitch, -89.0F, 89.0F);
+        ac.freeLookOffset = MCH_Lib.worldOrientationQuat(freeLookYaw, freeLookPitch, 0.0F);
+    }
+
+    /**
+     * [DEBUG FLOOK] Free-look diagnostics for planes/helicopters. Logs the relationship between the raw
+     * mouse delta (the input), the resulting absolute world-space view angles (player.turn output), the
+     * airframe attitude + bank, and the screen-roll the camera applies. If the mouse feels skewed while
+     * banked, the log shows mouseDelta staying world-axis-aligned while camRoll (the screen twist) is
+     * non-zero -- i.e. the mouse axes and the screen axes diverge by camRoll. Gated by the same debug
+     * flag as the attitude telemetry; throttled. Only meaningful in free-look (absolute world view).
+     */
+    private void logFreeLookTelemetry(MCH_EntityAircraft ac, EntityPlayer player) {
+        if (!MCH_Config.ExperimentalQuaternionRotation.prmBool) return;
+        if (!ac.isFreeLookMode()) return;
+        if (!(ac instanceof MCH_EntityPlane) && !(ac instanceof MCH_EntityHeli)) return;
+        if ((freeLookLogFrame++ % 10) != 0) return;
+
+        org.joml.Quaternionf q = ac.orientation;
+        org.joml.Quaternionf off = ac.freeLookOffset;
+        // Composed eye view = orientation * freeLookOffset (what the quaternion camera renders).
+        String viewE = "n/a";
+        if (q != null && off != null) {
+            float[] e = MCH_Lib.worldEuler(new Quaternionf(q).mul(off)); // {pitch, yaw, roll}
+            viewE = String.format("yaw=%.2f,pitch=%.2f,roll=%.2f", e[1], e[0], e[2]);
+        }
+        MCH_Logger.info("[FLOOK {}] md=({},{}) ac(yaw={},pitch={},roll={}) off=({},{},{},{}) viewEuler({})",
+                ac instanceof MCH_EntityHeli ? "HELI" : "PLANE",
+                mouseDeltaX, mouseDeltaY,
+                ac.getYaw(), ac.getPitch(), ac.getRoll(),
+                off == null ? 0f : off.w, off == null ? 0f : off.x, off == null ? 0f : off.y, off == null ? 0f : off.z,
+                viewE);
     }
 
     private void handleVehicleMouseControl(MCH_EntityVehicle vehicle, EntityPlayer player, float partialTicks, float deltaSeconds) {

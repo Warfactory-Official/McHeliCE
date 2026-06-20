@@ -129,6 +129,12 @@ public class MCH_Config {
     public static MCH_ConfigPrm AliveTimeOfCartridge;
     public static MCH_ConfigPrm InfinityAmmo;
     public static MCH_ConfigPrm InfinityFuel;
+    public static MCH_ConfigPrm EnergySystem;
+    public static MCH_ConfigPrm EnergyRatioEU;
+    public static MCH_ConfigPrm EnergyRatioHE;
+    public static MCH_ConfigPrm ChargerRange;
+    public static MCH_ConfigPrm ChargerTransferRate;
+    public static MCH_ConfigPrm ChargerCapacity;
     public static MCH_ConfigPrm HitMarkColor;
     public static MCH_ConfigPrm SmoothShading;
     public static MCH_ConfigPrm EnableModEntityRender;
@@ -199,6 +205,7 @@ public class MCH_Config {
     public static MCH_ConfigPrm ItemID_RangeFinder;
     public static MCH_ConfigPrm BlockID_DraftingTableOFF;
     public static MCH_ConfigPrm BlockID_DraftingTableON;
+    public static MCH_ConfigPrm BlockID_Charger;
     public static MCH_ConfigPrm[] KeyConfig;
     public static MCH_ConfigPrm[] General;
 
@@ -334,6 +341,15 @@ public class MCH_Config {
         AliveTimeOfCartridge = new MCH_ConfigPrm("AliveTimeOfCartridge", 200);
         InfinityAmmo = new MCH_ConfigPrm("InfinityAmmo", false);
         InfinityFuel = new MCH_ConfigPrm("InfinityFuel", false);
+        EnergySystem = new MCH_ConfigPrm("EnergySystem", "FE");
+        EnergySystem.desc = ";EnergySystem = FE | GT | HBM (external energy used by electric aircraft & the charger)";
+        EnergyRatioEU = new MCH_ConfigPrm("EnergyRatioFEperEU", 4.0);
+        EnergyRatioEU.desc = ";EnergyRatioFEperEU = internal energy units gained per 1 GregTech EU (default 4)";
+        EnergyRatioHE = new MCH_ConfigPrm("EnergyRatioFEperHE", 1.0);
+        EnergyRatioHE.desc = ";EnergyRatioFEperHE = internal energy units gained per 1 HBM HE (default 1)";
+        ChargerRange = new MCH_ConfigPrm("ChargerRange", 6.0);
+        ChargerTransferRate = new MCH_ConfigPrm("ChargerTransferRate", 256);
+        ChargerCapacity = new MCH_ConfigPrm("ChargerCapacity", 100000);
         HitMarkColor = new MCH_ConfigPrm("HitMarkColor", "255, 255, 0, 0");
         HitMarkColor.desc = ";HitMarkColor = Alpha, Red, Green, Blue";
         SmoothShading = new MCH_ConfigPrm("SmoothShading", true);
@@ -422,6 +438,7 @@ public class MCH_Config {
         ItemID_StingerMissile = new MCH_ConfigPrm("ItemID_StingerMissile", 28901);
         BlockID_DraftingTableOFF = new MCH_ConfigPrm("BlockID_DraftingTable", 3450);
         BlockID_DraftingTableON = new MCH_ConfigPrm("BlockID_DraftingTableON", 3451);
+        BlockID_Charger = new MCH_ConfigPrm("BlockID_Charger", 3452);
         General = new MCH_ConfigPrm[] {
                 TestMode,
                 __TextureAlpha,
@@ -444,6 +461,12 @@ public class MCH_Config {
                 Collision_EntityTankDamage,
                 InfinityAmmo,
                 InfinityFuel,
+                EnergySystem,
+                EnergyRatioEU,
+                EnergyRatioHE,
+                ChargerRange,
+                ChargerTransferRate,
+                ChargerCapacity,
                 DismountAll,
                 MountMinecartHeli,
                 MountMinecartPlane,

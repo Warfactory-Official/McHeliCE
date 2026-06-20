@@ -7,6 +7,7 @@ import com.cleanroommc.modularui.screen.UISettings;
 import com.cleanroommc.modularui.value.sync.PanelSyncManager;
 import com.norwood.mcheli.*;
 import com.norwood.mcheli.chain.MCH_EntityChain;
+import com.norwood.mcheli.compat.energy.MCH_EnergyCompat;
 import com.norwood.mcheli.command.MCH_Command;
 import com.norwood.mcheli.factories.AircraftGuiData;
 import com.norwood.mcheli.factories.MCHGuiFactories;
@@ -65,6 +66,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.*;
@@ -78,6 +80,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.*;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -133,6 +136,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     // Persistent attitude quaternion, source of truth when MCH_Config.ExperimentalQuaternionRotation
     // is on (gimbal-resistant). Null until first use; rebuilt from Euler via resyncOrientationFromEuler().
     public org.joml.Quaternionf orientation;
+    // Cockpit-relative free-look view offset (client-only). Composed with orientation to give the eye
+    // direction: viewQuat = orientation * freeLookOffset. Mouse moves it eye-locally (right-multiply)
+    // so the look pans in the screen plane and rolls over the top without gimbal. Null = look forward.
+    public org.joml.Quaternionf freeLookOffset;
     public boolean aircraftRollRev;
     public boolean aircraftRotChanged;
     public float throttleBack = 0.0F;
@@ -2893,10 +2900,10 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     @Nullable
     public FluidStack getFuelStack() {
-        if (this.getFuel() == 0 || getFuelType().isEmpty()) return null;
+        if (this.isElectric() || this.getFuel() == 0 || getFuelType().isEmpty()) return null;
 
         if (!FluidRegistry.isFluidRegistered(getFuelType())) {
-            MCH_Logger.warn("Fluid: {} does not exist, make sure required fluids do exist. Fluid will be cleared");
+            MCH_Logger.warn("Fluid: {} does not exist, make sure required fluids do exist. Fluid will be cleared", getFuelType());
             return null;
         }
         return new FluidStack(FluidRegistry.getFluid(getFuelType()), getFuel());
@@ -2904,11 +2911,12 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     @Nullable
     public Fluid getFuelFluid() {
-        if (getFuel() < 0)
+        if (getFuel() < 0 || this.isElectric())
             return null;
         String fluidName = getFuelType();
+        if (fluidName.isBlank()) return null;
 
-        var fluid = fluidName.isBlank() ? null : FluidRegistry.getFluid(fluidName);
+        var fluid = FluidRegistry.getFluid(fluidName);
         if (fluid == null) {
             MCH_Logger.warn("Retrieved fluid: {} does not exist, make sure required fluids do exist.", fluidName);
         }
@@ -2947,6 +2955,40 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     public int getMaxFuel() {
         return this.getAcInfo() != null ? this.getAcInfo().maxFuel : 0;
+    }
+
+    /** True when this aircraft runs on electricity (energy stored in the FUEL field) rather than fluid fuel. */
+    public boolean isElectric() {
+        return this.getAcInfo() != null && this.getAcInfo().electric;
+    }
+
+    /** True when battery items in the fuel slot may act as extended storage for this (electric) aircraft. */
+    public boolean allowBattery() {
+        return this.isElectric() && this.getAcInfo().allowBattery;
+    }
+
+    /**
+     * Adds energy to the internal buffer (electric aircraft reuse the FUEL field as a plain number).
+     *
+     * @return the amount actually accepted.
+     */
+    public int addEnergy(int amount, boolean simulate) {
+        if (this.world.isRemote || amount <= 0) return 0;
+        int accepted = Math.min(amount, this.getMaxFuel() - this.getFuel());
+        if (accepted > 0 && !simulate) this.setFuel(this.getFuel() + accepted);
+        return Math.max(0, accepted);
+    }
+
+    /**
+     * Extracts energy from the internal buffer.
+     *
+     * @return the amount actually removed.
+     */
+    public int extractEnergy(int amount, boolean simulate) {
+        if (this.world.isRemote || amount <= 0) return 0;
+        int removed = Math.min(amount, this.getFuel());
+        if (removed > 0 && !simulate) this.setFuel(this.getFuel() - removed);
+        return Math.max(0, removed);
     }
 
     public void supplyFuel() {
@@ -3020,6 +3062,13 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                     setFuel(getFuel() - toConsume);
                 }
             }
+        }
+
+        // Electric aircraft have no fluid tank: top up the internal buffer from an onboard battery
+        // (the charger block fills the buffer directly). This works in flight, unlike fluid refuel.
+        if (isElectric()) {
+            updateElectricBattery();
+            return;
         }
 
         //Refueling Logic
@@ -3106,6 +3155,26 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
             return true;
         }
         return false;
+    }
+
+    /**
+     * Electric refuel: pulls energy from a battery item in the fuel slot into the internal buffer,
+     * acting as extended/reserve storage. The charger block fills the buffer (and battery) externally.
+     */
+    private void updateElectricBattery() {
+        if (!allowBattery() || getCountOnUpdate() % 10 != 0) return;
+
+        int need = getMaxFuel() - getFuel();
+        if (need <= 0) return;
+
+        ItemStack bat = getGuiInventory().getFuelSlotItemStack(MCH_AircraftInventory.SLOT_FUEL_IN);
+        if (bat.isEmpty() || !MCH_EnergyCompat.isBattery(bat)) return;
+
+        int pulled = MCH_EnergyCompat.dischargeFromItem(bat, need, false);
+        if (pulled > 0) {
+            setFuel(getFuel() + pulled);
+            triggerRefuelCriteria();
+        }
     }
 
     public void dumpFuel() {
@@ -6838,6 +6907,27 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return this.getEntityBoundingBox().grow(32);
     }
 
+    /** True when this aircraft exposes a fluid tank to external automation (fluid-fuelled, with a tank). */
+    private boolean hasFluidTank() {
+        return !this.isElectric() && this.getMaxFuel() > 0;
+    }
+
+    @Override
+    public boolean hasCapability(@NotNull Capability<?> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && this.hasFluidTank()) {
+            return true;
+        }
+        return super.hasCapability(capability, facing);
+    }
+
+    @Override
+    public <T> T getCapability(@NotNull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && this.hasFluidTank()) {
+            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(this);
+        }
+        return super.getCapability(capability, facing);
+    }
+
     public IFluidTankProperties[] getTankProperties() {
         return new IFluidTankProperties[]{new FluidTankProperties(getFuelStack(), getMaxFuel())};
     }
@@ -6845,18 +6935,23 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     public int fill(FluidStack resource, boolean doFill) {
         var ac = this.getAcInfo();
-        if (ac == null) return 0;
+        if (ac == null || resource == null || resource.amount <= 0) return 0;
+        // Electric aircraft have no fluid tank.
+        if (this.isElectric()) return 0;
+        // Only accept fluids this aircraft can actually burn (also rejects water/lava/etc).
+        if (!ac.isFuelValid(resource)) return 0;
+
         int maxFill = getMaxFuel();
         int contents = getFuel();
-        String type = getTypeName();
         String fluidName = resource.getFluid().getName();
-        boolean sameFuel = fluidName.equalsIgnoreCase(type);
+        boolean sameFuel = fluidName.equalsIgnoreCase(getFuelType());
 
         //can't overfill or mix fuels
         if (contents >= maxFill || (contents > 0 && !sameFuel)) return 0;
 
         int accepted = Math.min(resource.amount, maxFill - contents);
-        if (doFill) {
+        if (doFill && accepted > 0) {
+            if (contents <= 0) this.setFuelType(resource.getFluid());
             this.dataManager.set(FUEL, contents + accepted);
         }
         return accepted;
@@ -6865,14 +6960,14 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     @Nullable
     public FluidStack drain(FluidStack resource, boolean doDrain) {
         if (resource == null || resource.amount <= 0) return null;
+        if (this.isElectric()) return null;
 
         int contents = getFuel();
         if (contents <= 0) return null;
 
-        String type = getTypeName();
         String fluidName = resource.getFluid().getName();
 
-        if (!fluidName.equalsIgnoreCase(type)) return null;
+        if (!fluidName.equalsIgnoreCase(getFuelType())) return null;
 
         int drained = Math.min(resource.amount, contents);
 
@@ -6920,19 +7015,19 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
     @Nullable
     public FluidStack drain(int maxDrain, boolean doDrain) {
-        if (maxDrain <= 0) return null;
+        if (maxDrain <= 0 || this.isElectric()) return null;
 
         int contents = getFuel();
         if (contents <= 0) return null;
+
+        Fluid fluid = FluidRegistry.getFluid(getFuelType());
+        if (fluid == null) return null;
 
         int drained = Math.min(maxDrain, contents);
 
         if (doDrain) {
             this.dataManager.set(FUEL, contents - drained);
         }
-
-        Fluid fluid = FluidRegistry.getFluid(getTypeName());
-        if (fluid == null) return null;
 
         return new FluidStack(fluid, drained);
     }
