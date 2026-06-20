@@ -59,6 +59,7 @@ public class MCH_ExplosionV2 extends Explosion {
     public float explosionSizeBlock;
     public float explosionDamagePower;
     public float explosionBlockPower;
+    public float explosionDamageRadius;
     public MCH_DamageFactor damageFactor = null;
     // Reforged: explosion-through-wall. When true, blast damage ignores block occlusion
     // (full density), but is scaled by explosionThroughWallFactor when the target is occluded.
@@ -90,6 +91,7 @@ public class MCH_ExplosionV2 extends Explosion {
         this.explosionSizeBlock = size;
         this.explosionDamagePower = size;
         this.explosionBlockPower = 1.0F;
+        this.explosionDamageRadius = size;
         this.countSetFireEntity = 0;
         this.isPlaySound = true;
         this.isInWater = false;
@@ -225,7 +227,8 @@ public class MCH_ExplosionV2 extends Explosion {
             }
         }
 
-        float f = this.size * 2.0F;
+        float damageRadius = this.explosionDamageRadius > 0.0F ? this.explosionDamageRadius : this.size;
+        float f = damageRadius * 2.0F;
         this.getAffectedBlockPositions().addAll(hashset);
         int i = MathHelper.floor(this.x - f - 1.0);
         int j = MathHelper.floor(this.x + f + 1.0);

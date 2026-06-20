@@ -127,10 +127,16 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
                         float size = info.explosion;
                         float sizeBlock = info.explosion;
                         float blockPower = info.explosion;
+                        float damageRadius = size;
                         if (info.isNewExplosionBreak) {
                             size = info.explosionRadius > 0.0F ? info.explosionRadius : info.explosion;
                             sizeBlock = size;
                             blockPower = info.explosionBlock >= 0 ? info.explosionBlock : info.explosion;
+                        }
+                        if (info.isNewExplosionBreak && info.explosionDamageRadius > 0.0F) {
+                            damageRadius = info.explosionDamageRadius;
+                        } else {
+                            damageRadius = size;
                         }
                         MCH_Explosion.newExplosion(
                                 this.world,
@@ -143,6 +149,7 @@ public class MCH_EntityThrowable extends EntityThrowable implements IThrowableEn
                                 sizeBlock,
                                 info.explosion,
                                 blockPower,
+                                damageRadius,
                                 true,
                                 true,
                                 false,

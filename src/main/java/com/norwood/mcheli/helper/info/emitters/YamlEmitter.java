@@ -439,6 +439,8 @@ public class YamlEmitter implements IEmitter {
             expl.put("Power", info.explosion);
         if (info.explosionRadius != dummy.explosionRadius)
             expl.put("Radio", info.explosionRadius);
+        if (info.explosionDamageRadius != dummy.explosionDamageRadius)
+            expl.put("DamageRadio", info.explosionDamageRadius);
         if (!Objects.equals(info.explosionType, dummy.explosionType))
             expl.put("Type", info.explosionType);
         if (info.explosionBlock != dummy.explosionBlock)

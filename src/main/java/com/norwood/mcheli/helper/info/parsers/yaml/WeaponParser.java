@@ -210,6 +210,7 @@ public class WeaponParser {
             switch (entry.getKey()) {
                 case "Power" -> info.explosion = ((Number) entry.getValue()).intValue();
                 case "Radio" -> info.explosionRadius = getClamped(0.0F, 100.0F, entry.getValue());
+                case "DamageRadio" -> info.explosionDamageRadius = getClamped(0.0F, 100.0F, entry.getValue());
                 case "Type" -> info.explosionType = (String) entry.getValue();
                 case "ProximityFuseDist" -> info.proximityFuseDist = getClamped(0.0F, 2000.0F, entry.getValue());
                 case "DestructionPower" -> info.explosionBlock = ((Number) entry.getValue()).intValue();

@@ -1,6 +1,6 @@
 ﻿.\gradlew.bat : WARNING: A restricted method in java.lang.System has been 
 called
-En línea: 1 Carácter: 58
+En línea: 1 Carácter: 59
 + ... Hub\McHeliCE'; .\gradlew.bat compileJava --console=plain 2>&1 | Out-F ...
 +                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: (WARNING: A rest...has been called 
@@ -63,6 +63,11 @@ Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
 ns\mixins.mcheli.refmap.json
 Note: Writing searge output SRGs to 
 C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\weapo
+n\MCH_WeaponGuidanceSystem.java:33: warning: Not generating setWorld(): A 
+method with that name already exists
+    public World world;
+                 ^
 C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
 aft\MCH_EntityAircraft.java:228: warning: Not generating setCurrentThrottle(): 
 A method with that name already exists
@@ -113,55 +118,578 @@ aft\MCH_EntityAircraft.java:301: warning: Not generating getCountOnUpdate(): A
 method with that name already exists
     @Getter
     ^
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\throw
+able\MCH_EntityThrowable.java:136: error: cannot find symbol
+                        if (info.explosionDamageRadius > 0.0F) {
+                                ^
+  symbol:   variable explosionDamageRadius
+  location: variable info of type MCH_ThrowableInfo
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\throw
+able\MCH_EntityThrowable.java:137: error: cannot find symbol
+                            damageRadius = info.explosionDamageRadius;
+                                               ^
+  symbol:   variable explosionDamageRadius
+  location: variable info of type MCH_ThrowableInfo
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+2 errors
+11 warnings
+
+> Task :compileJava FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/marmo/Documents/GitHub/McHeliCE/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\wea
+pon\MCH_WeaponGuidanceSystem.java:33: warning: Not generating setWorld(): A 
+method with that name already exists
+      public World world;
+                   ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:228: warning: Not generating 
+setCurrentThrottle(): A method with that name already exists
+      private double currentThrottle;
+                     ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:227: warning: Not generating 
+getCurrentThrottle(): A method with that name already exists
+      @Getter
+      ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:245: warning: Not generating 
+getPrevDetachedWeaponAimYaw(): A method with that name already exists
+      @Getter
+      ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:247: warning: Not generating 
+getPrevDetachedWeaponAimPitch(): A method with that name already exists
+      @Getter
+      ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:276: warning: Not generating 
+setTowChainEntity(): A method with that name already exists
+      private MCH_EntityChain towChainEntity;
+                              ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:294: warning: Not generating 
+setCommonUniqueId(): A method with that name already exists
+      private String commonUniqueId;
+                     ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:293: warning: Not generating 
+getCommonUniqueId(): A method with that name already exists
+      @Getter
+      ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:300: warning: Not generating setDespawnCount(): 
+A method with that name already exists
+      private int despawnCount;
+                  ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:299: warning: Not generating getDespawnCount(): 
+A method with that name already exists
+      @Getter
+      ^
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\air
+craft\MCH_EntityAircraft.java:301: warning: Not generating getCountOnUpdate(): 
+A method with that name already exists
+      @Getter
+      ^
+  Note: Recompile with -Xlint:deprecation for details.
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\thr
+owable\MCH_EntityThrowable.java:136: error: cannot find symbol
+                          if (info.explosionDamageRadius > 0.0F) {
+                                  ^
+    symbol:   variable explosionDamageRadius
+    location: variable info of type MCH_ThrowableInfo
+  C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\thr
+owable\MCH_EntityThrowable.java:137: error: cannot find symbol
+                              damageRadius = info.explosionDamageRadius;
+                                                 ^
+    symbol:   variable explosionDamageRadius
+    location: variable info of type MCH_ThrowableInfo
+  Note: Recompile with -Xlint:unchecked for details.
+  Note: Some input files use or override a deprecated API.
+  Note: SpongePowered MIXIN Annotation Processor Version=0.8.7
+  Note: Supported obfuscation types: ObfuscationServiceMCP supports 
+[searge,notch]
+  Note: Loading searge mappings from C:\Users\marmo\.gradle\caches\minecraft\de
+\oceanlabs\mcp\mcp_stable\39\rfg_srgs\mcp-srg.srg
+  Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mi
+xins\mixins.mcheli.refmap.json
+  Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+  Note: Some input files use unchecked or unsafe operations.
+  2 errors
+  11 warnings
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to generate a Build Scan (powered by Develocity).
+
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task 
+':compileJava'.
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$e
+xecuteIfValid$1(ExecuteActionsTaskExecuter.java:135)
+	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:288)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeI
+fValid(ExecuteActionsTaskExecuter.java:133)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(
+ExecuteActionsTaskExecuter.java:121)
+	at org.gradle.api.internal.tasks.execution.ProblemsTaskPathTrackingTaskExecute
+r.execute(ProblemsTaskPathTrackingTaskExecuter.java:41)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.exec
+ute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.ex
+ecute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execu
+te(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(Skip
+OnlyIfTaskExecuter.java:74)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(
+CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTa
+sk(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(Even
+tFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(Even
+tFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOpe
+rationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOpe
+rationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(Defaul
+tBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(Defaul
+tBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultB
+uildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultB
+uildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuil
+dOperationRunner.java:53)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(Eve
+ntFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.DefaultNodeExecutor.executeLocalTaskNode(DefaultN
+odeExecutor.java:55)
+	at org.gradle.execution.plan.DefaultNodeExecutor.execute(DefaultNodeExecutor.j
+ava:34)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutor
+sAction.execute(DefaultTaskExecutionGraph.java:355)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutor
+sAction.execute(DefaultTaskExecutionGraph.java:343)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwar
+eExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:339)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOp
+erationRef.java:84)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwar
+eExecutionAction.execute(DefaultTaskExecutionGraph.java:339)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwar
+eExecutionAction.execute(DefaultTaskExecutionGraph.java:328)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(Defaul
+tPlanExecutor.java:459)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPla
+nExecutor.java:376)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExec
+ute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManage
+dExecutor.java:47)
+Caused by: org.gradle.api.internal.tasks.compile.CompilationFailedException: 
+Compilation failed; see the compiler output below.
 C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\weapo
 n\MCH_WeaponGuidanceSystem.java:33: warning: Not generating setWorld(): A 
 method with that name already exists
     public World world;
                  ^
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing searge output SRGs to 
-C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing searge output SRGs to 
-C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing searge output SRGs to 
-C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing searge output SRGs to 
-C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
-ns\mixins.mcheli.refmap.json
-Note: Writing searge output SRGs to 
-C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
-Note: Some input files use or override a deprecated API.
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:228: warning: Not generating setCurrentThrottle(): 
+A method with that name already exists
+    private double currentThrottle;
+                   ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:227: warning: Not generating getCurrentThrottle(): 
+A method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:245: warning: Not generating 
+getPrevDetachedWeaponAimYaw(): A method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:247: warning: Not generating 
+getPrevDetachedWeaponAimPitch(): A method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:276: warning: Not generating setTowChainEntity(): 
+A method with that name already exists
+    private MCH_EntityChain towChainEntity;
+                            ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:294: warning: Not generating setCommonUniqueId(): 
+A method with that name already exists
+    private String commonUniqueId;
+                   ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:293: warning: Not generating getCommonUniqueId(): 
+A method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:300: warning: Not generating setDespawnCount(): A 
+method with that name already exists
+    private int despawnCount;
+                ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:299: warning: Not generating getDespawnCount(): A 
+method with that name already exists
+    @Getter
+    ^
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\aircr
+aft\MCH_EntityAircraft.java:301: warning: Not generating getCountOnUpdate(): A 
+method with that name already exists
+    @Getter
+    ^
 Note: Recompile with -Xlint:deprecation for details.
-Note: Some input files use unchecked or unsafe operations.
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\throw
+able\MCH_EntityThrowable.java:136: error: cannot find symbol
+                        if (info.explosionDamageRadius > 0.0F) {
+                                ^
+  symbol:   variable explosionDamageRadius
+  location: variable info of type MCH_ThrowableInfo
+C:\Users\marmo\Documents\GitHub\McHeliCE\src\main\java\com\norwood\mcheli\throw
+able\MCH_EntityThrowable.java:137: error: cannot find symbol
+                            damageRadius = info.explosionDamageRadius;
+                                               ^
+  symbol:   variable explosionDamageRadius
+  location: variable info of type MCH_ThrowableInfo
 Note: Recompile with -Xlint:unchecked for details.
+Note: Some input files use or override a deprecated API.
+Note: SpongePowered MIXIN Annotation Processor Version=0.8.7
+Note: Supported obfuscation types: ObfuscationServiceMCP supports 
+[searge,notch]
+Note: Loading searge mappings from C:\Users\marmo\.gradle\caches\minecraft\de\o
+ceanlabs\mcp\mcp_stable\39\rfg_srgs\mcp-srg.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing refmap to C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixi
+ns\mixins.mcheli.refmap.json
+Note: Writing searge output SRGs to 
+C:\Users\marmo\Documents\GitHub\McHeliCE\build\tmp\mixins\mixins.srg
+Note: Some input files use unchecked or unsafe operations.
+2 errors
 11 warnings
-
-[Incubating] Problems report is available at: file:///C:/Users/marmo/Documents/GitHub/McHeliCE/build/reports/problems/problems-report.html
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompil
+er.java:89)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompil
+er.java:50)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHa
+ndleErrors(NormalizingJavaCompiler.java:98)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(Norma
+lizingJavaCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(Norma
+lizingJavaCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompile
+r.execute(AnnotationProcessorDiscoveringCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompile
+r.execute(AnnotationProcessorDiscoveringCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.
+execute(ModuleApplicationNameWritingCompiler.java:46)
+	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.
+execute(ModuleApplicationNameWritingCompiler.java:36)
+	at org.gradle.jvm.toolchain.internal.DefaultToolchainJavaCompiler.execute(Defa
+ultToolchainJavaCompiler.java:57)
+	at org.gradle.api.tasks.compile.JavaCompile.lambda$createToolchainCompiler$3(J
+avaCompile.java:206)
+	at org.gradle.api.internal.tasks.compile.CleaningJavaCompiler.execute(Cleaning
+JavaCompiler.java:53)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalCompilerFactor
+y.lambda$createRebuildAllCompiler$0(IncrementalCompilerFactory.java:55)
+	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute
+(SelectiveCompiler.java:70)
+	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute
+(SelectiveCompiler.java:44)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringC
+ompiler.execute(IncrementalResultStoringCompiler.java:66)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringC
+ompiler.execute(IncrementalResultStoringCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCom
+piler$1.call(CompileJavaBuildOperationReportingCompiler.java:64)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCom
+piler$1.call(CompileJavaBuildOperationReportingCompiler.java:48)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOpe
+rationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOpe
+rationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(Defaul
+tBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(Defaul
+tBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultB
+uildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultB
+uildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuil
+dOperationRunner.java:53)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCom
+piler.execute(CompileJavaBuildOperationReportingCompiler.java:48)
+	at org.gradle.api.tasks.compile.JavaCompile.performCompilation(JavaCompile.jav
+a:224)
+	at org.gradle.api.tasks.compile.JavaCompile.performIncrementalCompilation(Java
+Compile.java:165)
+	at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:150)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.doExecute
+(IncrementalTaskAction.java:45)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(Stan
+dardTaskAction.java:51)
+	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.execute(I
+ncrementalTaskAction.java:26)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(Stan
+dardTaskAction.java:29)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.j
+ava:252)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(Defaul
+tBuildOperationRunner.java:29)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(Defaul
+tBuildOperationRunner.java:26)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(Defaul
+tBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(Defaul
+tBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultB
+uildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultB
+uildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuild
+OperationRunner.java:47)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExe
+cution.java:237)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskEx
+ecution.java:220)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOu
+tputFiles(TaskExecution.java:203)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution
+.java:170)
+	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep
+.java:105)
+	at 
+org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOpe
+rationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOpe
+rationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(Defaul
+tBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(Defaul
+tBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultB
+uildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultB
+uildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuil
+dOperationRunner.java:53)
+	at 
+org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)
+	at 
+org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
+	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecu
+tionStep.java:42)
+	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(Timeo
+utStep.java:75)
+	at 
+org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreC
+reateOutputParentsStep.java:50)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreC
+reateOutputParentsStep.java:28)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(Remov
+ePreviousOutputsStep.java:68)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(Remov
+ePreviousOutputsStep.java:38)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(Br
+oadcastChangingOutputsStep.java:61)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(Br
+oadcastChangingOutputsStep.java:26)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execut
+e(CaptureOutputsAfterExecutionStep.java:69)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execut
+e(CaptureOutputsAfterExecutionStep.java:46)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(Resolve
+InputChangesStep.java:39)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(Resolve
+InputChangesStep.java:28)
+	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(Buil
+dCacheStep.java:189)
+	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCa
+cheStep.java:75)
+	at org.gradle.internal.Either$Right.fold(Either.java:176)
+	at 
+org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.j
+ava:73)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.j
+ava:48)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreEx
+ecutionStateStep.java:46)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreEx
+ecutionStateStep.java:35)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpT
+oDateStep.java:75)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipU
+pToDateStep.java:53)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateSt
+ep.java:53)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateSt
+ep.java:35)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedSt
+ep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedSt
+ep.execute(MarkSnapshottingInputsFinishedStep.java:27)
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
 
 You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
 
 For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-
-BUILD SUCCESSFUL in 14s
 10 actionable tasks: 1 executed, 9 up-to-date
-Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.2.1/userguide/configuration_cache_enabling.html
+	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.exec
+uteDelegate(ResolveIncrementalCachingStateStep.java:49)
+	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.exec
+uteDelegate(ResolveIncrementalCachingStateStep.java:27)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute
+(AbstractResolveCachingStateStep.java:71)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute
+(AbstractResolveCachingStateStep.java:39)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChang
+esStep.java:64)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChang
+esStep.java:35)
+	at 
+org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:62)
+	at 
+org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:40)
+	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep
+.execute(AbstractCaptureStateBeforeExecutionStep.java:76)
+	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep
+.execute(AbstractCaptureStateBeforeExecutionStep.java:45)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNo
+nEmptySources(AbstractSkipEmptyWorkStep.java:136)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(Abstr
+actSkipEmptyWorkStep.java:66)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(Abstr
+actSkipEmptyWorkStep.java:38)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedSte
+p.execute(MarkSnapshottingInputsStartedStep.java:38)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(
+LoadPreviousExecutionStateStep.java:36)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(
+LoadPreviousExecutionStateStep.java:23)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleSt
+aleOutputsStep.java:75)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleSt
+aleOutputsStep.java:41)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execu
+te$0(AssignMutableWorkspaceStep.java:35)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskE
+xecution.java:297)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(Assi
+gnMutableWorkspaceStep.java:31)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(Assi
+gnMutableWorkspaceStep.java:22)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipeli
+neStep.java:40)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipeli
+neStep.java:23)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lam
+bda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.exe
+cute(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.exe
+cute(ExecuteWorkBuildOperationFiringStep.java:39)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCache
+Step.java:46)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCache
+Step.java:34)
+	at 
+org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:44)
+	at 
+org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:31)
+	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(Default
+ExecutionEngine.java:64)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeI
+fValid(ExecuteActionsTaskExecuter.java:132)
+	... 30 more
+
+
+BUILD FAILED in 13s

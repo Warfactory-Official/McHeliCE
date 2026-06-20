@@ -51,6 +51,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public int explosion = 0;
     public int explosionBlock = -1;
     public float explosionRadius = 0.0F;
+    public float explosionDamageRadius = 0.0F;
     public int explosionInWater = 0;
     public int explosionAltitude = 0;
     public int delayFuse = 0;
