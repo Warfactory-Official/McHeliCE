@@ -79,8 +79,9 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
 
         MCH_WeaponSet weaponSet = ac.getCurrentWeapon(player);
         if (weaponSet != null && weaponSet.getCurrentWeapon() != null) {
-            float barrelYaw = ac.getCurrentWeaponShotYaw(player);
-            float barrelPitch = ac.getCurrentWeaponShotPitch(player);
+            float[] barrelDir = ac.getCurrentWeaponShotDir(player);
+            float barrelYaw = barrelDir[0];
+            float barrelPitch = barrelDir[1];
             this.drawString(String.format("BX: %+.1f", barrelYaw), x, y + 70, color);
             this.drawString(String.format("BY: %+.1f", barrelPitch), x, y + 80, color);
         }
@@ -194,8 +195,9 @@ public abstract class MCH_AircraftCommonGui extends MCH_Gui {
         MCH_WeaponBase weapon = weaponSet != null ? weaponSet.getCurrentWeapon() : null;
         if (weapon == null || weapon.getInfo() == null) return;
 
-        float yaw = aircraft.getCurrentWeaponShotYaw(player, this.smoothCamPartialTicks);
-        float pitch = aircraft.getCurrentWeaponShotPitch(player, this.smoothCamPartialTicks);
+        float[] shotDir = aircraft.getCurrentWeaponShotDir(player, this.smoothCamPartialTicks);
+        float yaw = shotDir[0];
+        float pitch = shotDir[1];
         Vec3d look = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
 
         Vec3d target = getWeaponTrajectoryTarget(aircraft, player, weapon, look, this.smoothCamPartialTicks);

@@ -213,6 +213,19 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
         return super.getCurrentWeaponShotPitch(user);
     }
 
+    // Ground-vehicle turrets aim world-absolute (getWeaponUserYaw/Pitch), not as a body-relative
+    // gimbal summed onto the hull, so the airframe-quaternion composition does not apply. Keep the
+    // legacy scalar path regardless of ExperimentalQuaternionRotation.
+    @Override
+    public float[] getCurrentWeaponShotDir(Entity user) {
+        return new float[] { this.getCurrentWeaponShotYaw(user), this.getCurrentWeaponShotPitch(user) };
+    }
+
+    @Override
+    public float[] getCurrentWeaponShotDir(Entity user, float partialTicks) {
+        return new float[] { this.getCurrentWeaponShotYaw(user, partialTicks), this.getCurrentWeaponShotPitch(user, partialTicks) };
+    }
+
     public Vec3d getCurrentWeaponShotPos(Vec3d localPos, Entity user) {
         return com.norwood.mcheli.MCH_Lib.RotVec3(
                 localPos,

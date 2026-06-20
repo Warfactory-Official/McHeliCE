@@ -370,8 +370,9 @@ public class MCH_WeaponSet {
     private void setupWeaponParam(MCH_WeaponParam prm, MCH_WeaponBase current, MCH_WeaponInfo info) {
         current.canPlaySound = (this.soundWait == 0);
         if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
-            prm.rotYaw = aircraft.getCurrentWeaponShotYaw(prm.user);
-            prm.rotPitch = aircraft.getCurrentWeaponShotPitch(prm.user);
+            float[] shotDir = aircraft.getCurrentWeaponShotDir(prm.user);
+            prm.rotYaw = shotDir[0];
+            prm.rotPitch = shotDir[1];
         } else {
             float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
             float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
@@ -468,8 +469,9 @@ public class MCH_WeaponSet {
         if (current == null || current.getInfo() == null) return -1.0;
 
         if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
-            prm.rotYaw = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotYaw(prm.user));
-            prm.rotPitch = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotPitch(prm.user));
+            float[] shotDir = aircraft.getCurrentWeaponShotDir(prm.user);
+            prm.rotYaw = MathHelper.wrapDegrees(shotDir[0]);
+            prm.rotPitch = MathHelper.wrapDegrees(shotDir[1]);
         } else {
             float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;
             float basePitch = prm.entity != null ? prm.entity.rotationPitch : 0.0F;
@@ -490,8 +492,9 @@ public class MCH_WeaponSet {
         if (current == null || current.getInfo() == null) return null;
 
         if (prm.entity instanceof com.norwood.mcheli.aircraft.MCH_EntityAircraft aircraft) {
-            prm.rotYaw = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotYaw(prm.user));
-            prm.rotPitch = MathHelper.wrapDegrees(aircraft.getCurrentWeaponShotPitch(prm.user));
+            float[] shotDir = aircraft.getCurrentWeaponShotDir(prm.user);
+            prm.rotYaw = MathHelper.wrapDegrees(shotDir[0]);
+            prm.rotPitch = MathHelper.wrapDegrees(shotDir[1]);
             prm.rotRoll = aircraft.getRoll();
         } else {
             float baseYaw = prm.entity != null ? prm.entity.rotationYaw : 0.0F;

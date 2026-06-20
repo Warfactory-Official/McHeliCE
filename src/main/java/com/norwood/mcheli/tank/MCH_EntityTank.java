@@ -3,7 +3,6 @@ package com.norwood.mcheli.tank;
 import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_Lib;
 import com.norwood.mcheli.MCH_MOD;
-import com.norwood.mcheli.MCH_Math;
 import com.norwood.mcheli.aircraft.*;
 import com.norwood.mcheli.chain.MCH_EntityChain;
 import com.norwood.mcheli.helper.MCH_Logger;
@@ -1243,17 +1242,17 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
                 .rotateX(this.getPitch() / 180.0F * (float) Math.PI)
                 .rotateY(this.getYaw() / 180.0F * (float) Math.PI);
         float[] ypr = MCH_Lib.eulerFromOrientationQuat(q); // {pitch, yaw, roll}
-        MCH_Math.FVector3D v = MCH_Math.newVec3D(ypr[0], ypr[1], ypr[2]);
+        float vPitch = ypr[0], vYaw = ypr[1], vRoll = ypr[2];
 
-        v.x = MCH_Lib.RNG(v.x, -90.0F, 90.0F);
-        v.z = MCH_Lib.RNG(v.z, -90.0F, 90.0F);
+        vPitch = MCH_Lib.RNG(vPitch, -90.0F, 90.0F);
+        vRoll = MCH_Lib.RNG(vRoll, -90.0F, 90.0F);
 
-        if (v.z > 180.0F) v.z -= 360.0F;
-        if (v.z < -180.0F) v.z += 360.0F;
+        if (vRoll > 180.0F) vRoll -= 360.0F;
+        if (vRoll < -180.0F) vRoll += 360.0F;
 
-        this.setRotYaw(v.y);
-        this.setRotPitch(v.x);
-        this.setRotRoll(v.z);
+        this.setRotYaw(vYaw);
+        this.setRotPitch(vPitch);
+        this.setRotRoll(vRoll);
 
         this.onUpdateAngles(deltaSeconds);
 

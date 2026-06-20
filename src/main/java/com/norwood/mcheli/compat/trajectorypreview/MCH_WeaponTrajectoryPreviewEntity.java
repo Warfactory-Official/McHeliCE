@@ -58,8 +58,9 @@ public class MCH_WeaponTrajectoryPreviewEntity extends Entity implements Preview
         this.ticksSimulated = 0;
         this.accelerationFactor = computeAccelerationFactor(weapon);
 
-        float yaw = aircraft.getCurrentWeaponShotYaw(player);
-        float pitch = aircraft.getCurrentWeaponShotPitch(player);
+        float[] shotDir = aircraft.getCurrentWeaponShotDir(player);
+        float yaw = shotDir[0];
+        float pitch = shotDir[1];
         Vec3d shotPos = weapon.getShotPos(aircraft).add(aircraft.posX, aircraft.posY, aircraft.posZ);
         Vec3d look = MCH_Lib.RotVec3(0.0, 0.0, 1.0, -yaw, -pitch, 0.0F).normalize();
         Vec3d motion = computeInitialMotion(weapon, aircraft, look);

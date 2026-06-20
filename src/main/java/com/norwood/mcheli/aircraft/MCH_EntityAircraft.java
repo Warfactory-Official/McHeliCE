@@ -1512,21 +1512,21 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
                     .rotateX(this.getPitch() * ((float) Math.PI / 180.0F))
                     .rotateY(this.getYaw() * ((float) Math.PI / 180.0F));
             float[] ypr = MCH_Lib.eulerFromOrientationQuat(q); // {pitch, yaw, roll}
-            MCH_Math.FVector3D v = MCH_Math.newVec3D(ypr[0], ypr[1], ypr[2]);
+            float vPitch = ypr[0], vYaw = ypr[1], vRoll = ypr[2];
 
             //LIMITS
             assert this.getAcInfo() != null;
             if (this.getAcInfo().limitRotation) {
-                v.x = MCH_Lib.RNG(v.x, this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch);
-                v.z = MCH_Lib.RNG(v.z, this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll);
+                vPitch = MCH_Lib.RNG(vPitch, this.getAcInfo().minRotationPitch, this.getAcInfo().maxRotationPitch);
+                vRoll = MCH_Lib.RNG(vRoll, this.getAcInfo().minRotationRoll, this.getAcInfo().maxRotationRoll);
             }
 
-            if (v.z > 180.0F) v.z -= 360.0F;
-            if (v.z < -180.0F) v.z += 360.0F;
+            if (vRoll > 180.0F) vRoll -= 360.0F;
+            if (vRoll < -180.0F) vRoll += 360.0F;
 
-            this.setRotYaw(v.y);
-            this.setRotPitch(v.x);
-            this.setRotRoll(v.z);
+            this.setRotYaw(vYaw);
+            this.setRotPitch(vPitch);
+            this.setRotRoll(vRoll);
 
             this.onUpdateAngles(deltaSeconds);
 
@@ -4190,6 +4190,43 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     /**
+     * Corrected world-space fire direction {yaw, pitch} for the seat operator's current weapon. With
+     * ExperimentalQuaternionRotation on, composes the airframe attitude with the barrel gimbal as
+     * quaternions (correct at any roll/pitch) via {@link MCH_Lib#worldAimYawPitch}, instead of the
+     * Euler-scalar sum in {@link #getCurrentWeaponShotYaw}/{@link #getCurrentWeaponShotPitch}, which is
+     * only right at zero roll. Falls back to those legacy scalars when the flag is off or there is no
+     * mounted weapon set, so default behaviour is byte-identical. Only the bullet velocity and the aim
+     * displays that must track it use this; muzzle POSITION ({@link #getCurrentWeaponShotPos}) keeps the
+     * legacy angles it was written against.
+     */
+    public float[] getCurrentWeaponShotDir(@Nullable Entity entity) {
+        MCH_WeaponSet ws = entity != null ? this.getCurrentWeapon(entity) : null;
+        if (!MCH_Config.ExperimentalQuaternionRotation.prmBool || ws == null || ws.getCurrentWeapon() == null) {
+            return new float[] { this.getCurrentWeaponShotYaw(entity), this.getCurrentWeaponShotPitch(entity) };
+        }
+        float relYaw = ws.getYaw() + ws.getCurrentWeapon().fixRotationYaw;
+        float relPitch = ws.getPitch() + ws.getCurrentWeapon().fixRotationPitch;
+        return MCH_Lib.worldAimYawPitch(this.getYaw(), this.getPitch(), this.getRoll(), relYaw, relPitch);
+    }
+
+    public float[] getCurrentWeaponShotDir(@Nullable Entity entity, float partialTicks) {
+        MCH_WeaponSet ws = entity != null ? this.getCurrentWeapon(entity) : null;
+        if (!MCH_Config.ExperimentalQuaternionRotation.prmBool || ws == null || ws.getCurrentWeapon() == null) {
+            return new float[] {
+                    this.getCurrentWeaponShotYaw(entity, partialTicks),
+                    this.getCurrentWeaponShotPitch(entity, partialTicks) };
+        }
+        float airYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * partialTicks;
+        float airPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * partialTicks;
+        float airRoll = this.prevRotationRoll + (this.rotationRoll - this.prevRotationRoll) * partialTicks;
+        float wsYaw = ws.getPrevYaw() + (ws.getYaw() - ws.getPrevYaw()) * partialTicks;
+        float wsPitch = ws.getPrevPitch() + (ws.getPitch() - ws.getPrevPitch()) * partialTicks;
+        float relYaw = wsYaw + ws.getCurrentWeapon().fixRotationYaw;
+        float relPitch = wsPitch + ws.getCurrentWeapon().fixRotationPitch;
+        return MCH_Lib.worldAimYawPitch(airYaw, airPitch, airRoll, relYaw, relPitch);
+    }
+
+    /**
      * Predicted world-space impact point of the seat-operator's current weapon, used by the CCIP
      * overlay. Only computed for CCIP-enabled, CCIP-supported weapon types; null otherwise.
      * Cached per update tick to avoid running the trajectory simulation multiple times per frame.
@@ -5665,8 +5702,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
 
                     Vec3d shotPos = currentWs.getFirstWeapon().getShotPos(this);
                     prm.setPosition(this.posX + shotPos.x, this.posY + shotPos.y, this.posZ + shotPos.z);
-                    prm.rotYaw = MathHelper.wrapDegrees(this.getCurrentWeaponShotYaw(prm.user));
-                    prm.rotPitch = MathHelper.wrapDegrees(this.getCurrentWeaponShotPitch(prm.user));
+                    float[] shotDir = this.getCurrentWeaponShotDir(prm.user);
+                    prm.rotYaw = MathHelper.wrapDegrees(shotDir[0]);
+                    prm.rotPitch = MathHelper.wrapDegrees(shotDir[1]);
 
                     this.impactPos = currentWs.getCurrentWeapon().getImpactPos(prm);
 

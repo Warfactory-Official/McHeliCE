@@ -272,6 +272,26 @@ public class MCH_Lib {
         };
     }
 
+    /**
+     * World-space aim direction {yaw, pitch} (degrees) for a barrel gimballed on an airframe, composing
+     * the airframe attitude with the body-relative barrel angles as quaternions instead of summing Euler
+     * scalars. The legacy {@code airYaw + relYaw}, {@code airPitch + relPitch} is only correct at zero
+     * roll: a barrel's relative pitch should tip within the airframe's tilted plane, but a scalar sum tips
+     * it in the world plane. This right-multiplies (body frame) worldOrientationQuat(air) by
+     * worldOrientationQuat(rel) and decodes the world forward vector (0,0,1), so the shot is correct at any
+     * attitude. Roll, which a forward-vector RotVec3 silently discards, is preserved here. Reduces exactly
+     * to the legacy sum when roll == 0 (and, for pitch-only barrels, at any pitch). Returns {yaw, pitch}.
+     */
+    public static float[] worldAimYawPitch(float airYaw, float airPitch, float airRoll, float relYaw, float relPitch) {
+        Quaternionf q = worldOrientationQuat(airYaw, airPitch, airRoll)
+                .mul(worldOrientationQuat(relYaw, relPitch, 0.0F));
+        Vector3f d = q.transform(new Vector3f(0.0F, 0.0F, 1.0F));
+        float yaw = (float) Math.toDegrees(Math.atan2(-d.x, d.z));
+        double dy = d.y < -1.0 ? -1.0 : (d.y > 1.0 ? 1.0 : d.y);
+        float pitch = (float) -Math.toDegrees(Math.asin(dy));
+        return new float[] { yaw, pitch };
+    }
+
     public static double getRotate360(double r) {
         r %= 360.0;
         return r >= 0.0 ? r : r + 360.0;

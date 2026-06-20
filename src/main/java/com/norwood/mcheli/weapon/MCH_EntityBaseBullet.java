@@ -420,12 +420,30 @@ public abstract class MCH_EntityBaseBullet extends W_Entity {
         }
 
         double factor = getInfo().turningFactor;
-        this.motionX += (mx - this.motionX) * factor;
-        this.motionY += (my - this.motionY) * factor;
-        this.motionZ += (mz - this.motionZ) * factor;
+        // Ease speed and heading SEPARATELY. The old per-axis velocity lerp interpolates along a chord,
+        // which shortens the vector mid-turn -- the missile bleeds speed while turning hard. Easing the
+        // scalar speed toward cruise and the unit heading toward the target independently keeps the
+        // launch ramp but holds speed through the turn (and gives a constant, predictable turn rate).
+        double curSpeed = Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
+        if (curSpeed < 1.0e-6D) {
+            this.motionX += (mx - this.motionX) * factor;
+            this.motionY += (my - this.motionY) * factor;
+            this.motionZ += (mz - this.motionZ) * factor;
+        } else {
+            double newSpeed = curSpeed + (this.acceleration - curSpeed) * factor;
+            double cdx = motionX / curSpeed, cdy = motionY / curSpeed, cdz = motionZ / curSpeed;
+            double tdx = tx / d, tdy = ty / d, tdz = tz / d;
+            double ndx = cdx + (tdx - cdx) * factor;
+            double ndy = cdy + (tdy - cdy) * factor;
+            double ndz = cdz + (tdz - cdz) * factor;
+            double nlen = Math.sqrt(ndx * ndx + ndy * ndy + ndz * ndz);
+            if (nlen < 1.0e-6D) { ndx = tdx; ndy = tdy; ndz = tdz; nlen = 1.0D; }
+            this.motionX = ndx / nlen * newSpeed;
+            this.motionY = ndy / nlen * newSpeed;
+            this.motionZ = ndz / nlen * newSpeed;
+        }
 
         this.rotationYaw = (float) (Math.atan2(motionZ, motionX) * 180.0D / Math.PI) - 90.0F;
-        double r = Math.sqrt(motionX * motionX + motionZ * motionZ);
     }
 
     public boolean checkValid() {

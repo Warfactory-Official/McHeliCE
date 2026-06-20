@@ -23,6 +23,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import org.joml.Quaternionf;
@@ -450,8 +452,18 @@ public class MouseInputHandler {
         }
 
         syncLimitedMountedLookState(aircraft, player);
-        limitedMountedTargetYaw = player.rotationYaw;
-        limitedMountedTargetPitch = player.rotationPitch;
+        // The detached camera no longer rides the barrel, so steering the turret straight at the
+        // raw view angles only points it *parallel* to the line of sight -- the muzzle/camera offset
+        // (parallax) then makes rounds land off the screen-centre crosshair, worst at close range.
+        // Aim the muzzle at the point under the crosshair instead so the impact tracks the reticle.
+        float[] converged = computeConvergedMountedAim(aircraft, player);
+        if (converged != null) {
+            limitedMountedTargetYaw = converged[0];
+            limitedMountedTargetPitch = converged[1];
+        } else {
+            limitedMountedTargetYaw = player.rotationYaw;
+            limitedMountedTargetPitch = player.rotationPitch;
+        }
 
         float maxYawStep = Math.max(0.0F, yawSpeed * deltaSeconds);
         float maxPitchStep = Math.max(0.0F, pitchSpeed * deltaSeconds);
@@ -463,6 +475,64 @@ public class MouseInputHandler {
         limitedMountedCurrentYaw = MathHelper.wrapDegrees(limitedMountedCurrentYaw + yawStep);
         limitedMountedCurrentPitch = MathHelper.clamp(limitedMountedCurrentPitch + pitchStep, -90.0F, 90.0F);
         aircraft.setDetachedWeaponAim(prevYaw, limitedMountedCurrentYaw, prevPitch, limitedMountedCurrentPitch);
+    }
+
+    // Max distance we probe along the view for a convergence target. Beyond this the parallax
+    // angle is negligible (a couple-block muzzle offset at 500m is well under a quarter degree),
+    // so we treat "no hit" as "aim essentially parallel to the view".
+    private static final float AIM_CONVERGE_MAX_DISTANCE = 500.0F;
+    // Floor on the convergence range so staring at a block right in front of the seat can't whip
+    // the turret around chasing a target a fraction of a block away.
+    private static final float AIM_CONVERGE_MIN_DISTANCE = 4.0F;
+
+    /**
+     * Parallax-correct the detached aim. In mounted-aim mode the camera is the bare player view
+     * (eye position + look), while the gun fires from the muzzle, which is offset from the eye.
+     * Pointing the barrel parallel to the look direction therefore misses the screen-centre
+     * crosshair by that offset. Instead, find the point under the crosshair (first block hit along
+     * the view, else a far point) and return the {yaw, pitch} (degrees) that aims the muzzle *at*
+     * it, so the line of fire converges on the reticle. Returns {@code null} when the muzzle/weapon
+     * can't be resolved, in which case the caller falls back to the raw look angles.
+     */
+    private float[] computeConvergedMountedAim(MCH_EntityAircraft aircraft, EntityPlayer player) {
+        MCH_WeaponSet weaponSet = aircraft.getCurrentWeapon(player);
+        if (weaponSet == null || weaponSet.getFirstWeapon() == null) {
+            return null;
+        }
+
+        // Camera ray: vanilla player eye + look (mounted-aim mode leaves the view un-overridden).
+        Vec3d eye = player.getPositionEyes(1.0F);
+        Vec3d look = MCH_Lib.Rot2Vec3(player.rotationYaw, player.rotationPitch);
+
+        // Distance to the reticle target: the first solid block along the view, else converge far.
+        double range = AIM_CONVERGE_MAX_DISTANCE;
+        Vec3d farPoint = eye.add(look.x * AIM_CONVERGE_MAX_DISTANCE,
+                look.y * AIM_CONVERGE_MAX_DISTANCE, look.z * AIM_CONVERGE_MAX_DISTANCE);
+        RayTraceResult hit = player.world.rayTraceBlocks(eye, farPoint, false, true, false);
+        if (hit != null && hit.typeOfHit == RayTraceResult.Type.BLOCK && hit.hitVec != null) {
+            range = Math.max(AIM_CONVERGE_MIN_DISTANCE, eye.distanceTo(hit.hitVec));
+        }
+        Vec3d target = eye.add(look.x * range, look.y * range, look.z * range);
+
+        // Muzzle world position -- the same shot offset the fire path applies (MCH_WeaponSet.use ->
+        // getShotPos), so the corrected line of fire matches where the round actually spawns.
+        Vec3d muzzleOffset = weaponSet.getFirstWeapon().getShotPos(aircraft);
+        double mx = aircraft.posX + muzzleOffset.x;
+        double my = aircraft.posY + muzzleOffset.y;
+        double mz = aircraft.posZ + muzzleOffset.z;
+
+        // Barrel direction muzzle -> target, converted to MCHeli's yaw/pitch convention
+        // (see MCH_Lib.Rot2Vec3): x = -sin(yaw)cos(pitch), y = -sin(pitch), z = cos(yaw)cos(pitch).
+        double dx = target.x - mx;
+        double dy = target.y - my;
+        double dz = target.z - mz;
+        double horiz = Math.sqrt(dx * dx + dz * dz);
+        if (horiz < 1.0E-4 && Math.abs(dy) < 1.0E-4) {
+            return null;
+        }
+        float yaw = (float) Math.toDegrees(Math.atan2(-dx, dz));
+        float pitch = (float) Math.toDegrees(Math.atan2(-dy, horiz));
+        return new float[]{MathHelper.wrapDegrees(yaw), MathHelper.clamp(pitch, -90.0F, 90.0F)};
     }
 
     private void syncLimitedMountedLookState(MCH_EntityAircraft aircraft, EntityPlayer player) {

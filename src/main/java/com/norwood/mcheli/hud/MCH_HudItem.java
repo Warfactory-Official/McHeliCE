@@ -224,8 +224,9 @@ public abstract class MCH_HudItem extends Gui {
         updateVarMapItem("plyr_yaw", MathHelper.wrapDegrees(player.rotationYaw));
         updateVarMapItem("plyr_pitch", player.rotationPitch);
 
-        updateVarMapItem("brl_yaw", ac.getCurrentWeaponShotYaw(player) );
-        updateVarMapItem("brl_pitch", ac.getCurrentWeaponShotPitch(player));
+        float[] brlDir = ac.getCurrentWeaponShotDir(player);
+        updateVarMapItem("brl_yaw", brlDir[0]);
+        updateVarMapItem("brl_pitch", brlDir[1]);
 
         updateVarMapItem("yaw", MathHelper.wrapDegrees(ac.getYaw()));
         updateVarMapItem("pitch", ac.getPitch());

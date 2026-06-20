@@ -150,19 +150,28 @@ public class MCH_EntityTvMissile extends MCH_EntityBaseBullet {
                 double targetMotionZ = (deltaZ * this.acceleration) / distance;
 
                 float turn = (float) Objects.requireNonNull(this.getInfo()).turningFactor;
-                this.motionX += (targetMotionX - this.motionX) * turn;
-                this.motionY += (targetMotionY - this.motionY) * turn;
-                this.motionZ += (targetMotionZ - this.motionZ) * turn;
-
-                // Speed limit constraint
+                // Ease speed and heading separately so a hard turn doesn't bleed speed: the per-axis
+                // velocity lerp interpolates along a chord, shortening the vector mid-turn. Cruise speed
+                // stays capped at the configured maxSpeed.
                 double maxSpeed = this.getInfo().acceleration;
-                double currentSpeed = Math.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-
-                if (currentSpeed > maxSpeed) {
-                    double scale = maxSpeed / currentSpeed;
-                    this.motionX *= scale;
-                    this.motionY *= scale;
-                    this.motionZ *= scale;
+                double curSpeed = Math.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+                if (curSpeed < 1.0e-6D) {
+                    this.motionX += (targetMotionX - this.motionX) * turn;
+                    this.motionY += (targetMotionY - this.motionY) * turn;
+                    this.motionZ += (targetMotionZ - this.motionZ) * turn;
+                } else {
+                    double newSpeed = curSpeed + (this.acceleration - curSpeed) * turn;
+                    if (newSpeed > maxSpeed) newSpeed = maxSpeed;
+                    double cdx = this.motionX / curSpeed, cdy = this.motionY / curSpeed, cdz = this.motionZ / curSpeed;
+                    double tdx = deltaX / distance, tdy = deltaY / distance, tdz = deltaZ / distance;
+                    double ndx = cdx + (tdx - cdx) * turn;
+                    double ndy = cdy + (tdy - cdy) * turn;
+                    double ndz = cdz + (tdz - cdz) * turn;
+                    double nlen = Math.sqrt(ndx * ndx + ndy * ndy + ndz * ndz);
+                    if (nlen < 1.0e-6D) { ndx = tdx; ndy = tdy; ndz = tdz; nlen = 1.0D; }
+                    this.motionX = ndx / nlen * newSpeed;
+                    this.motionY = ndy / nlen * newSpeed;
+                    this.motionZ = ndz / nlen * newSpeed;
                 }
             } else {
                 deltaY *= 0.3D; // Gravity scaling
