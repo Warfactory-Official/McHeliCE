@@ -171,18 +171,6 @@ public class MCH_BoundingBox {
      */
     public void updatePosition(double posX, double posY, double posZ,
                                float yaw, float pitch, float roll) {
-        this.updatePosition(posX, posY, posZ, yaw, pitch, roll, null);
-    }
-
-    /**
-     * Quaternion-aware overload. When {@code bodyOrientation} is non-null and this is not a TURRET
-     * box, the box is oriented directly from that unified world quaternion (the entity's attitude),
-     * skipping the Euler rebuild entirely -- gimbal-clean at exactly +/-90. Falls back to the Euler
-     * path when {@code bodyOrientation} is null (legacy / quaternion mode off) or for TURRET boxes
-     * (which add a local Euler rotation). Behaviour-identical to the Euler path away from +/-90.
-     */
-    public void updatePosition(double posX, double posY, double posZ,
-                               float yaw, float pitch, float roll, Quaternionf bodyOrientation) {
         prevAxisX = axisX;
         prevAxisY = axisY;
         prevAxisZ = axisZ;
@@ -201,15 +189,9 @@ public class MCH_BoundingBox {
             extraRoll += localRotRoll;
         }
 
-        // Box world orientation. In quaternion mode the body box uses the entity's unified
-        // orientation directly (no Euler round-trip, gimbal-clean); otherwise rebuild it from the
-        // Euler chain. Equal to orientationQuat(-yaw,-pitch,-roll) away from the +/-90 singularity.
-        Quaternionf orientation;
-        if (bodyOrientation != null && this.boundingBoxType != EnumBoundingBoxType.TURRET) {
-            orientation = bodyOrientation;
-        } else {
-            orientation = MCH_Lib.orientationQuat(-extraYaw, -extraPitch, -extraRoll);
-        }
+        // Orientation as a single JOML quaternion (shadowed). Equivalent to the
+        // RotVec3(-yaw,-pitch,-roll) Euler chain, but composed once and reused.
+        Quaternionf orientation = MCH_Lib.orientationQuat(-extraYaw, -extraPitch, -extraRoll);
 
         // Compute rotated offset
         rotatedOffset = MCH_Lib.applyQuat(orientation, offsetX, offsetY, offsetZ);

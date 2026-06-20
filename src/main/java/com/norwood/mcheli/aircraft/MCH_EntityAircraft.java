@@ -1584,11 +1584,15 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         if (this.orientation == null) {
             this.orientation = MCH_Lib.worldOrientationQuat(this.getYaw(), this.getPitch(), this.getRoll());
         }
-        // Control delta applied in world frame (delta * current), matching the legacy accumulation.
-        // Built in the UNIFIED world/render convention so the integrator, render and OBB all share
-        // one orientation; near-level input maps 1:1 to yaw/pitch/roll change.
+        // orientation is the VISIBLE model attitude: the render places the body via
+        // rotate(yaw,0,-1,0)*rotate(pitch,1,0,0)*rotate(roll,0,0,1) == worldOrientationQuat (see
+        // MCH_RenderAircraft). Keeping orientation in that convention means the camera
+        // (Ry(180)*orientation^-1) and the model are the SAME rotation at all attitudes. Control
+        // deltas are applied in the BODY frame (right-multiply, intrinsic) so a pitch input always
+        // pitches about the wing axis regardless of heading -- the old world-frame LEFT-multiply
+        // (delta*orientation) was what leaked pitch into roll once yawed away from north.
         org.joml.Quaternionf delta = MCH_Lib.worldOrientationQuat(yaw, pitch, roll);
-        this.orientation = delta.mul(this.orientation, new org.joml.Quaternionf());
+        this.orientation.mul(delta);
         this.orientation.normalize();
 
         float[] e = MCH_Lib.worldEuler(this.orientation); // {pitch, yaw, roll}
@@ -1597,7 +1601,8 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         this.setRotRoll(e[2]);
 
         // Per-type auto-levelling/limits still run in Euler; fold their (small) change back into the
-        // quaternion so it stays the source of truth (no Euler re-derive that would gimbal).
+        // quaternion as a body-frame delta so it stays the source of truth (no Euler re-derive that
+        // would gimbal near +/-90).
         float pBefore = this.getPitch();
         float yBefore = this.getYaw();
         float rBefore = this.getRoll();
@@ -1606,8 +1611,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         float dY = MathHelper.wrapDegrees(this.getYaw() - yBefore);
         float dR = MathHelper.wrapDegrees(this.getRoll() - rBefore);
         if (dP != 0.0F || dY != 0.0F || dR != 0.0F) {
-            org.joml.Quaternionf corr = MCH_Lib.worldOrientationQuat(dY, dP, dR);
-            this.orientation = corr.mul(this.orientation, new org.joml.Quaternionf());
+            this.orientation.mul(MCH_Lib.worldOrientationQuat(dY, dP, dR));
             this.orientation.normalize();
             float[] e2 = MCH_Lib.worldEuler(this.orientation);
             this.setRotPitch(e2[0]);
@@ -2084,9 +2088,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         }
 
         for (MCH_BoundingBox bb : this.extraBoundingBox) {
-            // Pass the unified attitude quaternion (null when quaternion mode is off) so body OBBs
-            // collide from the true orientation, gimbal-clean at exactly +/-90.
-            bb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(), this.getRoll(), this.orientation);
+            bb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(), this.getRoll());
         }
         this.carryPlayersOnExtraBoundingBoxes();
 
@@ -3915,7 +3917,9 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public int getClientPositionDelayCorrection() {
-        return 7;
+        // Triage Stage 0 (jitter): client interpolation buffer 7 -> 3. Pairs with the higher
+        // updateFrequency (more snapshots) to cut the rubber-band/lag without micro-stutter.
+        return 3;
     }
 
     @SideOnly(Side.CLIENT)

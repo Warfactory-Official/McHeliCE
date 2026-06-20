@@ -423,18 +423,22 @@ public class MCH_MOD {
     }
 
     public void registerEntity() {
-        MCH_Entities.register(MCH_EntitySeat.class, "MCH.E.Seat", 100, this, 1200, 10, true);
-        MCH_Entities.register(MCH_EntityHeli.class, "MCH.E.Heli", 101, this, 1200, 10, true);
+        // Triage Stage 0 (jitter): updateFrequency 10 -> 2 for player-driven vehicles + the seat that
+        // carries the rider. ~5x more position/rotation snapshots = far smaller deltas to interpolate
+        // on fast vehicles. Bandwidth scales with observers x rate (note trackingRange 1200 is large);
+        // tune toward 1 (smoother) or 3 (lighter) as needed.
+        MCH_Entities.register(MCH_EntitySeat.class, "MCH.E.Seat", 100, this, 1200, 2, true);
+        MCH_Entities.register(MCH_EntityHeli.class, "MCH.E.Heli", 101, this, 1200, 2, true);
         MCH_Entities.register(MCH_EntityGLTD.class, "MCH.E.GLTD", 102, this, 1200, 10, true);
-        MCH_Entities.register(MCH_EntityPlane.class, "MCH.E.Plane", 103, this, 1200, 10, true);
-        MCH_Entities.register(MCH_EntityShip.class, "MCH.E.Ship", 403, this, 1200, 10, true);
-        MCH_Entities.register(MCH_EntityTank.class, "MCH.E.Tank", 112, this, 1200, 10, true);
+        MCH_Entities.register(MCH_EntityPlane.class, "MCH.E.Plane", 103, this, 1200, 2, true);
+        MCH_Entities.register(MCH_EntityShip.class, "MCH.E.Ship", 403, this, 1200, 2, true);
+        MCH_Entities.register(MCH_EntityTank.class, "MCH.E.Tank", 112, this, 1200, 2, true);
 
         MCH_Entities.register(MCH_EntityChain.class, "MCH.E.Chain", 104, this, 600, 10, true);
         MCH_Entities.register(MCH_EntityHitBox.class, "MCH.E.PSeat", 105, this, 200, 10, true);
         MCH_Entities.register(MCH_EntityParachute.class, "MCH.E.Parachute", 106, this, 200, 10, true);
         MCH_Entities.register(MCH_EntityContainer.class, "MCH.E.Container", 107, this, 200, 10, true);
-        MCH_Entities.register(MCH_EntityVehicle.class, "MCH.E.Vehicle", 108, this, 600, 10, true);
+        MCH_Entities.register(MCH_EntityVehicle.class, "MCH.E.Vehicle", 108, this, 600, 2, true);
         MCH_Entities.register(MCH_EntityUavStation.class, "MCH.E.UavStation", 109, this, 400, 10, true);
         MCH_Entities.register(MCH_EntityHitBox.class, "MCH.E.HitBox", 110, this, 200, 10, true);
         MCH_Entities.register(MCH_EntityHide.class, "MCH.E.Hide", 111, this, 200, 10, true);

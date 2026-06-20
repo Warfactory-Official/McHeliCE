@@ -282,7 +282,7 @@ public class MCH_EntityTank extends MCH_EntityAircraft {
 
         for (MCH_BoundingBox ebb : this.extraBoundingBox) {
             ebb.updatePosition(this.posX, this.posY, this.posZ, this.getYaw(), this.getPitch(),
-                    this.getRoll(), this.orientation);
+                    this.getRoll());
         }
 
         if (x != 0.0) {

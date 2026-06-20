@@ -1,6 +1,7 @@
 package com.norwood.mcheli.helper.client;
 
 import com.norwood.mcheli.MCH_3rdCamera;
+import com.norwood.mcheli.MCH_Config;
 import com.norwood.mcheli.MCH_ViewEntityDummy;
 import com.norwood.mcheli.aircraft.MCH_EntityAircraft;
 import com.norwood.mcheli.aircraft.MCH_EntitySeat;
@@ -18,6 +19,8 @@ import net.minecraftforge.client.event.EntityViewRenderEvent.FOVModifier;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
 
 import javax.annotation.Nullable;
 
@@ -76,25 +79,35 @@ public class MCH_CameraManager {
 
         MCH_EntityAircraft ridingEntity = ridingAircraft;
         if (ridingEntity != null && ridingEntity.canSwitchFreeLook() && ridingEntity.isPilot(mc.player)) {
+            boolean quatCam = MCH_Config.ExperimentalQuaternionRotation.prmBool
+                    && ridingEntity.orientation != null
+                    && ridingEntity.isOverridePlayerPitch()
+                    && !ridingEntity.hasIndependentMountedAim(mc.player);
+
             GlStateManager.translate(0.0F, -f, 0.0F);
-            GlStateManager.rotate(cameraRoll, 0.0F, 0.0F, 1.0F);
-            // Compose the airframe pitch/yaw with the player's view as
-            // Rx(hullPitch)*Ry(hullYaw)*Rx(viewPitch-hullPitch)*Ry(viewYaw-hullYaw), i.e. the
-            // airframe orientation followed by the view offset relative to it. This is what tilts
-            // the camera with the airframe (e.g. a plane diving/ascending, where the relative view
-            // pitch is held near zero so only the hull pitch tilts the view).
-            //
-            // It is only valid while the view is an airframe-relative offset. When an independent
-            // mounted weapon is being aimed (MouseInputHandler drives it as an absolute world aim
-            // via player.turn), the view pitch is large and unrelated to the hull; composing it
-            // here sandwiches the pitch between the two yaw rotations and gimbal-locks it relative
-            // to the hull heading (correct facing south, rolls east/west, inverts north). In that
-            // case let vanilla render the absolute view directly, matching the freelook path.
-            if (ridingEntity.isOverridePlayerPitch() && !ridingEntity.hasIndependentMountedAim(mc.player)) {
-                GlStateManager.rotate(ridingEntity.rotationPitch, 1.0F, 0.0F, 0.0F);
-                GlStateManager.rotate(ridingEntity.rotationYaw, 0.0F, 1.0F, 0.0F);
-                event.setPitch(event.getPitch() - ridingEntity.rotationPitch);
-                event.setYaw(event.getYaw() - ridingEntity.rotationYaw);
+
+            if (quatCam) {
+
+                Quaternionf camRot = new Quaternionf()
+                        .rotateY((float) Math.toRadians(180.0))
+                        .mul(new Quaternionf(ridingEntity.orientation).conjugate());
+                AxisAngle4f aa = new AxisAngle4f().set(camRot);
+                if (aa.angle != 0.0F && !Float.isNaN(aa.angle)) {
+                    GlStateManager.rotate((float) Math.toDegrees(aa.angle), aa.x, aa.y, aa.z);
+                }
+                // vanilla camera rotation = identity; the orientation is fully expressed by camRot.
+                event.setRoll(0.0F);
+                event.setPitch(0.0F);
+                event.setYaw(0.0F);
+            } else {
+                GlStateManager.rotate(cameraRoll, 0.0F, 0.0F, 1.0F);
+
+                if (ridingEntity.isOverridePlayerPitch() && !ridingEntity.hasIndependentMountedAim(mc.player)) {
+                    GlStateManager.rotate(ridingEntity.rotationPitch, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.rotate(ridingEntity.rotationYaw, 0.0F, 1.0F, 0.0F);
+                    event.setPitch(event.getPitch() - ridingEntity.rotationPitch);
+                    event.setYaw(event.getYaw() - ridingEntity.rotationYaw);
+                }
             }
 
             GlStateManager.translate(0.0F, f, 0.0F);

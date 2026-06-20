@@ -29,6 +29,14 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
     public double fixPosZ;
     private MCH_VehicleInfo vehicleInfo = null;
 
+    private float steerAngle = 0.0F;
+    // Tuning constants -- edit + rebuild to taste. TODO: promote to YAML vehicle config.
+    private static final float STEER_ATTACK  = 0.14F;  // per-tick ramp toward a held steer key
+    private static final float STEER_RELEASE = 0.20F;  // per-tick return to center when released
+    private static final float STEER_COUNTER = 0.30F;  // per-tick when flicking to the opposite lock
+    private static final float STEER_MAX_DEG = 34.0F;  // front-wheel angle at full lock
+    private static final float WHEELBASE     = 3.0F;   // effective front->rear axle distance (blocks)
+
     public MCH_EntityVehicle(World world) {
         super(world);
         this.currentSpeed = 0.07;
@@ -121,6 +129,18 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
     private double getSignedForwardSpeed() {
         Vec3d forward = getFlatForwardVector(this.rotationYaw);
         return this.motionX * forward.x + this.motionZ * forward.z;
+    }
+
+    /** Move {@code current} toward {@code target} by at most {@code maxStep} (linear, no overshoot). */
+    private static float approachValue(float current, float target, float maxStep) {
+        float delta = target - current;
+        if (delta > maxStep) {
+            return current + maxStep;
+        }
+        if (delta < -maxStep) {
+            return current - maxStep;
+        }
+        return target;
     }
 
     private void applyGroundGrip(double lateralGrip, double rollingFriction) {
@@ -326,22 +346,29 @@ public class MCH_EntityVehicle extends MCH_EntityAircraft {
             }
 
             if (this.getVehicleInfo().isEnableRot) {
-                float steerInput = 0.0F;
-                if (this.moveLeft && !this.moveRight) {
-                    steerInput = -1.0F;
-                } else if (this.moveRight && !this.moveLeft) {
-                    steerInput = 1.0F;
-                }
 
-                if (steerInput != 0.0F) {
-                    double signedSpeed = getSignedForwardSpeed();
-                    if (Math.abs(signedSpeed) < 0.02D) {
-                        signedSpeed = (this.throttleUp ? 0.02D : 0.0D) - (this.throttleDown ? 0.02D : 0.0D);
-                    }
-                    if (Math.abs(signedSpeed) > 0.001D) {
-                        float steerRate = (float) Math.min(60.0D, 16.0D + Math.abs(signedSpeed) * 140.0D);
-                        this.rotationYaw += steerInput * steerRate * (signedSpeed >= 0.0D ? 1.0F : -1.0F) / 20.0F;
-                    }
+                float target = 0.0F;
+                if (this.moveLeft && !this.moveRight) {
+                    target = -1.0F;
+                } else if (this.moveRight && !this.moveLeft) {
+                    target = 1.0F;
+                }
+                float rate;
+                if (target == 0.0F) {
+                    rate = STEER_RELEASE;                  // released -> self-center
+                } else if (this.steerAngle * target < 0.0F) {
+                    rate = STEER_COUNTER;                  // flicking to the opposite lock
+                } else {
+                    rate = STEER_ATTACK;                   // building toward the held lock
+                }
+                this.steerAngle = approachValue(this.steerAngle, target, rate);
+
+
+                double v = getSignedForwardSpeed();        // blocks/tick, signed
+                if (Math.abs(this.steerAngle) > 1.0e-4F && Math.abs(v) > 1.0e-4D) {
+                    double yawRateRad = (v / WHEELBASE)
+                            * Math.tan(Math.toRadians(this.steerAngle * STEER_MAX_DEG));
+                    this.rotationYaw += (float) Math.toDegrees(yawRateRad);
                 }
             }
 
