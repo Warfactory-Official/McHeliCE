@@ -50,6 +50,8 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public float accelerationInWater = 1.0F;
     public int explosion = 0;
     public int explosionBlock = -1;
+    public float explosionRadius = 0.0F;
+    public float explosionDamageRadius = 0.0F;
     public int explosionInWater = 0;
     public int explosionAltitude = 0;
     public int delayFuse = 0;
@@ -231,7 +233,7 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public float explosionDamageVsShip = 1f; // Reforged field
     public boolean explosionThroughWall = false; // Reforged field
     public float explosionThroughWallFactor = 1.0f; // Reforged field
-    public boolean isNewExplosionBreak = true; // Reforged field
+    public boolean isNewExplosionBreak = false; // Reforged field
     public boolean disableDestroyBlock = true; // Reforged field
     public boolean canBeIntercepted = false; // Reforged field
     public boolean canAirburst = false; // Reforged field
@@ -347,6 +349,10 @@ public class MCH_WeaponInfo extends MCH_BaseInfo {
     public boolean validate() {
         if (this.explosionBlock < 0) {
             this.explosionBlock = this.explosion;
+        }
+
+        if (this.explosionRadius <= 0.0F) {
+            this.explosionRadius = this.explosion;
         }
 
         if (this.explosionAirburst <= 0) {

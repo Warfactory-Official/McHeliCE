@@ -703,6 +703,38 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
         return this.inventory;
     }
 
+    public double getCurrentThrottle() {
+        return this.currentThrottle;
+    }
+
+    public void setCurrentThrottle(double throttle) {
+        this.currentThrottle = throttle;
+    }
+
+    public String getCommonUniqueId() {
+        return this.commonUniqueId;
+    }
+
+    public void setCommonUniqueId(String id) {
+        this.commonUniqueId = id != null ? id : "";
+    }
+
+    public void setTowChainEntity(MCH_EntityChain towChainEntity) {
+        this.towChainEntity = towChainEntity;
+    }
+
+    public int getDespawnCount() {
+        return this.despawnCount;
+    }
+
+    public void setDespawnCount(int despawnCount) {
+        this.despawnCount = despawnCount;
+    }
+
+    public int getCountOnUpdate() {
+        return this.countOnUpdate;
+    }
+
     public void openGui(EntityPlayer player) {
         if (!this.world.isRemote && getAcInfo() != null) {
             MCHGuiFactories.aircraft().openGui(player, this);
@@ -710,7 +742,7 @@ public abstract class MCH_EntityAircraft extends W_EntityContainer implements IG
     }
 
     public void openContainer(EntityPlayer player) {
-        if (!this.world.isRemote && getAcInfo() != null && getInventory().getSlots() > 0) {
+        if (!this.world.isRemote && getAcInfo() != null && getGuiInventory().getItemHandler().getSlots() > 0) {
             MCHGuiFactories.aircraft().openContainer(player, this);
         }
     }

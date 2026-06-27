@@ -186,7 +186,15 @@ public class MCH_EntityBomb extends MCH_EntityBaseBullet {
             this.newExplosion(this.posX, this.posY, this.posZ, this.explosionPowerInWater,
                     this.explosionPowerInWater, true);
         } else if (this.explosionPower > 0) {
-            this.newExplosion(this.posX, this.posY, this.posZ, this.explosionPower, info.explosionBlock, false);
+            float size = this.explosionPower;
+            float sizeBlock = this.explosionPower;
+            float blockPower = info.explosionBlock;
+            if (info.isNewExplosionBreak) {
+                size = info.explosionRadius > 0.0F ? info.explosionRadius : this.explosionPower;
+                sizeBlock = size;
+                blockPower = info.explosionBlock >= 0 ? info.explosionBlock : this.explosionPower;
+            }
+            this.newExplosion(this.posX, this.posY, this.posZ, size, sizeBlock, this.explosionPower, blockPower, false);
         } else {
             this.playExplosionSound();
         }

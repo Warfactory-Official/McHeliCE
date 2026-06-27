@@ -57,6 +57,9 @@ public class MCH_ExplosionV2 extends Explosion {
     public boolean isInWater;
     public final EntityPlayer explodedPlayer;
     public float explosionSizeBlock;
+    public float explosionDamagePower;
+    public float explosionBlockPower;
+    public float explosionDamageRadius;
     public MCH_DamageFactor damageFactor = null;
     // Reforged: explosion-through-wall. When true, blast damage ignores block occlusion
     // (full density), but is scaled by explosionThroughWallFactor when the target is occluded.
@@ -86,6 +89,9 @@ public class MCH_ExplosionV2 extends Explosion {
         this.damagesTerrain = damagesTerrain;
         this.isDestroyBlock = false;
         this.explosionSizeBlock = size;
+        this.explosionDamagePower = size;
+        this.explosionBlockPower = 1.0F;
+        this.explosionDamageRadius = size;
         this.countSetFireEntity = 0;
         this.isPlaySound = true;
         this.isInWater = false;
@@ -203,6 +209,7 @@ public class MCH_ExplosionV2 extends Explosion {
                                     f3 *= this.world.rand.nextFloat() * 0.2F + 0.2F;
                                 }
 
+                                f3 /= Math.max(1.0F, this.explosionBlockPower);
                                 f1 -= (f3 + 0.3F) * 0.3F;
                             }
 
@@ -220,7 +227,8 @@ public class MCH_ExplosionV2 extends Explosion {
             }
         }
 
-        float f = this.size * 2.0F;
+        float damageRadius = this.explosionDamageRadius > 0.0F ? this.explosionDamageRadius : this.size;
+        float f = damageRadius * 2.0F;
         this.getAffectedBlockPositions().addAll(hashset);
         int i = MathHelper.floor(this.x - f - 1.0);
         int j = MathHelper.floor(this.x + f + 1.0);
@@ -248,7 +256,7 @@ public class MCH_ExplosionV2 extends Explosion {
                     // walls would normally occlude it.
                     double d9 = this.explosionThroughWall ? 1.0 : blockDensity;
                     double d10 = (1.0 - d7) * d9;
-                    float damage = (int) ((d10 * d10 + d10) / 2.0 * 8.0 * f + 1.0);
+                    float damage = (int) ((d10 * d10 + d10) / 2.0 * 8.0 * this.explosionDamagePower + 1.0);
                     // ...but occluded targets take reduced through-wall damage.
                     if (this.explosionThroughWall && blockDensity < 1.0) {
                         damage *= Math.max(0.0F, Math.min(1.0F, this.explosionThroughWallFactor));

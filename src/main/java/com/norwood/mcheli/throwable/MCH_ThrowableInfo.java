@@ -31,6 +31,10 @@ public class MCH_ThrowableInfo extends MCH_BaseInfo implements IItemContent {
     public float accelerationInWater = 1.0F;
     public float dispenseAcceleration = 1.0F;
     public int explosion = 0;
+    public int explosionBlock = -1;
+    public float explosionRadius = 0.0F;
+    public float explosionDamageRadius = 0.0F;
+    public boolean isNewExplosionBreak = false;
     public int delayFuse = 0;
     public float bound = 0.2F;
     public int timeFuse = 0;
